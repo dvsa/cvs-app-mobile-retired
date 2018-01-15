@@ -1,0 +1,114 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+
+.header-ios {
+    ion-navbar.toolbar {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    ion-navbar {
+        min-height: 80px;
+
+        ion-title {
+            padding: 0px;
+            height: 44px;
+            margin-left: 10px;
+            margin-top: 35px;
+
+            .toolbar-title-ios {
+                text-align: left;
+                font-size: 28px;
+                color: #fff;
+            }
+        }
+
+        .toolbar-background-ios {
+            background-color: #000;
+        }
+        
+        button {
+            color: #fff;
+        }
+        
+        .bar-buttons-ios[end] {
+            
+        }
+    }
+
+    ion-navbar.testInProgress {
+        .toolbar-background-ios {
+            background-color: #005ea5;
+        }
+    }
+      
+    ion-toolbar {
+        padding-bottom: 8px;
+        padding-top: 0px;
+        min-height: 50px;
+
+        .toolbar-background-ios {
+            background-color: #000;
+        }
+
+        .searchbar-ios {
+            min-height: inherit;
+            
+            .searchbar-input {
+                background-color: #d3d3d3;
+            }
+        }
+    }   
+}
+
+.item-ios {
+    padding-left: 0px;
+    
+    .ion-item-header {
+        font-weight: bold;
+    }
+}
+
+.full-dividers-list {
+    .input-wrapper {
+        padding-left: 16px;
+    }
+}
+
+.ios ion-nav > .ion-page > .toolbar.statusbar-padding:first-child, .ios ion-nav > .ion-page > ion-header > .toolbar.statusbar-padding:first-child, .ios ion-tab > .ion-page > .toolbar.statusbar-padding:first-child, .ios ion-tab > .ion-page > ion-header > .toolbar.statusbar-padding:first-child, .ios ion-tabs > .ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child, .ios ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child, .ios ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child {
+    padding-top: calc(20px + 4px);
+    padding-left: calc(constant(safe-area-inset-left) + 4px);
+    padding-right: calc(constant(safe-area-inset-right) + 4px);
+    padding-top: calc(constant(safe-area-inset-top) + 4px);
+    min-height: calc(80px + 20px);
+    min-height: calc(80px + constant(safe-area-inset-top));
+}
+
+ion-footer {
+    .footer-cta-section {
+        padding-left: 16px;
+        padding-right: 16px;
+        button {
+            margin-bottom: 30px;
+            font-weight: bold;
+            -webkit-box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.75);
+            box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.75);
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<ion-header>
+    <ion-navbar hideBackButton="true">
+        <ion-buttons start>
+            <button ion-button (click)="close()">
+                Close
+            </button>
+        </ion-buttons>
+        <ion-title>
+            Identify Vehicle
+        </ion-title>
+    </ion-navbar>
+    <ion-toolbar>
+        <ion-searchbar placeholder="Enter registration or VIN" (search)="searchVehicle($event)"></ion-searchbar>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+</ion-content>

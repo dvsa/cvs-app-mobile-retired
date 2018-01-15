@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Test summary
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item no-lines class="summary-message">
+      Review all results before submitting
+  </ion-item >
+
+  <span *ngFor="let vehicle of testReport.vehicles">
+    <ion-card *ngFor="let test of vehicle.vehicleTests">
+      <ion-list>
+        <ion-item>
+          <h2>{{ vehicle.type }} - {{ test.name }}</h2>
+          <p class="vehicle-registration">{{ vehicle.registration }}</p>
+          <h1 item-end [ngClass]="test.hasPassed ? 'test-type-pass' : 'test-type-fail'">{{ test.hasPassed ? 'PASS' : 'FAIL' }}</h1>
+        </ion-item>
+        <ion-item *ngIf="test.odometerReading">
+          <h3>Odometer reading</h3>
+          <p>{{ test.odometerReading }} {{ test.odometerMetric }}</p>
+        </ion-item>
+        <ion-item>
+          <h3>Defects</h3>
+          <p class="test-type-pass" *ngIf="test.defects.length == 0">None</p>
+          <span *ngIf="test.defects.length != 0">
+            <div *ngFor="let defect of test.defects" class="defect-summary">
+              <h3>{{ defect.name }} <span>{{ defect.level }} <span *ngIf="defect.prs">(PRS)</span></span></h3>
+              <h3>{{ defect.description }}</h3>
+              <p>{{ defect.axle }} <span *ngIf="defect.position && defect.axle">• </span>{{ defect.position }} <span *ngIf="defect.vertical && (defect.axle || defect.position)">• </span>{{ defect.vertical }}</p>
+              <p>{{ defect.notes }}</p>
+            </div>
+          </span>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+  </span>
+  
+</ion-content>
+
+<ion-footer>
+  <div class="footer-cta-section">
+    <button ion-button block color="secondary" (click)="submitTest()">Submit test result</button>
+  </div>
+</ion-footer>
