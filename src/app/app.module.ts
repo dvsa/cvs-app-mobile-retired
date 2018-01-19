@@ -8,6 +8,8 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Camera } from '@ionic-native/camera';
 
+import { RESTRICTED_CONFIG, RestrictedConfig } from '../../restricted.config';
+
 import { MyApp } from './app.component';
 
 import { FilterByNamePipe } from '../helpers/filterByName';
@@ -112,7 +114,8 @@ import { WaitTimePage } from '../pages/waitTime/waitTime';
     HTTPService,
     SocialSharing,
     InAppBrowser,
-    Camera
+    Camera,
+    { provide: RESTRICTED_CONFIG, useValue: RestrictedConfig }
   ]
 })
 export class AppModule {}

@@ -23,11 +23,11 @@ export class VehicleTestService {
         };
         vehicleTest.getDefects().forEach(defect => {
             body.defects.push({
-                RffId: "124ABC",
-                isPrs: false,
-                reasonForFailure: defect.getName(),
-                locationDescription: "test",
-                notes: "test"
+                RffId: defect.getName(),
+                isPrs: defect.getPrs(),
+                reasonForFailure: defect.getDescription(),
+                locationDescription: defect.getAxle() + " " + defect.getPosition() + " " + defect.getVertical(),
+                notes: defect.getNotes()
             });
         });
 

@@ -15,7 +15,7 @@ export class ATFDetailsPage {
     atf: Atf;
 
     constructor(public navCtrl: NavController, public alertCtrl: AlertController, private navParams: NavParams) {
-        this.atf = navParams.get('atf')
+        this.atf = navParams.get('atf');
     }
 
     ngOnInit() {
