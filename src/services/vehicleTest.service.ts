@@ -9,7 +9,7 @@ export class VehicleTestService {
 
     constructor(private httpService: HTTPService) { }
 
-    postVehicleTest(vehicleTest: VehicleTest, vehicle: Vehicle): Promise<void> {
+    postVehicleTest(vehicleTest: VehicleTest, vehicle: Vehicle): Promise<any> {
         var body = {
             vehicleId: vehicle.getRegistration(),
             testType: vehicleTest.getName(),

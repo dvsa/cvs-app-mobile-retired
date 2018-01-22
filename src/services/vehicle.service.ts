@@ -31,7 +31,7 @@ var historyTest4 = new VehicleTest("Annual test", true, new Date(2018, 5, 8), nu
 var historyTest5 = new VehicleTest("Annual test", true, new Date(2017, 5, 14), null, new Date(2016, 5, 14));
 
 var vehicle1 = new Vehicle("AA12 BCD", "123ADF213DAS", "HGV", 3, "IVECO", "1S34RS", 12354, [historyTest3, historyTest4, historyTest5]);
-var vehicle2 = new Vehicle("AB34 ERT", "123ADF213DAS", "Trailer", 2, "IVECO", "1S34RS", 45125, [historyTest1, historyTest2]);
+var vehicle2 = new Vehicle("AB34 ERT", "123ADF213DAS", "Trailer", 2, "DENNISON", "REFRIGERATOR", 45125, [historyTest1, historyTest2]);
 
 export const VEHICLES: Vehicle[] = [
     vehicle1, 

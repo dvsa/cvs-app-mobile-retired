@@ -7,6 +7,8 @@ import { HTTP } from '@ionic-native/http';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Camera } from '@ionic-native/camera';
+import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import * as AWSCognito from 'amazon-cognito-identity-js';
 
 import { RESTRICTED_CONFIG, RestrictedConfig } from '../../restricted.config';
 
@@ -21,6 +23,7 @@ import { VehicleTestCategorySevice } from '../services/vehicleTestCategory.servi
 import { VehicleTestService } from '../services/vehicleTest.service';
 import { DefectCategoryService } from '../services/defect.service';
 import { HTTPService } from '../services/http.service';
+import { AuthService } from '../services/auth.service';
 
 // ATF MODULE
 import { ATFHomePage } from '../pages/atf/atfHome/atfHome';
@@ -112,6 +115,7 @@ import { WaitTimePage } from '../pages/waitTime/waitTime';
     DefectCategoryService,
     HTTP,
     HTTPService,
+    AuthService,
     SocialSharing,
     InAppBrowser,
     Camera,
