@@ -7,11 +7,14 @@ export class Defect {
     private position: string;
     private vertical: string;
     private notes: string;
+    private attachments: string[];
 
     constructor(name: string, description: string, level: string) {
         this.name = name;
         this.description = description;
         this.level = level;
+        this.prs = false;
+        this.attachments = [];
     }
 
     _clone(): Defect {
@@ -74,5 +77,9 @@ export class Defect {
 
     setNotes(notes: string) {
         this.notes = notes;
+    }
+
+    addAttachment(attachment: string) {
+        this.attachments.push(attachment);
     }
 }

@@ -15,7 +15,6 @@ import { ActionSheetController } from 'ionic-angular'
 export class DefectDetailsPage {
   vehicleTest: VehicleTest;
   defect: Defect;
-  mediaAssets: string[] = []; 
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
@@ -84,7 +83,7 @@ export class DefectDetailsPage {
 
   selectPhoto() {
     this.imageProvider.selectPhotograph().then((mediaAsset) => {
-      this.mediaAssets.push(mediaAsset.toString());
+      this.defect.addAttachment(mediaAsset.toString());
     }).catch((err)=> {
       console.log(err);
     });
@@ -92,7 +91,7 @@ export class DefectDetailsPage {
 
   takePhoto() {
     this.imageProvider.takePhotograph().then((mediaAsset) => {
-      this.mediaAssets.push(mediaAsset.toString());
+      this.defect.addAttachment(mediaAsset.toString());
     }).catch((err)=> {
        console.log(err);
     });

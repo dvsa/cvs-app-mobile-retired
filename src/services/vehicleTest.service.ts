@@ -15,19 +15,20 @@ export class VehicleTestService {
             testType: vehicleTest.getName(),
             createDate: this.formatDate(vehicleTest.getDate()), 
             certificateLifeSpanMonths: vehicleTest.getCertificateLifespanInMonths(),
-            certificateExpiration: this.formatDate(vehicleTest.getCertificateExpirationDate()),
+            certificateExpiration: this.formatDate((vehicleTest.getCertificateExpirationDate() || new Date())), // ONLY FOR ALPHA - SHOULD BE FIXED: set to current date if undefined, this should not be required in the backend
             isAbandoned: false,
             isPassed: vehicleTest.getHasPassed(),
-            meterReading: vehicleTest.getOdometerReading(),
+            meterReading: vehicleTest.getOdometerReading() || 1, // ONLY FOR ALPHA - SHOULD BE FIXED: set to 1 if undefined or 0, this should not be required in the backend
             defects: []
         };
+
         vehicleTest.getDefects().forEach(defect => {
             body.defects.push({
                 RffId: defect.getName(),
-                isPrs: defect.getPrs(),
+                isPrs: String(defect.getPrs()), // ONLY FOR ALPHA - SHOULD BE FIXED: converted to string, this should be a boolean in the backend
                 reasonForFailure: defect.getDescription(),
-                locationDescription: defect.getAxle() + " " + defect.getPosition() + " " + defect.getVertical(),
-                notes: defect.getNotes()
+                locationDescription: (defect.getAxle() || "") + " " + (defect.getPosition() || "") + " " + (defect.getVertical() || ""), // ONLY FOR ALPHA - SHOULD BE FIXED: set to " " if undefined, this should not be required in the backend
+                notes: defect.getNotes() || " " // ONLY FOR ALPHA - SHOULD BE FIXED: set to " " if undefined, this should not be required in the backend
             });
         });
 
