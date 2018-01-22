@@ -99,7 +99,7 @@
     min-height: calc(80px + constant(safe-area-inset-top));
 }
 
-ion-footer {
+.ios ion-footer {
     .footer-cta-section {
         padding-left: 16px;
         padding-right: 16px;
@@ -110,5 +110,11 @@ ion-footer {
             -moz-box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.75);
             box-shadow: 0px 2px 6px 0px rgba(0,0,0,0.75);
         }
+    }
+
+    .toolbar:last-child {
+        min-height: 44px;
+        height: inherit;
+        padding-bottom: inherit;
     }
 }

@@ -1,8 +1,13 @@
 <ion-header>
     <ion-navbar hideBackButton="true">
         <ion-title>
-        Test
+            Test
         </ion-title>
+        <ion-buttons start>
+            <button icon-only ion-button (click)="launchDialer()">
+                <ion-icon name="ios-call-outline"></ion-icon>
+            </button>
+        </ion-buttons>
         <ion-buttons end>
             <button ion-button (click)="editPressed()">
                 Edit
@@ -51,14 +56,14 @@
     </div>
     <ion-toolbar>
         <ion-buttons start>
-          <button ion-button (click)="manualsPressed()">
-            Manuals and support
-          </button>
+            <button ion-button (click)="addWaitTime()">
+                Wait time
+            </button>
         </ion-buttons>
         <ion-buttons end>
-          <button ion-button (click)="logIssuePressed()">
-            Log issue or wait time
-          </button>
+            <button ion-button (click)="addATFIssue()">
+                ATF Issue
+            </button>
         </ion-buttons>
-      </ion-toolbar>
+    </ion-toolbar>
 </ion-footer>
