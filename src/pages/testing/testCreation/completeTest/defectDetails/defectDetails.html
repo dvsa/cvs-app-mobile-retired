@@ -49,10 +49,13 @@
       <ion-input placeholder="Add notes" [(ngModel)]="defect.notes"></ion-input>
     </ion-item>
     <ion-item-divider color="light">ATTACHMENTS</ion-item-divider>
-    <button class="btn-add-attachment" ion-item detail-none (click)="addAttachment()">
-      Attach image or video
+    <button class="btn-add-attachment" ion-item detail-none (click)="showAttachmentDialog()">
+      Attach image
       <ion-icon name="ios-add-circle-outline" item-end></ion-icon>
     </button>
+    <ion-item *ngIf="mediaAssets != null" class="attachments">
+      <img *ngFor="let asset of mediaAssets" [src]="asset" (click)="openAttachment(asset)">
+    </ion-item>
   </ion-list>
 
 </ion-content>

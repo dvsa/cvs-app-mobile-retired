@@ -51,7 +51,11 @@ export class VisitTimelinePage {
     });
   }
 
-  logATFIssue() {
+  addWaitTime() {
+    
+  }
+
+  addATFIssue() {
     this.navCtrl.push(ATFIssuePage);
   }
 }

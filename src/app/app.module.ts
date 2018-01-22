@@ -7,10 +7,13 @@ import { HTTP } from '@ionic-native/http';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Camera } from '@ionic-native/camera';
+import { CallNumber } from '@ionic-native/call-number';
 
 import { MyApp } from './app.component';
 
+//HELPERS
 import { FilterByNamePipe } from '../helpers/filterByName';
+import { ImageProvider } from '../helpers/image';
 
 // SERVICES
 import { AtfService } from '../services/atf.service';
@@ -19,6 +22,7 @@ import { VehicleTestCategorySevice } from '../services/vehicleTestCategory.servi
 import { VehicleTestService } from '../services/vehicleTest.service';
 import { DefectCategoryService } from '../services/defect.service';
 import { HTTPService } from '../services/http.service';
+import { PhoneService } from '../services/phone.service';
 
 // ATF MODULE
 import { ATFHomePage } from '../pages/atf/atfHome/atfHome';
@@ -112,7 +116,10 @@ import { WaitTimePage } from '../pages/waitTime/waitTime';
     HTTPService,
     SocialSharing,
     InAppBrowser,
-    Camera
-  ]
+    Camera,    
+    ImageProvider,
+    CallNumber,
+    PhoneService
+    ]
 })
 export class AppModule {}

@@ -44,16 +44,16 @@
     <div class="footer-cta-section">
         <button ion-button block color="secondary" (click)="createNewTestReport()">Create new test</button>
     </div>
-  <ion-toolbar>
-    <ion-buttons start>
-      <button ion-button (click)="manualsPressed()">
-        Manuals and support
-      </button>
-    </ion-buttons>
-    <ion-buttons end>
-      <button ion-button (click)="logATFIssue()">
-        Log issue or wait time
-      </button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (click)="addWaitTime()">
+                Wait time
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button (click)="addATFIssue()">
+                ATF Issue
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-footer>
