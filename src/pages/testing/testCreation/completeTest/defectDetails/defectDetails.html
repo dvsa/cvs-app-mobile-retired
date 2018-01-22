@@ -53,8 +53,8 @@
       Attach image
       <ion-icon name="ios-add-circle-outline" item-end></ion-icon>
     </button>
-    <ion-item *ngIf="mediaAssets != null" class="attachments">
-      <img *ngFor="let asset of mediaAssets" [src]="asset" (click)="openAttachment(asset)">
+    <ion-item *ngIf="defect.attachments.length != 0" class="attachments">
+      <img *ngFor="let asset of defect.attachments" [src]="asset" (click)="openAttachment(asset)">
     </ion-item>
   </ion-list>
 
