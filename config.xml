@@ -85,7 +85,7 @@
             <string>The app needs photo library access in order to save photos</string>
         </edit-config>
     </platform>
-    <engine name="ios" spec="^4.4.0" />
+    <engine name="ios" spec="^4.5.4" />
     <plugin name="cordova-plugin-advanced-http" spec="^1.9.0" />
     <plugin name="cordova-plugin-camera" spec="^4.0.1" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />

@@ -9,6 +9,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Camera } from '@ionic-native/camera';
 import { CallNumber } from '@ionic-native/call-number';
 
+import { RESTRICTED_CONFIG, RestrictedConfig } from '../../restricted.config';
+
 import { MyApp } from './app.component';
 
 //HELPERS
@@ -119,7 +121,8 @@ import { WaitTimePage } from '../pages/waitTime/waitTime';
     Camera,    
     ImageProvider,
     CallNumber,
-    PhoneService
+    PhoneService,
+    { provide: RESTRICTED_CONFIG, useValue: RestrictedConfig }
     ]
 })
 export class AppModule {}

@@ -28,8 +28,32 @@ export class Defect {
         return this.name;
     }
 
+    getDescription(): string {
+        return this.description;
+    }
+
     getLevel(): string {
         return this.level;
+    }
+
+    getPrs(): boolean {
+        return this.prs;
+    }
+
+    getAxle(): string {
+        return this.axle;
+    }
+
+    getPosition(): string {
+        return this.position;
+    }
+
+    getVertical(): string {
+        return this.vertical;
+    }
+
+    getNotes(): string {
+        return this.notes;
     }
 
     setPrs(selected: boolean) {
