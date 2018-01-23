@@ -30,10 +30,10 @@ export const VEHICLETESTCATEGORIESTAXONOMY: Object[] = [
     ]),
     new VehicleTest("Prohibition test", null, null, 12, null),
     new VehicleTestCategory("Voluntary test", [
-        new VehicleTest("London emissions certificate", null, null, null, null),
-        new VehicleTest("Brake test", null, null, null, null),
-        new VehicleTest("Smoke test", null, null, null, null),
-        new VehicleTest("Lights test", null, null, null, null)
+        new VehicleTest("London emissions certificate", null, null, 12, null),
+        new VehicleTest("Brake test", null, null, 1, null), // ONLY FOR ALPHA - SHOULD BE FIXED: set certificateLifespanInMonths to 1 as it was required in the backend, this should not be required in the backend
+        new VehicleTest("Smoke test", null, null, 1, null), // ONLY FOR ALPHA - SHOULD BE FIXED: set certificateLifespanInMonths to 1 as it was required in the backend, this should not be required in the backend
+        new VehicleTest("Lights test", null, null, 1, null) // ONLY FOR ALPHA - SHOULD BE FIXED: set certificateLifespanInMonths to 1 as it was required in the backend, this should not be required in the backend
     ]),
     new VehicleTestCategory("Technical test", [
         new VehicleTest("ADR", null, null, 12, null),
