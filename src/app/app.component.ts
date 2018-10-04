@@ -1,19 +1,16 @@
-import { Component, Inject } from '@angular/core';
-import { Platform, AlertController } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-
-import { RESTRICTED_CONFIG, RestrictedConfig } from '../../restricted.config';
-import { AuthService } from '../services/auth.service';
-
-import { ATFHomePage } from '../pages/atf/atfHome/atfHome';
+import {Component, Inject} from '@angular/core';
+import {Platform, AlertController} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {RESTRICTED_CONFIG} from '../../restricted.config';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = ATFHomePage;
-  
+  rootPage: any = 'ATFHomePage';
+
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, @Inject(RESTRICTED_CONFIG) private restrictedConfig, private authService: AuthService, private alertCtrl: AlertController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -37,7 +34,7 @@ export class MyApp {
           buttons: ['OK']
         })
         alert.present();
-      });  
+      });
     });
   }
 }
