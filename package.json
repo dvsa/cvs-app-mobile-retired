@@ -30,6 +30,7 @@
         "@ionic-native/splash-screen": "4.3.2",
         "@ionic-native/status-bar": "4.3.2",
         "@ionic/storage": "2.0.1",
+        "@types/node": "^9.3.0",
         "call-number": "^1.0.1",
         "amazon-cognito-identity-js": "^1.29.0",
         "aws-sdk": "2.177.0",
