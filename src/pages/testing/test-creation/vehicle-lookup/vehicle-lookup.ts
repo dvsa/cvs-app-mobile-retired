@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {VehicleService} from '../../../../services/vehicle.service';
+import {VehicleService} from '../../../../providers/vehicle.service';
 import {TestReportModel} from '../../../../models/test-report.model';
 import {VisitModel} from '../../../../models/visit.model';
 import {VehicleModel} from "../../../../models/vehicle.model";
@@ -24,8 +24,7 @@ export class VehicleLookupPage {
   searchVehicle(ev: any): void {
     let searchedValue = ev.target.value;
 
-    this.vehicleService.searchVehicle(searchedValue)
-      .subscribe(
+    this.vehicleService.searchVehicle(searchedValue).subscribe(
         (vehicleFound: VehicleModel) => {
           if (vehicleFound != null) {
             this.navCtrl.push('VehicleDetailsPage', {

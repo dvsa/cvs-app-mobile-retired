@@ -1,19 +1,41 @@
-<ion-header>
+<ion-header transforming-searchBar [searchBarElemRef]="searchBar">
   <ion-navbar>
     <ion-title>
       Search for an ATF
     </ion-title>
   </ion-navbar>
-    <ion-toolbar>
-      <ion-searchbar [(ngModel)]="term"></ion-searchbar>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="searchList($event)"
+                   [(ngModel)]="searchVal"
+                   [showCancelButton]="true"
+                   [cancelButtonText]="'Cancel'"
+                   [placeholder]="'Search for ATF name, address or P-number'"
+                   #searchBar>
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-    <ion-list class="full-dividers-list">
-        <button ion-item *ngFor="let atf of atfs | filterByName: term" (click)="openATF(atf)">
-            <h3>{{ atf.name }}</h3>
-            <p>{{ atf.address.distanceFromLocation }} km</p>
+<ion-content no-padding>
+
+  <ion-list *ngIf="filteredAtfs.length">
+    <ion-item-group *ngFor="let atfGroup of filteredAtfs">
+      <div *ngFor="let atf of atfGroup; let i = index" class="item-container">
+        <ion-item-divider padding-left *ngIf="i == 0">
+          <b>{{ atf.atfName | slice:0:1 }}</b>
+        </ion-item-divider>
+        <button ion-item (click)="openATF(atf)">
+          <h3>{{ atf.atfName }}</h3>
+          <p *ngIf="atf.searchProperty != 'atfAddress'" [innerHTML]="boldSearchVal(atf.atfNumber, searchVal)"></p>
+          <p *ngIf="atf.searchProperty == 'atfAddress'" [innerHTML]="boldSearchVal(atf.atfAddress, searchVal)"></p>
         </button>
-    </ion-list>
+      </div>
+    </ion-item-group>
+  </ion-list>
+
+  <div *ngIf="filteredAtfs.length == 0" class="no-result">
+    <h3>No results found</h3>
+    <span>You can search for an ATF by typing in</span>
+    <span>it's name, address or P-number</span>
+  </div>
+
 </ion-content>

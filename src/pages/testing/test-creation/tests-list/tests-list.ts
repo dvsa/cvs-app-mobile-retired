@@ -3,7 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {VehicleModel} from '../../../../models/vehicle.model';
 import {VehicleTestModel} from '../../../../models/vehicle-test.model';
 import {VehicleTestCategoryModel} from '../../../../models/vehicle-test-category.model';
-import {VehicleTestCategorySevice} from '../../../../services/vehicle-test-category.service';
+import {VehicleTestCategoryService} from '../../../../providers/vehicle-test-category.service';
 
 @IonicPage()
 @Component({
@@ -14,7 +14,7 @@ export class TestsListPage implements OnInit {
   vehicle: VehicleModel;
   vehicleTestCategoryTaxonomy: Object[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private vehicleTestCategorySevice: VehicleTestCategorySevice) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private vehicleTestCategorySevice: VehicleTestCategoryService) {
     this.vehicle = navParams.get('vehicle');
     this.vehicleTestCategoryTaxonomy = navParams.get('vehicleTestCategoryTaxonomy');
   }
@@ -25,8 +25,7 @@ export class TestsListPage implements OnInit {
 
   getVehicleTestCategoryTaxonomy(): void {
     if (this.vehicleTestCategoryTaxonomy == null) {
-      this.vehicleTestCategorySevice.getVehicleTestCatergoriesTaxonomy()
-        .subscribe(
+      this.vehicleTestCategorySevice.getVehicleTestCatergoriesTaxonomy().subscribe(
           vehicleTestCategoryTaxonomy => this.vehicleTestCategoryTaxonomy = vehicleTestCategoryTaxonomy
         );
     } else {

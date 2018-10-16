@@ -1,13 +1,19 @@
-import { NgModule } from '@angular/core';
-import {FilterByNamePipe} from "./filter-by-name/filter-by-name";
+import {NgModule} from '@angular/core';
+import {SearchPipe} from "./search/search.pipe";
 
 const PIPES = [
-  FilterByNamePipe
+  SearchPipe
 ];
 
 @NgModule({
-  declarations: [...PIPES],
+  declarations: [
+    ...PIPES
+  ],
   imports: [],
-  exports: [...PIPES]
+  exports: [
+    ...PIPES
+  ]
 })
-export class PipesModule {}
+
+export class PipesModule {
+}

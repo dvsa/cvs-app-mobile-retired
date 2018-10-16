@@ -1,10 +1,8 @@
 page-test-create {
 	.content-ios {
-		background-color: #dee0e2;
+		background-color: $content-background-color;
 
 		.card-ios {
-			border-radius: 5px;
-
 			.ion-item-title {		
 				h2 {
 					font-size: 14px;
@@ -32,7 +30,7 @@ page-test-create {
 				}
 
 				[item-end].test-type-status {
-					margin: 0px;
+					margin: 0;
 				}
 
 				[item-end].test-type-status.test-type-pass {

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, IonicPage} from 'ionic-angular';
 import {TestReportModel} from '../../../../models/test-report.model';
-import {VehicleTestService} from '../../../../services/vehicle-test.service';
+import {VehicleTestService} from '../../../../providers/vehicle-test.service';
 import {Observable} from "rxjs";
 
 @IonicPage()
@@ -25,8 +25,7 @@ export class TestSummaryPage {
       });
     });
 
-    Observable.forkJoin(observables)
-      .subscribe(
+    Observable.forkJoin(observables).subscribe(
         () => {
           this.navCtrl.push('TestSubmittedPage', {testReport: this.testReport});
         },

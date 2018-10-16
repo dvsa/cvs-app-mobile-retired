@@ -11,12 +11,12 @@ import {AtfModel} from '../../../models/atf.model';
 export class ATFDetailsPage implements OnInit {
   atf: AtfModel;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, private navParams: NavParams) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public navParams: NavParams) {
     this.atf = navParams.get('atf');
   }
 
   ngOnInit() {
-    let pointer = {lat: this.atf.getAddress().getLatitude(), lng: this.atf.getAddress().getLongitude()};
+    let pointer = {lat: this.atf.atfLatitude, lng: this.atf.atfLongitude};
     let map = new google.maps.Map(document.getElementById('map'), {
         zoom: 17,
         center: pointer

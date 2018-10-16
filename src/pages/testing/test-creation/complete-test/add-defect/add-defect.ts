@@ -3,7 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {VehicleTestModel} from '../../../../../models/vehicle-test.model';
 import {DefectModel} from '../../../../../models/defect.model';
-import {DefectCategoryService} from '../../../../../services/defect.service';
+import {DefectCategoryService} from '../../../../../providers/defect-category.service';
 import {DefectCategoryModel} from '../../../../../models/defect-category.model';
 
 @IonicPage()
@@ -33,10 +33,9 @@ export class AddDefectPage implements OnInit {
 
   getDefectCategories(): void {
     if (this.defectCategories == null) {
-      this.defectCategoryService.getDefectCategories()
-        .subscribe(
-          defectCategories => this.defectCategories = defectCategories
-        );
+      this.defectCategoryService.getDefectCategories().subscribe(
+        defectCategories => this.defectCategories = defectCategories
+      );
     }
   }
 

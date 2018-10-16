@@ -7,7 +7,9 @@ import {ATFHomePage} from "./atf-home";
     ATFHomePage,
   ],
   imports: [
-    IonicPageModule.forChild(ATFHomePage),
+    IonicPageModule.forChild(ATFHomePage)
+  ],
+  providers: [
   ]
 })
 export class AtfHomeModule {

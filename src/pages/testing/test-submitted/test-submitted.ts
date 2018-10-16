@@ -1,8 +1,8 @@
-import {Component, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {SocialSharing} from '@ionic-native/social-sharing';
-import {RESTRICTED_CONFIG} from '../../../../restricted.config';
 import {TestReportModel} from '../../../models/test-report.model';
+import {API} from "../../../../config/config.enums";
 
 @IonicPage()
 @Component({
@@ -12,7 +12,7 @@ import {TestReportModel} from '../../../models/test-report.model';
 export class TestSubmittedPage {
   testReport: TestReportModel;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing, @Inject(RESTRICTED_CONFIG) private restrictedConfig) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing) {
     this.testReport = navParams.get('testReport');
   }
 
@@ -24,8 +24,8 @@ export class TestSubmittedPage {
     let options = {
       message: 'The following certificates have now been issued',
       subject: 'Certificates',
-      files: [this.restrictedConfig.apis.getCertificate.url],
-      url: this.restrictedConfig.apis.getCertificate.url,
+      files: [API.GET_CERTIFICATE],
+      url: API.GET_CERTIFICATE,
       chooserTitle: 'Pick an app'
     };
     this.socialSharing.shareWithOptions(options);

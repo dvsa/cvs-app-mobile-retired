@@ -1,3 +1,34 @@
-ion-app.ios page-atf-search [padding] .scroll-content {
-  padding: 0px;
+page-atf-search {
+
+  .item-divider-ios .label-ios {
+    margin: 0 8px 0 0;
+  }
+
+  .item-container {
+    button.item-ios {
+      width: calc(100% - 16px);
+      margin-left: 16px;
+      border-bottom: 1px solid $list-ios-border-color;
+    }
+  }
+
+  .item-container:last-child {
+    button.item-ios {
+      border-bottom: none;
+    }
+  }
+
+  .no-result {
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  strong {
+    font-weight: normal;
+    color: black;
+  }
+
 }

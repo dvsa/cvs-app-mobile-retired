@@ -4,7 +4,7 @@ import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {SocialSharing} from '@ionic-native/social-sharing';
 import {VehicleTestModel} from '../../../../../models/vehicle-test.model';
 import {DefectModel} from '../../../../../models/defect.model';
-import {CameraService} from '../../../../../services/camera.service';
+import {CameraService} from '../../../../../providers/natives/camera.service';
 import {ActionSheetController} from 'ionic-angular'
 
 @IonicPage()

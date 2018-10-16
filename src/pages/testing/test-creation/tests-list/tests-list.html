@@ -9,7 +9,7 @@
 
 <ion-content padding>
     <ion-list class="full-dividers-list">
-        <button ion-item detail-none *ngFor="let item of vehicleTestCategoryTaxonomy| filterByName: term" (click)="selectedItem(item)">
+        <button ion-item detail-none *ngFor="let item of vehicleTestCategoryTaxonomy| searchBy: term" (click)="selectedItem(item)">
             <h3>{{ item.name }}</h3>
             <ion-icon item-end *ngIf="item.children" name="arrow-forward"></ion-icon>
         </button>

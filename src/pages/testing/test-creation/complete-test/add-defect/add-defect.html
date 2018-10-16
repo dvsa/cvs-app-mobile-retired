@@ -9,7 +9,7 @@
 
 <ion-content padding>
     <ion-list text-wrap class="full-dividers-list">
-      <ion-item detail-none [ngClass]="isDefectCategoryType(item) ? 'defect-category' : 'defect-details'" *ngFor="let item of defectCategories | filterByName: term" (click)="selectedItem(item, $event)">
+      <ion-item detail-none [ngClass]="isDefectCategoryType(item) ? 'defect-category' : 'defect-details'" *ngFor="let item of defectCategories | searchBy: term" (click)="selectedItem(item, $event)">
         <span *ngIf="isDefectCategoryType(item)">
           <h3>{{ item.name }}</h3>     
         </span>
