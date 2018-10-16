@@ -1,6 +1,6 @@
 ion-app.ios page-test-summary {
   [padding] .scroll-content {
-    padding: 0px;
+    padding: 0;
     background-color: #dee0e2;
   }
 
@@ -11,7 +11,6 @@ ion-app.ios page-test-summary {
   }
 
   ion-card {
-    border-radius: 5px;
     padding: 10px;
     margin-left: 25px;
     margin-right: 25px;

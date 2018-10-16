@@ -1,64 +1,63 @@
-.atf-home {
-  background-color: #005ea5;
-  color: #fff;
+page-atf-home {
+  .atf-home {
+    background-color: #005ea5;
+    color: #fff;
 
-  .content-body {
-    padding: 0px 32px;
+    .content-body {
+      padding: 0 32px;
 
-    .logo {
-      margin-top: 10%;
-      font-size: 15px;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      // border-left: 2px solid #fff;
-
-      ion-icon {
-        margin-left: 5px;
-        margin-right: 5px;
-        font-size: 24px;
-      }
-
-      ion-img {
-        background: none;
-      }
-    }
-
-    .start-title {
-      margin-top: 15%;
-
-      p {
-        font-size: 40px;
-        font-weight: bold;
-        margin: 0px;
-        font-family: "Arial Black", Gadget, sans-serif;
-        line-height: 40px;
-      }
-    }
-
-    .location {
-      margin-top: 15%;
-
-      .item-ios {
-        padding-left: 0px;
-        background: none;
+      .logo {
+        margin-top: 10%;
+        font-size: 15px;
+        display: flex;
 
         ion-icon {
-          font-size: 64px;
-          color: #d3d3d3;
+          margin-left: 5px;
+          margin-right: 5px;
+          font-size: 24px;
         }
 
-        .item-inner {
-          border: none;
+        ion-img {
+          background: none;
         }
+      }
+
+      .start-title {
+        margin-top: 15%;
 
         p {
-          color: #fff;
-        }
-
-        .location-title {
+          font-size: 40px;
           font-weight: bold;
-          margin-bottom: 5px;
+          margin: 0;
+          font-family: "Arial Black", Gadget, sans-serif;
+          line-height: 40px;
+        }
+      }
+
+      .location {
+        margin-top: 15%;
+
+        .item-ios {
+          padding-left: 0;
+          background: none;
+
+          ion-icon {
+            font-size: 64px;
+            color: $light-gray;
+          }
+
+          .item-inner {
+            border: none;
+          }
+
+          p {
+            color: #fff;
+          }
+
+          .location-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
         }
       }
     }

@@ -42,12 +42,17 @@ $colors: (
   dark:       #222
 );
 
+$light-gray: #d3d3d3;
+$content-background-color: #dee0e2;
 
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-
+$list-ios-header-background-color: #F5F5F5;
+$list-ios-border-color: #c8c7cc;
+$item-ios-detail-push-color: $list-ios-border-color;
+$card-ios-border-radius: 5px;
 
 
 // App Material Design Variables

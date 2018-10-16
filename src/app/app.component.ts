@@ -1,9 +1,9 @@
-import {Component, Inject} from '@angular/core';
-import {Platform, AlertController} from 'ionic-angular';
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
-import {RESTRICTED_CONFIG} from '../../restricted.config';
-import {AuthService} from '../services/auth.service';
+import { Component, Inject } from '@angular/core';
+import { Platform, AlertController } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { RESTRICTED_CONFIG } from '../../restricted.config';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -32,7 +32,7 @@ export class MyApp {
           title: 'Authentication failed',
           subTitle: 'Please close the session and reopen the application.',
           buttons: ['OK']
-        })
+        });
         alert.present();
       });
     });
