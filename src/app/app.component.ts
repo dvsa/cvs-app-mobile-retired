@@ -1,9 +1,8 @@
-import {Component, Renderer2} from '@angular/core';
+import {Component} from '@angular/core';
 import {Platform, AlertController, Events, LoadingController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {KEYS} from "../../config/config.enums";
-import {AtfService} from "../providers/atf/atf.service";
 import {AuthService} from "../providers/global/auth.service";
 import {SyncService} from "../providers/global/sync.service";
 

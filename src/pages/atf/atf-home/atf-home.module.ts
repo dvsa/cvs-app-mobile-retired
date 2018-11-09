@@ -8,8 +8,6 @@ import {ATFHomePage} from "./atf-home";
   ],
   imports: [
     IonicPageModule.forChild(ATFHomePage)
-  ],
-  providers: [
   ]
 })
 export class AtfHomeModule {
