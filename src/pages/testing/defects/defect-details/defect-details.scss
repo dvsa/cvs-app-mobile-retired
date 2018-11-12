@@ -1,0 +1,27 @@
+page-defect-details {
+
+  .defect-status {
+    font-weight: bold;
+    font-size: 21px;
+
+    span {
+      color: color($colors, danger);
+    }
+  }
+
+  .btn-add-attachment {
+    font-size: 16px;
+    color: color($colors, primary);
+  }
+
+  .badge__prs {
+    margin-left: 5px;
+  }
+
+  .textarea-height {
+    height: 100px;
+    textarea {
+      height: 80px;
+    }
+  }
+}

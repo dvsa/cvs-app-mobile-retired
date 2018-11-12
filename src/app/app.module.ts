@@ -19,10 +19,11 @@ import {AuthService} from "../providers/global/auth.service";
 import {OpenNativeSettings} from "@ionic-native/open-native-settings";
 import {SyncService} from "../providers/global/sync.service";
 import {VehicleService} from "../providers/vehicle.service";
-import {DefectCategoryService} from "../providers/defect-category.service";
 import {SearchService} from "../providers/search.service";
 import {VehicleTestService} from "../providers/vehicle-test.service";
 import {VehicleTestCategoryService} from "../providers/vehicle-test-category.service";
+import { WheelSelector } from "@ionic-native/wheel-selector";
+
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -37,13 +38,12 @@ const CUSTOM_PROVIDERS = [
   AuthService,
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   VehicleService,
-  DefectCategoryService,
   SearchService,
   VehicleService,
   VehicleTestService,
   VehicleTestCategoryService,
   PhoneService,
-  CameraService
+  CameraService,
 ];
 
 const IONIC_NATIVE_PROVIDERS = [
@@ -52,6 +52,7 @@ const IONIC_NATIVE_PROVIDERS = [
   Camera,
   CallNumber,
   OpenNativeSettings,
+  WheelSelector
 ];
 
 @NgModule({
@@ -61,8 +62,7 @@ const IONIC_NATIVE_PROVIDERS = [
   imports: [
     BrowserModule,
     HttpClientModule,
-    // IonicModule.forRoot(MyApp, {statusbarPadding: true}),
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {statusbarPadding: true}),
     IonicStorageModule.forRoot({
       driverOrder: ['sqlite', 'websql', 'indexeddb']
     })

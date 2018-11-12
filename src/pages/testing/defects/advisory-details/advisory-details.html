@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar hideBackButton="true">
+    <ion-buttons start>
+      <button ion-button (click)="cancelAdvisory()" color="button-blue">
+        Cancel
+      </button>
+    </ion-buttons>
+    <ion-title>Advisory details</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="submitAdvisory()">
+        Add Note
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+  <ion-grid no-padding>
+    <ion-list>
+      <ion-item-divider padding-left color="light">DEFECT ITEM</ion-item-divider>
+      <ion-item no-lines padding-left>
+        <ion-row class="advisory__item-status" align-items-center justify-content-start>
+          {{ defectRef }}
+          <ion-badge item-end text-uppercase color="light">Advisory</ion-badge>
+        </ion-row>
+        <ion-row class="advisory_item-name">
+          {{ parentDefectItem }}
+        </ion-row>
+      </ion-item>
+      <ion-item-divider padding-left color="light">NOTES</ion-item-divider>
+      <ion-item no-lines padding-horizontal>
+        <ion-textarea maxlength="200" rows="5" [(ngModel)]="notes" placeholder="Add Notes">
+          Notes
+        </ion-textarea>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+</ion-content>

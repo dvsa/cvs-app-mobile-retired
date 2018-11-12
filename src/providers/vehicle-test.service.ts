@@ -25,11 +25,12 @@ export class VehicleTestService {
 
     vehicleTest.getDefects().forEach(defect => {
       body.defects.push({
-        RffId: defect.getName(),
-        isPrs: String(defect.getPrs()), // ONLY FOR ALPHA - SHOULD BE FIXED: converted to string, this should be a boolean in the backend
-        reasonForFailure: defect.getDescription(),
-        locationDescription: (defect.getAxle() || "") + " " + (defect.getPosition() || "") + " " + (defect.getVertical() || ""), // ONLY FOR ALPHA - SHOULD BE FIXED: set to " " if undefined, this should not be required in the backend
-        notes: defect.getNotes() || " " // ONLY FOR ALPHA - SHOULD BE FIXED: set to " " if undefined, this should not be required in the backend
+        RffId: defect.ref,
+        isPrs: String(defect.prs), // ONLY FOR ALPHA - SHOULD BE FIXED: converted to string, this should be a boolean in the backend
+        reasonForFailure: defect.deficiencyText,
+        locationDescription: '', // ONLY FOR ALPHA - SHOULD BE FIXED: set to " " if undefined, this should not be required in the backend
+        // locationDescription: (defect.getAxle() || "") + " " + (defect.getPosition() || "") + " " + (defect.getVertical() || ""), // ONLY FOR ALPHA - SHOULD BE FIXED: set to " " if undefined, this should not be required in the backend
+        notes: defect.notes || " " // ONLY FOR ALPHA - SHOULD BE FIXED: set to " " if undefined, this should not be required in the backend
       });
     });
 
