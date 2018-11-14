@@ -15,7 +15,7 @@ page-atf-home {
       font-size: 26px;
       font-weight: bold;
       margin: 0;
-      font-family: "Arial Black", Gadget, sans-serif;
+      font-family: $title-font-family;
     }
   }
 
@@ -24,6 +24,6 @@ page-atf-home {
   }
 
   h4 {
-    margin-top: 1rem;
+    margin-top: 10px;
   }
 }

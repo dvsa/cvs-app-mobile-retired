@@ -14,8 +14,8 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    let navBarElement = this.headerElemRef.querySelector('ion-navbar');
-    let scrollContent = this.headerElemRef.nextElementSibling.querySelector('.scroll-content');
+    const navBarElement = this.headerElemRef.querySelector('ion-navbar');
+    const scrollContent = this.headerElemRef.nextElementSibling.querySelector('.scroll-content');
 
     this.searchBarElemRef.ionFocus.subscribe(
       () => {

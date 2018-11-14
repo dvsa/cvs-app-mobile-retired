@@ -61,8 +61,7 @@ const IONIC_NATIVE_PROVIDERS = [
   imports: [
     BrowserModule,
     HttpClientModule,
-    // IonicModule.forRoot(MyApp, {statusbarPadding: true}),
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {statusbarPadding: true}),
     IonicStorageModule.forRoot({
       driverOrder: ['sqlite', 'websql', 'indexeddb']
     })

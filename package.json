@@ -11,7 +11,7 @@
     "security-checks": "git-secrets --scan && git log -p | scanrepo",
     "generate-env": "node ./config/scripts/replace.env",
     "preionic:serve": "npm run-script generate-env --dev",
-    "ionic:serve": "ionic-app-scripts serve",
+    "ionic:serve": "ionic-app-scripts serve --nobrowser",
     "prebuild-ios": "npm run-script generate-env --dev",
     "build-ios": "ionic-app-scripts build --target cordova --platform ios --prod --aot --minifyjs -- minifycss --optimizejs",
     "test": "karma start ./test-config/karma.conf.js",
