@@ -85,7 +85,6 @@
             <string>The app needs photo library access in order to save photos</string>
         </edit-config>
     </platform>
-    <engine name="ios" spec="^4.5.4" />
     <plugin name="cordova-plugin-advanced-http" spec="^1.9.0" />
     <plugin name="cordova-plugin-camera" spec="^4.0.1" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />
@@ -96,4 +95,7 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.2.1" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
+    <plugin name="cordova-sqlite-storage" spec="^2.5.0" />
+    <plugin name="cordova-open-native-settings" spec="^1.5.1" />
+    <engine name="ios" spec="4.5.5" />
 </widget>

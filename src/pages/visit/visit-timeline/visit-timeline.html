@@ -1,0 +1,59 @@
+<ion-header>
+    <ion-navbar hideBackButton="true">
+        <ion-buttons end>
+            <button ion-button (click)="endVisit()">
+                End visit
+            </button>
+        </ion-buttons>
+        <ion-title>
+            Site Visit
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+    <ion-list class="full-dividers-list">
+        <ion-item class="timeline-checkin">
+            <div class="timeline-bar"></div>
+            <img src="assets/navigation.png" item-start>
+            <div class="timeline-item-content">
+                <p>{{ visit.startTime | date: 'shortTime' }}</p>
+                <h2>{{ visit.atf.name }}</h2>
+                <p>Started site visit</p>
+            </div>
+        </ion-item>
+        <ion-item *ngFor="let timelineItem of timeline" class="timeline-test">
+            <div class="timeline-bar"></div>
+            <img src="assets/testing.png" item-start>
+            <div class="timeline-item-content">
+                <p>{{ timelineItem.startTime | date: 'shortTime' }} - {{ timelineItem.endTime | date: 'shortTime' }}</p>
+                <h2>{{ timelineItem.getTestReportTitle() }}</h2>
+                <span *ngFor="let vehicle of timelineItem.vehicles">
+                    <p *ngFor="let vehicleTest of vehicle.vehicleTests">
+                        <span *ngIf="vehicleTest.hasPassed == true" class="pass">Pass</span>
+                        <span *ngIf="vehicleTest.hasPassed == false" class="fail">Fail</span>
+                        • {{ vehicle.registration }} • {{ vehicleTest.name }}
+                    </p>
+                </span>
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-content>
+
+<ion-footer>
+    <div class="footer-cta-section">
+        <button ion-button block color="secondary" (click)="createNewTestReport()">Create new test</button>
+    </div>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (click)="addWaitTime()">
+                Wait time
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button (click)="addATFIssue()">
+                ATF Issue
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

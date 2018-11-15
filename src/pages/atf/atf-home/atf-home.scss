@@ -1,0 +1,29 @@
+page-atf-home {
+  .black-bar {
+    height: 35px;
+    background-color: color($colors, dark);
+  }
+
+  .blue-bar {
+    height: 15px;
+    background-color: color($colors, primary);
+  }
+
+  .start-title {
+    padding-top: 10px;
+    h1 {
+      font-size: 26px;
+      font-weight: bold;
+      margin: 0;
+      font-family: $title-font-family;
+    }
+  }
+
+  ion-img {
+    background: none;
+  }
+
+  h4 {
+    margin-top: 10px;
+  }
+}

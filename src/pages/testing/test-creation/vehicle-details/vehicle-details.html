@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      <span *ngIf="vehicle.type != 'Trailer'">Vehicle details</span>
+      <span *ngIf="vehicle.type == 'Trailer'">Trailer details</span>
+    </ion-title>
+      <ion-buttons end *ngIf="testReport">
+            <button ion-button (click)="refuseVehicle()">
+                Refuse vehicle
+            </button>
+        </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+    <div class="vehicle-details-header">
+        {{ vehicle.registration }}
+    </div>
+    <ion-list>
+        <ion-list-header>
+            <span *ngIf="vehicle.type != 'Trailer'">VEHICLE DETAILS</span>
+            <span *ngIf="vehicle.type == 'Trailer'">TRAILER DETAILS</span>
+        </ion-list-header>
+        <ion-item>
+            <ion-label>
+                <h3>VIN / Chassis number</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicle.vin }}</p>
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <h3>Type</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicle.type }}</p>
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <h3>Axles</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicle.axles }}</p>
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <h3>Chassis make</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicle.make }}</p>
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <h3>Chassis model</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicle.model }}</p>
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-label>
+                <h3>DTP number</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicle.dtpNumber }}</p>
+            </div>
+        </ion-item>
+        <button ion-item>
+            <h3>More vehicle details</h3>
+        </button>
+    </ion-list>
+    <ion-list>
+        <ion-list-header>TEST HISTORY</ion-list-header>
+        <ion-item>
+            <ion-label>
+                <h3>Expires on</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicle.getVehicleCertificateExpirationDate() |  date: 'dd MMMM y'}}</p>
+            </div>
+        </ion-item>
+        <button ion-item>
+            <h3>More test history</h3>
+        </button>
+    </ion-list>
+
+</ion-content>
+
+<ion-footer *ngIf="testReport">
+    <div class="footer-cta-section">
+        <button ion-button block (click)="addVehicle()">
+            <span *ngIf="vehicle.type != 'Trailer'">Add vehicle</span>
+            <span *ngIf="vehicle.type == 'Trailer'">Add trailer</span>
+        </button>
+    </div>
+</ion-footer>

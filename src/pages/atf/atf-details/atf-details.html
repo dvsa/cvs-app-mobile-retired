@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+        ATF Details
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="startVisit()">
+                Start visit
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <span *ngIf="atf">
+        <div ion-item>
+            <h2 class="ion-item-header">{{ atf.atfName }}</h2>
+        </div>
+        <div ion-item>
+            <h3 class="ion-item-header">Address</h3>
+            <h3>{{ atf.atfAddress }}</h3>
+            <h3>{{ atf.atfTown}}</h3>
+            <h3>{{ atf.atfPostcode }}</h3>
+        </div>
+        <div ion-item>
+            <h3 class="ion-item-header">Site number</h3>
+            <h3>{{ atf.atfNumber }}</h3>
+        </div>
+    </span>
+    <div id="map"></div>
+</ion-content>

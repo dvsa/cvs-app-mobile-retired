@@ -1,0 +1,68 @@
+ion-app.ios page-test-submitted {
+  [padding] .scroll-content {
+    padding: 0;
+    background-color: #dee0e2;
+  }
+
+  ion-item.summary-message {
+    padding-left: 16px;
+    font-size: 20px;
+    font-weight: bold;
+
+    ion-label {
+      white-space: normal;
+      display: flex;
+      align-items: center;
+    }
+
+    img {
+      background: none;
+      min-height: 45px;
+      min-width: 45px;
+      height: 45px;
+      width: 45px;
+      margin-right: 12px;
+    }
+  }
+
+  ion-card {
+    margin-left: 25px;
+    margin-right: 25px;
+    width: calc(100% - 50px);
+
+    .list-ios > .item-block:first-child {
+      border-top: none;
+    }
+
+    .list-ios > .item-block:last-child {
+      border-bottom: none;
+    }
+
+    .list-ios > .item-block {
+      border-bottom: 1px solid #dee0e2;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    ion-list {
+      ion-item {
+        h2, h3 {
+          font-weight: bold;
+        }
+
+        p {
+          color: #000;
+        }
+
+        p.vehicle-registration {
+          color: #8c8c8c;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  ion-footer {
+    background-color: #dee0e2;
+  }
+}
