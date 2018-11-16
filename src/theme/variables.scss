@@ -22,7 +22,7 @@ $app-direction: ltr;
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
 $title-font-family: "Arial Black", Gadget, sans-serif;
-
+$item-ios-divider-font-size: 14px;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -33,12 +33,13 @@ $title-font-family: "Arial Black", Gadget, sans-serif;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #005ea5,
-  secondary:  #00823b,
-  danger:     #b10e1e,
-  attention:  #F47738,
-  light:      #f4f4f4,
-  dark:       #0b0c0c
+  primary:     #005ea5,
+  secondary:   #00823b,
+  button-blue: #3f9ed5,
+  danger:      #b10e1e,
+  attention:   #ffbf47,
+  light:       #f4f4f4,
+  dark:        #0b0c0c
 );
 
 $light-gray: #d3d3d3;

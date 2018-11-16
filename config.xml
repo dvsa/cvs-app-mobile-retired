@@ -97,6 +97,7 @@
     <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
     <plugin name="cordova-sqlite-storage" spec="^2.5.0" />
     <plugin name="cordova-open-native-settings" spec="^1.5.1" />
+    <plugin name="cordova-wheel-selector-plugin" spec="1.1.1" />
     <plugin name="phonegap-plugin-mobile-accessibility" spec="~1.0.5-dev" />
     <engine name="ios" spec="4.5.5" />
 </widget>

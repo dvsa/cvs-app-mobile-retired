@@ -19,15 +19,15 @@
 
   <ion-list *ngIf="filteredAtfs.length">
     <ion-item-group *ngFor="let atfGroup of filteredAtfs">
-      <div *ngFor="let atf of atfGroup; let i = index" class="item-container">
+      <div *ngFor="let atf of atfGroup; let i = index">
         <ion-item-divider padding-left *ngIf="i == 0">
           <b>{{ atf.atfName | slice:0:1 }}</b>
         </ion-item-divider>
-        <button ion-item (click)="openATF(atf)">
+        <ion-item (click)="openATF(atf)">
           <h3>{{ atf.atfName }}</h3>
           <p *ngIf="atf.searchProperty != 'atfAddress'" [innerHTML]="boldSearchVal(atf.atfNumber, searchVal)"></p>
           <p *ngIf="atf.searchProperty == 'atfAddress'" [innerHTML]="boldSearchVal(atf.atfAddress, searchVal)"></p>
-        </button>
+        </ion-item>
       </div>
     </ion-item-group>
   </ion-list>

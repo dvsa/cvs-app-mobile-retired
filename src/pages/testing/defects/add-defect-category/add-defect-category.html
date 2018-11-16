@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Record defect
+    </ion-title>
+  </ion-navbar>
+  <ion-toolbar><ion-searchbar [(ngModel)]="term" placeholder="Search for a defect category or IM number"></ion-searchbar></ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list text-wrap class="full-dividers-list">
+    <ion-item detail-none class="defect-category"
+              *ngFor="let item of defectCategories | searchBy: term"
+              (click)="selectedItem(item)">
+        <span>
+          <h3>{{ item.imNumber }}. {{ item.imDescription }}</h3>
+        </span>
+      <ion-icon item-end name="arrow-forward"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

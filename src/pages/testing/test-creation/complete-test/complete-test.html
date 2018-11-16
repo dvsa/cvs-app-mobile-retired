@@ -6,40 +6,57 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content no-padding>
   <ion-list class="full-dividers-list">
     <ion-item detail-push>
       <h2>{{ vehicle.registration }}</h2>
       <p>{{ vehicle.type }}</p>
       <button ion-button item-end (click)="openVehicleDetails()">Vehicle details</button>
-    </ion-item >
-    <ion-item *ngIf="vehicle.type != 'Trailer'">
-        <ion-label>Odometer reading</ion-label>
-        <ion-input type="number" class="odometer-reading" placeholder="Enter value" [(ngModel)]="vehicleTest.odometerReading" (ngModelChange)="vehicleTest.odometerReading = convertToNumber($event)"></ion-input>
-        <ion-select interface="action-sheet" [(ngModel)]="vehicleTest.odometerMetric">
-            <ion-option value="km" [selected]="true">Kilometers</ion-option>
-            <ion-option value="mi">Miles</ion-option>
-        </ion-select>
-      </ion-item>
-    <ion-list-header>
-      DEFECTS
-    </ion-list-header>
-    <ion-item *ngFor="let defect of vehicleTest.defects" (click)="openDefect(defect)" class="defect-details">
-      <h3 class="defect-name">{{ defect.name }} • <span>{{ defect.level }}</span></h3>
-      <h3>{{ defect.description }}</h3>
     </ion-item>
-    <button ion-item detail-none (click)="addDefect()">
-        <ion-icon name="add-circle" item-start></ion-icon>
-        Add defect
-      </button>
+    <ion-item *ngIf="vehicle.type != 'Trailer'">
+      <ion-label>Odometer reading</ion-label>
+      <ion-input type="number" class="odometer-reading" placeholder="Enter value" [(ngModel)]="vehicleTest.odometerReading"
+                 (ngModelChange)="vehicleTest.odometerReading = convertToNumber($event)"></ion-input>
+      <ion-select interface="action-sheet" [(ngModel)]="vehicleTest.odometerMetric">
+        <ion-option value="km" [selected]="true">Kilometers</ion-option>
+        <ion-option value="mi">Miles</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item-divider text-uppercase>
+      <span>DEFECTS</span>
+    </ion-item-divider>
+    <ion-item *ngFor="let defect of vehicleTest.defects" (click)="openDefect(defect)" class="defect-details">
+      <h3 class="defect-name">
+        {{ defect.ref }}
+        <ion-badge class="no-margin-right" item-end text-uppercase [color]="getBadgeColor(defect.deficiencyCategory)">
+          {{ defect.deficiencyCategory }}
+        </ion-badge>
+        <ion-badge class="no-margin-left" item-end text-uppercase color="primary" *ngIf="defect.prs">
+          PRS
+        </ion-badge>
+      </h3>
+      <h4 class="parent-info-color">
+        {{ defect.parentDefectCategoryId }}. {{ defect.parentDefectCategory}}
+      </h4>
+      <h4 class="parent-info-color">
+        {{ defect.parentDefectItemId }}. {{ defect.parentDefectItem }}
+      </h4>
+      <h4 class="parent-info-color truncate-text" *ngIf="defect.deficiencyCategory != 'Advisory'">
+        ({{ defect.deficiencyId }}). {{ defect.deficiencyText }}
+      </h4>
+    </ion-item>
+    <button ion-item detail-none class="btn-add-test" (click)="addDefect()">
+      <ion-icon name="add-circle-outline" item-end></ion-icon>
+      Add defect
+    </button>
   </ion-list>
 </ion-content>
 <ion-footer>
-    <ion-list>
-      <ion-item>
-          <h2 item-start>{{ vehicleTest.name }}</h2>
-          <h1 item-end [ngClass]="vehicleTest.checkPass() ? 'test-type-pass' : 'test-type-fail'">{{ vehicleTest.checkPass() ? 'PASS' : 'FAIL' }}</h1>
-      </ion-item>
-      <button ion-button block class="btn-done"(click)="finishTest()">Done</button>
-    </ion-list>
-  </ion-footer>
+  <ion-list>
+    <ion-item>
+      <h2 item-start>{{ vehicleTest.name }}</h2>
+      <h1 item-end [ngClass]="vehicleTest.checkPass() ? 'test-type-pass' : 'test-type-fail'">{{ vehicleTest.checkPass() ? 'PASS' : 'FAIL' }}</h1>
+    </ion-item>
+    <button ion-button block class="btn-done" (click)="finishTest()">Done</button>
+  </ion-list>
+</ion-footer>

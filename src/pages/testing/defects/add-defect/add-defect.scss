@@ -59,5 +59,14 @@ ion-app.ios page-add-defect {
       }
     }
   }
+
+  .btn-add-test {
+    font-size: 16px;
+    color: color($colors, primary);
+
+    ion-icon {
+      color: inherit !important;
+    }
+  }
 }
 

@@ -1,0 +1,20 @@
+page-advisory-details {
+  ion-content {
+    .scroll-content {
+      background-color: $content-background-color;
+    }
+  }
+  .advisory__item-status {
+    font-weight: bold;
+    font-size: 21px;
+  }
+
+  .advisory_item-name {
+    font-weight: 500;
+  }
+
+  .badge-ios-light {
+    border: 1px solid color($colors, dark);
+    background-color: transparent;
+  }
+}
