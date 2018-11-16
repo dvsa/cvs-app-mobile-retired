@@ -115,4 +115,11 @@
     height: inherit;
     padding-bottom: inherit;
   }
+
+  .accessibility-bold-text {
+    font-weight: 600 !important;
+    span, p, h1, h2, h3, h4, h5 {
+      font-weight: 600 !important;
+    }
+  }
 }
