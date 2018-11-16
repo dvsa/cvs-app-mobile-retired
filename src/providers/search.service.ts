@@ -21,24 +21,26 @@ export class SearchService {
       }
       return this.orderedArray.length > 0 ? this.orderedArray : this.groupByLetter(items, properties[0]);
     }
-    for (let i = 0; i < items.length; i++) {
-      let arrGroup: any[] = items[i].filter(
-        (item: AtfModel) => {
-          for (let key in item) {
-            let propIndex: number = properties.indexOf(key);
-            if (propIndex != -1) {
-              if (item[key].toString().toLowerCase().includes(filter.toLowerCase())) {
-                item.searchProperty = properties[propIndex];
-                return item;
+    items.forEach(
+      (elem) => {
+        let arrGroup: any[] = elem.filter(
+          (item: AtfModel) => {
+            for (let key in item) {
+              let propIndex: number = properties.indexOf(key);
+              if (propIndex != -1) {
+                if (item[key].toString().toLowerCase().includes(filter.toLowerCase())) {
+                  item.searchProperty = properties[propIndex];
+                  return item;
+                }
+              } else {
+                continue;
               }
-            } else {
-              continue;
             }
           }
-        }
-      )
-      if (arrGroup.length) filteredArray.push(arrGroup);
-    }
+        )
+        if (arrGroup.length) filteredArray.push(arrGroup);
+      }
+    )
     return filteredArray;
   }
 

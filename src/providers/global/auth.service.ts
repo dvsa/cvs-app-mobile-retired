@@ -17,7 +17,7 @@ export class AuthService {
         ClientId: AUTH.CLIENT_ID
       };
       let isp = new CognitoIdentityServiceProvider();
-      isp.config.region = 'eu-west-1';
+      isp.config.region = AUTH.REGION;
       let userPool = new AWSCognito.CognitoUserPool(poolData);
       //------------------Authentication-------------------------
       let userData = {
