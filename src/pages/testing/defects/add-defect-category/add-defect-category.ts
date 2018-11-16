@@ -11,8 +11,6 @@ import { DefectsDataMock } from "../../../../../test-config/data-mocks/defects-d
 export class AddDefectCategoryPage {
   vehicleTest: VehicleTestModel;
   defectCategories: Object[];
-  // parentDefectCategory: string;
-  // parentDefectCategoryId;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.vehicleTest = navParams.get('test');
@@ -24,9 +22,6 @@ export class AddDefectCategoryPage {
 
   getDefectCategories(): void {
     if (this.defectCategories == null) {
-      // this.defectCategoryService.getDefectCategories().subscribe(
-      //   defectCategories => this.defectCategories = defectCategories
-      // );
       this.defectCategories = DefectsDataMock.DefectsData;
     }
   }

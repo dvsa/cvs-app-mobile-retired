@@ -24,20 +24,6 @@ export class AddDefectItemPage {
     this.forVehicleType = navParams.get('forVehicleType');
   }
 
-  // addDefect(defect: DefectModel): void {
-  //   this.vehicleTest.addDefect(defect);
-  //   this.navCtrl.pop();
-  // }
-
-  // getDefectCategories(): void {
-  //   // if (this.defectCategories == null) {
-  //     // this.defectCategoryService.getDefectCategories().subscribe(
-  //     //   defectCategories => this.defectCategories = defectCategories
-  //     // );
-  //     // this.defectCategories = DefectsDataMock.DefectsData;
-  //   // }
-  // }
-
   selectedItem(item): void {
     this.navCtrl.push('AddDefectPage', {
         test: this.vehicleTest,
