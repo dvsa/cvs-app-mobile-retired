@@ -1,85 +1,117 @@
+import {DefectLocationModel} from "./defect-location.model";
+
 export class DefectModel {
-    private name: string;
-    private description: string;
-    private level: string;
-    private prs: boolean;
-    private axle: string;
-    private position: string;
-    private vertical: string;
-    private notes: string;
-    private attachments: string[];
+  private _ref: string;
+  private _deficiencyText: string;
+  private _deficiencyCategory: string;
+  private _location: DefectLocationModel;
+  private _notes: string;
+  private _prs: boolean;
+  private _deficiencyId: string;
+  private _parentDefectCategory: string;
+  private _parentDefectCategoryId: number;
+  private _parentDefectItem: string;
+  private _parentDefectItemId: number;
 
-    constructor(name: string, description: string, level: string) {
-        this.name = name;
-        this.description = description;
-        this.level = level;
-        this.prs = false;
-        this.attachments = [];
-    }
+  constructor(ref: string, deficiencyText: string, deficiencyCategory: string,
+              prs?: boolean, notes?: string, location?: DefectLocationModel, deficiencyId?: string,
+              parentDefectCategory?: string, parentDefectCategoryId?: number,
+              parentDefectItem?: string, parentDefectItemId?: number) {
+    this._ref = ref;
+    this._deficiencyText = deficiencyText;
+    this._deficiencyCategory = deficiencyCategory;
+    this._prs = prs || false;
+    this._notes = notes;
+    this._location = location || new DefectLocationModel();
+    this._deficiencyId = deficiencyId;
+    this._parentDefectCategory = parentDefectCategory;
+    this._parentDefectCategoryId = parentDefectCategoryId;
+    this._parentDefectItem = parentDefectItem;
+    this._parentDefectItemId = parentDefectItemId;
+  }
 
-    _clone(): DefectModel {
-        let clone = new DefectModel(this.name, this.description, this.level);
-        clone.setPrs(this.prs);
-        clone.setAxle(this.axle);
-        clone.setPosition(this.position);
-        clone.setVertical(this.vertical);
-        clone.setNotes(this.notes);
-        return clone;
-    }
+  get ref(): string {
+    return this._ref;
+  }
 
-    getName(): string {
-        return this.name;
-    }
+  get deficiencyText(): string {
+    return this._deficiencyText;
+  }
 
-    getDescription(): string {
-        return this.description;
-    }
+  get deficiencyCategory(): string {
+    return this._deficiencyCategory;
+  }
 
-    getLevel(): string {
-        return this.level;
-    }
+  get location(): DefectLocationModel {
+    return this._location;
+  }
 
-    getPrs(): boolean {
-        return this.prs;
-    }
+  get notes(): string {
+    return this._notes;
+  }
 
-    getAxle(): string {
-        return this.axle;
-    }
+  get prs(): boolean {
+    return this._prs;
+  }
 
-    getPosition(): string {
-        return this.position;
-    }
+  get deficiencyId(): string {
+    return this._deficiencyId;
+  }
 
-    getVertical(): string {
-        return this.vertical;
-    }
+  get parentDefectCategory(): string {
+    return this._parentDefectCategory;
+  }
 
-    getNotes(): string {
-        return this.notes;
-    }
+  get parentDefectCategoryId(): number {
+    return this._parentDefectCategoryId;
+  }
 
-    setPrs(selected: boolean) {
-        this.prs = selected;
-    }
+  get parentDefectItem(): string {
+    return this._parentDefectItem;
+  }
 
-    setAxle(axle: string) {
-        this.axle = axle;
-    }
+  get parentDefectItemId(): number {
+    return this._parentDefectItemId;
+  }
 
-    setPosition(position: string) {
-        this.position = position;
-    }
+  set ref(value: string) {
+    this._ref = value;
+  }
 
-    setVertical(vertical: string) {
-        this.vertical = vertical;
-    }
+  set location(value: DefectLocationModel) {
+    this._location = value;
+  }
 
-    setNotes(notes: string) {
-        this.notes = notes;
-    }
+  set notes(value: string) {
+    this._notes = value;
+  }
 
-    addAttachment(attachment: string) {
-        this.attachments.push(attachment);
-    }
+  set prs(value: boolean) {
+    this._prs = value;
+  }
+
+  set deficiencyId(value: string) {
+    this._deficiencyId = value;
+  }
+
+  set parentDefectCategory(value: string) {
+    this._parentDefectCategory = value;
+  }
+
+  set parentDefectCategoryId(value: number) {
+    this._parentDefectCategoryId = value;
+  }
+
+  set parentDefectItem(value: string) {
+    this._parentDefectItem = value;
+  }
+
+  set parentDefectItemId(value: number) {
+    this._parentDefectItemId = value;
+  }
+
+  clone(): DefectModel {
+    return new DefectModel(this.ref, this.deficiencyText, this.deficiencyCategory, this.prs, this.notes, this.location, this.deficiencyId, this.parentDefectCategory, this.parentDefectCategoryId, this.parentDefectItem, this.parentDefectItemId);
+  }
 }
+

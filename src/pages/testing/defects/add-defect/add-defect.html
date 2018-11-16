@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Defect description
+    </ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="term" placeholder="Search for a defect category or IM number"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list text-wrap class="full-dividers-list">
+    <ion-item-divider color="light">
+      {{ parentDefectCategoryId }}.{{ parentDefectItemId }} {{ parentDefectItem }}
+    </ion-item-divider>
+    <ion-item detail-none class="defect-details"
+              *ngFor="let item of defectCategories | searchBy: term"
+              (click)="selectedItem(item)">
+      <span>
+          <h3>
+            {{ item.ref }}
+            <ion-badge item-end text-uppercase
+                       [color]="getBadgeColor(item.deficiencyCategory)"
+                       [ngStyle]="{'color':item.deficiencyCategory === 'Minor' ? 'black' : 'white' }">
+              {{ item.deficiencyCategory }}
+            </ion-badge>
+          </h3>
+          <p>{{ item.deficiencyText }}</p>
+        </span>
+      <ion-icon item-end name="arrow-forward"></ion-icon>
+    </ion-item>
+
+    <ion-item-divider color="light" text-uppercase>Advisory</ion-item-divider>
+    <button class="btn-add-test" ion-item detail-none (click)="addAdvisory()">
+      Add an advisory note
+      <ion-icon name="arrow-forward" item-end></ion-icon>
+    </button>
+
+  </ion-list>
+</ion-content>
