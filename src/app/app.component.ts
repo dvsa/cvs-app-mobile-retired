@@ -64,13 +64,12 @@ export class MyApp {
 
   accessibilityFeatures() {
     this.mobileAccessibility.updateTextZoom();
-    this.mobileAccessibility.isInvertColorsEnabled().then(
-      (result) => {
-        result ? this.renderer.addClass(document.body, 'invert-colors') : this.renderer.removeClass(document.body, 'invert-colors');
+    this.mobileAccessibility.isInvertColorsEnabled().then((result) => {
+        result ? this.renderer.setStyle(document.body, 'filter', 'invert(100%)') : this.renderer.removeStyle(document.body, 'filter');
       });
     this.mobileAccessibility.isBoldTextEnabled().then(
       (result) => {
-        result ? this.renderer.addClass(document.body, 'bold-text-activated') : this.renderer.removeClass(document.body, 'bold-text-activated');
+        result ? this.renderer.addClass(document.body, 'accessibility-bold-text') : this.renderer.removeClass(document.body, 'accessibility-bold-text');
       });
   }
 }

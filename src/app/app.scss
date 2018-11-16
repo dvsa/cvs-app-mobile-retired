@@ -116,16 +116,10 @@
     padding-bottom: inherit;
   }
 
-  // Mobile Accessibility - start
-  .invert-colors {
-    filter: invert(100%);
-  }
-
-  .bold-text-activated {
+  .accessibility-bold-text {
     font-weight: 600 !important;
     span, p, h1, h2, h3, h4, h5 {
       font-weight: 600 !important;
     }
   }
-  // Mobile Accessibility - end
 }

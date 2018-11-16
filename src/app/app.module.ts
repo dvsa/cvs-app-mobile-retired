@@ -44,8 +44,7 @@ const CUSTOM_PROVIDERS = [
   VehicleTestService,
   VehicleTestCategoryService,
   PhoneService,
-  CameraService,
-  MobileAccessibility,
+  CameraService
 ];
 
 const IONIC_NATIVE_PROVIDERS = [
@@ -54,6 +53,7 @@ const IONIC_NATIVE_PROVIDERS = [
   Camera,
   CallNumber,
   OpenNativeSettings,
+  MobileAccessibility
 ];
 
 @NgModule({
