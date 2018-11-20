@@ -1,4 +1,4 @@
-import {DefectModel} from "./defect.model";
+import { DefectModel } from "./defect.model";
 
 export class VehicleTestModel {
   private name: string;
@@ -89,7 +89,7 @@ export class VehicleTestModel {
       if (defect.deficiencyCategory.toLowerCase() == "major" || defect.deficiencyCategory.toLowerCase() == "dangerous") {
         foundCriticalDefect = false;
       }
-    })
+    });
     return foundCriticalDefect;
   }
 
@@ -107,4 +107,12 @@ export class VehicleTestModel {
   addDefect(defect: DefectModel) {
     this.defects.push(defect);
   }
+
+  removeDefect(defect: DefectModel) {
+    let defIdx = this.defects.map((e) => {
+      return e.ref
+    }).indexOf(defect.ref);
+    this.defects.splice(defIdx);
+  }
+
 }

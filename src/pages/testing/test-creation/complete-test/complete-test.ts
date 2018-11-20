@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {VehicleModel} from '../../../../models/vehicle.model';
-import {VehicleTestModel} from '../../../../models/vehicle-test.model';
-import {DefectModel} from "../../../../models/defect.model";
+import { Component } from '@angular/core';
+import { AlertController, IonicPage, ItemSliding, NavController, NavParams } from 'ionic-angular';
+import { VehicleModel } from '../../../../models/vehicle.model';
+import { VehicleTestModel } from '../../../../models/vehicle-test.model';
+import { DefectModel } from "../../../../models/defect.model";
 
 @IonicPage()
 @Component({
@@ -13,7 +13,7 @@ export class CompleteTestPage {
   vehicle: VehicleModel;
   vehicleTest: VehicleTestModel;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController) {
     this.vehicle = navParams.get('vehicle');
     this.vehicleTest = navParams.get('test');
   }
@@ -34,7 +34,7 @@ export class CompleteTestPage {
   openDefect(defect: DefectModel): void {
     return
   }
-x
+
   public convertToNumber(event): number {
     return +event;
   }
@@ -52,5 +52,31 @@ x
       case 'advisory':
         return 'light';
     }
+  }
+
+  showAlert(item: ItemSliding, defect) {
+    const confirm = this.alertCtrl.create({
+      title: 'Remove defect',
+      message: 'This action wil remove this defect.',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            item.close();
+          }
+        },
+        {
+          text: 'Remove',
+          handler: () => {
+            this.removeDefect(defect);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  removeDefect(defect) {
+    this.vehicleTest.removeDefect(defect)
   }
 }

@@ -17,6 +17,7 @@ import {AuthInterceptor} from "../providers/interceptors/auth.interceptor";
 import {BrowserModule} from "@angular/platform-browser";
 import {IonicStorageModule} from "@ionic/storage";
 import {SyncService} from "../providers/global/sync.service";
+import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -46,6 +47,7 @@ describe('Component: Root', () => {
     Camera,
     CallNumber,
     OpenNativeSettings,
+    MobileAccessibility
   ];
 
   beforeEach(async(() => {
