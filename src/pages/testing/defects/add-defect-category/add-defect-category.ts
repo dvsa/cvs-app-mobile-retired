@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleTestModel } from "../../../../models/vehicle-test.model";
-import { DefectsDataMock } from "../../../../../test-config/data-mocks/defects-data.mock";
+import { DefectCategoryModel, DefectsModel } from "../../../../models/defects/defects.model";
 
 @IonicPage()
 @Component({
@@ -9,31 +9,21 @@ import { DefectsDataMock } from "../../../../../test-config/data-mocks/defects-d
   templateUrl: 'add-defect-category.html',
 })
 export class AddDefectCategoryPage {
+  vehicleType: string;
   vehicleTest: VehicleTestModel;
-  defectCategories: Object[];
+  defectCategories: DefectsModel;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.vehicleTest = navParams.get('test');
+    this.vehicleType = navParams.get('vehicleType');
+    this.vehicleTest = navParams.get('vehicleTest');
+    this.defectCategories = navParams.get('defects');
   }
 
-  ngOnInit() {
-    this.getDefectCategories();
-  }
-
-  getDefectCategories(): void {
-    if (this.defectCategories == null) {
-      this.defectCategories = DefectsDataMock.DefectsData;
-    }
-  }
-
-  selectedItem(item): void {
+  selectCategory(category: DefectCategoryModel): void {
     this.navCtrl.push('AddDefectItemPage', {
-        test: this.vehicleTest,
-        defectCategoryTaxonomy: item.items,
-        parentDefectCategory: item.imDescription,
-        parentDefectCategoryId: item.imNumber,
-        additionalInfo: item.additionalInfo,
-        forVehicleType: item.forVehicleType
+        vehicleType: this.vehicleType,
+        vehicleTest: this.vehicleTest,
+        category: category
       }
     );
   }

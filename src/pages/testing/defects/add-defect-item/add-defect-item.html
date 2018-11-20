@@ -11,10 +11,12 @@
 
 <ion-content padding>
   <ion-list text-wrap class="full-dividers-list">
-    <ion-item-divider color="light">{{ parentDefectCategoryId }}. {{ parentDefectCategory }}</ion-item-divider>
+    <ion-item-divider>
+      {{ category.imNumber }}. {{ category.imDescription }}
+    </ion-item-divider>
     <ion-item detail-none class="defect-category"
-              *ngFor="let item of defectCategories | searchBy: term"
-              (click)="selectedItem(item)">
+              *ngFor="let item of category.items | searchBy: term"
+              (click)="selectItem(item)">
         <span>
           <h3>{{ item.itemNumber }}. {{ item.itemDescription }}</h3>
         </span>

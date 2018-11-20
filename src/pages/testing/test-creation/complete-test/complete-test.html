@@ -25,11 +25,11 @@
     <ion-item-divider text-uppercase>
       <span>DEFECTS</span>
     </ion-item-divider>
-    <ion-item-sliding #item *ngFor="let defect of vehicleTest.defects" (click)="openDefect(defect)">
-      <ion-item class="defect-details">
+    <ion-item-sliding #item *ngFor="let defect of vehicleTest.defects">
+      <ion-item class="defect-details" (click)="openDefect(defect)">
         <h3 class="defect-name">
           {{ defect.ref }}
-          <ion-badge class="no-margin-right" item-end text-uppercase [color]="getBadgeColor(defect.deficiencyCategory)">
+          <ion-badge class="no-margin-right" item-end text-uppercase [color]="defectsService.getBadgeColor(defect.deficiencyCategory)">
             {{ defect.deficiencyCategory }}
           </ion-badge>
           <ion-badge class="no-margin-left" item-end text-uppercase color="primary" *ngIf="defect.prs">
@@ -37,10 +37,10 @@
           </ion-badge>
         </h3>
         <h4 class="parent-info-color">
-          {{ defect.parentDefectCategoryId }}. {{ defect.parentDefectCategory}}
+          {{ defect.metadata.category.imNumber }}. {{ defect.metadata.category.imDescription}}
         </h4>
         <h4 class="parent-info-color">
-          {{ defect.parentDefectItemId }}. {{ defect.parentDefectItem }}
+          {{ defect.metadata.item.itemNumber }}. {{ defect.metadata.item.itemDescription }}
         </h4>
         <h4 class="parent-info-color truncate-text" *ngIf="defect.deficiencyCategory != 'Advisory'">
           ({{ defect.deficiencyId }}). {{ defect.deficiencyText }}

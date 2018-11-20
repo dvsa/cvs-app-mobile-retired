@@ -45,8 +45,7 @@ export class DefectsDataMock {
                 "deficiencyText": "missing.",
                 "stdForProhibition": false,
                 "forVehicleType": [
-                  "psv",
-                  "hgv"
+                  "psv", "hgv"
                 ]
               },
               {

@@ -8,7 +8,8 @@
     <ion-title>Advisory details</ion-title>
     <ion-buttons end>
       <button ion-button (click)="submitAdvisory()">
-        Add Note
+        <span *ngIf="!isEdit">Add Note</span>
+        <span *ngIf="isEdit">Done</span>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -20,16 +21,16 @@
       <ion-item-divider padding-left color="light">DEFECT ITEM</ion-item-divider>
       <ion-item no-lines padding-left>
         <ion-row class="advisory__item-status" align-items-center justify-content-start>
-          {{ defectRef }}
+          {{ advisory.ref }}
           <ion-badge item-end text-uppercase color="light">Advisory</ion-badge>
         </ion-row>
         <ion-row class="advisory_item-name">
-          {{ parentDefectItem }}
+          {{ advisory.metadata.item.itemDescription }}
         </ion-row>
       </ion-item>
       <ion-item-divider padding-left color="light">NOTES</ion-item-divider>
       <ion-item no-lines padding-horizontal>
-        <ion-textarea maxlength="200" rows="5" [(ngModel)]="notes" placeholder="Add Notes">
+        <ion-textarea maxlength="200" rows="5" [(ngModel)]="advisory.notes" placeholder="Add Notes">
           Notes
         </ion-textarea>
       </ion-item>

@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, ItemSliding, NavController, NavParams } from 'ionic-angular';
+import { AlertController, ItemSliding, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
-import { DefectModel } from "../../../../models/defect.model";
+import { HTTPService } from "../../../../providers/global/http.service";
+import { DefectsModel } from "../../../../models/defects/defects.model";
+import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
+import { DefectsService } from "../../../../providers/defects/defects.service";
 
 @IonicPage()
 @Component({
@@ -12,10 +15,16 @@ import { DefectModel } from "../../../../models/defect.model";
 export class CompleteTestPage {
   vehicle: VehicleModel;
   vehicleTest: VehicleTestModel;
+  defectsCategories: DefectsModel;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private httpService: HTTPService, public defectsService: DefectsService, private alertCtrl: AlertController) {
     this.vehicle = navParams.get('vehicle');
-    this.vehicleTest = navParams.get('test');
+    this.vehicleTest = navParams.get('vehicleTest');
+    this.httpService.getDefects().subscribe(
+      (data: DefectsModel) => {
+        this.defectsCategories = data
+      }
+    )
   }
 
   finishTest(): void {
@@ -28,30 +37,31 @@ export class CompleteTestPage {
   }
 
   addDefect(): void {
-    this.navCtrl.push('AddDefectCategoryPage', {test: this.vehicleTest});
+    this.navCtrl.push('AddDefectCategoryPage', {
+      vehicleType: 'psv',
+      vehicleTest: this.vehicleTest,
+      defects: this.defectsCategories
+    });
   }
 
-  openDefect(defect: DefectModel): void {
-    return
+  openDefect(defect: DefectDetailsModel): void {
+    if (defect.deficiencyCategory != 'Advisory') {
+      this.navCtrl.push('DefectDetailsPage', {
+        vehicleTest: this.vehicleTest,
+        deficiency: defect,
+        isEdit: true
+      });
+    } else {
+      this.navCtrl.push('AdvisoryDetailsPage', {
+        vehicleTest: this.vehicleTest,
+        advisory: defect,
+        isEdit: true
+      })
+    }
   }
 
   public convertToNumber(event): number {
     return +event;
-  }
-
-  getBadgeColor(category) {
-    switch (category.toLowerCase()) {
-      case 'dangerous':
-        return 'dark';
-      case 'major':
-        return 'danger';
-      case 'minor':
-        return 'attention';
-      case 'prs':
-        return 'primary';
-      case 'advisory':
-        return 'light';
-    }
   }
 
   showAlert(item: ItemSliding, defect) {

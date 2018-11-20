@@ -4,7 +4,10 @@
       Defect details
     </ion-title>
     <ion-buttons end>
-      <button ion-button block color="light" (click)="addDefect()" *ngIf="!checkIfDefectWasAdded()">Add defect</button>
+      <button ion-button block color="light" (click)="addDefect()">
+        <span *ngIf="!isEdit">Add Defect</span>
+        <span *ngIf="isEdit">Done</span>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -19,7 +22,7 @@
       <ion-grid padding-horizontal>
         <ion-row justify-content-start align-items-center class="defect-status">
           <b padding-right>{{ defect.ref }}</b>
-          <ion-badge item-end text-uppercase [color]="getBadgeColor(defect.deficiencyCategory)">
+          <ion-badge item-end text-uppercase [color]="defectsService.getBadgeColor(defect.deficiencyCategory)">
             {{ defect.deficiencyCategory }}
           </ion-badge>
           <ion-badge class="badge__prs" item-end text-uppercase color="primary" *ngIf="defect.prs">
@@ -27,7 +30,7 @@
           </ion-badge>
         </ion-row>
         <ion-row>
-          <h6>{{parentDefectItem}}</h6>
+          <h6>{{defect.metadata.item.itemDescription}}</h6>
         </ion-row>
         <ion-row class="defect-description">
           <p>{{ defect.deficiencyText }}</p>
@@ -40,58 +43,51 @@
         <span>LOCATION</span>
       </ion-item-divider>
 
-      <ion-item *ngIf="additionalInfo.location.vertical.length > 0">
+      <ion-item *ngIf="defectMetadata.location.vertical.length > 0">
         <ion-label>Vertical</ion-label>
-        <p item-end *ngIf="!defect.location.vertical" class="default-ion-option">Select</p>
-        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.vertical">
-          <ion-option *ngFor="let position of additionalInfo.location.vertical" [value]="position">{{position}}</ion-option>
+        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.vertical" placeholder="Select">
+          <ion-option *ngFor="let position of defectMetadata.location.vertical" [value]="position">{{position}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item *ngIf="additionalInfo.location.horizontal.length > 0">
+      <ion-item *ngIf="defectMetadata.location.horizontal.length > 0">
         <ion-label>Horizontal</ion-label>
-        <p item-end *ngIf="!defect.location.horizontal" class="default-ion-option">Select</p>
-        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.horizontal">
-          <ion-option *ngFor="let position of additionalInfo.location.horizontal" [value]="position">{{position}}</ion-option>
+        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.horizontal" placeholder="Select">
+          <ion-option *ngFor="let position of defectMetadata.location.horizontal" [value]="position">{{position}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item *ngIf="additionalInfo.location.lateral.length > 0">
+      <ion-item *ngIf="defectMetadata.location.lateral.length > 0">
         <ion-label>Lateral</ion-label>
-        <p item-end *ngIf="!defect.location.lateral" class="default-ion-option">Select</p>
-        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.lateral">
-          <ion-option *ngFor="let position of additionalInfo.location.lateral" [value]="position">{{position}}</ion-option>
+        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.lateral" placeholder="Select">
+          <ion-option *ngFor="let position of defectMetadata.location.lateral" [value]="position">{{position}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item *ngIf="additionalInfo.location.longitudinal.length > 0">
+      <ion-item *ngIf="defectMetadata.location.longitudinal.length > 0">
         <ion-label>Longitudinal</ion-label>
-        <p item-end *ngIf="!defect.location.longitudinal" class="default-ion-option">Select</p>
-        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.longitudinal">
-          <ion-option *ngFor="let position of additionalInfo.location.longitudinal" [value]="position">{{position}}</ion-option>
+        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.longitudinal" placeholder="Select">
+          <ion-option *ngFor="let position of defectMetadata.location.longitudinal" [value]="position">{{position}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item *ngIf="additionalInfo.location.rowNumber.length > 0">
+      <ion-item *ngIf="defectMetadata.location.rowNumber.length > 0">
         <ion-label>Row Number</ion-label>
-        <p item-end *ngIf="!defect.location.rowNumber" class="default-ion-option">Select</p>
-        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.rowNumber">
-          <ion-option *ngFor="let position of additionalInfo.location.rowNumber" [value]="position">{{position}}</ion-option>
+        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.rowNumber" placeholder="Select">
+          <ion-option *ngFor="let position of defectMetadata.location.rowNumber" [value]="position">{{position}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item *ngIf="additionalInfo.location.seatNumber.length > 0">
+      <ion-item *ngIf="defectMetadata.location.seatNumber.length > 0">
         <ion-label>Seat Number</ion-label>
-        <p item-end *ngIf="!defect.location.seatNumber" class="default-ion-option">Select</p>
-        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.seatNumber">
-          <ion-option *ngFor="let position of additionalInfo.location.seatNumber" [value]="position">{{position}}</ion-option>
+        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.seatNumber" placeholder="Select">
+          <ion-option *ngFor="let position of defectMetadata.location.seatNumber" [value]="position">{{position}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item *ngIf="additionalInfo.location.axleNumber.length > 0">
+      <ion-item *ngIf="defectMetadata.location.axleNumber.length > 0">
         <ion-label>Axle Number</ion-label>
-        <p item-end *ngIf="!defect.location.axleNumber" class="default-ion-option">Select</p>
-        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.axleNumber">
-          <ion-option *ngFor="let position of additionalInfo.location.axleNumber" [value]="position">{{position}}</ion-option>
+        <ion-select item-end interface="action-sheet" [(ngModel)]="defect.location.axleNumber" placeholder="Select">
+          <ion-option *ngFor="let position of defectMetadata.location.axleNumber" [value]="position">{{position}}</ion-option>
         </ion-select>
       </ion-item>
     </ion-item-group>
 
-    <ion-item-group>
+    <ion-item-group *ngIf="defectMetadata.notes">
       <ion-item-divider text-uppercase>
         <span>NOTES</span>
       </ion-item-divider>

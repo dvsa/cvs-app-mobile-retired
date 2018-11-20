@@ -19,7 +19,6 @@ import {AuthService} from "../providers/global/auth.service";
 import {OpenNativeSettings} from "@ionic-native/open-native-settings";
 import {SyncService} from "../providers/global/sync.service";
 import {VehicleService} from "../providers/vehicle.service";
-import {SearchService} from "../providers/search.service";
 import {VehicleTestService} from "../providers/vehicle-test.service";
 import {VehicleTestCategoryService} from "../providers/vehicle-test-category.service";
 import { WheelSelector } from "@ionic-native/wheel-selector";
@@ -37,8 +36,6 @@ const CUSTOM_PROVIDERS = [
   StorageService,
   AuthService,
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-  VehicleService,
-  SearchService,
   VehicleService,
   VehicleTestService,
   VehicleTestCategoryService,

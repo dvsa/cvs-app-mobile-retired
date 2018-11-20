@@ -12,21 +12,21 @@
 <ion-content padding>
   <ion-list text-wrap class="full-dividers-list">
     <ion-item-divider color="light">
-      {{ parentDefectCategoryId }}.{{ parentDefectItemId }} {{ parentDefectItem }}
+      {{ category.imNumber }}.{{ item.itemNumber }} {{ item.itemDescription }}
     </ion-item-divider>
     <ion-item detail-none class="defect-details"
-              *ngFor="let item of defectCategories | searchBy: term"
-              (click)="selectedItem(item)">
+              *ngFor="let deficiency of item.deficiencies | searchBy: term"
+              (click)="selectDeficiency(deficiency)">
       <span>
           <h3>
-            {{ item.ref }}
+            {{deficiency.ref}}
             <ion-badge item-end text-uppercase
-                       [color]="getBadgeColor(item.deficiencyCategory)"
-                       [ngStyle]="{'color':item.deficiencyCategory === 'Minor' ? 'black' : 'white' }">
-              {{ item.deficiencyCategory }}
+                       [color]="defectsService.getBadgeColor(deficiency.deficiencyCategory)"
+                       [ngStyle]="{'color':deficiency.deficiencyCategory === 'Minor' ? 'black' : 'white' }">
+              {{ deficiency.deficiencyCategory }}
             </ion-badge>
           </h3>
-          <p>{{ item.deficiencyText }}</p>
+          <p>{{ deficiency.deficiencyText }}</p>
         </span>
       <ion-icon item-end name="arrow-forward"></ion-icon>
     </ion-item>

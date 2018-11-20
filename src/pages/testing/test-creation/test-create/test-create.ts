@@ -17,17 +17,17 @@ export class TestCreatePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public phoneService: PhoneService) {
     this.testReport = navParams.get('testReport');
   }
-	
+
 	presentSearchVehicle(): void {
 		this.navCtrl.push('VehicleLookupPage', {testReport: this.testReport});
   }
-	
+
 	addVehicleTest(vehicle: VehicleModel): void {
 		this.navCtrl.push('TestsListPage', {vehicle: vehicle});
 	}
 
   openTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel): void {
-    this.navCtrl.push('CompleteTestPage', {vehicle: vehicle, test: vehicleTest});
+    this.navCtrl.push('CompleteTestPage', {vehicle: vehicle, vehicleTest: vehicleTest});
   }
 
   reviewTest(): void {

@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Events, IonicPage, NavController} from 'ionic-angular';
 import {AtfModel} from '../../../models/atf.model';
 import {AtfService} from '../../../providers/atf/atf.service'
-import {SearchService} from "../../../providers/search.service";
 
 @IonicPage()
 @Component({
@@ -15,7 +14,7 @@ export class ATFSearchPage implements OnInit {
   filteredAtfs: AtfModel[] = [];
   searchVal: string = '';
 
-  constructor(public navCtrl: NavController, public events: Events, private atfService: AtfService, private searchService: SearchService) {
+  constructor(public navCtrl: NavController, public events: Events, private atfService: AtfService) {
   }
 
   ngOnInit() {
@@ -25,7 +24,7 @@ export class ATFSearchPage implements OnInit {
   getAtfs(): void {
     this.atfService.getAtfsFromStorage().subscribe(
       (atfs: AtfModel[]) => {
-        this.atfs = this.filteredAtfs = this.searchService.sortAndSearchATF(atfs, this.searchVal, ['atfName']);
+        this.atfs = this.filteredAtfs = this.atfService.sortAndSearchATF(atfs, this.searchVal, ['atfName']);
       }
     );
   }
@@ -39,17 +38,17 @@ export class ATFSearchPage implements OnInit {
   }
 
   boldSearchVal(str: string, find: string): string {
-    return this.searchService.boldSearchVal(str, find);
+    return this.atfService.boldSearchVal(str, find);
   }
 
   searchList(e): void {
     this.searchVal = e.target.value;
-    this.filteredAtfs = this.searchService.sortAndSearchATF(this.atfs, this.searchVal, ['atfName', 'atfNumber', 'atfAddress'])
+    this.filteredAtfs = this.atfService.sortAndSearchATF(this.atfs, this.searchVal, ['atfName', 'atfNumber', 'atfAddress'])
   }
 
   private clearSearch(): void {
     this.events.publish('navToDetails');
     this.searchVal = '';
-    this.filteredAtfs = this.searchService.sortAndSearchATF(this.atfs, this.searchVal, ['atfName']);
+    this.filteredAtfs = this.atfService.sortAndSearchATF(this.atfs, this.searchVal, ['atfName']);
   }
 }
