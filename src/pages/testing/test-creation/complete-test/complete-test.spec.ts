@@ -65,7 +65,7 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.convertToNumber(number)).toEqual(jasmine.any(Number));
   });
 
-  it('should check defects length is decreased by 1',  () => {
+  it('should check if array of defects length is 0 after removing the only addedDefect',  () => {
     comp.vehicleTest = navParams.get('test');
     expect(comp.vehicleTest.getDefects().length).toBeFalsy();
     comp.vehicleTest.addDefect(addedDefect);
