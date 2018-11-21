@@ -25,26 +25,31 @@
     <ion-item-divider text-uppercase>
       <span>DEFECTS</span>
     </ion-item-divider>
-    <ion-item *ngFor="let defect of vehicleTest.defects" (click)="openDefect(defect)" class="defect-details">
-      <h3 class="defect-name">
-        {{ defect.ref }}
-        <ion-badge class="no-margin-right" item-end text-uppercase [color]="getBadgeColor(defect.deficiencyCategory)">
-          {{ defect.deficiencyCategory }}
-        </ion-badge>
-        <ion-badge class="no-margin-left" item-end text-uppercase color="primary" *ngIf="defect.prs">
-          PRS
-        </ion-badge>
-      </h3>
-      <h4 class="parent-info-color">
-        {{ defect.parentDefectCategoryId }}. {{ defect.parentDefectCategory}}
-      </h4>
-      <h4 class="parent-info-color">
-        {{ defect.parentDefectItemId }}. {{ defect.parentDefectItem }}
-      </h4>
-      <h4 class="parent-info-color truncate-text" *ngIf="defect.deficiencyCategory != 'Advisory'">
-        ({{ defect.deficiencyId }}). {{ defect.deficiencyText }}
-      </h4>
-    </ion-item>
+    <ion-item-sliding #item *ngFor="let defect of vehicleTest.defects" (click)="openDefect(defect)">
+      <ion-item class="defect-details">
+        <h3 class="defect-name">
+          {{ defect.ref }}
+          <ion-badge class="no-margin-right" item-end text-uppercase [color]="getBadgeColor(defect.deficiencyCategory)">
+            {{ defect.deficiencyCategory }}
+          </ion-badge>
+          <ion-badge class="no-margin-left" item-end text-uppercase color="primary" *ngIf="defect.prs">
+            PRS
+          </ion-badge>
+        </h3>
+        <h4 class="parent-info-color">
+          {{ defect.parentDefectCategoryId }}. {{ defect.parentDefectCategory}}
+        </h4>
+        <h4 class="parent-info-color">
+          {{ defect.parentDefectItemId }}. {{ defect.parentDefectItem }}
+        </h4>
+        <h4 class="parent-info-color truncate-text" *ngIf="defect.deficiencyCategory != 'Advisory'">
+          ({{ defect.deficiencyId }}). {{ defect.deficiencyText }}
+        </h4>
+      </ion-item>
+      <ion-item-options>
+        <button ion-button color="danger" (click)="showAlert(item, defect)">Remove</button>
+      </ion-item-options>
+    </ion-item-sliding>
     <button ion-item detail-none class="btn-add-test" (click)="addDefect()">
       <ion-icon name="add-circle-outline" item-end></ion-icon>
       Add defect
