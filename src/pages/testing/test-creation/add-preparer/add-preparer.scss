@@ -1,0 +1,47 @@
+page-add-preparer {
+  .button__custom-back {
+    margin: -1px 0 0;
+    display: inherit;
+    min-width: 18px;
+    font-size: $custom-back-button-font-size;
+  }
+
+  .item__preparer-name {
+    color: $light-gray;
+  }
+
+  .truncate-text {
+    display: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .min-height {
+    min-height: 55px;
+  }
+
+  .noResults {
+    margin-top: 30%;
+  }
+
+  .no-results__title {
+    font-size: 19px;
+    font-weight: 600;
+    color: $light-gray;
+    display: inherit;
+  }
+
+  .no-results__text {
+    font-size: 16px;
+    color: $light-gray;
+    display: inherit;
+  }
+
+  .no-results__link {
+    margin-top: 10px;
+    display: inherit;
+    font-size: 16px;
+    text-decoration: underline;
+    color: color($colors, button-blue);
+  }
+}

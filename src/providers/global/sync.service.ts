@@ -12,7 +12,6 @@ import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { CallNumber } from "@ionic-native/call-number";
 import { Observable } from "rxjs";
 import { of } from "rxjs/observable/of";
-import { DefectCategoryModel } from "../../models/defects/defects.model";
 
 @Injectable()
 export class SyncService {
@@ -37,8 +36,10 @@ export class SyncService {
   }
 
   startSync(): void {
-    this.loadOrder.push(this.getAtfs());
-    this.loadOrder.push(this.getDefects());
+    const microservicesListArray: Array<string> = ['Atfs', 'Defects', 'TestTypes', 'Preparers'];
+    microservicesListArray.forEach((elem) => {
+      this.loadOrder.push(this.getDataFromMicroservice(elem));
+    });
     this.getAllData();
   }
 
@@ -51,24 +52,12 @@ export class SyncService {
     )
   }
 
-  getAtfs(): Observable<AtfModel[]> {
-    return this.httpService.getAtfs()
+  getDataFromMicroservice(microservice): Observable<AtfModel[]> {
+    return this.httpService['get' + microservice]()
       .pipe(
         map((data) => {
-          this.storageService.update(STORAGE.ATFS, data);
+          this.storageService.update(STORAGE[microservice.toUpperCase()], data);
           return data;
-        }),
-        retryWhen(genericRetryStrategy()),
-        catchError(() => of(undefined))
-      )
-  }
-
-  getDefects(): Observable<DefectCategoryModel[]> {
-    return this.httpService.getDefects()
-      .pipe(
-        map((data: DefectCategoryModel[]) => {
-          this.storageService.update(STORAGE.DEFECTS, data);
-          return data
         }),
         retryWhen(genericRetryStrategy()),
         catchError(() => of(undefined))
