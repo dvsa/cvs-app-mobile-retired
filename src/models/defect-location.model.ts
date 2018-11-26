@@ -1,9 +1,9 @@
 export interface DefectLocationModel {
-  vertical?: string;
-  horizontal?: string;
-  lateral?: string;
-  longitudinal?: string;
-  rowNumber?: string;
-  seatNumber?: string;
-  axleNumber?: string;
+  vertical?: string | string[];
+  horizontal?: string | string[];
+  lateral?: string | string[];
+  longitudinal?: string | string[];
+  rowNumber?: string | string[];
+  seatNumber?: string | string[];
+  axleNumber?: string | string[];
 }
