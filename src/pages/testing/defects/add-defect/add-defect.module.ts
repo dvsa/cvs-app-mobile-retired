@@ -3,6 +3,7 @@ import {IonicPageModule} from 'ionic-angular';
 import {AddDefectPage} from "./add-defect";
 import {PipesModule} from "../../../../pipes/pipes.module";
 import {DefectsService} from "../../../../providers/defects/defects.service";
+import { DirectivesModule } from "../../../../directives/directives.module";
 
 @NgModule({
   declarations: [
@@ -10,6 +11,7 @@ import {DefectsService} from "../../../../providers/defects/defects.service";
   ],
   imports: [
     PipesModule,
+    DirectivesModule,
     IonicPageModule.forChild(AddDefectPage),
   ],
   providers: [

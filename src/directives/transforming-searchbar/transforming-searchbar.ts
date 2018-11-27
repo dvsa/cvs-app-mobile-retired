@@ -27,7 +27,7 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
 
     this.searchBarElemRef.ionCancel.subscribe(
       () => {
-        this.renderer.setStyle(scrollContent, 'margin-top', '130px');
+        this.renderer.setStyle(scrollContent, 'margin-top', '150px');
         this.renderer.setStyle(scrollContent, 'margin-bottom', '0');
         this.renderer.setStyle(navBarElement, 'display', 'block');
       }
@@ -47,7 +47,7 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
   }
 
   private setDefaultCss(scrollContent, navBarElement): void {
-    this.renderer.setStyle(scrollContent, 'margin-top', '130px');
+    this.renderer.setStyle(scrollContent, 'margin-top', '150px');
     this.renderer.setStyle(scrollContent, 'margin-bottom', '0');
     this.renderer.setStyle(navBarElement, 'display', 'block');
   }

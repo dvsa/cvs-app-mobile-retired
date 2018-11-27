@@ -1,5 +1,10 @@
 export enum STORAGE {
-  ATFS = 'atfs'
+  ATFS = 'atfs',
+  DEFECTS = 'defects'
+}
+
+export enum LOCAL_STORAGE {
+  INIT_SYNC = 'initSyncDone'
 }
 
 export enum DEFICIENCY_CATEGORY {
