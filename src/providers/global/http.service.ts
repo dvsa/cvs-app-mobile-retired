@@ -1,9 +1,11 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {AppConfig} from "../../../config/app.config";
-import {API} from "../../../config/config.enums";
-import {AtfModel} from "../../models/atf.model";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { AppConfig } from "../../../config/app.config";
+import { API } from "../../../config/config.enums";
+import { AtfModel } from "../../models/atf.model";
+import { map } from "rxjs/operators";
+import { DefectsModel } from "../../models/defects/defects.model";
 
 @Injectable()
 export class HTTPService {
@@ -12,14 +14,14 @@ export class HTTPService {
   }
 
   addTest(body): Observable<any> {
-    return this.http.post(`${AppConfig.API_URL}${API.POST_TEST_URL}`, body)
+    return this.http.post(`${AppConfig.API_URL}${API.POST_TEST_URL}`, body);
   }
 
-  getAtfs() {
-    return this.http.get<AtfModel[]>(`${AppConfig.API_URL}${API.GET_ATFS}`)
+  getAtfs(): Observable<AtfModel[]> {
+    return this.http.get<AtfModel[]>(`${AppConfig.API_URL}${API.GET_ATFS}`);
   }
 
-  getDefects() {
-    return this.http.get(`${AppConfig.API_URL}${API.GET_DEFECTS}`);
+  getDefects(): Observable<DefectsModel[]> {
+    return this.http.get<DefectsModel[]>(`${AppConfig.API_URL}${API.GET_DEFECTS}`);
   }
 }

@@ -18,6 +18,7 @@ export const genericRetryStrategy =
         return _throw(error);
       }
       return timer(duration);
-    })
+    }),
+
   );
 };

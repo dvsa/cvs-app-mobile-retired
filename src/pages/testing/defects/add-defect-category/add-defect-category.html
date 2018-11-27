@@ -1,16 +1,24 @@
-<ion-header>
+<ion-header transforming-searchBar [searchBarElemRef]="searchBar">
   <ion-navbar>
     <ion-title>
       Record defect
     </ion-title>
   </ion-navbar>
-  <ion-toolbar><ion-searchbar [(ngModel)]="term" placeholder="Search for a defect category or IM number"></ion-searchbar></ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="searchList($event)"
+                   [(ngModel)]="searchVal"
+                   [showCancelButton]="true"
+                   [cancelButtonText]="'Cancel'"
+                   placeholder="Search for a defect category or IM number"
+                   #searchBar>
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content no-padding>
   <ion-list text-wrap class="full-dividers-list">
     <ion-item detail-none class="defect-category"
-              *ngFor="let category of defectCategories | searchBy: term"
+              *ngFor="let category of filteredCategories | byVehicleType: vehicleType"
               (click)="selectCategory(category)">
         <span>
           <h3>{{ category.imNumber }}. {{ category.imDescription }}</h3>

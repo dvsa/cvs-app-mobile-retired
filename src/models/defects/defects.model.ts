@@ -1,7 +1,7 @@
 import {AdditionalInfoModel} from "./additional-info.model";
 
 export interface DefectsModel {
-  category: DefectCategoryModel[]
+  categories: DefectCategoryModel[]
 }
 
 export interface DefectCategoryModel {
