@@ -22,7 +22,7 @@
             {{deficiency.ref}}
             <ion-badge item-end text-uppercase
                        [color]="defectsService.getBadgeColor(deficiency.deficiencyCategory)"
-                       [ngStyle]="{'color':deficiency.deficiencyCategory === 'Minor' ? 'black' : 'white' }">
+                       [ngClass]="{'badge__text-black': deficiency.deficiencyCategory === 'Minor'}">
               {{ deficiency.deficiencyCategory }}
             </ion-badge>
           </h3>

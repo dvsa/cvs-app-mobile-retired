@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleTestModel } from "../../../../models/vehicle-test.model";
-import { DefectCategoryModel, DefectsModel } from "../../../../models/defects/defects.model";
+import { DefectCategoryModel, DefectsReferenceData } from "../../../../models/defects/defects.model";
 
 @IonicPage()
 @Component({
@@ -11,7 +11,7 @@ import { DefectCategoryModel, DefectsModel } from "../../../../models/defects/de
 export class AddDefectCategoryPage {
   vehicleType: string;
   vehicleTest: VehicleTestModel;
-  defectCategories: DefectsModel;
+  defectCategories: DefectsReferenceData;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.vehicleType = navParams.get('vehicleType');

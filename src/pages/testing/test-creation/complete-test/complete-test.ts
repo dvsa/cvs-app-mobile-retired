@@ -3,7 +3,7 @@ import { AlertController, ItemSliding, IonicPage, NavController, NavParams } fro
 import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import { HTTPService } from "../../../../providers/global/http.service";
-import { DefectsModel } from "../../../../models/defects/defects.model";
+import { DefectsReferenceData } from "../../../../models/defects/defects.model";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 
@@ -15,13 +15,13 @@ import { DefectsService } from "../../../../providers/defects/defects.service";
 export class CompleteTestPage {
   vehicle: VehicleModel;
   vehicleTest: VehicleTestModel;
-  defectsCategories: DefectsModel;
+  defectsCategories: DefectsReferenceData;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private httpService: HTTPService, public defectsService: DefectsService, private alertCtrl: AlertController) {
     this.vehicle = navParams.get('vehicle');
     this.vehicleTest = navParams.get('vehicleTest');
     this.httpService.getDefects().subscribe(
-      (data: DefectsModel) => {
+      (data: DefectsReferenceData) => {
         this.defectsCategories = data
       }
     )
