@@ -33,7 +33,7 @@ export class SyncService {
   }
 
   startSync(): void {
-    const microservicesListArray: Array<string> = ['Atfs', 'Defects', 'TestTypes'];
+    const microservicesListArray: Array<string> = ['Atfs', 'Defects', 'TestTypes', 'Preparers'];
     microservicesListArray.forEach((elem) => {
       this.loadOrder.push(this.getDataFromMicroservice(elem));
     });

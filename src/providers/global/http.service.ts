@@ -28,4 +28,8 @@ export class HTTPService {
   getTestTypes(): Observable<DefectsModel[]> {
     return this.http.get<DefectsModel[]>(`${AppConfig.API_URL}${API.GET_TESTTYPES}`);
   }
+
+  getPreparers(): Observable<DefectsModel[]> {
+    return this.http.get<DefectsModel[]>(`${AppConfig.API_URL}${API.GET_PREPARERS}`);
+  }
 }
