@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import { DefectDetailsModel } from '../../../../models/defects/defect-details.model';
@@ -10,7 +10,7 @@ import { AdditionalInfoMetadataModel } from "../../../../models/defects/defects-
   selector: 'page-defect-details',
   templateUrl: 'defect-details.html'
 })
-export class DefectDetailsPage {
+export class DefectDetailsPage implements OnInit {
   vehicleTest: VehicleTestModel;
   defect: DefectDetailsModel;
   defectMetadata: AdditionalInfoMetadataModel;
@@ -20,6 +20,9 @@ export class DefectDetailsPage {
     this.vehicleTest = navParams.get('vehicleTest');
     this.defect = navParams.get('deficiency');
     this.isEdit = navParams.get('isEdit')
+  }
+
+  ngOnInit() {
     this.defectMetadata = this.defect.metadata.category.additionalInfo;
   }
 
@@ -27,7 +30,7 @@ export class DefectDetailsPage {
     let views = this.navCtrl.getViews();
     for (let i = views.length - 1; i >= 0; i--) {
       if (views[i].component.name == "CompleteTestPage") {
-        if(!this.isEdit) this.vehicleTest.addDefect(this.defect);
+        if (!this.isEdit) this.vehicleTest.addDefect(this.defect);
         this.navCtrl.popTo(views[i]);
       }
     }
