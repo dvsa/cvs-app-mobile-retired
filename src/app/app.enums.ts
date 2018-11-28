@@ -1,6 +1,7 @@
 export enum STORAGE {
   ATFS = 'atfs',
-  DEFECTS = 'defects'
+  DEFECTS = 'defects',
+  TESTTYPES = 'test-types'
 }
 
 export enum LOCAL_STORAGE {

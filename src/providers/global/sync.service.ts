@@ -1,18 +1,17 @@
-import { Injectable } from "@angular/core";
-import { HTTPService } from "./http.service";
-import { catchError, map, retryWhen } from "rxjs/operators";
-import { genericRetryStrategy } from "../utils/rxjs.utils";
-import { AtfModel } from "../../models/atf.model";
-import { LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
-import { StorageService } from "../natives/storage.service";
-import { AlertController, Events, LoadingController } from "ionic-angular";
-import { KEYS } from "../../../config/config.enums";
-import { _throw } from "rxjs/observable/throw";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { CallNumber } from "@ionic-native/call-number";
-import { Observable } from "rxjs";
-import { of } from "rxjs/observable/of";
-import { DefectsModel } from "../../models/defects/defects.model";
+import {Injectable} from "@angular/core";
+import {HTTPService} from "./http.service";
+import {catchError, delay, map, retryWhen} from "rxjs/operators";
+import {genericRetryStrategy} from "../utils/rxjs.utils";
+import {AtfModel} from "../../models/atf.model";
+import {LOCAL_STORAGE, STORAGE} from "../../app/app.enums";
+import {StorageService} from "../natives/storage.service";
+import {AlertController, Events, LoadingController} from "ionic-angular";
+import {KEYS} from "../../../config/config.enums";
+import {_throw} from "rxjs/observable/throw";
+import {OpenNativeSettings} from "@ionic-native/open-native-settings";
+import {CallNumber} from "@ionic-native/call-number";
+import {Observable} from "rxjs";
+import {of} from "rxjs/observable/of";
 
 @Injectable()
 export class SyncService {
@@ -25,20 +24,19 @@ export class SyncService {
   constructor(private httpService: HTTPService, private storageService: StorageService, public events: Events, private alertCtrl: AlertController, private openNativeSettings: OpenNativeSettings, private callNumber: CallNumber, public loadingCtrl: LoadingController) {
     this.initSyncDone = !!localStorage.getItem(LOCAL_STORAGE.INIT_SYNC);
     if (!this.initSyncDone) {
-      this.loading.present().then(
-        () => {
-          this.events.subscribe('initSyncDone', () => {
-            localStorage.setItem(LOCAL_STORAGE.INIT_SYNC, 'true');
-            this.loading.dismissAll();
-          })
-        }
-      )
+      this.loading.present();
+      this.events.subscribe('initSyncDone', (data) => {
+        localStorage.setItem(LOCAL_STORAGE.INIT_SYNC, data.toString());
+        this.loading.dismissAll();
+      })
     }
   }
 
   startSync(): void {
-    this.loadOrder.push(this.getAtfs());
-    this.loadOrder.push(this.getDefects());
+    const microservicesListArray: Array<string> = ['Atfs', 'Defects', 'TestTypes'];
+    microservicesListArray.forEach((elem) => {
+      this.loadOrder.push(this.getDataFromMicroservice(elem));
+    });
     this.getAllData();
   }
 
@@ -51,24 +49,12 @@ export class SyncService {
     )
   }
 
-  getAtfs(): Observable<AtfModel[]> {
-    return this.httpService.getAtfs()
+  getDataFromMicroservice(microservice): Observable<AtfModel[]> {
+    return this.httpService['get' + microservice]()
       .pipe(
         map((data) => {
-          this.storageService.update(STORAGE.ATFS, data);
+          this.storageService.update(STORAGE[microservice.toUpperCase()], data);
           return data;
-        }),
-        retryWhen(genericRetryStrategy()),
-        catchError(() => of(undefined))
-      )
-  }
-
-  getDefects(): Observable<DefectsModel[]> {
-    return this.httpService.getDefects()
-      .pipe(
-        map((data) => {
-          this.storageService.update(STORAGE.DEFECTS, data);
-          return data
         }),
         retryWhen(genericRetryStrategy()),
         catchError(() => of(undefined))
