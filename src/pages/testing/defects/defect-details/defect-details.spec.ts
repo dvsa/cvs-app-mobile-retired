@@ -6,7 +6,6 @@ import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { of } from "rxjs/observable/of";
 
 describe('Component: DefectDetailsPage', () => {
   let comp: DefectDetailsPage;
@@ -157,6 +156,5 @@ describe('Component: DefectDetailsPage', () => {
   it('should check if the defect was added before', () => {
     comp.vehicleTest.addDefect(addedDefect);
     expect(comp.checkIfDefectWasAdded()).toBeTruthy();
-  })
-
+  });
 });
