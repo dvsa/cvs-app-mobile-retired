@@ -7,7 +7,7 @@ import {STORAGE} from "../../app/app.enums";
 
 @Injectable()
 export class AtfService {
-  orderedArray: any[] = [];
+  orderedArray: AtfModel[] = [];
 
   constructor(private storageService: StorageService) {
   }

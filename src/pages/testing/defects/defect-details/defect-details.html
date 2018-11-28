@@ -5,8 +5,7 @@
     </ion-title>
     <ion-buttons end>
       <button ion-button block color="light" (click)="addDefect()">
-        <span *ngIf="!isEdit">Add Defect</span>
-        <span *ngIf="isEdit">Done</span>
+        <span>{{ isEdit ? 'Done' : 'Add Defect' }}</span>
       </button>
     </ion-buttons>
   </ion-navbar>

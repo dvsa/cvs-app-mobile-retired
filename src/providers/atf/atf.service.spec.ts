@@ -10,7 +10,7 @@ describe('Provider: ATFService', () => {
   let spy: any;
 
   const atfData = AtfDataMock.AtfData;
-  let initialData: any[];
+  let initialData: AtfModel[];
   const properties: string[] = ['atfName', 'atfNumber', 'atfAddress'];
   let filter: string;
 

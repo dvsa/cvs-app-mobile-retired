@@ -1,11 +1,13 @@
 import { TestBed } from "@angular/core/testing";
 import { StorageService } from "../natives/storage.service";
 import { DefectsService } from "./defects.service";
+import { DEFICIENCY_CATEGORY } from "../../app/app.enums";
 
 describe('Provider: DefectsService', () => {
   let defectsService: DefectsService;
   let storageService: StorageService;
   let spy: any;
+  const category = DEFICIENCY_CATEGORY.MAJOR;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,7 +27,7 @@ describe('Provider: DefectsService', () => {
   });
 
   it('should return badge\'s correct color', () => {
-    expect(defectsService.getBadgeColor('Major')).toBe('danger')
+    expect(defectsService.getBadgeColor('major')).toBe('danger')
   });
 
 

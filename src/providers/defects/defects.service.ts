@@ -1,4 +1,5 @@
 import {Injectable} from "@angular/core";
+import { DEFICIENCY_CATEGORY } from "../../app/app.enums";
 
 @Injectable()
 export class DefectsService {
@@ -7,15 +8,15 @@ export class DefectsService {
 
   getBadgeColor(category) {
     switch (category.toLowerCase()) {
-      case 'dangerous':
+      case DEFICIENCY_CATEGORY.DANGEROUS:
         return 'dark';
-      case 'major':
+      case DEFICIENCY_CATEGORY.MAJOR:
         return 'danger';
-      case 'minor':
+      case DEFICIENCY_CATEGORY.MINOR:
         return 'attention';
-      case 'prs':
+      case DEFICIENCY_CATEGORY.PRS:
         return 'primary';
-      case 'advisory':
+      case DEFICIENCY_CATEGORY.ADVISORY:
         return 'light';
     }
   }

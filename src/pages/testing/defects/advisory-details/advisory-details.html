@@ -8,8 +8,7 @@
     <ion-title>Advisory details</ion-title>
     <ion-buttons end>
       <button ion-button (click)="submitAdvisory()">
-        <span *ngIf="!isEdit">Add Note</span>
-        <span *ngIf="isEdit">Done</span>
+        <span>{{ isEdit ? 'Done' : 'Add Note' }}</span>
       </button>
     </ion-buttons>
   </ion-navbar>

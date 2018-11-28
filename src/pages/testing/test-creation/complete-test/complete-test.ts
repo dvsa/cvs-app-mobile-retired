@@ -6,6 +6,7 @@ import { HTTPService } from "../../../../providers/global/http.service";
 import { DefectsReferenceData } from "../../../../models/defects/defects.model";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
+import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -38,14 +39,14 @@ export class CompleteTestPage {
 
   addDefect(): void {
     this.navCtrl.push('AddDefectCategoryPage', {
-      vehicleType: 'psv',
+      vehicleType: this.vehicle.getType(),
       vehicleTest: this.vehicleTest,
       defects: this.defectsCategories
     });
   }
 
   openDefect(defect: DefectDetailsModel): void {
-    if (defect.deficiencyCategory != 'Advisory') {
+    if (defect.deficiencyCategory.toLowerCase() != DEFICIENCY_CATEGORY.ADVISORY.toLowerCase()) {
       this.navCtrl.push('DefectDetailsPage', {
         vehicleTest: this.vehicleTest,
         deficiency: defect,
