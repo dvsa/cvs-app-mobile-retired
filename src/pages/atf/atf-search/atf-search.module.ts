@@ -4,7 +4,6 @@ import {ATFSearchPage} from "./atf-search";
 import {PipesModule} from "../../../pipes/pipes.module";
 import {DirectivesModule} from "../../../directives/directives.module";
 import {AtfService} from "../../../providers/atf/atf.service";
-import {SearchService} from "../../../providers/search.service";
 
 @NgModule({
   declarations: [
@@ -16,8 +15,7 @@ import {SearchService} from "../../../providers/search.service";
     IonicPageModule.forChild(ATFSearchPage),
   ],
   providers: [
-    AtfService,
-    SearchService
+    AtfService
   ]
 })
 export class AtfSearchModule {

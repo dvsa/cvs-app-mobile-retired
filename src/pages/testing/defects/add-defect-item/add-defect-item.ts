@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { VehicleTestModel } from "../../../../models/vehicle-test.model";
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {VehicleTestModel} from "../../../../models/vehicle-test.model";
+import {VehicleModel} from "../../../../models/vehicle.model";
+import {DefectCategoryModel, DefectItemModel} from "../../../../models/defects/defects.model";
 
 @IonicPage()
 @Component({
@@ -8,32 +10,22 @@ import { VehicleTestModel } from "../../../../models/vehicle-test.model";
   templateUrl: 'add-defect-item.html',
 })
 export class AddDefectItemPage {
+  vehicleType: string;
   vehicleTest: VehicleTestModel;
-  defectCategories: Object[];
-  parentDefectCategory: string;
-  parentDefectCategoryId;
-  additionalInfo;
-  forVehicleType;
+  category: DefectCategoryModel;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.vehicleTest = navParams.get('test');
-    this.defectCategories = navParams.get('defectCategoryTaxonomy');
-    this.parentDefectCategory = navParams.get('parentDefectCategory');
-    this.parentDefectCategoryId = navParams.get('parentDefectCategoryId');
-    this.additionalInfo = navParams.get('additionalInfo');
-    this.forVehicleType = navParams.get('forVehicleType');
+    this.vehicleType = navParams.get('vehicleType');
+    this.vehicleTest = navParams.get('vehicleTest');
+    this.category = navParams.get('category');
   }
 
-  selectedItem(item): void {
+  selectItem(item: DefectItemModel): void {
     this.navCtrl.push('AddDefectPage', {
-        test: this.vehicleTest,
-        defectCategoryTaxonomy: item.deficiencies,
-        parentDefectCategory: this.parentDefectCategory,
-        parentDefectCategoryId: this.parentDefectCategoryId,
-        parentDefectItem: item.itemDescription,
-        parentDefectItemId: item.itemNumber,
-        additionalInfo: this.additionalInfo,
-        forVehicleType: this.forVehicleType
+        vehicleType: this.vehicleType,
+        vehicleTest: this.vehicleTest,
+        category: this.category,
+        item: item
       }
     );
   }

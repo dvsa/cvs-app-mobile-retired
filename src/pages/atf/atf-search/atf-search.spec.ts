@@ -3,7 +3,6 @@ import {IonicModule, NavController} from "ionic-angular";
 import {ATFSearchPage} from "./atf-search";
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {AtfService} from "../../../providers/atf/atf.service";
-import {SearchService} from "../../../providers/search.service";
 
 describe('Component: ATFSearchPage', () => {
   let comp: ATFSearchPage;
@@ -20,7 +19,6 @@ describe('Component: ATFSearchPage', () => {
         IonicModule.forRoot(ATFSearchPage)
       ],
       providers: [
-        SearchService,
         NavController,
         {provide: AtfService, useValue: atfServiceSpy}
       ],
@@ -52,9 +50,5 @@ describe('Component: ATFSearchPage', () => {
       expect(injectService).toBe(atfService);
     })
   );
-
-  it('should return searched value as bold', () => {
-    expect(comp.boldSearchVal('test', 'es')).toBe('t<strong>es</strong>t')
-  });
 
 });

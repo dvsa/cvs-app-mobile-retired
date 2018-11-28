@@ -1,4 +1,4 @@
-import { DefectModel } from "./defect.model";
+import {DefectDetailsModel} from "./defects/defect-details.model";
 
 export class VehicleTestModel {
   private name: string;
@@ -8,7 +8,7 @@ export class VehicleTestModel {
   private date: Date;
   private odometerReading: number;
   private odometerMetric: string;
-  private defects: DefectModel[];
+  private defects: DefectDetailsModel[];
 
   constructor(name: string, hasPassed?: boolean, certificateExpirationDate?: Date, certificateLifespanInMonths?: number, date?: Date) {
     this.name = name;
@@ -52,7 +52,7 @@ export class VehicleTestModel {
     return this.odometerReading;
   }
 
-  getDefects(): DefectModel[] {
+  getDefects(): DefectDetailsModel[] {
     return this.defects;
   }
 
@@ -104,11 +104,11 @@ export class VehicleTestModel {
     this.odometerMetric = odometerMetric;
   }
 
-  addDefect(defect: DefectModel) {
+  addDefect(defect: DefectDetailsModel) {
     this.defects.push(defect);
   }
 
-  removeDefect(defect: DefectModel) {
+  removeDefect(defect: DefectDetailsModel) {
     let defIdx = this.defects.map((e) => {
       return e.ref
     }).indexOf(defect.ref);

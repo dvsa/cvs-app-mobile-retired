@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {VehicleTestModel} from '../../../../models/vehicle-test.model';
-import {DefectModel} from "../../../../models/defect.model";
+import {DefectCategoryModel, DefectDeficiencyModel, DefectItemModel} from "../../../../models/defects/defects.model";
+import {DefectsService} from "../../../../providers/defects/defects.service";
+import {DefectDetailsModel} from "../../../../models/defects/defect-details.model";
+import {DefectsMetadataModel} from "../../../../models/defects/defects-metadata.model";
 
 @IonicPage()
 @Component({
@@ -10,75 +12,83 @@ import {DefectModel} from "../../../../models/defect.model";
   templateUrl: 'add-defect.html'
 })
 export class AddDefectPage {
+  vehicleType: string;
   vehicleTest: VehicleTestModel;
-  defectCategories: Object[];
-  parentDefectCategory: string;
-  parentDefectCategoryId;
-  parentDefectItem;
-  parentDefectItemId;
-  additionalInfo;
-  forVehicleType;
-  defectClone: DefectModel;
+  category: DefectCategoryModel;
+  item: DefectItemModel;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private inAppBrowser: InAppBrowser) {
-    this.vehicleTest = navParams.get('test');
-    this.defectCategories = navParams.get('defectCategoryTaxonomy');
-    this.parentDefectCategory = navParams.get('parentDefectCategory');
-    this.parentDefectCategoryId = navParams.get('parentDefectCategoryId');
-    this.parentDefectItem = this.navParams.get('parentDefectItem');
-    this.parentDefectItemId = this.navParams.get('parentDefectItemId');
-    this.additionalInfo = navParams.get('additionalInfo');
-    this.forVehicleType = navParams.get('forVehicleType');
+  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService) {
+    this.vehicleType = navParams.get('vehicleType');
+    this.vehicleTest = navParams.get('vehicleTest');
+    this.category = navParams.get('category');
+    this.item = navParams.get('item');
   }
 
-  addDefect(defect: DefectModel): void {
-    this.vehicleTest.addDefect(defect);
-    this.navCtrl.pop();
-  }
+  selectDeficiency(deficiency: DefectDeficiencyModel): void {
+    let metadata: DefectsMetadataModel = {
+      category: {
+        imNumber: this.category.imNumber,
+        imDescription: this.category.imDescription,
+        additionalInfo: this.category.additionalInfo[this.vehicleType]
+      },
+      item: {
+        itemNumber: this.item.itemNumber,
+        itemDescription: this.item.itemDescription
+      }
+    };
 
-  selectedItem(item): void {
-    let additionalInfo = this.additionalInfo[this.forVehicleType[0]];
-    let defectRef = `${this.parentDefectCategoryId}.${this.parentDefectItemId} (${item.deficiencyId})`;
-    this.defectClone = new DefectModel(defectRef, item.deficiencyText, item.deficiencyCategory);
-    this.defectClone.deficiencyId = item.deficiencyId;
+    let defect: DefectDetailsModel = {
+      ref: deficiency.ref,
+      deficiencyCategory: deficiency.deficiencyCategory,
+      deficiencyId: deficiency.deficiencyId,
+      deficiencyText: deficiency.deficiencyText,
+      metadata: metadata,
+      prs: false,
+      notes: '',
+      location: {
+        vertical: '',
+        horizontal: '',
+        lateral: '',
+        longitudinal: '',
+        rowNumber: '',
+        seatNumber: '',
+        axleNumber: ''
+      }
+    };
 
     this.navCtrl.push('DefectDetailsPage', {
-      test: this.vehicleTest,
-      defect: this.defectClone.clone(),
-      parentDefectCategory: this.parentDefectCategory,
-      parentDefectCategoryId: this.parentDefectCategoryId,
-      parentDefectItem: this.parentDefectItem,
-      parentDefectItemId: this.parentDefectItemId,
-      additionalInfo: additionalInfo
+      vehicleTest: this.vehicleTest,
+      deficiency: defect,
+      isEdit: false
     });
   }
 
   addAdvisory() {
-    let defectRef = `${this.parentDefectCategoryId}.${this.parentDefectItemId}`;
+    const metadata: DefectsMetadataModel = {
+      category: {
+        imNumber: this.category.imNumber,
+        imDescription: this.category.imDescription,
+      },
+      item: {
+        itemNumber: this.item.itemNumber,
+        itemDescription: this.item.itemDescription
+      }
+    };
+
+    const advisory: DefectDetailsModel = {
+      ref: `${this.category.imNumber}.${this.item.itemNumber}`,
+      deficiencyCategory: 'Advisory',
+      metadata: metadata,
+      notes: ''
+    };
+
     this.navCtrl.push('AdvisoryDetailsPage', {
-      test: this.vehicleTest,
-      parentDefectCategory: this.parentDefectCategory,
-      parentDefectCategoryId: this.parentDefectCategoryId,
-      parentDefectItem: this.parentDefectItem,
-      parentDefectItemId: this.parentDefectItemId,
-      defectRef: defectRef
+      vehicleTest: this.vehicleTest,
+      advisory: advisory,
+      isEdit: false
     });
   }
 
-  getBadgeColor(category) {
-    switch (category.toLowerCase()) {
-      case 'dangerous':
-        return 'dark';
-      case 'major':
-        return 'danger';
-      case 'minor':
-        return 'attention';
-      case 'prs':
-        return 'primary';
-      case 'advisory':
-        return 'light';
-    }
-  }
 
 }
 

@@ -18,4 +18,8 @@ export class HTTPService {
   getAtfs() {
     return this.http.get<AtfModel[]>(`${AppConfig.API_URL}${API.GET_ATFS}`)
   }
+
+  getDefects() {
+    return this.http.get(`${AppConfig.API_URL}${API.GET_DEFECTS}`);
+  }
 }

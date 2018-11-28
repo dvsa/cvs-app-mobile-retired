@@ -8,7 +8,11 @@ describe('Provider: ATFService', () => {
   let atfService: AtfService;
   let storageService: StorageService;
   let spy: any;
-  let atfData = AtfDataMock.AtfData;
+
+  const atfData = AtfDataMock.AtfData;
+  let initialData: AtfModel[];
+  const properties: string[] = ['atfName', 'atfNumber', 'atfAddress'];
+  let filter: string;
 
   beforeEach(() => {
     spy = jasmine.createSpyObj('StorageService', {
@@ -37,6 +41,46 @@ describe('Provider: ATFService', () => {
         expect(data).toBe(<AtfModel[]>atfData)
       }
     )
+  });
+
+  it('should return searched value as bold', () => {
+    expect(atfService.boldSearchVal('test', 'es')).toBe('t<strong>es</strong>t')
+  });
+
+  it('should order the list', () => {
+    initialData = atfService.groupByLetter(atfData, 'atfName');
+    expect(Array.isArray(initialData[0])).toBe(true);
+  });
+
+  it('should return ATF by name', () => {
+    filter = 'An ATF Name';
+    let filteredData = atfService.sortAndSearchATF(initialData, filter, properties);
+
+    expect(filteredData.length).toEqual(1);
+    expect(filteredData[0][0].atfName).toEqual(filter);
+  });
+
+  it('should return ATF by address', () => {
+    filter = 'An ATF Address';
+    let filteredData = atfService.sortAndSearchATF(initialData, filter, properties);
+
+    expect(filteredData.length).toEqual(1);
+    expect(filteredData[0][0].atfAddress).toEqual(filter);
+  });
+
+  it('should return ATF by pNumber', () => {
+    filter = '123';
+    let filteredData = atfService.sortAndSearchATF(initialData, filter, properties);
+
+    expect(filteredData.length).toEqual(1);
+    expect(filteredData[0][0].atfNumber).toEqual(filter);
+  });
+
+  it('should return nothing by unrelated string', () => {
+    filter = 'xxx';
+    let filteredData = atfService.sortAndSearchATF(initialData, filter, properties);
+
+    expect(filteredData.length).toEqual(0);
   });
 
 });

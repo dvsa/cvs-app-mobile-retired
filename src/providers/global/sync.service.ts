@@ -58,7 +58,7 @@ export class SyncService {
           {
             text: 'Try again',
             handler: () => {
-              this.getAtfs()
+              this.getAtfs();
             }
           }
         ]
