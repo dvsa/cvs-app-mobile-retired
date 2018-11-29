@@ -3,7 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import { TestReportModel } from '../../../../models/test-report.model';
 import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
-import { PhoneService } from '../../../../providers/phone.service'
+import { PhoneService } from '../../../../providers/natives/phone.service'
 
 @IonicPage()
 @Component({

@@ -10,7 +10,7 @@ import { CallNumber } from '@ionic-native/call-number';
 import { MyApp } from './app.component';
 import { CameraService } from '../providers/natives/camera.service';
 import { HTTPService } from '../providers/global/http.service';
-import { PhoneService } from '../providers/phone.service';
+import { PhoneService } from '../providers/natives/phone.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AuthInterceptor } from "../providers/interceptors/auth.interceptor";
 import { IonicStorageModule } from "@ionic/storage";

@@ -1,5 +1,6 @@
 import {AfterViewInit, Directive, ElementRef, Input, OnDestroy, Renderer2} from '@angular/core';
 import {Events} from "ionic-angular";
+import { APP } from "../../app/app.enums";
 
 @Directive({
   selector: '[transforming-searchBar]'
@@ -33,7 +34,7 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
       }
     )
 
-    this.events.subscribe('navToDetails',
+    this.events.subscribe(APP.NAV_OUT,
       () => {
         this.setDefaultCss(scrollContent, navBarElement);
       }
@@ -43,7 +44,7 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
   ngOnDestroy() {
     this.searchBarElemRef.ionFocus.unsubscribe();
     this.searchBarElemRef.ionCancel.unsubscribe();
-    this.events.unsubscribe('navToDetails');
+    this.events.unsubscribe(APP.NAV_OUT);
   }
 
   private setDefaultCss(scrollContent, navBarElement): void {

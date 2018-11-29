@@ -1,6 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Events } from "ionic-angular";
-import { type } from "os";
 
 @Pipe({
   name: 'searchBy',
@@ -35,15 +33,5 @@ export class SearchPipe implements PipeTransform {
       }
     );
     return filteredArray
-    // return this.sortAlphabetically(filteredArray, properties[0]);
   }
-
-  private sortAlphabetically(array, keyToSort) {
-    return array.sort((a, b) => {
-      if (a[keyToSort] < b[keyToSort]) return -1;
-      if (a[keyToSort] > b[keyToSort]) return 1;
-      return 0;
-    })
-  }
-
 }

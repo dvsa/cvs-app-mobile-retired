@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ItemSliding, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
-import { DefectsReferenceData } from "../../../../models/defects/defects.model";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
+import { DefectCategoryModel } from "../../../../models/defects/defects.model";
 
 @IonicPage()
 @Component({
@@ -15,7 +15,7 @@ import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
 export class CompleteTestPage implements OnInit {
   vehicle: VehicleModel;
   vehicleTest: VehicleTestModel;
-  defectsCategories: DefectsReferenceData;
+  defectsCategories: DefectCategoryModel[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService, private alertCtrl: AlertController) {
     this.vehicle = navParams.get('vehicle');
@@ -24,7 +24,7 @@ export class CompleteTestPage implements OnInit {
 
   ngOnInit(): void {
     this.defectsService.getDefectsFromStorage().subscribe(
-      (defects: DefectsReferenceData) => {
+      (defects: DefectCategoryModel[]) => {
         this.defectsCategories = defects;
       }
     );

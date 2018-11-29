@@ -5,6 +5,7 @@ import {DefectCategoryModel, DefectDeficiencyModel, DefectItemModel} from "../..
 import {DefectsService} from "../../../../providers/defects/defects.service";
 import {DefectDetailsModel} from "../../../../models/defects/defect-details.model";
 import {DefectsMetadataModel} from "../../../../models/defects/defects-metadata.model";
+import { APP } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -27,7 +28,7 @@ export class AddDefectPage implements OnInit {
   }
 
   ngOnInit() {
-    this.filteredDeficiencies = this.defectsService.searchDeficiency(this.item.deficiencies, this.searchVal);
+    this.filteredDeficiencies = this.defectsService.searchDefect(this.item.deficiencies, this.searchVal, ['deficiencyId', 'deficiencyText']);
   }
 
   selectDeficiency(deficiency: DefectDeficiencyModel): void {
@@ -67,6 +68,7 @@ export class AddDefectPage implements OnInit {
       deficiency: defect,
       isEdit: false
     });
+    this.events.publish(APP.NAV_OUT);
   }
 
   addAdvisory() {
@@ -93,12 +95,12 @@ export class AddDefectPage implements OnInit {
       advisory: advisory,
       isEdit: false
     });
-    this.events.publish('navToDetails');
+    this.events.publish(APP.NAV_OUT);
   }
 
   searchList(e): void {
     this.searchVal = e.target.value;
-    this.filteredDeficiencies = this.defectsService.searchDeficiency(this.item.deficiencies, this.searchVal);
+    this.filteredDeficiencies = this.defectsService.searchDefect(this.item.deficiencies, this.searchVal, ['deficiencyId', 'deficiencyText']);
   }
 }
 

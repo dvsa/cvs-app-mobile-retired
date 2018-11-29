@@ -1,9 +1,5 @@
 import {AdditionalInfoModel} from "./additional-info.model";
 
-export interface DefectsReferenceData {
-  categories: DefectCategoryModel[]
-}
-
 export interface DefectCategoryModel {
   imNumber: number;
   imDescription: string;

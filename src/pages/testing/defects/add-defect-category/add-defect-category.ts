@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleTestModel } from "../../../../models/vehicle-test.model";
-import { DefectCategoryModel, DefectsReferenceData } from "../../../../models/defects/defects.model";
+import { DefectCategoryModel } from "../../../../models/defects/defects.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
+import { APP } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -23,14 +24,8 @@ export class AddDefectCategoryPage implements OnInit {
   }
 
   ngOnInit() {
-    this.filteredCategories = this.defectsService.searchDefectCategory(this.defectCategories, this.searchVal);
+    this.filteredCategories = this.defectsService.searchDefect(this.defectCategories, this.searchVal, ['imNumber', 'imDescription']);
   }
-
-  searchList(e): void {
-    this.searchVal = e.target.value;
-    this.filteredCategories = this.defectsService.searchDefectCategory(this.defectCategories, this.searchVal);
-  }
-
 
   selectCategory(category: DefectCategoryModel): void {
     this.navCtrl.push('AddDefectItemPage', {
@@ -38,6 +33,11 @@ export class AddDefectCategoryPage implements OnInit {
       vehicleTest: this.vehicleTest,
       category: category
     })
-    this.events.publish('navToDetails');
+    this.events.publish(APP.NAV_OUT);
+  }
+
+  searchList(e): void {
+    this.searchVal = e.target.value;
+    this.filteredCategories = this.defectsService.searchDefect(this.defectCategories, this.searchVal, ['imNumber', 'imDescription']);
   }
 }

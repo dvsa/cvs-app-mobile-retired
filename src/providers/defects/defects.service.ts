@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { DefectCategoryModel, DefectDeficiencyModel, DefectItemModel, DefectsReferenceData } from "../../models/defects/defects.model";
+import { DefectCategoryModel } from "../../models/defects/defects.model";
 import { Observable } from "rxjs";
 import { from } from "rxjs/observable/from";
 import { STORAGE } from "../../app/app.enums";
@@ -12,36 +12,23 @@ export class DefectsService {
   constructor(private storageService: StorageService) {
   }
 
-  getDefectsFromStorage(): Observable<DefectsReferenceData> {
+  getDefectsFromStorage(): Observable<DefectCategoryModel[]> {
     return from(this.storageService.read(STORAGE.DEFECTS))
   }
 
-  searchDefectCategory(array: DefectCategoryModel[], filter: string) {
+  searchDefect(array: any[], filter: string, properties: string[]) {
     if (!filter) return array;
     return array.filter(
       elem => {
-        if (elem.imNumber.toString() == filter) return elem;
-        if (elem.imDescription.toLowerCase().includes(filter.toLowerCase())) return elem;
-      }
-    );
-  }
-
-  searchDefectItem(array: DefectItemModel[], filter: string) {
-    if (!filter) return array;
-    return array.filter(
-      elem => {
-        if (elem.itemNumber.toString() == filter) return elem;
-        if (elem.itemDescription.toLowerCase().includes(filter.toLowerCase())) return elem;
-      }
-    );
-  }
-
-  searchDeficiency(array: DefectDeficiencyModel[], filter: string) {
-    if (!filter) return array;
-    return array.filter(
-      elem => {
-        if (elem.deficiencyId.toString() == filter) return elem;
-        if (elem.deficiencyText.toLowerCase().includes(filter.toLowerCase())) return elem;
+        return properties.some(
+          property => {
+            if (typeof elem[property] == "number") {
+              if (elem[property].toString() == filter) return true
+            } else {
+              if (elem[property].toLowerCase().includes(filter.toLowerCase())) return true;
+            }
+          }
+        )
       }
     );
   }

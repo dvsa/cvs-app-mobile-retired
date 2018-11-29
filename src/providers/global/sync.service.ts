@@ -3,7 +3,7 @@ import { HTTPService } from "./http.service";
 import { catchError, map, retryWhen } from "rxjs/operators";
 import { genericRetryStrategy } from "../utils/rxjs.utils";
 import { AtfModel } from "../../models/atf.model";
-import { LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
+import { APP, STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
 import { AlertController, Events, LoadingController } from "ionic-angular";
 import { KEYS } from "../../../config/config.enums";
@@ -12,7 +12,7 @@ import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { CallNumber } from "@ionic-native/call-number";
 import { Observable } from "rxjs";
 import { of } from "rxjs/observable/of";
-import { DefectCategoryModel, DefectsReferenceData } from "../../models/defects/defects.model";
+import { DefectCategoryModel } from "../../models/defects/defects.model";
 
 @Injectable()
 export class SyncService {
@@ -23,12 +23,12 @@ export class SyncService {
   loadOrder: Observable<any>[] = [];
 
   constructor(private httpService: HTTPService, private storageService: StorageService, public events: Events, private alertCtrl: AlertController, private openNativeSettings: OpenNativeSettings, private callNumber: CallNumber, public loadingCtrl: LoadingController) {
-    this.initSyncDone = !!localStorage.getItem(LOCAL_STORAGE.INIT_SYNC);
+    this.initSyncDone = !!localStorage.getItem(APP.INIT_SYNC);
     if (!this.initSyncDone) {
       this.loading.present().then(
         () => {
           this.events.subscribe('initSyncDone', () => {
-            localStorage.setItem(LOCAL_STORAGE.INIT_SYNC, 'true');
+            localStorage.setItem(APP.INIT_SYNC, 'true');
             this.loading.dismissAll();
           })
         }
@@ -89,7 +89,7 @@ export class SyncService {
       }
     )
     if (this.loadOrder.length == 0) {
-      this.events.publish('initSyncDone', true);
+      this.events.publish(APP.INIT_SYNC, true);
     } else {
       this.handleError();
     }

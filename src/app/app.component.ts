@@ -1,5 +1,5 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
-import { Platform, AlertController, Events, LoadingController } from 'ionic-angular';
+import { Component, Renderer2 } from '@angular/core';
+import { Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { KEYS } from "../../config/config.enums";
@@ -21,14 +21,14 @@ export class MyApp {
       splashScreen.hide();
 
       // Mobile accessibility
-      // if (platform.is('cordova')) {
-      //   this.accessibilityFeatures();
-      // }
+      if (platform.is('cordova')) {
+        this.accessibilityFeatures();
+      }
 
       // Resuming app from background Mobile Accessibility
-      // platform.resume.subscribe(() => {
-      //   this.accessibilityFeatures();
-      // });
+      platform.resume.subscribe(() => {
+        this.accessibilityFeatures();
+      });
 
       // Load Google Maps Library
       let node = document.createElement('script');
@@ -47,7 +47,7 @@ export class MyApp {
         });
         alert.present();
       });
-    this.syncService.startSync();
+      this.syncService.startSync();
     });
   }
 

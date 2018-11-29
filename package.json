@@ -12,7 +12,7 @@
     "generate-env": "node ./config/scripts/replace.env",
     "preionic:serve": "npm run-script generate-env --dev",
     "ionic:serve": "ionic-app-scripts serve --nobrowser",
-    "prebuild-ios": "npm run-script generate-env --pipeline",
+    "prebuild-ios": "npm run-script generate-env --dev",
     "build-ios": "ionic-app-scripts build --target cordova --platform ios",
     "test": "karma start ./test-config/karma.conf.js",
     "test-watch": "karma start ./test-config/karma.conf.js --watch",
