@@ -2,12 +2,12 @@ import { DefectLocationModel } from "../defect-location.model";
 
 export interface DefectsMetadataModel {
   category: {
-    imNumber: string;
+    imNumber: number;
     imDescription: string
     additionalInfo?: AdditionalInfoMetadataModel,
   },
   item: {
-    itemNumber: string;
+    itemNumber: number;
     itemDescription: string
   }
 }

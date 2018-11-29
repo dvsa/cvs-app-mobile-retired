@@ -1,5 +1,6 @@
 import {AfterViewInit, Directive, ElementRef, Input, OnDestroy, Renderer2} from '@angular/core';
 import {Events} from "ionic-angular";
+import { APP } from "../../app/app.enums";
 
 @Directive({
   selector: '[transforming-searchBar]'
@@ -27,13 +28,13 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
 
     this.searchBarElemRef.ionCancel.subscribe(
       () => {
-        this.renderer.setStyle(scrollContent, 'margin-top', '130px');
+        this.renderer.setStyle(scrollContent, 'margin-top', '150px');
         this.renderer.setStyle(scrollContent, 'margin-bottom', '0');
         this.renderer.setStyle(navBarElement, 'display', 'block');
       }
     )
 
-    this.events.subscribe('navToDetails',
+    this.events.subscribe(APP.NAV_OUT,
       () => {
         this.setDefaultCss(scrollContent, navBarElement);
       }
@@ -43,11 +44,11 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
   ngOnDestroy() {
     this.searchBarElemRef.ionFocus.unsubscribe();
     this.searchBarElemRef.ionCancel.unsubscribe();
-    this.events.unsubscribe('navToDetails');
+    this.events.unsubscribe(APP.NAV_OUT);
   }
 
   private setDefaultCss(scrollContent, navBarElement): void {
-    this.renderer.setStyle(scrollContent, 'margin-top', '130px');
+    this.renderer.setStyle(scrollContent, 'margin-top', '150px');
     this.renderer.setStyle(scrollContent, 'margin-bottom', '0');
     this.renderer.setStyle(navBarElement, 'display', 'block');
   }

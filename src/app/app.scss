@@ -147,3 +147,11 @@ ion-item-group {
     }
   }
 }
+
+.no-result {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}

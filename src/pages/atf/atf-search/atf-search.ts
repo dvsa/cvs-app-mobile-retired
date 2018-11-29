@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Events, IonicPage, NavController} from 'ionic-angular';
 import {AtfModel} from '../../../models/atf.model';
 import {AtfService} from '../../../providers/atf/atf.service'
+import { APP } from "../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -47,7 +48,7 @@ export class ATFSearchPage implements OnInit {
   }
 
   private clearSearch(): void {
-    this.events.publish('navToDetails');
+    this.events.publish(APP.NAV_OUT);
     this.searchVal = '';
     this.filteredAtfs = this.atfService.sortAndSearchATF(this.atfs, this.searchVal, ['atfName']);
   }

@@ -1,5 +1,11 @@
 export enum STORAGE {
-  ATFS = 'atfs'
+  ATFS = 'atfs',
+  DEFECTS = 'defects'
+}
+
+export enum APP {
+  INIT_SYNC = 'initSyncDone',
+  NAV_OUT = 'navigatedOutOfPage'
 }
 
 export enum DEFICIENCY_CATEGORY {

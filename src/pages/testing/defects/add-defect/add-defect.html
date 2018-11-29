@@ -1,21 +1,27 @@
-<ion-header>
+<ion-header transforming-searchBar [searchBarElemRef]="searchBar">
   <ion-navbar>
     <ion-title>
-      Defect description
+      Defect item
     </ion-title>
   </ion-navbar>
   <ion-toolbar>
-    <ion-searchbar [(ngModel)]="term" placeholder="Search for a defect category or IM number"></ion-searchbar>
+    <ion-searchbar (ionInput)="searchList($event)"
+                   [(ngModel)]="searchVal"
+                   [showCancelButton]="true"
+                   [cancelButtonText]="'Cancel'"
+                   placeholder="Search for a defect category or IM number"
+                   #searchBar>
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list text-wrap class="full-dividers-list">
+  <ion-list text-wrap class="full-dividers-list" *ngIf="filteredDeficiencies.length > 0">
     <ion-item-divider color="light">
       {{ category.imNumber }}.{{ item.itemNumber }} {{ item.itemDescription }}
     </ion-item-divider>
     <ion-item detail-none class="defect-details"
-              *ngFor="let deficiency of item.deficiencies | searchBy: term"
+              *ngFor="let deficiency of filteredDeficiencies | byVehicleType: vehicleType"
               (click)="selectDeficiency(deficiency)">
       <span>
           <h3>
@@ -38,4 +44,10 @@
     </button>
 
   </ion-list>
+
+  <div *ngIf="filteredDeficiencies.length == 0" class="no-result">
+    <h3>No results found</h3>
+    <span>Try searching for a different term or</span>
+    <span>picking from the list</span>
+  </div>
 </ion-content>

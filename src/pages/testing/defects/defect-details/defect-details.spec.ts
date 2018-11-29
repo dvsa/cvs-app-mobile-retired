@@ -34,11 +34,11 @@ describe('Component: DefectDetailsPage', () => {
           },
           notes: false
         },
-        imNumber: '1',
+        imNumber: 1,
         imDescription: 'test'
       },
       item: {
-        itemNumber: '1',
+        itemNumber: 1,
         itemDescription: 'test2'
       }
     },
@@ -49,9 +49,9 @@ describe('Component: DefectDetailsPage', () => {
       horizontal: '',
       lateral: '',
       longitudinal: '',
-      rowNumber: '',
-      seatNumber: '',
-      axleNumber: ''
+      rowNumber: null,
+      seatNumber: null,
+      axleNumber: null
     }
   };
 
@@ -74,11 +74,11 @@ describe('Component: DefectDetailsPage', () => {
           },
           notes: false
         },
-        imNumber: '1',
+        imNumber: 1,
         imDescription: 'test'
       },
       item: {
-        itemNumber: '1',
+        itemNumber: 1,
         itemDescription: 'test2'
       }
     },
@@ -89,9 +89,9 @@ describe('Component: DefectDetailsPage', () => {
       horizontal: '',
       lateral: '',
       longitudinal: '',
-      rowNumber: '',
-      seatNumber: '',
-      axleNumber: ''
+      rowNumber: null,
+      seatNumber: null,
+      axleNumber: null
     }
   };
   const isEdit: boolean = false;

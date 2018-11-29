@@ -1,10 +1,37 @@
-import {Injectable} from "@angular/core";
+import { Injectable } from "@angular/core";
+import { DefectCategoryModel } from "../../models/defects/defects.model";
+import { Observable } from "rxjs";
+import { from } from "rxjs/observable/from";
+import { STORAGE } from "../../app/app.enums";
+import { StorageService } from "../natives/storage.service";
 import { DEFICIENCY_CATEGORY } from "../../app/app.enums";
 
 @Injectable()
 export class DefectsService {
 
-  constructor() {}
+  constructor(private storageService: StorageService) {
+  }
+
+  getDefectsFromStorage(): Observable<DefectCategoryModel[]> {
+    return from(this.storageService.read(STORAGE.DEFECTS))
+  }
+
+  searchDefect(array: any[], filter: string, properties: string[]) {
+    if (!filter) return array;
+    return array.filter(
+      elem => {
+        return properties.some(
+          property => {
+            if (typeof elem[property] == "number") {
+              if (elem[property].toString() == filter) return true
+            } else {
+              if (elem[property].toLowerCase().includes(filter.toLowerCase())) return true;
+            }
+          }
+        )
+      }
+    );
+  }
 
   getBadgeColor(category) {
     switch (category.toLowerCase()) {

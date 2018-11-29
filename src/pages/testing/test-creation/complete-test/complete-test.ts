@@ -1,31 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController, ItemSliding, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
-import { HTTPService } from "../../../../providers/global/http.service";
-import { DefectsReferenceData } from "../../../../models/defects/defects.model";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
+import { DefectCategoryModel } from "../../../../models/defects/defects.model";
 
 @IonicPage()
 @Component({
   selector: 'page-complete-test',
   templateUrl: 'complete-test.html'
 })
-export class CompleteTestPage {
+export class CompleteTestPage implements OnInit {
   vehicle: VehicleModel;
   vehicleTest: VehicleTestModel;
-  defectsCategories: DefectsReferenceData;
+  defectsCategories: DefectCategoryModel[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private httpService: HTTPService, public defectsService: DefectsService, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService, private alertCtrl: AlertController) {
     this.vehicle = navParams.get('vehicle');
     this.vehicleTest = navParams.get('vehicleTest');
-    this.httpService.getDefects().subscribe(
-      (data: DefectsReferenceData) => {
-        this.defectsCategories = data
+  }
+
+  ngOnInit(): void {
+    this.defectsService.getDefectsFromStorage().subscribe(
+      (defects: DefectCategoryModel[]) => {
+        this.defectsCategories = defects;
       }
-    )
+    );
   }
 
   finishTest(): void {
