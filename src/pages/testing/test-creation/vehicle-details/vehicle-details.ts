@@ -31,6 +31,11 @@ export class VehicleDetailsPage {
     }
   }
 
+  goToPreparerPage(): void {
+    this.testReport.addVehicle(this.vehicle);
+    this.navCtrl.push('AddPreparerPage', {testReport: this.testReport});
+  }
+
   refuseVehicle(): void {
 
   }

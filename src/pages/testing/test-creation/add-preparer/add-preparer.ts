@@ -1,0 +1,78 @@
+import { Component, OnInit } from '@angular/core';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { PreparerService } from "../../../../providers/preparer/preparer.service";
+import { TestReportModel } from "../../../../models/test-report.model";
+import { PreparersModel } from "../../../../models/preparers/preparers.model";
+
+
+@IonicPage()
+@Component({
+  selector: 'page-add-preparer',
+  templateUrl: 'add-preparer.html',
+})
+export class AddPreparerPage implements OnInit {
+  preparers: PreparersModel[] = [];
+  filteredPreparers: PreparersModel[] = [];
+  testReport: TestReportModel;
+  searchValue: string;
+  searchbarFocus: boolean = false;
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public preparerService: PreparerService,
+              private alertCtrl: AlertController) {
+
+    this.testReport = this.navParams.get('testReport');
+  }
+
+  ngOnInit() {
+    this.getPreparers();
+  }
+
+  getPreparers(): void {
+    this.preparerService.getPreparersFromStorage().subscribe(
+      (data: PreparersModel[]) => {
+        this.preparers = this.filteredPreparers = this.preparerService.search(data, this.searchValue);
+      });
+  }
+
+  cancelPreparer(): void {
+    this.navCtrl.pop();
+  }
+
+  selectPreparer(preparer?: PreparersModel): void {
+    this.testReport.addPreparer(preparer);
+  }
+
+  presentConfirm(preparer?): void {
+    let alert = this.alertCtrl.create({
+      title: preparer ? 'Confirm preparer' : 'Continue without preparerID',
+      message: preparer ? `You have selected ${preparer.preparerId} as the preparer of this vehicle for testing.` : 'You will not be able to add a preparer for this vehicle later.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: () => {
+            this.selectPreparer(preparer);
+            this.navCtrl.push('TestCreatePage', {testReport: this.testReport});
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  searchList(ev): void {
+    this.searchValue = ev.target.value;
+    this.filteredPreparers = this.preparerService.search(this.preparers, this.searchValue);
+  }
+
+  detectFocus(): void {
+    this.searchbarFocus = !this.searchbarFocus;
+  }
+}

@@ -1,0 +1,50 @@
+<ion-header transforming-searchBar [searchBarElemRef]="searchBar">
+  <ion-navbar hideBackButton="true">
+    <ion-buttons start>
+      <button ion-button (click)="cancelPreparer()">
+        <ion-icon ios="ios-arrow-back" class="button__custom-back"></ion-icon>
+        Vehicle details
+      </button>
+    </ion-buttons>
+    <ion-title>Select preparer</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-searchbar #searchBar
+                   (ionInput)="searchList($event)"
+                   [(ngModel)]="searchValue"
+                   [showCancelButton]="true"
+                   [cancelButtonText]="'Cancel'"
+                   (ionFocus)="detectFocus()"
+                   (ionCancel)="detectFocus()"
+                   placeholder="Search for preparer ID number"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding>
+  <ion-list *ngIf="filteredPreparers.length > 0">
+    <button ion-item no-lines padding-left (click)="presentConfirm()" class="min-height" *ngIf="!searchbarFocus">
+      No preparer ID given
+    </button>
+    <ion-list-header text-uppercase padding-left *ngIf="!searchbarFocus">List of preparers</ion-list-header>
+    <button ion-item detail-none padding-left
+            *ngFor="let preparer of filteredPreparers"
+            (click)="presentConfirm(preparer)" class="min-height">
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-3 text-start><span text-left>{{ preparer.preparerId }}</span></ion-col>
+          <ion-col col-9 text-end><span class="item__preparer-name truncate-text">{{ preparer.preparerName }}</span></ion-col>
+        </ion-row>
+      </ion-grid>
+    </button>
+  </ion-list>
+  <ion-grid *ngIf="searchbarFocus && filteredPreparers.length == 0"
+            [ngClass]="filteredPreparers.length == 0 ? 'noResults' : ''">
+    <ion-row align-items-center>
+      <ion-col col-8 offset-2>
+        <span text-center class="no-results__title">No results found</span>
+        <span text-center class="no-results__text">You can search for a preparer by its ID number</span>
+        <span text-center class="no-results__link" (click)="presentConfirm()">Continue without preparer ID</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

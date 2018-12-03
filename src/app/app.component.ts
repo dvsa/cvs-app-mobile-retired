@@ -15,7 +15,6 @@ export class MyApp {
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private alertCtrl: AlertController, private syncService: SyncService, private authService: AuthService, private mobileAccessibility: MobileAccessibility, private renderer: Renderer2) {
     platform.ready().then(() => {
-      // statusBar.styleDefault();
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
       splashScreen.hide();

@@ -23,6 +23,7 @@ import { VehicleTestCategoryService } from "../providers/vehicle-test-category.s
 import { WheelSelector } from "@ionic-native/wheel-selector";
 import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
 import { SyncService } from "../providers/global/sync.service";
+import { PreparerService } from '../providers/preparer/preparer.service';
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -41,6 +42,7 @@ const CUSTOM_PROVIDERS = [
   VehicleTestCategoryService,
   PhoneService,
   CameraService,
+  PreparerService
 ];
 
 const IONIC_NATIVE_PROVIDERS = [
