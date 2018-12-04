@@ -51,7 +51,7 @@ describe('Component: CompleteTestPage', () => {
   };
 
   const vehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
-  const vehicle = new VehicleModel('aa12bcd', 'vinRosu', 'psv', 4, 'german', 'cabrio', 123);
+  const vehicle = new VehicleModel('aa12bcd', '123456', 'psv', 4, 'german', 'cabrio', 123);
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {

@@ -31,6 +31,11 @@ export class VehicleModel {
     this.vehicleTests.push(vehicleTest);
   }
 
+  removeVehicleTest(vehicleTest: VehicleTestModel) {
+    const foundIndex = this.vehicleTests.indexOf(vehicleTest);
+    this.vehicleTests.splice(foundIndex, 1);
+  }
+
   getVehicleTests(): VehicleTestModel[] {
     return this.vehicleTests;
   }
