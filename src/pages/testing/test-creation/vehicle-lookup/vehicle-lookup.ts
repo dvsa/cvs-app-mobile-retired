@@ -13,6 +13,7 @@ import {VehicleModel} from "../../../../models/vehicle.model";
 export class VehicleLookupPage {
   testReport: TestReportModel;
   visit: VisitModel;
+  searchVal: string = '';
 
   constructor(public navCtrl: NavController,
               private navParams: NavParams,
@@ -20,6 +21,9 @@ export class VehicleLookupPage {
     this.testReport = navParams.get('testReport');
     this.visit = navParams.get('visit');
   }
+  ionViewWillEnter() {
+    this.searchVal = '';
+  };
 
   searchVehicle(ev: any): void {
     let searchedValue = ev.target.value;

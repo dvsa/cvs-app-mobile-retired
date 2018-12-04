@@ -10,7 +10,7 @@
         </ion-title>
     </ion-navbar>
     <ion-toolbar>
-        <ion-searchbar placeholder="Enter registration or VIN" (search)="searchVehicle($event)"></ion-searchbar>
+        <ion-searchbar [(ngModel)]="searchVal" placeholder="Enter registration or VIN" (search)="searchVehicle($event)"></ion-searchbar>
     </ion-toolbar>
 </ion-header>
 
