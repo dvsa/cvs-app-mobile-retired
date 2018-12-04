@@ -19,7 +19,6 @@ import { AuthService } from "../providers/global/auth.service";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { VehicleService } from "../providers/vehicle.service";
 import { VehicleTestService } from "../providers/vehicle-test.service";
-import { VehicleTestCategoryService } from "../providers/vehicle-test-category.service";
 import { WheelSelector } from "@ionic-native/wheel-selector";
 import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
 import { SyncService } from "../providers/global/sync.service";
@@ -40,7 +39,6 @@ const CUSTOM_PROVIDERS = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   VehicleService,
   VehicleTestService,
-  VehicleTestCategoryService,
   PhoneService,
   CameraService,
   PreparerService,

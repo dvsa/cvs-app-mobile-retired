@@ -14,10 +14,10 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content no-padding>
+<ion-content no-padding class="content-background-color-grey">
   <ion-grid no-padding>
     <ion-list>
-      <ion-item-divider padding-left color="light">DEFECT ITEM</ion-item-divider>
+      <ion-item-divider padding-left>DEFECT ITEM</ion-item-divider>
       <ion-item no-lines padding-left>
         <ion-row class="advisory__item-status" align-items-center justify-content-start>
           {{ advisory.ref }}
@@ -27,7 +27,7 @@
           {{ advisory.metadata.item.itemDescription }}
         </ion-row>
       </ion-item>
-      <ion-item-divider padding-left color="light">NOTES</ion-item-divider>
+      <ion-item-divider padding-left>NOTES</ion-item-divider>
       <ion-item no-lines padding-horizontal>
         <ion-textarea maxlength="200" rows="5" [(ngModel)]="advisory.notes" placeholder="Add Notes">
           Notes

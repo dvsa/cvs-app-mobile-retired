@@ -10,6 +10,7 @@ import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DefectsDataMock } from "../../../../../test-config/data-mocks/defects-data.mock";
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
+import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -21,10 +22,10 @@ describe('Component: CompleteTestPage', () => {
   let alertCtrl: AlertController;
   let storageServiceSpy: any;
 
-  const defects: DefectCategoryModel[] =  DefectsDataMock.DefectsData
+  const defects: DefectCategoryModel[] = DefectsDataMock.DefectsData
   const addedDefect: DefectDetailsModel = {
     ref: '1.1.a',
-    deficiencyCategory: 'Major',
+    deficiencyCategory: DEFICIENCY_CATEGORY.MAJOR,
     deficiencyId: 'a',
     deficiencyText: 'missing',
     metadata: {
@@ -51,7 +52,7 @@ describe('Component: CompleteTestPage', () => {
   };
 
   const vehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
-  const vehicle = new VehicleModel('aa12bcd', '123456', 'psv', 4, 'german', 'cabrio', 123);
+  const vehicle = new VehicleModel('aa12bcd', 'vinRosu', 'psv', 4, 'german', 'cabrio', 123, 'rigid', 'small');
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {

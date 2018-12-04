@@ -80,7 +80,9 @@ export class SyncService {
     if (this.loadOrder.length == 0) {
       this.events.publish(APP.INIT_SYNC, true);
     } else {
-      this.handleError();
+      if (!this.initSyncDone) {
+        this.handleError();
+      }
     }
   }
 

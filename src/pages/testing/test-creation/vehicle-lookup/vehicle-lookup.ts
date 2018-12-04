@@ -30,7 +30,6 @@ export class VehicleLookupPage {
 
   searchVehicle(ev: any): void {
     let searchedValue = ev.target.value;
-
     this.vehicleService.searchVehicle(searchedValue).subscribe(
         (vehicleFound: VehicleModel) => {
           if (vehicleFound != null) {

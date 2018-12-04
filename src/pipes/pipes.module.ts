@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { SearchPipe } from "./search/search.pipe";
-import { ByVehicleTypePipe } from "./filter/by-vehicle-type";
+import { ByVehicleTypePipe } from "./by-vehicle-type/by-vehicle-type";
+import { FilterTestTypeByVehiclePipe } from './filter-test-type-by-vehicle/filter-test-type-by-vehicle.pipe';
 
 const PIPES = [
   SearchPipe,
   ByVehicleTypePipe,
+  FilterTestTypeByVehiclePipe
 ];
 
 @NgModule({
   declarations: [
-    ...PIPES
+    ...PIPES,
   ],
   imports: [],
   exports: [
-    ...PIPES
+    ...PIPES,
   ]
 })
 

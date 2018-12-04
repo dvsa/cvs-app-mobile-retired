@@ -9,7 +9,7 @@ import { TEST_REPORT_TITLES } from "../../app/app.enums";
 describe('Provider: TestReportService', () => {
   let testReportService: TestReportService;
 
-  const vehicle = new VehicleModel('aa12bcd', '123456', 'psv', 4, 'german', 'cabrio', 123);
+  const vehicle = new VehicleModel('aa12bcd', '123456', 'psv', 4, 'german', 'cabrio', 123, 'rigid', 'small');
   const vehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
 
   const preparerData = PreparersDataMock.PreparersData;

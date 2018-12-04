@@ -24,7 +24,7 @@ describe('Component: TestCreatePage', () => {
     preparer: null
   };
   const addedVehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
-  const vehicle = new VehicleModel('aa12bcd', '123456', 'psv', 4, 'german', 'cabrio', 123);
+  const vehicle = new VehicleModel('aa12bcd', '123456', 'psv', 4, 'german', 'cabrio', 123, 'rigid', 'small');
 
   beforeEach(async(() => {
     phoneServiceSpy = jasmine.createSpyObj('phoneService', ['callPhoneNumber']);

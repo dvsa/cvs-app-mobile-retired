@@ -1,9 +1,9 @@
-import {AddPreparerPage} from "./add-preparer";
-import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-import {PreparerService} from "../../../../providers/preparer/preparer.service";
-import {IonicModule, NavController} from "ionic-angular";
-import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
-import {PreparersModel} from "../../../../models/reference-data-models/preparers.model";
+import { AddPreparerPage } from "./add-preparer";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { PreparerService } from "../../../../providers/preparer/preparer.service";
+import { IonicModule, NavController } from "ionic-angular";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { PreparersModel } from "../../../../models/reference-data-models/preparers.model";
 import {TestReportService} from "../../../../providers/test-report/test-report.service";
 
 

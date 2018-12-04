@@ -30,8 +30,8 @@ let historyTest3 = new VehicleTestModel("Annual test", true, new Date(2016, 5, 1
 let historyTest4 = new VehicleTestModel("Annual test", true, new Date(2018, 5, 8), null, new Date(2017, 5, 8));
 let historyTest5 = new VehicleTestModel("Annual test", true, new Date(2017, 5, 14), null, new Date(2016, 5, 14));
 
-let vehicle1 = new VehicleModel("AA12 BCD", "123ADF213DAS", "psv", 3, "IVECO", "1S34RS", 12354, [historyTest3, historyTest4, historyTest5]);
-let vehicle2 = new VehicleModel("AB34 ERT", "123ADF213DAS", "Trailer", 2, "DENNISON", "REFRIGERATOR", 45125, [historyTest1, historyTest2]);
+let vehicle1 = new VehicleModel("AA12 BCD", "123ADF213DAS", "psv", 2, "IVECO", "1S34RS", 12354, 'rigid', 'small', [historyTest3, historyTest4, historyTest5]);
+let vehicle2 = new VehicleModel("AB34 ERT", "123ADF213DAS", "trailer", 2, "DENNISON", "REFRIGERATOR", 45125,'articulated', 'large',[historyTest1, historyTest2]);
 
 export const VEHICLES: VehicleModel[] = [
   vehicle1,

@@ -7,7 +7,7 @@ page-add-preparer {
   }
 
   .item__preparer-name {
-    color: $light-gray;
+    color: $item-icon-light-gray;
   }
 
   .truncate-text {
@@ -27,13 +27,13 @@ page-add-preparer {
   .no-results__title {
     font-size: 19px;
     font-weight: 600;
-    color: $light-gray;
+    color: $item-icon-light-gray;
     display: inherit;
   }
 
   .no-results__text {
     font-size: 16px;
-    color: $light-gray;
+    color: $item-icon-light-gray;
     display: inherit;
   }
 
