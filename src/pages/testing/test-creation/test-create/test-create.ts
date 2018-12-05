@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import { Component, ViewChild, QueryList, ViewChildren } from '@angular/core';
+import {IonicPage, NavController, NavParams, AlertController, ItemSliding} from 'ionic-angular';
 import { TestReportModel } from '../../../../models/test-report.model';
 import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
@@ -13,9 +13,21 @@ import { PhoneService } from '../../../../providers/natives/phone.service'
 export class TestCreatePage {
 
   testReport: TestReportModel;
+  @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public phoneService: PhoneService) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public phoneService: PhoneService,
+              public alertCtrl: AlertController) {
     this.testReport = navParams.get('testReport');
+  }
+
+  ionViewWillLeave() {
+    if(this.slidingItems.length) {
+      this.slidingItems.forEach(slidingItem => {
+        slidingItem.close();
+      });
+    }
   }
 
 	presentSearchVehicle(): void {
@@ -40,6 +52,32 @@ export class TestCreatePage {
 
   addATFIssue(): void {
     this.navCtrl.push('ATFIssuePage');
+  }
+
+  onRemoveVehicleTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel, slidingItem: ItemSliding) {
+    slidingItem.close();
+    const alert = this.alertCtrl.create({
+      title: 'Remove test',
+      message: 'This action will remove this test from the vehicle.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Remove',
+          handler: () => {
+            this.removeVehicleTest(vehicle, vehicleTest);
+          }
+        }
+      ]
+    });
+
+    alert.present();
+  }
+
+  removeVehicleTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
+    vehicle.removeVehicleTest(vehicleTest);
   }
 
 }

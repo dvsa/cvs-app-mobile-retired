@@ -112,7 +112,7 @@ export class VehicleTestModel {
     let defIdx = this.defects.map((e) => {
       return e.ref
     }).indexOf(defect.ref);
-    this.defects.splice(defIdx);
+    this.defects.splice(defIdx, 1);
   }
 
 }
