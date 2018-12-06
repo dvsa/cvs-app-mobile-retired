@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Events, IonicPage, NavController} from 'ionic-angular';
-import {AtfModel} from '../../../models/atf.model';
+import {AtfReferenceDataModel} from '../../../models/reference-data-models/atf.model';
 import {AtfService} from '../../../providers/atf/atf.service'
 import { APP } from "../../../app/app.enums";
 
@@ -11,8 +11,8 @@ import { APP } from "../../../app/app.enums";
 })
 export class ATFSearchPage implements OnInit {
   @ViewChild('searchBar') searchBar
-  atfs: AtfModel[] = [];
-  filteredAtfs: AtfModel[] = [];
+  atfs: AtfReferenceDataModel[] = [];
+  filteredAtfs: AtfReferenceDataModel[] = [];
   searchVal: string = '';
 
   constructor(public navCtrl: NavController, public events: Events, private atfService: AtfService) {
@@ -24,13 +24,13 @@ export class ATFSearchPage implements OnInit {
 
   getAtfs(): void {
     this.atfService.getAtfsFromStorage().subscribe(
-      (atfs: AtfModel[]) => {
+      (atfs: AtfReferenceDataModel[]) => {
         this.atfs = this.filteredAtfs = this.atfService.sortAndSearchATF(atfs, this.searchVal, ['atfName']);
       }
     );
   }
 
-  openATF(atf: AtfModel): void {
+  openATF(atf: AtfReferenceDataModel): void {
     this.navCtrl.push('ATFDetailsPage', {atf: atf}).then(
       () => {
         this.clearSearch();

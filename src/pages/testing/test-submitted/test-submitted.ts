@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {SocialSharing} from '@ionic-native/social-sharing';
 import {TestReportModel} from '../../../models/test-report.model';
 import {API} from "../../../../config/config.enums";
+import {TestReportService} from "../../../providers/test-report/test-report.service";
 
 @IonicPage()
 @Component({
@@ -12,8 +13,11 @@ import {API} from "../../../../config/config.enums";
 export class TestSubmittedPage {
   testReport: TestReportModel;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing) {
-    this.testReport = navParams.get('testReport');
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private socialSharing: SocialSharing,
+              private testReportService: TestReportService) {
+    this.testReport = this.testReportService.getTestReport();
   }
 
   finishTest(): void {

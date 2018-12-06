@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { DefectCategoryModel } from "../../models/defects/defects.model";
+import { DefectCategoryModel } from "../../models/reference-data-models/defects.model";
 import { Observable } from "rxjs";
 import { from } from "rxjs/observable/from";
 import { STORAGE } from "../../app/app.enums";

@@ -1,23 +1,18 @@
-import { AddPreparerPage } from "./add-preparer";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { PreparerService } from "../../../../providers/preparer/preparer.service";
-import { IonicModule, NavController, NavParams } from "ionic-angular";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { TestReportModel } from "../../../../models/test-report.model";
-import { VehicleModel } from "../../../../models/vehicle.model";
-import { PreparersModel } from "../../../../models/preparers/preparers.model";
+import {AddPreparerPage} from "./add-preparer";
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
+import {PreparerService} from "../../../../providers/preparer/preparer.service";
+import {IonicModule, NavController} from "ionic-angular";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {PreparersModel} from "../../../../models/reference-data-models/preparers.model";
+import {TestReportService} from "../../../../providers/test-report/test-report.service";
 
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
   let fixture: ComponentFixture<AddPreparerPage>;
   let preparerService: PreparerService;
+  let testReportService: TestReportService;
   let navCtrl: NavController;
-  let navParams: NavParams;
-
-  let testReport = new TestReportModel();
-      testReport.addVehicle(new VehicleModel("AA12 BCD", "123ADF213DAS", "PSV", 3, "IVECO", "1S34RS", 12354));
 
   const PREPARER_ADDED: PreparersModel = {
     preparerId: "AK4434",
@@ -34,8 +29,8 @@ describe('Component: AddPreparerPage', () => {
       ],
       providers: [
         NavController,
+        TestReportService,
         {provide: PreparerService, useValue: spy},
-        {provide: NavParams, useClass: NavParamsMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -45,37 +40,28 @@ describe('Component: AddPreparerPage', () => {
     fixture = TestBed.createComponent(AddPreparerPage);
     comp = fixture.componentInstance;
     preparerService = TestBed.get(PreparerService);
+    testReportService = TestBed.get(TestReportService);
     navCtrl = TestBed.get(NavController);
-  });
-
-  beforeEach(() => {
-    navParams = fixture.debugElement.injector.get(NavParams);
-
-    navParams.get = jasmine.createSpy('get').and.callFake((param) => {
-      const params = {
-        'testReport': testReport
-      };
-      return params[param];
-    })
   });
 
   afterEach(() => {
     fixture.destroy();
     comp = null;
     preparerService = null;
+    testReportService = null;
   });
 
   it('should create the component', () => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
     expect(preparerService).toBeTruthy();
+    expect(testReportService).toBeTruthy();
   });
 
   it('should check if the preparer was added to the testReport object', () => {
-    comp.testReport = navParams.get('testReport');
-    expect(comp.testReport.getPreparer()).toBeFalsy();
+    expect(comp.testReport.preparer).toBeFalsy();
     comp.selectPreparer(PREPARER_ADDED);
-    expect(comp.testReport.getPreparer()).toBeTruthy();
+    expect(testReportService.testReport.preparer).toBeTruthy();
   });
 
   it('should check the negation function detectFocus', () => {

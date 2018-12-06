@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleTestModel } from "../../../../models/vehicle-test.model";
-import { DefectCategoryModel, DefectItemModel } from "../../../../models/defects/defects.model";
+import { DefectCategoryModel, DefectItemModel } from "../../../../models/reference-data-models/defects.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { APP } from "../../../../app/app.enums";
 

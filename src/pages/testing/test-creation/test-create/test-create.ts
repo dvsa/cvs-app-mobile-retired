@@ -1,16 +1,17 @@
-import { Component, ViewChild, QueryList, ViewChildren } from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {IonicPage, NavController, NavParams, AlertController, ItemSliding} from 'ionic-angular';
 import { TestReportModel } from '../../../../models/test-report.model';
 import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import { PhoneService } from '../../../../providers/natives/phone.service'
+import {TestReportService} from "../../../../providers/test-report/test-report.service";
 
 @IonicPage()
 @Component({
   selector: 'page-test-create',
   templateUrl: 'test-create.html',
 })
-export class TestCreatePage {
+export class TestCreatePage implements OnInit{
 
   testReport: TestReportModel;
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
@@ -18,8 +19,12 @@ export class TestCreatePage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public phoneService: PhoneService,
-              public alertCtrl: AlertController) {
-    this.testReport = navParams.get('testReport');
+              public alertCtrl: AlertController,
+              private testReportService: TestReportService) {
+  }
+
+  ngOnInit() {
+    this.testReport = this.testReportService.getTestReport();
   }
 
   ionViewWillLeave() {
@@ -31,7 +36,7 @@ export class TestCreatePage {
   }
 
 	presentSearchVehicle(): void {
-		this.navCtrl.push('VehicleLookupPage', {testReport: this.testReport});
+		this.navCtrl.push('VehicleLookupPage');
   }
 
 	addVehicleTest(vehicle: VehicleModel): void {
@@ -43,7 +48,7 @@ export class TestCreatePage {
   }
 
   reviewTest(): void {
-    this.navCtrl.push('TestSummaryPage', {testReport: this.testReport});
+    this.navCtrl.push('TestSummaryPage');
   }
 
   launchDialer(): void {

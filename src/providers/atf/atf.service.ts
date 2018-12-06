@@ -1,18 +1,18 @@
 import {Injectable} from "@angular/core";
 import {StorageService} from "../natives/storage.service";
 import {Observable} from "rxjs";
-import {AtfModel} from "../../models/atf.model";
+import {AtfReferenceDataModel} from "../../models/reference-data-models/atf.model";
 import {from} from "rxjs/observable/from";
 import {STORAGE} from "../../app/app.enums";
 
 @Injectable()
 export class AtfService {
-  orderedArray: AtfModel[] = [];
+  orderedArray: AtfReferenceDataModel[] = [];
 
   constructor(private storageService: StorageService) {
   }
 
-  getAtfsFromStorage(): Observable<AtfModel[]> {
+  getAtfsFromStorage(): Observable<AtfReferenceDataModel[]> {
     return from(this.storageService.read(STORAGE.ATFS))
   }
 
@@ -21,9 +21,9 @@ export class AtfService {
     if (!items || !filter) {
       if ((filter === '' || filter == undefined) && Array.isArray(items[0])) {
         items.forEach(
-          (elem: AtfModel[]) => {
+          (elem: AtfReferenceDataModel[]) => {
             elem.forEach(
-              (elem: AtfModel) => {
+              (elem: AtfReferenceDataModel) => {
                 elem.searchProperty = properties[0];
               }
             )
@@ -35,7 +35,7 @@ export class AtfService {
     items.forEach(
       (elem) => {
         let arrGroup: any[] = elem.filter(
-          (item: AtfModel) => {
+          (item: AtfReferenceDataModel) => {
             for (let key in item) {
               let propIndex: number = properties.indexOf(key);
               if (propIndex != -1) {

@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import { from } from "rxjs/observable/from";
 import { STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
-import { PreparersModel } from "../../models/preparers/preparers.model";
+import { PreparersModel } from "../../models/reference-data-models/preparers.model";
 
 
 @Injectable()

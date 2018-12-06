@@ -21,3 +21,9 @@ export enum DEFICIENCY_CATEGORY {
   PRS = 'prs',
   MINOR = 'minor'
 }
+
+export enum TEST_REPORT_TITLES {
+  SINGLE_TEST = 'Single Test',
+  LINKED_TEST = 'Linked Test',
+  COMBINED_TEST = 'Combined Test'
+}

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AlertController} from 'ionic-angular';
-import {AtfModel} from '../../../models/atf.model';
+import {AtfReferenceDataModel} from '../../../models/reference-data-models/atf.model';
 
 @IonicPage()
 @Component({
@@ -9,7 +9,7 @@ import {AtfModel} from '../../../models/atf.model';
   templateUrl: 'atf-details.html'
 })
 export class ATFDetailsPage implements OnInit {
-  atf: AtfModel;
+  atf: AtfReferenceDataModel;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public navParams: NavParams) {
     this.atf = navParams.get('atf');

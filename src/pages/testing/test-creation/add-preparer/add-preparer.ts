@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController } from 'ionic-angular';
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
 import { TestReportModel } from "../../../../models/test-report.model";
-import { PreparersModel } from "../../../../models/preparers/preparers.model";
-
+import { PreparersModel } from "../../../../models/reference-data-models/preparers.model";
+import {TestReportService} from "../../../../providers/test-report/test-report.service";
 
 @IonicPage()
 @Component({
@@ -18,11 +18,10 @@ export class AddPreparerPage implements OnInit {
   searchbarFocus: boolean = false;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               public preparerService: PreparerService,
-              private alertCtrl: AlertController) {
-
-    this.testReport = this.navParams.get('testReport');
+              private alertCtrl: AlertController,
+              private testReportService: TestReportService) {
+    this.testReport = this.testReportService.getTestReport();
   }
 
   ngOnInit() {
@@ -41,7 +40,7 @@ export class AddPreparerPage implements OnInit {
   }
 
   selectPreparer(preparer?: PreparersModel): void {
-    this.testReport.addPreparer(preparer);
+    this.testReportService.addPreparer(preparer);
   }
 
   presentConfirm(preparer?): void {
@@ -59,7 +58,7 @@ export class AddPreparerPage implements OnInit {
           text: 'Confirm',
           handler: () => {
             this.selectPreparer(preparer);
-            this.navCtrl.push('TestCreatePage', {testReport: this.testReport});
+            this.navCtrl.push('TestCreatePage');
           }
         }
       ]

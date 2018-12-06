@@ -9,7 +9,7 @@ import { DefectDetailsModel } from "../../../../models/defects/defect-details.mo
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DefectsDataMock } from "../../../../../test-config/data-mocks/defects-data.mock";
 import { StorageService } from "../../../../providers/natives/storage.service";
-import { DefectCategoryModel } from "../../../../models/defects/defects.model";
+import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
