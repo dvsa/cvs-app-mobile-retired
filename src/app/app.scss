@@ -61,6 +61,11 @@
 
     .searchbar-ios {
       min-height: inherit;
+      padding-bottom: 8px;
+
+      .searchbar-ios-cancel {
+        margin: 0;
+      }
 
       .searchbar-input {
         background-color: #d3d3d3;
@@ -68,7 +73,6 @@
     }
   }
 }
-
 
 .item-ios {
   padding-left: 0;
@@ -154,4 +158,24 @@ ion-item-group {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+}
+
+.searchbar-scroll--margin-small {
+  margin-top: 67px !important;
+}
+
+.searchbar-scroll--margin-big {
+  margin-top: 150px !important;
+}
+
+.searchbar-scroll--margin-bot {
+  margin-bottom: 0 !important;
+}
+
+.searchbar-navbar {
+  display: none !important;
+}
+
+.searchbar-ionToolBar {
+  padding-top: 24px !important;
 }
