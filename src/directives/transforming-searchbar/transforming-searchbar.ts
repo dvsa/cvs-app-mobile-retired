@@ -7,7 +7,7 @@ import { APP } from "../../app/app.enums";
 })
 
 export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy {
-  @Input() searchBarElemRef
+  @Input() searchBarElemRef;
   headerElemRef;
 
   constructor(private el: ElementRef, private renderer: Renderer2, public events: Events) {
@@ -17,26 +17,29 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
   ngAfterViewInit() {
     const navBarElement = this.headerElemRef.querySelector('ion-navbar');
     const scrollContent = this.headerElemRef.nextElementSibling.querySelector('.scroll-content');
+    const ionToolbar = this.headerElemRef.querySelector('ion-toolbar');
 
     this.searchBarElemRef.ionFocus.subscribe(
       () => {
-        this.renderer.setStyle(scrollContent, 'margin-top', '50px');
-        this.renderer.setStyle(scrollContent, 'margin-bottom', '250px');
-        this.renderer.setStyle(navBarElement, 'display', 'none');
+        this.renderer.removeClass(scrollContent, 'searchbar-scroll--margin-big');
+        this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-small');
+        this.renderer.addClass(navBarElement, 'searchbar-navbar');
+        this.renderer.addClass(ionToolbar, 'searchbar-ionToolBar');
       }
-    )
+    );
 
     this.searchBarElemRef.ionCancel.subscribe(
       () => {
-        this.renderer.setStyle(scrollContent, 'margin-top', '150px');
-        this.renderer.setStyle(scrollContent, 'margin-bottom', '0');
-        this.renderer.setStyle(navBarElement, 'display', 'block');
+        this.renderer.removeClass(scrollContent, 'searchbar-scroll--margin-small');
+        this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-big');
+        this.renderer.removeClass(navBarElement, 'searchbar-navbar');
+        this.renderer.removeClass(ionToolbar, 'searchbar-ionToolBar');
       }
-    )
+    );
 
     this.events.subscribe(APP.NAV_OUT,
       () => {
-        this.setDefaultCss(scrollContent, navBarElement);
+        this.setDefaultCss(scrollContent, navBarElement, ionToolbar);
       }
     )
   }
@@ -47,10 +50,11 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
     this.events.unsubscribe(APP.NAV_OUT);
   }
 
-  private setDefaultCss(scrollContent, navBarElement): void {
-    this.renderer.setStyle(scrollContent, 'margin-top', '150px');
-    this.renderer.setStyle(scrollContent, 'margin-bottom', '0');
-    this.renderer.setStyle(navBarElement, 'display', 'block');
-  }
+  private setDefaultCss(scrollContent, navBarElement, ionToolbar): void {
+    this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-big');
+    this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-bot');
+    this.renderer.removeClass(navBarElement, 'searchbar-navbar');
+    this.renderer.removeClass(ionToolbar, 'searchbar-ionToolBar');
 
+  }
 }
