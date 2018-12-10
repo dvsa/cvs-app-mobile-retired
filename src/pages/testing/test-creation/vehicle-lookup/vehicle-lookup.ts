@@ -4,6 +4,7 @@ import {VehicleService} from '../../../../providers/vehicle.service';
 import {TestReportModel} from '../../../../models/test-report.model';
 import {VisitModel} from '../../../../models/visit.model';
 import {VehicleModel} from "../../../../models/vehicle.model";
+import {TestReportService} from "../../../../providers/test-report/test-report.service";
 
 @IonicPage()
 @Component({
@@ -17,10 +18,12 @@ export class VehicleLookupPage {
 
   constructor(public navCtrl: NavController,
               private navParams: NavParams,
-              private vehicleService: VehicleService) {
-    this.testReport = navParams.get('testReport');
+              private vehicleService: VehicleService,
+              private testReportService: TestReportService) {
+    this.testReport = this.testReportService.getTestReport();
     this.visit = navParams.get('visit');
   }
+
   ionViewWillEnter() {
     this.searchVal = '';
   };
@@ -32,7 +35,6 @@ export class VehicleLookupPage {
         (vehicleFound: VehicleModel) => {
           if (vehicleFound != null) {
             this.navCtrl.push('VehicleDetailsPage', {
-                testReport: this.testReport,
                 vehicle: vehicleFound
               }
             );

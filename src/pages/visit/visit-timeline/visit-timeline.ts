@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {VisitModel} from '../../../models/visit.model';
-import {TestReportModel} from '../../../models/test-report.model';
+import {TestReportService} from "../../../providers/test-report/test-report.service";
+import {TestReportModel} from "../../../models/test-report.model";
 
 @IonicPage()
 @Component({
@@ -10,9 +11,9 @@ import {TestReportModel} from '../../../models/test-report.model';
 })
 export class VisitTimelinePage implements OnInit {
   visit: VisitModel;
-  timeline: Object[];
+  timeline: TestReportModel[];
 
-  constructor(public navCtrl: NavController, private navParams: NavParams) {
+  constructor(public navCtrl: NavController, private navParams: NavParams, private testReportService: TestReportService) {
     this.visit = new VisitModel(navParams.get('atf'));
     this.timeline = [];
   }
@@ -32,12 +33,11 @@ export class VisitTimelinePage implements OnInit {
   }
 
   createNewTestReport(): void {
-    let testReport: TestReportModel = new TestReportModel();
+    this.testReportService.createTestReport();
+    const testReport = this.testReportService.getTestReport();
     this.visit.addTestReport(testReport);
-    testReport.startTestReport();
 
     this.navCtrl.push('VehicleLookupPage', {
-      testReport: testReport,
       visit: this.visit
     })
   }
@@ -57,4 +57,9 @@ export class VisitTimelinePage implements OnInit {
       this.timeline.push(testReport);
     });
   }
+
+  getTestReportTitle(testReport: TestReportModel) {
+    this.testReportService.getTestReportTitle(testReport);
+  }
+
 }

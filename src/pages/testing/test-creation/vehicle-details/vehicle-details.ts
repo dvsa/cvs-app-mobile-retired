@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {TestReportModel} from '../../../../models/test-report.model';
 import {VehicleModel} from '../../../../models/vehicle.model';
+import {TestReportService} from "../../../../providers/test-report/test-report.service";
 
 @IonicPage()
 @Component({
@@ -12,16 +13,16 @@ export class VehicleDetailsPage {
   testReport: TestReportModel;
   vehicle: VehicleModel;
 
-  constructor(public navCtrl: NavController, private navParams: NavParams) {
-    this.testReport = navParams.get('testReport');
+  constructor(public navCtrl: NavController, private navParams: NavParams, private testReportService: TestReportService) {
+    this.testReport = this.testReportService.getTestReport();
     this.vehicle = navParams.get('vehicle');
   }
 
   addVehicle(): void {
     let self = this;
-    this.testReport.addVehicle(this.vehicle);
+    this.testReportService.addVehicle(this.vehicle);
     if (self.navCtrl.getByIndex(self.navCtrl.length() - 3).component.name == 'VisitTimelinePage') {
-      this.navCtrl.insert(this.navCtrl.length() - 2, 'TestCreatePage', {testReport: this.testReport})
+      this.navCtrl.insert(this.navCtrl.length() - 2, 'TestCreatePage')
         .then(() => {
             self.navCtrl.popTo(self.navCtrl.getByIndex(self.navCtrl.length() - 3));
           }
@@ -32,8 +33,8 @@ export class VehicleDetailsPage {
   }
 
   goToPreparerPage(): void {
-    this.testReport.addVehicle(this.vehicle);
-    this.navCtrl.push('AddPreparerPage', {testReport: this.testReport});
+    this.testReportService.addVehicle(this.vehicle);
+    this.navCtrl.push('AddPreparerPage');
   }
 
   refuseVehicle(): void {

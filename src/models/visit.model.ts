@@ -1,13 +1,13 @@
-import { AtfModel } from './atf.model';
+import { AtfReferenceDataModel } from './reference-data-models/atf.model';
 import { TestReportModel } from './test-report.model';
 
 export class VisitModel {
     private startTime: Date;
     private endTime: Date;
-    private atf: AtfModel;
+    private atf: AtfReferenceDataModel;
     private testReports: TestReportModel[];
 
-    constructor(atf: AtfModel) {
+    constructor(atf: AtfReferenceDataModel) {
         this.atf = atf;
         this.testReports = [];
     }

@@ -2,7 +2,7 @@ import { PreparerService } from "./preparer.service";
 import { StorageService } from "../natives/storage.service";
 import { PreparersDataMock } from "../../../test-config/data-mocks/preparers-data.mock";
 import { TestBed } from "@angular/core/testing";
-import { PreparersModel } from "../../models/preparers/preparers.model";
+import { PreparersModel } from "../../models/reference-data-models/preparers.model";
 
 describe('Provider: PreparerService', () => {
   let preparerService: PreparerService;

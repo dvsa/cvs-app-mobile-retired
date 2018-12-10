@@ -1,4 +1,4 @@
-import { DefectLocationModel } from "../defect-location.model";
+import { DefectLocationModel } from "./defect-location.model";
 
 export interface DefectsMetadataModel {
   category: {

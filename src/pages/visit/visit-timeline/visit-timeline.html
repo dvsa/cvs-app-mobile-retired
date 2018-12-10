@@ -27,11 +27,11 @@
             <img src="assets/testing.png" item-start>
             <div class="timeline-item-content">
                 <p>{{ timelineItem.startTime | date: 'shortTime' }} - {{ timelineItem.endTime | date: 'shortTime' }}</p>
-                <h2>{{ timelineItem.getTestReportTitle() }}</h2>
+                <h2>{{ getTestReportTitle(timelineItem) }}</h2>
                 <span *ngFor="let vehicle of timelineItem.vehicles">
                     <p *ngFor="let vehicleTest of vehicle.vehicleTests">
-                        <span *ngIf="vehicleTest.hasPassed == true" class="pass">Pass</span>
-                        <span *ngIf="vehicleTest.hasPassed == false" class="fail">Fail</span>
+                        <span *ngIf="vehicleTest.hasPassed" class="pass">Pass</span>
+                        <span *ngIf="!vehicleTest.hasPassed" class="fail">Fail</span>
                         • {{ vehicle.registration }} • {{ vehicleTest.name }}
                     </p>
                 </span>

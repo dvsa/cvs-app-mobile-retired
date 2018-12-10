@@ -1,7 +1,7 @@
 import {TestBed} from "@angular/core/testing";
 import {StorageService} from "../natives/storage.service";
 import {AtfService} from "./atf.service";
-import {AtfModel} from "../../models/atf.model";
+import {AtfReferenceDataModel} from "../../models/reference-data-models/atf.model";
 import {AtfDataMock} from "../../../test-config/data-mocks/atf-data.mock";
 
 describe('Provider: ATFService', () => {
@@ -10,7 +10,7 @@ describe('Provider: ATFService', () => {
   let spy: any;
 
   const atfData = AtfDataMock.AtfData;
-  let initialData: AtfModel[];
+  let initialData: AtfReferenceDataModel[];
   const properties: string[] = ['atfName', 'atfNumber', 'atfAddress'];
   let filter: string;
 
@@ -38,7 +38,7 @@ describe('Provider: ATFService', () => {
   it('should return data from local storage', () => {
     atfService.getAtfsFromStorage().subscribe(
       data => {
-        expect(data).toBe(<AtfModel[]>atfData)
+        expect(data).toBe(<AtfReferenceDataModel[]>atfData)
       }
     )
   });

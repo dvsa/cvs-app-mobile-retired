@@ -5,7 +5,7 @@ import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
-import { DefectCategoryModel } from "../../../../models/defects/defects.model";
+import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 
 @IonicPage()
 @Component({
