@@ -15,33 +15,40 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-list text-wrap class="full-dividers-list" *ngIf="filteredDeficiencies.length > 0">
-    <ion-item-divider color="light">
-      {{ category.imNumber }}.{{ item.itemNumber }} {{ item.itemDescription }}
-    </ion-item-divider>
-    <ion-item detail-none class="defect-details"
-              *ngFor="let deficiency of filteredDeficiencies | byVehicleType: vehicleType"
-              (click)="selectDeficiency(deficiency)">
+<ion-content no-padding class="content-background-color-grey">
+  <ion-list text-wrap *ngIf="filteredDeficiencies.length > 0">
+    <ion-item-group>
+      <ion-item-divider padding-left>
+        {{ category.imNumber }}.{{ item.itemNumber }} {{ item.itemDescription }}
+      </ion-item-divider>
+      <ion-item detail-none padding-left
+                class="list-item-height"
+                *ngFor="let deficiency of filteredDeficiencies | byVehicleType: vehicleType"
+                (click)="selectDeficiency(deficiency)">
       <span>
           <h3>
             {{deficiency.ref}}
             <ion-badge item-end text-uppercase
                        [color]="defectsService.getBadgeColor(deficiency.deficiencyCategory)"
-                       [ngClass]="{'badge__text-black': deficiency.deficiencyCategory === 'Minor'}">
+                       [ngClass]="{'badge-text-black': deficiency.deficiencyCategory === commonFunc.capitalizeString(DEFICIENCY_CATEGORY.MINOR)}">
               {{ deficiency.deficiencyCategory }}
             </ion-badge>
           </h3>
           <p>{{ deficiency.deficiencyText }}</p>
         </span>
-      <ion-icon item-end name="arrow-forward"></ion-icon>
-    </ion-item>
-
-    <ion-item-divider color="light" text-uppercase>Advisory</ion-item-divider>
-    <button class="btn-add-test" ion-item detail-none (click)="addAdvisory()">
-      Add an advisory note
-      <ion-icon name="arrow-forward" item-end></ion-icon>
-    </button>
+        <ion-icon item-end name="arrow-forward"></ion-icon>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider text-uppercase padding-left>
+        Advisory
+      </ion-item-divider>
+      <ion-item detail-none padding-left
+                (click)="addAdvisory()">
+        Add an advisory note
+        <ion-icon name="arrow-forward" item-end></ion-icon>
+      </ion-item>
+    </ion-item-group>
 
   </ion-list>
 

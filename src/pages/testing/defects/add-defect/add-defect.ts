@@ -5,7 +5,8 @@ import {DefectCategoryModel, DefectDeficiencyModel, DefectItemModel} from "../..
 import {DefectsService} from "../../../../providers/defects/defects.service";
 import {DefectDetailsModel} from "../../../../models/defects/defect-details.model";
 import {DefectsMetadataModel} from "../../../../models/defects/defects-metadata.model";
-import { APP } from "../../../../app/app.enums";
+import { APP, DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
+import { CommonFunctions } from "../../../../providers/utils/common-functions";
 
 @IonicPage()
 @Component({
@@ -20,7 +21,7 @@ export class AddDefectPage implements OnInit {
   filteredDeficiencies: DefectDeficiencyModel[];
   searchVal: string = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService, public events: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService, public events: Events, private commonFunc: CommonFunctions) {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
     this.category = navParams.get('category');

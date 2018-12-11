@@ -15,9 +15,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content no-padding>
-  <ion-list text-wrap class="full-dividers-list" *ngIf="filteredCategories.length > 0">
-    <ion-item detail-none class="defect-category"
+<ion-content no-padding class="content-background-color-grey">
+  <ion-list text-wrap *ngIf="filteredCategories.length > 0">
+    <ion-item detail-none padding-left
+              class="list-item-height"
               *ngFor="let category of filteredCategories | byVehicleType: vehicleType"
               (click)="selectCategory(category)">
         <span>

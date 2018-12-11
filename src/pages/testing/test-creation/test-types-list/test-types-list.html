@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Test type
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding class="content-background-color-grey">
+  <ion-list>
+    <ion-item-group>
+      <ion-item detail-none padding-left
+                class="list-item-height"
+                *ngFor="let testType of testTypeReferenceData | filterTestTypeByVehicle: vehicleData"
+                (click)="selectedItem(testType)">
+        <h3>{{ testType.name }}</h3>
+        <ion-icon item-end *ngIf="testType.nextTestTypesOrCategories" name="arrow-forward"></ion-icon>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

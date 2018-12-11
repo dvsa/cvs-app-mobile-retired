@@ -15,7 +15,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content no-padding>
+<ion-content no-padding class="content-background-color-grey">
 
   <ion-list *ngIf="filteredAtfs.length">
     <ion-item-group *ngFor="let atfGroup of filteredAtfs">
@@ -23,7 +23,7 @@
         <ion-item-divider padding-left *ngIf="i == 0">
           <b>{{ atf.atfName | slice:0:1 }}</b>
         </ion-item-divider>
-        <ion-item (click)="openATF(atf)">
+        <ion-item (click)="openATF(atf)" padding-left class="list-item-height">
           <h3>{{ atf.atfName }}</h3>
           <p *ngIf="atf.searchProperty != 'atfAddress'" [innerHTML]="boldSearchVal(atf.atfNumber, searchVal)"></p>
           <p *ngIf="atf.searchProperty == 'atfAddress'" [innerHTML]="boldSearchVal(atf.atfAddress, searchVal)"></p>

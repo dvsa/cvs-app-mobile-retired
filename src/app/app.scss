@@ -128,22 +128,19 @@
   }
 }
 
+.content-background-color-grey {
+  background-color: $content-background-color;
+}
+
 // Global CSS for item-dividers
 ion-item-divider {
   .label-ios {
     margin: 0 8px 0 0;
   }
-  span {
-    font-size: $item-ios-divider-font-size;
-  }
 }
 
 // Global CSS for item-groups
 ion-item-group {
-  .item-ios {
-    padding-left: 16px;
-  }
-
   .item-ios:last-child {
     .item-inner {
       border-bottom: none !important;

@@ -1,76 +1,20 @@
-ion-app.ios page-add-defect {
-  [padding] .scroll-content {
-    padding: 0;
-  }
-
+page-add-defect {
   .item-ios {
     ion-icon[item-end] {
-      color: #c8c7cc;
+      color: $list-ios-border-color;
     }
   }
 
-  .item-ios.defect-category {
-    min-height: 71px;
+  .item-ios.list-item-height {
+    min-height: $list-ios-item-height;
 
     h3 {
       font-size: 17px;
     }
   }
 
-  .item-ios.defect-details {
-    .label-ios {
-      margin-bottom: 5px;
-
-      h3 {
-        font-size: 17px;
-        font-weight: bold;
-        margin-bottom: 7px;
-        line-height: 20px;
-
-        span {
-          color: color($colors, danger);
-        }
-      }
-
-      p {
-        font-size: 17px;
-        margin: 0;
-      }
-
-      button {
-        color: color($colors, primary);
-        min-height: 0;
-
-        .item-inner {
-          border-bottom: none;
-
-          .input-wrapper {
-            padding-left: 7.5px;
-
-            .label-ios {
-              margin: 7px 8px 7px 0;
-            }
-          }
-        }
-
-        ion-icon {
-          margin: 0;
-        }
-      }
-    }
-  }
-
-  .btn-add-test {
-    font-size: 16px;
-    color: color($colors, primary);
-
-    ion-icon {
-      color: inherit !important;
-    }
-  }
-
-  .badge__text-black {
-    color: #000000;
+  .badge-text-black {
+    color: color($colors, dark);
   }
 }
 

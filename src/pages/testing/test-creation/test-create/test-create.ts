@@ -40,7 +40,7 @@ export class TestCreatePage implements OnInit{
   }
 
 	addVehicleTest(vehicle: VehicleModel): void {
-		this.navCtrl.push('TestsListPage', {vehicle: vehicle});
+		this.navCtrl.push('TestTypesListPage', {vehicleData: vehicle});
 	}
 
   openTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel): void {
