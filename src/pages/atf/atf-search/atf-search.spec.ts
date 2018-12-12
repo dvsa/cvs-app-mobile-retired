@@ -37,7 +37,7 @@ describe('Component: ATFSearchPage', () => {
     fixture.destroy();
     comp = null;
     atfService = null;
-  })
+  });
 
   it('should create component', () => {
     expect(fixture).toBeTruthy();

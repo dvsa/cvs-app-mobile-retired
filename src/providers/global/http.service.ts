@@ -7,6 +7,8 @@ import { AtfReferenceDataModel } from "../../models/reference-data-models/atf.mo
 import { DefectCategoryModel } from "../../models/reference-data-models/defects.model";
 import { TestTypesModel } from "../../models/reference-data-models/test-types.model";
 import { PreparersModel } from "../../models/reference-data-models/preparers.model";
+import {TestTypesDataMock} from "../../../test-config/data-mocks/test-types.mock";
+import {of} from "rxjs/observable/of";
 
 @Injectable()
 export class HTTPService {
@@ -27,8 +29,9 @@ export class HTTPService {
   }
 
   getTestTypes(): Observable<TestTypesModel[]> {
-    return this.http.get<TestTypesModel[]>(`${AppConfig.API_URL}${API.GET_TESTTYPES}`);
-  }
+    // return this.http.get<TestTypesModel[]>(`${AppConfig.API_URL}${API.GET_TESTTYPES}`);
+    return of(TestTypesDataMock.TestTypesData);
+      }
 
   getPreparers(): Observable<PreparersModel[]> {
     return this.http.get<PreparersModel[]>(`${AppConfig.API_URL}${API.GET_PREPARERS}`);
