@@ -29,8 +29,7 @@ export class HTTPService {
   }
 
   getTestTypes(): Observable<TestTypesModel[]> {
-    // return this.http.get<TestTypesModel[]>(`${AppConfig.API_URL}${API.GET_TESTTYPES}`);
-    return of(TestTypesDataMock.TestTypesData);
+    return this.http.get<TestTypesModel[]>(`${AppConfig.API_URL}${API.GET_TESTTYPES}`);
       }
 
   getPreparers(): Observable<PreparersModel[]> {
