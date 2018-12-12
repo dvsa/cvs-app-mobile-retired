@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
-import {VehicleTestModel} from '../../../../models/vehicle-test.model';
-import {DefectCategoryModel, DefectDeficiencyModel, DefectItemModel} from "../../../../models/reference-data-models/defects.model";
-import {DefectsService} from "../../../../providers/defects/defects.service";
-import {DefectDetailsModel} from "../../../../models/defects/defect-details.model";
-import {DefectsMetadataModel} from "../../../../models/defects/defects-metadata.model";
+import { VehicleTestModel } from '../../../../models/vehicle-test.model';
+import {
+  DefectCategoryModel,
+  DefectDeficiencyModel,
+  DefectItemModel
+} from "../../../../models/reference-data-models/defects.model";
+import { DefectsService } from "../../../../providers/defects/defects.service";
+import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
+import { DefectsMetadataModel } from "../../../../models/defects/defects-metadata.model";
 import { APP, DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
-import { CommonFunctions } from "../../../../providers/utils/common-functions";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 
 @IonicPage()
 @Component({
@@ -21,7 +25,7 @@ export class AddDefectPage implements OnInit {
   filteredDeficiencies: DefectDeficiencyModel[];
   searchVal: string = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService, public events: Events, private commonFunc: CommonFunctions) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService, public events: Events, public commonFunc: CommonFunctionsService) {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
     this.category = navParams.get('category');
@@ -69,7 +73,7 @@ export class AddDefectPage implements OnInit {
       deficiency: defect,
       isEdit: false
     });
-    this.events.publish(APP.NAV_OUT);
+    this.clearSearch()
   }
 
   addAdvisory() {
@@ -96,12 +100,20 @@ export class AddDefectPage implements OnInit {
       advisory: advisory,
       isEdit: false
     });
-    this.events.publish(APP.NAV_OUT);
+    this.clearSearch()
   }
 
   searchList(e): void {
     this.searchVal = e.target.value;
     this.filteredDeficiencies = this.defectsService.searchDefect(this.item.deficiencies, this.searchVal, ['deficiencyId', 'deficiencyText']);
+  }
+
+  returnBadgeClass(deficiencyCategory): string {
+    return deficiencyCategory === this.commonFunc.capitalizeString(DEFICIENCY_CATEGORY.MINOR) ? 'badge-text-black' : ''
+  }
+
+  private clearSearch(): void {
+    this.events.publish(APP.NAV_OUT);
   }
 }
 

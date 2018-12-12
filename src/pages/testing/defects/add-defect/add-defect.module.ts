@@ -4,6 +4,7 @@ import {AddDefectPage} from "./add-defect";
 import {PipesModule} from "../../../../pipes/pipes.module";
 import {DefectsService} from "../../../../providers/defects/defects.service";
 import { DirectivesModule } from "../../../../directives/directives.module";
+import {CommonFunctionsService} from "../../../../providers/utils/common-functions";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { DirectivesModule } from "../../../../directives/directives.module";
     IonicPageModule.forChild(AddDefectPage),
   ],
   providers: [
-    DefectsService
+    DefectsService,
+    CommonFunctionsService
   ]
 })
 export class AddDefectModule {
