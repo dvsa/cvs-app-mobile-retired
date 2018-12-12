@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {TestReportModel} from '../../../../models/test-report.model';
-import {VehicleModel} from '../../../../models/vehicle.model';
-import {TestReportService} from "../../../../providers/test-report/test-report.service";
+import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {TestReportModel} from '../../../../../models/test-report.model';
+import {VehicleModel} from '../../../../../models/vehicle.model';
+import {TestReportService} from "../../../../../providers/test-report/test-report.service";
 
 @IonicPage()
 @Component({
@@ -13,9 +13,14 @@ export class VehicleDetailsPage {
   testReport: TestReportModel;
   vehicle: VehicleModel;
 
-  constructor(public navCtrl: NavController, private navParams: NavParams, private testReportService: TestReportService) {
+  constructor(public navCtrl: NavController, private navParams: NavParams, private testReportService: TestReportService, public viewCtrl: ViewController) {
     this.testReport = this.testReportService.getTestReport();
     this.vehicle = navParams.get('vehicle');
+    this.viewCtrl = viewCtrl;
+  }
+
+  ionViewWillEnter() {
+    this.viewCtrl.setBackButtonText('Identify Vehicle');
   }
 
   addVehicle(): void {
@@ -40,4 +45,20 @@ export class VehicleDetailsPage {
   refuseVehicle(): void {
 
   }
+
+  showVehicleBrakes(): void {
+    this.navCtrl.push('VehicleBrakesPage');
+  }
+  
+  showVehicleTyres(): void {
+    this.navCtrl.push('VehicleTyresPage');
+  }
+  
+  showVehicleWeights(): void {
+    this.navCtrl.push('VehicleWeightsPage');
+  }
+  
+  showVehicleAdditional(): void {
+    this.navCtrl.push('VehicleAdditionalPage');
+	}
 }

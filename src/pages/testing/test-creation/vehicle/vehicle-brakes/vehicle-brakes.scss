@@ -1,0 +1,27 @@
+ion-app.ios page-vehicle-brakes {
+
+  ion-header{
+    height: $header-height-default;
+
+    ion-title{
+      margin-top: $header-title-margin-top-default;
+    }
+  }
+
+  ion-content {
+    .scroll-content{
+      background: $content-background-color;
+    }
+
+    ion-list.vehicle-list{
+      ion-list-header.list-header-double{
+        height: $list-header-height-medium;
+
+        ion-label{
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+}
+

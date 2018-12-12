@@ -1,0 +1,124 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title margin-left>
+            <span *ngIf="vehicle.type != 'Trailer'">Vehicle details</span>
+            <span *ngIf="vehicle.type == 'Trailer'">Trailer details</span>
+        </ion-title>
+        <ion-buttons end *ngIf="testReport">
+            <button ion-button (click)="goToPreparerPage()">
+                Confirm
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+    <div text-uppercase text-center class="vehicle-header-vrm-number">
+        AA12 BCD
+    </div>
+    <ion-list class="vehicle-list">
+        <ion-list-header padding-left padding-right>
+            <span *ngIf="vehicle.type != 'Trailer'">VEHICLE SUMMARY</span>
+            <span *ngIf="vehicle.type == 'Trailer'">TRAILER SUMMARY</span>
+        </ion-list-header>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>VIN / Chassis number</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>ABCDE1234FGHIJ5678</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Chassis make</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>Volvo</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Chassis model</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>B12M</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Body make</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>Van Hool</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Body model</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>Astrobel</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Body type</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>D</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Year of manufacture</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>2018</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Date of first registration</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>1/10/2018</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Axles</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>2</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Brake code</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>100A01</p>
+            </div>
+        </ion-item>
+    </ion-list>
+
+    <ion-list class="vehicle-list">
+        <ion-list-header padding-left padding-right>VIEW MORE INFORMATION</ion-list-header>
+        <button ion-item margin-left>
+            <h3>Vehicle test history</h3>
+        </button>
+        <button ion-item margin-left (click)="showVehicleBrakes()">
+            <h3>Brakes</h3>
+        </button>
+        <button ion-item margin-left (click)="showVehicleWeights()">
+            <h3>Weights</h3>
+        </button>
+        <button ion-item margin-left (click)="showVehicleTyres()">
+            <h3>Tyres</h3>
+        </button>
+        <button ion-item margin-left (click)="showVehicleAdditional()">
+            <h3>Additional vehicle details</h3>
+        </button>
+    </ion-list>
+</ion-content>

@@ -22,6 +22,16 @@ $app-direction: ltr;
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
 $title-font-family: "Arial Black", Gadget, sans-serif;
+
+$font-weight-normal: 400;
+$font-weight-semi-bold: 600;
+$font-weight-bold: 700;
+
+$font-size-small: 13px;
+$font-size-medium: 17px;
+$font-size-large: 34px;
+
+$item-ios-divider-font-size: 14px;
 $custom-back-button-font-size: 34px;
 
 $item-icon-light-gray: #BCBBC1;
@@ -46,15 +56,28 @@ $colors: (
   dark:        #0b0c0c
 );
 
+$light-gray: #d3d3d3;
+$content-background-color: #EFEFF4; 
+$reg-plate-color: #FFD84C;
+
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-$list-ios-header-background-color: #F5F5F5;
-$list-ios-border-color: #c8c7cc;
+$list-ios-header-background-color: #EFEFF4;
+$list-ios-header-font-color: #6D6D72;
+$list-ios-item-font-color: #8E8E93;
+$list-ios-border-color: #BCBBC1;
+
+$list-header-height-small: 40px;
+$list-header-height-medium: 60px;
+
 $item-ios-detail-push-color: $list-ios-border-color;
 $card-ios-border-radius: 5px;
 $item-ios-divider-background: $content-background-color;
+
+$header-height-default: 116px;
+$header-title-margin-top-default: 64px;
 
 // App Material Design Variables
 // --------------------------------------------------
