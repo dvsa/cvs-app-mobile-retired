@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ViewController, AlertController} from 'ionic-angular';
 import {TestReportModel} from '../../../../../models/test-report.model';
 import {VehicleModel} from '../../../../../models/vehicle.model';
 import {TestReportService} from "../../../../../providers/test-report/test-report.service";
@@ -13,7 +13,11 @@ export class VehicleDetailsPage {
   testReport: TestReportModel;
   vehicle: VehicleModel;
 
-  constructor(public navCtrl: NavController, private navParams: NavParams, private testReportService: TestReportService, public viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController, 
+              private navParams: NavParams, 
+              private testReportService: TestReportService, 
+              public viewCtrl: ViewController,
+              public alertCtrl: AlertController) {
     this.testReport = this.testReportService.getTestReport();
     this.vehicle = navParams.get('vehicle');
     this.viewCtrl = viewCtrl;
@@ -38,8 +42,22 @@ export class VehicleDetailsPage {
   }
 
   goToPreparerPage(): void {
-    this.testReportService.addVehicle(this.vehicle);
-    this.navCtrl.push('AddPreparerPage');
+    let confirm = this.alertCtrl.create({
+      title: 'Confirm vehicle',
+      message: 'This action will confirm the vehicle for testing.',
+      buttons: [
+        {
+          text: 'Cancel',
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            this.testReportService.addVehicle(this.vehicle);
+            this.navCtrl.push('AddPreparerPage');
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   refuseVehicle(): void {
