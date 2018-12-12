@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title *ngIf="editMode">Abandon test</ion-title>
+        <ion-title *ngIf="!editMode">Abandoned test</ion-title>
+        <ion-buttons end>
+            <button ion-button
+                    (click)="onDone()"
+                    *ngIf="editMode">
+                Done
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="content-background-color-grey">
+    <ion-list>
+        <ion-item-group>
+            <ion-item-divider>Reason(s) for abandoning this test</ion-item-divider>
+            <ion-item text-wrap
+                      *ngFor="let reason of selectedReasons">
+                {{reason}}
+            </ion-item>
+        </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider *ngIf="editMode || additionalComment.length">Additional comments (optional)
+            </ion-item-divider>
+            <ion-item *ngIf="editMode || additionalComment.length">
+                <ion-textarea placeholder="Add comments"
+                              rows="5"
+                              [(ngModel)]="additionalComment"
+                              [disabled]="!editMode"></ion-textarea>
+            </ion-item>
+        </ion-item-group>
+    </ion-list>
+</ion-content>

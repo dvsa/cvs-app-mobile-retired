@@ -15,7 +15,7 @@
 // automatically applied to the <body> element in the app.
 
 .header-ios {
- 
+
   ion-navbar.toolbar {
     display: flex;
     align-items: flex-start;
@@ -25,7 +25,7 @@
     min-height: 80px;
     height: inherit;
     background: color($colors, dark);
-    
+
     ion-title {
       padding: 0;
       height: 44px;
@@ -206,7 +206,7 @@ ion-item-group {
 ion-list.vehicle-list{
   border-bottom: 0.5px solid $list-ios-border-color;
   margin-bottom: 10px;
-  background: #fff; 
+  background: color($colors, light);
 
   ion-list-header.list-header{
     height: $list-header-height-small;
@@ -253,7 +253,7 @@ ion-list.vehicle-list{
         color: color($colors, dark);
       }
     }
-  
+
     [item-content]{
       p{
         font-size: $font-size-medium;
@@ -278,6 +278,9 @@ ion-list.vehicle-list{
         font-size: $font-size-medium;
       }
     }
-  } 
+  }
 }
 
+.danger-action-button {
+  color: color($colors, danger) !important;
+}

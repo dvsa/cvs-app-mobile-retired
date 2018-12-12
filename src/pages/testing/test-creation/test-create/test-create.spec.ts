@@ -1,13 +1,13 @@
-import {TestCreatePage} from "./test-create";
-import {ComponentFixture, async, TestBed} from "@angular/core/testing";
-import {NavController, NavParams, IonicModule} from "ionic-angular";
-import {VehicleTestModel} from "../../../../models/vehicle-test.model";
-import {VehicleModel} from "../../../../models/vehicle.model";
-import {NavParamsMock} from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
-import {TestReportModel} from "../../../../models/test-report.model";
-import {PhoneService} from "../../../../providers/natives/phone.service";
-import {TestReportService} from "../../../../providers/test-report/test-report.service";
+import { TestCreatePage } from "./test-create";
+import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { NavController, NavParams, IonicModule } from "ionic-angular";
+import { VehicleTestModel } from "../../../../models/vehicle-test.model";
+import { VehicleModel } from "../../../../models/vehicle.model";
+import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { TestReportModel } from "../../../../models/test-report.model";
+import { PhoneService } from "../../../../providers/natives/phone.service";
+import { TestReportService } from "../../../../providers/test-report/test-report.service";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -73,6 +73,13 @@ describe('Component: TestCreatePage', () => {
 
     component.removeVehicleTest(ourVehicle, addedVehicleTest);
     expect(ourVehicle.getVehicleTests().length).toEqual(0);
+  });
+
+  it('should say either a test is abandoned or not', () => {
+    expect(component.isTestAbandoned(addedVehicleTest)).toBeFalsy();
+    addedVehicleTest.addAbandonmentReasons(['Best reason']);
+    addedVehicleTest.addAdditionalAbandonmentReason('Additional comment');
+    expect(component.isTestAbandoned(addedVehicleTest)).toBeTruthy();
   });
 
 });

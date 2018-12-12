@@ -1,23 +1,22 @@
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {IonicPage, NavController, NavParams, AlertController, ItemSliding} from 'ionic-angular';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { IonicPage, NavController, AlertController, ItemSliding } from 'ionic-angular';
 import { TestReportModel } from '../../../../models/test-report.model';
 import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import { PhoneService } from '../../../../providers/natives/phone.service'
-import {TestReportService} from "../../../../providers/test-report/test-report.service";
+import { TestReportService } from "../../../../providers/test-report/test-report.service";
 
 @IonicPage()
 @Component({
   selector: 'page-test-create',
   templateUrl: 'test-create.html',
 })
-export class TestCreatePage implements OnInit{
+export class TestCreatePage implements OnInit {
 
   testReport: TestReportModel;
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               public phoneService: PhoneService,
               public alertCtrl: AlertController,
               private testReportService: TestReportService) {
@@ -28,23 +27,31 @@ export class TestCreatePage implements OnInit{
   }
 
   ionViewWillLeave() {
-    if(this.slidingItems.length) {
+    if (this.slidingItems.length) {
       this.slidingItems.forEach(slidingItem => {
         slidingItem.close();
       });
     }
   }
 
-	presentSearchVehicle(): void {
-		this.navCtrl.push('VehicleLookupPage');
+  presentSearchVehicle(): void {
+    this.navCtrl.push('VehicleLookupPage');
   }
 
-	addVehicleTest(vehicle: VehicleModel): void {
-		this.navCtrl.push('TestTypesListPage', {vehicleData: vehicle});
-	}
+  addVehicleTest(vehicle: VehicleModel): void {
+    this.navCtrl.push('TestTypesListPage', {vehicleData: vehicle});
+  }
 
   openTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel): void {
-    this.navCtrl.push('CompleteTestPage', {vehicle: vehicle, vehicleTest: vehicleTest});
+    if (!this.isTestAbandoned(vehicleTest)) {
+      this.navCtrl.push('CompleteTestPage', {vehicle: vehicle, vehicleTest: vehicleTest});
+    } else {
+      this.navCtrl.push('TestAbandoningPage', {
+        vehicleTest: vehicleTest,
+        selectedReasons: vehicleTest.getAbandonment().reasons,
+        editMode: false
+      });
+    }
   }
 
   reviewTest(): void {
@@ -81,8 +88,16 @@ export class TestCreatePage implements OnInit{
     alert.present();
   }
 
+  onAbandonVehicleTest(vehicleTest) {
+    this.navCtrl.push('ReasonsSelectionPage', {vehicleTest: vehicleTest});
+  }
+
   removeVehicleTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
     vehicle.removeVehicleTest(vehicleTest);
+  }
+
+  isTestAbandoned(vehicleTest: VehicleTestModel) {
+    return vehicleTest.getAbandonment().reasons.length > 0;
   }
 
 }
