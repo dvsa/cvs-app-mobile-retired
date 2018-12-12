@@ -157,4 +157,6 @@ describe('Component: DefectDetailsPage', () => {
     comp.vehicleTest.addDefect(addedDefect);
     expect(comp.checkIfDefectWasAdded()).toBeTruthy();
   });
+
+
 });
