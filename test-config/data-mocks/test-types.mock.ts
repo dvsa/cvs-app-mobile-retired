@@ -13,9 +13,6 @@ export class TestTypesDataMock {
         forVehicleConfiguration: [
           'rigid'
         ],
-        forVehicleAxles: [
-          2
-        ],
         nextTestTypesOrCategories: [
           {
             id: 'asdas12314v',

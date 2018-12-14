@@ -4,6 +4,6 @@ export interface TestTypesModel {
   forVehicleType: string[];
   forVehicleSize: string[];
   forVehicleConfiguration: string[];
-  forVehicleAxles: number[];
+  forVehicleAxles?: number[];
   nextTestTypesOrCategories?: TestTypesModel[];
 }

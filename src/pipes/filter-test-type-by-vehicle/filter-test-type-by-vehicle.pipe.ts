@@ -22,7 +22,7 @@ export class FilterTestTypeByVehiclePipe implements PipeTransform {
     if (elem.forVehicleType.indexOf(vehicle.getType()) == -1) return false;
     if (elem.forVehicleSize.indexOf(vehicle.getSize()) == -1) return false;
     if (elem.forVehicleConfiguration.indexOf(vehicle.getConfiguration()) == -1) return false;
-    if (elem.forVehicleAxles.indexOf(vehicle.getAxels()) == -1) return false;
+    if (elem.forVehicleAxles && elem.forVehicleAxles.indexOf(vehicle.getAxels()) == -1) return false;
     return elem;
   }
 }
