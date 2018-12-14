@@ -1,50 +1,54 @@
 page-test-create {
-	.content-ios {
-		background-color: $content-background-color;
+  .content-ios {
+    background-color: $content-background-color;
 
-		.card-ios {
-			.ion-item-title {
-				h2 {
-					font-size: 14px;
-				   }
+    .card-ios {
+      .ion-item-title {
+        h2 {
+          font-size: 14px;
+        }
 
-				p {
-					padding-top: 4px;
-					font-weight: normal;
-					font-size: 12px;
-			   }
-			}
+        p {
+          padding-top: 4px;
+          font-weight: normal;
+          font-size: 12px;
+        }
+      }
 
-			.btn-add-test {
-				font-size: 14px;
-				color: color($colors, primary);
-			}
+      .btn-add-test {
+        font-size: 14px;
+        color: color($colors, primary);
+      }
 
-			.item-ios.bottom-divider {
-				border-top: 0.55px solid #c8c7cc;
-			}
+      .item-ios.bottom-divider {
+        border-top: 0.55px solid $item-icon-light-gray;
+      }
 
-			.item-ios {
-				.test-type {
-					margin-top: 2px;
-				}
+      .item-ios {
+        .test-type {
+          margin-top: 2px;
+        }
 
-				[item-end].test-type-status {
-					margin: 0;
-				}
+        [item-end].test-type-status {
+          margin: 0;
+        }
 
-				[item-end].test-type-status.test-type-pass {
-					color: color($colors, secondary);
-				}
+        [item-end].test-type-status.test-type-pass {
+          color: color($colors, secondary);
+        }
 
-				[item-end].test-type-status.test-type-fail {
-					color: color($colors, danger);
-				}
+        [item-end].test-type-status.test-type-fail {
+          color: color($colors, danger);
+        }
 
-				[item-end].test-type-status.test-type-notcomplete {
-					color: color($colors, attention);
-				}
-			}
-		}
-	}
+        [item-end].test-type-status.test-type-notcomplete {
+          color: color($colors, attention);
+        }
+      }
+    }
+  }
+
+  .abandoned-test {
+    opacity: .4;
+  }
 }

@@ -1,4 +1,5 @@
-import {DefectDetailsModel} from "./defects/defect-details.model";
+import { DefectDetailsModel } from "./defects/defect-details.model";
+import { VehicleTestAbandonmentModel } from "./vehicle-test-abandonment.model";
 
 export class VehicleTestModel {
   private name: string;
@@ -9,6 +10,7 @@ export class VehicleTestModel {
   private odometerReading: number;
   private odometerMetric: string;
   private defects: DefectDetailsModel[];
+  private abandonment: VehicleTestAbandonmentModel;
 
   constructor(name: string, hasPassed?: boolean, certificateExpirationDate?: Date, certificateLifespanInMonths?: number, date?: Date) {
     this.name = name;
@@ -17,6 +19,7 @@ export class VehicleTestModel {
     this.certificateLifespanInMonths = certificateLifespanInMonths;
     this.date = date;
     this.defects = [];
+    this.abandonment = {reasons: [], additionalComment: ''};
   }
 
   _clone(): VehicleTestModel {
@@ -54,6 +57,10 @@ export class VehicleTestModel {
 
   getDefects(): DefectDetailsModel[] {
     return this.defects;
+  }
+
+  getAbandonment(): VehicleTestAbandonmentModel {
+    return this.abandonment;
   }
 
   private passVehicleTest() {
@@ -113,6 +120,14 @@ export class VehicleTestModel {
       return e.ref
     }).indexOf(defect.ref);
     this.defects.splice(defIdx, 1);
+  }
+
+  addAbandonmentReasons(reasons: string[]) {
+    this.abandonment.reasons.push(...reasons);
+  }
+
+  addAdditionalAbandonmentReason(comment: string) {
+    this.abandonment.additionalComment = comment;
   }
 
 }
