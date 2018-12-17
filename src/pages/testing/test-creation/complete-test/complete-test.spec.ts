@@ -7,7 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { VehicleModel } from "../../../../models/vehicle.model";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
-import { DefectsDataMock } from "../../../../../test-config/data-mocks/defects-data.mock";
+import { DefectsDataMock } from "../../../../assets/data-mocks/defects-data.mock";
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";

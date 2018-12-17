@@ -6,12 +6,12 @@ import { AtfReferenceDataModel } from "../../models/reference-data-models/atf.mo
 import { APP, STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
 import { AlertController, Events, LoadingController } from "ionic-angular";
-import { KEYS } from "../../../config/config.enums";
 import { _throw } from "rxjs/observable/throw";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { CallNumber } from "@ionic-native/call-number";
 import { Observable } from "rxjs";
 import { of } from "rxjs/observable/of";
+import { AppConfig } from "../../../config/app.config";
 
 @Injectable()
 export class SyncService {
@@ -99,7 +99,7 @@ export class SyncService {
           {
             text: 'Call Technical Support',
             handler: () => {
-              this.callNumber.callNumber(KEYS.PHONE_NUMBER, true)
+              this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true)
               return false
             }
           },
