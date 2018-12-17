@@ -14,7 +14,7 @@
     "ionic:serve": "ionic-app-scripts serve --nobrowser",
     "prebuild-ios": "npm run-script generate-env --pipeline",
     "build-ios": "ionic-app-scripts build --target cordova --platform ios",
-    "test": "karma start ./test-config/karma.conf.js",
+    "test-ci-headless": "karma start ./test-config/karma.conf.js",
     "test-watch": "karma start ./test-config/karma.conf.js --watch",
     "test-coverage": "karma start ./test-config/karma.conf.js --coverage",
     "e2e": "npm run e2e-update && npm run e2e-test",
