@@ -1,5 +1,5 @@
 import { AtfReferenceDataModel } from './reference-data-models/atf.model';
-import { TestReportModel } from './test-report.model';
+import { TestReportModel } from './tests/test-report.model';
 
 export class VisitModel {
     private startTime: Date;

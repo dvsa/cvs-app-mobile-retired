@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController } from 'ionic-angular';
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
-import { TestReportModel } from "../../../../models/test-report.model";
+import { TestReportModel } from "../../../../models/tests/test-report.model";
 import { PreparersModel } from "../../../../models/reference-data-models/preparers.model";
 import {TestReportService} from "../../../../providers/test-report/test-report.service";
 

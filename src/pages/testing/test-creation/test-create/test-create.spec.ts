@@ -5,7 +5,7 @@ import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { VehicleModel } from "../../../../models/vehicle.model";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { TestReportModel } from "../../../../models/test-report.model";
+import { TestReportModel } from "../../../../models/tests/test-report.model";
 import { PhoneService } from "../../../../providers/natives/phone.service";
 import { TestReportService } from "../../../../providers/test-report/test-report.service";
 
@@ -20,6 +20,8 @@ describe('Component: TestCreatePage', () => {
   const testReport: TestReportModel = {
     startTime: null,
     endTime: null,
+    testStatus: null,
+    cancellationReason: '',
     vehicles: [],
     preparer: null
   };

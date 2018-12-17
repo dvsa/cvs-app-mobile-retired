@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {VisitModel} from '../../../models/visit.model';
-import {TestReportService} from "../../../providers/test-report/test-report.service";
-import {TestReportModel} from "../../../models/test-report.model";
+import { Component, OnInit } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { VisitModel } from '../../../models/visit.model';
+import { TestReportService } from "../../../providers/test-report/test-report.service";
+import { TestReportModel } from "../../../models/tests/test-report.model";
 
 @IonicPage()
 @Component({

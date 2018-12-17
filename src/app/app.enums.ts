@@ -27,3 +27,8 @@ export enum TEST_REPORT_TITLES {
   LINKED_TEST = 'Linked Test',
   COMBINED_TEST = 'Combined Test'
 }
+
+export enum TEST_REPORT_STATUSES {
+  SUBMITTED = 'Submitted',
+  CANCELLED = 'Cancelled'
+}

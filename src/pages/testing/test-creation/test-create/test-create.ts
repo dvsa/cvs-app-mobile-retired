@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { IonicPage, NavController, AlertController, ItemSliding } from 'ionic-angular';
-import { TestReportModel } from '../../../../models/test-report.model';
+import { TestReportModel } from '../../../../models/tests/test-report.model';
 import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import { PhoneService } from '../../../../providers/natives/phone.service'
@@ -64,6 +64,10 @@ export class TestCreatePage implements OnInit {
 
   addATFIssue(): void {
     this.navCtrl.push('ATFIssuePage');
+  }
+
+  onCancel() {
+    this.navCtrl.push('TestCancelPage');
   }
 
   onRemoveVehicleTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel, slidingItem: ItemSliding) {
