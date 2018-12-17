@@ -31,6 +31,7 @@ www/
 $RECYCLE.BIN/
 coverage/
 src/assets/data-mocks/config/
+config/application.json
 
 .DS_Store
 Thumbs.db
