@@ -14,15 +14,15 @@
                    [(ngModel)]="searchValue"
                    [showCancelButton]="true"
                    [cancelButtonText]="'Cancel'"
-                   (ionFocus)="detectFocus()"
-                   (ionCancel)="detectFocus()"
+                   (ionFocus)="setFocus()"
+                   (ionCancel)="cancelFocus()"
                    placeholder="Search for preparer ID number"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding>
   <ion-list *ngIf="filteredPreparers.length > 0">
-    <button ion-item no-lines padding-left (click)="presentConfirm()" class="min-height" *ngIf="!searchbarFocus">
+    <button ion-item no-lines padding-left (click)="presentConfirm('Preparer ID not given')" class="min-height" *ngIf="!searchbarFocus">
       No preparer ID given
     </button>
     <ion-list-header text-uppercase padding-left *ngIf="!searchbarFocus">List of preparers</ion-list-header>
@@ -43,7 +43,7 @@
       <ion-col col-8 offset-2>
         <span text-center class="no-results__title">No results found</span>
         <span text-center class="no-results__text">You can search for a preparer by its ID number</span>
-        <span text-center class="no-results__link" (click)="presentConfirm()">Continue without preparer ID</span>
+        <span text-center class="no-results__link" (click)="presentConfirm('Preparer ID not found')">Continue without preparer ID</span>
       </ion-col>
     </ion-row>
   </ion-grid>
