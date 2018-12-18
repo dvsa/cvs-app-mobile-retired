@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {SocialSharing} from '@ionic-native/social-sharing';
-import {TestReportModel} from '../../../models/tests/test-report.model';
-import {API} from "../../../../config/config.enums";
-import {TestReportService} from "../../../providers/test-report/test-report.service";
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { TestReportModel } from '../../../models/test-report.model';
+import { TestReportService } from "../../../providers/test-report/test-report.service";
+import { AppConfig } from "../../../../config/app.config";
 
 @IonicPage()
 @Component({
@@ -28,8 +28,8 @@ export class TestSubmittedPage {
     let options = {
       message: 'The following certificates have now been issued',
       subject: 'Certificates',
-      files: [API.GET_CERTIFICATE],
-      url: API.GET_CERTIFICATE,
+      files: [AppConfig.BACKEND_GET_CERTIFICATE],
+      url: AppConfig.BACKEND_GET_CERTIFICATE,
       chooserTitle: 'Pick an app'
     };
     this.socialSharing.shareWithOptions(options);

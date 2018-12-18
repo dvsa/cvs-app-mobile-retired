@@ -3,8 +3,8 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
 import {AuthInterceptor} from "./auth.interceptor";
 import {HTTPService} from "../global/http.service";
-import {AUTH} from "../../../config/config.enums";
 import {Data} from "@angular/router";
+import { AppConfig } from "../../../config/app.config";
 
 describe(`AuthHttpInterceptor`, () => {
   let httpClient: HttpClient;
@@ -37,7 +37,7 @@ describe(`AuthHttpInterceptor`, () => {
         expect(data).toEqual(testData)
       });
     const httpRequest = httpMock.expectOne(testUrl);
-    expect(httpRequest.request.headers.has(`${AUTH.HEADERS}`)).toEqual(true);
+    expect(httpRequest.request.headers.has(`${AppConfig.AUTH_HEADERS}`)).toEqual(true);
   });
 
 });

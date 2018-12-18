@@ -3,7 +3,7 @@ import { TestBed } from "@angular/core/testing";
 import { VehicleModel } from "../../models/vehicle.model";
 import { PreparersModel } from "../../models/reference-data-models/preparers.model";
 import { VehicleTestModel } from "../../models/vehicle-test.model";
-import { PreparersDataMock } from "../../../test-config/data-mocks/preparers-data.mock";
+import { PreparersDataMock } from "../../assets/data-mocks/preparers-data.mock";
 import { TEST_REPORT_TITLES } from "../../app/app.enums";
 
 describe('Provider: TestReportService', () => {

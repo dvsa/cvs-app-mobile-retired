@@ -7,7 +7,7 @@ import { DefectsService } from "../../../../providers/defects/defects.service";
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { TestTypesListPage } from "./test-types-list";
 import { TestTypesService } from "../../../../providers/test-types/test-type.service";
-import { TestTypesDataMock } from "../../../../../test-config/data-mocks/test-types.mock";
+import { TestTypesDataMock } from "../../../../assets/data-mocks/test-types.mock";
 import { TestTypesModel } from "../../../../models/reference-data-models/test-types.model";
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { AtfService } from "../../../../providers/atf/atf.service";

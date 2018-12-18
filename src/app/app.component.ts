@@ -2,10 +2,10 @@ import { Component, Renderer2 } from '@angular/core';
 import { Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { KEYS } from "../../config/config.enums";
 import { AuthService } from "../providers/global/auth.service";
 import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
 import { SyncService } from "../providers/global/sync.service";
+import { AppConfig } from "../../config/app.config";
 
 @Component({
   templateUrl: 'app.html'
@@ -31,7 +31,7 @@ export class MyApp {
 
       // Load Google Maps Library
       let node = document.createElement('script');
-      node.src = "https://maps.googleapis.com/maps/api/js?key=" + KEYS.GOOGLE_MAPS_KEY;
+      node.src = "https://maps.googleapis.com/maps/api/js?key=" + AppConfig.KEY_GOOGLE_MAPS_KEY;
       node.type = 'text/javascript';
       node.async = true;
       node.charset = 'utf-8';

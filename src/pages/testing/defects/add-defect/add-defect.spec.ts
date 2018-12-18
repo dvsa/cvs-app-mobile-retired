@@ -8,7 +8,7 @@ import { DefectsService } from "../../../../providers/defects/defects.service";
 import { AddDefectPage } from "./add-defect";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { DefectCategoryModel, DefectItemModel } from "../../../../models/reference-data-models/defects.model";
-import { DefectsDataMock } from "../../../../../test-config/data-mocks/defects-data.mock";
+import { DefectsDataMock } from "../../../../assets/data-mocks/defects-data.mock";
 import { PipesModule } from "../../../../pipes/pipes.module";
 
 describe('Component: AddDefectPage', () => {

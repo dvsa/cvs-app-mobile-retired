@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { StorageService } from "../natives/storage.service";
 import { DefectsService } from "./defects.service";
-import { DefectsDataMock } from "../../../test-config/data-mocks/defects-data.mock";
+import { DefectsDataMock } from "../../assets/data-mocks/defects-data.mock";
 import { DefectCategoryModel, DefectDeficiencyModel, DefectItemModel } from "../../models/reference-data-models/defects.model";
 import { DEFICIENCY_CATEGORY } from "../../app/app.enums";
 

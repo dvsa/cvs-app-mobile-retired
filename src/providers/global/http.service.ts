@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AppConfig } from "../../../config/app.config";
-import { API } from "../../../config/config.enums";
 import { AtfReferenceDataModel } from "../../models/reference-data-models/atf.model";
 import { DefectCategoryModel } from "../../models/reference-data-models/defects.model";
 import { TestTypesModel } from "../../models/reference-data-models/test-types.model";
@@ -15,22 +14,23 @@ export class HTTPService {
   }
 
   addTest(body): Observable<any> {
-    return this.http.post(`${AppConfig.API_URL}${API.POST_TEST_URL}`, body);
+    return
+  //   return this.http.post(`${AppConfig.API_URL}${API.POST_TEST_URL}`, body);
   }
 
   getAtfs(): Observable<AtfReferenceDataModel[]> {
-    return this.http.get<AtfReferenceDataModel[]>(`${AppConfig.API_URL}${API.GET_ATFS}`);
+    return this.http.get<AtfReferenceDataModel[]>(AppConfig.BACKEND_URL_ATF);
   }
 
   getDefects(): Observable<DefectCategoryModel[]> {
-    return this.http.get<DefectCategoryModel[]>(`${AppConfig.API_URL}${API.GET_DEFECTS}`)
+    return this.http.get<DefectCategoryModel[]>(AppConfig.BACKEND_URL_DEFECTS)
   }
 
   getTestTypes(): Observable<TestTypesModel[]> {
-    return this.http.get<TestTypesModel[]>(`${AppConfig.API_URL}${API.GET_TESTTYPES}`);
+    return this.http.get<TestTypesModel[]>(AppConfig.BACKEND_URL_TESTTYPES);
   }
 
   getPreparers(): Observable<PreparersModel[]> {
-    return this.http.get<PreparersModel[]>(`${AppConfig.API_URL}${API.GET_PREPARERS}`);
+    return this.http.get<PreparersModel[]>(AppConfig.BACKEND_URL_PREPARERS);
   }
 }

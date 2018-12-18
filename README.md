@@ -28,7 +28,9 @@ To get a working build running locally follow these steps:
 * To install the typings npm package run this command, `npm install -g typings`.
 * To install the node typings run this command, `typings install dt~node --global --save`.
 
-5. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
+5. Run the following GIT command: "git update-index --assume-unchanged config/application.json"
+
+6. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
 
 ### For testing in the browser:
 

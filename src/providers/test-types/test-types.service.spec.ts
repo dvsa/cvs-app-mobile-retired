@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { StorageService } from "../natives/storage.service";
 import { TestTypesService } from "./test-type.service";
-import { TestTypesDataMock } from "../../../test-config/data-mocks/test-types.mock";
+import { TestTypesDataMock } from "../../assets/data-mocks/test-types.mock";
 import { TestTypesModel } from "../../models/reference-data-models/test-types.model";
 
 describe('Provider: TestTypesService', () => {
