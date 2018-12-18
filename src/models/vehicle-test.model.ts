@@ -1,5 +1,5 @@
 import { DefectDetailsModel } from "./defects/defect-details.model";
-import { VehicleTestAbandonmentModel } from "./vehicle-test-abandonment.model";
+import { VehicleTestAbandonmentModel } from "./tests/vehicle-test-abandonment.model";
 
 export class VehicleTestModel {
   private name: string;

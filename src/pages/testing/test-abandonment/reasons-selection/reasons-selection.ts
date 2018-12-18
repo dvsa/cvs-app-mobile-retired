@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { TestAbandonmentReasonsData } from "../../../../../config/data/test-abandonment-reasons.data";
-import { AbandonmentReasonItemModel } from "../../../../models/abandonment-reason-item.model";
+import { AbandonmentReasonItemModel } from "../../../../models/tests/abandonment-reason-item.model";
 
 @IonicPage()
 @Component({

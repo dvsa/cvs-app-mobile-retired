@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {SocialSharing} from '@ionic-native/social-sharing';
-import {TestReportModel} from '../../../models/test-report.model';
+import {TestReportModel} from '../../../models/tests/test-report.model';
 import {API} from "../../../../config/config.enums";
 import {TestReportService} from "../../../providers/test-report/test-report.service";
 

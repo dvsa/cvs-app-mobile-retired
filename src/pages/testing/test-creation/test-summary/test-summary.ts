@@ -3,7 +3,7 @@ import {NavController, NavParams, AlertController, IonicPage} from 'ionic-angula
 import {VehicleTestService} from '../../../../providers/vehicle-test.service';
 import {Observable} from "rxjs";
 import {TestReportService} from "../../../../providers/test-report/test-report.service";
-import {TestReportModel} from "../../../../models/test-report.model";
+import {TestReportModel} from "../../../../models/tests/test-report.model";
 
 @IonicPage()
 @Component({

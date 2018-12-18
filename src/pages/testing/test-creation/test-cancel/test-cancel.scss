@@ -1,0 +1,18 @@
+page-test-cancel {
+
+  .item-divider-ios {
+    font-size: $font-size-small;
+    text-transform: uppercase;
+  }
+
+  .list-ios {
+    margin-bottom: 0;
+  }
+
+  .cancellation-info {
+    padding: 0 16px;
+    font-size: $font-size-small;
+    color: $list-ios-header-font-color;
+  }
+
+}

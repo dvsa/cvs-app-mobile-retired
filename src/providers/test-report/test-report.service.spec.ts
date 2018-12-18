@@ -33,6 +33,8 @@ describe('Provider: TestReportService', () => {
     testReportService.testReport = {
       startTime: new Date(),
       endTime: null,
+      testStatus: null,
+      cancellationReason: '',
       vehicles: [vehicle],
       preparer: null
     };

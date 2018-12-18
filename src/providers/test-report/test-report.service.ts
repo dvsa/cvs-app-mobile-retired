@@ -1,4 +1,4 @@
-import { TestReportModel } from "../../models/test-report.model";
+import { TestReportModel } from "../../models/tests/test-report.model";
 import { VehicleModel } from "../../models/vehicle.model";
 import { PreparersModel } from "../../models/reference-data-models/preparers.model";
 import { TEST_REPORT_TITLES } from "../../app/app.enums";
@@ -10,6 +10,8 @@ export class TestReportService {
     this.testReport = {
       startTime: null,
       endTime: null,
+      testStatus: null,
+      cancellationReason: '',
       vehicles: [],
       preparer: null
     };
