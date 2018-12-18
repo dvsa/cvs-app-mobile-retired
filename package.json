@@ -9,6 +9,7 @@
     "build-default": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "security-checks": "git-secrets --scan && git log -p | scanrepo",
+    "preionic:serve": "node_modules/.bin/cpx ./src/assets/data-mocks/config/application.json ./config/",
     "ionic:serve": "ionic-app-scripts serve --nobrowser",
     "build": "ionic-app-scripts build --target cordova --platform ios",
     "test-ci-headless": "karma start ./test-config/karma.conf.js",
