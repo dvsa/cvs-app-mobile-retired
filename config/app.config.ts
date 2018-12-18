@@ -1,4 +1,4 @@
-import * as app from "config/application.json";
+import * as app from "./application.json";
 
 export class AppConfig {
 
