@@ -1,4 +1,4 @@
-import * as app from "../src/assets/data-mocks/config/application.json";
+import * as app from "config/application.json";
 
 export class AppConfig {
 
