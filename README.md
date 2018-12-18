@@ -1,4 +1,4 @@
-# cvs-alpha-ios-vsa-app
+# cvs-app-mobile
 ​
 ## Synopsis
 ​
@@ -7,7 +7,7 @@ This project contains the mobile app that demonstrates a business workflow for C
 ## Authentication
 ​
 This repo does not contain references to authentication tokens, and requires them to be injected at build.
-​
+​alpha
 ## API Reference
 ​
 This repo does not contain references to API endpoints, and requires them to be injected at build.
