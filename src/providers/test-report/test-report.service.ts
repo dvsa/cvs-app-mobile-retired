@@ -33,8 +33,8 @@ export class TestReportService {
     this.testReport.vehicles.push(vehicle);
   }
 
-  addPreparer(value?: PreparersModel) {
-    this.testReport.preparer = value ? value : 'No preparer ID given';
+  addPreparer(value: PreparersModel) {
+    this.testReport.preparer = value;
   }
 
   getTestReportTitle(testReport: TestReportModel): string {

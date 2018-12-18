@@ -40,14 +40,26 @@ export class AddPreparerPage implements OnInit {
     this.navCtrl.pop();
   }
 
-  selectPreparer(preparer?: PreparersModel): void {
+  selectPreparer(preparer: PreparersModel): void {
     this.testReportService.addPreparer(preparer);
   }
 
-  presentConfirm(preparer?): void {
+  presentConfirm(value: PreparersModel | string): void {
+    let preparer: PreparersModel = {
+      preparerName: '',
+      preparerId: null
+      },
+    noPreparer: boolean = false;
+    if (typeof value === 'string') {
+      preparer.preparerName = value;
+      noPreparer = true;
+    } else {
+      preparer = value;
+      noPreparer = false;
+    }
     let alert = this.alertCtrl.create({
-      title: preparer ? 'Confirm preparer' : 'Continue without preparerID',
-      message: preparer ? `You have selected ${preparer.preparerId} as the preparer of this vehicle for testing.` : 'You will not be able to add a preparer for this vehicle later.',
+      title: noPreparer ? 'Continue without preparerID' : 'Confirm preparer',
+      message: noPreparer ? 'You will not be able to add a preparer for this vehicle later.' : `You have selected ${preparer.preparerId} as the preparer of this vehicle for testing.`,
       buttons: [
         {
           text: 'Cancel',
@@ -72,7 +84,12 @@ export class AddPreparerPage implements OnInit {
     this.filteredPreparers = this.preparerService.search(this.preparers, this.searchValue);
   }
 
-  detectFocus(): void {
-    this.searchbarFocus = !this.searchbarFocus;
+  setFocus(): void {
+    this.searchbarFocus = true;
   }
+
+  cancelFocus(): void {
+    this.searchbarFocus = false;
+  }
+
 }

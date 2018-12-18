@@ -1,4 +1,4 @@
 export interface PreparersModel {
-  preparerId: string
-  preparerName: string
+  preparerId: string | null;
+  preparerName: string;
 }

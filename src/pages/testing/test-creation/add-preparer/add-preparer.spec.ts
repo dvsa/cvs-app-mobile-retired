@@ -64,10 +64,17 @@ describe('Component: AddPreparerPage', () => {
     expect(testReportService.testReport.preparer).toBeTruthy();
   });
 
-  it('should check the negation function detectFocus', () => {
+  it('should make variable true on searchBar focus on', () => {
     comp.searchbarFocus = false;
     expect(comp.searchbarFocus).toBeFalsy();
-    comp.detectFocus();
+    comp.setFocus();
     expect(comp.searchbarFocus).toBeTruthy();
+  });
+
+  it('should make variable false on searchBar cancel', () => {
+    comp.searchbarFocus = true;
+    expect(comp.searchbarFocus).toBeTruthy();
+    comp.cancelFocus();
+    expect(comp.searchbarFocus).toBeFalsy();
   });
 });
