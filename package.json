@@ -6,20 +6,21 @@
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build",
+    "build-default": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "security-checks": "git-secrets --scan && git log -p | scanrepo",
     "generate-env": "node ./config/scripts/replace.env",
     "preionic:serve": "npm run-script generate-env --dev",
     "ionic:serve": "ionic-app-scripts serve --nobrowser",
     "prebuild-ios": "npm run-script generate-env --pipeline",
-    "build-ios": "ionic-app-scripts build --target cordova --platform ios",
-    "test": "karma start ./test-config/karma.conf.js",
+    "build": "ionic-app-scripts build --target cordova --platform ios",
+    "test-ci-headless": "karma start ./test-config/karma.conf.js",
     "test-watch": "karma start ./test-config/karma.conf.js --watch",
     "test-coverage": "karma start ./test-config/karma.conf.js --coverage",
     "e2e": "npm run e2e-update && npm run e2e-test",
     "e2e-test": "protractor ./test-config/protractor.conf.js",
-    "e2e-update": "webdriver-manager update --standalone false --gecko false"
+    "e2e-update": "webdriver-manager update --standalone false --gecko false",
+    "sonar-scanner": "echo 'TODO'"
   },
   "dependencies": {
     "@angular/animations": "^5.2.11",
