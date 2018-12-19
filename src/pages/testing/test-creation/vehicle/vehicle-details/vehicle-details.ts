@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController, AlertController} from 'ionic-angular';
 import {TestReportModel} from '../../../../../models/tests/test-report.model';
-import {VehicleModel} from '../../../../../models/vehicle.model';
 import {TestReportService} from "../../../../../providers/test-report/test-report.service";
+import { VehicleModel } from "../../../../../models/vehicle/vehicle.model";
 
 @IonicPage()
 @Component({

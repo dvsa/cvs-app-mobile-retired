@@ -1,15 +1,18 @@
 import { TestReportService } from "./test-report.service";
 import { TestBed } from "@angular/core/testing";
-import { VehicleModel } from "../../models/vehicle.model";
 import { PreparersModel } from "../../models/reference-data-models/preparers.model";
 import { VehicleTestModel } from "../../models/vehicle-test.model";
 import { PreparersDataMock } from "../../assets/data-mocks/preparers-data.mock";
 import { TEST_REPORT_TITLES } from "../../app/app.enums";
+import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
+import { VehicleModel } from "../../models/vehicle/vehicle.model";
+import { VehicleService } from "../vehicle/vehicle.service";
 
 describe('Provider: TestReportService', () => {
   let testReportService: TestReportService;
+  let vehicleService: VehicleService;
 
-  const vehicle = new VehicleModel('aa12bcd', '123456', 'psv', 4, 'german', 'cabrio', 123, 'rigid', 'small');
+  const vehicle: VehicleModel = VehicleDataMock.VehicleData;
   const vehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
 
   const preparerData = PreparersDataMock.PreparersData;
@@ -18,15 +21,18 @@ describe('Provider: TestReportService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        TestReportService
+        TestReportService,
+        VehicleService
       ]
     });
 
     testReportService = TestBed.get(TestReportService);
+    vehicleService = TestBed.get(VehicleService);
   });
 
   afterEach(() => {
     testReportService = null;
+    vehicleService = null;
   });
 
   it('should return the test report model', () => {
@@ -65,12 +71,14 @@ describe('Provider: TestReportService', () => {
   });
 
   it('should get the correct testReport title', () => {
-    testReportService.addVehicle(vehicle);
-    testReportService.testReport.vehicles[0].addVehicleTest(vehicleTest);
+    let newVehicle = vehicleService.createVehicle(vehicle);
+    testReportService.addVehicle(newVehicle);
+
+    vehicleService.addVehicleTest(newVehicle, vehicleTest);
     expect(testReportService.getTestReportTitle(testReportService.testReport)).toEqual(TEST_REPORT_TITLES.SINGLE_TEST);
-    testReportService.testReport.vehicles[0].addVehicleTest(vehicleTest);
+    vehicleService.addVehicleTest(newVehicle, vehicleTest);
     expect(testReportService.getTestReportTitle(testReportService.testReport)).toEqual(TEST_REPORT_TITLES.LINKED_TEST);
-    testReportService.addVehicle(vehicle);
+    testReportService.addVehicle(newVehicle);
     expect(testReportService.getTestReportTitle(testReportService.testReport)).toEqual(TEST_REPORT_TITLES.COMBINED_TEST);
   });
 });

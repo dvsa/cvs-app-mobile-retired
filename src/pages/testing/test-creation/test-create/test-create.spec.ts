@@ -2,12 +2,14 @@ import { TestCreatePage } from "./test-create";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { NavController, NavParams, IonicModule } from "ionic-angular";
 import { VehicleTestModel } from "../../../../models/vehicle-test.model";
-import { VehicleModel } from "../../../../models/vehicle.model";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestReportModel } from "../../../../models/tests/test-report.model";
 import { PhoneService } from "../../../../providers/natives/phone.service";
 import { TestReportService } from "../../../../providers/test-report/test-report.service";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -16,6 +18,7 @@ describe('Component: TestCreatePage', () => {
   let navParams: NavParams;
   let phoneServiceSpy: any;
   let testReportServiceSpy: any;
+  let vehicleService: VehicleService
 
   const testReport: TestReportModel = {
     startTime: null,
@@ -25,8 +28,9 @@ describe('Component: TestCreatePage', () => {
     vehicles: [],
     preparer: null
   };
+
   const addedVehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
-  const vehicle = new VehicleModel('aa12bcd', '123456', 'psv', 4, 'german', 'cabrio', 123, 'rigid', 'small');
+  let vehicle: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
     phoneServiceSpy = jasmine.createSpyObj('phoneService', ['callPhoneNumber']);
@@ -37,6 +41,7 @@ describe('Component: TestCreatePage', () => {
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
         NavController,
+        VehicleService,
         {provide: PhoneService, useValue: phoneServiceSpy},
         {provide: TestReportService, useValue: testReportServiceSpy},
         {provide: NavParams, useClass: NavParamsMock}
@@ -50,11 +55,13 @@ describe('Component: TestCreatePage', () => {
     component = fixture.componentInstance;
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
+    vehicleService = TestBed.get(VehicleService);
   });
 
   afterEach(() => {
     fixture.destroy();
     component = null;
+    vehicleService = null;
   });
 
   it('should create the component', () => {
@@ -68,13 +75,13 @@ describe('Component: TestCreatePage', () => {
 
     const ourVehicleIndex = component.testReport.vehicles.indexOf(vehicle);
     const ourVehicle = component.testReport.vehicles[ourVehicleIndex];
+    let newVehicle = vehicleService.createVehicle(ourVehicle);
 
-    expect(ourVehicle.getVehicleTests().length).toEqual(0);
-    ourVehicle.addVehicleTest(addedVehicleTest);
-    expect(ourVehicle.getVehicleTests().length).toEqual(1);
-
-    component.removeVehicleTest(ourVehicle, addedVehicleTest);
-    expect(ourVehicle.getVehicleTests().length).toEqual(0);
+    expect(newVehicle.vehicleTests.length).toEqual(0);
+    vehicleService.addVehicleTest(newVehicle, addedVehicleTest);
+    expect(newVehicle.vehicleTests.length).toEqual(1);
+    vehicleService.removeVehicleTest(newVehicle, addedVehicleTest);
+    expect(newVehicle.vehicleTests.length).toEqual(0);
   });
 
   it('should say either a test is abandoned or not', () => {

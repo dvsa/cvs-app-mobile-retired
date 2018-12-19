@@ -1,3 +1,16 @@
 page-vehicle-lookup {
+  .custom-input {
+    font-weight: 400;
+    border: 1px solid $item-icon-light-gray;
+    border-radius: 5px;
+    padding-left: 8px;
+  }
 
+  .custom-button {
+    font-weight: 600;
+  }
+
+  .shadow {
+    box-shadow: 0 2px 2px $item-icon-light-gray;
+  }
 }

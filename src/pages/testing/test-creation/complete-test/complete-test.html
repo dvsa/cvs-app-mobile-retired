@@ -9,11 +9,11 @@
 <ion-content no-padding>
   <ion-list class="full-dividers-list">
     <ion-item detail-push>
-      <h2>{{ vehicle.registration }}</h2>
-      <p>{{ vehicle.type }}</p>
+      <h2>{{ vehicle.vrms[0].vrm }}</h2>
+      <p>{{ vehicle.techRecord[0].vehicleType }}</p>
       <button ion-button item-end (click)="openVehicleDetails()">Vehicle details</button>
     </ion-item>
-    <ion-item *ngIf="vehicle.type != 'Trailer'">
+    <ion-item *ngIf="vehicle.techRecord[0].vehicleType != 'Trailer'">
       <ion-label>Odometer reading</ion-label>
       <ion-input type="number" class="odometer-reading" placeholder="Enter value" [(ngModel)]="vehicleTest.odometerReading"
                  (ngModelChange)="vehicleTest.odometerReading = convertToNumber($event)"></ion-input>

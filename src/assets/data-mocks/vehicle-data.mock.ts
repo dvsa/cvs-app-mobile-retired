@@ -3,71 +3,83 @@ export class VehicleDataMock {
     return {
       "vrms": [
         {
-          "vrm": "12aabcd",
-          "isprimary": true
+          "vrm": "BQ91YHQ",
+          "isPrimary": true
+        },
+        {
+          "vrm": "QO92UX2",
+          "isPrimary": false
         }
       ],
-      "vin": "SOMEBIG5TRING2324",
+      "vehicleTests": [],
+      "testHistory": [],
+      "vin": "1B7GG36N12S678410",
       "techRecord": [
         {
-          "psvChassisMake": "english",
-          "psvChassisModel": "strong one",
-          "psvBodyMake": "japan",
-          "psvBodyModel": "cabrio",
-          "psvBodyType": "articulated",
-          "manufactureDate": 0,
-          "regnDate": "2017-12-13",
-          "coifDate": "2018-12-13",
-          "ntaNumerb": "112GGB0DF",
-          "conversionRefNo": "KKDFDF3L43434",
-          "seatsLowerDeck": 40,
-          "seatsUpperDeck": 30,
-          "standingCapacity": 50,
-          "speedRestriction": 120,
+          "chassisMake": "Volvo",
+          "chassisModel": "Model",
+          "bodyMake": "Sport",
+          "bodyModel": "blanao",
+          "bodyType": "articulated",
+          "manufactureDate": 1989,
+          "regnDate": "2018-12-19",
+          "coifDate": "2018-12-19",
+          "ntaNumber": "1234",
+          "conversionRefNo": "stringao",
+          "seatsLowerDeck": 1,
+          "seatsUpperDeck": 2,
+          "standingCapacity": 0,
+          "speedRestriction": 100,
           "speedLimiterMrk": true,
           "tachoExemptMrk": true,
-          "dispensations": "AFEW",
-          "remarks": "none for the moment",
-          "reasonForCreation": "to exist",
+          "dispensations": "dsps",
+          "remarks": "Thank you, Kanye, very cool",
+          "reasonForCreation": "this car is very cool",
           "statusCode": "archived",
+          "unladenWeight": 0,
           "grossKerbWeight": 0,
           "grossLadenWeight": 0,
           "grossGbWeight": 0,
           "grossDesignWeight": 0,
+          "grossUnladenWeight": 0,
           "noOfAxles": 0,
-          "brakeCode": "kfdjdd123",
+          "brakeCode": "string",
+          "vehicleClass": "2 (MotorBikes over 200cc or with a sidecar)",
+          "vehicleType": "PSV",
+          "vehicleSize": "large",
+          "vehicleConfiguration": "articulated",
           "brakes": {
-            "brakeCode": "dddbrake34",
-            "dataTrPsvBrakeOne": "brake1",
-            "dataTrPsvBrakeTwo": "brake2",
-            "dataTrpsvBrakeThree": "brake3",
+            "brakeCode": "brkCode",
+            "dataTrBrakeOne": "random",
+            "dataTrBrakeTwo": "string",
+            "dataTrBrakeThree": "here",
             "parkingBrakeMrk": "N",
             "retarderBrakeOne": "electric",
             "retarderBrakeTwo": "electric",
             "brakeForceWheelsNotLocked": {
-              "serviceBrakeForceA": 0,
-              "secondaryBrakeForceA": 0,
-              "parkingBrakeForceA": 0
+              "serviceBrakeForce": 0,
+              "secondaryBrakeForce": 0,
+              "parkingBrakeForce": 0
             },
-            "BrakeForceWheelsUpToHalfLocked": {
-              "serviceBrakeForceB": 0,
-              "secondaryBrakeForceB": 0,
-              "parkingBrakeForceB": 0
+            "brakeForceWheelsUpToHalfLocked": {
+              "serviceBrakeForce": 0,
+              "secondaryBrakeForce": 0,
+              "parkingBrakeForce": 0
             }
           },
           "axles": [
             {
-              "axleNumber": 6,
+              "axleNumber": 0,
               "weights": {
-                "kerbWeight": 14,
-                "ladenWeight": 23,
-                "gbWeight": 32,
-                "designWeight": 50
+                "kerbWeight": 0,
+                "ladenWeight": 0,
+                "gbWeight": 0,
+                "designWeight": 0
               },
               "tyres": {
-                "tyreSize": "BigOnes",
-                "plyRating": "BestEver",
-                "fitmentCode": ["double"],
+                "tyreSize": "big",
+                "plyRating": "10/10",
+                "fitmentCode": "double",
                 "dataTrPsvAxles": 0,
                 "speedCategorySymbol": "A7",
                 "tyreCode": 0

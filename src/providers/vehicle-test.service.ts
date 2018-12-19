@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HTTPService} from './global/http.service';
 import {VehicleTestModel} from '../models/vehicle-test.model';
-import {VehicleModel} from '../models/vehicle.model';
 import {Observable} from "rxjs";
+import { VehicleModel } from "../models/vehicle/vehicle.model";
 
 @Injectable()
 export class VehicleTestService {
@@ -12,7 +12,7 @@ export class VehicleTestService {
 
   postVehicleTest(vehicleTest: VehicleTestModel, vehicle: VehicleModel): Observable<any> {
     let body = {
-      vehicleId: vehicle.getRegistration(),
+      vehicleId: vehicle.vrms[0].vrm,
       testType: vehicleTest.getName(),
       createDate: this.formatDate(vehicleTest.getDate()),
       certificateLifeSpanMonths: vehicleTest.getCertificateLifespanInMonths(),

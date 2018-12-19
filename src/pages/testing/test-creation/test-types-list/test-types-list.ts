@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { VehicleModel } from '../../../../models/vehicle.model';
 import { TestTypesService } from '../../../../providers/test-types/test-type.service';
 import { TestTypesModel } from "../../../../models/reference-data-models/test-types.model";
 import { VehicleTestModel } from "../../../../models/vehicle-test.model";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 @IonicPage()
 @Component({
@@ -15,7 +16,7 @@ export class TestTypesListPage implements OnInit {
   vehicleData: VehicleModel;
   testTypeReferenceData: TestTypesModel[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private testTypeService: TestTypesService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private testTypeService: TestTypesService, private vehicleService: VehicleService) {
     this.vehicleData = navParams.get('vehicleData');
     this.testTypeReferenceData = navParams.get('testTypeData');
   }
@@ -42,7 +43,7 @@ export class TestTypesListPage implements OnInit {
       for (let i = views.length - 1; i >= 0; i--) {
         if (views[i].component.name == 'TestCreatePage') {
           let test = new VehicleTestModel(testType.name)._clone();
-          this.vehicleData.addVehicleTest(test);
+          this.vehicleService.addVehicleTest(this.vehicleData, test);
           this.navCtrl.popTo(views[i]);
         }
       }

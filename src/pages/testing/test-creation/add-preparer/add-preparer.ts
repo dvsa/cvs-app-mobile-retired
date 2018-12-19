@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, IonicPage, NavController } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, ViewController } from 'ionic-angular';
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
 import { TestReportModel } from "../../../../models/tests/test-report.model";
 import { PreparersModel } from "../../../../models/reference-data-models/preparers.model";
-import {TestReportService} from "../../../../providers/test-report/test-report.service";
+import { TestReportService } from "../../../../providers/test-report/test-report.service";
+import { APP_STRINGS } from "../../../../app/app.enums";
 
 
 @IonicPage()
@@ -21,7 +22,8 @@ export class AddPreparerPage implements OnInit {
   constructor(public navCtrl: NavController,
               public preparerService: PreparerService,
               private alertCtrl: AlertController,
-              private testReportService: TestReportService) {
+              private testReportService: TestReportService,
+              private viewCtrl: ViewController) {
     this.testReport = this.testReportService.getTestReport();
   }
 
@@ -29,15 +31,15 @@ export class AddPreparerPage implements OnInit {
     this.getPreparers();
   }
 
+  ionViewWillEnter() {
+    this.viewCtrl.setBackButtonText(APP_STRINGS.VEHICLE_DETAILS);
+  }
+
   getPreparers(): void {
     this.preparerService.getPreparersFromStorage().subscribe(
       (data: PreparersModel[]) => {
         this.preparers = this.filteredPreparers = this.preparerService.search(data, this.searchValue);
       });
-  }
-
-  cancelPreparer(): void {
-    this.navCtrl.pop();
   }
 
   selectPreparer(preparer: PreparersModel): void {
@@ -58,17 +60,17 @@ export class AddPreparerPage implements OnInit {
       noPreparer = false;
     }
     let alert = this.alertCtrl.create({
-      title: noPreparer ? 'Continue without preparerID' : 'Confirm preparer',
-      message: noPreparer ? 'You will not be able to add a preparer for this vehicle later.' : `You have selected ${preparer.preparerId} as the preparer of this vehicle for testing.`,
+      title: noPreparer ? APP_STRINGS.WITHOUT_PREPARER : APP_STRINGS.CONFIRM_PREPARER,
+      message: noPreparer ? APP_STRINGS.ALERT_MESSAGE : `You have selected ${preparer.preparerId} as the preparer of this vehicle for testing.`,
       buttons: [
         {
-          text: 'Cancel',
+          text: APP_STRINGS.CANCEL,
           role: 'cancel',
           handler: () => {
           }
         },
         {
-          text: 'Confirm',
+          text: APP_STRINGS.CONFIRM,
           handler: () => {
             this.selectPreparer(preparer);
             this.navCtrl.push('TestCreatePage');

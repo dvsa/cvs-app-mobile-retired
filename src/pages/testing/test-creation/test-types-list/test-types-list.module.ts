@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { TestTypesListPage } from "./test-types-list";
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { TestTypesService } from "../../../../providers/test-types/test-type.service";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { TestTypesService } from "../../../../providers/test-types/test-type.ser
     IonicPageModule.forChild(TestTypesListPage),
   ],
   providers: [
-    TestTypesService
+    TestTypesService,
+    VehicleService
   ]
 })
 export class TestTypesListPageModule {
