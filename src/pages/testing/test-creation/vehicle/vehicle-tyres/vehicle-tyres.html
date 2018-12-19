@@ -7,110 +7,70 @@
 </ion-header>
   
 <ion-content no-padding>
-    <div text-uppercase text-center class="vehicle-header-vrm-number">
-        AA12 BCD
-    </div>
-    <ion-list class="vehicle-list">
-        <ion-list-header padding-left padding-right>AXLE 1</ion-list-header>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Tyre size</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>315/80-22.5</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Ply</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>-</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Fitment</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>S</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>S/D index</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>7500</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Speed cat</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>7500</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left> 
-            <ion-label>
-                <h3>Tyre code</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>428</p>
-            </div>
-        </ion-item>
-    </ion-list>
-    <ion-list class="vehicle-list">
-        <ion-list-header padding-left padding-right>AXLE 2</ion-list-header>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Tyre size</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>315/80-22.5</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Ply</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>-</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Fitment</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>S</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>S/D index</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>7500</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Speed cat</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>7500</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Tyre code</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>428</p>
-            </div>
-        </ion-item>
-    </ion-list>
+    <ng-container *ngFor="let vrm of vehicleData.vrms">
+        <div text-uppercase 
+             text-center 
+             class="vehicle-header-vrm-number" 
+             *ngIf="vrm.isPrimary">
+            {{ vrm.vrm }}
+        </div>
+    </ng-container>
+    <ng-container *ngFor="let techRecord of vehicleData.techRecord">
+        <ng-container *ngIf="commonFunc.checkForMatch(techRecord.statusCode, 'current')">
+            
+            <ion-list class="vehicle-list" *ngFor="let axle of techRecord.axles">
+                <ion-list-header padding-left padding-right>AXLE {{ axle.axleNumber }}</ion-list-header>
+                <ion-item margin-left>
+                    <ion-label>
+                        <h3>Tyre size</h3>
+                    </ion-label>
+                    <div item-content padding-right>
+                        <p>{{ axle.tyres.tyreSize }}</p>
+                    </div>
+                </ion-item>
+                <ion-item margin-left>
+                    <ion-label>
+                        <h3>Ply</h3>
+                    </ion-label>
+                    <div item-content padding-right>
+                        <p>{{ axle.tyres.plyRating }}</p>
+                    </div>
+                </ion-item>
+                <ion-item margin-left>
+                    <ion-label>
+                        <h3>Fitment</h3>
+                    </ion-label>
+                    <div item-content padding-right>
+                        <p>{{ axle.tyres.fitmentCode }}</p>
+                    </div>
+                </ion-item>
+                <ion-item margin-left>
+                    <ion-label>
+                        <h3>S/D index</h3>
+                    </ion-label>
+                    <div item-content padding-right>
+                        <p>{{ axle.tyres.dataTrPsvAxles }}</p>
+                    </div>
+                </ion-item>
+                <ion-item margin-left>
+                    <ion-label>
+                        <h3>Speed cat</h3>
+                    </ion-label>
+                    <div item-content padding-right>
+                        <p>{{ axle.tyres.speedCategorySymbol }}</p>
+                    </div>
+                </ion-item>
+                <ion-item margin-left> 
+                    <ion-label>
+                        <h3>Tyre code</h3>
+                    </ion-label>
+                    <div item-content padding-right>
+                        <p>{{ axle.tyres.tyreCode }}</p>
+                    </div>
+                </ion-item>
+            </ion-list>
+
+        </ng-container>
+    </ng-container>
 </ion-content>
   

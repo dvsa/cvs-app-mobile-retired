@@ -1,8 +1,10 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController, AlertController} from 'ionic-angular';
-import {TestReportModel} from '../../../../../models/tests/test-report.model';
-import {TestReportService} from "../../../../../providers/test-report/test-report.service";
-import { VehicleModel } from "../../../../../models/vehicle/vehicle.model";
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { TestReportModel } from '../../../../../models/tests/test-report.model';
+import { VehicleModel } from '../../../../../models/vehicle/vehicle.model';
+import { TestReportService } from "../../../../../providers/test-report/test-report.service";
+import { CommonFunctionsService } from "../../../../../providers/utils/common-functions";
+import { DATE_FORMAT } from "../../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -11,16 +13,19 @@ import { VehicleModel } from "../../../../../models/vehicle/vehicle.model";
 })
 export class VehicleDetailsPage {
   testReport: TestReportModel;
-  vehicle: VehicleModel;
+  vehicleData: VehicleModel;
+  dateFormat: string;
 
   constructor(public navCtrl: NavController, 
               private navParams: NavParams, 
               private testReportService: TestReportService, 
               public viewCtrl: ViewController,
-              public alertCtrl: AlertController) {
+              public alertCtrl: AlertController,
+              public commonFunc: CommonFunctionsService) {
     this.testReport = this.testReportService.getTestReport();
-    this.vehicle = navParams.get('vehicle');
+    this.vehicleData = navParams.get('vehicle');
     this.viewCtrl = viewCtrl;
+    this.dateFormat = DATE_FORMAT.DD_MM_YYYY;
   }
 
   ionViewWillEnter() {
@@ -29,7 +34,7 @@ export class VehicleDetailsPage {
 
   addVehicle(): void {
     let self = this;
-    this.testReportService.addVehicle(this.vehicle);
+    this.testReportService.addVehicle(this.vehicleData);
     if (self.navCtrl.getByIndex(self.navCtrl.length() - 3).component.name == 'VisitTimelinePage') {
       this.navCtrl.insert(this.navCtrl.length() - 2, 'TestCreatePage')
         .then(() => {
@@ -51,7 +56,7 @@ export class VehicleDetailsPage {
         }, {
           text: 'Confirm',
           handler: () => {
-            this.testReportService.addVehicle(this.vehicle);
+            this.testReportService.addVehicle(this.vehicleData);
             this.navCtrl.push('AddPreparerPage');
           }
         }
@@ -64,19 +69,9 @@ export class VehicleDetailsPage {
 
   }
 
-  showVehicleBrakes(): void {
-    this.navCtrl.push('VehicleBrakesPage');
+  showMoreDetails(pageName: string): void {
+    this.navCtrl.push(pageName, {
+      vehicleData: this.vehicleData
+      });
   }
-  
-  showVehicleTyres(): void {
-    this.navCtrl.push('VehicleTyresPage');
-  }
-  
-  showVehicleWeights(): void {
-    this.navCtrl.push('VehicleWeightsPage');
-  }
-  
-  showVehicleAdditional(): void {
-    this.navCtrl.push('VehicleAdditionalPage');
-	}
 }

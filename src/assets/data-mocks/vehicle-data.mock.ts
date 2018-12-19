@@ -35,7 +35,7 @@ export class VehicleDataMock {
           "dispensations": "dsps",
           "remarks": "Thank you, Kanye, very cool",
           "reasonForCreation": "this car is very cool",
-          "statusCode": "archived",
+          "statusCode": "current",
           "unladenWeight": 0,
           "grossKerbWeight": 0,
           "grossLadenWeight": 0,
