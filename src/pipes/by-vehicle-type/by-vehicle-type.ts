@@ -12,7 +12,7 @@ export class ByVehicleTypePipe implements PipeTransform {
   transform(items: any[], filter: any): any {
     if (!filter) return items;
     let filteredArray = items.filter((elem) => {
-      if (elem.forVehicleType.indexOf(filter) != -1) {
+      if (elem.forVehicleType.indexOf(filter.toLowerCase()) != -1) {
         return elem
       }
     })

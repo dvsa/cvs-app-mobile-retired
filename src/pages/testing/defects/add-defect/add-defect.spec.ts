@@ -3,13 +3,14 @@ import { AlertController, Events, IonicModule, NavController, NavParams } from "
 import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { VehicleModel } from "../../../../models/vehicle.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { AddDefectPage } from "./add-defect";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { DefectCategoryModel, DefectItemModel } from "../../../../models/reference-data-models/defects.model";
 import { DefectsDataMock } from "../../../../assets/data-mocks/defects-data.mock";
 import { PipesModule } from "../../../../pipes/pipes.module";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 describe('Component: AddDefectPage', () => {
   let comp: AddDefectPage;
@@ -23,7 +24,7 @@ describe('Component: AddDefectPage', () => {
   let commonFunctionsServiceSpy: any;
 
   const vehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
-  const vehicle = new VehicleModel('aa12bcd', '1233456', 'psv', 4, 'german', 'cabrio', 123, 'rigid', 'small');
+  const vehicle: VehicleModel = VehicleDataMock.VehicleData;
   const category: DefectCategoryModel = DefectsDataMock.DefectsData[0];
   const item: DefectItemModel = DefectsDataMock.DefectsData[0].items[0];
 
@@ -68,7 +69,7 @@ describe('Component: AddDefectPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        'vehicleTest': vehicle.getType(),
+        'vehicleTest': vehicle.techRecord[0].vehicleType,
         'vehicleType': vehicleTest,
         'category': category,
         'item': item

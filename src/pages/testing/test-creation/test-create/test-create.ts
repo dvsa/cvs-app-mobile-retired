@@ -1,10 +1,11 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { IonicPage, NavController, AlertController, ItemSliding } from 'ionic-angular';
 import { TestReportModel } from '../../../../models/tests/test-report.model';
-import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import { PhoneService } from '../../../../providers/natives/phone.service'
 import { TestReportService } from "../../../../providers/test-report/test-report.service";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 
 @IonicPage()
 @Component({
@@ -19,6 +20,7 @@ export class TestCreatePage implements OnInit {
   constructor(public navCtrl: NavController,
               public phoneService: PhoneService,
               public alertCtrl: AlertController,
+              private vehicleService: VehicleService,
               private testReportService: TestReportService) {
   }
 
@@ -97,7 +99,7 @@ export class TestCreatePage implements OnInit {
   }
 
   removeVehicleTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
-    vehicle.removeVehicleTest(vehicleTest);
+    this.vehicleService.removeVehicleTest(vehicle, vehicleTest);
   }
 
   isTestAbandoned(vehicleTest: VehicleTestModel) {

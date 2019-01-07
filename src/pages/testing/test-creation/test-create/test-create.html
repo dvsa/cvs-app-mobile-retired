@@ -21,8 +21,8 @@
     <ion-list class="full-dividers-list">
         <ion-card class="card" *ngFor="let vehicle of testReport.vehicles">
             <ion-item class="ion-item-title">
-                <h2>{{ vehicle.registration }}</h2>
-                <p>{{ vehicle.type }}</p>
+                <h2>{{ vehicle.vrms[0].vrm }}</h2>
+                <p>{{ vehicle.techRecord[0].vehicleType }}</p>
             </ion-item>
             <ion-list class="full-dividers-list">
                 <ion-item-sliding *ngFor="let vehicleTest of vehicle.vehicleTests"

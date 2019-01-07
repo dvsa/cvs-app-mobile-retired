@@ -1,17 +1,16 @@
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, NavController, NavParams } from "ionic-angular";
+import { IonicModule, NavController, NavParams } from "ionic-angular";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { VehicleModel } from "../../../../models/vehicle.model";
-import { DefectsService } from "../../../../providers/defects/defects.service";
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { TestTypesListPage } from "./test-types-list";
 import { TestTypesService } from "../../../../providers/test-types/test-type.service";
 import { TestTypesDataMock } from "../../../../assets/data-mocks/test-types.mock";
 import { TestTypesModel } from "../../../../models/reference-data-models/test-types.model";
 import { PipesModule } from "../../../../pipes/pipes.module";
-import { AtfService } from "../../../../providers/atf/atf.service";
-import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 
 describe('Component: TestTypesListPage', () => {
   let comp: TestTypesListPage;
@@ -22,8 +21,8 @@ describe('Component: TestTypesListPage', () => {
   let testTypesService: TestTypesService;
   let storageServiceSpy: any;
 
-  const testTypes: TestTypesModel[] = TestTypesDataMock.TestTypesData
-  const vehicle = new VehicleModel('aa12bcd', '12333112', 'psv', 4, 'german', 'cabrio', 123, 'rigid', 'small');
+  const testTypes: TestTypesModel[] = TestTypesDataMock.TestTypesData;
+  const vehicle: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -39,6 +38,7 @@ describe('Component: TestTypesListPage', () => {
       providers: [
         NavController,
         TestTypesService,
+        VehicleService,
         {provide: NavParams, useClass: NavParamsMock},
         {provide: StorageService, useValue: storageServiceSpy}
       ],

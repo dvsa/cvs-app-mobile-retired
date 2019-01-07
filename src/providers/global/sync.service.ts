@@ -68,12 +68,12 @@ export class SyncService {
           this.loadOrder[index] = null;
         }
       }
-    )
+    );
     this.loadOrder = this.loadOrder.filter(
       (elem) => {
         if (elem) return elem;
       }
-    )
+    );
     if (this.loadOrder.length == 0) {
       this.events.publish(APP.INIT_SYNC, true);
     } else {

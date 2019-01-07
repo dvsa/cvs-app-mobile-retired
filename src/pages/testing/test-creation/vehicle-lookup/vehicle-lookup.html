@@ -1,18 +1,21 @@
 <ion-header>
-    <ion-navbar hideBackButton="true">
-        <ion-buttons start>
-            <button ion-button (click)="close()">
-                Close
-            </button>
-        </ion-buttons>
-        <ion-title margin-left>
-            Identify Vehicle
-        </ion-title>
-    </ion-navbar>
-    <ion-toolbar>
-        <ion-searchbar [(ngModel)]="searchVal" placeholder="Enter registration or VIN" (search)="searchVehicle($event)"></ion-searchbar>
-    </ion-toolbar>
+  <ion-navbar hideBackButton="true">
+    <ion-buttons start>
+      <button ion-button (click)="close()" color="button-blue">
+        Cancel
+      </button>
+    </ion-buttons>
+    <ion-title margin-left>
+      Identify Vehicle
+    </ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-input margin-top class="custom-input shadow"
+             type="text" placeholder="Enter registration number or VIN"
+             [(ngModel)]="searchVal" value=""></ion-input>
+  <button margin-vertical ion-button block
+          color="button-blue" class="custom-button shadow"
+          (click)="searchVehicle(searchVal)">Search</button>
 </ion-content>

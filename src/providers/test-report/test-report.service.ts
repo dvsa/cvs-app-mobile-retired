@@ -1,7 +1,7 @@
 import { TestReportModel } from "../../models/tests/test-report.model";
-import { VehicleModel } from "../../models/vehicle.model";
 import { PreparersModel } from "../../models/reference-data-models/preparers.model";
 import { TEST_REPORT_TITLES } from "../../app/app.enums";
+import { VehicleModel } from "../../models/vehicle/vehicle.model";
 
 export class TestReportService {
   testReport: TestReportModel;
@@ -40,7 +40,7 @@ export class TestReportService {
   getTestReportTitle(testReport: TestReportModel): string {
     if (testReport.vehicles.length < 2) {
       for (const vehicle of testReport.vehicles) {
-        if (vehicle.getVehicleTests().length > 1) {
+        if (vehicle.vehicleTests.length > 1) {
           return TEST_REPORT_TITLES.LINKED_TEST;
         }
       }

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ItemSliding, IonicPage, NavController, NavParams } from 'ionic-angular';
-import { VehicleModel } from '../../../../models/vehicle.model';
 import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
 import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 @IonicPage()
 @Component({
@@ -41,7 +41,7 @@ export class CompleteTestPage implements OnInit {
 
   addDefect(): void {
     this.navCtrl.push('AddDefectCategoryPage', {
-      vehicleType: this.vehicle.getType(),
+      vehicleType: this.vehicle.techRecord[0].vehicleType,
       vehicleTest: this.vehicleTest,
       defects: this.defectsCategories
     });

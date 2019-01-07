@@ -41,7 +41,7 @@ export class AddDefectPage implements OnInit {
       category: {
         imNumber: this.category.imNumber,
         imDescription: this.category.imDescription,
-        additionalInfo: this.category.additionalInfo[this.vehicleType]
+        additionalInfo: this.category.additionalInfo[this.vehicleType.toLowerCase()]
       },
       item: {
         itemNumber: this.item.itemNumber,

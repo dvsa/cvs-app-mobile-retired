@@ -4,13 +4,14 @@ import { AlertController, IonicModule, NavController, NavParams } from "ionic-an
 import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { VehicleModel } from "../../../../models/vehicle.model";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DefectsDataMock } from "../../../../assets/data-mocks/defects-data.mock";
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -52,7 +53,7 @@ describe('Component: CompleteTestPage', () => {
   };
 
   const vehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
-  const vehicle = new VehicleModel('aa12bcd', 'vinRosu', 'psv', 4, 'german', 'cabrio', 123, 'rigid', 'small');
+  const vehicle: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {

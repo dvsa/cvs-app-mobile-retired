@@ -2,7 +2,8 @@ export enum STORAGE {
   ATFS = 'atfs',
   DEFECTS = 'defects',
   TESTTYPES = 'test-types',
-  PREPARERS = 'preparers'
+  PREPARERS = 'preparers',
+  TECH_RECORDS = 'technical-records'
 }
 
 export enum LOCAL_STORAGE {
@@ -31,4 +32,13 @@ export enum TEST_REPORT_TITLES {
 export enum TEST_REPORT_STATUSES {
   SUBMITTED = 'Submitted',
   CANCELLED = 'Cancelled'
+}
+
+export enum APP_STRINGS {
+  VEHICLE_DETAILS = 'Vehicle details',
+  WITHOUT_PREPARER = 'Continue without preparerID',
+  CONFIRM_PREPARER = 'Confirm preparer',
+  ALERT_MESSAGE = 'You will not be able to add a preparer for this vehicle later.',
+  CANCEL = 'Cancel',
+  CONFIRM = 'Confirm'
 }

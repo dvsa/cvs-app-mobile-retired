@@ -1,10 +1,11 @@
 import { AddPreparerPage } from "./add-preparer";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
-import { IonicModule, NavController } from "ionic-angular";
+import { IonicModule, NavController, ViewController } from "ionic-angular";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { PreparersModel } from "../../../../models/reference-data-models/preparers.model";
 import {TestReportService} from "../../../../providers/test-report/test-report.service";
+import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 
 
 describe('Component: AddPreparerPage', () => {
@@ -31,6 +32,7 @@ describe('Component: AddPreparerPage', () => {
         NavController,
         TestReportService,
         {provide: PreparerService, useValue: spy},
+        {provide: ViewController, useClass: ViewControllerMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
