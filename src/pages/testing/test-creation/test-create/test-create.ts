@@ -6,6 +6,7 @@ import { PhoneService } from '../../../../providers/natives/phone.service'
 import { TestReportService } from "../../../../providers/test-report/test-report.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { ODOMETER_METRIC } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -35,6 +36,19 @@ export class TestCreatePage implements OnInit {
     }
   }
 
+  doesOdometerDataExist(index: number) {
+    return this.testReport.vehicles[index].odometerReading.length && this.testReport.vehicles[index].odometerMetric.length;
+  }
+
+  getOdometerStringToBeDisplayed(index: number) {
+    if (this.doesOdometerDataExist(index)) {
+      let unit = this.testReport.vehicles[index].odometerMetric === ODOMETER_METRIC.KILOMETRES ? 'km' : 'mi';
+      return this.vehicleService.formatOdometerReadingValue(this.testReport.vehicles[index].odometerReading) + ' ' + unit;
+    } else {
+      return 'Enter';
+    }
+  }
+
   presentSearchVehicle(): void {
     this.navCtrl.push('VehicleLookupPage');
   }
@@ -53,6 +67,10 @@ export class TestCreatePage implements OnInit {
         editMode: false
       });
     }
+  }
+
+  onOdometer(index: number) {
+    this.navCtrl.push('OdometerReadingPage', {vehicle: this.testReport.vehicles[index]});
   }
 
   reviewTest(): void {

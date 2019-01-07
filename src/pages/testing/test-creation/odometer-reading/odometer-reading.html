@@ -1,0 +1,36 @@
+<ion-header>
+
+    <ion-navbar hideBackButton>
+        <ion-title>Odometer reading</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="onSave()">
+                Save
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="content-background-color-grey">
+    <ion-list>
+        <ion-item-group>
+            <ion-item-divider>Reading</ion-item-divider>
+            <ion-item>
+                <ion-input placeholder="Enter value"
+                           type="number"
+                           [(ngModel)]="odometerReading"
+                           (ngModelChange)="valueInputChange($event)"
+                           #valueInput></ion-input>
+            </ion-item>
+        </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider>Unit</ion-item-divider>
+            <button ion-item
+                    (click)="onEdit()">
+                <h3 class="unit">{{displayOdometerMetricCapitalized()}}</h3>
+                <h3 item-end class="unit-edit">Edit</h3>
+            </button>
+        </ion-item-group>
+    </ion-list>
+</ion-content>

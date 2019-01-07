@@ -25,11 +25,13 @@ page-test-create {
       }
 
       .item-ios {
-        .test-type {
+        .test-type,
+        .odometer-reading {
           margin-top: 2px;
         }
 
-        [item-end].test-type-status {
+        [item-end].test-type-status,
+        [item-end].odometer-reading-status {
           margin: 0;
         }
 
@@ -43,6 +45,26 @@ page-test-create {
 
         [item-end].test-type-status.test-type-notcomplete {
           color: color($colors, attention);
+        }
+
+        [item-end].odometer-reading-status.odometer-reading-start {
+          color: $item-icon-light-gray;
+        }
+
+        [item-end].odometer-reading-icon {
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+          font-size: $font-size-medium;
+        }
+
+        [item-end].odometer-reading-icon.odometer-reading-icon-no-data {
+          color: $light-gray;
+        }
+
+        [item-end].odometer-reading-icon.odometer-reading-icon-data {
+          font-size: $font-size-large;
+          color: color($colors, primary);
         }
       }
     }

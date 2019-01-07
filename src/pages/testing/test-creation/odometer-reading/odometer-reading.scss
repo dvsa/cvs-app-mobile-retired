@@ -1,0 +1,21 @@
+page-odometer-reading {
+
+  .item-divider-ios {
+    font-size: $font-size-small;
+    text-transform: uppercase;
+  }
+
+  .item-ios {
+
+    .unit {
+      margin-top: 2px;
+    }
+
+    [item-end].unit-edit {
+      margin: 0;
+      color: $item-icon-light-gray;
+    }
+
+  }
+
+}
