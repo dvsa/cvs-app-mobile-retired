@@ -1,7 +1,7 @@
 <ion-header transforming-searchBar [searchBarElemRef]="searchBar">
   <ion-navbar>
     <ion-title margin-left>
-      Search for an ATF
+      Find an ATF
     </ion-title>
   </ion-navbar>
   <ion-toolbar>
@@ -23,11 +23,11 @@
         <ion-item-divider padding-left *ngIf="i == 0">
           <b>{{ atf.atfName | slice:0:1 }}</b>
         </ion-item-divider>
-        <ion-item (click)="openATF(atf)" padding-left class="list-item-height">
+        <button ion-item (click)="openATF(atf)" padding-left class="list-item-height">
           <h3>{{ atf.atfName }}</h3>
           <p *ngIf="atf.searchProperty != 'atfAddress'" [innerHTML]="boldSearchVal(atf.atfNumber, searchVal)"></p>
           <p *ngIf="atf.searchProperty == 'atfAddress'" [innerHTML]="boldSearchVal(atf.atfAddress, searchVal)"></p>
-        </ion-item>
+        </button>
       </div>
     </ion-item-group>
   </ion-list>
