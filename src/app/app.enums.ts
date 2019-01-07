@@ -42,3 +42,7 @@ export enum APP_STRINGS {
   CANCEL = 'Cancel',
   CONFIRM = 'Confirm'
 }
+
+export enum DATE_FORMAT {
+  DD_MM_YYYY = 'dd/MM/yyyy'
+}

@@ -7,124 +7,102 @@
 </ion-header>
   
 <ion-content no-padding>
-    <div text-uppercase text-center class="vehicle-header-vrm-number">
-        AA12 BCD
-    </div>
-    <ion-list class="vehicle-list">
-        <ion-list-header padding-left padding-right>AXLE 1</ion-list-header>
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Kerb</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>0</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>Laden</h3>
-            </ion-label>
-            <div item-content>
-                <p>0</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>GB</h3>
-            </ion-label>
-            <div item-content>
-                <p>7000</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>Design</h3>
-            </ion-label>
-            <div item-content>
-                <p>7000</p>
-            </div>
-        </ion-item>
-    </ion-list>
-    <ion-list class="vehicle-list">
-        <ion-list-header padding-left padding-right>AXLE 2</ion-list-header>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>Kerb</h3>
-            </ion-label>
-            <div item-content>
-                <p>0</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>Laden</h3>
-                </ion-label>
-            <div item-content>
-                <p>0</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left padding-right>
-                <ion-label>
-                <h3>GB</h3>
-            </ion-label>
-            <div item-content>
-                <p>7000</p>
-                </div>
-        </ion-item>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>Design</h3>
-                </ion-label>
-            <div item-content>
-                <p>7000</p>
-            </div>
-        </ion-item>
-    </ion-list>
-    <ion-list class="vehicle-list">
-        <ion-list-header padding-left padding-right>GROSS</ion-list-header>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>Kerb</h3>
-            </ion-label>
-            <div item-content>
-                <p>0</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>Laden</h3>
-            </ion-label>
-            <div item-content>
-                <p>0</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>GB</h3>
-            </ion-label>
-            <div item-content>
-                <p>7000</p>
-            </div>
-        </ion-item>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>Design</h3>
-            </ion-label>
-            <div item-content>
-                <p>7000</p>
-            </div>
-        </ion-item>
-    </ion-list>
-    <ion-list margin-bottom class="vehicle-list">
-        <ion-list-header padding-left padding-right>UNLADEN</ion-list-header>
-        <ion-item margin-left padding-right>
-            <ion-label>
-                <h3>Kerb</h3>
-            </ion-label>
-            <div item-content>
-                <p>0</p>
-            </div>
-        </ion-item>
-    </ion-list>
+    <ng-container *ngFor="let vrm of vehicleData.vrms">
+        <div text-uppercase 
+             text-center 
+             class="vehicle-header-vrm-number" 
+             *ngIf="vrm.isPrimary">
+            {{ vrm.vrm }}
+        </div>
+    </ng-container>
+    <ng-container *ngFor="let techRecord of vehicleData.techRecord">
+        <ng-container *ngIf="commonFunc.checkForMatch(techRecord.statusCode, 'current')">
+
+                <ion-list class="vehicle-list" *ngFor="let axle of techRecord.axles">
+                    <ion-list-header padding-left padding-right>AXLE {{ axle.axleNumber }}</ion-list-header>
+                    <ion-item margin-left>
+                        <ion-label>
+                            <h3>Kerb</h3>
+                        </ion-label>
+                        <div item-content padding-right>
+                            <p>{{ axle.weights.kerbWeight }}</p>
+                        </div>
+                    </ion-item>
+                    <ion-item margin-left padding-right>
+                        <ion-label>
+                            <h3>Laden</h3>
+                        </ion-label>
+                        <div item-content>
+                            <p>{{ axle.weights.ladenWeight }}</p>
+                        </div>
+                    </ion-item>
+                    <ion-item margin-left padding-right>
+                        <ion-label>
+                            <h3>GB</h3>
+                        </ion-label>
+                        <div item-content>
+                            <p>{{ axle.weights.gbWeight }}</p>
+                        </div>
+                    </ion-item>
+                    <ion-item margin-left padding-right>
+                        <ion-label>
+                            <h3>Design</h3>
+                        </ion-label>
+                        <div item-content>
+                            <p>{{ axle.weights.designWeight }}</p>
+                        </div>
+                    </ion-item>
+                </ion-list>
+
+                <ion-list class="vehicle-list">
+                    <ion-list-header padding-left padding-right>GROSS</ion-list-header>
+                    <ion-item margin-left>
+                        <ion-label>
+                            <h3>Kerb</h3>
+                        </ion-label>
+                        <div item-content padding-right>
+                            <p>{{ techRecord.grossKerbWeight }}</p>
+                        </div>
+                    </ion-item>
+                    <ion-item margin-left padding-right>
+                        <ion-label>
+                            <h3>Laden</h3>
+                        </ion-label>
+                        <div item-content>
+                            <p>{{ techRecord.grossLadenWeight }}</p>
+                        </div>
+                    </ion-item>
+                    <ion-item margin-left padding-right>
+                        <ion-label>
+                            <h3>GB</h3>
+                        </ion-label>
+                        <div item-content>
+                            <p>{{ techRecord.grossGbWeight }}</p>
+                        </div>
+                    </ion-item>
+                    <ion-item margin-left padding-right>
+                        <ion-label>
+                            <h3>Design</h3>
+                        </ion-label>
+                        <div item-content>
+                            <p>{{ techRecord.grossDesignWeight }}</p>
+                        </div>
+                    </ion-item>
+                </ion-list>
+                       
+                <ion-list margin-bottom class="vehicle-list">
+                    <ion-list-header padding-left padding-right>UNLADEN</ion-list-header>
+                    <ion-item margin-left padding-right>
+                        <ion-label>
+                            <h3>Kerb</h3>
+                        </ion-label>
+                        <div item-content>
+                            <p>{{ techRecord.unladenWeight }}</p>
+                        </div>
+                    </ion-item>
+                </ion-list>
+
+        </ng-container>
+    </ng-container>
 </ion-content>
   
