@@ -19,11 +19,25 @@
 
 <ion-content padding>
     <ion-list class="full-dividers-list">
-        <ion-card class="card" *ngFor="let vehicle of testReport.vehicles">
+        <ion-card class="card" *ngFor="let vehicle of testReport.vehicles; let i = index">
             <ion-item class="ion-item-title">
                 <h2>{{ vehicle.vrms[0].vrm }}</h2>
                 <p>{{ vehicle.techRecord[0].vehicleType }}</p>
             </ion-item>
+            <button ion-item
+                    detail-none
+                    class="bottom-divider"
+                    (click)="onOdometer(i)">
+                <h3 class="odometer-reading">Odometer reading</h3>
+                <h3 item-end
+                    class="odometer-reading-status"
+                    [ngClass]="{'odometer-reading-start': !doesOdometerDataExist(i)}">
+                    {{getOdometerStringToBeDisplayed(i)}}
+                </h3>
+                <ion-icon item-end class="odometer-reading-icon"
+                          [ngClass]="{'odometer-reading-icon-data': doesOdometerDataExist(i), 'odometer-reading-icon-no-data': !doesOdometerDataExist(i)}"
+                          [name]="doesOdometerDataExist(i) ? 'checkmark' : 'arrow-forward'"></ion-icon>
+            </button>
             <ion-list class="full-dividers-list">
                 <ion-item-sliding *ngFor="let vehicleTest of vehicle.testTypes"
                                   #slidingItem>

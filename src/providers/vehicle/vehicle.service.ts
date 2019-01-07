@@ -1,5 +1,6 @@
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { VehicleTestModel } from "../../models/vehicle-test.model";
+import { CommonRegExp } from "../utils/common-regExp";
 import { map } from "rxjs/operators";
 import { STORAGE } from "../../app/app.enums";
 import { HTTPService } from "../global/http.service";
@@ -57,7 +58,6 @@ export class VehicleService {
     return currentArray;
   }
 
-
   getVehicleCertificateExpirationDate(vehicle: VehicleModel): Date {
     let lastCertificateExpirationDate = vehicle.testResultsHistory[0].getCertificateExpirationDate();
     vehicle.testResultsHistory.forEach(test => {
@@ -67,4 +67,9 @@ export class VehicleService {
     });
     return lastCertificateExpirationDate;
   }
+
+  formatOdometerReadingValue(string: string) {
+    return string.replace(CommonRegExp.ODOMETER_VALUE, ",");
+  }
+
 }

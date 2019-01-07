@@ -10,6 +10,7 @@ import { TestReportService } from "../../../../providers/test-report/test-report
 import { VehicleDetailsDataMock } from "../../../../assets/data-mocks/vehicle-details-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { ODOMETER_METRIC } from "../../../../app/app.enums";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -75,6 +76,25 @@ describe('Component: TestCreatePage', () => {
     addedVehicleTest.addAbandonmentReasons(['Best reason']);
     addedVehicleTest.addAdditionalAbandonmentReason('Additional comment');
     expect(component.isTestAbandoned(addedVehicleTest)).toBeTruthy();
+  });
+
+  it('should say either a test has odometer data or not', () => {
+    component.ngOnInit();
+    component.testReport.vehicles.push(vehicle);
+
+    expect(component.doesOdometerDataExist(0)).toBeFalsy();
+    component.testReport.vehicles[0].odometerReading = '1234';
+    component.testReport.vehicles[0].odometerMetric = ODOMETER_METRIC.MILES;
+    expect(component.doesOdometerDataExist(0)).toBeTruthy();
+  });
+
+  it('should return correctly formatted string of odometer data', () => {
+    component.ngOnInit();
+    component.testReport.vehicles.push(vehicle);
+    component.testReport.vehicles[0].odometerReading = '1234';
+    component.testReport.vehicles[0].odometerMetric = ODOMETER_METRIC.MILES;
+
+    expect(component.getOdometerStringToBeDisplayed(0)).toEqual('1,234 mi');
   });
 
 });

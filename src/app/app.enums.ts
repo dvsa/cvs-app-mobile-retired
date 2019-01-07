@@ -47,6 +47,11 @@ export enum APP_STRINGS {
   CONFIRM = 'Confirm'
 }
 
+export enum ODOMETER_METRIC {
+  KILOMETRES = 'kilometres',
+  MILES = 'miles'
+}
+
 export enum DATE_FORMAT {
   DD_MM_YYYY = 'dd/MM/yyyy'
 }
