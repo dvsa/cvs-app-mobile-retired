@@ -1,4 +1,4 @@
-export class VehicleDataMock {
+export class VehicleDetailsDataMock {
   public  static get VehicleData() {
     return {
       "vrms": [
@@ -11,8 +11,6 @@ export class VehicleDataMock {
           "isPrimary": false
         }
       ],
-      "vehicleTests": [],
-      "testHistory": [],
       "vin": "1B7GG36N12S678410",
       "techRecord": [
         {
@@ -87,7 +85,13 @@ export class VehicleDataMock {
             }
           ]
         }
-      ]
+      ],
+      "testResultsHistory": [],
+      "odometerReading": "",
+      "odometerMetric": "",
+      "preparerId": "",
+      "preparerName": "",
+      "testTypes": []
     }
   }
 }

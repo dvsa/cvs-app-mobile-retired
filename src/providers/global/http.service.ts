@@ -6,8 +6,7 @@ import { AtfReferenceDataModel } from "../../models/reference-data-models/atf.mo
 import { DefectCategoryModel } from "../../models/reference-data-models/defects.model";
 import { TestTypesModel } from "../../models/reference-data-models/test-types.model";
 import { PreparersModel } from "../../models/reference-data-models/preparers.model";
-import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
-import { of } from "rxjs/observable/of";
+import { PATHS } from "../../app/app.enums";
 
 @Injectable()
 export class HTTPService {
@@ -36,8 +35,7 @@ export class HTTPService {
     return this.http.get<PreparersModel[]>(AppConfig.BACKEND_URL_PREPARERS);
   }
 
-  getTechRecords(param: string): Observable<any> {
-    return of(VehicleDataMock.VehicleData);
-    // return this.http.post<any>(AppConfig.BACKEND_URL_TECHRECORDS, param);
+  getTechRecords(param): Observable<any> {
+    return this.http.get<any>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/current`);
   }
 }

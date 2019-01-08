@@ -13,7 +13,6 @@ import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
   templateUrl: 'test-create.html',
 })
 export class TestCreatePage implements OnInit {
-
   testReport: TestReportModel;
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
 
@@ -99,7 +98,7 @@ export class TestCreatePage implements OnInit {
   }
 
   removeVehicleTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
-    this.vehicleService.removeVehicleTest(vehicle, vehicleTest);
+    this.vehicleService.removeTestType(vehicle, vehicleTest);
   }
 
   isTestAbandoned(vehicleTest: VehicleTestModel) {

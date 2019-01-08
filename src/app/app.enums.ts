@@ -3,7 +3,11 @@ export enum STORAGE {
   DEFECTS = 'defects',
   TESTTYPES = 'test-types',
   PREPARERS = 'preparers',
-  TECH_RECORDS = 'technical-records'
+  TECH_RECORDS = 'tech-records'
+}
+
+export enum PATHS {
+  TECH_RECORDS = "tech-records"
 }
 
 export enum LOCAL_STORAGE {

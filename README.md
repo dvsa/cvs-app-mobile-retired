@@ -19,18 +19,15 @@ To get a working build running locally follow these steps:
 
 1. Clone the repository.
 
-2. Get the configuration (this contains secrets and is not publically available).  Create a local file called _restricted.config.ts_ and put the configuration secrets in there.
+2. Navigate to src/assets/data-mocks, create a folder called "config".
+
+3. Ask the devs for the "application.json" file, the one that needs to be added into the newly created folder.
 
 3. Run `npm install`.
 
-4. If you don't have typings set-up for node, you need to install the _typings_ npm package.  Ideally this would use the new Typescript2.0 _@type_ package installation but that's not configured in the project as yet.  
+4. Run the following GIT command: "git update-index --assume-unchanged config/application.json"
 
-* To install the typings npm package run this command, `npm install -g typings`.
-* To install the node typings run this command, `typings install dt~node --global --save`.
-
-5. Run the following GIT command: "git update-index --assume-unchanged config/application.json"
-
-6. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
+5. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
 
 ### For testing in the browser:
 

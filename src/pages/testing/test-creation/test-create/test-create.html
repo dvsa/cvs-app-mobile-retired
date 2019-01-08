@@ -25,7 +25,7 @@
                 <p>{{ vehicle.techRecord[0].vehicleType }}</p>
             </ion-item>
             <ion-list class="full-dividers-list">
-                <ion-item-sliding *ngFor="let vehicleTest of vehicle.vehicleTests"
+                <ion-item-sliding *ngFor="let vehicleTest of vehicle.testTypes"
                                   #slidingItem>
                     <button ion-item
                             (click)="openTest(vehicle, vehicleTest)"
@@ -60,9 +60,9 @@
             </ion-list>
 
             <button class="btn-add-test" ion-item detail-none (click)="addVehicleTest(vehicle)"
-                    [ngClass]="{'bottom-divider': vehicle.vehicleTests.length == 0}">
-                <span *ngIf="vehicle.vehicleTests.length == 0">Add a test type</span>
-                <span *ngIf="vehicle.vehicleTests.length != 0">Add a linked test</span>
+                    [ngClass]="{'bottom-divider': vehicle.testTypes.length == 0}">
+                <span *ngIf="vehicle.testTypes.length == 0">Add a test type</span>
+                <span *ngIf="vehicle.testTypes.length != 0">Add a linked test</span>
                 <ion-icon name="ios-add-circle-outline" item-end></ion-icon>
             </button>
         </ion-card>

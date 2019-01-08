@@ -40,7 +40,7 @@ export class TestReportService {
   getTestReportTitle(testReport: TestReportModel): string {
     if (testReport.vehicles.length < 2) {
       for (const vehicle of testReport.vehicles) {
-        if (vehicle.vehicleTests.length > 1) {
+        if (vehicle.testTypes.length > 1) {
           return TEST_REPORT_TITLES.LINKED_TEST;
         }
       }

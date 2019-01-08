@@ -43,7 +43,7 @@ export class TestTypesListPage implements OnInit {
       for (let i = views.length - 1; i >= 0; i--) {
         if (views[i].component.name == 'TestCreatePage') {
           let test = new VehicleTestModel(testType.name)._clone();
-          this.vehicleService.addVehicleTest(this.vehicleData, test);
+          this.vehicleService.addTestType(this.vehicleData, test);
           this.navCtrl.popTo(views[i]);
         }
       }

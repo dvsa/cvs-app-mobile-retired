@@ -10,7 +10,7 @@ import { DefectsDataMock } from "../../../../assets/data-mocks/defects-data.mock
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
-import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { VehicleDetailsDataMock } from "../../../../assets/data-mocks/vehicle-details-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 describe('Component: CompleteTestPage', () => {
@@ -53,7 +53,7 @@ describe('Component: CompleteTestPage', () => {
   };
 
   const vehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
-  const vehicle: VehicleModel = VehicleDataMock.VehicleData;
+  const vehicle: VehicleModel = VehicleDetailsDataMock.VehicleData;
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
