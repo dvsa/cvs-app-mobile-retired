@@ -9,7 +9,7 @@ import { CommonFunctionsService } from "../../../../providers/utils/common-funct
 import { DefectCategoryModel, DefectItemModel } from "../../../../models/reference-data-models/defects.model";
 import { DefectsDataMock } from "../../../../assets/data-mocks/defects-data.mock";
 import { PipesModule } from "../../../../pipes/pipes.module";
-import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { VehicleDetailsDataMock } from "../../../../assets/data-mocks/vehicle-details-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 describe('Component: AddDefectPage', () => {
@@ -24,7 +24,7 @@ describe('Component: AddDefectPage', () => {
   let commonFunctionsServiceSpy: any;
 
   const vehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
-  const vehicle: VehicleModel = VehicleDataMock.VehicleData;
+  const vehicle: VehicleModel = VehicleDetailsDataMock.VehicleData;
   const category: DefectCategoryModel = DefectsDataMock.DefectsData[0];
   const item: DefectItemModel = DefectsDataMock.DefectsData[0].items[0];
 

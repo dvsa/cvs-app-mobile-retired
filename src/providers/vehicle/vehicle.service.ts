@@ -1,32 +1,70 @@
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { VehicleTestModel } from "../../models/vehicle-test.model";
+import { map } from "rxjs/operators";
+import { STORAGE } from "../../app/app.enums";
+import { HTTPService } from "../global/http.service";
+import { StorageService } from "../natives/storage.service";
+import { Observable } from "rxjs";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class VehicleService {
 
+  constructor(private httpService: HTTPService, private storageService: StorageService) {
+  }
+
   createVehicle(vehicle: VehicleModel): VehicleModel {
-    let newVehicle = Object.assign({}, vehicle);
-    newVehicle.testHistory = [];
-    newVehicle.vehicleTests = [];
+    let newVehicle: VehicleModel = {} as VehicleModel;
+    newVehicle.vrms = vehicle.vrms;
+    newVehicle.vin = vehicle.vin;
+    newVehicle.techRecord = [];
+    newVehicle.techRecord.push(this.getCurrentTechRecord(vehicle));
+    newVehicle.testResultsHistory = [];
+    newVehicle.odometerReading = '';
+    newVehicle.odometerMetric = '';
+    newVehicle.preparerId = '';
+    newVehicle.preparerName = '';
+    newVehicle.testTypes = [];
     return newVehicle;
   }
 
-  addVehicleTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
-    vehicle.vehicleTests.push(vehicleTest)
+  addTestType(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
+    vehicle.testTypes.push(vehicleTest)
   }
 
-  removeVehicleTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
-    const foundIndex = vehicle.vehicleTests.indexOf(vehicleTest);
-    vehicle.vehicleTests.splice(foundIndex, 1);
+  removeTestType(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
+    const foundIndex = vehicle.testTypes.indexOf(vehicleTest);
+    vehicle.testTypes.splice(foundIndex, 1);
   }
+
+
+  getVehicleTechRecord(param): Observable<VehicleModel> {
+    return this.httpService.getTechRecords(param).pipe(
+      map((data: VehicleModel) => {
+        this.storageService.update(STORAGE.TECH_RECORDS, data);
+        return data;
+      })
+    )
+  }
+
+  getCurrentTechRecord(array) {
+    let currentArray = array.techRecord.find(
+      techRec => {
+        return techRec['statusCode'] == 'current'
+      })
+    currentArray['vehicleSize'] = 'small';
+    currentArray['vehicleConfiguration'] = 'rigid';
+    return currentArray;
+  }
+
 
   getVehicleCertificateExpirationDate(vehicle: VehicleModel): Date {
-    let lastCertificateExpirationDate = vehicle.testHistory[0].getCertificateExpirationDate();
-    vehicle.testHistory.forEach(test => {
+    let lastCertificateExpirationDate = vehicle.testResultsHistory[0].getCertificateExpirationDate();
+    vehicle.testResultsHistory.forEach(test => {
       if (lastCertificateExpirationDate < test.getCertificateExpirationDate()) {
         lastCertificateExpirationDate = test.getCertificateExpirationDate();
       }
     });
     return lastCertificateExpirationDate;
   }
-
 }

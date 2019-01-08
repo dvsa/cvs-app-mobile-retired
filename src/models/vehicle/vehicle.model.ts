@@ -4,8 +4,12 @@ export interface VehicleModel {
   vrms: VrmModel[];
   vin: string;
   techRecord: TechRecordModel[];
-  vehicleTests: VehicleTestModel[];
-  testHistory: VehicleTestModel[];
+  testResultsHistory?: VehicleTestModel[];
+  odometerReading?: string;
+  odometerMetric?: string;
+  preparerId?: string;
+  preparerName?: string;
+  testTypes?: VehicleTestModel[];
 }
 
 export interface VrmModel {

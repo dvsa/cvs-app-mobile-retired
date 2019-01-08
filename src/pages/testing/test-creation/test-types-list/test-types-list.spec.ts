@@ -8,7 +8,7 @@ import { TestTypesService } from "../../../../providers/test-types/test-type.ser
 import { TestTypesDataMock } from "../../../../assets/data-mocks/test-types.mock";
 import { TestTypesModel } from "../../../../models/reference-data-models/test-types.model";
 import { PipesModule } from "../../../../pipes/pipes.module";
-import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { VehicleDetailsDataMock } from "../../../../assets/data-mocks/vehicle-details-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 
@@ -19,15 +19,18 @@ describe('Component: TestTypesListPage', () => {
   let navCtrl: NavController;
   let navParams: NavParams;
   let testTypesService: TestTypesService;
+  let vehicleService: VehicleService;
   let storageServiceSpy: any;
+  let vehicleServiceSpy;
 
   const testTypes: TestTypesModel[] = TestTypesDataMock.TestTypesData;
-  const vehicle: VehicleModel = VehicleDataMock.VehicleData;
+  const vehicle: VehicleModel = VehicleDetailsDataMock.VehicleData;
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       'read': new Promise(resolve => resolve(testTypes))
     });
+    vehicleServiceSpy = jasmine.createSpyObj('vehicleService', ['createVehicle', 'addTestType', 'removeTestType'])
 
     TestBed.configureTestingModule({
       declarations: [TestTypesListPage],
@@ -38,7 +41,7 @@ describe('Component: TestTypesListPage', () => {
       providers: [
         NavController,
         TestTypesService,
-        VehicleService,
+        {provide: VehicleService, useValue: vehicleServiceSpy},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: StorageService, useValue: storageServiceSpy}
       ],
@@ -52,6 +55,7 @@ describe('Component: TestTypesListPage', () => {
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
     testTypesService = TestBed.get(TestTypesService);
+    vehicleService = TestBed.get(VehicleService);
   });
 
   beforeEach(() => {

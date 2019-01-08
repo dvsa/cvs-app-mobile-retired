@@ -3,10 +3,6 @@ import { AlertController, IonicPage, LoadingController, NavController, NavParams
 import { TestReportModel } from '../../../../models/tests/test-report.model';
 import { VisitModel } from '../../../../models/visit.model';
 import { TestReportService } from "../../../../providers/test-report/test-report.service";
-import { HTTPService } from "../../../../providers/global/http.service";
-import { StorageService } from "../../../../providers/natives/storage.service";
-import { map } from "rxjs/operators";
-import { STORAGE } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 
@@ -25,8 +21,6 @@ export class VehicleLookupPage {
               private navParams: NavParams,
               private vehicleService: VehicleService,
               private testReportService: TestReportService,
-              private httpService: HTTPService,
-              private storageService: StorageService,
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController) {
     this.testReport = this.testReportService.getTestReport();
@@ -43,12 +37,9 @@ export class VehicleLookupPage {
     });
     this.loading.present();
 
-    this.httpService.getTechRecords(searchedValue).pipe(
-      map((data: VehicleModel) => {
-        this.storageService.update(STORAGE.TECH_RECORDS.toUpperCase(), data);
-        return data;
-      })
-    ).subscribe(
+    searchedValue = searchedValue ? searchedValue : 'BQ91YHQ';
+
+    this.vehicleService.getVehicleTechRecord(searchedValue).subscribe(
       (data: VehicleModel) => {
         this.loading.dismiss();
         let vehicleData = this.vehicleService.createVehicle(data);

@@ -25,7 +25,7 @@ export class TestSummaryPage {
     this.testReportService.endTestReport();
     let observables: Observable<any>[] = [];
     this.testReport.vehicles.forEach(vehicle => {
-      vehicle.vehicleTests.forEach(vehicleTest => {
+      vehicle.testTypes.forEach(vehicleTest => {
         observables.push(this.vehicleTestService.postVehicleTest(vehicleTest, vehicle));
       });
     });

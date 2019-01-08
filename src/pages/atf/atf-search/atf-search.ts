@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Events, IonicPage, NavController} from 'ionic-angular';
-import {AtfReferenceDataModel} from '../../../models/reference-data-models/atf.model';
-import {AtfService} from '../../../providers/atf/atf.service'
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Events, IonicPage, NavController } from 'ionic-angular';
+import { AtfReferenceDataModel } from '../../../models/reference-data-models/atf.model';
+import { AtfService } from '../../../providers/atf/atf.service'
 import { APP } from "../../../app/app.enums";
 
 @IonicPage()
@@ -10,7 +10,7 @@ import { APP } from "../../../app/app.enums";
   templateUrl: 'atf-search.html',
 })
 export class ATFSearchPage implements OnInit {
-  @ViewChild('searchBar') searchBar
+  @ViewChild('searchBar') searchBar;
   atfs: AtfReferenceDataModel[] = [];
   filteredAtfs: AtfReferenceDataModel[] = [];
   searchVal: string = '';

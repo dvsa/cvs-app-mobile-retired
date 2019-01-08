@@ -48,10 +48,10 @@ export class AddPreparerPage implements OnInit {
 
   presentConfirm(value: PreparersModel | string): void {
     let preparer: PreparersModel = {
-      preparerName: '',
-      preparerId: null
+        preparerName: '',
+        preparerId: null
       },
-    noPreparer: boolean = false;
+      noPreparer: boolean = false;
     if (typeof value === 'string') {
       preparer.preparerName = value;
       noPreparer = true;

@@ -16,9 +16,9 @@ export class VehicleDetailsPage {
   vehicleData: VehicleModel;
   dateFormat: string;
 
-  constructor(public navCtrl: NavController, 
-              private navParams: NavParams, 
-              private testReportService: TestReportService, 
+  constructor(public navCtrl: NavController,
+              private navParams: NavParams,
+              private testReportService: TestReportService,
               public viewCtrl: ViewController,
               public alertCtrl: AlertController,
               public commonFunc: CommonFunctionsService) {
