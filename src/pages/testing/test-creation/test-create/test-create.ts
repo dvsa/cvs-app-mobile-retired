@@ -1,11 +1,11 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { IonicPage, NavController, AlertController, ItemSliding } from 'ionic-angular';
 import { TestReportModel } from '../../../../models/tests/test-report.model';
-import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import { PhoneService } from '../../../../providers/natives/phone.service'
 import { TestReportService } from "../../../../providers/test-report/test-report.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { ODOMETER_METRIC } from "../../../../app/app.enums";
 
 @IonicPage()
@@ -14,6 +14,7 @@ import { ODOMETER_METRIC } from "../../../../app/app.enums";
   templateUrl: 'test-create.html',
 })
 export class TestCreatePage implements OnInit {
+
   testReport: TestReportModel;
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
 
@@ -53,17 +54,25 @@ export class TestCreatePage implements OnInit {
     this.navCtrl.push('VehicleLookupPage');
   }
 
+  getVehicleTypeIconToShow(vehicle: VehicleModel) {
+    return vehicle.techRecord[0].vehicleType.toLowerCase();
+  }
+
   addVehicleTest(vehicle: VehicleModel): void {
     this.navCtrl.push('TestTypesListPage', {vehicleData: vehicle});
   }
 
-  openTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel): void {
+  onVehicleDetails(vehicle: VehicleModel) {
+    this.navCtrl.push('VehicleDetailsPage', {vehicle: vehicle, fromTestCreatePage: true});
+  }
+
+  openTest(vehicle: VehicleModel, vehicleTest: TestTypeModel): void {
     if (!this.isTestAbandoned(vehicleTest)) {
       this.navCtrl.push('CompleteTestPage', {vehicle: vehicle, vehicleTest: vehicleTest});
     } else {
       this.navCtrl.push('TestAbandoningPage', {
         vehicleTest: vehicleTest,
-        selectedReasons: vehicleTest.getAbandonment().reasons,
+        selectedReasons: vehicleTest.abandonment.reasons,
         editMode: false
       });
     }
@@ -89,7 +98,7 @@ export class TestCreatePage implements OnInit {
     this.navCtrl.push('TestCancelPage');
   }
 
-  onRemoveVehicleTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel, slidingItem: ItemSliding) {
+  onRemoveVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel, slidingItem: ItemSliding) {
     slidingItem.close();
     const alert = this.alertCtrl.create({
       title: 'Remove test',
@@ -111,16 +120,16 @@ export class TestCreatePage implements OnInit {
     alert.present();
   }
 
-  onAbandonVehicleTest(vehicleTest) {
+  onAbandonVehicleTest(vehicleTest: TestTypeModel) {
     this.navCtrl.push('ReasonsSelectionPage', {vehicleTest: vehicleTest});
   }
 
-  removeVehicleTest(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
+  removeVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
     this.vehicleService.removeTestType(vehicle, vehicleTest);
   }
 
-  isTestAbandoned(vehicleTest: VehicleTestModel) {
-    return vehicleTest.getAbandonment().reasons.length > 0;
+  isTestAbandoned(vehicleTest: TestTypeModel) {
+    return vehicleTest.abandonment.reasons.length > 0;
   }
 
 }

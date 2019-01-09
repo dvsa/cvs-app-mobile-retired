@@ -2,7 +2,7 @@ import {TestBed} from "@angular/core/testing";
 import {StorageService} from "../natives/storage.service";
 import {AtfService} from "./atf.service";
 import {AtfReferenceDataModel} from "../../models/reference-data-models/atf.model";
-import {AtfDataMock} from "../../assets/data-mocks/atf-data.mock";
+import {AtfDataMock} from "../../assets/data-mocks/reference-data-mocks/atf-data.mock";
 
 describe('Provider: ATFService', () => {
   let atfService: AtfService;

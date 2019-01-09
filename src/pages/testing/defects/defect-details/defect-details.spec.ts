@@ -2,10 +2,11 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { IonicModule, NavController, NavParams } from "ionic-angular";
 import { DefectDetailsPage } from "./defect-details";
 import { DefectsService } from "../../../../providers/defects/defects.service";
-import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { TestTypeDataMock } from "../../../../assets/data-mocks/test-type-data.mock";
 
 describe('Component: DefectDetailsPage', () => {
   let comp: DefectDetailsPage;
@@ -14,7 +15,7 @@ describe('Component: DefectDetailsPage', () => {
   let navParams: NavParams;
   let defectsService: DefectsService;
 
-  const vehicleTest: VehicleTestModel = new VehicleTestModel('testName', false, new Date(), 12, new Date());
+  const vehicleTest: TestTypeModel = TestTypeDataMock.TestTypeData;
   const defect: DefectDetailsModel = {
     ref: '1.1.a',
     deficiencyCategory: 'Major',
@@ -154,7 +155,7 @@ describe('Component: DefectDetailsPage', () => {
   });
 
   it('should check if the defect was added before', () => {
-    comp.vehicleTest.addDefect(addedDefect);
+    comp.vehicleTest.defects.push(addedDefect);
     expect(comp.checkIfDefectWasAdded()).toBeTruthy();
   });
 

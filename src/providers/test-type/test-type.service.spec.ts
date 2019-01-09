@@ -1,11 +1,11 @@
 import { TestBed } from "@angular/core/testing";
 import { StorageService } from "../natives/storage.service";
-import { TestTypesService } from "./test-type.service";
-import { TestTypesDataMock } from "../../assets/data-mocks/test-types.mock";
+import { TestTypeService } from "./test-type.service";
+import { TestTypesDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
 import { TestTypesModel } from "../../models/reference-data-models/test-types.model";
 
-describe('Provider: TestTypesService', () => {
-  let testTypesService: TestTypesService;
+describe('Provider: TestTypeService', () => {
+  let testTypeService: TestTypeService;
   let storageService: StorageService;
   let spy: any;
 
@@ -20,22 +20,22 @@ describe('Provider: TestTypesService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        TestTypesService,
+        TestTypeService,
         {provide: StorageService, useValue: spy}
       ]
     });
 
-    testTypesService = TestBed.get(TestTypesService);
+    testTypeService = TestBed.get(TestTypeService);
     storageService = TestBed.get(StorageService);
   });
 
   afterEach(() => {
-    testTypesService = null;
+    testTypeService = null;
     storageService = null;
   });
 
   it('should return data from local storage', () => {
-    testTypesService.getTestTypesFromStorage().subscribe(
+    testTypeService.getTestTypesFromStorage().subscribe(
       data => {
         expect(data).toBe(<TestTypesModel[]>testTypes)
       }

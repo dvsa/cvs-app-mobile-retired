@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
-import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import {
   DefectCategoryModel,
   DefectDeficiencyModel,
@@ -11,6 +10,7 @@ import { DefectDetailsModel } from "../../../../models/defects/defect-details.mo
 import { DefectsMetadataModel } from "../../../../models/defects/defects-metadata.model";
 import { APP, DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
 
 @IonicPage()
 @Component({
@@ -19,7 +19,7 @@ import { CommonFunctionsService } from "../../../../providers/utils/common-funct
 })
 export class AddDefectPage implements OnInit {
   vehicleType: string;
-  vehicleTest: VehicleTestModel;
+  vehicleTest: TestTypeModel;
   category: DefectCategoryModel;
   item: DefectItemModel;
   filteredDeficiencies: DefectDeficiencyModel[];

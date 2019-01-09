@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { AbandonmentReasonItemModel } from "../../../../models/tests/abandonment-reason-item.model";
 import { TestAbandonmentReasonsData } from "../../../../assets/data-mocks/abandon-data-mock/test-abandonment-reasons.data";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
 
 @IonicPage()
 @Component({
@@ -10,7 +10,7 @@ import { TestAbandonmentReasonsData } from "../../../../assets/data-mocks/abando
   templateUrl: 'reasons-selection.html',
 })
 export class ReasonsSelectionPage {
-  vehicleTest: VehicleTestModel;
+  vehicleTest: TestTypeModel;
   selectedReasons: string[] = [];
   reasonsList: AbandonmentReasonItemModel[];
 

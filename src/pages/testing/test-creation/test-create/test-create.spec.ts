@@ -1,7 +1,6 @@
 import { TestCreatePage } from "./test-create";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { NavController, NavParams, IonicModule } from "ionic-angular";
-import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestReportModel } from "../../../../models/tests/test-report.model";
@@ -10,6 +9,8 @@ import { TestReportService } from "../../../../providers/test-report/test-report
 import { VehicleDetailsDataMock } from "../../../../assets/data-mocks/vehicle-details-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { TestTypeDataMock } from "../../../../assets/data-mocks/test-type-data.mock";
 import { ODOMETER_METRIC } from "../../../../app/app.enums";
 
 describe('Component: TestCreatePage', () => {
@@ -17,7 +18,7 @@ describe('Component: TestCreatePage', () => {
   let fixture: ComponentFixture<TestCreatePage>;
   let navCtrl: NavController;
   let navParams: NavParams;
-  let vehicleService;
+  let vehicleService: VehicleService;
 
   let phoneServiceSpy: any;
   let testReportServiceSpy: any;
@@ -32,14 +33,18 @@ describe('Component: TestCreatePage', () => {
     preparer: null
   };
 
-  const addedVehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
+  const addedVehicleTest: TestTypeModel = TestTypeDataMock.TestTypeData;
   let vehicle: VehicleModel = VehicleDetailsDataMock.VehicleData;
 
   beforeEach(async(() => {
     phoneServiceSpy = jasmine.createSpyObj('phoneService', ['callPhoneNumber']);
     testReportServiceSpy = jasmine.createSpyObj('testReportService', {'getTestReport': testReport});
-    vehicleServiceSpy = jasmine.createSpyObj('vehicleService', ['createVehicle', 'addTestType', 'removeTestType'])
-
+    vehicleServiceSpy = jasmine.createSpyObj('vehicleService', {
+      'createVehicle': null,
+      'addTestType': null,
+      'removeTestType': null,
+      'formatOdometerReadingValue': '1,234'
+    });
 
     TestBed.configureTestingModule({
       declarations: [TestCreatePage],
@@ -73,8 +78,8 @@ describe('Component: TestCreatePage', () => {
 
   it('should say either a test is abandoned or not', () => {
     expect(component.isTestAbandoned(addedVehicleTest)).toBeFalsy();
-    addedVehicleTest.addAbandonmentReasons(['Best reason']);
-    addedVehicleTest.addAdditionalAbandonmentReason('Additional comment');
+    addedVehicleTest.abandonment.reasons.push('Best reason');
+    addedVehicleTest.abandonment.additionalComment = 'Additional comment';
     expect(component.isTestAbandoned(addedVehicleTest)).toBeTruthy();
   });
 

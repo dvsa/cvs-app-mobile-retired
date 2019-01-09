@@ -14,6 +14,7 @@ import { DATE_FORMAT } from "../../../../../app/app.enums";
 export class VehicleDetailsPage {
   testReport: TestReportModel;
   vehicleData: VehicleModel;
+  fromTestCreatePage: boolean;
   dateFormat: string;
 
   constructor(public navCtrl: NavController,
@@ -24,12 +25,9 @@ export class VehicleDetailsPage {
               public commonFunc: CommonFunctionsService) {
     this.testReport = this.testReportService.getTestReport();
     this.vehicleData = navParams.get('vehicle');
+    this.fromTestCreatePage = navParams.get('fromTestCreatePage');
     this.viewCtrl = viewCtrl;
     this.dateFormat = DATE_FORMAT.DD_MM_YYYY;
-  }
-
-  ionViewWillEnter() {
-    this.viewCtrl.setBackButtonText('Identify Vehicle');
   }
 
   addVehicle(): void {
@@ -72,6 +70,10 @@ export class VehicleDetailsPage {
   showMoreDetails(pageName: string): void {
     this.navCtrl.push(pageName, {
       vehicleData: this.vehicleData
-      });
+    });
+  }
+
+  onTestHistory() {
+    this.navCtrl.push('VehicleHistoryPage');
   }
 }

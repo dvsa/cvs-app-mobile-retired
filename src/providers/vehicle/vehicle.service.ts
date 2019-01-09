@@ -1,5 +1,5 @@
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
-import { VehicleTestModel } from "../../models/vehicle-test.model";
+import { TestTypeModel } from "../../models/tests/test-type.model";
 import { CommonRegExp } from "../utils/common-regExp";
 import { map } from "rxjs/operators";
 import { STORAGE } from "../../app/app.enums";
@@ -29,15 +29,14 @@ export class VehicleService {
     return newVehicle;
   }
 
-  addTestType(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
+  addTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
     vehicle.testTypes.push(vehicleTest)
   }
 
-  removeTestType(vehicle: VehicleModel, vehicleTest: VehicleTestModel) {
+  removeTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
     const foundIndex = vehicle.testTypes.indexOf(vehicleTest);
     vehicle.testTypes.splice(foundIndex, 1);
   }
-
 
   getVehicleTechRecord(param): Observable<VehicleModel> {
     return this.httpService.getTechRecords(param).pipe(
@@ -52,17 +51,18 @@ export class VehicleService {
     let currentArray = array.techRecord.find(
       techRec => {
         return techRec['statusCode'] == 'current'
-      })
+      });
+    currentArray.noOfAxles = 2;
     currentArray['vehicleSize'] = 'small';
     currentArray['vehicleConfiguration'] = 'rigid';
     return currentArray;
   }
 
   getVehicleCertificateExpirationDate(vehicle: VehicleModel): Date {
-    let lastCertificateExpirationDate = vehicle.testResultsHistory[0].getCertificateExpirationDate();
+    let lastCertificateExpirationDate = vehicle.testResultsHistory[0].expiryDate;
     vehicle.testResultsHistory.forEach(test => {
-      if (lastCertificateExpirationDate < test.getCertificateExpirationDate()) {
-        lastCertificateExpirationDate = test.getCertificateExpirationDate();
+      if (lastCertificateExpirationDate < test.expiryDate) {
+        lastCertificateExpirationDate = test.expiryDate;
       }
     });
     return lastCertificateExpirationDate;

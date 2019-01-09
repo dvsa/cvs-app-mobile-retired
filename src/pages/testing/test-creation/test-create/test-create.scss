@@ -30,7 +30,27 @@ page-test-create {
           margin-top: 2px;
         }
 
-        [item-end].test-type-status,
+        [item-start].vehicle-type-icon {
+          margin: 8px 0 8px 16px;
+          background: none;
+        }
+
+        [item-end].vehicle-details {
+          margin: 8px;
+          color: $item-icon-light-gray;
+        }
+
+        [item-end].arrow-forward {
+          color: $light-gray;
+          font-size: $font-size-medium;
+          display: flex;
+          align-items: center;
+        }
+
+        [item-end].test-type-status {
+          margin: 8px;
+        }
+
         [item-end].odometer-reading-status {
           margin: 0;
         }
@@ -43,8 +63,8 @@ page-test-create {
           color: color($colors, danger);
         }
 
-        [item-end].test-type-status.test-type-notcomplete {
-          color: color($colors, attention);
+        [item-end].test-type-status.test-type-inProgress {
+          color: $item-icon-light-gray;
         }
 
         [item-end].odometer-reading-status.odometer-reading-start {

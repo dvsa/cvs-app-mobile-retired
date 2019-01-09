@@ -38,6 +38,12 @@ export enum TEST_REPORT_STATUSES {
   CANCELLED = 'Cancelled'
 }
 
+export enum TEST_TYPE_RESULTS {
+  SUCCESSFUL = 'Successful',
+  UNSUCCESSFUL = 'Unsuccessful',
+  ABANDONED = 'Abandoned'
+}
+
 export enum APP_STRINGS {
   VEHICLE_DETAILS = 'Vehicle details',
   WITHOUT_PREPARER = 'Continue without preparerID',
