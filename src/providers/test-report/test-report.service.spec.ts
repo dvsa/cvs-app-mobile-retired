@@ -1,7 +1,7 @@
 import { TestReportService } from "./test-report.service";
 import { TestBed } from "@angular/core/testing";
 import { PreparersModel } from "../../models/reference-data-models/preparers.model";
-import { PreparersDataMock } from "../../assets/data-mocks/preparers-data.mock";
+import { PreparersDataMock } from "../../assets/data-mocks/reference-data-mocks/preparers-data.mock";
 import { VehicleDetailsDataMock } from "../../assets/data-mocks/vehicle-details-data.mock";
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { VehicleService } from "../vehicle/vehicle.service";

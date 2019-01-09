@@ -4,8 +4,8 @@ import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { TestTypesListPage } from "./test-types-list";
-import { TestTypesService } from "../../../../providers/test-types/test-type.service";
-import { TestTypesDataMock } from "../../../../assets/data-mocks/test-types.mock";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { TestTypesDataMock } from "../../../../assets/data-mocks/reference-data-mocks/test-types.mock";
 import { TestTypesModel } from "../../../../models/reference-data-models/test-types.model";
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { VehicleDetailsDataMock } from "../../../../assets/data-mocks/vehicle-details-data.mock";
@@ -18,7 +18,7 @@ describe('Component: TestTypesListPage', () => {
 
   let navCtrl: NavController;
   let navParams: NavParams;
-  let testTypesService: TestTypesService;
+  let testTypeService: TestTypeService;
   let vehicleService: VehicleService;
   let storageServiceSpy: any;
   let vehicleServiceSpy;
@@ -40,7 +40,7 @@ describe('Component: TestTypesListPage', () => {
       ],
       providers: [
         NavController,
-        TestTypesService,
+        TestTypeService,
         {provide: VehicleService, useValue: vehicleServiceSpy},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: StorageService, useValue: storageServiceSpy}
@@ -54,7 +54,7 @@ describe('Component: TestTypesListPage', () => {
     comp = fixture.componentInstance;
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
-    testTypesService = TestBed.get(TestTypesService);
+    testTypeService = TestBed.get(TestTypeService);
     vehicleService = TestBed.get(VehicleService);
   });
 
@@ -73,18 +73,18 @@ describe('Component: TestTypesListPage', () => {
   afterEach(() => {
     fixture.destroy();
     comp = null;
-    testTypesService = null;
+    testTypeService = null;
   });
 
   it('should create the component', () => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
-    expect(testTypesService).toBeTruthy();
+    expect(testTypeService).toBeTruthy();
   });
 
-  it('should TestTypesService and TestTypesListPage Component share the same instance',
-    inject([TestTypesService], (injectService: TestTypesService) => {
-      expect(injectService).toBe(testTypesService);
+  it('should TestTypeService and TestTypesListPage Component share the same instance',
+    inject([TestTypeService], (injectService: TestTypeService) => {
+      expect(injectService).toBe(testTypeService);
     })
   );
 });

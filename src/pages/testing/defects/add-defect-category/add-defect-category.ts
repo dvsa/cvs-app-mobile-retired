@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
-import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { APP } from "../../../../app/app.enums";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
 
 @IonicPage()
 @Component({
@@ -12,7 +12,7 @@ import { APP } from "../../../../app/app.enums";
 })
 export class AddDefectCategoryPage implements OnInit {
   vehicleType: string;
-  vehicleTest: VehicleTestModel;
+  vehicleTest: TestTypeModel;
   defectCategories: DefectCategoryModel[];
   filteredCategories: DefectCategoryModel[];
   searchVal: string = '';

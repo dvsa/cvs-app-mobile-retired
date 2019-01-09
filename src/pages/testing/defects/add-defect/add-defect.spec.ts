@@ -1,16 +1,17 @@
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
 import { AlertController, Events, IonicModule, NavController, NavParams } from "ionic-angular";
-import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { AddDefectPage } from "./add-defect";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { DefectCategoryModel, DefectItemModel } from "../../../../models/reference-data-models/defects.model";
-import { DefectsDataMock } from "../../../../assets/data-mocks/defects-data.mock";
+import { DefectsDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { VehicleDetailsDataMock } from "../../../../assets/data-mocks/vehicle-details-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { TestTypeDataMock } from "../../../../assets/data-mocks/test-type-data.mock";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
 
 describe('Component: AddDefectPage', () => {
   let comp: AddDefectPage;
@@ -23,7 +24,7 @@ describe('Component: AddDefectPage', () => {
   let defectsServiceSpy: any;
   let commonFunctionsServiceSpy: any;
 
-  const vehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
+  const vehicleTest: TestTypeModel = TestTypeDataMock.TestTypeData;
   const vehicle: VehicleModel = VehicleDetailsDataMock.VehicleData;
   const category: DefectCategoryModel = DefectsDataMock.DefectsData[0];
   const item: DefectItemModel = DefectsDataMock.DefectsData[0].items[0];

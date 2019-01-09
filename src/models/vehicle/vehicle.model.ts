@@ -1,15 +1,15 @@
-import { VehicleTestModel } from "../vehicle-test.model";
+import { TestTypeModel } from "../tests/test-type.model";
 
 export interface VehicleModel {
   vrms: VrmModel[];
   vin: string;
   techRecord: TechRecordModel[];
-  testResultsHistory?: VehicleTestModel[];
+  testResultsHistory?: TestTypeModel[];
   odometerReading?: string;
   odometerMetric?: string;
   preparerId?: string;
   preparerName?: string;
-  testTypes?: VehicleTestModel[];
+  testTypes?: TestTypeModel[];
 }
 
 export interface VrmModel {

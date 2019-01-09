@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { VehicleTestModel } from '../../../../models/vehicle-test.model';
 import { DefectDetailsModel } from '../../../../models/defects/defect-details.model';
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { AdditionalInfoMetadataModel } from "../../../../models/defects/defects-metadata.model";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
 
 @IonicPage()
 @Component({
@@ -11,7 +11,7 @@ import { AdditionalInfoMetadataModel } from "../../../../models/defects/defects-
   templateUrl: 'defect-details.html'
 })
 export class DefectDetailsPage implements OnInit {
-  vehicleTest: VehicleTestModel;
+  vehicleTest: TestTypeModel;
   defect: DefectDetailsModel;
   defectMetadata: AdditionalInfoMetadataModel;
   isEdit: boolean;
@@ -30,7 +30,7 @@ export class DefectDetailsPage implements OnInit {
     let views = this.navCtrl.getViews();
     for (let i = views.length - 1; i >= 0; i--) {
       if (views[i].component.name == "CompleteTestPage") {
-        if (!this.isEdit) this.vehicleTest.addDefect(this.defect);
+        if (!this.isEdit) this.vehicleTest.defects.push(this.defect);
         this.navCtrl.popTo(views[i]);
       }
     }
@@ -38,7 +38,7 @@ export class DefectDetailsPage implements OnInit {
 
   checkIfDefectWasAdded(): boolean {
     let found = false;
-    this.vehicleTest.getDefects().forEach(
+    this.vehicleTest.defects.forEach(
       defect => {
         if (defect.ref == this.defect.ref) {
           found = true;

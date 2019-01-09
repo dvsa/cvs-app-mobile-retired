@@ -8,11 +8,6 @@
                 <ion-icon name="ios-call-outline"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-buttons end>
-            <button ion-button (click)="editPressed()">
-                Edit
-            </button>
-        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
@@ -20,10 +15,15 @@
 <ion-content padding>
     <ion-list class="full-dividers-list">
         <ion-card class="card" *ngFor="let vehicle of testReport.vehicles; let i = index">
-            <ion-item class="ion-item-title">
-                <h2>{{ vehicle.vrms[0].vrm }}</h2>
-                <p>{{ vehicle.techRecord[0].vehicleType }}</p>
-            </ion-item>
+            <button ion-item detail-none class="ion-item-title"
+                    (click)="onVehicleDetails(vehicle)">
+                <ion-img item-start class="vehicle-type-icon"
+                         src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="50"></ion-img>
+                <h2>{{ vehicle.vrms[0].vrm }} ({{vehicle.techRecord[0].vehicleType}})</h2>
+                <p>{{ vehicle.vin }}</p>
+                <h3 item-end class="vehicle-details">Details</h3>
+                <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
+            </button>
             <button ion-item
                     detail-none
                     class="bottom-divider"
@@ -42,6 +42,7 @@
                 <ion-item-sliding *ngFor="let vehicleTest of vehicle.testTypes"
                                   #slidingItem>
                     <button ion-item
+                            detail-none
                             (click)="openTest(vehicle, vehicleTest)"
                             class="bottom-divider"
                             [ngClass]="{'abandoned-test': isTestAbandoned(vehicleTest)}">
@@ -56,9 +57,9 @@
                         </h3>
                         <h3 item-end class="test-type-status test-type-notcomplete"
                             *ngIf="isTestAbandoned(vehicleTest)">Abandoned</h3>
-                        <h3 item-end class="test-type-status test-type-notcomplete"
-                            *ngIf="vehicleTest.hasPassed == null && !isTestAbandoned(vehicleTest)">Not
-                            complete</h3>
+                        <h3 item-end class="test-type-status test-type-inProgress"
+                            *ngIf="!vehicleTest.result">In progress</h3>
+                        <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
                     </button>
                     <ion-item-options *ngIf="!isTestAbandoned(vehicleTest)">
                         <button ion-button

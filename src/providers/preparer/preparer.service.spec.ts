@@ -1,6 +1,6 @@
 import { PreparerService } from "./preparer.service";
 import { StorageService } from "../natives/storage.service";
-import { PreparersDataMock } from "../../assets/data-mocks/preparers-data.mock";
+import { PreparersDataMock } from "../../assets/data-mocks/reference-data-mocks/preparers-data.mock";
 import { TestBed } from "@angular/core/testing";
 import { PreparersModel } from "../../models/reference-data-models/preparers.model";
 

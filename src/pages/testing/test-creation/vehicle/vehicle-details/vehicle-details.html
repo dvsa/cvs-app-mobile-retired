@@ -11,7 +11,7 @@
                 </ng-template>
             </ng-container>
         </ion-title>
-        <ion-buttons end *ngIf="testReport">
+        <ion-buttons end *ngIf="testReport && !fromTestCreatePage">
             <button ion-button (click)="goToPreparerPage()">
                 Confirm
             </button>
@@ -21,9 +21,9 @@
 
 <ion-content no-padding>
     <ng-container *ngFor="let vrm of vehicleData.vrms">
-        <div text-uppercase 
-             text-center 
-             class="vehicle-header-vrm-number" 
+        <div text-uppercase
+             text-center
+             class="vehicle-header-vrm-number"
              *ngIf="vrm.isPrimary">
             {{ vrm.vrm }}
         </div>
@@ -129,7 +129,7 @@
 
     <ion-list class="vehicle-list">
         <ion-list-header padding-left padding-right>VIEW MORE INFORMATION</ion-list-header>
-        <button ion-item margin-left>
+        <button ion-item margin-left (click)="onTestHistory()">
             <ng-container *ngFor="let techRecord of vehicleData.techRecord">
                 <h3>
                     <span *ngIf="commonFunc.checkForMatch(techRecord.vehicleType, 'trl');
@@ -156,5 +156,5 @@
             <h3>Additional vehicle details</h3>
         </button>
     </ion-list>
-    
+
 </ion-content>

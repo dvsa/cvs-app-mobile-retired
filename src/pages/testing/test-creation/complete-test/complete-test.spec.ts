@@ -1,17 +1,19 @@
 import { CompleteTestPage } from "./complete-test";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { AlertController, IonicModule, NavController, NavParams } from "ionic-angular";
-import { VehicleTestModel } from "../../../../models/vehicle-test.model";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
-import { DefectsDataMock } from "../../../../assets/data-mocks/defects-data.mock";
+import { DefectsDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
 import { VehicleDetailsDataMock } from "../../../../assets/data-mocks/vehicle-details-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { TestTypeDataMock } from "../../../../assets/data-mocks/test-type-data.mock";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -52,7 +54,7 @@ describe('Component: CompleteTestPage', () => {
     }
   };
 
-  const vehicleTest = new VehicleTestModel('testName', false, new Date(), 12, new Date());
+  const vehicleTest: TestTypeModel = TestTypeDataMock.TestTypeData;
   const vehicle: VehicleModel = VehicleDetailsDataMock.VehicleData;
 
   beforeEach(async(() => {
@@ -67,6 +69,7 @@ describe('Component: CompleteTestPage', () => {
         NavController,
         {provide: NavParams, useClass: NavParamsMock},
         DefectsService,
+        TestTypeService,
         AlertController,
         {provide: StorageService, useValue: storageServiceSpy}
       ],
@@ -112,10 +115,10 @@ describe('Component: CompleteTestPage', () => {
 
   it('should check if array of defects length is 0 after removing the only addedDefect', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
-    expect(comp.vehicleTest.getDefects().length).toBeFalsy();
-    comp.vehicleTest.addDefect(addedDefect);
-    expect(comp.vehicleTest.getDefects().length).toBeTruthy();
+    expect(comp.vehicleTest.defects.length).toBeFalsy();
+    comp.vehicleTest.defects.push(addedDefect);
+    expect(comp.vehicleTest.defects.length).toBeTruthy();
     comp.removeDefect(addedDefect);
-    expect(comp.vehicleTest.getDefects().length).toBeFalsy();
+    expect(comp.vehicleTest.defects.length).toBeFalsy();
   });
 });

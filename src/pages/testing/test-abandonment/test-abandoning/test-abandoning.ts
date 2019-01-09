@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
-import { VehicleTestModel } from "../../../../models/vehicle-test.model";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
 
 @IonicPage()
 @Component({
@@ -8,7 +8,7 @@ import { VehicleTestModel } from "../../../../models/vehicle-test.model";
   templateUrl: 'test-abandoning.html',
 })
 export class TestAbandoningPage implements OnInit {
-  vehicleTest: VehicleTestModel;
+  vehicleTest: TestTypeModel;
   selectedReasons: string[];
   additionalComment: string;
   editMode: string;
@@ -21,7 +21,7 @@ export class TestAbandoningPage implements OnInit {
 
   ngOnInit() {
     if (!this.editMode) {
-      this.additionalComment = this.vehicleTest.getAbandonment().additionalComment;
+      this.additionalComment = this.vehicleTest.abandonment.additionalComment;
     }
   }
 
@@ -49,9 +49,9 @@ export class TestAbandoningPage implements OnInit {
   }
 
   updateVehicleTestModel() {
-    this.vehicleTest.addAbandonmentReasons(this.selectedReasons);
+    this.vehicleTest.abandonment.reasons.push(...this.selectedReasons);
     if (this.additionalComment && this.additionalComment.length) {
-      this.vehicleTest.addAdditionalAbandonmentReason(this.additionalComment);
+      this.vehicleTest.abandonment.additionalComment = this.additionalComment;
     }
   }
 

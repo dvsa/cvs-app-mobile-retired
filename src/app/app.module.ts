@@ -17,7 +17,6 @@ import { IonicStorageModule } from "@ionic/storage";
 import { StorageService } from "../providers/natives/storage.service";
 import { AuthService } from "../providers/global/auth.service";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { VehicleTestService } from "../providers/vehicle-test.service";
 import { WheelSelector } from "@ionic-native/wheel-selector";
 import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
 import { SyncService } from "../providers/global/sync.service";
@@ -36,7 +35,6 @@ const CUSTOM_PROVIDERS = [
   StorageService,
   AuthService,
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-  VehicleTestService,
   PhoneService,
   CameraService,
   PreparerService,
