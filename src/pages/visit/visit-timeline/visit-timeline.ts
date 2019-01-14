@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { VisitModel } from '../../../models/visit.model';
-import { TestReportService } from "../../../providers/test-report/test-report.service";
-import { TestReportModel } from "../../../models/tests/test-report.model";
+import { TestService } from "../../../providers/test/test.service";
+import { TestModel } from "../../../models/tests/test.model";
+import { VisitService } from "../../../providers/visit/visit.service";
+import { VisitModel } from "../../../models/visit/visit.model";
+import { StateReformingService } from "../../../providers/global/state-reforming.service";
 
 @IonicPage()
 @Component({
@@ -11,15 +13,15 @@ import { TestReportModel } from "../../../models/tests/test-report.model";
 })
 export class VisitTimelinePage implements OnInit {
   visit: VisitModel;
-  timeline: TestReportModel[];
+  timeline: TestModel[];
 
-  constructor(public navCtrl: NavController, private navParams: NavParams, private testReportService: TestReportService) {
-    this.visit = new VisitModel(navParams.get('atf'));
+  constructor(public navCtrl: NavController, private navParams: NavParams, private testReportService: TestService, private visitService: VisitService, public stateReformingService: StateReformingService) {
     this.timeline = [];
   }
 
   ngOnInit() {
-    this.visit.startVisit();
+    this.visit = Object.keys(this.visitService.visit).length ? this.visitService.visit : this.visitService.createVisit(this.navParams.get('atf'));
+    this.stateReformingService.saveNavStack(this.navCtrl);
   }
 
   ionViewWillEnter() {
@@ -27,38 +29,34 @@ export class VisitTimelinePage implements OnInit {
   }
 
   endVisit(): void {
-    this.visit.endVisit();
+    this.visitService.endVisit();
     this.navCtrl.popToRoot();
     alert(JSON.stringify(this.visit));
   }
 
   createNewTestReport(): void {
-    this.testReportService.createTestReport();
-    const testReport = this.testReportService.getTestReport();
-    this.visit.addTestReport(testReport);
-
-    this.navCtrl.push('VehicleLookupPage', {
-      visit: this.visit
-    })
+    let test = this.testReportService.createTest();
+    this.visitService.addTest(test);
+    this.navCtrl.push('VehicleLookupPage', {test: test});
   }
 
   addWaitTime(): void {
 
   }
 
-  addATFIssue(): void {
+  goToATFIssue(): void {
     this.navCtrl.push('ATFIssuePage');
   }
 
   private createTimeline(): void {
     this.timeline = [];
-    let testReports = this.visit.getTestReports();
+    let testReports = this.visitService.getTests();
     testReports.forEach(testReport => {
       this.timeline.push(testReport);
     });
   }
 
-  getTestReportTitle(testReport: TestReportModel) {
+  getTestReportTitle(testReport: TestModel) {
     this.testReportService.getTestReportTitle(testReport);
   }
 

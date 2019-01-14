@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, NavController } from 'ionic-angular';
-import { TestReportModel } from "../../../../models/tests/test-report.model";
-import { TestReportService } from "../../../../providers/test-report/test-report.service";
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { TestModel } from "../../../../models/tests/test.model";
+import { TestService } from "../../../../providers/test/test.service";
 import { TEST_REPORT_STATUSES } from "../../../../app/app.enums";
 
 @IonicPage()
@@ -10,11 +10,14 @@ import { TEST_REPORT_STATUSES } from "../../../../app/app.enums";
   templateUrl: 'test-cancel.html',
 })
 export class TestCancelPage {
-  testReport: TestReportModel;
+  testData: TestModel;
   cancellationReason: string = '';
 
-  constructor(private alertCtrl: AlertController, private navCtrl: NavController, private testReportService: TestReportService) {
-    this.testReport = this.testReportService.getTestReport();
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private testReportService: TestService,
+              private alertCtrl: AlertController) {
+    this.testData = this.navParams.get('test');
   }
 
   onSubmit() {
@@ -34,8 +37,8 @@ export class TestCancelPage {
             text: 'Submit',
             cssClass: 'danger-action-button',
             handler: () => {
-              this.testReport.testStatus = TEST_REPORT_STATUSES.CANCELLED;
-              this.testReport.cancellationReason = this.cancellationReason;
+              this.testData.status = TEST_REPORT_STATUSES.CANCELLED;
+              this.testData.reasonForCancellation = this.cancellationReason;
               this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 6));
             }
           }

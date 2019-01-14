@@ -4,7 +4,7 @@ import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestAbandoningPage } from "./test-abandoning";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestTypeDataMock } from "../../../../assets/data-mocks/test-type-data.mock";
+import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 
 describe('Component: TestAbandoningPage', () => {
   let component: TestAbandoningPage;
@@ -13,7 +13,7 @@ describe('Component: TestAbandoningPage', () => {
   let navParams: NavParams;
   let alertCtrl: AlertController;
 
-  let vehicleTest: TestTypeModel = TestTypeDataMock.TestTypeData;
+  let vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const selectedReasons = ['Best reason', 'Second best reason'];
   const additionalComment = 'Some additional comment';
 

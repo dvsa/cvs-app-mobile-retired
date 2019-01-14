@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
-import { TestReportModel } from '../../../../../models/tests/test-report.model';
+import { TestModel } from '../../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../../models/vehicle/vehicle.model';
-import { TestReportService } from "../../../../../providers/test-report/test-report.service";
+import { TestService } from "../../../../../providers/test/test.service";
 import { CommonFunctionsService } from "../../../../../providers/utils/common-functions";
 import { DATE_FORMAT } from "../../../../../app/app.enums";
 
@@ -12,36 +12,25 @@ import { DATE_FORMAT } from "../../../../../app/app.enums";
   templateUrl: 'vehicle-details.html'
 })
 export class VehicleDetailsPage {
-  testReport: TestReportModel;
   vehicleData: VehicleModel;
+  testData: TestModel;
   fromTestCreatePage: boolean;
   dateFormat: string;
 
   constructor(public navCtrl: NavController,
               private navParams: NavParams,
-              private testReportService: TestReportService,
+              private testReportService: TestService,
               public viewCtrl: ViewController,
               public alertCtrl: AlertController,
               public commonFunc: CommonFunctionsService) {
-    this.testReport = this.testReportService.getTestReport();
     this.vehicleData = navParams.get('vehicle');
+    this.testData = navParams.get('test');
     this.fromTestCreatePage = navParams.get('fromTestCreatePage');
-    this.viewCtrl = viewCtrl;
     this.dateFormat = DATE_FORMAT.DD_MM_YYYY;
   }
 
-  addVehicle(): void {
-    let self = this;
-    this.testReportService.addVehicle(this.vehicleData);
-    if (self.navCtrl.getByIndex(self.navCtrl.length() - 3).component.name == 'VisitTimelinePage') {
-      this.navCtrl.insert(this.navCtrl.length() - 2, 'TestCreatePage')
-        .then(() => {
-            self.navCtrl.popTo(self.navCtrl.getByIndex(self.navCtrl.length() - 3));
-          }
-        );
-    } else {
-      this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 3));
-    }
+  ionViewWillEnter() {
+    this.viewCtrl.setBackButtonText('Identify Vehicle');
   }
 
   goToPreparerPage(): void {
@@ -54,17 +43,16 @@ export class VehicleDetailsPage {
         }, {
           text: 'Confirm',
           handler: () => {
-            this.testReportService.addVehicle(this.vehicleData);
-            this.navCtrl.push('AddPreparerPage');
+            this.testReportService.addVehicle(this.testData, this.vehicleData);
+            this.navCtrl.push('AddPreparerPage', {
+              vehicle: this.vehicleData,
+              test: this.testData
+            });
           }
         }
       ]
     });
     confirm.present();
-  }
-
-  refuseVehicle(): void {
-
   }
 
   showMoreDetails(pageName: string): void {

@@ -18,7 +18,7 @@
             <img src="assets/navigation.png" item-start>
             <div class="timeline-item-content">
                 <p>{{ visit.startTime | date: 'shortTime' }}</p>
-                <h2>{{ visit.atf.name }}</h2>
+                <h2>{{ visit.testStationName }}</h2>
                 <p>Started site visit</p>
             </div>
         </ion-item>
@@ -51,7 +51,7 @@
             </button>
         </ion-buttons>
         <ion-buttons end>
-            <button ion-button (click)="addATFIssue()">
+            <button ion-button (click)="goToATFIssue()">
                 ATF Issue
             </button>
         </ion-buttons>

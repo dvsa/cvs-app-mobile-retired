@@ -21,7 +21,8 @@ import { WheelSelector } from "@ionic-native/wheel-selector";
 import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
 import { SyncService } from "../providers/global/sync.service";
 import { PreparerService } from '../providers/preparer/preparer.service';
-import {TestReportService} from "../providers/test-report/test-report.service";
+import { VisitService } from "../providers/visit/visit.service";
+import { StateReformingService } from "../providers/global/state-reforming.service";
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -38,7 +39,8 @@ const CUSTOM_PROVIDERS = [
   PhoneService,
   CameraService,
   PreparerService,
-  TestReportService
+  VisitService,
+  StateReformingService
 ];
 
 const IONIC_NATIVE_PROVIDERS = [

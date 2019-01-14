@@ -18,6 +18,8 @@ import { BrowserModule } from "@angular/platform-browser";
 import { IonicStorageModule } from "@ionic/storage";
 import { SyncService } from "../providers/global/sync.service";
 import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
+import { VisitService } from "../providers/visit/visit.service";
+import { VisitServiceMock } from "../../test-config/services-mocks/visit-service.mock";
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -26,6 +28,7 @@ describe('Component: Root', () => {
   let authService;
   let syncService;
   let storageService;
+  let visitService;
 
 
   beforeEach(async(() => {
@@ -38,6 +41,7 @@ describe('Component: Root', () => {
         SplashScreen,
         AuthService,
         StorageService,
+        {provide: VisitService, useClass: VisitServiceMock},
         {provide: SyncService, useValue: syncServiceSpy},
         CallNumber,
         OpenNativeSettings,
@@ -60,6 +64,7 @@ describe('Component: Root', () => {
     authService = TestBed.get(AuthService);
     syncService = TestBed.get(SyncService);
     storageService = TestBed.get(StorageService);
+    visitService = TestBed.get(VisitService);
   });
 
   afterEach(() => {
@@ -68,6 +73,7 @@ describe('Component: Root', () => {
     authService = null;
     syncService = null;
     storageService = null;
+    visitService = null;
   });
 
   it('should create component', () => {
@@ -90,6 +96,12 @@ describe('Component: Root', () => {
   it('should StorageService and Root Component share the same instance',
     inject([StorageService], (injectService: StorageService) => {
       expect(injectService).toBe(storageService);
+    })
+  );
+
+  it('should VisitService and Root Component share the same instance',
+    inject([VisitService], (injectService: VisitService) => {
+      expect(injectService).toBe(visitService);
     })
   );
 

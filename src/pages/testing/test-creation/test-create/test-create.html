@@ -14,7 +14,7 @@
 
 <ion-content padding>
     <ion-list class="full-dividers-list">
-        <ion-card class="card" *ngFor="let vehicle of testReport.vehicles; let i = index">
+        <ion-card class="card" *ngFor="let vehicle of testData.vehicles; let i = index">
             <button ion-item detail-none class="ion-item-title"
                     (click)="onVehicleDetails(vehicle)">
                 <ion-img item-start class="vehicle-type-icon"

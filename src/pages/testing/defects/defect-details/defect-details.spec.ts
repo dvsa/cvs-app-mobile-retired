@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
 import { IonicModule, NavController, NavParams } from "ionic-angular";
 import { DefectDetailsPage } from "./defect-details";
 import { DefectsService } from "../../../../providers/defects/defects.service";
@@ -6,7 +6,11 @@ import { DefectDetailsModel } from "../../../../models/defects/defect-details.mo
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestTypeDataMock } from "../../../../assets/data-mocks/test-type-data.mock";
+import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { TestTypesServiceMock } from "../../../../../test-config/services-mocks/test-types-service.mock";
 
 describe('Component: DefectDetailsPage', () => {
   let comp: DefectDetailsPage;
@@ -14,8 +18,9 @@ describe('Component: DefectDetailsPage', () => {
   let navCtrl: NavController;
   let navParams: NavParams;
   let defectsService: DefectsService;
+  let testTypeService: TestTypeService;
 
-  const vehicleTest: TestTypeModel = TestTypeDataMock.TestTypeData;
+  const vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const defect: DefectDetailsModel = {
     ref: '1.1.a',
     deficiencyCategory: 'Major',
@@ -108,6 +113,7 @@ describe('Component: DefectDetailsPage', () => {
       imports: [IonicModule.forRoot(DefectDetailsPage)],
       providers: [
         NavController,
+        {provide: TestTypeService, useClass: TestTypesServiceMock},
         {provide: DefectsService, useValue: defectsServiceSpy},
         {provide: NavParams, useClass: NavParamsMock}
       ],
@@ -121,6 +127,7 @@ describe('Component: DefectDetailsPage', () => {
     defectsService = TestBed.get(DefectsService);
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
+    testTypeService = TestBed.get(TestTypeService);
   });
 
   beforeEach(() => {
@@ -147,12 +154,19 @@ describe('Component: DefectDetailsPage', () => {
     fixture.destroy();
     comp = null;
     defectsService = null;
+    testTypeService = null;
   });
 
   it('should create component', () => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
   });
+
+  it('should TestTypeService and Root Component share the same instance',
+    inject([TestTypeService], (injectService: TestTypeService) => {
+      expect(injectService).toBe(testTypeService);
+    })
+  );
 
   it('should check if the defect was added before', () => {
     comp.vehicleTest.defects.push(addedDefect);

@@ -1,4 +1,4 @@
-export class VehicleDetailsDataMock {
+export class TechRecordDataMock {
   public  static get VehicleData() {
     return {
       "vrms": [

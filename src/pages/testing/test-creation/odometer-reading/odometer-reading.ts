@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActionSheetController, IonicPage, NavController, NavParams, TextInput } from 'ionic-angular';
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { ODOMETER_METRIC } from "../../../../app/app.enums";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 
 @IonicPage()
 @Component({
@@ -16,9 +18,11 @@ export class OdometerReadingPage {
 
   @ViewChild('valueInput') valueInput: TextInput;
 
-  constructor(private actionSheetCtrl: ActionSheetController,
+  constructor(public visitService: VisitService,
+              private actionSheetCtrl: ActionSheetController,
               private navCtrl: NavController,
               private navParams: NavParams,
+              private vehicleService: VehicleService,
               private cdRef: ChangeDetectorRef) {
     this.vehicle = this.navParams.get('vehicle');
     this.odometerReading = this.vehicle.odometerReading.length ? this.vehicle.odometerReading : '';
@@ -41,8 +45,7 @@ export class OdometerReadingPage {
   }
 
   onSave() {
-    this.vehicle.odometerReading = this.odometerReading;
-    this.vehicle.odometerMetric = this.odometerMetric;
+    this.vehicle = this.vehicleService.setOdometer(this.vehicle, this.odometerReading, this.odometerMetric);
     this.navCtrl.pop();
   }
 

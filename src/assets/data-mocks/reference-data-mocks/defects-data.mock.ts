@@ -1,4 +1,13 @@
 export class DefectsDataMock {
+
+  public static get DefectsDataItem() {
+    return DefectsDataMock.DefectsData[0].items[0];
+  }
+
+  public static get DefectDataCategory() {
+    return DefectsDataMock.DefectsData[0];
+  }
+
   public static get DefectsData() {
     return [{
       "imDescription": "Registration Plate",
