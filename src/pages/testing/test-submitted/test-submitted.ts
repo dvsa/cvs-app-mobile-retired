@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { TestReportService } from "../../../providers/test-report/test-report.service";
 import { AppConfig } from "../../../../config/app.config";
-import { TestReportModel } from "../../../models/tests/test-report.model";
+import { TestModel } from "../../../models/tests/test.model";
 
 @IonicPage()
 @Component({
@@ -11,13 +10,12 @@ import { TestReportModel } from "../../../models/tests/test-report.model";
   templateUrl: 'test-submitted.html'
 })
 export class TestSubmittedPage {
-  testReport: TestReportModel;
+  testData: TestModel;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private socialSharing: SocialSharing,
-              private testReportService: TestReportService) {
-    this.testReport = this.testReportService.getTestReport();
+              private socialSharing: SocialSharing) {
+    this.testData = this.navParams.get('test');
   }
 
   finishTest(): void {

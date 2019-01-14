@@ -1,17 +1,25 @@
 import { TestCreatePage } from "./test-create";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { NavController, NavParams, IonicModule } from "ionic-angular";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { TestReportModel } from "../../../../models/tests/test-report.model";
-import { PhoneService } from "../../../../providers/natives/phone.service";
-import { TestReportService } from "../../../../providers/test-report/test-report.service";
-import { VehicleDetailsDataMock } from "../../../../assets/data-mocks/vehicle-details-data.mock";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { IonicModule, NavController, NavParams } from "ionic-angular";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestTypeDataMock } from "../../../../assets/data-mocks/test-type-data.mock";
+import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
+import { PhoneService } from "../../../../providers/natives/phone.service";
+import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ODOMETER_METRIC } from "../../../../app/app.enums";
+import { TestModel } from "../../../../models/tests/test.model";
+import { TestService } from "../../../../providers/test/test.service";
+import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
+import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
+import { StorageService } from "../../../../providers/natives/storage.service";
+import { StateReformingService } from "../../../../providers/global/state-reforming.service";
+import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
+import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -19,41 +27,36 @@ describe('Component: TestCreatePage', () => {
   let navCtrl: NavController;
   let navParams: NavParams;
   let vehicleService: VehicleService;
+  let visitService: VisitService;
+  let testService: TestService;
+  let stateReformingService: StateReformingService;
 
   let phoneServiceSpy: any;
-  let testReportServiceSpy: any;
-  let vehicleServiceSpy: any;
 
-  const testReport: TestReportModel = {
+  const testReport: TestModel = {
     startTime: null,
     endTime: null,
-    testStatus: null,
-    cancellationReason: '',
+    status: null,
+    reasonForCancellation: '',
     vehicles: [],
-    preparer: null
   };
 
-  const addedVehicleTest: TestTypeModel = TestTypeDataMock.TestTypeData;
-  let vehicle: VehicleModel = VehicleDetailsDataMock.VehicleData;
+  const addedVehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+  let vehicle: VehicleModel = TechRecordDataMock.VehicleData;
 
   beforeEach(async(() => {
     phoneServiceSpy = jasmine.createSpyObj('phoneService', ['callPhoneNumber']);
-    testReportServiceSpy = jasmine.createSpyObj('testReportService', {'getTestReport': testReport});
-    vehicleServiceSpy = jasmine.createSpyObj('vehicleService', {
-      'createVehicle': null,
-      'addTestType': null,
-      'removeTestType': null,
-      'formatOdometerReadingValue': '1,234'
-    });
 
     TestBed.configureTestingModule({
       declarations: [TestCreatePage],
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
         NavController,
-        {provide: VehicleService, useValue: vehicleServiceSpy},
         {provide: PhoneService, useValue: phoneServiceSpy},
-        {provide: TestReportService, useValue: testReportServiceSpy},
+        {provide: StateReformingService, useClass: StateReformingServiceMock},
+        {provide: VehicleService, useClass: VehicleServiceMock},
+        {provide: VisitService, useClass: VisitServiceMock},
+        {provide: TestService, useClass: TestServiceMock},
         {provide: NavParams, useClass: NavParamsMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -64,11 +67,29 @@ describe('Component: TestCreatePage', () => {
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
     vehicleService = TestBed.get(VehicleService);
+    testService = TestBed.get(TestService);
+    visitService = TestBed.get(VisitService);
+    stateReformingService = TestBed.get(StateReformingService);
   }));
+
+  beforeEach(() => {
+    const navParams = fixture.debugElement.injector.get(NavParams);
+
+    navParams.get = jasmine.createSpy('get').and.callFake((param) => {
+      const params = {
+        'test': VisitDataMock.VisitTestData,
+      };
+      return params[param];
+    })
+  })
 
   afterEach(() => {
     fixture.destroy();
     component = null;
+    testService = null;
+    vehicleService = null;
+    visitService = null;
+    stateReformingService = null;
   });
 
   it('should create the component', () => {
@@ -84,20 +105,25 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should say either a test has odometer data or not', () => {
-    component.ngOnInit();
-    component.testReport.vehicles.push(vehicle);
+    let newTest = testService.createTest();
+    let newVehicle = vehicleService.createVehicle(vehicle);
+    newTest.vehicles.push(newVehicle);
+    component.testData = newTest;
 
     expect(component.doesOdometerDataExist(0)).toBeFalsy();
-    component.testReport.vehicles[0].odometerReading = '1234';
-    component.testReport.vehicles[0].odometerMetric = ODOMETER_METRIC.MILES;
+    newTest.vehicles[0].odometerReading = '1234';
+    newTest.vehicles[0].odometerMetric = ODOMETER_METRIC.MILES;
     expect(component.doesOdometerDataExist(0)).toBeTruthy();
   });
 
   it('should return correctly formatted string of odometer data', () => {
-    component.ngOnInit();
-    component.testReport.vehicles.push(vehicle);
-    component.testReport.vehicles[0].odometerReading = '1234';
-    component.testReport.vehicles[0].odometerMetric = ODOMETER_METRIC.MILES;
+    let newTest = testService.createTest();
+    let newVehicle = vehicleService.createVehicle(vehicle);
+    newTest.vehicles.push(newVehicle);
+    component.testData = newTest;
+
+    newTest.vehicles[0].odometerReading = '1234';
+    newTest.vehicles[0].odometerMetric = ODOMETER_METRIC.MILES;
 
     expect(component.getOdometerStringToBeDisplayed(0)).toEqual('1,234 mi');
   });

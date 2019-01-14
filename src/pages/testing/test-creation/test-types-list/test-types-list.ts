@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
-import { TestTypesModel } from "../../../../models/reference-data-models/test-types.model";
+import { TestTypesReferenceDataModel } from "../../../../models/reference-data-models/test-types.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
@@ -13,7 +13,7 @@ import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 export class TestTypesListPage implements OnInit {
   vehicleData: VehicleModel;
-  testTypeReferenceData: TestTypesModel[];
+  testTypeReferenceData: TestTypesReferenceDataModel[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -37,7 +37,7 @@ export class TestTypesListPage implements OnInit {
     }
   }
 
-  selectedItem(testType: TestTypesModel): void {
+  selectedItem(testType: TestTypesReferenceDataModel): void {
     if (testType.nextTestTypesOrCategories) {
       this.navCtrl.push('TestTypesListPage', {
         vehicleData: this.vehicleData,

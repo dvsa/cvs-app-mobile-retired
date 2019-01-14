@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { AppConfig } from "../../../config/app.config";
 import { AtfReferenceDataModel } from "../../models/reference-data-models/atf.model";
 import { DefectCategoryModel } from "../../models/reference-data-models/defects.model";
-import { TestTypesModel } from "../../models/reference-data-models/test-types.model";
+import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { PreparersModel } from "../../models/reference-data-models/preparers.model";
 import { PATHS } from "../../app/app.enums";
 
@@ -27,8 +27,8 @@ export class HTTPService {
     return this.http.get<DefectCategoryModel[]>(AppConfig.BACKEND_URL_DEFECTS)
   }
 
-  getTestTypes(): Observable<TestTypesModel[]> {
-    return this.http.get<TestTypesModel[]>(AppConfig.BACKEND_URL_TESTTYPES);
+  getTestTypes(): Observable<TestTypesReferenceDataModel[]> {
+    return this.http.get<TestTypesReferenceDataModel[]>(AppConfig.BACKEND_URL_TESTTYPES);
   }
 
   getPreparers(): Observable<PreparersModel[]> {

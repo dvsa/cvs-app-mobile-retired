@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
-import { TestReportModel } from '../../../../models/tests/test-report.model';
-import { VisitModel } from '../../../../models/visit.model';
-import { TestReportService } from "../../../../providers/test-report/test-report.service";
+import { TestModel } from '../../../../models/tests/test.model';
+import { TestService } from "../../../../providers/test/test.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { VisitModel } from "../../../../models/visit/visit.model";
+import { VisitService } from "../../../../providers/visit/visit.service";
 
 @IonicPage()
 @Component({
@@ -12,19 +13,17 @@ import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
   templateUrl: 'vehicle-lookup.html'
 })
 export class VehicleLookupPage {
-  testReport: TestReportModel;
-  visit: VisitModel;
+  testData: TestModel;
   searchVal: string = '';
   loading: any;
 
   constructor(public navCtrl: NavController,
               private navParams: NavParams,
               private vehicleService: VehicleService,
-              private testReportService: TestReportService,
               public alertCtrl: AlertController,
-              public loadingCtrl: LoadingController) {
-    this.testReport = this.testReportService.getTestReport();
-    this.visit = navParams.get('visit');
+              public loadingCtrl: LoadingController,
+              public visitService: VisitService) {
+    this.testData = navParams.get('test');
   }
 
   ionViewWillEnter() {
@@ -36,14 +35,14 @@ export class VehicleLookupPage {
       content: 'Please wait...'
     });
     this.loading.present();
-
-    searchedValue = searchedValue ? searchedValue : 'BQ91YHQ';
-
     this.vehicleService.getVehicleTechRecord(searchedValue).subscribe(
       (data: VehicleModel) => {
         this.loading.dismiss();
         let vehicleData = this.vehicleService.createVehicle(data);
-        this.navCtrl.push('VehicleDetailsPage', {vehicle: vehicleData});
+        this.navCtrl.push('VehicleDetailsPage', {
+          test: this.testData,
+          vehicle: vehicleData
+        });
       },
       err => {
         this.loading.dismiss();
@@ -53,7 +52,7 @@ export class VehicleLookupPage {
 
   close(): void {
     if (this.navCtrl.getPrevious().component.name == 'VisitTimelinePage') {
-      this.visit.removeTestReport(this.testReport);
+      this.visitService.removeTest(this.testData);
     }
     this.navCtrl.pop();
   }

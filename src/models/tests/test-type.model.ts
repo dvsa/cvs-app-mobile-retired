@@ -8,13 +8,13 @@ export interface TestTypeModel {
   id?: string;
   certificateNumber?: string;
   lecCertificateNumber?: string;
-  expiryDate?: Date;
-  startTime: Date;
-  endTime?: Date;
+  expiryDate?: string;
+  startTime: string;
+  endTime?: string;
   seatbeltsNumber?: number;
-  lastSeatbeltInstallationCheckDate?: Date;
+  lastSeatbeltInstallationCheckDate?: string;
   wasSeatbeltInstallationCheckCarriedOut?: boolean;
-  result?: TEST_TYPE_RESULTS;
+  result?: TEST_TYPE_RESULTS | string;
   wasProhibitionIssued?: boolean;
   abandonment?: TestTypeAbandonmentModel;
   additionalNotes?: string;

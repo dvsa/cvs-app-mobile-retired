@@ -3,7 +3,9 @@ export enum STORAGE {
   DEFECTS = 'defects',
   TESTTYPES = 'test-types',
   PREPARERS = 'preparers',
-  TECH_RECORDS = 'tech-records'
+  TECH_RECORDS = 'tech-records',
+  STATE = 'state',
+  VISIT = 'visit'
 }
 
 export enum PATHS {

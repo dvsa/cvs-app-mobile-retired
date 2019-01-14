@@ -1,17 +1,17 @@
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
-import { TestTypeModel } from "../../models/tests/test-type.model";
 import { CommonRegExp } from "../utils/common-regExp";
-import { map } from "rxjs/operators";
-import { STORAGE } from "../../app/app.enums";
 import { HTTPService } from "../global/http.service";
-import { StorageService } from "../natives/storage.service";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
+import { PreparersModel } from "../../models/reference-data-models/preparers.model";
+import { VisitService } from "../visit/visit.service";
+import { TestTypeModel } from "../../models/tests/test-type.model";
+
 
 @Injectable()
 export class VehicleService {
 
-  constructor(private httpService: HTTPService, private storageService: StorageService) {
+  constructor(private httpService: HTTPService, public visitService: VisitService) {
   }
 
   createVehicle(vehicle: VehicleModel): VehicleModel {
@@ -29,22 +29,33 @@ export class VehicleService {
     return newVehicle;
   }
 
-  addTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
-    vehicle.testTypes.push(vehicleTest)
+  addTestType(vehicle: VehicleModel, testType: TestTypeModel) {
+    vehicle.testTypes.push(testType);
+    this.visitService.updateVisit();
   }
 
-  removeTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
-    const foundIndex = vehicle.testTypes.indexOf(vehicleTest);
+  removeTestType(vehicle: VehicleModel, testType: TestTypeModel) {
+    const foundIndex = vehicle.testTypes.indexOf(testType);
     vehicle.testTypes.splice(foundIndex, 1);
+    this.visitService.updateVisit();
   }
+
+  addPreparer(vehicle: VehicleModel, value: PreparersModel) {
+    vehicle.preparerId = value.preparerId;
+    vehicle.preparerName = value.preparerName;
+    this.visitService.updateVisit();
+  }
+
 
   getVehicleTechRecord(param): Observable<VehicleModel> {
-    return this.httpService.getTechRecords(param).pipe(
-      map((data: VehicleModel) => {
-        this.storageService.update(STORAGE.TECH_RECORDS, data);
-        return data;
-      })
-    )
+    return this.httpService.getTechRecords(param);
+  }
+
+  setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string) {
+    vehicle.odometerReading = odomReading;
+    vehicle.odometerMetric = odomMetric;
+    this.visitService.updateVisit();
+    return vehicle;
   }
 
   getCurrentTechRecord(array) {
@@ -58,7 +69,7 @@ export class VehicleService {
     return currentArray;
   }
 
-  getVehicleCertificateExpirationDate(vehicle: VehicleModel): Date {
+  getVehicleCertificateExpirationDate(vehicle: VehicleModel): Date | string {
     let lastCertificateExpirationDate = vehicle.testResultsHistory[0].expiryDate;
     vehicle.testResultsHistory.forEach(test => {
       if (lastCertificateExpirationDate < test.expiryDate) {

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, IonicPage, NavController, ViewController } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
-import { TestReportModel } from "../../../../models/tests/test-report.model";
+import { TestModel } from "../../../../models/tests/test.model";
 import { PreparersModel } from "../../../../models/reference-data-models/preparers.model";
-import { TestReportService } from "../../../../providers/test-report/test-report.service";
 import { APP_STRINGS } from "../../../../app/app.enums";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 
 @IonicPage()
@@ -15,16 +16,19 @@ import { APP_STRINGS } from "../../../../app/app.enums";
 export class AddPreparerPage implements OnInit {
   preparers: PreparersModel[] = [];
   filteredPreparers: PreparersModel[] = [];
-  testReport: TestReportModel;
   searchValue: string;
   searchbarFocus: boolean = false;
+  vehicleData: VehicleModel;
+  testData: TestModel;
 
   constructor(public navCtrl: NavController,
+              public navParams: NavParams,
               public preparerService: PreparerService,
               private alertCtrl: AlertController,
-              private testReportService: TestReportService,
+              private vehicleService: VehicleService,
               private viewCtrl: ViewController) {
-    this.testReport = this.testReportService.getTestReport();
+    this.vehicleData = this.navParams.get('vehicle');
+    this.testData = this.navParams.get('test');
   }
 
   ngOnInit() {
@@ -43,7 +47,7 @@ export class AddPreparerPage implements OnInit {
   }
 
   selectPreparer(preparer: PreparersModel): void {
-    this.testReportService.addPreparer(preparer);
+    this.vehicleService.addPreparer(this.vehicleData, preparer);
   }
 
   presentConfirm(value: PreparersModel | string): void {
@@ -73,7 +77,9 @@ export class AddPreparerPage implements OnInit {
           text: APP_STRINGS.CONFIRM,
           handler: () => {
             this.selectPreparer(preparer);
-            this.navCtrl.push('TestCreatePage');
+            this.navCtrl.push('TestCreatePage', {
+              test: this.testData
+            });
           }
         }
       ]

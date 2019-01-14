@@ -1,5 +1,5 @@
 import { CompleteTestPage } from "./complete-test";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
 import { AlertController, IonicModule, NavController, NavParams } from "ionic-angular";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
@@ -9,11 +9,13 @@ import { DefectsDataMock } from "../../../../assets/data-mocks/reference-data-mo
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
-import { VehicleDetailsDataMock } from "../../../../assets/data-mocks/vehicle-details-data.mock";
+import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestTypeDataMock } from "../../../../assets/data-mocks/test-type-data.mock";
+import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -24,6 +26,7 @@ describe('Component: CompleteTestPage', () => {
   let defectsService: DefectsService;
   let alertCtrl: AlertController;
   let storageServiceSpy: any;
+  let visitService: VisitService;
 
   const defects: DefectCategoryModel[] = DefectsDataMock.DefectsData
   const addedDefect: DefectDetailsModel = {
@@ -54,8 +57,8 @@ describe('Component: CompleteTestPage', () => {
     }
   };
 
-  const vehicleTest: TestTypeModel = TestTypeDataMock.TestTypeData;
-  const vehicle: VehicleModel = VehicleDetailsDataMock.VehicleData;
+  const vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+  const vehicle: VehicleModel = TechRecordDataMock.VehicleData;
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -68,6 +71,7 @@ describe('Component: CompleteTestPage', () => {
       providers: [
         NavController,
         {provide: NavParams, useClass: NavParamsMock},
+        {provide: VisitService, useClass: VisitServiceMock},
         DefectsService,
         TestTypeService,
         AlertController,
@@ -84,6 +88,7 @@ describe('Component: CompleteTestPage', () => {
     navParams = TestBed.get(NavParams);
     defectsService = TestBed.get(DefectsService);
     alertCtrl = TestBed.get(AlertController);
+    visitService = TestBed.get(VisitService);
   });
 
   beforeEach(() => {
@@ -101,12 +106,19 @@ describe('Component: CompleteTestPage', () => {
   afterEach(() => {
     fixture.destroy();
     comp = null;
+    visitService = null;
   });
 
   it('should create the component', () => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
   });
+
+  it('should VisitService and Root Component share the same instance',
+    inject([VisitService], (injectService: VisitService) => {
+      expect(injectService).toBe(visitService);
+    })
+  );
 
   it('should convert to number', () => {
     const number = '5';

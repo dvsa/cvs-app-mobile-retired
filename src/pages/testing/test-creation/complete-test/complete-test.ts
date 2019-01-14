@@ -7,6 +7,7 @@ import { DefectCategoryModel } from "../../../../models/reference-data-models/de
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { VisitService } from "../../../../providers/visit/visit.service";
 
 @IonicPage()
 @Component({
@@ -20,6 +21,7 @@ export class CompleteTestPage implements OnInit {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public visitService: VisitService,
               public defectsService: DefectsService,
               private alertCtrl: AlertController,
               private testTypeService: TestTypeService) {

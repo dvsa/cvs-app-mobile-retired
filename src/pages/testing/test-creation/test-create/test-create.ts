@@ -1,10 +1,13 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { IonicPage, NavController, AlertController, ItemSliding } from 'ionic-angular';
-import { TestReportModel } from '../../../../models/tests/test-report.model';
+import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { IonicPage, NavController, AlertController, ItemSliding, NavParams } from 'ionic-angular';
+import { TestModel } from '../../../../models/tests/test.model';
 import { PhoneService } from '../../../../providers/natives/phone.service'
-import { TestReportService } from "../../../../providers/test-report/test-report.service";
+import { TestService } from "../../../../providers/test/test.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { StateReformingService } from "../../../../providers/global/state-reforming.service";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { StorageService } from "../../../../providers/natives/storage.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { ODOMETER_METRIC } from "../../../../app/app.enums";
 
@@ -14,19 +17,22 @@ import { ODOMETER_METRIC } from "../../../../app/app.enums";
   templateUrl: 'test-create.html',
 })
 export class TestCreatePage implements OnInit {
-
-  testReport: TestReportModel;
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
+  testData: TestModel;
 
   constructor(public navCtrl: NavController,
+              public navParams: NavParams,
               public phoneService: PhoneService,
               public alertCtrl: AlertController,
-              private vehicleService: VehicleService,
-              private testReportService: TestReportService) {
+              public visitService: VisitService,
+              public stateReformingService: StateReformingService,
+              private vehicleService: VehicleService) {
   }
 
   ngOnInit() {
-    this.testReport = this.testReportService.getTestReport();
+    let lastTestIndex = this.visitService.visit.tests.length - 1;
+    this.testData = Object.keys(this.visitService.visit).length ? this.visitService.visit.tests[lastTestIndex] : this.navParams.get('test');
+    this.stateReformingService.saveNavStack(this.navCtrl);
   }
 
   ionViewWillLeave() {
@@ -38,13 +44,13 @@ export class TestCreatePage implements OnInit {
   }
 
   doesOdometerDataExist(index: number) {
-    return this.testReport.vehicles[index].odometerReading.length && this.testReport.vehicles[index].odometerMetric.length;
+    return this.testData.vehicles[index].odometerReading.length && this.testData.vehicles[index].odometerMetric.length;
   }
 
   getOdometerStringToBeDisplayed(index: number) {
     if (this.doesOdometerDataExist(index)) {
-      let unit = this.testReport.vehicles[index].odometerMetric === ODOMETER_METRIC.KILOMETRES ? 'km' : 'mi';
-      return this.vehicleService.formatOdometerReadingValue(this.testReport.vehicles[index].odometerReading) + ' ' + unit;
+      let unit = this.testData.vehicles[index].odometerMetric === ODOMETER_METRIC.KILOMETRES ? 'km' : 'mi';
+      return this.vehicleService.formatOdometerReadingValue(this.testData.vehicles[index].odometerReading) + ' ' + unit;
     } else {
       return 'Enter';
     }
@@ -68,7 +74,10 @@ export class TestCreatePage implements OnInit {
 
   openTest(vehicle: VehicleModel, vehicleTest: TestTypeModel): void {
     if (!this.isTestAbandoned(vehicleTest)) {
-      this.navCtrl.push('CompleteTestPage', {vehicle: vehicle, vehicleTest: vehicleTest});
+      this.navCtrl.push('CompleteTestPage', {
+        vehicle: vehicle,
+        vehicleTest: vehicleTest
+      });
     } else {
       this.navCtrl.push('TestAbandoningPage', {
         vehicleTest: vehicleTest,
@@ -79,23 +88,11 @@ export class TestCreatePage implements OnInit {
   }
 
   onOdometer(index: number) {
-    this.navCtrl.push('OdometerReadingPage', {vehicle: this.testReport.vehicles[index]});
-  }
-
-  reviewTest(): void {
-    this.navCtrl.push('TestSummaryPage');
+    this.navCtrl.push('OdometerReadingPage', {vehicle: this.testData.vehicles[index]});
   }
 
   launchDialer(): void {
     this.phoneService.callPhoneNumber('00447976824451');
-  }
-
-  addATFIssue(): void {
-    this.navCtrl.push('ATFIssuePage');
-  }
-
-  onCancel() {
-    this.navCtrl.push('TestCancelPage');
   }
 
   onRemoveVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel, slidingItem: ItemSliding) {
@@ -120,16 +117,30 @@ export class TestCreatePage implements OnInit {
     alert.present();
   }
 
-  onAbandonVehicleTest(vehicleTest: TestTypeModel) {
-    this.navCtrl.push('ReasonsSelectionPage', {vehicleTest: vehicleTest});
-  }
-
   removeVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
     this.vehicleService.removeTestType(vehicle, vehicleTest);
   }
 
   isTestAbandoned(vehicleTest: TestTypeModel) {
     return vehicleTest.abandonment.reasons.length > 0;
+  }
+
+  onAbandonVehicleTest(vehicleTest) {
+    this.navCtrl.push('ReasonsSelectionPage', {vehicleTest: vehicleTest});
+  }
+
+  onCancel() {
+    this.navCtrl.push('TestCancelPage', {
+      test: this.testData
+    });
+  }
+
+  addATFIssue(): void {
+    this.navCtrl.push('ATFIssuePage');
+  }
+
+  reviewTest(): void {
+    console.log('Visit: ', this.visitService.visit);
   }
 
 }

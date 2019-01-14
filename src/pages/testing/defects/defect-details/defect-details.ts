@@ -4,6 +4,7 @@ import { DefectDetailsModel } from '../../../../models/defects/defect-details.mo
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { AdditionalInfoMetadataModel } from "../../../../models/defects/defects-metadata.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 
 @IonicPage()
 @Component({
@@ -16,7 +17,7 @@ export class DefectDetailsPage implements OnInit {
   defectMetadata: AdditionalInfoMetadataModel;
   isEdit: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService, private testTypeService: TestTypeService) {
     this.vehicleTest = navParams.get('vehicleTest');
     this.defect = navParams.get('deficiency');
     this.isEdit = navParams.get('isEdit')
@@ -30,7 +31,7 @@ export class DefectDetailsPage implements OnInit {
     let views = this.navCtrl.getViews();
     for (let i = views.length - 1; i >= 0; i--) {
       if (views[i].component.name == "CompleteTestPage") {
-        if (!this.isEdit) this.vehicleTest.defects.push(this.defect);
+        if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
         this.navCtrl.popTo(views[i]);
       }
     }
