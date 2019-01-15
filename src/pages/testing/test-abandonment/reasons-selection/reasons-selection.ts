@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AbandonmentReasonItemModel } from "../../../../models/tests/abandonment-reason-item.model";
-import { TestAbandonmentReasonsData } from "../../../../assets/data-mocks/abandon-data-mock/test-abandonment-reasons.data";
+import { TestAbandonmentReasonsData } from "../../../../assets/app-data/abandon-data/test-abandonment-reasons.data";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 
 @IonicPage()

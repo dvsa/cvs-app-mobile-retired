@@ -129,7 +129,7 @@
 
     <ion-list class="vehicle-list">
         <ion-list-header padding-left padding-right>VIEW MORE INFORMATION</ion-list-header>
-        <button ion-item margin-left (click)="onTestHistory()">
+        <button ion-item margin-left (click)="goToVehicleTestResultsHistory()">
             <ng-container *ngFor="let techRecord of vehicleData.techRecord">
                 <h3>
                     <span *ngIf="commonFunc.checkForMatch(techRecord.vehicleType, 'trl');

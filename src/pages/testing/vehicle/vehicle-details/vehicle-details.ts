@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
-import { TestModel } from '../../../../../models/tests/test.model';
-import { VehicleModel } from '../../../../../models/vehicle/vehicle.model';
-import { TestService } from "../../../../../providers/test/test.service";
-import { CommonFunctionsService } from "../../../../../providers/utils/common-functions";
-import { DATE_FORMAT } from "../../../../../app/app.enums";
+import { TestModel } from '../../../../models/tests/test.model';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { TestService } from "../../../../providers/test/test.service";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { DATE_FORMAT } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -14,6 +14,7 @@ import { DATE_FORMAT } from "../../../../../app/app.enums";
 export class VehicleDetailsPage {
   vehicleData: VehicleModel;
   testData: TestModel;
+  testResultHistory: any;
   fromTestCreatePage: boolean;
   dateFormat: string;
 
@@ -25,6 +26,7 @@ export class VehicleDetailsPage {
               public commonFunc: CommonFunctionsService) {
     this.vehicleData = navParams.get('vehicle');
     this.testData = navParams.get('test');
+    this.testResultHistory = navParams.get('testResultsHistory');
     this.fromTestCreatePage = navParams.get('fromTestCreatePage');
     this.dateFormat = DATE_FORMAT.DD_MM_YYYY;
   }
@@ -58,6 +60,13 @@ export class VehicleDetailsPage {
   showMoreDetails(pageName: string): void {
     this.navCtrl.push(pageName, {
       vehicleData: this.vehicleData
+    });
+  }
+
+  goToVehicleTestResultsHistory() {
+    this.navCtrl.push('VehicleHistoryPage', {
+      vehicleData: this.vehicleData,
+      testResultsHistory: this.testResultHistory,
     });
   }
 

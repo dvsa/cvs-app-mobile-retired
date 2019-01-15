@@ -76,4 +76,9 @@ export class AppConfig {
     let jsonData = app;
     return jsonData['BACKEND_URL_TECHRECORDS'];
   }
+
+  public static get BACKEND_URL_GET_TEST_RESULTS() {
+    let jsonData = app;
+    return jsonData['BACKEND_URL_GET_TEST_RESULTS'];
+  }
 }
