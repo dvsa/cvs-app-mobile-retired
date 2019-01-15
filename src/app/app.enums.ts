@@ -29,15 +29,6 @@ export enum DEFICIENCY_CATEGORY {
   MINOR = 'minor'
 }
 
-export enum TEST_RESULT {
-  FAIL = 'fail',
-  PASS = 'pass',
-  PRS = 'prs',
-  ABANDONED = 'abandoned',
-  SUCCESSFUL = 'successful',
-  UNSUCCESSFUL = 'unsuccessful'
-}
-
 export enum TEST_REPORT_TITLES {
   SINGLE_TEST = 'Single Test',
   LINKED_TEST = 'Linked Test',
@@ -53,7 +44,9 @@ export enum TEST_TYPE_RESULTS {
   SUCCESSFUL = 'pass',
   UNSUCCESSFUL = 'fail',
   ABANDONED = 'abandoned',
-  PRS = 'prs'
+  FAIL = 'fail',
+  PASS = 'pass',
+  PRS = 'prs',
 }
 
 export enum APP_STRINGS {
@@ -82,5 +75,6 @@ export enum DATE_FORMAT {
 }
 
 export enum DEFAULT_VALUES {
-  NONE = 'none'
+  NONE = 'none',
+  NOT_ENTERED = 'not entered'
 }

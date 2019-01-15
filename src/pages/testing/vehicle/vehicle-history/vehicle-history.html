@@ -24,10 +24,10 @@
           <button ion-item (click)="showTestDetails(testIndex, testTypeIndex)">
             <ion-grid>
               <ion-row padding-left>
-                <ion-col col-9>
+                <ion-col col-8>
                   <p text-wrap>{{ testType.testTypeName }}</p>
                 </ion-col>
-                <ion-col col-3 text-right>
+                <ion-col col-4 text-right>
                   <p text-uppercase
                      class="test-result"
                      ion-text
@@ -44,7 +44,7 @@
                   <p>{{ commonFunc.convertDate(testType.testTypeStartTimestamp) }}</p>
                 </ion-col>
               </ion-row>
-              <ion-row padding-left>
+              <ion-row padding-left *ngIf="!commonFunc.checkForMatch(testType.testResult, testTypeResults.ABANDONED)">
                 <ion-col col-3>
                   <p>Expiry date</p>
                 </ion-col>
