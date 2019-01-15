@@ -277,3 +277,8 @@ ion-list.vehicle-list{
 .danger-action-button {
   color: color($colors, danger) !important;
 }
+
+.test-result{
+  font-weight: $font-weight-semi-bold;
+  font-size: $font-size-medium;
+}

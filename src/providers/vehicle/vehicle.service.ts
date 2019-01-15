@@ -1,4 +1,4 @@
-import { VehicleModel } from "../../models/vehicle/vehicle.model";
+import { TechRecordModel, VehicleModel } from "../../models/vehicle/vehicle.model";
 import { CommonRegExp } from "../utils/common-regExp";
 import { HTTPService } from "../global/http.service";
 import { Observable } from "rxjs";
@@ -29,18 +29,18 @@ export class VehicleService {
     return newVehicle;
   }
 
-  addTestType(vehicle: VehicleModel, testType: TestTypeModel) {
+  addTestType(vehicle: VehicleModel, testType: TestTypeModel): void {
     vehicle.testTypes.push(testType);
     this.visitService.updateVisit();
   }
 
-  removeTestType(vehicle: VehicleModel, testType: TestTypeModel) {
+  removeTestType(vehicle: VehicleModel, testType: TestTypeModel): void {
     const foundIndex = vehicle.testTypes.indexOf(testType);
     vehicle.testTypes.splice(foundIndex, 1);
     this.visitService.updateVisit();
   }
 
-  addPreparer(vehicle: VehicleModel, value: PreparersModel) {
+  addPreparer(vehicle: VehicleModel, value: PreparersModel): void {
     vehicle.preparerId = value.preparerId;
     vehicle.preparerName = value.preparerName;
     this.visitService.updateVisit();
@@ -51,14 +51,18 @@ export class VehicleService {
     return this.httpService.getTechRecords(param);
   }
 
-  setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string) {
+  getTestResultsHistory(vin: string): Observable<any> {
+    return this.httpService.getTestResultsHistory(vin);
+  }
+
+  setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string): VehicleModel {
     vehicle.odometerReading = odomReading;
     vehicle.odometerMetric = odomMetric;
     this.visitService.updateVisit();
     return vehicle;
   }
 
-  getCurrentTechRecord(array) {
+  getCurrentTechRecord(array): TechRecordModel {
     let currentArray = array.techRecord.find(
       techRec => {
         return techRec['statusCode'] == 'current'
@@ -79,7 +83,7 @@ export class VehicleService {
     return lastCertificateExpirationDate;
   }
 
-  formatOdometerReadingValue(string: string) {
+  formatOdometerReadingValue(string: string): string {
     return string.replace(CommonRegExp.ODOMETER_VALUE, ",");
   }
 

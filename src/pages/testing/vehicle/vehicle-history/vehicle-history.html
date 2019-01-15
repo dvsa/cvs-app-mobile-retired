@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title margin-left>
+      <span>Test history</span>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+  <ng-container *ngFor="let vrm of vehicleData.vrms">
+    <div text-uppercase
+         text-center
+         class="vehicle-header-vrm-number"
+         *ngIf="vrm.isPrimary">
+      {{ vrm.vrm }}
+    </div>
+  </ng-container>
+
+  <ion-list class="tests-list">
+    <ng-container *ngFor="let test of testResultHistory; let testIndex = index">
+      <ng-container *ngIf="commonFunc.checkForMatch(test.testStatus, 'submitted')">
+        <ng-container *ngFor="let testType of test.testTypes; let testTypeIndex = index">
+
+          <button ion-item (click)="showTestDetails(testIndex, testTypeIndex)">
+            <ion-grid>
+              <ion-row padding-left>
+                <ion-col col-9>
+                  <p text-wrap>{{ testType.testTypeName }}</p>
+                </ion-col>
+                <ion-col col-3 text-right>
+                  <p text-uppercase
+                     class="test-result"
+                     ion-text
+                     [color]="getTestResultColor(testType.testResult)">
+                    {{ testType.testResult }}
+                  </p>
+                </ion-col>
+              </ion-row>
+              <ion-row padding-left>
+                <ion-col col-3>
+                  <p>Test date</p>
+                </ion-col>
+                <ion-col col-9 text-right>
+                  <p>{{ commonFunc.convertDate(testType.testTypeStartTimestamp) }}</p>
+                </ion-col>
+              </ion-row>
+              <ion-row padding-left>
+                <ion-col col-3>
+                  <p>Expiry date</p>
+                </ion-col>
+                <ion-col col-9 text-right>
+                  <p>{{ commonFunc.convertDate(testType.testExpiryDate) }}</p>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </button>
+
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ion-list>
+
+</ion-content>

@@ -29,6 +29,15 @@ export enum DEFICIENCY_CATEGORY {
   MINOR = 'minor'
 }
 
+export enum TEST_RESULT {
+  FAIL = 'fail',
+  PASS = 'pass',
+  PRS = 'prs',
+  ABANDONED = 'abandoned',
+  SUCCESSFUL = 'successful',
+  UNSUCCESSFUL = 'unsuccessful'
+}
+
 export enum TEST_REPORT_TITLES {
   SINGLE_TEST = 'Single Test',
   LINKED_TEST = 'Linked Test',
@@ -69,4 +78,8 @@ export enum ODOMETER_METRIC {
 
 export enum DATE_FORMAT {
   DD_MM_YYYY = 'dd/MM/yyyy'
+}
+
+export enum DEFAULT_VALUES {
+  NONE = 'none'
 }

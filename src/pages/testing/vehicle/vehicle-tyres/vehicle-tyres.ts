@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { VehicleModel } from '../../../../../models/vehicle/vehicle.model';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { CommonFunctionsService } from "../../../../../providers/utils/common-functions";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 
 @IonicPage()
 @Component({
-  selector: 'page-vehicle-brakes',
-  templateUrl: 'vehicle-brakes.html',
+  selector: 'page-vehicle-tyres',
+  templateUrl: 'vehicle-tyres.html',
 })
-export class VehicleBrakesPage {
+export class VehicleTyresPage {
   vehicleData: VehicleModel;
 
-  constructor(public navCtrl: NavController, 
-              public navParams: NavParams, 
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
               public viewCtrl: ViewController,
               public commonFunc: CommonFunctionsService) {
     this.vehicleData = navParams.get('vehicleData');

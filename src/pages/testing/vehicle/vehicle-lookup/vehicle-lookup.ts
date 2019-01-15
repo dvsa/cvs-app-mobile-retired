@@ -35,16 +35,20 @@ export class VehicleLookupPage {
       content: 'Please wait...'
     });
     this.loading.present();
-    this.vehicleService.getVehicleTechRecord(searchedValue).subscribe(
-      (data: VehicleModel) => {
-        this.loading.dismiss();
-        let vehicleData = this.vehicleService.createVehicle(data);
-        this.navCtrl.push('VehicleDetailsPage', {
-          test: this.testData,
-          vehicle: vehicleData
-        });
+    this.vehicleService.getVehicleTechRecord(searchedValue.toUpperCase()).subscribe(
+      (vehicleTechRecord: VehicleModel) => {
+        let vehicleData = this.vehicleService.createVehicle(vehicleTechRecord);
+        this.vehicleService.getTestResultsHistory(vehicleData.vin).subscribe(
+          (testResultHistory) => {
+            this.loading.dismiss();
+            this.navCtrl.push('VehicleDetailsPage', {
+              test: this.testData,
+              testResultsHistory: testResultHistory,
+              vehicle: vehicleData
+            });
+          })
       },
-      err => {
+      () => {
         this.loading.dismiss();
         this.showAlert();
       });

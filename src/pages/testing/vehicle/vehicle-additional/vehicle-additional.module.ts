@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { VehicleAdditionalPage } from './vehicle-additional';
-import {CommonFunctionsService} from "../../../../../providers/utils/common-functions";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 
 @NgModule({
   declarations: [
@@ -14,4 +14,5 @@ import {CommonFunctionsService} from "../../../../../providers/utils/common-func
     CommonFunctionsService
   ]
 })
-export class VehicleAdditionalPageModule {}
+export class VehicleAdditionalPageModule {
+}

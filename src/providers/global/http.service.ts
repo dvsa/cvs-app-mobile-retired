@@ -7,6 +7,8 @@ import { DefectCategoryModel } from "../../models/reference-data-models/defects.
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { PreparersModel } from "../../models/reference-data-models/preparers.model";
 import { PATHS } from "../../app/app.enums";
+import { of } from "rxjs/observable/of";
+import { TestResultsDataMock } from "../../assets/data-mocks/test-results-data.mock";
 
 @Injectable()
 export class HTTPService {
@@ -37,5 +39,9 @@ export class HTTPService {
 
   getTechRecords(param): Observable<any> {
     return this.http.get<any>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/current`);
+  }
+
+  getTestResultsHistory(vin: string): Observable<any> {
+    return this.http.get<any>(`${AppConfig.BACKEND_URL_GET_TEST_RESULTS}/${vin}`);
   }
 }

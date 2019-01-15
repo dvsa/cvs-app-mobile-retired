@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { VehicleModel } from '../../../../../models/vehicle/vehicle.model';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { CommonFunctionsService } from "../../../../../providers/utils/common-functions";
-import { DATE_FORMAT } from "../../../../../app/app.enums";
+import { IonicPage, NavController, NavParams, ViewController } from "ionic-angular";
+import { Component } from "@angular/core";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { DATE_FORMAT } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -13,8 +13,8 @@ export class VehicleAdditionalPage {
   vehicleData: VehicleModel;
   dateFormat: string;
 
-  constructor(public navCtrl: NavController, 
-              public navParams: NavParams, 
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
               public viewCtrl: ViewController,
               public commonFunc: CommonFunctionsService) {
     this.vehicleData = navParams.get('vehicleData');
