@@ -3,7 +3,22 @@ ion-app.ios page-atf-details {
     padding-top: 0;
   }
 
-  #map {
-    height: 68%;
+  .label-custom-style {
+    color: color($colors, dark);
   }
+
+  .value-custom-style {
+    color: $list-ios-item-font-color;
+  }
+
+  .number-custom-style {
+    font-size: $item-ios-divider-font-size;
+    color: color($colors, button-blue);
+    border-bottom: 0.55px solid $item-icon-light-gray;
+  }
+
+  ion-item-divider {
+    border-bottom: 0.55px solid $item-icon-light-gray;
+  }
+
 }

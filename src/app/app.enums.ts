@@ -52,7 +52,14 @@ export enum APP_STRINGS {
   CONFIRM_PREPARER = 'Confirm preparer',
   ALERT_MESSAGE = 'You will not be able to add a preparer for this vehicle later.',
   CANCEL = 'Cancel',
-  CONFIRM = 'Confirm'
+  CONFIRM = 'Confirm',
+  OK = 'Ok',
+  REPORT_ISSUE = 'Report issue',
+  ATF_SAFETY = 'Confirm ATF and safety',
+  REPORT_TITLE = 'Report an ATF issue',
+  SPEAK_TO_TTL = 'Speak to your Technical Team Leader (TTL) if the issue cannot be resolved on site.',
+  SEARCH_ATF = 'Search for an ATF',
+  CALL = 'Call'
 }
 
 export enum ODOMETER_METRIC {
