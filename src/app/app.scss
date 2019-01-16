@@ -85,10 +85,6 @@
 
 .item-ios {
   padding-left: 0;
-
-  .ion-item-header {
-    font-weight: $font-weight-bold;
-  }
 }
 
 .full-dividers-list {
@@ -146,15 +142,12 @@
 ion-item-divider {
   .label-ios {
     margin: 0 8px 0 0;
+    font-size: $item-ios-divider-font-size;
   }
 }
 
 // Global CSS for item-groups
 ion-item-group {
-  .item-ios {
-    padding: 0 16px;
-  }
-
   .item-ios:last-child {
     .item-inner {
       border-bottom: none !important;

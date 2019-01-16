@@ -15,8 +15,8 @@
 <ion-content class="content-background-color-grey">
     <ion-list>
         <ion-item-group>
-            <ion-item-divider>Reading</ion-item-divider>
-            <ion-item>
+            <ion-item-divider padding-left>Reading</ion-item-divider>
+            <ion-item padding-left>
                 <ion-input placeholder="Enter value"
                            type="number"
                            [(ngModel)]="odometerReading"
@@ -25,8 +25,8 @@
             </ion-item>
         </ion-item-group>
         <ion-item-group>
-            <ion-item-divider>Unit</ion-item-divider>
-            <button ion-item
+            <ion-item-divider padding-left>Unit</ion-item-divider>
+            <button ion-item padding-left
                     (click)="onEdit()">
                 <h3 class="unit">{{displayOdometerMetricCapitalized()}}</h3>
                 <h3 item-end class="unit-edit">Edit</h3>
