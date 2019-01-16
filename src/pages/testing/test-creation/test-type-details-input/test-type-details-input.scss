@@ -1,0 +1,19 @@
+page-test-type-details-input {
+  .header-ios {
+    height: 100px;
+  }
+
+  ion-navbar.toolbar-ios {
+    padding-top: 24px;
+  }
+
+  ion-title.title-ios {
+    padding-top: 20px;
+  }
+
+  button.cancel {
+    font-weight: $font-weight-normal;
+    color: color($colors, button-blue);
+  }
+
+}

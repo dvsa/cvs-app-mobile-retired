@@ -7,7 +7,8 @@ import { STORAGE } from "../../app/app.enums";
 export class StateReformingService {
   stateHistory = [];
 
-  constructor(public storageService: StorageService) {}
+  constructor(public storageService: StorageService) {
+  }
 
   saveNavStack(nav) {
     this.stateHistory = [];

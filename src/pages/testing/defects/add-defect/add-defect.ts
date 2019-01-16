@@ -33,7 +33,7 @@ export class AddDefectPage implements OnInit {
   }
 
   ngOnInit() {
-    this.filteredDeficiencies = this.defectsService.searchDefect(this.item.deficiencies, this.searchVal, ['deficiencyId', 'deficiencyText']);
+    this.filteredDeficiencies = this.populateDeficienciesArray();
   }
 
   selectDeficiency(deficiency: DefectDeficiencyModel): void {
@@ -105,7 +105,7 @@ export class AddDefectPage implements OnInit {
 
   searchList(e): void {
     this.searchVal = e.target.value;
-    this.filteredDeficiencies = this.defectsService.searchDefect(this.item.deficiencies, this.searchVal, ['deficiencyId', 'deficiencyText']);
+    this.filteredDeficiencies = this.populateDeficienciesArray();
   }
 
   returnBadgeClass(deficiencyCategory): string {
@@ -114,6 +114,11 @@ export class AddDefectPage implements OnInit {
 
   private clearSearch(): void {
     this.events.publish(APP.NAV_OUT);
+  }
+
+  private populateDeficienciesArray() {
+    let filteredArr = this.defectsService.searchDefect(this.item.deficiencies, this.searchVal, ['deficiencyId', 'deficiencyText']);
+    return this.defectsService.orderDefectsArray(filteredArr, 'deficiencyId', 'asc');
   }
 }
 

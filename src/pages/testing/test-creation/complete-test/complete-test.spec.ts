@@ -16,6 +16,7 @@ import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
+import { TestTypeMetadataMock } from "../../../../assets/data-mocks/data-model/test-type-metadata.mock";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -57,6 +58,7 @@ describe('Component: CompleteTestPage', () => {
     }
   };
 
+  const testTypeMetadata = TestTypeMetadataMock.TestTypeMetadata;
   const vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const vehicle: VehicleModel = TechRecordDataMock.VehicleData;
 
@@ -132,5 +134,30 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.vehicleTest.defects.length).toBeTruthy();
     comp.removeDefect(addedDefect);
     expect(comp.vehicleTest.defects.length).toBeFalsy();
+  });
+
+  it('should update the test type fields', () => {
+    comp.completedFields = {};
+    comp.completedFields.seatbeltsNumber = 3;
+    comp.vehicleTest = navParams.get('vehicleTest');
+    comp.testTypeDetails = comp.getTestTypeDetails();
+    expect(comp.vehicleTest.seatbeltsNumber).toBeFalsy();
+    comp.updateTestType();
+    expect(comp.vehicleTest.seatbeltsNumber).toEqual(3);
+  });
+
+  it('should get the correct ddl value to be displayed', () => {
+    comp.completedFields = {};
+    comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest.result = 'pass';
+    expect(comp.getDDLValueToDisplay(testTypeMetadata.sections[0].inputs[0])).toEqual('Pass');
+  });
+
+  it('should tell if a section can be displayed', function () {
+    comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest.result = null;
+    expect(comp.canDisplaySection(testTypeMetadata.sections[1])).toBeFalsy();
+    comp.vehicleTest[testTypeMetadata.sections[1].dependentOn[0]] = 'pass';
+    expect(comp.canDisplaySection(testTypeMetadata.sections[1])).toBeTruthy();
   });
 });
