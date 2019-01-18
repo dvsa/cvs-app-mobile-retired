@@ -1,9 +1,18 @@
 import { TestTypeModel } from "../../models/tests/test-type.model";
+import { TestModel } from "../../models/tests/test.model";
 
 export class VisitDataMock {
 
   public static get VisitTestData() {
     return VisitDataMock.VisitData.tests[0];
+  }
+
+  public static get VisitTestDataArray() {
+    let testArr = [];
+    for (let i = 0; i < 5; i++) {
+      testArr[i] = VisitDataMock.VisitData.tests[0]
+    }
+    return testArr;
   }
 
   public static get VisitTestTypeData(): TestTypeModel {

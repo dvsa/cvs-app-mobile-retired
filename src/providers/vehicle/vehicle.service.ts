@@ -7,7 +7,6 @@ import { PreparersModel } from "../../models/reference-data-models/preparers.mod
 import { VisitService } from "../visit/visit.service";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 
-
 @Injectable()
 export class VehicleService {
 

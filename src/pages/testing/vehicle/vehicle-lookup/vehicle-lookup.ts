@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
-import { TestService } from "../../../../providers/test/test.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { VisitModel } from "../../../../models/visit/visit.model";
 import { VisitService } from "../../../../providers/visit/visit.service";
+import { TestResultModel } from "../../../../models/tests/test-result.model";
+import { tap } from "rxjs/operators";
 
 @IonicPage()
 @Component({
@@ -15,7 +15,6 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 export class VehicleLookupPage {
   testData: TestModel;
   searchVal: string = '';
-  loading: any;
 
   constructor(public navCtrl: NavController,
               private navParams: NavParams,
@@ -31,16 +30,21 @@ export class VehicleLookupPage {
   };
 
   searchVehicle(searchedValue: string): void {
-    this.loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
-    this.loading.present();
+    const LOADING = this.loadingCtrl.create({
+      content: 'Loading...'
+    })
+    LOADING.present();
     this.vehicleService.getVehicleTechRecord(searchedValue.toUpperCase()).subscribe(
       (vehicleTechRecord: VehicleModel) => {
         let vehicleData = this.vehicleService.createVehicle(vehicleTechRecord);
-        this.vehicleService.getTestResultsHistory(vehicleData.vin).subscribe(
-          (testResultHistory) => {
-            this.loading.dismiss();
+        this.vehicleService.getTestResultsHistory(vehicleData.vin).pipe(
+          tap(
+            () => {
+              LOADING.dismiss();
+            }
+          )
+        ).subscribe(
+          (testResultHistory: TestResultModel[]) => {
             this.navCtrl.push('VehicleDetailsPage', {
               test: this.testData,
               testResultsHistory: testResultHistory,
@@ -49,7 +53,6 @@ export class VehicleLookupPage {
           })
       },
       () => {
-        this.loading.dismiss();
         this.showAlert();
       });
   }

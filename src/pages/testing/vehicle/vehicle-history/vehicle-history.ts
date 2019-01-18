@@ -3,6 +3,7 @@ import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { TEST_RESULT } from '../../../../app/app.enums';
+import { TestResultModel } from "../../../../models/tests/test-result.model";
 
 @IonicPage()
 @Component({
@@ -12,8 +13,7 @@ import { TEST_RESULT } from '../../../../app/app.enums';
 
 export class VehicleHistoryPage {
   vehicleData: VehicleModel;
-  testResultHistory: any;
-  testResult: {};
+  testResultHistory: TestResultModel[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -21,7 +21,6 @@ export class VehicleHistoryPage {
               public commonFunc: CommonFunctionsService) {
     this.vehicleData = navParams.get('vehicleData');
     this.testResultHistory = navParams.get('testResultsHistory');
-    this.testResult = TEST_RESULT;
   }
 
   ionViewWillEnter() {

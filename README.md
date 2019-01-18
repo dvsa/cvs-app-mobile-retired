@@ -29,6 +29,8 @@ To get a working build running locally follow these steps:
 
 5. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
 
+6. After finishing your development, if you encounter problems switching branches, use 'git update-index --no-assume-unchanged config/application.json' command. Revert changes made to 'config/application.json' and then switch branches.
+
 ### For testing in the browser:
 
 `ionic serve`
