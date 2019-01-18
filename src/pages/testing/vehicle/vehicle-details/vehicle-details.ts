@@ -5,6 +5,7 @@ import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { TestService } from "../../../../providers/test/test.service";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { DATE_FORMAT } from "../../../../app/app.enums";
+import { TestResultModel } from "../../../../models/tests/test-result.model";
 
 @IonicPage()
 @Component({
@@ -14,9 +15,9 @@ import { DATE_FORMAT } from "../../../../app/app.enums";
 export class VehicleDetailsPage {
   vehicleData: VehicleModel;
   testData: TestModel;
-  testResultHistory: any;
+  testResultHistory: TestResultModel[];
   fromTestCreatePage: boolean;
-  dateFormat: string;
+  dateFormat: string = DATE_FORMAT.DD_MM_YYYY;
 
   constructor(public navCtrl: NavController,
               private navParams: NavParams,
@@ -28,7 +29,6 @@ export class VehicleDetailsPage {
     this.testData = navParams.get('test');
     this.testResultHistory = navParams.get('testResultsHistory');
     this.fromTestCreatePage = navParams.get('fromTestCreatePage');
-    this.dateFormat = DATE_FORMAT.DD_MM_YYYY;
   }
 
   ionViewWillEnter() {

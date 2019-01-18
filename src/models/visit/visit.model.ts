@@ -8,5 +8,6 @@ export interface VisitModel {
   testStationType: string;
   testerName: string;
   testerId: string;
+  testerEmail: string;
   tests: TestModel[];
 }

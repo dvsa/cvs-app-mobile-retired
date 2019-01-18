@@ -9,6 +9,10 @@ import { PreparersModel } from "../../models/reference-data-models/preparers.mod
 import { PATHS } from "../../app/app.enums";
 import { of } from "rxjs/observable/of";
 import { TestResultsDataMock } from "../../assets/data-mocks/test-results-data.mock";
+import { TestResultModel } from "../../models/tests/test-result.model";
+import { VehicleModel } from "../../models/vehicle/vehicle.model";
+import { AlertController, LoadingController } from "ionic-angular";
+import { map, tap } from "rxjs/operators";
 
 @Injectable()
 export class HTTPService {
@@ -16,13 +20,8 @@ export class HTTPService {
   constructor(private http: HttpClient) {
   }
 
-  addTest(body): Observable<any> {
-    return
-    //   return this.http.post(`${AppConfig.API_URL}${API.POST_TEST_URL}`, body);
-  }
-
   getAtfs(): Observable<AtfReferenceDataModel[]> {
-    return this.http.get<AtfReferenceDataModel[]>(AppConfig.BACKEND_URL_ATF);
+    return this.http.get<AtfReferenceDataModel[]>(AppConfig.BACKEND_URL_ATF)
   }
 
   getDefects(): Observable<DefectCategoryModel[]> {
@@ -37,11 +36,12 @@ export class HTTPService {
     return this.http.get<PreparersModel[]>(AppConfig.BACKEND_URL_PREPARERS);
   }
 
-  getTechRecords(param): Observable<any> {
-    return this.http.get<any>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/current`);
+  getTechRecords(param): Observable<VehicleModel> {
+    return this.http.get<VehicleModel>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/current`)
   }
 
-  getTestResultsHistory(vin: string): Observable<any> {
-    return this.http.get<any>(`${AppConfig.BACKEND_URL_GET_TEST_RESULTS}/${vin}`);
+  getTestResultsHistory(vin: string): Observable<TestResultModel[]> {
+    return this.http.get<TestResultModel[]>(`${AppConfig.BACKEND_URL_GET_TEST_RESULTS}/${vin}`)
   }
+
 }
