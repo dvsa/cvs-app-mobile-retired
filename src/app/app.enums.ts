@@ -45,14 +45,15 @@ export enum TEST_REPORT_TITLES {
 }
 
 export enum TEST_REPORT_STATUSES {
-  SUBMITTED = 'Submitted',
-  CANCELLED = 'Cancelled'
+  SUBMITTED = 'submitted',
+  CANCELLED = 'cancelled'
 }
 
 export enum TEST_TYPE_RESULTS {
-  SUCCESSFUL = 'Successful',
-  UNSUCCESSFUL = 'Unsuccessful',
-  ABANDONED = 'Abandoned'
+  SUCCESSFUL = 'pass',
+  UNSUCCESSFUL = 'fail',
+  ABANDONED = 'abandoned',
+  PRS = 'prs'
 }
 
 export enum APP_STRINGS {

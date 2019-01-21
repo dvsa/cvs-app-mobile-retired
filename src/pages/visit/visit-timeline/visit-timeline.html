@@ -1,59 +1,57 @@
 <ion-header>
-    <ion-navbar hideBackButton="true">
-        <ion-buttons end>
-            <button ion-button (click)="endVisit()">
-                End visit
-            </button>
-        </ion-buttons>
-        <ion-title margin-left>
-            Site Visit
-        </ion-title>
-    </ion-navbar>
+  <ion-navbar hideBackButton="true">
+    <ion-buttons end>
+      <button ion-button (click)="createNewTestReport()">
+        Create test
+      </button>
+    </ion-buttons>
+    <ion-title margin-left>
+      Site Visit
+    </ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content no-padding>
-    <ion-list class="full-dividers-list">
-        <ion-item class="timeline-checkin">
-            <div class="timeline-bar"></div>
-            <img src="assets/navigation.png" item-start>
-            <div class="timeline-item-content">
-                <p>{{ visit.startTime | date: 'shortTime' }}</p>
-                <h2>{{ visit.testStationName }}</h2>
-                <p>Started site visit</p>
-            </div>
-        </ion-item>
-        <ion-item *ngFor="let timelineItem of timeline" class="timeline-test">
-            <div class="timeline-bar"></div>
-            <img src="assets/testing.png" item-start>
-            <div class="timeline-item-content">
-                <p>{{ timelineItem.startTime | date: 'shortTime' }} - {{ timelineItem.endTime | date: 'shortTime' }}</p>
-                <h2>{{ getTestReportTitle(timelineItem) }}</h2>
-                <span *ngFor="let vehicle of timelineItem.vehicles">
-                    <p *ngFor="let vehicleTest of vehicle.vehicleTests">
-                        <span *ngIf="vehicleTest.hasPassed" class="pass">Pass</span>
-                        <span *ngIf="!vehicleTest.hasPassed" class="fail">Fail</span>
-                        • {{ vehicle.registration }} • {{ vehicleTest.name }}
+  <ion-list class="full-dividers-list">
+    <ion-item-divider><span class="divider-color">{{ visit.startTime | date: 'd MMMM yyyy' }}</span></ion-item-divider>
+    <button ion-item detail-none class="timeline-checkin">
+      <div class="timeline-bar"></div>
+      <img src="assets/timeline-pin-with-line.svg" item-start>
+      <div class="timeline-item-content">
+        <p>{{ visit.startTime | date: 'shortTime' }}</p>
+        <h2>{{ visit.testStationName }}</h2>
+        <p>Started site visit</p>
+      </div>
+    </button>
+    <button ion-item *ngFor="let timelineItem of timeline" class="timeline-test">
+      <div class="timeline-bar"></div>
+      <img src="assets/timeline-oval.svg" item-start>
+      <div class="timeline-item-content">
+        <p>{{ timelineItem.startTime | date: 'shortTime' }} - {{ timelineItem.endTime | date: 'shortTime' }}</p>
+        <h2>Test ({{ timelineItem.vehicles[0].vrms[0].vrm }})</h2>
+        <span *ngFor="let vehicle of timelineItem.vehicles">
+          <span  *ngIf="timelineItem.status != TEST_REPORT_STATUS.CANCELLED">
+                    <p *ngFor="let vehicleTest of vehicle.testTypes">
+                      <span>{{ vehicleTest.categoryName }} •</span>
+                      <span *ngIf="vehicleTest.result === TEST_TYPE_RESULT.SUCCESSFUL" class="pass" text-uppercase>{{ vehicleTest.result }}</span>
+                      <span *ngIf="vehicleTest.result === TEST_TYPE_RESULT.UNSUCCESSFUL" class="fail" text-uppercase>{{ vehicleTest.result }}</span>
+                      <span *ngIf="vehicleTest.result === TEST_TYPE_RESULT.ABANDONED" class="fail" text-uppercase>{{ vehicleTest.result }}</span>
+                      <span *ngIf="vehicleTest.result === TEST_TYPE_RESULT.PRS" class="prs" text-uppercase>{{ vehicleTest.result }}</span>
                     </p>
-                </span>
-            </div>
-        </ion-item>
-    </ion-list>
+          </span>
+          <p><b *ngIf="timelineItem.status === TEST_REPORT_STATUS.CANCELLED" text-uppercase>cancelled</b></p>
+        </span>
+      </div>
+    </button>
+  </ion-list>
 </ion-content>
 
 <ion-footer>
-    <div class="footer-cta-section">
-        <button ion-button block color="secondary" (click)="createNewTestReport()">Create new test</button>
-    </div>
-    <ion-toolbar>
-        <ion-buttons start>
-            <button ion-button (click)="addWaitTime()">
-                Wait time
-            </button>
-        </ion-buttons>
-        <ion-buttons end>
-            <button ion-button (click)="goToATFIssue()">
-                ATF Issue
-            </button>
-        </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons class="button-centered">
+      <button ion-button (click)="endVisit()" color="button-blue">
+        End visit
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-footer>

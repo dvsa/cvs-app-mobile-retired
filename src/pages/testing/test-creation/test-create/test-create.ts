@@ -135,10 +135,6 @@ export class TestCreatePage implements OnInit {
     });
   }
 
-  addATFIssue(): void {
-    this.navCtrl.push('ATFIssuePage');
-  }
-
   reviewTest(): void {
     console.log('Visit: ', this.visitService.visit);
   }

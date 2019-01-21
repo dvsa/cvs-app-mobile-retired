@@ -6,6 +6,14 @@ export class VisitDataMock {
     return VisitDataMock.VisitData.tests[0];
   }
 
+  public static get VisitTestDataArray() {
+    let testArr = [];
+    for (let i = 0; i < 5; i++) {
+      testArr[i] = VisitDataMock.VisitData.tests[0]
+    }
+    return testArr;
+  }
+
   public static get VisitTestTypeData(): TestTypeModel {
     return VisitDataMock.VisitData.tests[0].vehicles[0].testTypes[0];
   }
@@ -21,8 +29,8 @@ export class VisitDataMock {
       "testerName": "",
       "tests": [{
         "startTime": "2019-01-14T14:32:14.461Z",
-        "endTime": null,
-        "status": null,
+        "endTime": "2019-01-14T14:32:14.461Z",
+        "status": "cancelled",
         "reasonForCancellation": "",
         "vehicles": [{
           "vrms": [
@@ -98,47 +106,175 @@ export class VisitDataMock {
           "odometerMetric": "kilometres",
           "preparerId": "AK4434",
           "preparerName": "Durrell Vehicles Limited",
-          "testTypes": [{
-            "name": "Public Service Vehicle Annual Testing",
-            "startTime": "2019-01-14T14:32:31.602Z",
-            "abandonment": {"reasons": []},
-            "defects": [{
-              "ref": "1.1.a",
-              "deficiencyCategory": "Major",
-              "deficiencyId": "a",
-              "deficiencyText": "missing.",
-              "metadata": {
-                "category": {
-                  "imNumber": 1,
-                  "imDescription": "Registration Plate",
-                  "additionalInfo": {
-                    "location": {
-                      "axleNumber": [],
-                      "horizontal": [],
-                      "vertical": [],
-                      "longitudinal": ["front"],
-                      "rowNumber": [],
-                      "lateral": [],
-                      "seatNumber": []
-                    }, "notes": false
-                  }
-                }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
-              },
-              "prs": true,
-              "notes": "",
-              "location": {
-                "vertical": "",
-                "horizontal": "",
-                "lateral": "",
-                "longitudinal": "front",
-                "rowNumber": null,
-                "seatNumber": null,
-                "axleNumber": null
-              }
-            }],
-            "endTime": "2019-01-14T14:32:51.690Z",
-            "result": "Unsuccessful"
-          }]
+          "testTypes": [
+            {
+              "name": "Public Service Vehicle Annual Testing",
+              "categoryName": "Annual test",
+              "startTime": "2019-01-14T14:32:31.602Z",
+              "abandonment": {"reasons": []},
+              "defects": [{
+                "ref": "1.1.a",
+                "deficiencyCategory": "Major",
+                "deficiencyId": "a",
+                "deficiencyText": "missing.",
+                "metadata": {
+                  "category": {
+                    "imNumber": 1,
+                    "imDescription": "Registration Plate",
+                    "additionalInfo": {
+                      "location": {
+                        "axleNumber": [],
+                        "horizontal": [],
+                        "vertical": [],
+                        "longitudinal": ["front"],
+                        "rowNumber": [],
+                        "lateral": [],
+                        "seatNumber": []
+                      }, "notes": false
+                    }
+                  }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
+                },
+                "prs": true,
+                "notes": "",
+                "location": {
+                  "vertical": "",
+                  "horizontal": "",
+                  "lateral": "",
+                  "longitudinal": "front",
+                  "rowNumber": null,
+                  "seatNumber": null,
+                  "axleNumber": null
+                }
+              }],
+              "endTime": "2019-01-14T14:32:51.690Z",
+              "result": "pass"
+            },
+            {
+              "name": "Retest",
+              "categoryName": "Voluntary test",
+              "startTime": "2019-01-14T14:32:31.602Z",
+              "abandonment": {"reasons": []},
+              "defects": [{
+                "ref": "1.1.a",
+                "deficiencyCategory": "Major",
+                "deficiencyId": "a",
+                "deficiencyText": "missing.",
+                "metadata": {
+                  "category": {
+                    "imNumber": 1,
+                    "imDescription": "Registration Plate",
+                    "additionalInfo": {
+                      "location": {
+                        "axleNumber": [],
+                        "horizontal": [],
+                        "vertical": [],
+                        "longitudinal": ["front"],
+                        "rowNumber": [],
+                        "lateral": [],
+                        "seatNumber": []
+                      }, "notes": false
+                    }
+                  }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
+                },
+                "prs": true,
+                "notes": "",
+                "location": {
+                  "vertical": "",
+                  "horizontal": "",
+                  "lateral": "",
+                  "longitudinal": "front",
+                  "rowNumber": null,
+                  "seatNumber": null,
+                  "axleNumber": null
+                }
+              }],
+              "endTime": "2019-01-14T14:32:51.690Z",
+              "result": "fail"
+            },
+            {
+              "name": "Retest retest",
+              "categoryName": "Voluntary test",
+              "startTime": "2019-01-14T14:32:31.602Z",
+              "abandonment": {"reasons": []},
+              "defects": [{
+                "ref": "1.1.a",
+                "deficiencyCategory": "Major",
+                "deficiencyId": "a",
+                "deficiencyText": "missing.",
+                "metadata": {
+                  "category": {
+                    "imNumber": 1,
+                    "imDescription": "Registration Plate",
+                    "additionalInfo": {
+                      "location": {
+                        "axleNumber": [],
+                        "horizontal": [],
+                        "vertical": [],
+                        "longitudinal": ["front"],
+                        "rowNumber": [],
+                        "lateral": [],
+                        "seatNumber": []
+                      }, "notes": false
+                    }
+                  }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
+                },
+                "prs": true,
+                "notes": "",
+                "location": {
+                  "vertical": "",
+                  "horizontal": "",
+                  "lateral": "",
+                  "longitudinal": "front",
+                  "rowNumber": null,
+                  "seatNumber": null,
+                  "axleNumber": null
+                }
+              }],
+              "endTime": "2019-01-14T14:32:51.690Z",
+              "result": "prs"
+            },
+            {
+              "name": "Retest",
+              "categoryName": "Voluntary test",
+              "startTime": "2019-01-14T14:32:31.602Z",
+              "abandonment": {"reasons": []},
+              "defects": [{
+                "ref": "1.1.a",
+                "deficiencyCategory": "Major",
+                "deficiencyId": "a",
+                "deficiencyText": "missing.",
+                "metadata": {
+                  "category": {
+                    "imNumber": 1,
+                    "imDescription": "Registration Plate",
+                    "additionalInfo": {
+                      "location": {
+                        "axleNumber": [],
+                        "horizontal": [],
+                        "vertical": [],
+                        "longitudinal": ["front"],
+                        "rowNumber": [],
+                        "lateral": [],
+                        "seatNumber": []
+                      }, "notes": false
+                    }
+                  }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
+                },
+                "prs": true,
+                "notes": "",
+                "location": {
+                  "vertical": "",
+                  "horizontal": "",
+                  "lateral": "",
+                  "longitudinal": "front",
+                  "rowNumber": null,
+                  "seatNumber": null,
+                  "axleNumber": null
+                }
+              }],
+              "endTime": "2019-01-14T14:32:51.690Z",
+              "result": "abandoned"
+            }]
         }], "preparer": null
       }]
     }
