@@ -42,6 +42,7 @@ export class TestResultsDataMock {
             "testResult": "Fail",
             "prohibitionIssued": "Yes",
             "reasonForAbandoning": "",
+            "additionalCommentsForAbandon": "Notes about the why the test was abandoned",
             "additionalNotesRecorded": "Additional notes recorded",
             "defects": [
               {
