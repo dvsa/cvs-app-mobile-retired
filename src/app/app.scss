@@ -134,6 +134,24 @@
   }
 }
 
+// Searchbars found in the header
+.header-ios ion-toolbar .searchbar-ios{
+
+  .searchbar-search-icon,
+  .searchbar-clear-icon{
+    filter: brightness(0) invert(1);
+  }
+
+  .searchbar-input{
+    background-color: rgba(255, 255, 255, 0.3);
+    color: color($colors, light);
+    
+    &::placeholder{
+      color: color($colors, light); 
+    }
+  } 
+}
+
 .content-background-color-grey {
   background-color: $content-background-color;
 }

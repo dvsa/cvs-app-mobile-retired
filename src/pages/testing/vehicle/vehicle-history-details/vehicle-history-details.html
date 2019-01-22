@@ -15,7 +15,7 @@
         <ion-row justify-content-between>
           <ion-col col-12 text-start text-wrap>
             <span text-capitalize text-left>
-              {{ selectedTestType.testTypeName || defaultValues.NONE }}
+              {{ selectedTestType.testTypeName }}
             </span>
           </ion-col>
         </ion-row>
@@ -33,7 +33,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ commonFunc.convertDate(selectedTestType.testTypeStartTimestamp) || defaultValues.NONE }}
+              {{ commonFunc.convertDate(selectedTestType.testTypeStartTimestamp) }}
             </span>
           </ion-col>
         </ion-row>
@@ -47,8 +47,8 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ commonFunc.getTimeFromDate(selectedTestType.testTypeStartTimestamp) || defaultValues.NONE }} -
-              {{ commonFunc.getTimeFromDate(selectedTestType.testTypeEndTimestamp) || defaultValues.NONE }}
+              {{ commonFunc.getTimeFromDate(selectedTestType.testTypeStartTimestamp) }} -
+              {{ commonFunc.getTimeFromDate(selectedTestType.testTypeEndTimestamp) }}
             </span>
           </ion-col>
         </ion-row>
@@ -90,6 +90,37 @@
             <span text-capitalize>
               {{ selectedTestType.certificateNumber || defaultValues.NONE }}
             </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="list-margin" *ngIf="commonFunc.checkForMatch(selectedTestType.testResult, testTypeResults.ABANDONED)">
+    <ion-list-header text-uppercase padding-left>REASON(S) FOR ABANDONING</ion-list-header>
+    <ion-item ion-item detail-none padding-left>
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-12 text-start text-wrap>
+            <span>
+              {{ selectedTestType.reasonForAbandoning }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item ion-item detail-none padding-left>
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-12 text-start text-wrap>
+            <span *ngIf="selectedTestType.additionalCommentsForAbandon; else noAbandonedComments">
+              {{ selectedTestType.additionalCommentsForAbandon }}
+            </span>
+            <ng-template #noAbandonedComments>
+              <span text-capitalize>
+                {{ defaultValues.NOT_ENTERED }}
+              </span>
+            </ng-template>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -172,7 +203,9 @@
           <ion-grid no-padding>
             <ion-row justify-content-between>
               <ion-col col-12 text-start text-wrap>
-                <span>None</span>
+                <span text-capitalize>
+                  {{ defaultValues.NOT_ENTERED }}
+                </span>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -187,9 +220,14 @@
       <ion-grid no-padding>
         <ion-row justify-content-between>
           <ion-col col-3 text-start>
-            <span text-left text-capitalize>
-              {{ selectedTestResult.odometerReading || defaultValues.NONE }} {{ selectedTestResult.odometerReadingUnits }}
+            <span text-left text-capitalize *ngIf="selectedTestResult.odometerReading; else noOdometerReading">
+              {{ selectedTestResult.odometerReading }} {{ selectedTestResult.odometerReadingUnits }}
             </span>
+            <ng-template #noOdometerReading>
+              <span text-left text-capitalize>
+                  {{ defaultValues.NOT_ENTERED }}
+              </span>
+            </ng-template>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -206,7 +244,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ commonFunc.convertBoolean(selectedTestType.seatbeltInstallationCheckDate) || defaultValues.NONE }}
+              {{ commonFunc.convertBoolean(selectedTestType.seatbeltInstallationCheckDate) || defaultValues.NOT_ENTERED }}
             </span>
           </ion-col>
         </ion-row>
@@ -220,7 +258,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ selectedTestType.numberOfSeatbeltsFitted || defaultValues.NONE }}
+              {{ selectedTestType.numberOfSeatbeltsFitted || defaultValues.NOT_ENTERED }}
             </span>
           </ion-col>
         </ion-row>
@@ -234,7 +272,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ commonFunc.convertDate(selectedTestType.lastSeatbeltInstallationCheckDate) || defaultValues.NONE }}
+              {{ commonFunc.convertDate(selectedTestType.lastSeatbeltInstallationCheckDate) || defaultValues.NOT_ENTERED }}
             </span>
           </ion-col>
         </ion-row>
@@ -252,7 +290,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ selectedTestResult.testStationName || defaultValues.NONE }}
+              {{ selectedTestResult.testStationName }}
             </span>
           </ion-col>
         </ion-row>
@@ -265,7 +303,7 @@
             <span text-left>P-number</span>
           </ion-col>
           <ion-col col-9 text-end>
-            <span text-capitalize>{{ selectedTestResult.testStationPNumber || defaultValues.NONE }}</span>
+            <span text-capitalize>{{ selectedTestResult.testStationPNumber }}</span>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -282,7 +320,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ selectedTestResult.testerName || defaultValues.NONE }}
+              {{ selectedTestResult.testerName }}
             </span>
           </ion-col>
         </ion-row>
@@ -296,7 +334,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ selectedTestResult.testerStaffId || defaultValues.NONE }}
+              {{ selectedTestResult.testerStaffId }}
             </span>
           </ion-col>
         </ion-row>
