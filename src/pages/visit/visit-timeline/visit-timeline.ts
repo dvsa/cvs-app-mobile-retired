@@ -1,10 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TestService } from "../../../providers/test/test.service";
 import { TestModel } from "../../../models/tests/test.model";
 import { VisitService } from "../../../providers/visit/visit.service";
 import { VisitModel } from "../../../models/visit/visit.model";
 import { StateReformingService } from "../../../providers/global/state-reforming.service";
+import { TEST_REPORT_STATUSES, TEST_TYPE_RESULTS } from "../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -14,6 +15,8 @@ import { StateReformingService } from "../../../providers/global/state-reforming
 export class VisitTimelinePage implements OnInit {
   visit: VisitModel;
   timeline: TestModel[];
+  TEST_REPORT_STATUS = TEST_REPORT_STATUSES;
+  TEST_TYPE_RESULT = TEST_TYPE_RESULTS;
 
   constructor(public navCtrl: NavController, private navParams: NavParams, private testReportService: TestService, private visitService: VisitService, public stateReformingService: StateReformingService) {
     this.timeline = [];
@@ -40,14 +43,6 @@ export class VisitTimelinePage implements OnInit {
     this.navCtrl.push('VehicleLookupPage', {test: test});
   }
 
-  addWaitTime(): void {
-
-  }
-
-  goToATFIssue(): void {
-    this.navCtrl.push('ATFIssuePage');
-  }
-
   private createTimeline(): void {
     this.timeline = [];
     let testReports = this.visitService.getTests();
@@ -55,9 +50,4 @@ export class VisitTimelinePage implements OnInit {
       this.timeline.push(testReport);
     });
   }
-
-  getTestReportTitle(testReport: TestModel) {
-    this.testReportService.getTestReportTitle(testReport);
-  }
-
 }
