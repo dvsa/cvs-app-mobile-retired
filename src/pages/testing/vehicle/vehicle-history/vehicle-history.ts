@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { TEST_RESULT } from '../../../../app/app.enums';
+import { TEST_TYPE_RESULTS } from '../../../../app/app.enums';
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 
 @IonicPage()
@@ -14,6 +14,7 @@ import { TestResultModel } from "../../../../models/tests/test-result.model";
 export class VehicleHistoryPage {
   vehicleData: VehicleModel;
   testResultHistory: TestResultModel[];
+  testTypeResults: {};
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -21,6 +22,10 @@ export class VehicleHistoryPage {
               public commonFunc: CommonFunctionsService) {
     this.vehicleData = navParams.get('vehicleData');
     this.testResultHistory = navParams.get('testResultsHistory');
+  }
+
+  ngOnInit(){
+    this.testTypeResults = TEST_TYPE_RESULTS;
   }
 
   ionViewWillEnter() {
@@ -37,11 +42,12 @@ export class VehicleHistoryPage {
 
   getTestResultColor(testResult: string): string {
     switch (testResult.toLowerCase()) {
-      case TEST_RESULT.PASS:
+      case TEST_TYPE_RESULTS.PASS:
         return 'secondary';
-      case TEST_RESULT.FAIL:
+      case TEST_TYPE_RESULTS.FAIL:
+      case TEST_TYPE_RESULTS.ABANDONED: 
         return 'danger';
-      case TEST_RESULT.PRS:
+      case TEST_TYPE_RESULTS.PRS:
         return 'primary';
     }
   }

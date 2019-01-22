@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { TEST_RESULT, DEFICIENCY_CATEGORY, DEFAULT_VALUES } from '../../../../app/app.enums';
+import { TEST_TYPE_RESULTS, DEFICIENCY_CATEGORY, DEFAULT_VALUES } from '../../../../app/app.enums';
 import {
   TestsWithoutCertificate,
   TestsWithoutTestExpiry,
@@ -20,7 +20,7 @@ export class VehicleHistoryDetailsPage {
   testTypeIndex: number;
   selectedTestResult: string;
   selectedTestType: string;
-  testResult: {};
+  testTypeResults: {};
   defaultValues: {};
   testsWithoutCertificate: any;
   testsWithoutTestExpiry: any;
@@ -40,7 +40,7 @@ export class VehicleHistoryDetailsPage {
   ngOnInit() {
     this.selectedTestResult = this.testResultHistory[this.testIndex];
     this.selectedTestType = this.testResultHistory[this.testIndex].testTypes[this.testTypeIndex];
-    this.testResult = TEST_RESULT;
+    this.testTypeResults = TEST_TYPE_RESULTS;
     this.defaultValues = DEFAULT_VALUES;
     this.testsWithoutCertificate = TestsWithoutCertificate.TestsWithoutCertificate;
     this.testsWithoutTestExpiry = TestsWithoutTestExpiry.TestsWithoutTestExpiry;
@@ -67,11 +67,12 @@ export class VehicleHistoryDetailsPage {
 
   getTestResultColor(testResult: string): string {
     switch (testResult.toLowerCase()) {
-      case TEST_RESULT.PASS:
+      case TEST_TYPE_RESULTS.PASS:
         return 'secondary';
-      case TEST_RESULT.FAIL:
+      case TEST_TYPE_RESULTS.FAIL:
+      case TEST_TYPE_RESULTS.ABANDONED: 
         return 'danger';
-      case TEST_RESULT.PRS:
+      case TEST_TYPE_RESULTS.PRS:
         return 'primary';
     }
   }
