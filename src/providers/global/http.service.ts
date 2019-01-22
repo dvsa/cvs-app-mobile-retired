@@ -37,7 +37,7 @@ export class HTTPService {
   }
 
   getTechRecords(param): Observable<VehicleModel> {
-    return this.http.get<VehicleModel>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/current`)
+    return this.http.get<VehicleModel>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/?status=current`);
   }
 
   getTestResultsHistory(vin: string): Observable<TestResultModel[]> {
