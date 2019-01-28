@@ -24,7 +24,7 @@ export class AddDefectCategoryPage implements OnInit {
   }
 
   ngOnInit() {
-    this.filteredCategories = this.defectsService.searchDefect(this.defectCategories, this.searchVal, ['imNumber', 'imDescription']);
+    this.filteredCategories = this.populateCategoriesArray();
   }
 
   selectCategory(category: DefectCategoryModel): void {
@@ -38,6 +38,11 @@ export class AddDefectCategoryPage implements OnInit {
 
   searchList(e): void {
     this.searchVal = e.target.value;
-    this.filteredCategories = this.defectsService.searchDefect(this.defectCategories, this.searchVal, ['imNumber', 'imDescription']);
+    this.filteredCategories = this.populateCategoriesArray();
+  }
+
+  private populateCategoriesArray() {
+    let filteredArr = this.defectsService.searchDefect(this.defectCategories, this.searchVal, ['imNumber', 'imDescription']);
+    return this.defectsService.orderDefectsArray(filteredArr, 'imNumber', 'asc');
   }
 }

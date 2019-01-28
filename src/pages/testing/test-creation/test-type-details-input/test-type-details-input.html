@@ -1,0 +1,32 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>{{sectionName}}</ion-title>
+        <ion-buttons>
+            <button ion-button
+                    class="cancel"
+                    (click)="onCancel()">
+                Cancel
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button
+                    (click)="onDone()">
+                Done
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="content-background-color-grey">
+    <ion-item-group>
+        <ion-item-divider padding-left>{{input.label.toUpperCase()}}</ion-item-divider>
+        <ion-item padding-left>
+            <ion-input [type]="input.type"
+                       [(ngModel)]="inputValue"></ion-input>
+        </ion-item>
+    </ion-item-group>
+    <p padding-left>{{input.info}}</p>
+</ion-content>

@@ -18,7 +18,8 @@ export enum LOCAL_STORAGE {
 
 export enum APP {
   INIT_SYNC = 'initSyncDone',
-  NAV_OUT = 'navigatedOutOfPage'
+  NAV_OUT = 'navigatedOutOfPage',
+  TEST_TYPES_UPDATE_COMPLETED_FIELDS = 'updateCompletedFields'
 }
 
 export enum DEFICIENCY_CATEGORY {
@@ -47,6 +48,13 @@ export enum TEST_TYPE_RESULTS {
   FAIL = 'fail',
   PASS = 'pass',
   PRS = 'prs',
+}
+
+export enum TEST_TYPE_FIELDS {
+  DDL = 'ddl',
+  NUMBER = 'number',
+  DATE = 'date',
+  CERTIFICATE_NUMBER_CUSTOM = 'certificateNumberCustom'
 }
 
 export enum APP_STRINGS {

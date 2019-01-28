@@ -49,6 +49,7 @@ export class TestTypesDataMock {
               {
                 id: 'hjau6621',
                 name: 'triple test',
+                testTypeName: 'Triple test',
                 forVehicleType: [
                   'psv'
                 ],
@@ -69,6 +70,7 @@ export class TestTypesDataMock {
       {
         id: 'bsgs2341212',
         name: 'full test',
+        testTypeName: 'Full test',
         forVehicleType: [
           'psv', 'trailer'
         ],

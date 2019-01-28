@@ -7,14 +7,15 @@ import { TestTypesDataMock } from "../../src/assets/data-mocks/reference-data-mo
 import { TestTypesReferenceDataModel } from "../../src/models/reference-data-models/test-types.model";
 
 export class TestTypesServiceMock {
-  createTestType(testTypeName: string): TestTypeModel {
+  createTestType(testType: TestTypeModel): TestTypeModel {
     let newTestType = {} as TestTypeModel;
-    newTestType.name = testTypeName
-    newTestType.startTime = new Date().toISOString(),
-      newTestType.abandonment = {
-        reasons: []
-      }
-    newTestType.defects = []
+    newTestType.name = testType.name;
+    newTestType.testTypeName = testType.testTypeName;
+    newTestType.startTime = new Date().toISOString();
+    newTestType.abandonment = {
+      reasons: []
+    };
+    newTestType.defects = [];
     return newTestType
   }
 

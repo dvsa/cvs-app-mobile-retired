@@ -53,6 +53,7 @@ export class VehicleLookupPage {
           })
       },
       () => {
+        LOADING.dismiss();
         this.showAlert();
       });
   }

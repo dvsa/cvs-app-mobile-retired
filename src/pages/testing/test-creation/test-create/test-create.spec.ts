@@ -16,7 +16,6 @@ import { TestServiceMock } from "../../../../../test-config/services-mocks/test-
 import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { StorageService } from "../../../../providers/natives/storage.service";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
@@ -126,6 +125,14 @@ describe('Component: TestCreatePage', () => {
     newTest.vehicles[0].odometerMetric = ODOMETER_METRIC.MILES;
 
     expect(component.getOdometerStringToBeDisplayed(0)).toEqual('1,234 mi');
+  });
+
+  it('should return the test type status to be displayed', () => {
+    expect(component.getTestTypeStatus(addedVehicleTest)).toEqual('In progress');
+    addedVehicleTest.seatbeltsNumber = 2;
+    addedVehicleTest.wasSeatbeltInstallationCheckCarriedOut = true;
+    addedVehicleTest.lastSeatbeltInstallationCheckDate = '19-01-2019';
+    expect(component.getTestTypeStatus(addedVehicleTest)).toEqual('Edit');
   });
 
 });

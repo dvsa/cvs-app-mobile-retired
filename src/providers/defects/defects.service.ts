@@ -5,11 +5,12 @@ import { from } from "rxjs/observable/from";
 import { STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
 import { DEFICIENCY_CATEGORY } from "../../app/app.enums";
+import { CommonFunctionsService } from "../utils/common-functions";
 
 @Injectable()
 export class DefectsService {
 
-  constructor(private storageService: StorageService) {
+  constructor(private storageService: StorageService, private commonFunctions: CommonFunctionsService) {
   }
 
   getDefectsFromStorage(): Observable<DefectCategoryModel[]> {
@@ -46,5 +47,9 @@ export class DefectsService {
       case DEFICIENCY_CATEGORY.ADVISORY:
         return 'light';
     }
+  }
+
+  orderDefectsArray(array, key, order?) {
+    return array.sort(this.commonFunctions.orderBy(key, order));
   }
 }
