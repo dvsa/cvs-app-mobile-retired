@@ -4,6 +4,7 @@ import { DefectDetailsModel } from "../defects/defect-details.model";
 export interface TestTypeModel {
   code?: string;
   name: string;
+  testTypeName: string;
   id?: string;
   certificateNumber?: string;
   certificateLink?: string;

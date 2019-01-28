@@ -6,6 +6,7 @@ import { STORAGE, TEST_TYPE_RESULTS } from "../../app/app.enums";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { DefectDetailsModel } from "../../models/defects/defect-details.model";
 import { VisitService } from "../visit/visit.service";
+import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 
 @Injectable()
 export class TestTypeService {
@@ -13,13 +14,26 @@ export class TestTypeService {
   constructor(private storageService: StorageService, public visitService: VisitService) {
   }
 
-  createTestType(testTypeName: string): TestTypeModel {
+  createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
     let newTestType = {} as TestTypeModel;
-    newTestType.name = testTypeName;
+    newTestType.code = '';
+    newTestType.name = testType.name;
+    newTestType.testTypeName = testType.testTypeName;
+    newTestType.id = testType.id;
+    newTestType.certificateNumber = '';
+    newTestType.expiryDate = '';
     newTestType.startTime = new Date().toISOString();
+    newTestType.endTime = '';
+    newTestType.seatbeltsNumber = null;
+    newTestType.lastSeatbeltInstallationCheckDate = '';
+    newTestType.wasSeatbeltInstallationCheckCarriedOut = null;
+    newTestType.result = null;
+    newTestType.wasProhibitionIssued = null;
     newTestType.abandonment = {
-      reasons: []
-    }
+      reasons: [],
+      additionalComment: ''
+    };
+    newTestType.additionalNotes = '';
     newTestType.defects = [];
     this.visitService.updateVisit();
     return newTestType

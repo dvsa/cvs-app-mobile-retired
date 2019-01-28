@@ -15,7 +15,7 @@ export class VisitDataMock {
     return testArr;
   }
 
-  public static get VisitTestTypeData(): TestTypeModel {
+  public static get VisitTestTypeData() {
     return VisitDataMock.VisitData.tests[0].vehicles[0].testTypes[0];
   }
 

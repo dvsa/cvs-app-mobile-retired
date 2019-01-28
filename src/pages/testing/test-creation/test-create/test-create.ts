@@ -1,24 +1,25 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { IonicPage, NavController, AlertController, ItemSliding, NavParams } from 'ionic-angular';
+import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { IonicPage, NavController, AlertController, ItemSliding, NavParams, Events } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
-import { PhoneService } from '../../../../providers/natives/phone.service'
-import { TestService } from "../../../../providers/test/test.service";
+import { PhoneService } from '../../../../providers/natives/phone.service';
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
-import { StorageService } from "../../../../providers/natives/storage.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { ODOMETER_METRIC } from "../../../../app/app.enums";
+import { APP, ODOMETER_METRIC } from "../../../../app/app.enums";
+import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 
 @IonicPage()
 @Component({
   selector: 'page-test-create',
   templateUrl: 'test-create.html',
 })
-export class TestCreatePage implements OnInit {
+export class TestCreatePage implements OnInit, OnDestroy {
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
   testData: TestModel;
+  testTypesFieldsMetadata;
+  completedFields = {};
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -26,13 +27,22 @@ export class TestCreatePage implements OnInit {
               public alertCtrl: AlertController,
               public visitService: VisitService,
               public stateReformingService: StateReformingService,
-              private vehicleService: VehicleService) {
+              private vehicleService: VehicleService,
+              private events: Events) {
+    this.testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
   }
 
   ngOnInit() {
     let lastTestIndex = this.visitService.visit.tests.length - 1;
     this.testData = Object.keys(this.visitService.visit).length ? this.visitService.visit.tests[lastTestIndex] : this.navParams.get('test');
     this.stateReformingService.saveNavStack(this.navCtrl);
+    this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
+      this.completedFields = completedFields;
+    });
+  }
+
+  ngOnDestroy() {
+    this.events.unsubscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS);
   }
 
   ionViewWillLeave() {
@@ -64,6 +74,27 @@ export class TestCreatePage implements OnInit {
     return vehicle.techRecord[0].vehicleType.toLowerCase();
   }
 
+  getTestTypeStatus(testType: TestTypeModel) {
+    let isInProgress = true;
+    for (let testTypeFieldMetadata of this.testTypesFieldsMetadata) {
+      if (testType.id === testTypeFieldMetadata.testTypeId && testTypeFieldMetadata.sections.length) {
+        isInProgress = false;
+        for (let section of testTypeFieldMetadata.sections) {
+          for (let input of section.inputs) {
+            if (!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false) {
+              isInProgress = true;
+            } else {
+              if (!this.completedFields.hasOwnProperty(input.testTypePropertyName) && input.testTypePropertyName !== 'result' && input.testTypePropertyName !== 'certificateNumber') {
+                this.completedFields[input.testTypePropertyName] = testType[input.testTypePropertyName];
+              }
+            }
+          }
+        }
+      }
+    }
+    return isInProgress ? 'In progress' : 'Edit';
+  }
+
   addVehicleTest(vehicle: VehicleModel): void {
     this.navCtrl.push('TestTypesListPage', {vehicleData: vehicle});
   }
@@ -76,7 +107,8 @@ export class TestCreatePage implements OnInit {
     if (!this.isTestAbandoned(vehicleTest)) {
       this.navCtrl.push('CompleteTestPage', {
         vehicle: vehicle,
-        vehicleTest: vehicleTest
+        vehicleTest: vehicleTest,
+        completedFields: this.completedFields
       });
     } else {
       this.navCtrl.push('TestAbandoningPage', {
