@@ -49,7 +49,7 @@
                 </button>
                 <button ion-item
                         class="bottom-divider"
-                        *ngIf="input.type === testTypeFields.DATE">
+                        *ngIf="input.type === testTypeFields.DATE && canDisplayInput(input)">
                     <ion-label><h3>{{input.label}}</h3></ion-label>
                     <h3 item-end class="current-value no-data" *ngIf="!completedFields[input.testTypePropertyName]">
                         {{input.defaultValue}}</h3>

@@ -159,11 +159,20 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.getDDLValueToDisplay(testTypeMetadata.sections[0].inputs[0])).toEqual('Pass');
   });
 
-  it('should tell if a section can be displayed', function () {
+  it('should tell if a section can be displayed', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.vehicleTest.result = null;
     expect(comp.canDisplaySection(testTypeMetadata.sections[1])).toBeFalsy();
     comp.vehicleTest[testTypeMetadata.sections[1].dependentOn[0]] = 'pass';
     expect(comp.canDisplaySection(testTypeMetadata.sections[1])).toBeTruthy();
+  });
+
+  it('should tell if an input can be displayed', () => {
+    let input = testTypeMetadata.sections[2].inputs[2];
+    comp.completedFields = {};
+    comp.completedFields.seatbeltsNumber = '0';
+    expect(comp.canDisplayInput(input)).toBeFalsy();
+    comp.completedFields.seatbeltsNumber = '123';
+    expect(comp.canDisplayInput(input)).toBeTruthy();
   });
 });

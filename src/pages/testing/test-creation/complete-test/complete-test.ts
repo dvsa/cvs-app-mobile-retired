@@ -65,6 +65,15 @@ export class CompleteTestPage implements OnInit {
       for (let input of section.inputs) {
         if (this.completedFields.hasOwnProperty(input.testTypePropertyName)) {
           this.vehicleTest[input.testTypePropertyName] = this.completedFields[input.testTypePropertyName];
+        } else {
+          if (input.defaultValue && input.values && !this.vehicleTest[input.testTypePropertyName]) {
+            for (let inputValue of input.values) {
+              if (input.defaultValue === inputValue.text) {
+                this.vehicleTest[input.testTypePropertyName] = inputValue.value;
+                this.completedFields[input.testTypePropertyName] = inputValue.value;
+              }
+            }
+          }
         }
       }
     }
@@ -118,6 +127,17 @@ export class CompleteTestPage implements OnInit {
     if (section.dependentOn && section.dependentOn.length) {
       for (let index in section.dependentOn) {
         if (!this.vehicleTest[section.dependentOn[index]]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  canDisplayInput(input) {
+    if (input.dependentOn && input.dependentOn.length) {
+      for (let dep of input.dependentOn) {
+        if (this.completedFields[dep.testTypePropertyName] && this.completedFields[dep.testTypePropertyName] === dep.valueToBeDifferentFrom) {
           return false;
         }
       }

@@ -26,7 +26,7 @@ export class TestTypesFieldsMetadata {
                     cssClass: ''
                   }
                 ],
-                defaultValue: 'Select'
+                defaultValue: 'No'
               },
               {
                 testTypePropertyName: 'seatbeltsNumber',
@@ -39,7 +39,8 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
                 label: 'Most recent installation check',
                 type: 'date',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -82,7 +83,7 @@ export class TestTypesFieldsMetadata {
                     cssClass: ''
                   }
                 ],
-                defaultValue: 'Select'
+                defaultValue: 'No'
               },
               {
                 testTypePropertyName: 'seatbeltsNumber',
@@ -95,7 +96,8 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
                 label: 'Most recent installation check',
                 type: 'date',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -138,7 +140,7 @@ export class TestTypesFieldsMetadata {
                     cssClass: ''
                   }
                 ],
-                defaultValue: 'Select'
+                defaultValue: 'No'
               },
               {
                 testTypePropertyName: 'seatbeltsNumber',
@@ -151,7 +153,8 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
                 label: 'Most recent installation check',
                 type: 'date',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -188,7 +191,7 @@ export class TestTypesFieldsMetadata {
                     cssClass: ''
                   }
                 ],
-                defaultValue: 'Select'
+                defaultValue: 'No'
               },
               {
                 testTypePropertyName: 'seatbeltsNumber',
@@ -201,7 +204,8 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
                 label: 'Most recent installation check',
                 type: 'date',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -232,7 +236,7 @@ export class TestTypesFieldsMetadata {
                     cssClass: ''
                   }
                 ],
-                defaultValue: 'Select'
+                defaultValue: 'No'
               },
               {
                 testTypePropertyName: 'seatbeltsNumber',
@@ -245,7 +249,8 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
                 label: 'Most recent installation check',
                 type: 'date',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -282,7 +287,7 @@ export class TestTypesFieldsMetadata {
                     cssClass: ''
                   }
                 ],
-                defaultValue: 'Select'
+                defaultValue: 'No'
               },
               {
                 testTypePropertyName: 'seatbeltsNumber',
@@ -295,7 +300,8 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
                 label: 'Most recent installation check',
                 type: 'date',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -639,7 +645,7 @@ export class TestTypesFieldsMetadata {
         hasNotes: true
       },
       {
-        testTypeId: '10',
+        testTypeId: 'lecWithoutAnnualTest',
         sections: [
           {
             sectionName: 'Result',
