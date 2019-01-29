@@ -6,17 +6,29 @@ page-atf-home {
 
   .blue-bar {
     height: 15px;
-    background-color: color($colors, tertiary);
+    background-color: color($colors, primary);
+  }
+
+  .beta{
+    display: inline-block;
+    font-family: $title-font-family;
+    background-color: color($colors, primary);
+    color: color($colors, light);
+    padding: 1px 5px;
+
+    span{
+      font-size: $font-size-medium;
+      font-weight: $font-weight-bold;
+      letter-spacing: -0.5px;
+    }
   }
 
   .start-title {
-    padding-top: 10px;
-
+   
     h1 {
-      font-size: 26px;
-      font-weight: bold;
+      font-size: $font-size-extra-large;
+      font-weight: $font-weight-bold;
       margin: 0;
-      font-family: $title-font-family;
     }
   }
 
@@ -26,5 +38,6 @@ page-atf-home {
 
   h4 {
     margin-top: 10px;
+    font-size: $font-size-extra-large;
   }
 }
