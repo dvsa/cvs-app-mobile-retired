@@ -2,7 +2,11 @@ import { TestBed } from "@angular/core/testing";
 import { StorageService } from "../natives/storage.service";
 import { DefectsService } from "./defects.service";
 import { DefectsDataMock } from "../../assets/data-mocks/reference-data-mocks/defects-data.mock";
-import { DefectCategoryModel, DefectDeficiencyModel, DefectItemModel } from "../../models/reference-data-models/defects.model";
+import {
+  DefectCategoryModel,
+  DefectDeficiencyModel,
+  DefectItemModel
+} from "../../models/reference-data-models/defects.model";
 import { DEFICIENCY_CATEGORY } from "../../app/app.enums";
 import { CommonFunctionsService } from "../utils/common-functions";
 
@@ -61,7 +65,7 @@ describe('Provider: DefectsService', () => {
     let filteredData = defectsService.searchDefect(defectsCategories, filter, ['imNumber', 'imDescription']);
 
     expect(filteredData.length).toEqual(1);
-    expect(filteredData[0].imNumber).toMatch(/\d{1,}/);;
+    expect(filteredData[0].imNumber).toMatch(/\d{1,}/);
   });
 
   it('should return Defects Category by imDescription', () => {
@@ -102,6 +106,5 @@ describe('Provider: DefectsService', () => {
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0].deficiencyText).toEqual(filter);
   });
-
 
 });
