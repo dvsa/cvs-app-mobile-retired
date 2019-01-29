@@ -3,7 +3,7 @@ export class TestAbandonmentReasonsData {
     return [
       'The vehicle was not submitted for test at the appointed time',
       'The relevant test fee has not been paid',
-      'The was no means of identifying the vehicle i.e. the vehicle chassis/serial number was missing or did not relate to the vehicle',
+      'There was no means of identifying the vehicle i.e. the vehicle chassis/serial number was missing or did not relate to the vehicle',
       'The registration document or other evidence of the date of first registration was not presented when requested',
       'The vehicle was emitting substantial amounts of exhaust smoke so as to make it unreasonable for the test to be carried out',
       'The vehicle was in such a dirty or dangerous condition as to make it unreasonable for the test to be carried out',
