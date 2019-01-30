@@ -1,0 +1,25 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :build do
+    match
+    ionic(
+      platform: 'ios',
+      type: 'enterprise',
+      team_id: 'K84TL26V3P',
+      provisioning_profile: 'ac3691fb-ca69-4a49-a54a-0b2757a2ef1a',
+      build_number: ENV['BUILD_NUMBER'],
+      build_flag: ['-UseModernBuildSystem=0']
+    )
+    zip(path: "./platforms/ios/build/device/CVSMobile.app.dSYM")
+    aws_s3(
+      access_key: ENV['AWS_ACCESS_KEY_ID'],
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+      bucket: 'dvsa-cvs-mobile-artefacts',
+      region: 'eu-west-1',
+      ipa: './platforms/ios/build/device/CVSMobile.ipa',
+      dsym: './platforms/ios/build/device/CVSMobile.app.dSYM.zip'
+    )
+  end
+end
