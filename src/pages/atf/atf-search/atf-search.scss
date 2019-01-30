@@ -9,11 +9,17 @@ page-atf-search {
 
   strong {
     font-weight: normal;
-    color: black;
+    color: color($colors, dark);
   }
 
   .item-block {
-    border-bottom: 0.5px solid $list-ios-border-color;
+    border-bottom: 0.5px solid $color-grey-2;
+  }
+
+  .no-result{
+    h3, span{
+    color: $color-grey-1;
+    }
   }
 
 }

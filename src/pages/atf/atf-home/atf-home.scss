@@ -6,13 +6,13 @@ page-atf-home {
 
   .blue-bar {
     height: 15px;
-    background-color: color($colors, primary);
+    background-color: color($colors, tertiary);
   }
 
   .beta{
     display: inline-block;
     font-family: $title-font-family;
-    background-color: color($colors, primary);
+    background-color: color($colors, tertiary);
     color: color($colors, light);
     padding: 1px 5px;
 
@@ -38,6 +38,6 @@ page-atf-home {
 
   h4 {
     margin-top: 10px;
-    font-size: $font-size-extra-large;
+    font-size: $font-size-large;
   }
 }

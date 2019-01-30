@@ -36,8 +36,6 @@ $font-size-extra-large: 34px;
 $item-ios-divider-font-size: 14px;
 $custom-back-button-font-size: 34px;
 
-$item-icon-light-gray: #BCBBC1;
-$content-background-color: #DEE0E2;
 $list-ios-item-height: 71px;
 
 // Named Color Variables
@@ -49,34 +47,42 @@ $list-ios-item-height: 71px;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:     #005ea5,
+  primary:     #2b8cc4,
   secondary:   #00823b,
-  button-blue: #3f9ed5,
+  tertiary:    #005ea5,
   danger:      #b10e1e,
   attention:   #ffbf47,
   light:       #fff,
   dark:        #0b0c0c
 );
 
-$light-gray: #d3d3d3;
-$content-background-color: #EFEFF4; 
-$reg-plate-color: #FFD84C;
+$color-grey-1: #6c6c70;
+$color-grey-2: #bfc1c3;
+$color-grey-3: #efeef4;
+$color-grey-4: #f8f8f8;
+$color-reg-plate: #ffd84c;
 
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-$list-ios-header-background-color: #EFEFF4;
-$list-ios-header-font-color: #6D6D72;
-$list-ios-item-font-color: #8E8E93;
-$list-ios-border-color: #BCBBC1;
+$item-ios-divider-color: $color-grey-1;
+$item-ios-divider-background: $color-grey-3;
+$item-ios-paragraph-text-color: $color-grey-1;
+$item-ios-detail-push-color: $color-grey-2;
+
+$alert-ios-message-text-color: color($colors, dark);
+$alert-ios-sub-title-text-color: color($colors, dark);
+
+$list-ios-header-color: $color-grey-1;
+$list-ios-header-background-color: $color-grey-3;
+
+$text-input-placeholder-color: $color-grey-1;
 
 $list-header-height-small: 40px;
 $list-header-height-medium: 60px;
 
-$item-ios-detail-push-color: $list-ios-border-color;
 $card-ios-border-radius: 5px;
-$item-ios-divider-background: $content-background-color;
 
 $header-height-default: 116px;
 $header-title-margin-top-default: 64px;

@@ -43,7 +43,7 @@ export class DefectsService {
       case DEFICIENCY_CATEGORY.MINOR:
         return 'attention';
       case DEFICIENCY_CATEGORY.PRS:
-        return 'primary';
+        return 'tertiary';
       case DEFICIENCY_CATEGORY.ADVISORY:
         return 'light';
     }

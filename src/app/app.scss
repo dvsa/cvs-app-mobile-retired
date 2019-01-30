@@ -77,7 +77,7 @@
       }
 
       .searchbar-input {
-        background-color: $light-gray;
+        background-color: $color-grey-4;
       }
     }
   }
@@ -85,6 +85,16 @@
 
 .item-ios {
   padding-left: 0;
+  
+  &.item-block .item-inner{
+    border-color: $color-grey-2;
+  }
+}
+
+h1,h2,h3,h4,
+p[text-left],
+span[text-left]{
+  color: color($colors, dark);
 }
 
 .full-dividers-list {
@@ -153,7 +163,7 @@
 }
 
 .content-background-color-grey {
-  background-color: $content-background-color;
+  background-color: $color-grey-3;
 }
 
 // Global CSS for item-dividers
@@ -202,7 +212,7 @@ ion-item-group {
 }
 // Registration plate
 .vehicle-header-vrm-number {
-  background: $reg-plate-color;
+  background: $color-reg-plate;
   width: 194px;
   height: 50px;
   font-size: $font-size-extra-large;
@@ -215,14 +225,14 @@ ion-item-group {
 
 // Vehicle list general style
 ion-list.vehicle-list{
-  border-bottom: 0.5px solid $list-ios-border-color;
+  border-bottom: 0.5px solid $color-grey-2;
   margin-bottom: 10px;
   background: color($colors, light);
 
   ion-list-header.list-header{
     height: $list-header-height-small;
-    background: $list-ios-header-background-color;
-    border-bottom: 0.5px solid $list-ios-border-color;
+    background: $color-grey-3;
+    border-bottom: 0.5px solid $color-grey-2;
 
     ion-label{
       font-size: $font-size-small;
@@ -238,7 +248,7 @@ ion-list.vehicle-list{
 
   ion-item.item-ios{
     width: calc(100% - 16px);
-    border-bottom: 0.5px solid $list-ios-border-color;
+    border-bottom: 0.5px solid $color-grey-2;
 
     &:last-child{
       border-bottom: 0;
@@ -246,7 +256,7 @@ ion-list.vehicle-list{
     }
 
     ion-label{
-      color: $list-ios-header-font-color;
+      color: $list-ios-header-color;
       font-weight: $font-weight-normal;
       line-height: 18px;
 
@@ -270,14 +280,14 @@ ion-list.vehicle-list{
         font-size: $font-size-medium;
         font-weight: $font-weight-normal;
         line-height: 22px;
-        color: $list-ios-item-font-color;
+        color: $color-grey-1;
       }
     }
   }
   button.item-ios {
     height: 60px;
     width: calc(100% - 16px);
-    border-bottom: 0.5px solid $list-ios-border-color;
+    border-bottom: 0.5px solid $color-grey-2;
 
     &:last-child{
       border-bottom: 0;
@@ -299,4 +309,12 @@ ion-list.vehicle-list{
 .test-result{
   font-weight: $font-weight-semi-bold;
   font-size: $font-size-medium;
+}
+
+.badge-ios-light{
+  border: 1px solid color($colors, dark);
+}
+
+.color-grey-1{
+  color: $color-grey-1;
 }
