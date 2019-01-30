@@ -11,10 +11,10 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content no-padding>
+<ion-content no-padding class="content-background-color-grey">
   <ion-list text-wrap>
 
-    <ion-item-group>
+    <ion-item-group class="custom-item-color">
       <ion-item-divider text-uppercase>
         <span padding-left>Defect item</span>
       </ion-item-divider>
@@ -103,6 +103,10 @@
         <ion-label>Defect repaired during test</ion-label>
         <ion-toggle color="secondary" checked="false" [(ngModel)]="defect.prs"></ion-toggle>
       </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="isEdit">
+      <ion-item-divider text-uppercase></ion-item-divider>
+      <button ion-item detail-none  padding-left class="btn-remove-defect" (click)="removeDefectConfirm(defect)">Remove defect</button>
     </ion-item-group>
   </ion-list>
 

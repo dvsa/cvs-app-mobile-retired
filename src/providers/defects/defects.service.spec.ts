@@ -4,10 +4,12 @@ import { DefectsService } from "./defects.service";
 import { DefectsDataMock } from "../../assets/data-mocks/reference-data-mocks/defects-data.mock";
 import { DefectCategoryModel, DefectDeficiencyModel, DefectItemModel } from "../../models/reference-data-models/defects.model";
 import { DEFICIENCY_CATEGORY } from "../../app/app.enums";
+import { CommonFunctionsService } from "../utils/common-functions";
 
 describe('Provider: DefectsService', () => {
   let defectsService: DefectsService;
   let storageService: StorageService;
+  let commonFunctionsService: CommonFunctionsService;
   let spy: any;
   const category = DEFICIENCY_CATEGORY.MAJOR;
 
@@ -26,17 +28,20 @@ describe('Provider: DefectsService', () => {
     TestBed.configureTestingModule({
       providers: [
         DefectsService,
+        CommonFunctionsService,
         {provide: StorageService, useValue: spy}
       ]
     });
 
     defectsService = TestBed.get(DefectsService);
     storageService = TestBed.get(StorageService);
+    commonFunctionsService = TestBed.get(CommonFunctionsService);
   });
 
   afterEach(() => {
     defectsService = null;
     storageService = null;
+    commonFunctionsService = null;
   });
 
   it('should return data from local storage', () => {

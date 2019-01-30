@@ -117,6 +117,14 @@
                               [(ngModel)]="vehicleTest.additionalNotes"></ion-textarea>
             </ion-item>
         </ion-item-group>
-
+      <ion-item-group>
+        <ion-item-divider></ion-item-divider>
+        <button ion-item detail-none class="btn-remove-test" (click)="onRemoveTestType(vehicle, vehicleTest)">
+          Remove test type
+        </button>
+        <button ion-item detail-none class="btn-remove-test" (click)="abandonTestType(vehicleTest)">
+          Abandon test type
+        </button>
+      </ion-item-group>
     </ion-list>
 </ion-content>

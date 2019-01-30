@@ -15,7 +15,7 @@ export class ByVehicleTypePipe implements PipeTransform {
       if (elem.forVehicleType.indexOf(filter.toLowerCase()) != -1) {
         return elem
       }
-    })
+    });
     return filteredArray
   }
 }

@@ -18,6 +18,7 @@ import { TestTypeService } from "../../../../providers/test-type/test-type.servi
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { TestTypeDetailsInputPage } from "../test-type-details-input/test-type-details-input";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 
 @IonicPage()
 @Component({
@@ -41,7 +42,8 @@ export class CompleteTestPage implements OnInit {
               private actionSheetCtrl: ActionSheetController,
               private modalCtrl: ModalController,
               private events: Events,
-              private cdRef: ChangeDetectorRef) {
+              private cdRef: ChangeDetectorRef,
+              private vehicleService: VehicleService) {
     this.vehicle = navParams.get('vehicle');
     this.vehicleTest = navParams.get('vehicleTest');
     this.completedFields = navParams.get('completedFields');
@@ -180,7 +182,7 @@ export class CompleteTestPage implements OnInit {
   showAlert(item: ItemSliding, defect) {
     const confirm = this.alertCtrl.create({
       title: 'Remove defect',
-      message: 'This action wil remove this defect.',
+      message: 'This action will remove this defect.',
       buttons: [
         {
           text: 'Cancel',
@@ -199,7 +201,35 @@ export class CompleteTestPage implements OnInit {
     confirm.present();
   }
 
+  onRemoveTestType(vehicle, vehicleTest) {
+    const confirm = this.alertCtrl.create({
+      title: 'Remove test type',
+      message: 'This action wil remove this test type from the vehicle.',
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Remove',
+          handler: () => {
+            this.removeTestType(vehicle, vehicleTest);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
   removeDefect(defect) {
     this.testTypeService.removeDefect(this.vehicleTest, defect);
+  }
+
+  removeTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
+    this.vehicleService.removeTestType(vehicle, vehicleTest);
+    this.navCtrl.pop();
+  }
+
+  abandonTestType(vehicleTest: TestTypeModel) {
+    this.navCtrl.push('ReasonsSelectionPage', {vehicleTest: vehicleTest, altAbandon: true});
   }
 }

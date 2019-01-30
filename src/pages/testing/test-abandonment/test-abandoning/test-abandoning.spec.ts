@@ -5,6 +5,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestAbandoningPage } from "./test-abandoning";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
 
 describe('Component: TestAbandoningPage', () => {
   let component: TestAbandoningPage;
@@ -12,6 +14,7 @@ describe('Component: TestAbandoningPage', () => {
   let navCtrl: NavController;
   let navParams: NavParams;
   let alertCtrl: AlertController;
+  let visitService: VisitService;
 
   let vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const selectedReasons = ['Best reason', 'Second best reason'];
@@ -24,6 +27,7 @@ describe('Component: TestAbandoningPage', () => {
       providers: [
         NavController,
         AlertController,
+        {provide: VisitService, useClass: VisitServiceMock},
         {provide: NavParams, useClass: NavParamsMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -36,6 +40,7 @@ describe('Component: TestAbandoningPage', () => {
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
     alertCtrl = TestBed.get(AlertController);
+    visitService = TestBed.get(VisitService);
   });
 
   beforeEach(() => {
