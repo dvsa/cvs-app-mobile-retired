@@ -12,11 +12,14 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-input margin-top text-uppercase
-             class="custom-input shadow"
-             type="text" placeholder="Enter registration number or VIN"
-             [(ngModel)]="searchVal" value=""></ion-input>
-  <button margin-vertical ion-button block
-          color="button-blue" class="custom-button shadow"
-          (click)="searchVehicle(searchVal)">Search</button>
+  <form action="#">
+    <ion-input margin-top text-uppercase
+              [ngModelOptions]="{standalone: true}"
+              class="custom-input shadow"
+              type="search" placeholder="Enter registration number or VIN"
+              [(ngModel)]="searchVal" value=""></ion-input>
+    <button margin-vertical ion-button block
+            color="button-blue" class="custom-button shadow"
+            (click)="searchVehicle(searchVal)">Search</button>
+  </form>
 </ion-content>
