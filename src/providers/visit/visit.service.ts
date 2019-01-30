@@ -6,6 +6,7 @@ import { StorageService } from "../natives/storage.service";
 @Injectable()
 export class VisitService {
   visit: VisitModel;
+  easterEgg: string;
 
   constructor(public storageService: StorageService) {
     this.visit = {} as VisitModel

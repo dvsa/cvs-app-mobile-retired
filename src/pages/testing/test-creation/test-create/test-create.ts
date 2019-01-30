@@ -35,7 +35,7 @@ export class TestCreatePage implements OnInit, OnDestroy {
   ngOnInit() {
     let lastTestIndex = this.visitService.visit.tests.length - 1;
     this.testData = Object.keys(this.visitService.visit).length ? this.visitService.visit.tests[lastTestIndex] : this.navParams.get('test');
-    this.stateReformingService.saveNavStack(this.navCtrl);
+    if (this.visitService.easterEgg == 'false') this.stateReformingService.saveNavStack(this.navCtrl);
     this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
       this.completedFields = completedFields;
     });
