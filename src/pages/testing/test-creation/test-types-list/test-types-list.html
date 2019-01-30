@@ -1,7 +1,13 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar [hideBackButton]="firstPage">
+    <ion-buttons start *ngIf="firstPage">
+      <button ion-button (click)="cancelTypes()" color="button-blue">
+        Cancel
+      </button>
+    </ion-buttons>
     <ion-title>
-      Test type
+      <span *ngIf="firstPage">Test type</span>
+      <span *ngIf="!firstPage">{{ previousPage.charAt(0).toUpperCase() + previousPage.slice(1, previousPage.length) }}</span>
     </ion-title>
   </ion-navbar>
 </ion-header>

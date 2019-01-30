@@ -9,7 +9,20 @@ page-tests-types-list {
     min-height: $list-ios-item-height;
 
     h3 {
-      font-size: 17px;
+      font-size: $font-size-medium;
     }
+  }
+
+  .button-inner {
+    font-weight: $font-weight-normal;
+  }
+
+  span.back-button-text-ios {
+    display: inline-block;
+    width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: start;
   }
 }

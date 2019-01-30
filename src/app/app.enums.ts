@@ -75,6 +75,7 @@ export enum APP_STRINGS {
   SPEAK_TO_TTL = 'Speak to your Technical Team Leader (TTL) if the issue cannot be resolved on site.',
   SEARCH_ATF = 'Search for an ATF',
   CALL = 'Call',
+  TEST_TYPE = 'Test type',
   NO_SEATBELTS_ENTERED = 'No seatbelts entered',
   NO_SEATBELTS_ENTERED_SUBTITLE = 'The number of seatbelts fitted must be greater than zero (0) to carry out an installation check.'
 }

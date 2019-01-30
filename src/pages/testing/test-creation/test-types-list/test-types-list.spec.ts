@@ -1,9 +1,9 @@
+import { TestTypesListPage } from "./test-types-list";
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams } from "ionic-angular";
+import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { StorageService } from "../../../../providers/natives/storage.service";
-import { TestTypesListPage } from "./test-types-list";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypesDataMock } from "../../../../assets/data-mocks/reference-data-mocks/test-types.mock";
 import { TestTypesReferenceDataModel } from "../../../../models/reference-data-models/test-types.model";
@@ -12,6 +12,8 @@ import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-da
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { TestTypesServiceMock } from "../../../../../test-config/services-mocks/test-types-service.mock";
+import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 
 describe('Component: TestTypesListPage', () => {
   let comp: TestTypesListPage;
@@ -23,6 +25,7 @@ describe('Component: TestTypesListPage', () => {
   let vehicleService: VehicleService;
   let storageServiceSpy: any;
   let vehicleServiceSpy;
+  let commonFunctionsService: CommonFunctionsService;
 
   const testTypes: TestTypesReferenceDataModel[] = TestTypesDataMock.TestTypesData;
   const vehicle: VehicleModel = TechRecordDataMock.VehicleData;
@@ -41,9 +44,11 @@ describe('Component: TestTypesListPage', () => {
       ],
       providers: [
         NavController,
+        CommonFunctionsService,
         {provide: TestTypeService, useClass: TestTypesServiceMock},
         {provide: VehicleService, useValue: vehicleServiceSpy},
-        {provide: NavParams, useClass: NavParamsMock}
+        {provide: NavParams, useClass: NavParamsMock},
+        {provide: ViewController, useClass: ViewControllerMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -56,6 +61,7 @@ describe('Component: TestTypesListPage', () => {
     navParams = TestBed.get(NavParams);
     testTypeService = TestBed.get(TestTypeService);
     vehicleService = TestBed.get(VehicleService);
+    commonFunctionsService = TestBed.get(CommonFunctionsService);
   });
 
   beforeEach(() => {
@@ -74,6 +80,7 @@ describe('Component: TestTypesListPage', () => {
     fixture.destroy();
     comp = null;
     testTypeService = null;
+    commonFunctionsService = null;
   });
 
   it('should create the component', () => {

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 import { TestTypesReferenceDataModel } from "../../../../models/reference-data-models/test-types.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { APP_STRINGS } from "../../../../app/app.enums";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 
 @IonicPage()
 @Component({
@@ -14,17 +16,36 @@ import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 export class TestTypesListPage implements OnInit {
   vehicleData: VehicleModel;
   testTypeReferenceData: TestTypesReferenceDataModel[];
+  firstPage: boolean;
+  previousPage: string;
+  backBtn: string;
+  backBtnName: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private testTypeService: TestTypeService,
-              private vehicleService: VehicleService) {
+              private vehicleService: VehicleService,
+              private viewCtrl: ViewController,
+              public commonFunctions: CommonFunctionsService) {
     this.vehicleData = navParams.get('vehicleData');
     this.testTypeReferenceData = navParams.get('testTypeData');
+    this.previousPage = navParams.get('previousPage');
   }
 
   ngOnInit() {
+    this.backBtn = this.navParams.get('backBtn');
     this.getTestTypeReferenceData();
+    let previousView = this.navCtrl.getPrevious();
+    this.firstPage = previousView.id != 'TestTypesListPage';
+  }
+
+  ionViewWillEnter() {
+    if (this.firstPage) {
+      this.viewCtrl.setBackButtonText(APP_STRINGS.TEST_TYPE);
+    } else {
+      this.backBtnName = this.commonFunctions.capitalizeString(this.backBtn);
+      this.viewCtrl.setBackButtonText(this.backBtnName);
+    }
   }
 
   getTestTypeReferenceData(): void {
@@ -41,7 +62,9 @@ export class TestTypesListPage implements OnInit {
     if (testType.nextTestTypesOrCategories) {
       this.navCtrl.push('TestTypesListPage', {
         vehicleData: this.vehicleData,
-        testTypeData: testType.nextTestTypesOrCategories
+        testTypeData: testType.nextTestTypesOrCategories,
+        previousPage: testType.name,
+        backBtn: this.previousPage || APP_STRINGS.TEST_TYPE
       });
     } else {
       let views = this.navCtrl.getViews();
@@ -55,4 +78,7 @@ export class TestTypesListPage implements OnInit {
     }
   }
 
+  cancelTypes() {
+    this.navCtrl.pop();
+  }
 }
