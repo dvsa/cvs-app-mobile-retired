@@ -5,7 +5,7 @@ ion-app.ios page-complete-test {
   }
 
   .bottom-divider {
-    border-top: 0.55px solid $item-icon-light-gray;
+    border-top: 0.55px solid $color-grey-3;
   }
 
   button[disabled] {
@@ -20,7 +20,7 @@ ion-app.ios page-complete-test {
     display: flex;
     align-items: center;
     font-size: 22px;
-    color: $item-icon-light-gray;
+    color: $color-grey-2;
   }
 
   .datetime-ios {
@@ -37,7 +37,7 @@ ion-app.ios page-complete-test {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-right: 1px solid $list-ios-border-color;
+    border-right: 1px solid $color-grey-2;
   }
 
   ion-col[col-10].certificateNumberCustom-input {
@@ -45,7 +45,7 @@ ion-app.ios page-complete-test {
   }
 
   h3[item-end].current-value.no-data {
-    color: $light-gray;
+    color: $color-grey-2;
   }
 
   h3[item-end].current-value.data-successful {
@@ -97,7 +97,7 @@ ion-app.ios page-complete-test {
   }
 
   .parent-info-color {
-    color: $item-icon-light-gray;
+    color: $color-grey-1;
   }
 
   .truncate-text {

@@ -67,7 +67,7 @@ export class CommonFunctionsService {
       case TEST_TYPE_RESULTS.ABANDONED:
         return 'danger';
       case TEST_TYPE_RESULTS.PRS:
-        return 'primary';
+        return 'tertiary';
     }
   }
 
