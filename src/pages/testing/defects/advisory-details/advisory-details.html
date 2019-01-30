@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar hideBackButton="true">
     <ion-buttons start>
-      <button ion-button (click)="cancelAdvisory()" color="button-blue">
+      <button ion-button (click)="cancelAdvisory()" color="tertiary">
         Cancel
       </button>
     </ion-buttons>
@@ -19,11 +19,11 @@
     <ion-list>
       <ion-item-divider padding-left>DEFECT ITEM</ion-item-divider>
       <ion-item no-lines padding-left>
-        <ion-row class="advisory__item-status" align-items-center justify-content-start>
+        <ion-row class="advisory__item-status" ion-text color="dark" align-items-center justify-content-start>
           {{ advisory.ref }}
           <ion-badge item-end text-uppercase color="light">Advisory</ion-badge>
         </ion-row>
-        <ion-row class="advisory_item-name">
+        <ion-row class="advisory_item-name" ion-text color="dark">
           {{ advisory.metadata.item.itemDescription }}
         </ion-row>
       </ion-item>

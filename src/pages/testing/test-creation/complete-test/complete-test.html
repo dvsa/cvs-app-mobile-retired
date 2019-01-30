@@ -44,16 +44,17 @@
                         (click)="openInputPage(section, input)"
                         *ngIf="input.type === testTypeFields.NUMBER">
                     <h3>{{input.label}}</h3>
-                    <h3 item-end class="current-value"
+                    <h3 item-end class="current-value color-grey-1"
                         [ngClass]="{'no-data': !completedFields[input.testTypePropertyName]}">{{completedFields[input.testTypePropertyName] || input.defaultValue}}</h3>
                 </button>
                 <button ion-item
                         class="bottom-divider"
                         *ngIf="input.type === testTypeFields.DATE">
                     <ion-label><h3>{{input.label}}</h3></ion-label>
-                    <h3 item-end class="current-value no-data" *ngIf="!completedFields[input.testTypePropertyName]">
+                    <h3 item-end class="current-value color-grey-1 no-data" *ngIf="!completedFields[input.testTypePropertyName]">
                         {{input.defaultValue}}</h3>
                     <ion-datetime item-end
+                                  class="color-grey-1"
                                   displayFormat="D MMM YYYY"
                                   [(ngModel)]="completedFields[input.testTypePropertyName]"
                                   (ngModelChange)="onDatetimeChange($event, input.testTypePropertyName)"></ion-datetime>

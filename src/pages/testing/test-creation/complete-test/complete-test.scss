@@ -1,63 +1,42 @@
 ion-app.ios page-complete-test {
+ .scroll-content {
+    max-height: calc(100% - 215px);
+  }
 
   .item-block {
     min-height: 58px;
-  }
 
-  .bottom-divider {
-    border-top: 0.55px solid $item-icon-light-gray;
-  }
+    ion-input {
+      ::-webkit-input-placeholder {
+        text-align: right;
+      }
+      input:-moz-placeholder {
+        text-align: right;
+      }
 
-  button[disabled] {
-    opacity: unset;
-  }
+      input {
+        text-align: right;
+      }
+    }
 
-  h3[item-end].current-value {
-    margin-bottom: 8px;
-  }
+    ion-input.odometer-reading {
+      ::-webkit-input-placeholder {
+        color: color($colors, attention);
+      }
+      input:-moz-placeholder {
+        color: color($colors, attention);
+      }
+    }
 
-  ion-icon[item-end].arrow-forward {
-    display: flex;
-    align-items: center;
-    font-size: 22px;
-    color: $item-icon-light-gray;
-  }
+    .button-ios {
+      color: $color-grey-1;
+      background-color: color($colors, light);
+      font-size: 17px;
+    }
 
-  .datetime-ios {
-    padding: unset;
-    font-size: $item-ios-divider-font-size;
-  }
-
-  ion-grid.certificateNumberCustom {
-    padding: unset;
-    background-color: color($colors, light);
-  }
-
-  ion-col[col-2].certificateNumberCustom-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-right: 1px solid $list-ios-border-color;
-  }
-
-  ion-col[col-10].certificateNumberCustom-input {
-    padding-left: 16px;
-  }
-
-  h3[item-end].current-value.no-data {
-    color: $light-gray;
-  }
-
-  h3[item-end].current-value.data-successful {
-    font-size: $font-size-medium;
-    font-weight: $font-weight-bold;
-    color: color($colors, secondary);
-  }
-
-  h3[item-end].current-value.data-unsuccessful {
-    font-size: $font-size-medium;
-    font-weight: $font-weight-bold;
-    color: color($colors, danger);
+    ion-select {
+      color: $color-grey-1;
+    }
   }
 
   .defect-details {
@@ -81,6 +60,57 @@ ion-app.ios page-complete-test {
     color: color($colors, secondary);
   }
 
+  ion-footer {
+    padding: 0px 16px 25px 16px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: color($colors, light);
+    position: fixed;
+    height: 135px;
+
+    -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);
+
+    .list-ios {
+      margin-bottom: 0px;
+
+      .item-block .item-inner {
+        border: none;
+      }
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    h2:first-child {
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    h1.test-type-pass {
+      color: color($colors, secondary);
+    }
+
+    h1.test-type-fail {
+      color: color($colors, danger);
+    }
+
+    button {
+      background-color: color($colors, secondary);
+      -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.75);
+    }
+
+  }
+
   .badge-ios-light {
     border: 1px solid color($colors, dark);
     background-color: transparent;
@@ -91,13 +121,8 @@ ion-app.ios page-complete-test {
     color: color($colors, primary);
   }
 
-  .btn-remove-test {
-    font-size: 16px;
-    color: color($colors, danger);
-  }
-
   .parent-info-color {
-    color: $item-icon-light-gray;
+    color: $color-grey-2;
   }
 
   .truncate-text {
@@ -112,6 +137,14 @@ ion-app.ios page-complete-test {
 
   .no-margin-right {
     margin-right: 0;
+  }
+
+  .arrow-forward{
+    color: $color-grey-2;
+  }
+
+  .color-grey-1{
+    color: $color-grey-1;
   }
 }
 

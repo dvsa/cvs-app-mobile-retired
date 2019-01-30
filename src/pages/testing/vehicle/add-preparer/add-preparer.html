@@ -17,7 +17,7 @@
 <ion-content no-padding>
   <ion-list *ngIf="filteredPreparers.length > 0">
     <button ion-item no-lines padding-left (click)="presentConfirm('Preparer ID not given')" class="min-height" *ngIf="!searchbarFocus">
-      No preparer ID given
+      <span ion-text color="dark">No preparer ID given</span>
     </button>
     <ion-list-header text-uppercase padding-left *ngIf="!searchbarFocus">List of preparers</ion-list-header>
     <button ion-item detail-none padding-left

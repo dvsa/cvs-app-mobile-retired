@@ -1,6 +1,13 @@
 page-add-preparer {
+
+  ion-content {
+    .scroll-content {
+      background: $color-grey-3;
+    }
+  }
+
   .item__preparer-name {
-    color: $item-icon-light-gray;
+    color: $color-grey-1;
   }
 
   .truncate-text {
@@ -20,13 +27,13 @@ page-add-preparer {
   .no-results__title {
     font-size: 19px;
     font-weight: 600;
-    color: $item-icon-light-gray;
+    color: $color-grey-2;
     display: inherit;
   }
 
   .no-results__text {
     font-size: 16px;
-    color: $item-icon-light-gray;
+    color: $color-grey-2;
     display: inherit;
   }
 
@@ -35,6 +42,6 @@ page-add-preparer {
     display: inherit;
     font-size: 16px;
     text-decoration: underline;
-    color: color($colors, button-blue);
+    color: color($colors, tertiary);
   }
 }

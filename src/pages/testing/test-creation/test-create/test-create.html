@@ -46,15 +46,20 @@
                             (click)="openTest(vehicle, vehicleTest)"
                             class="bottom-divider"
                             [ngClass]="{'abandoned-test': isTestAbandoned(vehicleTest)}">
-                        <h3 class="test-type">{{ vehicleTest.testTypeName }}</h3>
+                        <h3 class="test-type">{{ vehicleTest.name }}</h3>
+                        <h3 item-end class="test-type-status"
+                            *ngIf="vehicleTest.hasPassed != null"
+                            [ngClass]="vehicleTest.hasPassed ? 'test-type-pass' : 'test-type-fail'">
+                            {{ vehicleTest.hasPassed ? 'Pass' : 'Fail' }}
+                            <span *ngIf="vehicleTest.defects.length != 0">
+                          - {{ vehicleTest.defects.length }} defects
+                        </span>
+                        </h3>
                         <h3 item-end class="test-type-status test-type-notcomplete"
                             *ngIf="isTestAbandoned(vehicleTest)">Abandoned</h3>
-                        <h3 item-end class="test-type-status"
-                            [ngClass]="{'test-type-inProgress': getTestTypeStatus(vehicleTest) !== 'Edit'}">{{getTestTypeStatus(vehicleTest)}}</h3>
-                        <ion-icon item-end class="odometer-reading-icon"
-                                  [ngClass]="{'odometer-reading-icon-data': getTestTypeStatus(vehicleTest) === 'Edit',
-                                  'odometer-reading-icon-no-data': getTestTypeStatus(vehicleTest) !== 'Edit'}"
-                                  [name]="getTestTypeStatus(vehicleTest) === 'Edit' ? 'checkmark' : 'arrow-forward'"></ion-icon>
+                        <h3 item-end class="test-type-status test-type-inProgress"
+                            *ngIf="!vehicleTest.result">In progress</h3>
+                        <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
                     </button>
                     <ion-item-options *ngIf="!isTestAbandoned(vehicleTest)">
                         <button ion-button
@@ -79,7 +84,7 @@
 
         <ion-card>
             <button class="btn-add-test" ion-item detail-none (click)="presentSearchVehicle()">
-                <h3>Add a trailer</h3>
+                <span>Add a trailer</span>
                 <ion-icon name="ios-add-circle-outline" item-end></ion-icon>
             </button>
         </ion-card>
