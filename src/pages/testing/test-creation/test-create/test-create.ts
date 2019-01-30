@@ -86,7 +86,7 @@ export class TestCreatePage implements OnInit, OnDestroy {
               isInProgress = true;
               testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
             } else {
-              if (!this.completedFields.hasOwnProperty(input.testTypePropertyName) && input.testTypePropertyName !== 'result' && input.testTypePropertyName !== 'certificateNumber') {
+              if (!this.completedFields.hasOwnProperty(input.testTypePropertyName) && input.testTypePropertyName !== 'testResult' && input.testTypePropertyName !== 'certificateNumber') {
                 this.completedFields[input.testTypePropertyName] = testType[input.testTypePropertyName];
               }
             }

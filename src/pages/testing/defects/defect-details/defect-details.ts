@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
-import { DefectDetailsModel } from '../../../../models/defects/defect-details.model';
+import { AdditionalInfoMetadataModel, DefectDetailsModel } from '../../../../models/defects/defect-details.model';
 import { DefectsService } from "../../../../providers/defects/defects.service";
-import { AdditionalInfoMetadataModel } from "../../../../models/defects/defects-metadata.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 

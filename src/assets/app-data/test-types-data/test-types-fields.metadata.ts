@@ -10,7 +10,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -29,7 +29,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'No'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -40,7 +40,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -56,7 +56,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -75,7 +75,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'Yes'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -86,7 +86,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -102,7 +102,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -121,7 +121,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'Yes'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -132,7 +132,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -148,7 +148,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -167,7 +167,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'No'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -178,7 +178,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -194,7 +194,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -213,7 +213,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'Yes'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -224,7 +224,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -247,7 +247,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -266,7 +266,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'No'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -277,7 +277,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -299,7 +299,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -318,7 +318,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'No'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -329,7 +329,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -345,7 +345,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -364,7 +364,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'No'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -375,7 +375,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -397,7 +397,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -416,7 +416,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'No'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -427,7 +427,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -463,7 +463,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -482,7 +482,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'Yes'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -493,7 +493,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -509,7 +509,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -528,7 +528,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'Yes'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -539,7 +539,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -555,7 +555,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Seatbelt installation check',
             inputs: [
               {
-                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
                 label: 'Carried out during this test',
                 type: 'ddl',
                 title: 'Was a seatbelt installation check carried out?',
@@ -574,7 +574,7 @@ export class TestTypesFieldsMetadata {
                 defaultValue: 'Yes'
               },
               {
-                testTypePropertyName: 'seatbeltsNumber',
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
@@ -585,7 +585,7 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
               }
             ]
           }
@@ -601,7 +601,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Result',
             inputs: [
               {
-                testTypePropertyName: 'result',
+                testTypePropertyName: 'testResult',
                 label: 'Test result',
                 type: 'ddl',
                 title: 'Test result',
@@ -633,7 +633,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Result',
             inputs: [
               {
-                testTypePropertyName: 'result',
+                testTypePropertyName: 'testResult',
                 label: 'Test result',
                 type: 'ddl',
                 title: 'Test result',
@@ -665,7 +665,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Result',
             inputs: [
               {
-                testTypePropertyName: 'result',
+                testTypePropertyName: 'testResult',
                 label: 'Test result',
                 type: 'ddl',
                 title: 'Test result',
@@ -697,7 +697,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Result',
             inputs: [
               {
-                testTypePropertyName: 'result',
+                testTypePropertyName: 'testResult',
                 label: 'Test result',
                 type: 'ddl',
                 title: 'Test result',
@@ -729,7 +729,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Result',
             inputs: [
               {
-                testTypePropertyName: 'result',
+                testTypePropertyName: 'testResult',
                 label: 'Test result',
                 type: 'ddl',
                 title: 'Test result',
@@ -761,7 +761,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Result',
             inputs: [
               {
-                testTypePropertyName: 'result',
+                testTypePropertyName: 'testResult',
                 label: 'Test result',
                 type: 'ddl',
                 title: 'Test result',
@@ -793,7 +793,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Result',
             inputs: [
               {
-                testTypePropertyName: 'result',
+                testTypePropertyName: 'testResult',
                 label: 'Test result',
                 type: 'ddl',
                 title: 'Test result',
@@ -825,7 +825,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Result',
             inputs: [
               {
-                testTypePropertyName: 'result',
+                testTypePropertyName: 'testResult',
                 label: 'Test result',
                 type: 'ddl',
                 title: 'Test result',
@@ -857,7 +857,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Result',
             inputs: [
               {
-                testTypePropertyName: 'result',
+                testTypePropertyName: 'testResult',
                 label: 'Test result',
                 type: 'ddl',
                 title: 'Test result',
@@ -887,7 +887,7 @@ export class TestTypesFieldsMetadata {
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
               }
             ],
-            dependentOn: ['result']
+            dependentOn: ['testResult']
           }
         ],
         hasDefects: false,
@@ -900,7 +900,7 @@ export class TestTypesFieldsMetadata {
             sectionName: 'Result',
             inputs: [
               {
-                testTypePropertyName: 'result',
+                testTypePropertyName: 'testResult',
                 label: 'Test result',
                 type: 'ddl',
                 title: 'Test result',
@@ -930,7 +930,7 @@ export class TestTypesFieldsMetadata {
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
               }
             ],
-            dependentOn: ['result']
+            dependentOn: ['testResult']
           }
         ],
         hasDefects: false,

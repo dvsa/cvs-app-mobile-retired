@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
-import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { APP } from "../../../../app/app.enums";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
 
 @IonicPage()
 @Component({
@@ -13,8 +13,8 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 export class AddDefectCategoryPage implements OnInit {
   vehicleType: string;
   vehicleTest: TestTypeModel;
-  defectCategories: DefectCategoryModel[];
-  filteredCategories: DefectCategoryModel[];
+  defectCategories: DefectCategoryReferenceDataModel[];
+  filteredCategories: DefectCategoryReferenceDataModel[];
   searchVal: string = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private defectsService: DefectsService, public events: Events) {
@@ -27,7 +27,7 @@ export class AddDefectCategoryPage implements OnInit {
     this.filteredCategories = this.populateCategoriesArray();
   }
 
-  selectCategory(category: DefectCategoryModel): void {
+  selectCategory(category: DefectCategoryReferenceDataModel): void {
     this.navCtrl.push('AddDefectItemPage', {
       vehicleType: this.vehicleType,
       vehicleTest: this.vehicleTest,
@@ -41,7 +41,7 @@ export class AddDefectCategoryPage implements OnInit {
     this.filteredCategories = this.populateCategoriesArray();
   }
 
-  private populateCategoriesArray() {
+  private populateCategoriesArray(): DefectCategoryReferenceDataModel[] {
     let filteredArr = this.defectsService.searchDefect(this.defectCategories, this.searchVal, ['imNumber', 'imDescription']);
     return this.defectsService.orderDefectsArray(filteredArr, 'imNumber', 'asc');
   }

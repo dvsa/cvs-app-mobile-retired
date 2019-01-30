@@ -1,5 +1,4 @@
 import { TestBed } from "@angular/core/testing";
-import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { TechRecordDataMock } from "../../assets/data-mocks/tech-record-data.mock";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
@@ -8,8 +7,9 @@ import { VisitServiceMock } from "../../../test-config/services-mocks/visit-serv
 import { of } from "rxjs/observable/of";
 import { HTTPService } from "../global/http.service";
 import { VehicleService } from "./vehicle.service";
-import { PreparersModel } from "../../models/reference-data-models/preparers.model";
+import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 import { ODOMETER_METRIC } from "../../app/app.enums";
+import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 
 describe('Provider: VehicleService', () => {
   let vehicleService: VehicleService;
@@ -17,9 +17,9 @@ describe('Provider: VehicleService', () => {
   let httpService: HTTPService;
   let httpServiceSpy: any;
 
-  const VEHICLE: VehicleModel = TechRecordDataMock.VehicleData;
+  const VEHICLE_TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const TEST_TYPE: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-  const PREPARER: PreparersModel = {
+  const PREPARER: PreparersReferenceDataModel = {
     preparerId: "AK4434",
     preparerName: "Durrell Vehicles Limited"
   };
@@ -27,7 +27,7 @@ describe('Provider: VehicleService', () => {
 
   beforeEach(() => {
     httpServiceSpy = jasmine.createSpyObj('HTTPService', [{
-      'getTechRecords': of(TechRecordDataMock.VehicleData)
+      'getTechRecords': of(TechRecordDataMock.VehicleTechRecordData)
     }]);
 
     TestBed.configureTestingModule({
@@ -51,12 +51,12 @@ describe('Provider: VehicleService', () => {
   it('should create a new vehicle', () => {
     let newVehicle;
     expect(newVehicle).toBeUndefined();
-    newVehicle = vehicleService.createVehicle(VEHICLE);
+    newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.techRecord.length).toBe(1);
   });
 
   it('should add a test-type to vehicle.testTypes array', () => {
-    let newVehicle = vehicleService.createVehicle(VEHICLE);
+    let newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.testTypes.length).toBe(0);
     vehicleService.addTestType(newVehicle, TEST_TYPE);
     expect(newVehicle.testTypes.length).toBe(1);
@@ -65,7 +65,7 @@ describe('Provider: VehicleService', () => {
   it('should add odometer values', () => {
     let odomReading: string = '1234';
     let odomMetric: ODOMETER_METRIC = ODOMETER_METRIC.KILOMETRES;
-    let newVehicle = vehicleService.createVehicle(VEHICLE);
+    let newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.odometerMetric).toBeFalsy();
     expect(newVehicle.odometerReading).toBeFalsy();
     vehicleService.setOdometer(newVehicle, odomReading, odomMetric);
@@ -74,7 +74,7 @@ describe('Provider: VehicleService', () => {
   })
 
   it('should remove the added test-type from vehicle.testTypes array', () => {
-    let newVehicle = vehicleService.createVehicle(VEHICLE);
+    let newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.testTypes.length).toBe(0);
     vehicleService.addTestType(newVehicle, TEST_TYPE);
     expect(newVehicle.testTypes.length).toBe(1);
@@ -83,7 +83,7 @@ describe('Provider: VehicleService', () => {
   });
 
   it('should add preparer to vehicle', () => {
-    let newVehicle = vehicleService.createVehicle(VEHICLE);
+    let newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.preparerId).toBeFalsy();
     expect(newVehicle.preparerName).toBeFalsy();
     vehicleService.addPreparer(newVehicle, PREPARER);

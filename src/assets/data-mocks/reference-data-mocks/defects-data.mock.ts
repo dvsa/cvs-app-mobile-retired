@@ -1,11 +1,11 @@
-export class DefectsDataMock {
+export class DefectsReferenceDataMock {
 
   public static get DefectsDataItem() {
-    return DefectsDataMock.DefectsData[0].items[0];
+    return DefectsReferenceDataMock.DefectsData[0].items[0];
   }
 
   public static get DefectDataCategory() {
-    return DefectsDataMock.DefectsData[0];
+    return DefectsReferenceDataMock.DefectsData[0];
   }
 
   public static get DefectsData() {

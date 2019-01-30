@@ -1,10 +1,11 @@
 import { TestBed } from "@angular/core/testing";
 import { StorageService } from "../natives/storage.service";
 import { TestTypeService } from "./test-type.service";
-import { TestTypesDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { VisitService } from "../visit/visit.service";
-import { DEFICIENCY_CATEGORY } from "../../models/model.enums";
+import { DefectDetailsModel } from "../../models/defects/defect-details.model";
+import { DefectDetailsDataMock } from "../../assets/data-mocks/defect-details-data.mock";
+import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
 
 describe('Provider: TestTypeService', () => {
   let testTypeService: TestTypeService;
@@ -14,12 +15,13 @@ describe('Provider: TestTypeService', () => {
   let visitServiceSpy: any;
   let storageServiceSpy: any;
 
-  const testTypes: TestTypesReferenceDataModel[] = TestTypesDataMock.TestTypesData;
+  const TEST_TYPES: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
+  const DEFECT: DefectDetailsModel = DefectDetailsDataMock.DefectData;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       'read': new Promise(resolve => {
-        return testTypes;
+        return TEST_TYPES;
       })
     });
     visitServiceSpy = jasmine.createSpyObj('VisitService', ['update']);
@@ -46,9 +48,8 @@ describe('Provider: TestTypeService', () => {
   it('should return data from local storage', () => {
     testTypeService.getTestTypesFromStorage().subscribe(
       data => {
-        expect(data).toBe(<TestTypesReferenceDataModel[]>testTypes)
+        expect(data).toBe(<TestTypesReferenceDataModel[]>TEST_TYPES)
       }
     )
   });
-
 });

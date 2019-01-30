@@ -3,16 +3,14 @@ import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing"
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
 import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { PreparersModel } from "../../../../models/reference-data-models/preparers.model";
 import { TestService } from "../../../../providers/test/test.service";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { VisitService } from "../../../../providers/visit/visit.service";
+import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -22,7 +20,7 @@ describe('Component: AddPreparerPage', () => {
   let navCtrl: NavController;
   let vehicleService: VehicleService;
 
-  const TECH_RECORD: VehicleModel = TechRecordDataMock.VehicleData;
+  const TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
 
   beforeEach(async(() => {
     const preparerServiceSpy = jasmine.createSpyObj('PreparerService', ['getPreparersFromStorage, search']);

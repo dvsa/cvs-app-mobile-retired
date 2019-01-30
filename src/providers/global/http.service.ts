@@ -3,16 +3,12 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AppConfig } from "../../../config/app.config";
 import { AtfReferenceDataModel } from "../../models/reference-data-models/atf.model";
-import { DefectCategoryModel } from "../../models/reference-data-models/defects.model";
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
-import { PreparersModel } from "../../models/reference-data-models/preparers.model";
+import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 import { PATHS } from "../../app/app.enums";
-import { of } from "rxjs/observable/of";
-import { TestResultsDataMock } from "../../assets/data-mocks/test-results-data.mock";
 import { TestResultModel } from "../../models/tests/test-result.model";
-import { VehicleModel } from "../../models/vehicle/vehicle.model";
-import { AlertController, LoadingController } from "ionic-angular";
-import { map, tap } from "rxjs/operators";
+import { DefectItemReferenceDataModel } from "../../models/reference-data-models/defects.reference-model";
+import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 
 @Injectable()
 export class HTTPService {
@@ -24,20 +20,20 @@ export class HTTPService {
     return this.http.get<AtfReferenceDataModel[]>(AppConfig.BACKEND_URL_ATF)
   }
 
-  getDefects(): Observable<DefectCategoryModel[]> {
-    return this.http.get<DefectCategoryModel[]>(AppConfig.BACKEND_URL_DEFECTS)
+  getDefects(): Observable<DefectItemReferenceDataModel[]> {
+    return this.http.get<DefectItemReferenceDataModel[]>(AppConfig.BACKEND_URL_DEFECTS)
   }
 
   getTestTypes(): Observable<TestTypesReferenceDataModel[]> {
     return this.http.get<TestTypesReferenceDataModel[]>(AppConfig.BACKEND_URL_TESTTYPES);
   }
 
-  getPreparers(): Observable<PreparersModel[]> {
-    return this.http.get<PreparersModel[]>(AppConfig.BACKEND_URL_PREPARERS);
+  getPreparers(): Observable<PreparersReferenceDataModel[]> {
+    return this.http.get<PreparersReferenceDataModel[]>(AppConfig.BACKEND_URL_PREPARERS);
   }
 
-  getTechRecords(param): Observable<VehicleModel> {
-    return this.http.get<VehicleModel>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/?status=current`);
+  getTechRecords(param): Observable<VehicleTechRecordModel> {
+    return this.http.get<VehicleTechRecordModel>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/?status=current`);
   }
 
   getTestResultsHistory(vin: string): Observable<TestResultModel[]> {

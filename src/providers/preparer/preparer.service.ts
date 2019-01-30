@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import { from } from "rxjs/observable/from";
 import { STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
-import { PreparersModel } from "../../models/reference-data-models/preparers.model";
+import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 
 
 @Injectable()
@@ -12,11 +12,11 @@ export class PreparerService {
   constructor(private storageService: StorageService) {
   }
 
-  getPreparersFromStorage(): Observable<PreparersModel[]> {
+  getPreparersFromStorage(): Observable<PreparersReferenceDataModel[]> {
     return from(this.storageService.read(STORAGE.PREPARERS))
   }
 
-  search(array: PreparersModel[], filter: string): PreparersModel[] {
+  search(array: PreparersReferenceDataModel[], filter: string): PreparersReferenceDataModel[] {
     if (!array) return [];
     if (!filter) return array;
 

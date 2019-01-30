@@ -1,11 +1,12 @@
-import { TechRecordModel, VehicleModel } from "../../models/vehicle/vehicle.model";
+import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { CommonRegExp } from "../utils/common-regExp";
 import { HTTPService } from "../global/http.service";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
-import { PreparersModel } from "../../models/reference-data-models/preparers.model";
 import { VisitService } from "../visit/visit.service";
 import { TestTypeModel } from "../../models/tests/test-type.model";
+import { TechRecordModel, VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
+import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 
 @Injectable()
 export class VehicleService {
@@ -13,12 +14,12 @@ export class VehicleService {
   constructor(private httpService: HTTPService, public visitService: VisitService) {
   }
 
-  createVehicle(vehicle: VehicleModel): VehicleModel {
+  createVehicle(vehicleTechRecord: VehicleTechRecordModel): VehicleModel {
     let newVehicle: VehicleModel = {} as VehicleModel;
-    newVehicle.vrms = vehicle.vrms;
-    newVehicle.vin = vehicle.vin;
+    newVehicle.vrm = vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm;
+    newVehicle.vin = vehicleTechRecord.vin;
     newVehicle.techRecord = [];
-    newVehicle.techRecord.push(this.getCurrentTechRecord(vehicle));
+    newVehicle.techRecord.push(this.getCurrentTechRecord(vehicleTechRecord));
     newVehicle.testResultsHistory = [];
     newVehicle.odometerReading = '';
     newVehicle.odometerMetric = '';
@@ -39,14 +40,14 @@ export class VehicleService {
     if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
   }
 
-  addPreparer(vehicle: VehicleModel, value: PreparersModel): void {
+  addPreparer(vehicle: VehicleModel, value: PreparersReferenceDataModel): void {
     vehicle.preparerId = value.preparerId;
     vehicle.preparerName = value.preparerName;
     if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
   }
 
 
-  getVehicleTechRecord(param): Observable<VehicleModel> {
+  getVehicleTechRecord(param): Observable<VehicleTechRecordModel> {
     return this.httpService.getTechRecords(param);
   }
 
@@ -70,16 +71,6 @@ export class VehicleService {
     currentArray['vehicleSize'] = 'small';
     currentArray['vehicleConfiguration'] = 'rigid';
     return currentArray;
-  }
-
-  getVehicleCertificateExpirationDate(vehicle: VehicleModel): Date | string {
-    let lastCertificateExpirationDate = vehicle.testResultsHistory[0].expiryDate;
-    vehicle.testResultsHistory.forEach(test => {
-      if (lastCertificateExpirationDate < test.expiryDate) {
-        lastCertificateExpirationDate = test.expiryDate;
-      }
-    });
-    return lastCertificateExpirationDate;
   }
 
   formatOdometerReadingValue(string: string): string {

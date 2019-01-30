@@ -5,11 +5,9 @@ import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
-import { DefectsDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
-import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
+import { DefectsReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
@@ -19,7 +17,10 @@ import { TestTypeMetadataMock } from "../../../../assets/data-mocks/data-model/t
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
 import { of } from "rxjs/observable/of";
-import { TestTypesServiceMock } from "../../../../../test-config/services-mocks/test-types-service.mock";
+import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
+import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
+import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
+import { TEST_RESULT } from "../../../../models/models.enums";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -33,8 +34,8 @@ describe('Component: CompleteTestPage', () => {
   let visitService: VisitService;
   let vehicleService: VehicleService;
 
-  const defects: DefectCategoryModel[] = DefectsDataMock.DefectsData
-  const addedDefect: DefectDetailsModel = {
+  const DEFECTS: DefectCategoryReferenceDataModel[] = DefectsReferenceDataMock.DefectsData
+  const ADDED_DEFECT: DefectDetailsModel = {
     ref: '1.1.a',
     deficiencyCategory: DEFICIENCY_CATEGORY.MAJOR,
     deficiencyId: 'a',
@@ -62,13 +63,13 @@ describe('Component: CompleteTestPage', () => {
     }
   };
 
-  const testTypeMetadata = TestTypeMetadataMock.TestTypeMetadata;
-  const vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-  const vehicle: VehicleModel = TechRecordDataMock.VehicleData;
+  const TEST_TYPES_METADATA = TestTypeMetadataMock.TestTypeMetadata;
+  const VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+  const VEHICLE: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
 
   beforeEach(async(() => {
     defectsServiceSpy = jasmine.createSpyObj('DefectsService', {
-      'getDefectsFromStorage': of(defects)
+      'getDefectsFromStorage': of(DEFECTS)
     });
 
     TestBed.configureTestingModule({
@@ -78,7 +79,7 @@ describe('Component: CompleteTestPage', () => {
         NavController,
         {provide: NavParams, useClass: NavParamsMock},
         {provide: VisitService, useClass: VisitServiceMock},
-        {provide: TestTypeService, useClass: TestTypesServiceMock},
+        {provide: TestTypeService, useClass: TestTypeServiceMock},
         AlertController,
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: DefectsService, useValue: defectsServiceSpy}
@@ -103,8 +104,8 @@ describe('Component: CompleteTestPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        'vehicleTest': vehicleTest,
-        'vehicle': vehicle
+        'vehicleTest': VEHICLE_TEST,
+        'vehicle': VEHICLE
       };
       return params[param];
     })
@@ -136,45 +137,45 @@ describe('Component: CompleteTestPage', () => {
   it('should check if array of defects length is 0 after removing the only addedDefect', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
     expect(comp.vehicleTest.defects.length).toBeFalsy();
-    comp.vehicleTest.defects.push(addedDefect);
+    comp.vehicleTest.defects.push(ADDED_DEFECT);
     expect(comp.vehicleTest.defects.length).toBeTruthy();
-    comp.removeDefect(addedDefect);
+    comp.removeDefect(ADDED_DEFECT);
     expect(comp.vehicleTest.defects.length).toBeFalsy();
   });
 
   it('should update the test type fields', () => {
     comp.completedFields = {};
-    comp.completedFields.seatbeltsNumber = 3;
+    comp.completedFields.numberOfSeatbeltsFitted = 3;
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.testTypeDetails = comp.getTestTypeDetails();
-    expect(comp.vehicleTest.seatbeltsNumber).toBeFalsy();
+    expect(comp.vehicleTest.numberOfSeatbeltsFitted).toBeFalsy();
     comp.updateTestType();
-    expect(comp.vehicleTest.seatbeltsNumber).toEqual(3);
-  });
+    expect(comp.vehicleTest.numberOfSeatbeltsFitted).toEqual(3);
+  });;
 
   it('should get the correct ddl value to be displayed', () => {
     comp.completedFields = {};
     comp.vehicleTest = navParams.get('vehicleTest');
-    comp.vehicleTest.result = 'pass';
-    expect(comp.getDDLValueToDisplay(testTypeMetadata.sections[0].inputs[0])).toEqual('Pass');
+    comp.vehicleTest.testResult = TEST_RESULT.PASS;
+    expect(comp.getDDLValueToDisplay(TEST_TYPES_METADATA.sections[0].inputs[0])).toEqual('Pass');
   });
 
   it('should tell if a section can be displayed', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
-    comp.vehicleTest.result = null;
-    expect(comp.canDisplaySection(testTypeMetadata.sections[1])).toBeFalsy();
-    comp.vehicleTest[testTypeMetadata.sections[1].dependentOn[0]] = 'pass';
-    expect(comp.canDisplaySection(testTypeMetadata.sections[1])).toBeTruthy();
+    comp.vehicleTest.testResult = null;
+    expect(comp.canDisplaySection(TEST_TYPES_METADATA.sections[1])).toBeFalsy();
+    comp.vehicleTest[TEST_TYPES_METADATA.sections[1].dependentOn[0]] = 'pass';
+    expect(comp.canDisplaySection(TEST_TYPES_METADATA.sections[1])).toBeTruthy();
   });
 
   it('should tell if an input can be displayed', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.testTypeDetails = comp.getTestTypeDetails();
-    let input = testTypeMetadata.sections[2].inputs[2];
+    let input = TEST_TYPES_METADATA.sections[2].inputs[2];
     comp.completedFields = {};
-    comp.completedFields.seatbeltsNumber = '0';
+    comp.completedFields.numberOfSeatbeltsFitted = '0';
     expect(comp.canDisplayInput(input)).toBeFalsy();
-    comp.completedFields.seatbeltsNumber = '123';
+    comp.completedFields.numberOfSeatbeltsFitted = '123';
     expect(comp.canDisplayInput(input)).toBeTruthy();
   });
 });

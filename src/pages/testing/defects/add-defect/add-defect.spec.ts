@@ -6,12 +6,13 @@ import { CommonFunctionsService } from "../../../../providers/utils/common-funct
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
-import { DefectsDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
-import { DefectCategoryModel, DefectItemModel } from "../../../../models/reference-data-models/defects.model";
+import { DefectsReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { DefectCategoryReferenceDataModel, DefectItemReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
+import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 
 describe('Component: AddDefectPage', () => {
   let comp: AddDefectPage;
@@ -24,10 +25,10 @@ describe('Component: AddDefectPage', () => {
   let defectsServiceSpy: any;
   let commonFunctionsServiceSpy: any;
 
-  const vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-  const vehicle: VehicleModel = TechRecordDataMock.VehicleData;
-  const category: DefectCategoryModel = DefectsDataMock.DefectDataCategory;
-  const item: DefectItemModel = DefectsDataMock.DefectsDataItem;
+  const VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+  const VEHICLE_TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
+  const CATEGORY: DefectCategoryReferenceDataModel = DefectsReferenceDataMock.DefectDataCategory;
+  const ITEM: DefectItemReferenceDataModel = DefectsReferenceDataMock.DefectsDataItem;
 
 
   beforeEach(async(() => {
@@ -70,10 +71,10 @@ describe('Component: AddDefectPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        'vehicleTest': vehicle.techRecord[0].vehicleType,
-        'vehicleType': vehicleTest,
-        'category': category,
-        'item': item
+        'vehicleTest': VEHICLE_TECH_RECORD.techRecord[0].vehicleType,
+        'vehicleType': VEHICLE_TEST,
+        'category': CATEGORY,
+        'item': ITEM
       };
       return params[param];
     })
