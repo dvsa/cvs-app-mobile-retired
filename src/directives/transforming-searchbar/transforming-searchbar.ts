@@ -1,6 +1,7 @@
 import {AfterViewInit, Directive, ElementRef, Input, OnDestroy, Renderer2} from '@angular/core';
 import {Events} from "ionic-angular";
 import { APP } from "../../app/app.enums";
+import { Keyboard } from '@ionic-native/keyboard';
 
 @Directive({
   selector: '[transforming-searchBar]'
@@ -9,8 +10,9 @@ import { APP } from "../../app/app.enums";
 export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy {
   @Input() searchBarElemRef;
   headerElemRef;
+  watchKeyboard;
 
-  constructor(private el: ElementRef, private renderer: Renderer2, public events: Events) {
+  constructor(private el: ElementRef, private keyboard: Keyboard, private renderer: Renderer2, public events: Events) {
     this.headerElemRef = el.nativeElement;
   }
 
@@ -37,6 +39,15 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
       }
     );
 
+    this.watchKeyboard = this.keyboard.onKeyboardHide().subscribe(
+      ()=> {
+        this.renderer.removeClass(scrollContent, 'searchbar-scroll--margin-small');
+        this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-big');
+        this.renderer.removeClass(navBarElement, 'searchbar-navbar');
+        this.renderer.removeClass(ionToolbar, 'searchbar-ionToolBar');
+      }
+    );
+
     this.events.subscribe(APP.NAV_OUT,
       () => {
         this.setDefaultCss(scrollContent, navBarElement, ionToolbar);
@@ -47,6 +58,7 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
   ngOnDestroy() {
     this.searchBarElemRef.ionFocus.unsubscribe();
     this.searchBarElemRef.ionCancel.unsubscribe();
+    this.watchKeyboard.unsubscribe();
     this.events.unsubscribe(APP.NAV_OUT);
   }
 

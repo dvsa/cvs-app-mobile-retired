@@ -24,6 +24,7 @@ import { PreparerService } from '../providers/preparer/preparer.service';
 import { VisitService } from "../providers/visit/visit.service";
 import { StateReformingService } from "../providers/global/state-reforming.service";
 import { CommonFunctionsService } from "../providers/utils/common-functions";
+import { Keyboard } from '@ionic-native/keyboard';
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -52,7 +53,8 @@ const IONIC_NATIVE_PROVIDERS = [
   CallNumber,
   OpenNativeSettings,
   WheelSelector,
-  MobileAccessibility
+  MobileAccessibility,
+  Keyboard
 ];
 
 @NgModule({
