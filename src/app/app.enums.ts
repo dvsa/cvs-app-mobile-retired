@@ -63,7 +63,7 @@ export enum TEST_TYPE_FIELDS {
 }
 
 export enum TEST_TYPE_INPUTS {
-  SIC_CARRIED_OUT = 'wasSeatbeltInstallationCheckCarriedOut'
+  SIC_CARRIED_OUT = 'seatbeltInstallationCheckDate'
 }
 
 export enum APP_STRINGS {

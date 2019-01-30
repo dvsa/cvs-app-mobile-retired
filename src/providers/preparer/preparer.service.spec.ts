@@ -2,7 +2,7 @@ import { PreparerService } from "./preparer.service";
 import { StorageService } from "../natives/storage.service";
 import { PreparersDataMock } from "../../assets/data-mocks/reference-data-mocks/preparers-data.mock";
 import { TestBed } from "@angular/core/testing";
-import { PreparersModel } from "../../models/reference-data-models/preparers.model";
+import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 
 describe('Provider: PreparerService', () => {
   let preparerService: PreparerService;
@@ -38,7 +38,7 @@ describe('Provider: PreparerService', () => {
   it('should return data from local storage', () => {
     preparerService.getPreparersFromStorage().subscribe(
       data => {
-        expect(data).toBe(<PreparersModel[]>preparerData);
+        expect(data).toBe(<PreparersReferenceDataModel[]>preparerData);
       }
     )
   });

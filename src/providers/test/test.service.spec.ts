@@ -1,18 +1,15 @@
 import { TestService } from "./test.service";
 import { TestBed } from "@angular/core/testing";
-import { PreparersModel } from "../../models/reference-data-models/preparers.model";
-import { PreparersDataMock } from "../../assets/data-mocks/reference-data-mocks/preparers-data.mock";
-import { TechRecordDataMock } from "../../assets/data-mocks/tech-record-data.mock";
-import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { VehicleService } from "../vehicle/vehicle.service";
+import { VehicleModel } from "../../models/vehicle/vehicle.model";
+import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
 
 describe('Provider: TestReportService', () => {
   let testService: TestService;
   let vehicleService: VehicleService;
   let vehicleServiceSpy: any;
 
-  const VEHICLE: VehicleModel = TechRecordDataMock.VehicleData;
-
+  const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(() => {
     vehicleServiceSpy = jasmine.createSpyObj('VehicleService', ['createVehicle', 'addTestType', 'removeTestType'])

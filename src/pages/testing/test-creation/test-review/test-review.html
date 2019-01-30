@@ -20,7 +20,7 @@
         <ion-item detail-none class="ion-item-title">
           <ion-img item-start class="vehicle-type-icon" padding-right
                    src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="50"></ion-img>
-          <h2>{{ vehicle.vrms[0].vrm }} ({{vehicle.techRecord[0].vehicleType}})</h2>
+          <h2>{{ vehicle.vrm }} ({{vehicle.techRecord[0].vehicleType}})</h2>
           <p>{{ vehicle.vin }}</p>
         </ion-item>
         <ion-item
@@ -45,8 +45,8 @@
                 <p text-uppercase
                    class="test-result"
                    ion-text
-                   [color]="commonFunctions.getTestResultColor(testType.result)">
-                  {{ testType.result }}
+                   [color]="commonFunctions.getTestResultColor(testType.testResult)">
+                  {{ testType.testResult }}
                 </p>
               </ion-col>
             </ion-row>

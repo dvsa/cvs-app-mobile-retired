@@ -115,7 +115,7 @@ export class VisitDataMock {
               "abandonment": {"reasons": []},
               "defects": [{
                 "ref": "1.1.a",
-                "deficiencyCategory": "Major",
+                "deficiencyCategory": "major",
                 "deficiencyId": "a",
                 "deficiencyText": "missing.",
                 "metadata": {
@@ -124,18 +124,18 @@ export class VisitDataMock {
                     "imDescription": "Registration Plate",
                     "additionalInfo": {
                       "location": {
-                        "axleNumber": [],
-                        "horizontal": [],
-                        "vertical": [],
-                        "longitudinal": ["front"],
-                        "rowNumber": [],
-                        "lateral": [],
-                        "seatNumber": []
+                        "axleNumber": null,
+                        "horizontal": null,
+                        "vertical": null,
+                        "longitudinal": ["front", "rear"],
+                        "rowNumber": null,
+                        "lateral": null,
+                        "seatNumber": null
                       }, "notes": false
                     }
                   }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
                 },
-                "prs": true,
+                "prs": false,
                 "notes": "",
                 "location": {
                   "vertical": "",
@@ -146,6 +146,18 @@ export class VisitDataMock {
                   "seatNumber": null,
                   "axleNumber": null
                 }
+              }, {
+                "ref": "1.2",
+                "deficiencyCategory": "Advisory",
+                "deficiencyId": null,
+                "deficiencyText": "",
+                "metadata": {
+                  "category": {"imNumber": 1, "imDescription": "Registration Plate", "additionalInfo": null},
+                  "item": {"itemNumber": 2, "itemDescription": "A registration mark:"}
+                },
+                "prs": null,
+                "notes": "test",
+                "location": null
               }],
               "endTime": "2019-01-14T14:32:51.690Z",
               "result": "pass"
@@ -155,40 +167,42 @@ export class VisitDataMock {
               "categoryName": "Voluntary test",
               "startTime": "2019-01-14T14:32:31.602Z",
               "abandonment": {"reasons": []},
-              "defects": [{
-                "ref": "1.1.a",
-                "deficiencyCategory": "Major",
-                "deficiencyId": "a",
-                "deficiencyText": "missing.",
-                "metadata": {
-                  "category": {
-                    "imNumber": 1,
-                    "imDescription": "Registration Plate",
-                    "additionalInfo": {
-                      "location": {
-                        "axleNumber": [],
-                        "horizontal": [],
-                        "vertical": [],
-                        "longitudinal": ["front"],
-                        "rowNumber": [],
-                        "lateral": [],
-                        "seatNumber": []
-                      }, "notes": false
-                    }
-                  }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
-                },
-                "prs": true,
-                "notes": "",
-                "location": {
-                  "vertical": "",
-                  "horizontal": "",
-                  "lateral": "",
-                  "longitudinal": "front",
-                  "rowNumber": null,
-                  "seatNumber": null,
-                  "axleNumber": null
+              "defects": [
+                {
+                  "ref": "1.1.a",
+                  "deficiencyCategory": "major",
+                  "deficiencyId": "a",
+                  "deficiencyText": "missing.",
+                  "metadata": {
+                    "category": {
+                      "imNumber": 1,
+                      "imDescription": "Registration Plate",
+                      "additionalInfo": {
+                        "location": {
+                          "axleNumber": null,
+                          "horizontal": null,
+                          "vertical": null,
+                          "longitudinal": ["front", "rear"],
+                          "rowNumber": null,
+                          "lateral": null,
+                          "seatNumber": null
+                        }, "notes": false
+                      }
+                    }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
+                  },
+                  "prs": false,
+                  "notes": "",
+                  "location": {
+                    "vertical": "",
+                    "horizontal": "",
+                    "lateral": "",
+                    "longitudinal": "front",
+                    "rowNumber": null,
+                    "seatNumber": null,
+                    "axleNumber": null
+                  }
                 }
-              }],
+              ],
               "endTime": "2019-01-14T14:32:51.690Z",
               "result": "fail"
             },
@@ -241,7 +255,7 @@ export class VisitDataMock {
               "abandonment": {"reasons": []},
               "defects": [{
                 "ref": "1.1.a",
-                "deficiencyCategory": "Major",
+                "deficiencyCategory": "major",
                 "deficiencyId": "a",
                 "deficiencyText": "missing.",
                 "metadata": {
@@ -250,18 +264,18 @@ export class VisitDataMock {
                     "imDescription": "Registration Plate",
                     "additionalInfo": {
                       "location": {
-                        "axleNumber": [],
-                        "horizontal": [],
-                        "vertical": [],
-                        "longitudinal": ["front"],
-                        "rowNumber": [],
-                        "lateral": [],
-                        "seatNumber": []
+                        "axleNumber": null,
+                        "horizontal": null,
+                        "vertical": null,
+                        "longitudinal": ["front", "rear"],
+                        "rowNumber": null,
+                        "lateral": null,
+                        "seatNumber": null
                       }, "notes": false
                     }
                   }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
                 },
-                "prs": true,
+                "prs": false,
                 "notes": "",
                 "location": {
                   "vertical": "",
@@ -272,6 +286,18 @@ export class VisitDataMock {
                   "seatNumber": null,
                   "axleNumber": null
                 }
+              }, {
+                "ref": "1.2",
+                "deficiencyCategory": "Advisory",
+                "deficiencyId": null,
+                "deficiencyText": "",
+                "metadata": {
+                  "category": {"imNumber": 1, "imDescription": "Registration Plate", "additionalInfo": null},
+                  "item": {"itemNumber": 2, "itemDescription": "A registration mark:"}
+                },
+                "prs": null,
+                "notes": "test",
+                "location": null
               }],
               "endTime": "2019-01-14T14:32:51.690Z",
               "result": "abandoned"

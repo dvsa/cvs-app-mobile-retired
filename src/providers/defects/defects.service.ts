@@ -1,11 +1,16 @@
 import { Injectable } from "@angular/core";
-import { DefectCategoryModel } from "../../models/reference-data-models/defects.model";
 import { Observable } from "rxjs";
 import { from } from "rxjs/observable/from";
 import { STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
 import { DEFICIENCY_CATEGORY } from "../../app/app.enums";
 import { CommonFunctionsService } from "../utils/common-functions";
+import { DefectDetailsModel, DefectsMetadataModel } from "../../models/defects/defect-details.model";
+import {
+  DefectCategoryReferenceDataModel,
+  DefectDeficiencyReferenceDataModel,
+  DefectItemReferenceDataModel
+} from "../../models/reference-data-models/defects.reference-model";
 
 @Injectable()
 export class DefectsService {
@@ -13,7 +18,7 @@ export class DefectsService {
   constructor(private storageService: StorageService, private commonFunctions: CommonFunctionsService) {
   }
 
-  getDefectsFromStorage(): Observable<DefectCategoryModel[]> {
+  getDefectsFromStorage(): Observable<DefectCategoryReferenceDataModel[]> {
     return from(this.storageService.read(STORAGE.DEFECTS))
   }
 
@@ -32,6 +37,40 @@ export class DefectsService {
         )
       }
     );
+  }
+
+  createDefect(defCat: DefectCategoryReferenceDataModel, defItem: DefectItemReferenceDataModel, deficiency: DefectDeficiencyReferenceDataModel, vehicleType: string, isAdvisory: boolean): DefectDetailsModel {
+    let metadata: DefectsMetadataModel = {
+      category: {
+        imNumber: defCat.imNumber,
+        imDescription: defCat.imDescription,
+        additionalInfo: (!isAdvisory) ? defCat.additionalInfo[vehicleType.toLowerCase()] : null
+      },
+      item: {
+        itemNumber: defItem.itemNumber,
+        itemDescription: defItem.itemDescription
+      }
+    };
+
+    let defect: DefectDetailsModel = {
+      ref: (!isAdvisory) ? deficiency.ref: `${defCat.imNumber}.${defItem.itemNumber}`,
+      deficiencyCategory: (!isAdvisory) ? deficiency.deficiencyCategory : 'advisory',
+      deficiencyId: (!isAdvisory) ? deficiency.deficiencyId : null,
+      deficiencyText: (!isAdvisory) ? deficiency.deficiencyText : '',
+      metadata: metadata,
+      prs: (!isAdvisory) ? false : null,
+      notes: '',
+      location: (!isAdvisory) ? {
+        vertical: '',
+        horizontal: '',
+        lateral: '',
+        longitudinal: '',
+        rowNumber: null,
+        seatNumber: null,
+        axleNumber: null
+      } : null
+    };
+    return defect;
   }
 
   getBadgeColor(category) {

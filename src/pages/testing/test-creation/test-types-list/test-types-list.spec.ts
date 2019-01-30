@@ -5,15 +5,15 @@ import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { TestTypesDataMock } from "../../../../assets/data-mocks/reference-data-mocks/test-types.mock";
+import { TestTypesReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/test-types.mock";
 import { TestTypesReferenceDataModel } from "../../../../models/reference-data-models/test-types.model";
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { TestTypesServiceMock } from "../../../../../test-config/services-mocks/test-types-service.mock";
+import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 
 describe('Component: TestTypesListPage', () => {
   let comp: TestTypesListPage;
@@ -27,8 +27,8 @@ describe('Component: TestTypesListPage', () => {
   let vehicleServiceSpy;
   let commonFunctionsService: CommonFunctionsService;
 
-  const testTypes: TestTypesReferenceDataModel[] = TestTypesDataMock.TestTypesData;
-  const vehicle: VehicleModel = TechRecordDataMock.VehicleData;
+  const testTypes: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
+  const vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -45,7 +45,7 @@ describe('Component: TestTypesListPage', () => {
       providers: [
         NavController,
         CommonFunctionsService,
-        {provide: TestTypeService, useClass: TestTypesServiceMock},
+        {provide: TestTypeService, useClass: TestTypeServiceMock},
         {provide: VehicleService, useValue: vehicleServiceSpy},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: ViewController, useClass: ViewControllerMock}

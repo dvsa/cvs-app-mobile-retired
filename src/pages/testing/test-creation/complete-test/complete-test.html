@@ -33,7 +33,7 @@
                         'data-successful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] === 'pass',
                         'data-unsuccessful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] && vehicleTest[input.testTypePropertyName] !== 'pass'}">
                         {{vehicleTest[input.testTypePropertyName] || vehicleTest[input.testTypePropertyName] === false ||
-                    (input.testTypePropertyName !== 'result' && (completedFields[input.testTypePropertyName] || completedFields[input.testTypePropertyName] === false))
+                    (input.testTypePropertyName !== 'testResult' && (completedFields[input.testTypePropertyName] || completedFields[input.testTypePropertyName] === false))
                         ? getDDLValueToDisplay(input) : input.defaultValue}}
                     </h3>
                     <ion-icon item-end class="arrow-forward" name="arrow-forward"

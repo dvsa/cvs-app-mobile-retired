@@ -10,7 +10,7 @@ import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { TestTypesServiceMock } from "../../../../../test-config/services-mocks/test-types-service.mock";
+import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 
 describe('Component: DefectDetailsPage', () => {
   let comp: DefectDetailsPage;
@@ -113,7 +113,7 @@ describe('Component: DefectDetailsPage', () => {
       imports: [IonicModule.forRoot(DefectDetailsPage)],
       providers: [
         NavController,
-        {provide: TestTypeService, useClass: TestTypesServiceMock},
+        {provide: TestTypeService, useClass: TestTypeServiceMock},
         {provide: DefectsService, useValue: defectsServiceSpy},
         {provide: NavParams, useClass: NavParamsMock}
       ],

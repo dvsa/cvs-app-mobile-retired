@@ -7,14 +7,11 @@
 </ion-header>
 
 <ion-content no-padding>
-  <ng-container *ngFor="let vrm of vehicleData.vrms">
     <div text-uppercase
          text-center
-         class="vehicle-header-vrm-number"
-         *ngIf="vrm.isPrimary">
-      {{ vrm.vrm }}
+         class="vehicle-header-vrm-number">
+      {{ vehicleData.vrm }}
     </div>
-  </ng-container>
 
   <ion-list class="tests-list">
     <ng-container *ngFor="let test of testResultHistory; let testIndex = index">

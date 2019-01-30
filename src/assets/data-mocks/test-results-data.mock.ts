@@ -1,3 +1,5 @@
+import { DefectDetailsModel } from "../../models/defects/defect-details.model";
+
 export class TestResultsDataMock {
   public static get TestResultsData() {
     return [
@@ -44,84 +46,52 @@ export class TestResultsDataMock {
             "reasonForAbandoning": "",
             "additionalCommentsForAbandon": "Notes about the why the test was abandoned",
             "additionalNotesRecorded": "Additional notes recorded",
-            "defects": [
-              {
-                "imNumber": 3,
-                "imDescription": "IM description",
-                "forVehicleType": [
-                  "psv"
-                ],
-                "additionalInformation": {
-                  "location": {
-                    "vertical": "upper",
-                    "horizontal": "inner",
-                    "lateral": "nearside",
-                    "longitudinal": "front",
-                    "rowNumber": 3,
-                    "seatNumber": 6,
-                    "axleNumber": 4,
-                    },
-                  "notes": "Additional notes about defect"
-                },
-                "item": {
-                  "itemNumber": 3,
-                  "itemDescription": "Item description",
-                  "forVehicleType": [
-                    "psv"
-                  ],
-                  "deficiency": {
-                    "ref": "3.3 D",
-                    "deficiencyId": "D",
-                    "deficiencySubId": "ii",
-                    "deficiencyCategory": "advisory",
-                    "deficiencyText": "Text about deficiency",
-                    "stdForProhibition": true,
-                    "prs": true,
-                    "forVehicleType": [
-                      "psv"
-                    ]
+            "defects": [{
+              "ref": "1.1.a",
+              "deficiencyCategory": "major",
+              "deficiencyId": "a",
+              "deficiencyText": "missing.",
+              "metadata": {
+                "category": {
+                  "imNumber": 1,
+                  "imDescription": "Registration Plate",
+                  "additionalInfo": {
+                    "location": {
+                      "axleNumber": null,
+                      "horizontal": null,
+                      "vertical": null,
+                      "longitudinal": ["front", "rear"],
+                      "rowNumber": null,
+                      "lateral": null,
+                      "seatNumber": null
+                    }, "notes": false
                   }
-                }
+                }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
               },
-              {
-                "imNumber": 4,
-                "imDescription": "IM description",
-                "forVehicleType": [
-                  "psv"
-                ],
-                "additionalInformation": {
-                  "location": {
-                    "vertical": "upper",
-                    "horizontal": "inner",
-                    "lateral": "nearside",
-                    "longitudinal": "front",
-                    "rowNumber": 4,
-                    "seatNumber": 2,
-                    "axleNumber": 7,
-                    },
-                  "notes": "Additional notes about defect"
-                },
-                "item": {
-                  "itemNumber": 3,
-                  "itemDescription": "Item description",
-                  "forVehicleType": [
-                    "psv"
-                  ],
-                  "deficiency": {
-                    "ref": "3.3 D",
-                    "deficiencyId": "D",
-                    "deficiencySubId": "ii",
-                    "deficiencyCategory": "major",
-                    "deficiencyText": "Text about deficiency",
-                    "stdForProhibition": true,
-                    "prs": false,
-                    "forVehicleType": [
-                      "psv"
-                    ]
-                  }
-                }
+              "prs": false,
+              "notes": "",
+              "location": {
+                "vertical": "",
+                "horizontal": "",
+                "lateral": "",
+                "longitudinal": "front",
+                "rowNumber": null,
+                "seatNumber": null,
+                "axleNumber": null
               }
-            ]
+            }, {
+              "ref": "1.2",
+              "deficiencyCategory": "Advisory",
+              "deficiencyId": null,
+              "deficiencyText": "",
+              "metadata": {
+                "category": {"imNumber": 1, "imDescription": "Registration Plate", "additionalInfo": null},
+                "item": {"itemNumber": 2, "itemDescription": "A registration mark:"}
+              },
+              "prs": null,
+              "notes": "test",
+              "location": null
+            }]
           },
           {
             "createdAt": "2020-01-14T10:08:32.586Z",
@@ -156,7 +126,7 @@ export class TestResultsDataMock {
                     "rowNumber": 3,
                     "seatNumber": 6,
                     "axleNumber": 4,
-                    },
+                  },
                   "notes": "Additional notes about defect"
                 },
                 "item": {
@@ -194,7 +164,7 @@ export class TestResultsDataMock {
                     "rowNumber": 4,
                     "seatNumber": 2,
                     "axleNumber": 7,
-                    },
+                  },
                   "notes": "Additional notes about defect"
                 },
                 "item": {

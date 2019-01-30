@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { tap } from "rxjs/operators";
+import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 
 @IonicPage()
 @Component({
@@ -35,7 +35,7 @@ export class VehicleLookupPage {
     })
     LOADING.present();
     this.vehicleService.getVehicleTechRecord(searchedValue.toUpperCase()).subscribe(
-      (vehicleTechRecord: VehicleModel) => {
+      (vehicleTechRecord: VehicleTechRecordModel) => {
         let vehicleData = this.vehicleService.createVehicle(vehicleTechRecord);
         this.vehicleService.getTestResultsHistory(vehicleData.vin).pipe(
           tap(

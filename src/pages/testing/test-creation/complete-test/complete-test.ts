@@ -11,7 +11,6 @@ import {
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { APP, DEFICIENCY_CATEGORY, TEST_TYPE_FIELDS, TEST_TYPE_INPUTS } from "../../../../app/app.enums";
-import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
@@ -19,6 +18,7 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { TestTypeDetailsInputPage } from "../test-type-details-input/test-type-details-input";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
 
 @IonicPage()
 @Component({
@@ -31,7 +31,7 @@ export class CompleteTestPage implements OnInit {
   testTypeDetails;
   testTypeFields;
   completedFields;
-  defectsCategories: DefectCategoryModel[];
+  defectsCategories: DefectCategoryReferenceDataModel[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -54,7 +54,7 @@ export class CompleteTestPage implements OnInit {
     this.testTypeDetails = this.getTestTypeDetails();
     this.updateTestType();
     this.defectsService.getDefectsFromStorage().subscribe(
-      (defects: DefectCategoryModel[]) => {
+      (defects: DefectCategoryReferenceDataModel[]) => {
         this.defectsCategories = defects;
       }
     );
@@ -98,7 +98,7 @@ export class CompleteTestPage implements OnInit {
         cssClass: input.values[index].cssClass,
         handler: () => {
           this.vehicleTest[input.testTypePropertyName] = input.values[index].value;
-          if (input.testTypePropertyName !== 'result' && input.testTypePropertyName !== 'certificateNumber') {
+          if (input.testTypePropertyName !== 'testResult' && input.testTypePropertyName !== 'certificateNumber') {
             this.completedFields[input.testTypePropertyName] = input.values[index].value;
           }
         }
@@ -172,7 +172,7 @@ export class CompleteTestPage implements OnInit {
   }
 
   onSave() {
-    this.vehicleTest.result = this.testTypeService.setTestResult(this.vehicleTest);
+    this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest);
     if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
     this.events.publish(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, this.completedFields);
     this.navCtrl.pop();

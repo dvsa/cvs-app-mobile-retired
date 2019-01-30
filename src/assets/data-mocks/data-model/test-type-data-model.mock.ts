@@ -1,16 +1,17 @@
 import { TEST_TYPE_RESULTS } from "../../../app/app.enums";
+import { TestTypeModel } from "../../../models/tests/test-type.model";
 
 export class TestTypeDataModelMock {
-  public static get TestTypeData() {
+  public static get TestTypeData(): TestTypeModel {
     return {
       name: 'annual test',
       testTypeName: 'Annual test',
       id: '1',
-      startTime: new Date('2018-12-19').toISOString(),
-      seatbeltsNumber: null,
+      testTypeStartTimestamp: '2018-12-19T00:00:00.000Z',
+      numberOfSeatbeltsFitted: null,
       lastSeatbeltInstallationCheckDate: '',
-      wasSeatbeltInstallationCheckCarriedOut: null,
-      result: TEST_TYPE_RESULTS.PASS,
+      seatbeltInstallationCheckDate: null,
+      testResult: TEST_TYPE_RESULTS.PASS,
       abandonment: {
         reasons: [],
         additionalComment: ''

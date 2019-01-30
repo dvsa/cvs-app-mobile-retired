@@ -1,18 +1,10 @@
 import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
+import { VehicleModel } from "../../models/vehicle/vehicle.model";
 
-export class TechRecordDataMock {
-  public  static get VehicleTechRecordData(): VehicleTechRecordModel {
+export class VehicleDataMock {
+  public static get VehicleData(): VehicleModel {
     return {
-      "vrms": [
-        {
-          "vrm": "BQ91YHQ",
-          "isPrimary": true
-        },
-        {
-          "vrm": "QO92UX2",
-          "isPrimary": false
-        }
-      ],
+      "vrm": "BQ91YHQ",
       "vin": "1B7GG36N12S678410",
       "techRecord": [
         {
@@ -87,7 +79,13 @@ export class TechRecordDataMock {
             }
           ]
         }
-      ]
+      ],
+      "testResultsHistory": [],
+      "odometerReading": "",
+      "odometerMetric": "",
+      "preparerId": "",
+      "preparerName": "",
+      "testTypes": []
     }
   }
 }

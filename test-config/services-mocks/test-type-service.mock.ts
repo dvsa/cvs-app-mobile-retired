@@ -3,18 +3,30 @@ import { DefectDetailsModel } from "../../src/models/defects/defect-details.mode
 import { Observable } from "rxjs";
 import { DEFICIENCY_CATEGORY, TEST_TYPE_RESULTS } from "../../src/app/app.enums";
 import { of } from "rxjs/observable/of";
-import { TestTypesDataMock } from "../../src/assets/data-mocks/reference-data-mocks/test-types.mock";
 import { TestTypesReferenceDataModel } from "../../src/models/reference-data-models/test-types.model";
+import { TestTypesReferenceDataMock } from "../../src/assets/data-mocks/reference-data-mocks/test-types.mock";
 
-export class TestTypesServiceMock {
-  createTestType(testType: TestTypeModel): TestTypeModel {
+export class TestTypeServiceMock {
+  createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
     let newTestType = {} as TestTypeModel;
+    newTestType.code = '';
     newTestType.name = testType.name;
     newTestType.testTypeName = testType.testTypeName;
-    newTestType.startTime = new Date().toISOString();
+    newTestType.id = testType.id;
+    newTestType.certificateNumber = '';
+    newTestType.testExpiryDate = '';
+    newTestType.testTypeStartTimestamp = new Date().toISOString();
+    newTestType.testTypeEndTimestamp = '';
+    newTestType.numberOfSeatbeltsFitted = null;
+    newTestType.lastSeatbeltInstallationCheckDate = '';
+    newTestType.seatbeltInstallationCheckDate = null;
+    newTestType.testResult = null;
+    newTestType.prohibitionIssued = null;
     newTestType.abandonment = {
-      reasons: []
+      reasons: [],
+      additionalComment: ''
     };
+    newTestType.additionalNotesRecorded = '';
     newTestType.defects = [];
     return newTestType
   }
@@ -31,35 +43,11 @@ export class TestTypesServiceMock {
   }
 
   getTestTypesFromStorage(): Observable<TestTypesReferenceDataModel[]> {
-    return of(TestTypesDataMock.TestTypesData);
-  }
-
-  checkPass(testType: TestTypeModel): boolean {
-    let foundCriticalDefect = true;
-    testType.defects.forEach(defect => {
-      if (defect.deficiencyCategory.toLowerCase() == "major" || defect.deficiencyCategory.toLowerCase() == "dangerous") {
-        foundCriticalDefect = false;
-      }
-    });
-    return foundCriticalDefect;
-  }
-
-  private passTestType(testType: TestTypeModel) {
-    testType.endTime = new Date().toISOString();
-    testType.result = TEST_TYPE_RESULTS.SUCCESSFUL;
-  }
-
-  private failTestType(testType: TestTypeModel) {
-    testType.endTime = new Date().toISOString();
-    testType.result = TEST_TYPE_RESULTS.UNSUCCESSFUL;
-  }
-
-  endTestType(testType: TestTypeModel) {
-    this.checkPass(testType) ? this.passTestType(testType) : this.failTestType(testType);
+    return of(TestTypesReferenceDataMock.TestTypesData)
   }
 
   setTestResult(testType: TestTypeModel): TEST_TYPE_RESULTS {
-    let result;
+    let result = TEST_TYPE_RESULTS.PASS;
     let criticalDeficienciesArr: DefectDetailsModel[] = [];
     if (testType.abandonment.reasons.length) return TEST_TYPE_RESULTS.ABANDONED;
     testType.defects.forEach(
@@ -85,7 +73,5 @@ export class TestTypesServiceMock {
     }
     return result;
   }
-
-
 
 }

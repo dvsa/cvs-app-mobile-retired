@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
 import { TestModel } from "../../../../models/tests/test.model";
-import { PreparersModel } from "../../../../models/reference-data-models/preparers.model";
 import { APP_STRINGS } from "../../../../app/app.enums";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { PreparersReferenceDataModel } from "../../../../models/reference-data-models/preparers.model";
 
 
 @IonicPage()
@@ -14,8 +14,8 @@ import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
   templateUrl: 'add-preparer.html',
 })
 export class AddPreparerPage implements OnInit {
-  preparers: PreparersModel[] = [];
-  filteredPreparers: PreparersModel[] = [];
+  preparers: PreparersReferenceDataModel[] = [];
+  filteredPreparers: PreparersReferenceDataModel[] = [];
   searchValue: string;
   searchbarFocus: boolean = false;
   vehicleData: VehicleModel;
@@ -41,17 +41,17 @@ export class AddPreparerPage implements OnInit {
 
   getPreparers(): void {
     this.preparerService.getPreparersFromStorage().subscribe(
-      (data: PreparersModel[]) => {
+      (data: PreparersReferenceDataModel[]) => {
         this.preparers = this.filteredPreparers = this.preparerService.search(data, this.searchValue);
       });
   }
 
-  selectPreparer(preparer: PreparersModel): void {
+  selectPreparer(preparer: PreparersReferenceDataModel): void {
     this.vehicleService.addPreparer(this.vehicleData, preparer);
   }
 
-  presentConfirm(value: PreparersModel | string): void {
-    let preparer: PreparersModel = {
+  presentConfirm(value: PreparersReferenceDataModel | string): void {
+    let preparer: PreparersReferenceDataModel = {
         preparerName: '',
         preparerId: null
       },

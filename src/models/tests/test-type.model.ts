@@ -1,24 +1,28 @@
-import { TEST_COMPLETION_STATUS, TEST_TYPE_RESULTS } from "../../app/app.enums";
 import { DefectDetailsModel } from "../defects/defect-details.model";
+import { PROHIBITION_ISSUED, TEST_RESULT } from "../models.enums";
 
 export interface TestTypeModel {
+  completionStatus?: string
   code?: string;
   name: string;
-  testTypeName: string;
   id?: string;
+  createdAt?: string;
+  lastUpdatedAt?: string;
+  testCode?: string;
+  testTypeName: string;
+  testId?: string;
   certificateNumber?: string;
   certificateLink?: string;
-  expiryDate?: string;
-  startTime: string;
-  endTime?: string;
-  seatbeltsNumber?: number;
+  testExpiryDate?: string;
+  testTypeStartTimestamp: string;
+  testTypeEndTimestamp?: string;
+  numberOfSeatbeltsFitted?: number;
   lastSeatbeltInstallationCheckDate?: string;
-  wasSeatbeltInstallationCheckCarriedOut?: boolean;
-  result?: TEST_TYPE_RESULTS | string;
-  completionStatus?: TEST_COMPLETION_STATUS | string;
-  wasProhibitionIssued?: boolean;
+  seatbeltInstallationCheckDate?: boolean;
+  testResult?: string | TEST_RESULT;
+  prohibitionIssued?: string | PROHIBITION_ISSUED;
   abandonment?: TestTypeAbandonmentModel;
-  additionalNotes?: string;
+  additionalNotesRecorded?: string;
   defects: DefectDetailsModel[];
 }
 

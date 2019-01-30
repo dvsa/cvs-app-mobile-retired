@@ -4,7 +4,6 @@ import { IonicModule, NavController, NavParams } from "ionic-angular";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { PhoneService } from "../../../../providers/natives/phone.service";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
@@ -19,6 +18,7 @@ import { VisitServiceMock } from "../../../../../test-config/services-mocks/visi
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
+import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -40,8 +40,8 @@ describe('Component: TestCreatePage', () => {
     vehicles: [],
   };
 
-  const addedVehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-  let vehicle: VehicleModel = TechRecordDataMock.VehicleData;
+  const ADDED_VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+  let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
 
   beforeEach(async(() => {
     phoneServiceSpy = jasmine.createSpyObj('phoneService', ['callPhoneNumber']);
@@ -97,10 +97,10 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should say either a test is abandoned or not', () => {
-    expect(component.isTestAbandoned(addedVehicleTest)).toBeFalsy();
-    addedVehicleTest.abandonment.reasons.push('Best reason');
-    addedVehicleTest.abandonment.additionalComment = 'Additional comment';
-    expect(component.isTestAbandoned(addedVehicleTest)).toBeTruthy();
+    expect(component.isTestAbandoned(ADDED_VEHICLE_TEST)).toBeFalsy();
+    ADDED_VEHICLE_TEST.abandonment.reasons.push('Best reason');
+    ADDED_VEHICLE_TEST.abandonment.additionalComment = 'Additional comment';
+    expect(component.isTestAbandoned(ADDED_VEHICLE_TEST)).toBeTruthy();
   });
 
   it('should say either a test has odometer data or not', () => {
@@ -128,11 +128,11 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should return the test type status to be displayed', () => {
-    expect(component.getTestTypeStatus(addedVehicleTest)).toEqual('In progress');
-    addedVehicleTest.seatbeltsNumber = 2;
-    addedVehicleTest.wasSeatbeltInstallationCheckCarriedOut = true;
-    addedVehicleTest.lastSeatbeltInstallationCheckDate = '19-01-2019';
-    expect(component.getTestTypeStatus(addedVehicleTest)).toEqual('Edit');
+    expect(component.getTestTypeStatus(ADDED_VEHICLE_TEST)).toEqual('In progress');
+    ADDED_VEHICLE_TEST.numberOfSeatbeltsFitted = 2;
+    ADDED_VEHICLE_TEST.seatbeltInstallationCheckDate = true;
+    ADDED_VEHICLE_TEST.lastSeatbeltInstallationCheckDate = '19-01-2019';
+    expect(component.getTestTypeStatus(ADDED_VEHICLE_TEST)).toEqual('Edit');
   });
 
 });
