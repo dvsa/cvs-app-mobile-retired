@@ -91,6 +91,11 @@ ion-app.ios page-complete-test {
     color: color($colors, primary);
   }
 
+  .btn-remove-test {
+    font-size: 16px;
+    color: color($colors, danger);
+  }
+
   .parent-info-color {
     color: $item-icon-light-gray;
   }

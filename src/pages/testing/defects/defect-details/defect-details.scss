@@ -1,5 +1,4 @@
 page-defect-details {
-
   .defect-status {
     font-weight: bold;
     font-size: 21px;
@@ -23,5 +22,14 @@ page-defect-details {
     textarea {
       height: 80px;
     }
+  }
+
+  .btn-remove-defect {
+    font-size: 16px;
+    color: color($colors, danger);
+  }
+
+  .custom-item-color {
+    background-color: color($colors, light);
   }
 }

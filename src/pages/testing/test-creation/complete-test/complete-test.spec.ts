@@ -6,7 +6,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DefectsDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
-import { StorageService } from "../../../../providers/natives/storage.service";
 import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
@@ -17,6 +16,10 @@ import { TestTypeService } from "../../../../providers/test-type/test-type.servi
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
 import { TestTypeMetadataMock } from "../../../../assets/data-mocks/data-model/test-type-metadata.mock";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
+import { of } from "rxjs/observable/of";
+import { TestTypesServiceMock } from "../../../../../test-config/services-mocks/test-types-service.mock";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -26,8 +29,9 @@ describe('Component: CompleteTestPage', () => {
   let navParams: NavParams;
   let defectsService: DefectsService;
   let alertCtrl: AlertController;
-  let storageServiceSpy: any;
+  let defectsServiceSpy: any;
   let visitService: VisitService;
+  let vehicleService: VehicleService;
 
   const defects: DefectCategoryModel[] = DefectsDataMock.DefectsData
   const addedDefect: DefectDetailsModel = {
@@ -63,8 +67,8 @@ describe('Component: CompleteTestPage', () => {
   const vehicle: VehicleModel = TechRecordDataMock.VehicleData;
 
   beforeEach(async(() => {
-    storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      'read': new Promise(resolve => resolve(defects))
+    defectsServiceSpy = jasmine.createSpyObj('DefectsService', {
+      'getDefectsFromStorage': of(defects)
     });
 
     TestBed.configureTestingModule({
@@ -74,10 +78,10 @@ describe('Component: CompleteTestPage', () => {
         NavController,
         {provide: NavParams, useClass: NavParamsMock},
         {provide: VisitService, useClass: VisitServiceMock},
-        DefectsService,
-        TestTypeService,
+        {provide: TestTypeService, useClass: TestTypesServiceMock},
         AlertController,
-        {provide: StorageService, useValue: storageServiceSpy}
+        {provide: VehicleService, useClass: VehicleServiceMock},
+        {provide: DefectsService, useValue: defectsServiceSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -91,6 +95,7 @@ describe('Component: CompleteTestPage', () => {
     defectsService = TestBed.get(DefectsService);
     alertCtrl = TestBed.get(AlertController);
     visitService = TestBed.get(VisitService);
+    vehicleService = TestBed.get(VehicleService);
   });
 
   beforeEach(() => {
@@ -109,6 +114,7 @@ describe('Component: CompleteTestPage', () => {
     fixture.destroy();
     comp = null;
     visitService = null;
+    vehicleService = null;
   });
 
   it('should create the component', () => {

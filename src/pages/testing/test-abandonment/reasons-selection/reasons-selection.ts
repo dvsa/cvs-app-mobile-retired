@@ -13,9 +13,11 @@ export class ReasonsSelectionPage {
   vehicleTest: TestTypeModel;
   selectedReasons: string[] = [];
   reasonsList: AbandonmentReasonItemModel[];
+  altAbandon: boolean;
 
   constructor(private navCtrl: NavController, private navParams: NavParams, private viewCtrl: ViewController) {
     this.vehicleTest = this.navParams.get('vehicleTest');
+    this.altAbandon = this.navParams.get('altAbandon');
     this.reasonsList = TestAbandonmentReasonsData.TestAbandonmentReasonsData.map(reason => {
       return {
         text: reason,
@@ -32,7 +34,8 @@ export class ReasonsSelectionPage {
     this.navCtrl.push('TestAbandoningPage', {
       vehicleTest: this.vehicleTest,
       selectedReasons: this.selectedReasons,
-      editMode: true
+      editMode: true,
+      altAbandon: this.altAbandon
     });
   }
 

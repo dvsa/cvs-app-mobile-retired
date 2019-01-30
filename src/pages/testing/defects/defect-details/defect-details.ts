@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DefectDetailsModel } from '../../../../models/defects/defect-details.model';
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { AdditionalInfoMetadataModel } from "../../../../models/defects/defects-metadata.model";
@@ -17,7 +17,11 @@ export class DefectDetailsPage implements OnInit {
   defectMetadata: AdditionalInfoMetadataModel;
   isEdit: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService, private testTypeService: TestTypeService) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public defectsService: DefectsService,
+              private testTypeService: TestTypeService,
+              private alertCtrl: AlertController) {
     this.vehicleTest = navParams.get('vehicleTest');
     this.defect = navParams.get('deficiency');
     this.isEdit = navParams.get('isEdit')
@@ -47,5 +51,31 @@ export class DefectDetailsPage implements OnInit {
       }
     );
     return found;
+  }
+
+  removeDefectConfirm(defect: DefectDetailsModel): void {
+    const confirm = this.alertCtrl.create({
+      title: 'Remove defect',
+      message: 'This action will remove this defect.',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Remove',
+          handler: () => {
+            this.removeDefect(defect);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  removeDefect(defect: DefectDetailsModel): void {
+    this.testTypeService.removeDefect(this.vehicleTest, defect);
+    this.navCtrl.pop();
   }
 }
