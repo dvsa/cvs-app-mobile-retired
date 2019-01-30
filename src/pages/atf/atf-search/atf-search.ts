@@ -20,6 +20,7 @@ export class ATFSearchPage implements OnInit {
 
   ngOnInit() {
     this.getAtfs();
+    document.querySelector('.back-button-icon').setAttribute('aria-hidden', 'true');
   }
 
   getAtfs(): void {

@@ -73,14 +73,14 @@
                     [ngClass]="{'bottom-divider': vehicle.testTypes.length == 0}">
                 <span *ngIf="vehicle.testTypes.length == 0">Add a test type</span>
                 <span *ngIf="vehicle.testTypes.length != 0">Add a linked test</span>
-                <ion-icon name="ios-add-circle-outline" item-end></ion-icon>
+                <ion-icon aria-hidden="true" name="ios-add-circle-outline" item-end></ion-icon>
             </button>
         </ion-card>
 
         <ion-card>
             <button class="btn-add-test" ion-item detail-none (click)="presentSearchVehicle()">
                 <h3>Add a trailer</h3>
-                <ion-icon name="ios-add-circle-outline" item-end></ion-icon>
+                <ion-icon aria-hidden="true" name="ios-add-circle-outline" item-end></ion-icon>
             </button>
         </ion-card>
     </ion-list>
