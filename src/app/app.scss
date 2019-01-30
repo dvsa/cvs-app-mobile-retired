@@ -77,7 +77,7 @@
       }
 
       .searchbar-input {
-        background-color: $light-gray;
+        background-color: $color-grey-4;
       }
     }
   }
@@ -85,6 +85,12 @@
 
 .item-ios {
   padding-left: 0;
+
+  h1, h2, h3, h4,
+  p[text-left],
+  span[text-left]{
+    color: color($colors, dark);
+  }
 }
 
 .full-dividers-list {
@@ -134,26 +140,8 @@
   }
 }
 
-// Searchbars found in the header
-.header-ios ion-toolbar .searchbar-ios{
-
-  .searchbar-search-icon,
-  .searchbar-clear-icon{
-    filter: brightness(0) invert(1);
-  }
-
-  .searchbar-input{
-    background-color: rgba(255, 255, 255, 0.3);
-    color: color($colors, light);
-    
-    &::placeholder{
-      color: color($colors, light); 
-    }
-  } 
-}
-
 .content-background-color-grey {
-  background-color: $content-background-color;
+  background-color: $color-grey-3;
 }
 
 // Global CSS for item-dividers
@@ -171,6 +159,10 @@ ion-item-group {
       border-bottom: none !important;
     }
   }
+}
+
+.text-input-ios{
+  color: color($colors, dark);
 }
 
 .no-result {
@@ -202,27 +194,27 @@ ion-item-group {
 }
 // Registration plate
 .vehicle-header-vrm-number {
-  background: $reg-plate-color;
+  background: $color-reg-plate;
   width: 194px;
   height: 50px;
   font-size: $font-size-large;
   font-weight: $font-weight-bold;
   line-height: 42px;
   border-radius: 8px;
+  color: color($colors, dark);
   border: 3px color($colors, dark) solid;
   margin: 24px auto;
 }
 
 // Vehicle list general style
 ion-list.vehicle-list{
-  border-bottom: 0.5px solid $list-ios-border-color;
+  border-bottom: 0.5px solid $color-grey-2;
   margin-bottom: 10px;
   background: color($colors, light);
 
   ion-list-header.list-header{
     height: $list-header-height-small;
-    background: $list-ios-header-background-color;
-    border-bottom: 0.5px solid $list-ios-border-color;
+    border-bottom: 0.5px solid $color-grey-2;
 
     ion-label{
       font-size: $font-size-small;
@@ -238,7 +230,7 @@ ion-list.vehicle-list{
 
   ion-item.item-ios{
     width: calc(100% - 16px);
-    border-bottom: 0.5px solid $list-ios-border-color;
+    border-bottom: 0.5px solid $color-grey-2;
 
     &:last-child{
       border-bottom: 0;
@@ -246,7 +238,6 @@ ion-list.vehicle-list{
     }
 
     ion-label{
-      color: $list-ios-header-font-color;
       font-weight: $font-weight-normal;
       line-height: 18px;
 
@@ -254,14 +245,12 @@ ion-list.vehicle-list{
         font-size: $font-size-medium;
         font-weight: $font-weight-normal;
         line-height: 22px;
-        color: color($colors, dark);
       }
 
       p[text-wrap]{
         font-size: $font-size-medium;
         font-weight: $font-weight-normal;
         line-height: 22px;
-        color: color($colors, dark);
       }
     }
 
@@ -270,14 +259,13 @@ ion-list.vehicle-list{
         font-size: $font-size-medium;
         font-weight: $font-weight-normal;
         line-height: 22px;
-        color: $list-ios-item-font-color;
       }
     }
   }
   button.item-ios {
     height: 60px;
     width: calc(100% - 16px);
-    border-bottom: 0.5px solid $list-ios-border-color;
+    border-bottom: 0.5px solid $color-grey-2;
 
     &:last-child{
       border-bottom: 0;
@@ -287,6 +275,7 @@ ion-list.vehicle-list{
     ion-label{
       h3{
         font-size: $font-size-medium;
+        color: color($colors, dark);
       }
     }
   }
@@ -299,4 +288,9 @@ ion-list.vehicle-list{
 .test-result{
   font-weight: $font-weight-semi-bold;
   font-size: $font-size-medium;
+}
+
+.badge-ios-light {
+  border: 1px solid color($colors, dark);
+  background-color: color($colors, light);
 }

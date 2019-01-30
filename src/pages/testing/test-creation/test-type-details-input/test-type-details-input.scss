@@ -13,7 +13,11 @@ page-test-type-details-input {
 
   button.cancel {
     font-weight: $font-weight-normal;
-    color: color($colors, button-blue);
+    color: color($colors, primary);
+  }
+
+  .color-grey-1{
+    color: $color-grey-1;
   }
 
 }

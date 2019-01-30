@@ -1,7 +1,7 @@
 ion-app.ios page-test-submitted {
   [padding] .scroll-content {
     padding: 0;
-    background-color: #dee0e2;
+    background-color: $color-grey-3;
   }
 
   ion-item.summary-message {
@@ -51,11 +51,11 @@ ion-app.ios page-test-submitted {
         }
 
         p {
-          color: #000;
+          color: color($colors, dark);
         }
 
         p.vehicle-registration {
-          color: #8c8c8c;
+          color: $color-grey-1;
           font-size: 12px;
         }
       }
@@ -63,6 +63,6 @@ ion-app.ios page-test-submitted {
   }
 
   ion-footer {
-    background-color: #dee0e2;
+    background-color: $color-grey-3;
   }
 }
