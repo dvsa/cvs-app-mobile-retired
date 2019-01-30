@@ -28,6 +28,7 @@ plugins/
 plugins/android.json
 plugins/ios.json
 www/
+Gemfile.lock
 $RECYCLE.BIN/
 coverage/
 src/assets/data-mocks/config/
