@@ -173,7 +173,7 @@ export class CompleteTestPage implements OnInit {
 
   onSave() {
     this.vehicleTest.result = this.testTypeService.setTestResult(this.vehicleTest);
-    this.visitService.updateVisit();
+    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
     this.events.publish(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, this.completedFields);
     this.navCtrl.pop();
   }
@@ -231,7 +231,7 @@ export class CompleteTestPage implements OnInit {
   onRemoveTestType(vehicle, vehicleTest) {
     const confirm = this.alertCtrl.create({
       title: 'Remove test type',
-      message: 'This action wil remove this test type from the vehicle.',
+      message: 'This action will remove this test type from the vehicle.',
       buttons: [
         {
           text: 'Cancel'

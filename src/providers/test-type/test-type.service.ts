@@ -35,13 +35,13 @@ export class TestTypeService {
     };
     newTestType.additionalNotes = '';
     newTestType.defects = [];
-    this.visitService.updateVisit();
+    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
     return newTestType
   }
 
   addDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     testType.defects.push(defect);
-    this.visitService.updateVisit();
+    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
   }
 
   removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
@@ -49,7 +49,7 @@ export class TestTypeService {
       return e.ref
     }).indexOf(defect.ref);
     testType.defects.splice(defIdx, 1);
-    this.visitService.updateVisit();
+    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
   }
 
   getTestTypesFromStorage(): Observable<any> {
@@ -78,7 +78,7 @@ export class TestTypeService {
         (defect) => {
           return defect.prs
         }
-      )
+      );
       result = criticalDefStatus ? TEST_TYPE_RESULTS.PRS : TEST_TYPE_RESULTS.FAIL;
     }
     return result;

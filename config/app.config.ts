@@ -81,4 +81,9 @@ export class AppConfig {
     let jsonData = app;
     return jsonData['BACKEND_URL_GET_TEST_RESULTS'];
   }
+
+  public static get IS_PRODUCTION() {
+    let jsonData = app;
+    return jsonData['IS_PRODUCTION'];
+  }
 }
