@@ -8,17 +8,17 @@ ion-app.ios page-atf-details {
   }
 
   .value-custom-style {
-    color: $color-grey-1;
+    color: $list-ios-item-font-color;
   }
 
   .number-custom-style {
     font-size: $item-ios-divider-font-size;
-    color: color($colors, primary);
-    border-bottom: 0.55px solid $color-grey-2;
+    color: color($colors, button-blue);
+    border-bottom: 0.55px solid $item-icon-light-gray;
   }
 
   ion-item-divider {
-    border-bottom: 0.55px solid $color-grey-2;
+    border-bottom: 0.55px solid $item-icon-light-gray;
   }
 
 }

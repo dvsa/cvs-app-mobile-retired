@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar hideBackButton="true">
     <ion-buttons start>
-      <button ion-button (click)="close()" color="primary">
+      <button ion-button (click)="close()" color="button-blue">
         Cancel
       </button>
     </ion-buttons>
@@ -17,6 +17,6 @@
              type="text" placeholder="Enter registration number or VIN"
              [(ngModel)]="searchVal" value=""></ion-input>
   <button margin-vertical ion-button block
-          color="primary" class="custom-button shadow"
+          color="button-blue" class="custom-button shadow"
           (click)="searchVehicle(searchVal)">Search</button>
 </ion-content>

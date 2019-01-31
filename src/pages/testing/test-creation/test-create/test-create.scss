@@ -1,6 +1,6 @@
 page-test-create {
   .content-ios {
-    background-color: $color-grey-3;
+    background-color: $content-background-color;
 
     .card-ios {
       .ion-item-title {
@@ -21,7 +21,7 @@ page-test-create {
       }
 
       .item-ios.bottom-divider {
-        border-top: 0.55px solid $color-grey-2;
+        border-top: 0.55px solid $item-icon-light-gray;
       }
 
       .item-ios {
@@ -37,18 +37,18 @@ page-test-create {
 
         [item-end].vehicle-details {
           margin: 8px;
-          color: $color-grey-1;
+          color: $item-icon-light-gray;
         }
 
         [item-end].arrow-forward {
-          color: $color-grey-2;
+          color: $light-gray;
           font-size: $font-size-medium;
           display: flex;
           align-items: center;
         }
 
         [item-end].test-type-status {
-          margin: 8px;
+          margin: 0;
         }
 
         [item-end].odometer-reading-status {
@@ -64,11 +64,11 @@ page-test-create {
         }
 
         [item-end].test-type-status.test-type-inProgress {
-          color: $color-grey-1;
+          color: $item-icon-light-gray;
         }
 
         [item-end].odometer-reading-status.odometer-reading-start {
-          color: $color-grey-1;
+          color: $item-icon-light-gray;
         }
 
         [item-end].odometer-reading-icon {
@@ -79,7 +79,7 @@ page-test-create {
         }
 
         [item-end].odometer-reading-icon.odometer-reading-icon-no-data {
-          color: $color-grey-2;
+          color: $light-gray;
         }
 
         [item-end].odometer-reading-icon.odometer-reading-icon-data {
