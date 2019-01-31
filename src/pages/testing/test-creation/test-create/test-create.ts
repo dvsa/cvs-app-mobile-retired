@@ -7,7 +7,7 @@ import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { APP, ODOMETER_METRIC } from "../../../../app/app.enums";
+import { APP, APP_STRINGS, ODOMETER_METRIC, TEST_COMPLETION_STATUS } from "../../../../app/app.enums";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 
 @IonicPage()
@@ -79,10 +79,12 @@ export class TestCreatePage implements OnInit, OnDestroy {
     for (let testTypeFieldMetadata of this.testTypesFieldsMetadata) {
       if (testType.id === testTypeFieldMetadata.testTypeId && testTypeFieldMetadata.sections.length) {
         isInProgress = false;
+        testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
         for (let section of testTypeFieldMetadata.sections) {
           for (let input of section.inputs) {
             if (!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false) {
               isInProgress = true;
+              testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
             } else {
               if (!this.completedFields.hasOwnProperty(input.testTypePropertyName) && input.testTypePropertyName !== 'result' && input.testTypePropertyName !== 'certificateNumber') {
                 this.completedFields[input.testTypePropertyName] = testType[input.testTypePropertyName];
@@ -130,15 +132,15 @@ export class TestCreatePage implements OnInit, OnDestroy {
   onRemoveVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel, slidingItem: ItemSliding) {
     slidingItem.close();
     const alert = this.alertCtrl.create({
-      title: 'Remove test',
-      message: 'This action will remove this test from the vehicle.',
+      title: APP_STRINGS.REMOVE_TEST_TITLE,
+      message: APP_STRINGS.REMOVE_TEST_MSG,
       buttons: [
         {
-          text: 'Cancel',
+          text: APP_STRINGS.CANCEL,
           role: 'cancel'
         },
         {
-          text: 'Remove',
+          text: APP_STRINGS.REMOVE,
           handler: () => {
             this.removeVehicleTest(vehicle, vehicleTest);
           }
@@ -168,7 +170,19 @@ export class TestCreatePage implements OnInit, OnDestroy {
   }
 
   reviewTest(): void {
-    console.log('Visit: ', this.visitService.visit);
+    let finishedTest;
+    for (let vehicle of this.testData.vehicles) {
+      finishedTest = vehicle.testTypes.every((test: TestTypeModel) => {
+        return test.completionStatus != TEST_COMPLETION_STATUS.IN_PROGRESS;
+      });
+    }
+    if (!finishedTest) {
+      let alert = this.alertCtrl.create({
+        title: APP_STRINGS.TEST_NOT_COMPLETE,
+        subTitle: APP_STRINGS.COMPLETE_ALL_TESTS,
+        buttons: [APP_STRINGS.OK]
+      });
+      alert.present();
+    }
   }
-
 }
