@@ -50,6 +50,11 @@ export enum TEST_TYPE_RESULTS {
   PRS = 'prs',
 }
 
+export enum TEST_COMPLETION_STATUS {
+  IN_PROGRESS = 'in progress',
+  EDIT = 'edit'
+}
+
 export enum TEST_TYPE_FIELDS {
   DDL = 'ddl',
   NUMBER = 'number',
@@ -77,7 +82,12 @@ export enum APP_STRINGS {
   CALL = 'Call',
   TEST_TYPE = 'Test type',
   NO_SEATBELTS_ENTERED = 'No seatbelts entered',
-  NO_SEATBELTS_ENTERED_SUBTITLE = 'The number of seatbelts fitted must be greater than zero (0) to carry out an installation check.'
+  NO_SEATBELTS_ENTERED_SUBTITLE = 'The number of seatbelts fitted must be greater than zero (0) to carry out an installation check.',
+  COMPLETE_ALL_TESTS = 'You must complete all test types marked "in progress" before reviewing.',
+  TEST_NOT_COMPLETE = 'Test not complete',
+  REMOVE = 'Remove',
+  REMOVE_TEST_TITLE = 'Remove test',
+  REMOVE_TEST_MSG = 'This action will remove this test from the vehicle.'
 }
 
 export enum ODOMETER_METRIC {
