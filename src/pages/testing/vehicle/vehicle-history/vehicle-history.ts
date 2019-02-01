@@ -14,7 +14,7 @@ import { TestResultModel } from "../../../../models/tests/test-result.model";
 export class VehicleHistoryPage {
   vehicleData: VehicleModel;
   testResultHistory: TestResultModel[];
-  testTypeResults: {};
+  testTypeResults = TEST_TYPE_RESULTS;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -22,10 +22,6 @@ export class VehicleHistoryPage {
               public commonFunc: CommonFunctionsService) {
     this.vehicleData = navParams.get('vehicleData');
     this.testResultHistory = navParams.get('testResultsHistory');
-  }
-
-  ngOnInit(){
-    this.testTypeResults = TEST_TYPE_RESULTS;
   }
 
   ionViewWillEnter() {
@@ -40,15 +36,4 @@ export class VehicleHistoryPage {
     });
   }
 
-  getTestResultColor(testResult: string): string {
-    switch (testResult.toLowerCase()) {
-      case TEST_TYPE_RESULTS.PASS:
-        return 'secondary';
-      case TEST_TYPE_RESULTS.FAIL:
-      case TEST_TYPE_RESULTS.ABANDONED: 
-        return 'danger';
-      case TEST_TYPE_RESULTS.PRS:
-        return 'primary';
-    }
-  }
 }

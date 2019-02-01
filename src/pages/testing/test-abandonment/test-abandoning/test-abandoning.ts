@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { VisitService } from "../../../../providers/visit/visit.service";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 
 @IonicPage()
 @Component({
@@ -15,7 +16,7 @@ export class TestAbandoningPage implements OnInit {
   editMode: string;
   altAbandon: boolean;
 
-  constructor(private navParams: NavParams, private alertCtrl: AlertController, private navCtrl: NavController, public visitService: VisitService) {
+  constructor(private navParams: NavParams, private alertCtrl: AlertController, private navCtrl: NavController, public visitService: VisitService, private testTypeService: TestTypeService) {
     this.vehicleTest = this.navParams.get('vehicleTest');
     this.selectedReasons = this.navParams.get('selectedReasons');
     this.editMode = this.navParams.get('editMode');

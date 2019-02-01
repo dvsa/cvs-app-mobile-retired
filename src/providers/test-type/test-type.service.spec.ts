@@ -4,6 +4,7 @@ import { TestTypeService } from "./test-type.service";
 import { TestTypesDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { VisitService } from "../visit/visit.service";
+import { DEFICIENCY_CATEGORY } from "../../models/model.enums";
 
 describe('Provider: TestTypeService', () => {
   let testTypeService: TestTypeService;

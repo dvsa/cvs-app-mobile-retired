@@ -1,7 +1,7 @@
 import { TestTypeModel } from "../../src/models/tests/test-type.model";
 import { DefectDetailsModel } from "../../src/models/defects/defect-details.model";
 import { Observable } from "rxjs";
-import { TEST_TYPE_RESULTS } from "../../src/app/app.enums";
+import { DEFICIENCY_CATEGORY, TEST_TYPE_RESULTS } from "../../src/app/app.enums";
 import { of } from "rxjs/observable/of";
 import { TestTypesDataMock } from "../../src/assets/data-mocks/reference-data-mocks/test-types.mock";
 import { TestTypesReferenceDataModel } from "../../src/models/reference-data-models/test-types.model";
@@ -57,6 +57,35 @@ export class TestTypesServiceMock {
   endTestType(testType: TestTypeModel) {
     this.checkPass(testType) ? this.passTestType(testType) : this.failTestType(testType);
   }
+
+  setTestResult(testType: TestTypeModel): TEST_TYPE_RESULTS {
+    let result;
+    let criticalDeficienciesArr: DefectDetailsModel[] = [];
+    if (testType.abandonment.reasons.length) return TEST_TYPE_RESULTS.ABANDONED;
+    testType.defects.forEach(
+      (defect: DefectDetailsModel) => {
+        switch (defect.deficiencyCategory.toLowerCase()) {
+          case DEFICIENCY_CATEGORY.MAJOR:
+          case DEFICIENCY_CATEGORY.DANGEROUS:
+            criticalDeficienciesArr.push(defect);
+            break;
+          case DEFICIENCY_CATEGORY.MINOR:
+          case DEFICIENCY_CATEGORY.ADVISORY:
+            result = TEST_TYPE_RESULTS.PASS;
+            break;
+        }
+      });
+    if (criticalDeficienciesArr.length) {
+      let criticalDefStatus = criticalDeficienciesArr.every(
+        (defect) => {
+          return defect.prs
+        }
+      )
+      result = criticalDefStatus ? TEST_TYPE_RESULTS.PRS : TEST_TYPE_RESULTS.FAIL;
+    }
+    return result;
+  }
+
 
 
 }

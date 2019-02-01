@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { StorageService } from "../natives/storage.service";
 import { from } from "rxjs/observable/from";
-import { STORAGE, TEST_TYPE_RESULTS } from "../../app/app.enums";
+import { DEFICIENCY_CATEGORY, STORAGE, TEST_TYPE_RESULTS } from "../../app/app.enums";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { DefectDetailsModel } from "../../models/defects/defect-details.model";
 import { VisitService } from "../visit/visit.service";
@@ -56,30 +56,32 @@ export class TestTypeService {
     return from(this.storageService.read(STORAGE.TESTTYPES))
   }
 
-  checkPass(testType: TestTypeModel): boolean {
-    let foundCriticalDefect = true;
-    testType.defects.forEach(defect => {
-      if (defect.deficiencyCategory.toLowerCase() == "major" || defect.deficiencyCategory.toLowerCase() == "dangerous") {
-        foundCriticalDefect = false;
-      }
-    });
-    return foundCriticalDefect;
-  }
-
-  private passTestType(testType: TestTypeModel) {
-    testType.endTime = new Date().toISOString();
-    testType.result = TEST_TYPE_RESULTS.SUCCESSFUL;
-    this.visitService.updateVisit();
-  }
-
-  private failTestType(testType: TestTypeModel) {
-    testType.endTime = new Date().toISOString();
-    testType.result = TEST_TYPE_RESULTS.UNSUCCESSFUL;
-    this.visitService.updateVisit();
-  }
-
-  endTestType(testType: TestTypeModel) {
-    this.checkPass(testType) ? this.passTestType(testType) : this.failTestType(testType);
+  setTestResult(testType: TestTypeModel): TEST_TYPE_RESULTS {
+    let result = TEST_TYPE_RESULTS.PASS;
+    let criticalDeficienciesArr: DefectDetailsModel[] = [];
+    if (testType.abandonment.reasons.length) return TEST_TYPE_RESULTS.ABANDONED;
+    testType.defects.forEach(
+      (defect: DefectDetailsModel) => {
+        switch (defect.deficiencyCategory.toLowerCase()) {
+          case DEFICIENCY_CATEGORY.MAJOR:
+          case DEFICIENCY_CATEGORY.DANGEROUS:
+            criticalDeficienciesArr.push(defect);
+            break;
+          case DEFICIENCY_CATEGORY.MINOR:
+          case DEFICIENCY_CATEGORY.ADVISORY:
+            result = TEST_TYPE_RESULTS.PASS;
+            break;
+        }
+      });
+    if (criticalDeficienciesArr.length) {
+      let criticalDefStatus = criticalDeficienciesArr.every(
+        (defect) => {
+          return defect.prs
+        }
+      )
+      result = criticalDefStatus ? TEST_TYPE_RESULTS.PRS : TEST_TYPE_RESULTS.FAIL;
+    }
+    return result;
   }
 
 }

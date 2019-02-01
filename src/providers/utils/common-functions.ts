@@ -1,3 +1,5 @@
+import { TEST_TYPE_RESULTS } from "../../app/app.enums";
+
 export class CommonFunctionsService {
 
   public capitalizeString(string: string): string {
@@ -56,4 +58,18 @@ export class CommonFunctionsService {
       );
     };
   }
+
+  getTestResultColor(testResult: string): string {
+    switch (testResult.toLowerCase()) {
+      case TEST_TYPE_RESULTS.PASS:
+        return 'secondary';
+      case TEST_TYPE_RESULTS.FAIL:
+      case TEST_TYPE_RESULTS.ABANDONED:
+        return 'danger';
+      case TEST_TYPE_RESULTS.PRS:
+        return 'primary';
+    }
+  }
+
+
 }

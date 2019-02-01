@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar hideBackButton="true">
+    <ion-title margin-left>
+      Test review
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="navCtrl.pop()" padding-horizontal>
+        <ion-icon name="arrow-back" padding-right></ion-icon>
+        <span>Test</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ng-container *ngFor="let test of visit.tests" no-padding>
+    <ng-container *ngFor="let vehicle of test.vehicles" no-padding>
+      <ion-card>
+        <ion-item detail-none class="ion-item-title">
+          <ion-img item-start class="vehicle-type-icon" padding-right
+                   src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="50"></ion-img>
+          <h2>{{ vehicle.vrms[0].vrm }} ({{vehicle.techRecord[0].vehicleType}})</h2>
+          <p>{{ vehicle.vin }}</p>
+        </ion-item>
+        <ion-item
+          detail-none padding-left
+          class="bottom-divider">
+          <h3 class="odometer-reading">Odometer reading</h3>
+          <h3 item-end
+              class="odometer-reading-status">
+            {{getOdometerStringToBeDisplayed(vehicle)}}
+          </h3>
+        </ion-item>
+      </ion-card>
+      <ion-card>
+
+        <ion-item *ngFor="let testType of vehicle.testTypes" no-padding>
+          <ion-grid no-padding>
+            <ion-row padding-left>
+              <ion-col col-8>
+                <p text-wrap class="item-text-color">{{ commonFunctions.capitalizeString(testType.name) }}</p>
+              </ion-col>
+              <ion-col col-4 text-right>
+                <p text-uppercase
+                   class="test-result"
+                   ion-text
+                   [color]="commonFunctions.getTestResultColor(testType.result)">
+                  {{ testType.result }}
+                </p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-card>
+    </ng-container>
+  </ng-container>
+
+</ion-content>

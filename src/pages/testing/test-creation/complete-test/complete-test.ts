@@ -172,6 +172,7 @@ export class CompleteTestPage implements OnInit {
   }
 
   onSave() {
+    this.vehicleTest.result = this.testTypeService.setTestResult(this.vehicleTest);
     this.visitService.updateVisit();
     this.events.publish(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, this.completedFields);
     this.navCtrl.pop();
