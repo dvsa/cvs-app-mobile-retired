@@ -24,7 +24,7 @@
                         detail-none
                         class="bottom-divider"
                         (click)="openDDL(input)"
-                        *ngIf="input.type === testTypeFields.DDL">
+                        *ngIf="input.type === testTypeFields.DDL && canDisplayInput(input)">
                     <h3>{{input.label}}</h3>
                     <h3 item-end
                         class="current-value"
@@ -117,14 +117,14 @@
                               [(ngModel)]="vehicleTest.additionalNotes"></ion-textarea>
             </ion-item>
         </ion-item-group>
-      <ion-item-group>
-        <ion-item-divider></ion-item-divider>
-        <button ion-item detail-none class="btn-remove-test" (click)="onRemoveTestType(vehicle, vehicleTest)">
-          Remove test type
-        </button>
-        <button ion-item detail-none class="btn-remove-test" (click)="abandonTestType(vehicleTest)">
-          Abandon test type
-        </button>
-      </ion-item-group>
+        <ion-item-group>
+            <ion-item-divider></ion-item-divider>
+            <button ion-item detail-none class="btn-remove-test" (click)="onRemoveTestType(vehicle, vehicleTest)">
+                Remove test type
+            </button>
+            <button ion-item detail-none class="btn-remove-test" (click)="abandonTestType(vehicleTest)">
+                Abandon test type
+            </button>
+        </ion-item-group>
     </ion-list>
 </ion-content>

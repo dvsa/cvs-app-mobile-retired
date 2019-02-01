@@ -57,6 +57,10 @@ export enum TEST_TYPE_FIELDS {
   CERTIFICATE_NUMBER_CUSTOM = 'certificateNumberCustom'
 }
 
+export enum TEST_TYPE_INPUTS {
+  SIC_CARRIED_OUT = 'wasSeatbeltInstallationCheckCarriedOut'
+}
+
 export enum APP_STRINGS {
   VEHICLE_DETAILS = 'Vehicle details',
   WITHOUT_PREPARER = 'Continue without preparerID',
@@ -64,13 +68,15 @@ export enum APP_STRINGS {
   ALERT_MESSAGE = 'You will not be able to add a preparer for this vehicle later.',
   CANCEL = 'Cancel',
   CONFIRM = 'Confirm',
-  OK = 'Ok',
+  OK = 'OK',
   REPORT_ISSUE = 'Report issue',
   ATF_SAFETY = 'Confirm ATF and safety',
   REPORT_TITLE = 'Report an ATF issue',
   SPEAK_TO_TTL = 'Speak to your Technical Team Leader (TTL) if the issue cannot be resolved on site.',
   SEARCH_ATF = 'Search for an ATF',
-  CALL = 'Call'
+  CALL = 'Call',
+  NO_SEATBELTS_ENTERED = 'No seatbelts entered',
+  NO_SEATBELTS_ENTERED_SUBTITLE = 'The number of seatbelts fitted must be greater than zero (0) to carry out an installation check.'
 }
 
 export enum ODOMETER_METRIC {

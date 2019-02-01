@@ -10,7 +10,7 @@ import {
 } from 'ionic-angular';
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
-import { APP, DEFICIENCY_CATEGORY, TEST_TYPE_FIELDS } from "../../../../app/app.enums";
+import { APP, DEFICIENCY_CATEGORY, TEST_TYPE_FIELDS, TEST_TYPE_INPUTS } from "../../../../app/app.enums";
 import { DefectCategoryModel } from "../../../../models/reference-data-models/defects.model";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
@@ -69,11 +69,13 @@ export class CompleteTestPage implements OnInit {
           if (input.defaultValue && input.values && !this.vehicleTest[input.testTypePropertyName]) {
             for (let inputValue of input.values) {
               if (input.defaultValue === inputValue.text) {
-                this.vehicleTest[input.testTypePropertyName] = inputValue.value;
-                this.completedFields[input.testTypePropertyName] = inputValue.value;
+                this.completedFields[input.testTypePropertyName] = this.vehicleTest[input.testTypePropertyName] = inputValue.value;
               }
             }
           }
+        }
+        if (this.testTypeDetails.category === 'B' && input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
+          this.completedFields[input.testTypePropertyName] = this.vehicleTest[input.testTypePropertyName] = true;
         }
       }
     }
@@ -135,6 +137,9 @@ export class CompleteTestPage implements OnInit {
   }
 
   canDisplayInput(input) {
+    if (this.testTypeDetails.category === 'B' && input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
+      return false;
+    }
     if (input.dependentOn && input.dependentOn.length) {
       for (let dep of input.dependentOn) {
         if (this.completedFields[dep.testTypePropertyName] && this.completedFields[dep.testTypePropertyName] === dep.valueToBeDifferentFrom) {
@@ -147,6 +152,7 @@ export class CompleteTestPage implements OnInit {
 
   openInputPage(section, input) {
     const INPUT_MODAL = this.modalCtrl.create(TestTypeDetailsInputPage, {
+      vehicleCategory: this.testTypeDetails.category,
       sectionName: section.sectionName,
       input: input,
       existentValue: this.completedFields[input.testTypePropertyName] || null
