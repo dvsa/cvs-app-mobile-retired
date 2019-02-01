@@ -183,6 +183,8 @@ export class TestCreatePage implements OnInit, OnDestroy {
         buttons: [APP_STRINGS.OK]
       });
       alert.present();
+    } else {
+      this.navCtrl.push('TestReviewPage', {visit: this.visitService.visit} )
     }
   }
 }

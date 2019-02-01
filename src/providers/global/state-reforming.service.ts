@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { StorageService } from "../natives/storage.service";
-import { Events } from "ionic-angular";
 import { STORAGE } from "../../app/app.enums";
 
 @Injectable()

@@ -7,6 +7,8 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { TestTypesServiceMock } from "../../../../../test-config/services-mocks/test-types-service.mock";
 
 describe('Component: TestAbandoningPage', () => {
   let component: TestAbandoningPage;
@@ -28,6 +30,7 @@ describe('Component: TestAbandoningPage', () => {
         NavController,
         AlertController,
         {provide: VisitService, useClass: VisitServiceMock},
+        {provide: TestTypeService, useClass: TestTypesServiceMock},
         {provide: NavParams, useClass: NavParamsMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

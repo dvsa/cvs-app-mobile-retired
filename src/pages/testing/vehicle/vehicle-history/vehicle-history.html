@@ -31,8 +31,8 @@
                   <p text-uppercase
                      class="test-result"
                      ion-text
-                     [color]="getTestResultColor(testType.testResult)">
-                    {{ testType.testResult }}
+                     [color]="commonFunc.getTestResultColor(testType.result)">
+                    {{ testType.result }}
                   </p>
                 </ion-col>
               </ion-row>
@@ -41,15 +41,15 @@
                   <p>Test date</p>
                 </ion-col>
                 <ion-col col-9 text-right>
-                  <p>{{ commonFunc.convertDate(testType.testTypeStartTimestamp) }}</p>
+                  <p>{{ commonFunc.convertDate(testType.startTime) }}</p>
                 </ion-col>
               </ion-row>
-              <ion-row padding-left *ngIf="!commonFunc.checkForMatch(testType.testResult, testTypeResults.ABANDONED)">
+              <ion-row padding-left *ngIf="!commonFunc.checkForMatch(testType.result, testTypeResults.ABANDONED)">
                 <ion-col col-3>
                   <p>Expiry date</p>
                 </ion-col>
                 <ion-col col-9 text-right>
-                  <p>{{ commonFunc.convertDate(testType.testExpiryDate) }}</p>
+                  <p>{{ commonFunc.convertDate(testType.expiryDate) }}</p>
                 </ion-col>
               </ion-row>
             </ion-grid>
