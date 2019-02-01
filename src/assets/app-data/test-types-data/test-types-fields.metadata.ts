@@ -45,18 +45,99 @@ export class TestTypesFieldsMetadata {
             ]
           }
         ],
+        category: 'A',
         hasDefects: true,
         hasNotes: true
       },
       {
         testTypeId: '3',
-        sections: [],
+        sections: [
+          {
+            sectionName: 'Seatbelt installation check',
+            inputs: [
+              {
+                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                label: 'Carried out during this test',
+                type: 'ddl',
+                title: 'Was a seatbelt installation check carried out?',
+                values: [
+                  {
+                    text: 'Yes',
+                    value: true,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'No',
+                    value: false,
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Yes'
+              },
+              {
+                testTypePropertyName: 'seatbeltsNumber',
+                label: 'Number of seatbelts fitted',
+                info: 'If there are no seatbelts fitted, enter zero (0).',
+                type: 'number',
+                defaultValue: 'Enter'
+              },
+              {
+                testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
+                label: 'Most recent installation check',
+                type: 'date',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+              }
+            ]
+          }
+        ],
+        category: 'B',
         hasDefects: true,
         hasNotes: true
       },
       {
         testTypeId: '4',
-        sections: [],
+        sections: [
+          {
+            sectionName: 'Seatbelt installation check',
+            inputs: [
+              {
+                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                label: 'Carried out during this test',
+                type: 'ddl',
+                title: 'Was a seatbelt installation check carried out?',
+                values: [
+                  {
+                    text: 'Yes',
+                    value: true,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'No',
+                    value: false,
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Yes'
+              },
+              {
+                testTypePropertyName: 'seatbeltsNumber',
+                label: 'Number of seatbelts fitted',
+                info: 'If there are no seatbelts fitted, enter zero (0).',
+                type: 'number',
+                defaultValue: 'Enter'
+              },
+              {
+                testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
+                label: 'Most recent installation check',
+                type: 'date',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+              }
+            ]
+          }
+        ],
+        category: 'B',
         hasDefects: true,
         hasNotes: true
       },
@@ -102,18 +183,60 @@ export class TestTypesFieldsMetadata {
             ]
           }
         ],
+        category: 'A',
         hasDefects: true,
         hasNotes: true
       },
       {
         testTypeId: '8',
-        sections: [],
+        sections: [
+          {
+            sectionName: 'Seatbelt installation check',
+            inputs: [
+              {
+                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                label: 'Carried out during this test',
+                type: 'ddl',
+                title: 'Was a seatbelt installation check carried out?',
+                values: [
+                  {
+                    text: 'Yes',
+                    value: true,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'No',
+                    value: false,
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Yes'
+              },
+              {
+                testTypePropertyName: 'seatbeltsNumber',
+                label: 'Number of seatbelts fitted',
+                info: 'If there are no seatbelts fitted, enter zero (0).',
+                type: 'number',
+                defaultValue: 'Enter'
+              },
+              {
+                testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
+                label: 'Most recent installation check',
+                type: 'date',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+              }
+            ]
+          }
+        ],
+        category: 'B',
         hasDefects: true,
         hasNotes: true
       },
       {
         testTypeId: 'paidRetestWithoutClass6aSeatbeltInstallationCheck',
         sections: [],
+        category: 'B',
         hasDefects: true,
         hasNotes: true
       },
@@ -159,6 +282,7 @@ export class TestTypesFieldsMetadata {
             ]
           }
         ],
+        category: 'A',
         hasDefects: true,
         hasNotes: true
       },
@@ -210,6 +334,7 @@ export class TestTypesFieldsMetadata {
             ]
           }
         ],
+        category: 'A',
         hasDefects: true,
         hasNotes: true
       },
@@ -255,6 +380,7 @@ export class TestTypesFieldsMetadata {
             ]
           }
         ],
+        category: 'A',
         hasDefects: true,
         hasNotes: true
       },
@@ -306,6 +432,7 @@ export class TestTypesFieldsMetadata {
             ]
           }
         ],
+        category: 'A',
         hasDefects: true,
         hasNotes: true
       },
@@ -318,30 +445,152 @@ export class TestTypesFieldsMetadata {
       {
         testTypeId: '23',
         sections: [],
+        category: 'A',
         hasDefects: true,
         hasNotes: true
       },
       {
         testTypeId: '24',
         sections: [],
+        category: 'A',
         hasDefects: true,
         hasNotes: true
       },
       {
         testTypeId: '25',
-        sections: [],
+        sections: [
+          {
+            sectionName: 'Seatbelt installation check',
+            inputs: [
+              {
+                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                label: 'Carried out during this test',
+                type: 'ddl',
+                title: 'Was a seatbelt installation check carried out?',
+                values: [
+                  {
+                    text: 'Yes',
+                    value: true,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'No',
+                    value: false,
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Yes'
+              },
+              {
+                testTypePropertyName: 'seatbeltsNumber',
+                label: 'Number of seatbelts fitted',
+                info: 'If there are no seatbelts fitted, enter zero (0).',
+                type: 'number',
+                defaultValue: 'Enter'
+              },
+              {
+                testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
+                label: 'Most recent installation check',
+                type: 'date',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+              }
+            ]
+          }
+        ],
+        category: 'B',
         hasDefects: true,
         hasNotes: true
       },
       {
         testTypeId: '27',
-        sections: [],
+        sections: [
+          {
+            sectionName: 'Seatbelt installation check',
+            inputs: [
+              {
+                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                label: 'Carried out during this test',
+                type: 'ddl',
+                title: 'Was a seatbelt installation check carried out?',
+                values: [
+                  {
+                    text: 'Yes',
+                    value: true,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'No',
+                    value: false,
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Yes'
+              },
+              {
+                testTypePropertyName: 'seatbeltsNumber',
+                label: 'Number of seatbelts fitted',
+                info: 'If there are no seatbelts fitted, enter zero (0).',
+                type: 'number',
+                defaultValue: 'Enter'
+              },
+              {
+                testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
+                label: 'Most recent installation check',
+                type: 'date',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+              }
+            ]
+          }
+        ],
+        category: 'B',
         hasDefects: true,
         hasNotes: true
       },
       {
         testTypeId: '28',
-        sections: [],
+        sections: [
+          {
+            sectionName: 'Seatbelt installation check',
+            inputs: [
+              {
+                testTypePropertyName: 'wasSeatbeltInstallationCheckCarriedOut',
+                label: 'Carried out during this test',
+                type: 'ddl',
+                title: 'Was a seatbelt installation check carried out?',
+                values: [
+                  {
+                    text: 'Yes',
+                    value: true,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'No',
+                    value: false,
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Yes'
+              },
+              {
+                testTypePropertyName: 'seatbeltsNumber',
+                label: 'Number of seatbelts fitted',
+                info: 'If there are no seatbelts fitted, enter zero (0).',
+                type: 'number',
+                defaultValue: 'Enter'
+              },
+              {
+                testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
+                label: 'Most recent installation check',
+                type: 'date',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'seatbeltsNumber', valueToBeDifferentFrom: '0'}]
+              }
+            ]
+          }
+        ],
+        category: 'B',
         hasDefects: true,
         hasNotes: true
       },
