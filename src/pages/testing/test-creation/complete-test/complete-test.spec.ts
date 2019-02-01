@@ -168,6 +168,8 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should tell if an input can be displayed', () => {
+    comp.vehicleTest = navParams.get('vehicleTest');
+    comp.testTypeDetails = comp.getTestTypeDetails();
     let input = testTypeMetadata.sections[2].inputs[2];
     comp.completedFields = {};
     comp.completedFields.seatbeltsNumber = '0';
