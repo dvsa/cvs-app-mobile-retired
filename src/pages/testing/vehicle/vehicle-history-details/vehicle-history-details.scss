@@ -6,26 +6,30 @@ page-vehicle-history-details {
   ion-list-header {
     .label-ios {
       margin: 11px 8px 7px 0;
-      color: $color-grey-1;
+      color: $list-ios-header-font-color;
     }
   }
 
   ion-content {
     .scroll-content {
-      background: $color-grey-3;
+      background: $content-background-color;
     }
   }
 
   [text-end] {
-    color: $color-grey-1;
+    color: $item-icon-light-gray;
   }
 
   .defect {
-    color: $color-grey-1;
+    color: $list-ios-item-font-color;
   }
 
   .defect ion-row {
     margin: 2px 0;
+  }
+
+  .badge-ios-light{
+    border: 1px solid;
   }
 
   .additional-info span:first-child .forward-slash {

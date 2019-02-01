@@ -3,13 +3,13 @@ ion-app.ios page-visit-timeline {
   ion-content {
     .list-ios {
       button {
-        border-bottom: 0.55px solid $color-grey-2;
+        border-bottom: 0.55px solid #c8c7cc;
 
         .icon-ios {
           margin-left: 12px;
           margin-right: 0;
           z-index: 1;
-          background-color: color($colors, light);
+          background-color: #fff;
           font-size: 40px;
         }
 
@@ -19,7 +19,7 @@ ion-app.ios page-visit-timeline {
           margin-left: 15.4px;
           margin-right: 0;
           z-index: 1;
-          background-color: color($colors, light);
+          background-color: #fff;
           width: 25.5px;
           height: 27px;
         }
@@ -75,7 +75,7 @@ ion-app.ios page-visit-timeline {
 
       button.timeline-checkin {
         .icon-ios {
-          color: $color-grey-2;
+          color: $item-icon-light-gray;
         }
 
         .timeline-bar {
@@ -117,6 +117,6 @@ ion-app.ios page-visit-timeline {
   }
 
   .divider-color {
-    color: $color-grey-1;
+    color: $list-ios-header-font-color;
   }
 }
