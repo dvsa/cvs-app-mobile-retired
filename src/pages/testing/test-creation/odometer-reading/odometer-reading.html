@@ -19,6 +19,8 @@
             <ion-item padding-left>
                 <ion-input placeholder="Enter value"
                            type="number"
+                           pattern="[0-9]*"
+                           maxlength="7"
                            [(ngModel)]="odometerReading"
                            (ngModelChange)="valueInputChange($event)"
                            #valueInput></ion-input>
