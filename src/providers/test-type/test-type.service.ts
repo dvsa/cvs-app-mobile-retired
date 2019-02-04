@@ -56,11 +56,11 @@ export class TestTypeService {
     return from(this.storageService.read(STORAGE.TESTTYPES))
   }
 
-  setTestResult(testType: TestTypeModel): TEST_TYPE_RESULTS {
-    let result = TEST_TYPE_RESULTS.PASS;
+  setTestResult(testType: TestTypeModel, hasDefects: boolean): string | TEST_TYPE_RESULTS {
+    let result = hasDefects ? TEST_TYPE_RESULTS.PASS : testType.testResult;
     let criticalDeficienciesArr: DefectDetailsModel[] = [];
     if (testType.abandonment.reasons.length) return TEST_TYPE_RESULTS.ABANDONED;
-    testType.defects.forEach(
+    if (testType.defects.length) testType.defects.forEach(
       (defect: DefectDetailsModel) => {
         switch (defect.deficiencyCategory.toLowerCase()) {
           case DEFICIENCY_CATEGORY.MAJOR:

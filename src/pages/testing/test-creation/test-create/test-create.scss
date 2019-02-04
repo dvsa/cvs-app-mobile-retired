@@ -86,11 +86,11 @@ page-test-create {
           font-size: $font-size-extra-large;
           color: color($colors, primary);
         }
+
+        p[ion-text].test-result {
+          margin-right: 8px;
+        }
       }
     }
-  }
-
-  .abandoned-test {
-    opacity: .4;
   }
 }

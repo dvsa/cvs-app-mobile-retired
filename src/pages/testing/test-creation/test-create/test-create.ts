@@ -9,6 +9,7 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { APP, APP_STRINGS, ODOMETER_METRIC, TEST_COMPLETION_STATUS } from "../../../../app/app.enums";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 
 @IonicPage()
 @Component({
@@ -19,6 +20,7 @@ export class TestCreatePage implements OnInit, OnDestroy {
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
   testData: TestModel;
   testTypesFieldsMetadata;
+  testCompletionStatus;
   completedFields = {};
 
   constructor(public navCtrl: NavController,
@@ -28,11 +30,13 @@ export class TestCreatePage implements OnInit, OnDestroy {
               public visitService: VisitService,
               public stateReformingService: StateReformingService,
               private vehicleService: VehicleService,
-              private events: Events) {
+              private events: Events,
+              private commonFunctions: CommonFunctionsService) {
     this.testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
   }
 
   ngOnInit() {
+    this.testCompletionStatus = TEST_COMPLETION_STATUS;
     let lastTestIndex = this.visitService.visit.tests.length - 1;
     this.testData = Object.keys(this.visitService.visit).length ? this.visitService.visit.tests[lastTestIndex] : this.navParams.get('test');
     if (this.visitService.easterEgg == 'false') this.stateReformingService.saveNavStack(this.navCtrl);
@@ -50,6 +54,14 @@ export class TestCreatePage implements OnInit, OnDestroy {
       this.slidingItems.forEach(slidingItem => {
         slidingItem.close();
       });
+    }
+  }
+
+  getCurrentTechRecordVehicleType(vehicle) {
+    for (let techRecord of vehicle) {
+      if (this.commonFunctions.checkForMatch(techRecord.statusCode, 'current')) {
+        return techRecord.vehicleType;
+      }
     }
   }
 
@@ -184,7 +196,7 @@ export class TestCreatePage implements OnInit, OnDestroy {
       });
       alert.present();
     } else {
-      this.navCtrl.push('TestReviewPage', {visit: this.visitService.visit} )
+      this.navCtrl.push('TestReviewPage', {visit: this.visitService.visit})
     }
   }
 }

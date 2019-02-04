@@ -6,7 +6,7 @@ import {
   NavController,
   NavParams,
   ModalController,
-  ActionSheetController, Events
+  ActionSheetController, Events, ViewController
 } from 'ionic-angular';
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
@@ -31,6 +31,7 @@ export class CompleteTestPage implements OnInit {
   testTypeDetails;
   testTypeFields;
   completedFields;
+  fromTestReview;
   defectsCategories: DefectCategoryReferenceDataModel[];
 
   constructor(public navCtrl: NavController,
@@ -43,10 +44,12 @@ export class CompleteTestPage implements OnInit {
               private modalCtrl: ModalController,
               private events: Events,
               private cdRef: ChangeDetectorRef,
-              private vehicleService: VehicleService) {
+              private vehicleService: VehicleService,
+              private viewCtrl: ViewController) {
     this.vehicle = navParams.get('vehicle');
     this.vehicleTest = navParams.get('vehicleTest');
     this.completedFields = navParams.get('completedFields');
+    this.fromTestReview = navParams.get('fromTestReview');
   }
 
   ngOnInit(): void {
@@ -155,12 +158,16 @@ export class CompleteTestPage implements OnInit {
       vehicleCategory: this.testTypeDetails.category,
       sectionName: section.sectionName,
       input: input,
-      existentValue: this.completedFields[input.testTypePropertyName] || null
+      existentValue: this.completedFields[input.testTypePropertyName] || null,
+      fromTestReview: this.fromTestReview
     });
     INPUT_MODAL.onDidDismiss(data => {
-      if (data) {
-        this.vehicleTest[input.testTypePropertyName] = data;
-        this.completedFields[input.testTypePropertyName] = data;
+      if (data.inputValue) {
+        this.vehicleTest[input.testTypePropertyName] = data.inputValue;
+        this.completedFields[input.testTypePropertyName] = data.inputValue;
+      }
+      if (data.fromTestReview) {
+        this.fromTestReview = data.fromTestReview;
       }
     });
     INPUT_MODAL.present();
@@ -172,10 +179,14 @@ export class CompleteTestPage implements OnInit {
   }
 
   onSave() {
-    this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest);
+    this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest, this.testTypeDetails.hasDefects);
     if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
     this.events.publish(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, this.completedFields);
-    this.navCtrl.pop();
+    if (this.fromTestReview) {
+      this.viewCtrl.dismiss(this.vehicleTest);
+    } else {
+      this.navCtrl.pop();
+    }
   }
 
   addDefect(): void {
@@ -259,4 +270,5 @@ export class CompleteTestPage implements OnInit {
   abandonTestType(vehicleTest: TestTypeModel) {
     this.navCtrl.push('ReasonsSelectionPage', {vehicleTest: vehicleTest, altAbandon: true});
   }
+
 }
