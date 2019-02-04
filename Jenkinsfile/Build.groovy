@@ -1,19 +1,23 @@
 ansiColor('xterm') {
     node("mac")  {
-          switch (BRANCH) {
-              case "prod":
+
+          withFolderProperties {
+              switch ("${env.BRANCH}") {
+                case "prod":
                   SECRET_ID = "prod/mobile/config"
                   break
-              case "test":
+                case "test":
                   SECRET_ID = "test/mobile/config"
                   break
-              case "pre-prod":
+                case "pre-prod":
                   SECRET_ID = "pre-prod/mobile/config"
                   break
-              default:
-                 SECRET_ID = "feature/mobile/config"
+                default:
+                  SECRET_ID = "feature/mobile/config"
                   break
               }
+          }
+
           stage('Checkout') {
               checkout scm
           }
