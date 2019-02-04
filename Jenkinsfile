@@ -30,8 +30,6 @@ ansiColor('xterm') {
               try {
                 sh """
                    git secrets --register-aws
-                   git secrets --add -a 'ADDRGETNETWORKPARAMS'
-                   git secrets --add -a 'WSAEINVALIDPROCTABLE'
                    git secrets --scan
                    git log -p | scanrepo
                    """
