@@ -63,7 +63,10 @@ export enum TEST_TYPE_FIELDS {
 }
 
 export enum TEST_TYPE_INPUTS {
-  SIC_CARRIED_OUT = 'seatbeltInstallationCheckDate'
+  SIC_CARRIED_OUT = 'seatbeltInstallationCheckDate',
+  SIC_SEATBELTS_NUMBER = 'numberOfSeatbeltsFitted',
+  SIC_LAST_DATE = 'lastSeatbeltInstallationCheckDate',
+  CERTIFICATE_NUMBER = 'certificateNumber'
 }
 
 export enum APP_STRINGS {
@@ -74,6 +77,8 @@ export enum APP_STRINGS {
   CANCEL = 'Cancel',
   CONFIRM = 'Confirm',
   OK = 'OK',
+  YES = 'Yes',
+  NO = 'No',
   REPORT_ISSUE = 'Report issue',
   ATF_SAFETY = 'Confirm ATF and safety',
   REPORT_TITLE = 'Report an ATF issue',
@@ -99,7 +104,8 @@ export enum ODOMETER_METRIC {
 }
 
 export enum DATE_FORMAT {
-  DD_MM_YYYY = 'dd/MM/yyyy'
+  DD_MM_YYYY = 'dd/MM/yyyy',
+  D_MMM_YY = 'd MMM yy'
 }
 
 export enum DEFAULT_VALUES {

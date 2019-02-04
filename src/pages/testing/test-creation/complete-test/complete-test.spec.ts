@@ -1,6 +1,6 @@
 import { CompleteTestPage } from "./complete-test";
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, NavController, NavParams } from "ionic-angular";
+import { AlertController, IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
@@ -21,6 +21,7 @@ import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/t
 import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 import { TEST_RESULT } from "../../../../models/models.enums";
+import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -82,7 +83,8 @@ describe('Component: CompleteTestPage', () => {
         {provide: TestTypeService, useClass: TestTypeServiceMock},
         AlertController,
         {provide: VehicleService, useClass: VehicleServiceMock},
-        {provide: DefectsService, useValue: defectsServiceSpy}
+        {provide: DefectsService, useValue: defectsServiceSpy},
+        {provide: ViewController, useClass: ViewControllerMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

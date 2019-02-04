@@ -48,6 +48,7 @@ export class TestAbandoningPage implements OnInit {
         }
       ]
     });
+
     alert.present();
   }
 
@@ -56,7 +57,7 @@ export class TestAbandoningPage implements OnInit {
     if (this.additionalComment && this.additionalComment.length) {
       this.vehicleTest.abandonment.additionalComment = this.additionalComment;
     }
-    this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest);
+    this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest, false);
     if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
   }
 

@@ -19,6 +19,7 @@ import { StateReformingService } from "../../../../providers/global/state-reform
 import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -51,6 +52,7 @@ describe('Component: TestCreatePage', () => {
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
         NavController,
+        CommonFunctionsService,
         {provide: PhoneService, useValue: phoneServiceSpy},
         {provide: StateReformingService, useClass: StateReformingServiceMock},
         {provide: VehicleService, useClass: VehicleServiceMock},

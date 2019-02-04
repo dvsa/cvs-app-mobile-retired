@@ -2,6 +2,11 @@ page-test-review {
   .content-ios {
     background-color: $color-grey-3;
 
+    .section-divider {
+      display: block;
+      border-top: 1px solid $list-ios-border-color;
+    }
+
     .card-ios {
       .ion-item-title {
         h2 {
@@ -15,6 +20,11 @@ page-test-review {
         }
       }
 
+      ion-row[padding-left] {
+        display: flex;
+        align-items: center;
+      }
+
       .btn-add-test {
         font-size: 14px;
         color: color($colors, primary);
@@ -25,6 +35,60 @@ page-test-review {
       }
 
       .item-ios {
+        .label-ios {
+          margin: 0 8px 0 0;
+
+          .test-field {
+            padding: 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 0.55px solid $list-ios-border-color;
+
+            &-no-border-top {
+              border-top: none;
+            }
+
+            h3 {
+              margin: 0;
+            }
+          }
+
+          .defects-section-title,
+          .notes-section-title {
+            font-size: $font-size-small;
+          }
+
+          .defect-details {
+            &.border {
+              padding-bottom: 8px;
+              margin-bottom: 8px;
+              border-bottom: 0.55px solid $list-ios-border-color;
+            }
+
+            h3 {
+              white-space: normal;
+              font-size: $font-size-medium;
+            }
+
+            h3.defect-name {
+              font-weight: bold;
+
+              span {
+                color: color($colors, danger);
+              }
+            }
+          }
+
+          .parent-info-color {
+            color: $color-grey-2;
+          }
+
+          h3[margin-bottom].parent-info-color {
+            margin-bottom: 16px;
+          }
+        }
+
         .test-type,
         .odometer-reading {
           margin-top: 2px;
@@ -52,7 +116,7 @@ page-test-review {
         }
 
         [item-end].odometer-reading-status {
-          margin: 0;
+          margin: 0 8px;
         }
 
         [item-end].test-type-status.test-type-pass {
@@ -92,5 +156,12 @@ page-test-review {
 
   .item-text-color {
     color: color($colors, dark);
+    font-weight: $font-weight-bold;
+  }
+
+  .change-details-button {
+    h3 {
+      color: color($colors, primary);
+    }
   }
 }
