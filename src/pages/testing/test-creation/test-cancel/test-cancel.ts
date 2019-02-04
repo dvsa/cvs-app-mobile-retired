@@ -28,10 +28,7 @@ export class TestCancelPage {
         message: 'You will not be able to make changes to this test after it has been cancelled.',
         buttons: [
           {
-            text: 'Back',
-            handler: () => {
-              this.navCtrl.pop();
-            }
+            text: 'Back'
           },
           {
             text: 'Submit',
