@@ -3,14 +3,11 @@ ansiColor('xterm') {
 
           withFolderProperties {
               switch ("${env.BRANCH}") {
-                case "prod":
+                case "master":
                   SECRET_ID = "prod/mobile/config"
                   break
-                case "test":
+                case "develop":
                   SECRET_ID = "test/mobile/config"
-                  break
-                case "pre-prod":
-                  SECRET_ID = "pre-prod/mobile/config"
                   break
                 default:
                   SECRET_ID = "feature/mobile/config"
