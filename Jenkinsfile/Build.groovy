@@ -54,6 +54,7 @@ ansiColor('xterm') {
               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                           credentialsId: 'jenkins-iam', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'],
                          string(credentialsId: 'MATCH_PASSWORD', variable: 'MATCH_PASSWORD'),
+                         string(credentialsId: 'MatchEmail', variable: 'EMAIL'),
                          string(credentialsId: 'Keychain', variable: 'KEYCHAIN_PW')]) {
                   sh "aws secretsmanager get-secret-value --secret-id ${SECRET_ID} --query SecretString | jq . --raw-output | python -mjson.tool > config/application.json"
                   sh 'BRANCH=`echo $BRANCH | tr \'[:upper:]\' \'[:lower:]\'`; sed  -i\'\' -e \'s/BRANCH/\'$BRANCH\'/g\' config/application.json'
