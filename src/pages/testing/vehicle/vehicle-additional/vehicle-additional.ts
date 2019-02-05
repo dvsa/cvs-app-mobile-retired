@@ -2,7 +2,7 @@ import { IonicPage, NavController, NavParams, ViewController } from "ionic-angul
 import { Component } from "@angular/core";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { DATE_FORMAT } from "../../../../app/app.enums";
+import { DATE_FORMAT, APP_STRINGS } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -12,6 +12,7 @@ import { DATE_FORMAT } from "../../../../app/app.enums";
 export class VehicleAdditionalPage {
   vehicleData: VehicleModel;
   dateFormat: string;
+  appStrings: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -20,6 +21,7 @@ export class VehicleAdditionalPage {
     this.vehicleData = navParams.get('vehicleData');
     this.viewCtrl = viewCtrl;
     this.dateFormat = DATE_FORMAT.DD_MM_YYYY;
+    this.appStrings = APP_STRINGS;
   }
 
   ionViewWillEnter() {

@@ -50,7 +50,7 @@
                         <h3>Seats on upper deck</h3>
                     </ion-label>
                     <div item-content padding-right>
-                        <p>{{ techRecord.seatsLowerDeck }}</p>
+                        <p>{{ techRecord.seatsUpperDeck }}</p>
                     </div>
                 </ion-item>
                 <ion-item margin-left>
@@ -58,7 +58,7 @@
                         <h3>Seats on lower deck</h3>
                     </ion-label>
                     <div item-content padding-right>
-                        <p>{{ techRecord.seatsUpperDeck }}</p>
+                        <p>{{ techRecord.seatsLowerDeck }}</p>
                     </div>
                 </ion-item>
                 <ion-item margin-left>
@@ -82,7 +82,7 @@
                         <h3>Speed limiter</h3>
                     </ion-label>
                     <div item-content padding-right>
-                        <p>{{ techRecord.speedLimiterMrk }}</p>
+                        <p>{{ techRecord.speedLimiterMrk ? appStrings.YES : appStrings.NO }}</p>
                     </div>
                 </ion-item>
                 <ion-item margin-left>
@@ -90,7 +90,7 @@
                         <h3>Tacho exempt</h3>
                     </ion-label>
                     <div item-content padding-right>
-                        <p>{{ techRecord.tachoExemptMrk }}</p>
+                        <p>{{ techRecord.tachoExemptMrk ? appStrings.YES : appStrings.NO }}</p>
                     </div>
                 </ion-item>
             </ion-list>
