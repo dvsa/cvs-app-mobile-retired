@@ -1,55 +1,29 @@
 import * as app from "./application.json";
 
 export class AppConfig {
-
-  public static get AUTH_HEADERS() {
+  public static get MSAL_CLIENT_ID() {
     let jsonData = app;
-    return jsonData['AUTH_HEADERS'];
+    return jsonData['MSAL_CLIENT_ID'];
   }
 
-  public static get AUTH_TOKEN() {
+  public static get MSAL_REDIRECT_URL() {
     let jsonData = app;
-    return jsonData['AUTH_TOKEN'];
+    return jsonData['MSAL_REDIRECT_URL'];
   }
 
-  public static get AUTH_REGION() {
+  public static get MSAL_RESOURCE_URL() {
     let jsonData = app;
-    return jsonData['AUTH_REGION'];
+    return jsonData['MSAL_RESOURCE_URL'];
   }
 
-  public static get AUTH_USER_POOL_ID() {
+  public static get MSAL_AUTHORITY() {
     let jsonData = app;
-    return jsonData['AUTH_USER_POOL_ID'];
-  }
-
-  public static get AUTH_CLIENT_ID() {
-    let jsonData = app;
-    return jsonData['AUTH_CLIENT_ID'];
-  }
-
-  public static get AUTH_PASSWORD() {
-    let jsonData = app;
-    return jsonData['AUTH_PASSWORD'];
-  }
-
-  public static get AUTH_USERNAME() {
-    let jsonData = app;
-    return jsonData['AUTH_USERNAME'];
-  }
-
-  public static get KEY_GOOGLE_MAPS_KEY() {
-    let jsonData = app;
-    return jsonData['KEY_GOOGLE_MAPS_KEY'];
+    return jsonData['MSAL_AUTHORITY'];
   }
 
   public static get KEY_PHONE_NUMBER() {
     let jsonData = app;
     return jsonData['KEY_PHONE_NUMBER'];
-  }
-
-  public static get BACKEND_GET_CERTIFICATE() {
-    let jsonData = app;
-    return jsonData['BACKEND_GET_CERTIFICATE'];
   }
 
   public static get BACKEND_URL_TEST_STATIONS() {

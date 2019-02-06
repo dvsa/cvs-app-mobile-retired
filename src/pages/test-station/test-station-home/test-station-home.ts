@@ -4,7 +4,9 @@ import { AppConfig } from "../../../../config/app.config";
 import { StorageService } from "../../../providers/natives/storage.service";
 import { VisitService } from "../../../providers/visit/visit.service";
 
-@IonicPage()
+@IonicPage({
+  segment: 'home'
+})
 @Component({
   selector: 'page-test-station-home',
   templateUrl: 'test-station-home.html'
@@ -23,7 +25,7 @@ export class TestStationHomePage implements OnInit {
     this.count = 0;
   }
 
-  getStarted(): void {
+  getStarted() {
     this.navCtrl.push('TestStationSearchPage');
   }
 

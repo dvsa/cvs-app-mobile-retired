@@ -20,6 +20,7 @@ import { SyncService } from "../providers/global/sync.service";
 import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
 import { VisitService } from "../providers/visit/visit.service";
 import { VisitServiceMock } from "../../test-config/services-mocks/visit-service.mock";
+import { MSAdal } from "@ionic-native/ms-adal";
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -41,6 +42,7 @@ describe('Component: Root', () => {
         SplashScreen,
         AuthService,
         StorageService,
+        MSAdal,
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: SyncService, useValue: syncServiceSpy},
         CallNumber,

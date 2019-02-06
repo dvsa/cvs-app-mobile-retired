@@ -101,5 +101,11 @@
     <plugin name="phonegap-plugin-mobile-accessibility" spec="~1.0.5-dev" />
     <plugin name="cordova-plugin-statusbar" spec="2.4.2" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="~2.1.3" />
+    <plugin name="cordova-plugin-ms-adal" spec="^0.10.1" />
+    <plugin name="ionic-plugin-deeplinks" spec="^1.0.17">
+        <variable name="URL_SCHEME" value="cvs" />
+        <variable name="DEEPLINK_SCHEME" value="https" />
+        <variable name="DEEPLINK_HOST" value="8HTSCWWX39.com.deloittedigital.TonkaAlphaTest" />
+    </plugin>
     <engine name="ios" spec="4.5.5" />
 </widget>

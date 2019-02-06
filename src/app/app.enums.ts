@@ -6,11 +6,18 @@ export enum STORAGE {
   TECH_RECORDS = 'tech-records',
   STATE = 'state',
   VISIT = 'visit',
-  TEST_HISTORY = 'test-history'
+  TEST_HISTORY = 'test-history',
+  JWT_TOKEN = 'jwt-token'
 }
 
 export enum PATHS {
+  HEADER = 'Authorization',
+  JWT_START = 'Bearer ',
   TECH_RECORDS = "tech-records"
+}
+
+export enum STATUS_CODE {
+  UNAUTHORIZED = 401
 }
 
 export enum LOCAL_STORAGE {
@@ -120,6 +127,6 @@ export enum DEFAULT_VALUES {
   NOT_ENTERED = 'not entered'
 }
 
-export enum PATTERNS {
+export enum REG_EX_PATTERNS {
   NUMERIC = '[0-9]*'
 }
