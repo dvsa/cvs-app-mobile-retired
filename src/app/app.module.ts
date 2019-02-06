@@ -11,8 +11,7 @@ import { MyApp } from './app.component';
 import { CameraService } from '../providers/natives/camera.service';
 import { HTTPService } from '../providers/global/http.service';
 import { PhoneService } from '../providers/natives/phone.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { AuthInterceptor } from "../providers/interceptors/auth.interceptor";
+import { HttpClientModule } from "@angular/common/http";
 import { IonicStorageModule } from "@ionic/storage";
 import { StorageService } from "../providers/natives/storage.service";
 import { AuthService } from "../providers/global/auth.service";
@@ -37,7 +36,6 @@ const CUSTOM_PROVIDERS = [
   HTTPService,
   StorageService,
   AuthService,
-  {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   PhoneService,
   CameraService,
   PreparerService,
