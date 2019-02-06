@@ -1,0 +1,28 @@
+page-eu-vehicle-category {
+
+  ion-header {
+
+    ion-navbar.toolbar.toolbar-ios.statusbar-padding {
+      height: 80px;
+      padding-top: 24px !important;
+    }
+
+    ion-title[margin-left].title-ios {
+      padding-top: 20px;
+
+      .toolbar-title.toolbar-title-ios {
+        font-size: $font-size-large;
+      }
+    }
+  }
+
+  .subtitle {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-bold;
+  }
+
+  .selected {
+    color: color($colors, primary);
+  }
+
+}

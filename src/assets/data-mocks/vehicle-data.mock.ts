@@ -81,6 +81,8 @@ export class VehicleDataMock {
         }
       ],
       "testResultsHistory": [],
+      "countryOfRegistration": "gb",
+      "euVehicleCategory": "",
       "odometerReading": "",
       "odometerMetric": "",
       "preparerId": "",

@@ -36,6 +36,23 @@ export class CommonFunctionsService {
     return inputValue ? 'Yes' : "No";
   }
 
+  public searchFor(array: any[], filter: string, properties: string[]) {
+    if (!filter) return array;
+    return array.filter(
+      elem => {
+        return properties.some(
+          property => {
+            if (typeof elem[property] == "number") {
+              if (elem[property].toString() == filter) return true
+            } else {
+              if (elem[property].toLowerCase().includes(filter.toLowerCase())) return true;
+            }
+          }
+        )
+      }
+    );
+  }
+
   public orderBy(key, order: 'asc' | 'desc' = 'asc') {
     return (a, b) => {
       if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -58,6 +75,23 @@ export class CommonFunctionsService {
       );
     };
   }
+
+  public groupArrayAlphabetically(array: any[], groupBy: string) {
+    let alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    let newArr = [], arrGroup = [];
+    for (let i = 0; i < alphabet.length; i++) {
+      for (let j = 0; j < array.length; j++) {
+        if (array[j][groupBy].charAt(0).toLowerCase() == alphabet[i]) {
+          arrGroup.push(array[j])
+        }
+      }
+      if (arrGroup.length) {
+        newArr.push(arrGroup);
+        arrGroup = [];
+      }
+    }
+    return newArr;
+  };
 
   public orderByStringId(key, order: 'asc' | 'desc' = 'asc') {
     return (a, b) => {
@@ -91,9 +125,6 @@ export class CommonFunctionsService {
         return 'tertiary';
     }
   }
-
-
-
 
 
 }

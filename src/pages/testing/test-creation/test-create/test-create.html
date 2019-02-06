@@ -25,6 +25,25 @@
                 <h3 item-end class="vehicle-details">Details</h3>
                 <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
             </button>
+            <button ion-item detail-none
+                    class="bottom-divider"
+                    (click)="onCountryOfRegistration(vehicle)">
+                <h3 class="odometer-reading">Country of registration</h3>
+                <h3 item-end text-nowrap class="vehicle-details">{{getCountryStringToBeDisplayed(vehicle)}}</h3>
+                <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
+            </button>
+            <button ion-item detail-none
+                    class="bottom-divider"
+                    (click)="onVehicleCategory(vehicle)">
+                <h3 class="odometer-reading">EU vehicle category</h3>
+                <h3 item-end class="vehicle-details" *ngIf="!vehicle.euVehicleCategory">Select</h3>
+                <h3 item-end text-nowrap class="vehicle-details"
+                    *ngIf="vehicle.euVehicleCategory">{{vehicle.euVehicleCategory.toUpperCase()}}</h3>
+                <ion-icon item-end
+                          [ngClass]="{'vehicle-category-icon-data': vehicle.euVehicleCategory,
+                          'arrow-forward': !vehicle.euVehicleCategory}"
+                          [name]="vehicle.euVehicleCategory ? 'checkmark' : 'arrow-forward'"></ion-icon>
+            </button>
             <button ion-item
                     detail-none
                     class="bottom-divider"
