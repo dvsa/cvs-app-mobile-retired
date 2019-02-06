@@ -54,23 +54,6 @@ export class MyApp {
         this.accessibilityFeatures();
       });
 
-      // Load Google Maps Library
-      let node = document.createElement('script');
-      node.src = "https://maps.googleapis.com/maps/api/js?key=" + AppConfig.KEY_GOOGLE_MAPS_KEY;
-      node.type = 'text/javascript';
-      node.async = true;
-      node.charset = 'utf-8';
-      document.getElementsByTagName('head')[0].appendChild(node);
-
-      // Auth
-      this.authService.authenticate().catch((error) => {
-        let alert = this.alertCtrl.create({
-          title: 'Authentication failed',
-          subTitle: 'Please close the session and reopen the application.',
-          buttons: ['OK']
-        });
-        alert.present();
-      });
       this.syncService.startSync();
     });
   }
