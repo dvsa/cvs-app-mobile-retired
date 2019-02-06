@@ -45,11 +45,11 @@ export class VehicleLookupPage {
           )
         ).subscribe(
           (testResultHistory: TestResultModel[]) => {
-            this.navCtrl.push('VehicleDetailsPage', {
-              test: this.testData,
-              testResultsHistory: testResultHistory,
-              vehicle: vehicleData
-            });
+            this.goToVehicleDetails(vehicleData, testResultHistory);
+          },
+          () => {
+            this.goToVehicleDetails(vehicleData);
+            LOADING.dismiss();
           })
       },
       () => {
@@ -73,5 +73,13 @@ export class VehicleLookupPage {
       buttons: ['OK']
     });
     alert.present();
+  }
+
+  goToVehicleDetails(vehicleData, testResultHistory?: TestResultModel[]) {
+    this.navCtrl.push('VehicleDetailsPage', {
+      test: this.testData,
+      testResultsHistory: testResultHistory ? testResultHistory : [],
+      vehicle: vehicleData
+    });
   }
 }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { TEST_TYPE_RESULTS } from '../../../../app/app.enums';
+import { APP_STRINGS, TEST_TYPE_RESULTS } from '../../../../app/app.enums';
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 
 @IonicPage()
@@ -15,6 +15,7 @@ export class VehicleHistoryPage {
   vehicleData: VehicleModel;
   testResultHistory: TestResultModel[];
   testTypeResults = TEST_TYPE_RESULTS;
+  noHistory: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -26,6 +27,7 @@ export class VehicleHistoryPage {
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText('Vehicle details');
+    this.noHistory = APP_STRINGS.NO_HISTORY;
   }
 
   showTestDetails(testIndex: number, testTypeIndex: number): void {

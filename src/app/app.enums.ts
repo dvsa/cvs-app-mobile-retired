@@ -87,7 +87,10 @@ export enum APP_STRINGS {
   TEST_NOT_COMPLETE = 'Test not complete',
   REMOVE = 'Remove',
   REMOVE_TEST_TITLE = 'Remove test',
-  REMOVE_TEST_MSG = 'This action will remove this test from the vehicle.'
+  REMOVE_TEST_MSG = 'This action will remove this test from the vehicle.',
+  NO_HISTORY = 'No test history found for this vehicle',
+  CONFIRM_VEHICLE = 'Confirm vehicle',
+  CONFIRM_VEHICLE_MSG = 'This action will confirm the vehicle for testing.'
 }
 
 export enum ODOMETER_METRIC {
