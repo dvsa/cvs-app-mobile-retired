@@ -6,11 +6,16 @@ export enum STORAGE {
   TECH_RECORDS = 'tech-records',
   STATE = 'state',
   VISIT = 'visit',
-  TEST_HISTORY = 'test-history'
+  TEST_HISTORY = 'test-history',
+  JWT_TOKEN = 'jwt-token'
 }
 
 export enum PATHS {
   TECH_RECORDS = "tech-records"
+}
+
+export enum STATUS_CODE {
+  UNAUTHORIZED = 401
 }
 
 export enum LOCAL_STORAGE {
@@ -141,12 +146,6 @@ export enum REG_EX_PATTERNS {
   NUMERIC = '[0-9]*'
 }
 
-export enum TECH_RECORD_STATUS {
-  ARCHIVED = 'archived',
-  CURRENT = 'current',
-  PROVISIONAL = 'provisional'
-}
-
 export enum VEHICLE_TYPE {
   PSV = 'psv',
   HGV = 'hgv',
@@ -169,6 +168,11 @@ export enum TEST_STATION_TYPE {
   TECHNICAL_SECTION_OFFICE = 'tass',
   POTF = 'potf',
   OTHER = 'other'
+}
+
+export enum TEST_REPORT_STATUS {
+  SUBMITTED = 'submitted',
+  CANCELLED = 'cancelled'
 }
 
 export enum VEHICLE_CLASS {
@@ -206,3 +210,12 @@ export enum PROHIBITION_ISSUED {
   NO = 'no'
 }
 
+export enum TECH_RECORD_STATUS {
+  ARCHIVED = 'archived',
+  CURRENT = 'current',
+  PROVISIONAL = 'provisional'
+}
+
+export enum AUTH {
+  INVALID_TOKEN = 'Invalid Token'
+}

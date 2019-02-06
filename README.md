@@ -21,11 +21,14 @@ To get a working build running locally follow these steps:
 
 2. Run `npm install`.
 
-3. Run the following GIT command: "git update-index --assume-unchanged config/application.json"
+3. Set up the configuration for app's deeplinking using the following command after replacing "key", "https", "example.com" with your values:
+  'ionic cordova plugin add ionic-plugin-deeplinks --variable URL_SCHEME=key --variable DEEPLINK_SCHEME=https --variable DEEPLINK_HOST=example.com'
 
-4. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
+4. Run the following GIT command: "git update-index --assume-unchanged config/application.json"
 
-5. After finishing your development, if you encounter problems switching branches, use 'git update-index --no-assume-unchanged config/application.json' command. Revert changes made to 'config/application.json' and then switch branches.
+5. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
+
+6. After finishing your development, if you encounter problems switching branches, use 'git update-index --no-assume-unchanged config/application.json' command. Revert changes made to 'config/application.json' and then switch branches.
 
 ### For testing in the browser:
 

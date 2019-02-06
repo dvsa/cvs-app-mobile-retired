@@ -11,7 +11,7 @@ import { MyApp } from './app.component';
 import { CameraService } from '../providers/natives/camera.service';
 import { HTTPService } from '../providers/global/http.service';
 import { PhoneService } from '../providers/natives/phone.service';
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { IonicStorageModule } from "@ionic/storage";
 import { StorageService } from "../providers/natives/storage.service";
 import { AuthService } from "../providers/global/auth.service";
@@ -24,6 +24,8 @@ import { VisitService } from "../providers/visit/visit.service";
 import { StateReformingService } from "../providers/global/state-reforming.service";
 import { CommonFunctionsService } from "../providers/utils/common-functions";
 import { Keyboard } from '@ionic-native/keyboard';
+import { MSAdal } from "@ionic-native/ms-adal";
+import { AuthInterceptor } from "../providers/interceptors/auth.interceptor";
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -52,7 +54,8 @@ const IONIC_NATIVE_PROVIDERS = [
   OpenNativeSettings,
   WheelSelector,
   MobileAccessibility,
-  Keyboard
+  Keyboard,
+  MSAdal,
 ];
 
 @NgModule({
@@ -72,6 +75,7 @@ const IONIC_NATIVE_PROVIDERS = [
     MyApp,
   ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ...IONIC_PROVIDERS,
     ...CUSTOM_PROVIDERS,
     ...IONIC_NATIVE_PROVIDERS

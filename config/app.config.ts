@@ -1,14 +1,29 @@
 import * as app from "./application.json";
 
 export class AppConfig {
+  public static get MSAL_CLIENT_ID() {
+    let jsonData = app;
+    return jsonData['MSAL_CLIENT_ID'];
+  }
+
+  public static get MSAL_REDIRECT_URL() {
+    let jsonData = app;
+    return jsonData['MSAL_REDIRECT_URL'];
+  }
+
+  public static get MSAL_RESOURCE_URL() {
+    let jsonData = app;
+    return jsonData['MSAL_RESOURCE_URL'];
+  }
+
+  public static get MSAL_AUTHORITY() {
+    let jsonData = app;
+    return jsonData['MSAL_AUTHORITY'];
+  }
 
   public static get KEY_PHONE_NUMBER() {
     let jsonData = app;
     return jsonData['KEY_PHONE_NUMBER'];
-  }
-
-  public static get BACKEND_GET_CERTIFICATE() {
-    return 'test token here will be our token';
   }
 
   public static get BACKEND_URL_TEST_STATIONS() {

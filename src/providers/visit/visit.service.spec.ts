@@ -8,7 +8,7 @@ import { TestDataModelMock } from "../../assets/data-mocks/data-model/test-data-
 import { AuthService } from "../global/auth.service";
 import { HTTPService } from "../global/http.service";
 import { Events } from "ionic-angular";
-import { CommonFunctionsService } from "../utils/common-functions";
+import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
@@ -23,16 +23,13 @@ describe('Provider: VisitService', () => {
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['update', 'delete']);
-
     httpServiceSpy = jasmine.createSpyObj('HTTPService', ['startVisit', 'endVisit']);
 
     TestBed.configureTestingModule({
       providers: [
-        VisitService,
-        AuthService,
-        CommonFunctionsService,
-        {provide: StorageService, useValue: storageServiceSpy},
         Events,
+        VisitService,
+        {provide: AuthService, useClass: AuthServiceMock},
         {provide: StorageService, useValue: storageServiceSpy},
         {provide: HTTPService, useValue: httpServiceSpy}
       ]

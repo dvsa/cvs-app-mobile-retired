@@ -5,11 +5,16 @@ import { Injectable } from "@angular/core";
 import { TEST_TYPE_RESULTS } from "../../app/app.enums";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeService } from "../test-type/test-type.service";
+import { AuthService } from "../global/auth.service";
 
 @Injectable()
 export class TestResultService {
 
-  constructor(private httpService: HTTPService, private commFunc: CommonFunctionsService, private testTypeService: TestTypeService) {
+  constructor(
+    public authService: AuthService,
+    private httpService: HTTPService,
+    private commFunc: CommonFunctionsService,
+    private testTypeService: TestTypeService) {
 
   }
 
@@ -21,9 +26,9 @@ export class TestResultService {
     newTestResult.testStationName = visit.testStationName;
     newTestResult.testStationPNumber = visit.testStationPNumber;
     newTestResult.testStationType = visit.testStationType;
-    newTestResult.testerName = visit.testerName;
-    newTestResult.testerStaffId = visit.testerId;
-    newTestResult.testerEmailAddress = visit.testerEmail;
+    newTestResult.testerName = this.authService.testerDetails.testerName;
+    newTestResult.testerStaffId = this.authService.testerDetails.testerId;
+    newTestResult.testerEmailAddress = this.authService.testerDetails.testerEmail;
     newTestResult.testStartTimestamp = test.startTime;
     newTestResult.testEndTimestamp = test.endTime;
     newTestResult.testStatus = test.status;

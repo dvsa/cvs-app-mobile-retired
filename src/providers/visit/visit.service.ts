@@ -7,6 +7,7 @@ import { ActivityModel } from "../../models/visit/activity.model";
 import { Events } from "ionic-angular";
 import { LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
 import { Observable } from "rxjs";
+import { AuthService } from "../global/auth.service";
 import { CommonFunctionsService } from "../utils/common-functions";
 
 @Injectable()
@@ -14,16 +15,14 @@ export class VisitService {
   visit: VisitModel;
   easterEgg: string;
   caching: string;
-  testerStaffId: string;
 
   constructor(public storageService: StorageService,
               private httpService: HTTPService,
-              public events: Events,
-              private commonFunc: CommonFunctionsService) {
+              public authService: AuthService,
+              public events: Events) {
     this.visit = {} as VisitModel;
     this.easterEgg = localStorage.getItem(LOCAL_STORAGE.EASTER_EGG);
     this.caching = localStorage.getItem(LOCAL_STORAGE.CACHING);
-    this.testerStaffId = this.commonFunc.randomString();
   }
 
   createVisit(testStation, id?: string) {
@@ -32,11 +31,9 @@ export class VisitService {
     this.visit.testStationName = testStation.testStationName;
     this.visit.testStationPNumber = testStation.testStationPNumber;
     this.visit.testStationType = testStation.testStationType;
-    this.visit.testerName = '';
-    this.visit.testerEmail = '';
-    this.visit.testerId = this.testerStaffId;
-    this.visit.testerName = 'Dublu Zero Sapte';
-    this.visit.testerEmail = 'test@email.com';
+    this.visit.testerId = this.authService.testerDetails.testerId;
+    this.visit.testerName = this.authService.testerDetails.testerName;
+    this.visit.testerEmail = this.authService.testerDetails.testerEmail;
     this.visit.tests = [];
     if (id) this.visit.id = id;
     this.updateVisit();
@@ -50,8 +47,8 @@ export class VisitService {
       testStationPNumber: testStation.testStationPNumber,
       testStationEmail: testStation.testStationEmails[0],
       testStationType: testStation.testStationType,
-      testerName: 'Maria Ciobanu',
-      testerStaffId: this.testerStaffId
+      testerName: this.authService.testerDetails.testerName,
+      testerStaffId: this.authService.testerDetails.testerId
     };
     return this.httpService.startVisit(activities);
   }
