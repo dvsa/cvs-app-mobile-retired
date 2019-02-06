@@ -1,5 +1,13 @@
 import { Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { IonicPage, NavController, AlertController, ItemSliding, NavParams, Events } from 'ionic-angular';
+import {
+  IonicPage,
+  NavController,
+  AlertController,
+  ItemSliding,
+  NavParams,
+  Events,
+  ModalController
+} from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
 import { PhoneService } from '../../../../providers/natives/phone.service';
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
@@ -10,6 +18,7 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { APP, APP_STRINGS, ODOMETER_METRIC, TEST_COMPLETION_STATUS } from "../../../../app/app.enums";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
 
 @IonicPage()
 @Component({
@@ -22,6 +31,7 @@ export class TestCreatePage implements OnInit, OnDestroy {
   testTypesFieldsMetadata;
   testCompletionStatus;
   completedFields = {};
+  countriesArr = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -31,7 +41,8 @@ export class TestCreatePage implements OnInit, OnDestroy {
               public stateReformingService: StateReformingService,
               private vehicleService: VehicleService,
               private events: Events,
-              private commonFunctions: CommonFunctionsService) {
+              private commonFunctions: CommonFunctionsService,
+              private modalCtrl: ModalController) {
     this.testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
   }
 
@@ -60,6 +71,15 @@ export class TestCreatePage implements OnInit, OnDestroy {
   getCurrentTechRecordVehicleType(vehicle): string {
     let vehCurrentTechRec = this.vehicleService.getCurrentTechRecord(vehicle);
     return vehCurrentTechRec.vehicleType;
+  }
+
+  getCountryStringToBeDisplayed(vehicle: VehicleModel) {
+    let corData = CountryOfRegistrationData.CountryData;
+    for (let elem of corData) {
+      if (vehicle.countryOfRegistration === elem.key) {
+        return elem.value.split(' -')[0];
+      }
+    }
   }
 
   doesOdometerDataExist(index: number) {
@@ -134,6 +154,20 @@ export class TestCreatePage implements OnInit, OnDestroy {
     this.navCtrl.push('OdometerReadingPage', {vehicle: this.testData.vehicles[index]});
   }
 
+  onCountryOfRegistration(vehicle: VehicleModel) {
+    const MODAL = this.modalCtrl.create('RegionReadingPage', {
+      vehicle: vehicle
+    });
+    MODAL.present();
+  }
+
+  onVehicleCategory(vehicle: VehicleModel) {
+    const MODAL = this.modalCtrl.create('CategoryReadingPage', {
+      vehicle: vehicle
+    });
+    MODAL.present();
+  }
+
   launchDialer(): void {
     this.phoneService.callPhoneNumber('00447976824451');
   }
@@ -180,12 +214,16 @@ export class TestCreatePage implements OnInit, OnDestroy {
 
   reviewTest(): void {
     let finishedTest;
+    let requiredFieldsCompleted = true;
     for (let vehicle of this.testData.vehicles) {
+      if (!vehicle.countryOfRegistration || !vehicle.euVehicleCategory || !vehicle.odometerReading) {
+        requiredFieldsCompleted = false;
+      }
       finishedTest = vehicle.testTypes.every((test: TestTypeModel) => {
         return test.completionStatus != TEST_COMPLETION_STATUS.IN_PROGRESS;
       });
     }
-    if (!finishedTest) {
+    if (!finishedTest || !requiredFieldsCompleted) {
       let alert = this.alertCtrl.create({
         title: APP_STRINGS.TEST_NOT_COMPLETE,
         subTitle: APP_STRINGS.COMPLETE_ALL_TESTS,

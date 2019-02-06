@@ -7,6 +7,7 @@ import { VisitService } from "../visit/visit.service";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TechRecordModel, VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
+import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
 import { TECH_RECORD_STATUS } from "../../models/models.enums";
 
 @Injectable()
@@ -22,6 +23,8 @@ export class VehicleService {
     newVehicle.techRecord = [];
     newVehicle.techRecord.push(this.getCurrentTechRecord(vehicleTechRecord));
     newVehicle.testResultsHistory = [];
+    newVehicle.countryOfRegistration = CountryOfRegistrationData.DefaultCountryData.key;
+    newVehicle.euVehicleCategory = '';
     newVehicle.odometerReading = '';
     newVehicle.odometerMetric = '';
     newVehicle.preparerId = '';

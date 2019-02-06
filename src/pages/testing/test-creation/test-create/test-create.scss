@@ -82,9 +82,18 @@ page-test-create {
           color: $color-grey-2;
         }
 
-        [item-end].odometer-reading-icon.odometer-reading-icon-data {
+        [item-end].odometer-reading-icon.odometer-reading-icon-data,
+        [item-end].vehicle-category-icon-data {
           font-size: $font-size-extra-large;
           color: color($colors, primary);
+        }
+
+        [item-end][text-nowrap].vehicle-details {
+          color: color($colors, dark);
+          max-width: 100px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         p[ion-text].test-result {
