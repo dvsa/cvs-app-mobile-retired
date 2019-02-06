@@ -64,6 +64,7 @@ ansiColor('xterm') {
           stage('Clean Certificate') {
               withCredentials([string(credentialsId: 'CertificateName', variable: 'CERTNAME')]) {
                 sh 'security find-certificate -c "$CERTNAME" -a -Z | awk \'/SHA-1/{system("security delete-certificate -Z "$NF)}\''
+                sh 'rm ~/Library/MobileDevice/Provisioning\\ Profiles/*.mobileprovision'
               }
           }
     }
