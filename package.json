@@ -44,8 +44,6 @@
     "@ionic-native/status-bar": "^4.12.2",
     "@ionic-native/wheel-selector": "^4.17.0",
     "@ionic/storage": "^2.2.0",
-    "amazon-cognito-identity-js": "^1.29.0",
-    "aws-sdk": "2.177.0",
     "call-number": "^1.0.1",
     "cordova-ios": "4.5.5",
     "cordova-open-native-settings": "^1.5.2",
