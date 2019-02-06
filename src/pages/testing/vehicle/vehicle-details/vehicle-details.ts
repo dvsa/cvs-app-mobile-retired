@@ -4,7 +4,7 @@ import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { TestService } from "../../../../providers/test/test.service";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { DATE_FORMAT } from "../../../../app/app.enums";
+import { APP_STRINGS, DATE_FORMAT } from "../../../../app/app.enums";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 
 @IonicPage()
@@ -37,13 +37,13 @@ export class VehicleDetailsPage {
 
   goToPreparerPage(): void {
     let confirm = this.alertCtrl.create({
-      title: 'Confirm vehicle',
-      message: 'This action will confirm the vehicle for testing.',
+      title: APP_STRINGS.CONFIRM_VEHICLE,
+      message: APP_STRINGS.CONFIRM_VEHICLE_MSG,
       buttons: [
         {
-          text: 'Cancel',
+          text: APP_STRINGS.CANCEL,
         }, {
-          text: 'Confirm',
+          text: APP_STRINGS.CONFIRM,
           handler: () => {
             this.testReportService.addVehicle(this.testData, this.vehicleData);
             this.navCtrl.push('AddPreparerPage', {

@@ -37,4 +37,17 @@ page-vehicle-history {
       }
     }
   }
+
+  .no-result {
+    margin: auto;
+    width: 250px;
+    max-height: 50%;
+    text-align: center;
+    h3 {
+      color: $color-grey-1;
+      font-size: $font-size-medium;
+      font-weight: $font-weight-semi-bold;
+      font-family: $sf-pro-font-family;
+    }
+  }
 }

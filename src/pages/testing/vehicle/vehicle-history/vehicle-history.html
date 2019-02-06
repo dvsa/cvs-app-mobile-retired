@@ -13,7 +13,7 @@
       {{ vehicleData.vrm }}
     </div>
 
-  <ion-list class="tests-list">
+  <ion-list class="tests-list" *ngIf="testResultHistory.length">
     <ng-container *ngFor="let test of testResultHistory; let testIndex = index">
       <ng-container *ngIf="commonFunc.checkForMatch(test.testStatus, 'submitted')">
         <ng-container *ngFor="let testType of test.testTypes; let testTypeIndex = index">
@@ -56,5 +56,9 @@
       </ng-container>
     </ng-container>
   </ion-list>
+
+  <div *ngIf="!testResultHistory.length" class="no-result">
+    <h3>{{ noHistory }}</h3>
+  </div>
 
 </ion-content>
