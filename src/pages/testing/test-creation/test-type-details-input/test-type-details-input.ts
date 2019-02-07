@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavParams, ViewController } from 'ionic-angular';
-import { APP_STRINGS } from "../../../../app/app.enums";
+import { APP_STRINGS, TEST_TYPE_FIELDS, PATTERNS } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -14,6 +14,8 @@ export class TestTypeDetailsInputPage implements OnInit {
   input;
   fromTestReview;
   inputValue: string;
+  testTypeFields;
+  patterns;
 
   constructor(public navParams: NavParams,
               private viewCtrl: ViewController,
@@ -28,6 +30,8 @@ export class TestTypeDetailsInputPage implements OnInit {
     this.fromTestReview = this.navParams.get('fromTestReview');
     let existentValue = this.navParams.get('existentValue');
     this.inputValue = existentValue !== null ? existentValue : '0';
+    this.testTypeFields = TEST_TYPE_FIELDS;
+    this.patterns = PATTERNS;
   }
 
   valueInputChange(value) {

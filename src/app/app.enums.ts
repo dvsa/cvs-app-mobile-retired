@@ -113,3 +113,7 @@ export enum DEFAULT_VALUES {
   NONE = 'none',
   NOT_ENTERED = 'not entered'
 }
+
+export enum PATTERNS {
+  NUMERIC = '[0-9]*'
+}
