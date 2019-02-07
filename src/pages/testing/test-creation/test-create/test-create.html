@@ -46,7 +46,7 @@
                             detail-none
                             (click)="openTest(vehicle, vehicleTest)"
                             class="bottom-divider">
-                        <h3 class="test-type">{{ vehicleTest.testTypeName }}</h3>
+                        <h3 class="test-type">{{ vehicleTest.name }}</h3>
                         <p item-end ion-text text-uppercase
                            class="test-type-status test-result"
                            [color]="commonFunctions.getTestResultColor(vehicleTest.testResult)"

@@ -20,7 +20,7 @@
                 <ion-item class="ion-item-title">
                     <ion-img item-start class="vehicle-type-icon"
                              src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="50"></ion-img>
-                    <h2 padding-left>{{ vehicle.vrm }} ({{vehicle.techRecord[0].vehicleType}})</h2>
+                    <h2 padding-left>{{ vehicle.vrm }} ({{getCurrentTechRecordVehicleType(vehicle)}})</h2>
                     <p padding-left>{{ vehicle.vin }}</p>
                 </ion-item>
                 <ion-item padding-left

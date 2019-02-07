@@ -15,7 +15,7 @@
 <ion-content class="content-background-color-grey">
     <ion-list class="full-dividers-list">
 
-        <ion-item><h2>{{vehicleTest.testTypeName}}</h2></ion-item>
+        <ion-item><h2>{{vehicleTest.name}}</h2></ion-item>
         <ion-item-group *ngFor="let section of testTypeDetails.sections">
             <ion-item-divider
                     *ngIf="canDisplaySection(section)">{{section.sectionName.toUpperCase()}}</ion-item-divider>
