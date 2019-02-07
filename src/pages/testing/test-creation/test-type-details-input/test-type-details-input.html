@@ -25,6 +25,7 @@
         <ion-item-divider padding-left>{{input.label.toUpperCase()}}</ion-item-divider>
         <ion-item padding-left>
             <ion-input [type]="input.type"
+                       [pattern]="input.type === testTypeFields.NUMBER ? patterns.NUMERIC : ''"
                        [(ngModel)]="inputValue"
                        (ngModelChange)="valueInputChange($event)"></ion-input>
         </ion-item>
