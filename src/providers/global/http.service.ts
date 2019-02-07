@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AppConfig } from "../../../config/app.config";
-import { AtfReferenceDataModel } from "../../models/reference-data-models/atf.model";
+import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 import { PATHS } from "../../app/app.enums";
@@ -16,8 +16,8 @@ export class HTTPService {
   constructor(private http: HttpClient) {
   }
 
-  getAtfs(): Observable<AtfReferenceDataModel[]> {
-    return this.http.get<AtfReferenceDataModel[]>(AppConfig.BACKEND_URL_ATF)
+  getAtfs(): Observable<TestStationReferenceDataModel[]> {
+    return this.http.get<TestStationReferenceDataModel[]>(AppConfig.BACKEND_URL_ATF)
   }
 
   getDefects(): Observable<DefectItemReferenceDataModel[]> {

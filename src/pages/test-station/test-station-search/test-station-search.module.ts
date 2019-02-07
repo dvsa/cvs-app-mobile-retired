@@ -1,22 +1,22 @@
 import {NgModule} from '@angular/core';
 import {IonicPageModule} from 'ionic-angular';
-import {ATFSearchPage} from "./atf-search";
+import {TestStationSearchPage} from "./test-station-search";
 import {PipesModule} from "../../../pipes/pipes.module";
 import {DirectivesModule} from "../../../directives/directives.module";
-import {AtfService} from "../../../providers/atf/atf.service";
+import {TestStationService} from "../../../providers/test-station/test-station.service";
 
 @NgModule({
   declarations: [
-    ATFSearchPage,
+    TestStationSearchPage,
   ],
   imports: [
     PipesModule,
     DirectivesModule,
-    IonicPageModule.forChild(ATFSearchPage),
+    IonicPageModule.forChild(TestStationSearchPage),
   ],
   providers: [
-    AtfService
+    TestStationService
   ]
 })
-export class AtfSearchModule {
+export class TestStationSearchModule {
 }

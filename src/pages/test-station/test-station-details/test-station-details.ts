@@ -1,42 +1,42 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
-import { AtfReferenceDataModel } from '../../../models/reference-data-models/atf.model';
+import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
 import { APP_STRINGS } from "../../../app/app.enums";
 import { PhoneService } from "../../../providers/natives/phone.service";
 
 @IonicPage()
 @Component({
-  selector: 'page-atf-details',
-  templateUrl: 'atf-details.html'
+  selector: 'page-test-station-details',
+  templateUrl: 'test-station-details.html'
 })
-export class ATFDetailsPage implements OnInit {
-  atf: AtfReferenceDataModel;
+export class TestStationDetailsPage implements OnInit {
+  testStation: TestStationReferenceDataModel;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
               public navParams: NavParams,
               private viewCtrl: ViewController,
               private phoneService: PhoneService) {
-    this.atf = navParams.get('atf');
+    this.testStation = navParams.get('testStation');
   }
 
   ngOnInit() {
   }
 
   ionViewDidLoad() {
-    this.viewCtrl.setBackButtonText(APP_STRINGS.SEARCH_ATF);
+    this.viewCtrl.setBackButtonText(APP_STRINGS.SEARCH_TEST_STATION);
   }
 
   startVisit(): void {
     let confirm = this.alertCtrl.create({
-      title: APP_STRINGS.ATF_SAFETY,
-      subTitle: `Confirm that you are at ${this.atf.atfName} (${this.atf.atfNumber}) and that it is suitable to begin testing before continuing.`,
+      title: APP_STRINGS.TEST_STATION_SAFETY,
+      subTitle: `Confirm that you are at ${this.testStation.testStationName} (${this.testStation.testStationNumber}) and that it is suitable to begin testing before continuing.`,
       buttons: [
         {
           text: APP_STRINGS.CONFIRM,
           handler: () => {
-            this.navCtrl.push('VisitTimelinePage', {atf: this.atf});
+            this.navCtrl.push('VisitTimelinePage', {testStation: this.testStation});
           }
         },
         {
@@ -61,7 +61,7 @@ export class ATFDetailsPage implements OnInit {
 
   callNumber(): void {
     let confirm = this.alertCtrl.create({
-      title: `${this.atf.atfContactNumber}`,
+      title: `${this.testStation.testStationContactNumber}`,
       buttons: [
         {
           text: APP_STRINGS.CANCEL
@@ -69,7 +69,7 @@ export class ATFDetailsPage implements OnInit {
         {
           text: APP_STRINGS.CALL,
           handler: () => {
-            this.phoneService.callPhoneNumber(this.atf.atfContactNumber);
+            this.phoneService.callPhoneNumber(this.testStation.testStationContactNumber);
           }
         }
       ]

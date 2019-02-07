@@ -15,21 +15,21 @@
     <ion-item-group>
       <ion-item padding-left>
         <div text-left float-left class="label-custom-style">ATF name</div>
-        <div text-right float-right class="value-custom-style">{{ atf.atfName }}</div>
+        <div text-right float-right class="value-custom-style">{{ testStation.testStationName }}</div>
       </ion-item>
       <ion-item>
         <div padding-left text-left float-left class="label-custom-style">P-number</div>
-        <div float-right text-right class="value-custom-style">{{ atf.atfNumber }}</div>
+        <div float-right text-right class="value-custom-style">{{ testStation.testStationNumber }}</div>
       </ion-item>
       <ion-item-divider text-uppercase padding-left>Address</ion-item-divider>
       <ion-item>
-        <div class="label-custom-style" padding-left>{{ atf.atfAddress }}</div>
-        <div class="label-custom-style" padding-left>{{ atf.atfTown}}</div>
-        <div class="label-custom-style" padding-left>{{ atf.atfPostcode }}</div>
+        <div class="label-custom-style" padding-left>{{ testStation.testStationAddress }}</div>
+        <div class="label-custom-style" padding-left>{{ testStation.testStationTown}}</div>
+        <div class="label-custom-style" padding-left>{{ testStation.testStationPostcode }}</div>
       </ion-item>
       <ion-item-divider text-uppercase padding-left>Phone number</ion-item-divider>
       <ion-item padding-left class="number-custom-style">
-        <ion-label text-left (click)="callNumber()">{{ atf.atfContactNumber}}</ion-label>
+        <ion-label text-left (click)="callNumber()">{{ testStation.testStationContactNumber}}</ion-label>
       </ion-item>
     </ion-item-group>
 </ion-content>

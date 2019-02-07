@@ -23,7 +23,7 @@ export class VisitTimelinePage implements OnInit {
   }
 
   ngOnInit() {
-    this.visit = Object.keys(this.visitService.visit).length ? this.visitService.visit : this.visitService.createVisit(this.navParams.get('atf'));
+    this.visit = Object.keys(this.visitService.visit).length ? this.visitService.visit : this.visitService.createVisit(this.navParams.get('testStation'));
     if (this.visitService.easterEgg == 'false') this.stateReformingService.saveNavStack(this.navCtrl);
   }
 

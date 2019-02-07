@@ -12,12 +12,12 @@ export class VisitService {
     this.visit = {} as VisitModel
   }
 
-  createVisit(atf) {
+  createVisit(testStation) {
     this.visit.startTime = new Date().toISOString();
     this.visit.endTime = null;
-    this.visit.testStationName = atf.atfName;
-    this.visit.testStationNumber = atf.atfNumber;
-    this.visit.testStationType = atf.atfType;
+    this.visit.testStationName = testStation.testStationName;
+    this.visit.testStationNumber = testStation.testStationNumber;
+    this.visit.testStationType = testStation.testStationfType;
     this.visit.testerId = '';
     this.visit.testerName = '';
     this.visit.tests = [];

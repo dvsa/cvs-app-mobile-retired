@@ -17,22 +17,22 @@
 
 <ion-content no-padding class="content-background-color-grey">
 
-  <ion-list *ngIf="filteredAtfs.length">
-    <ion-item-group *ngFor="let atfGroup of filteredAtfs">
-      <div *ngFor="let atf of atfGroup; let i = index">
+  <ion-list *ngIf="filteredTestStations.length">
+    <ion-item-group *ngFor="let testStationGroup of filteredTestStations">
+      <div *ngFor="let testStation of testStationGroup; let i = index">
         <ion-item-divider padding-left *ngIf="i == 0">
-          <b>{{ atf.atfName | slice:0:1 }}</b>
+          <b>{{ testStation.testStationName | slice:0:1 }}</b>
         </ion-item-divider>
-        <button ion-item (click)="openATF(atf)" padding-left class="list-item-height">
-          <h3>{{ atf.atfName }}</h3>
-          <p *ngIf="atf.searchProperty != 'atfAddress'" [innerHTML]="boldSearchVal(atf.atfNumber, searchVal)"></p>
-          <p *ngIf="atf.searchProperty == 'atfAddress'" [innerHTML]="boldSearchVal(atf.atfAddress, searchVal)"></p>
+        <button ion-item (click)="openTestStation(testStation)" padding-left class="list-item-height">
+          <h3>{{ testStation.testStationName }}</h3>
+          <p *ngIf="testStation.searchProperty != 'testStationAddress'" [innerHTML]="boldSearchVal(testStation.testStationNumber, searchVal)"></p>
+          <p *ngIf="testStation.searchProperty == 'testStationAddress'" [innerHTML]="boldSearchVal(testStation.testStationAddress, searchVal)"></p>
         </button>
       </div>
     </ion-item-group>
   </ion-list>
 
-  <div *ngIf="filteredAtfs.length == 0" class="no-result">
+  <div *ngIf="filteredTestStations.length == 0" class="no-result">
     <h3>No results found</h3>
     <span>You can search for an ATF by typing in</span>
     <span>it's name, address or P-number</span>

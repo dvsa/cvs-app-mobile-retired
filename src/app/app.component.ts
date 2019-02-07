@@ -15,7 +15,7 @@ import { STORAGE } from "./app.enums";
 })
 export class MyApp {
   @ViewChild('navElem') navElem: NavController;
-  rootPage: any = 'ATFHomePage';
+  rootPage: any = 'TestStationHomePage';
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private alertCtrl: AlertController, private syncService: SyncService, private authService: AuthService, private mobileAccessibility: MobileAccessibility, private renderer: Renderer2, public storageService: StorageService, public visitService: VisitService) {
     platform.ready().then(() => {
