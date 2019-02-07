@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AppConfig } from "../../../config/app.config";
 import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
@@ -9,6 +9,7 @@ import { PATHS } from "../../app/app.enums";
 import { TestResultModel } from "../../models/tests/test-result.model";
 import { DefectItemReferenceDataModel } from "../../models/reference-data-models/defects.reference-model";
 import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
+import { ActivityModel } from "../../models/visit/activity.model";
 
 @Injectable()
 export class HTTPService {
@@ -44,4 +45,11 @@ export class HTTPService {
     return this.http.post<TestResultModel>(AppConfig.BACKEND_URL_TEST_RESULTS, body)
   }
 
+  startVisit(activities: ActivityModel): Observable<any> {
+    return this.http.post(AppConfig.BACKEND_URL_VISIT, activities);
+  }
+
+  endVisit(visitID: string): Observable<any> {
+    return this.http.put(`${AppConfig.BACKEND_URL_VISIT}/${visitID}/end`, null);
+  }
 }

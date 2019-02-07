@@ -50,10 +50,10 @@ export class TestCreatePage implements OnInit {
     this.testCompletionStatus = TEST_COMPLETION_STATUS;
     let lastTestIndex = this.visitService.visit.tests.length - 1;
     this.testData = Object.keys(this.visitService.visit).length ? this.visitService.visit.tests[lastTestIndex] : this.navParams.get('test');
-    if (this.visitService.easterEgg == 'false') this.stateReformingService.saveNavStack(this.navCtrl);
   }
 
   ionViewWillEnter() {
+    if (this.visitService.caching =='true') this.stateReformingService.saveNavStack(this.navCtrl);
     this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
       this.completedFields = completedFields;
     });

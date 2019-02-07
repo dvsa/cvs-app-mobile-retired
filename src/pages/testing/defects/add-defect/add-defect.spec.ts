@@ -7,7 +7,6 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { DefectsReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";

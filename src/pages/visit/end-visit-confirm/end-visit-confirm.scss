@@ -1,0 +1,20 @@
+page-end-visit-confirm {
+  .msg-centered {
+    width: 90%;
+    height: 45%;
+    margin: auto;
+    text-align: center;
+
+    h3 {
+      font-size: $font-size-medium;
+      font-family: $sf-pro-font-family;
+      font-weight: $font-weight-semi-bold;
+    }
+  }
+
+  .tick-icon {
+    width: 150px;
+    height: 150px;
+    margin: 120px auto 50px auto;
+  }
+}

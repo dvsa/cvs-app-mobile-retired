@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
-import { AppConfig } from "../../../../config/app.config";
 import { StorageService } from "../../../providers/natives/storage.service";
 import { VisitService } from "../../../providers/visit/visit.service";
+import { LOCAL_STORAGE, STORAGE } from "../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -16,7 +16,8 @@ export class TestStationHomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.visitService.easterEgg = localStorage.getItem('easterEgg');
+    this.visitService.easterEgg = localStorage.getItem(LOCAL_STORAGE.EASTER_EGG);
+    this.visitService.caching = localStorage.getItem(LOCAL_STORAGE.CACHING);
   }
 
   ionViewDidLeave() {
@@ -29,17 +30,17 @@ export class TestStationHomePage implements OnInit {
 
   enableCache() {
     this.count++;
-    if (AppConfig.IS_PRODUCTION == 'false' && this.count == 3) {
-      if (this.visitService.easterEgg == 'false') {
-        localStorage.setItem('easterEgg', 'true');
-        this.visitService.easterEgg = 'true';
-        this.storageService.delete('state');
-        this.storageService.delete('visit');
+    if (this.visitService.easterEgg == 'true' && this.count == 3) {
+      if (this.visitService.caching == 'true') {
+        localStorage.setItem(LOCAL_STORAGE.CACHING, 'false');
+        this.visitService.caching = 'false';
+        this.storageService.delete(STORAGE.STATE);
+        this.storageService.delete(STORAGE.VISIT);
         this.count = 0;
         this.presentToast('Storage was cleared and caching was disabled. Ride on');
       } else {
-        localStorage.setItem('easterEgg', 'false');
-        this.visitService.easterEgg = 'false';
+        localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
+        this.visitService.caching = 'true';
         this.count = 0;
         this.presentToast('Caching was enabled');
       }

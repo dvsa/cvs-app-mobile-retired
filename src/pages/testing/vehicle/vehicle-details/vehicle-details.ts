@@ -72,8 +72,4 @@ export class VehicleDetailsPage {
       }
     )
   }
-
-  onTestHistory() {
-    this.navCtrl.push('VehicleHistoryPage');
-  }
 }

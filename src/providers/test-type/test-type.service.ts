@@ -33,7 +33,7 @@ export class TestTypeService {
     newTestType.additionalCommentsForAbandon = '';
     newTestType.additionalNotesRecorded = '';
     newTestType.defects = [];
-    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
+    this.visitService.updateVisit();
     return newTestType
   }
 
@@ -44,7 +44,7 @@ export class TestTypeService {
 
   addDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     testType.defects.push(defect);
-    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
+    this.visitService.updateVisit();
   }
 
   removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
@@ -52,7 +52,7 @@ export class TestTypeService {
       return e.deficiencyRef
     }).indexOf(defect.deficiencyRef);
     testType.defects.splice(defIdx, 1);
-    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
+    this.visitService.updateVisit();
   }
 
   getTestTypesFromStorage(): Observable<any> {
