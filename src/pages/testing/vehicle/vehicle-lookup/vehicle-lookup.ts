@@ -4,8 +4,10 @@ import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
-import { tap } from "rxjs/operators";
+import { catchError, map, tap } from "rxjs/operators";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
+import { STORAGE } from "../../../../app/app.enums";
+import { StorageService } from "../../../../providers/natives/storage.service";
 
 @IonicPage()
 @Component({
@@ -21,6 +23,7 @@ export class VehicleLookupPage {
               private vehicleService: VehicleService,
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
+              public storageService: StorageService,
               public visitService: VisitService) {
     this.testData = navParams.get('test');
   }
@@ -42,12 +45,17 @@ export class VehicleLookupPage {
             () => {
               LOADING.dismiss();
             }
-          )
+          ),
+          map((data) => {
+            this.storageService.update(STORAGE.TEST_HISTORY, data);
+            return data;
+          }),
         ).subscribe(
           (testResultHistory: TestResultModel[]) => {
             this.goToVehicleDetails(vehicleData, testResultHistory);
           },
           () => {
+            this.storageService.update(STORAGE.TEST_HISTORY, []);
             this.goToVehicleDetails(vehicleData);
             LOADING.dismiss();
           })
@@ -78,7 +86,6 @@ export class VehicleLookupPage {
   goToVehicleDetails(vehicleData, testResultHistory?: TestResultModel[]) {
     this.navCtrl.push('VehicleDetailsPage', {
       test: this.testData,
-      testResultsHistory: testResultHistory ? testResultHistory : [],
       vehicle: vehicleData
     });
   }

@@ -1,17 +1,15 @@
-import { TEST_STATION_TYPE } from "../../../models/models.enums";
-
 export class TestStationDataMock {
   public static get TestStationData() {
     return [
       {
         testStationId: '123411',
-        testStationName: 'An ATF Name',
+        testStationName: 'An Test Station Name',
         testStationNumber: '123',
         testStationContactNumber: '321',
         testStationAccessNotes: 'note',
         testStationGeneralNotes: 'gNote',
         testStationTown: 'town',
-        testStationAddress: 'An ATF Address',
+        testStationAddress: 'An Test Station Address',
         testStationPostcode: '0000',
         testStationLongitude: 1,
         testStationLatitude: 2,

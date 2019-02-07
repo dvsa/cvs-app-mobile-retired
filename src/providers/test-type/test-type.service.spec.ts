@@ -6,6 +6,7 @@ import { VisitService } from "../visit/visit.service";
 import { DefectDetailsModel } from "../../models/defects/defect-details.model";
 import { DefectDetailsDataMock } from "../../assets/data-mocks/defect-details-data.mock";
 import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
+import { CommonFunctionsService } from "../utils/common-functions";
 
 describe('Provider: TestTypeService', () => {
   let testTypeService: TestTypeService;
@@ -29,6 +30,7 @@ describe('Provider: TestTypeService', () => {
     TestBed.configureTestingModule({
       providers: [
         TestTypeService,
+        CommonFunctionsService,
         {provide: VisitService, useValue: visitServiceSpy},
         {provide: StorageService, useValue: storageServiceSpy}
       ]

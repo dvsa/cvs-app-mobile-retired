@@ -23,7 +23,7 @@ export class DefectDetailsPage implements OnInit {
               private alertCtrl: AlertController) {
     this.vehicleTest = navParams.get('vehicleTest');
     this.defect = navParams.get('deficiency');
-    this.isEdit = navParams.get('isEdit')
+    this.isEdit = navParams.get('isEdit');
   }
 
   ngOnInit() {

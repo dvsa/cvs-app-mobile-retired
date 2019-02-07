@@ -57,12 +57,9 @@ export class TestCreatePage implements OnInit, OnDestroy {
     }
   }
 
-  getCurrentTechRecordVehicleType(vehicle) {
-    for (let techRecord of vehicle) {
-      if (this.commonFunctions.checkForMatch(techRecord.statusCode, 'current')) {
-        return techRecord.vehicleType;
-      }
-    }
+  getCurrentTechRecordVehicleType(vehicle): string {
+    let vehCurrentTechRec = this.vehicleService.getCurrentTechRecord(vehicle);
+    return vehCurrentTechRec.vehicleType;
   }
 
   doesOdometerDataExist(index: number) {

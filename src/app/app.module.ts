@@ -23,7 +23,6 @@ import { SyncService } from "../providers/global/sync.service";
 import { PreparerService } from '../providers/preparer/preparer.service';
 import { VisitService } from "../providers/visit/visit.service";
 import { StateReformingService } from "../providers/global/state-reforming.service";
-import { TestTypeDetailsInputPage } from "../pages/testing/test-creation/test-type-details-input/test-type-details-input";
 import { CommonFunctionsService } from "../providers/utils/common-functions";
 
 const IONIC_PROVIDERS = [
@@ -59,7 +58,6 @@ const IONIC_NATIVE_PROVIDERS = [
 @NgModule({
   declarations: [
     MyApp,
-    TestTypeDetailsInputPage
   ],
   imports: [
     BrowserModule,
@@ -72,7 +70,6 @@ const IONIC_NATIVE_PROVIDERS = [
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    TestTypeDetailsInputPage
   ],
   providers: [
     ...IONIC_PROVIDERS,

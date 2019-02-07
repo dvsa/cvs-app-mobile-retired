@@ -20,6 +20,7 @@ export class TestTypesListPage implements OnInit {
   previousPage: string;
   backBtn: string;
   backBtnName: string;
+  testTypeCategoryName: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -30,9 +31,11 @@ export class TestTypesListPage implements OnInit {
     this.vehicleData = navParams.get('vehicleData');
     this.testTypeReferenceData = navParams.get('testTypeData');
     this.previousPage = navParams.get('previousPage');
+    this.testTypeCategoryName = navParams.get('testTypeCategoryName');
   }
 
   ngOnInit() {
+    if(this.testTypeReferenceData) this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(this.testTypeReferenceData, 'id', 'asc')
     this.backBtn = this.navParams.get('backBtn');
     this.getTestTypeReferenceData();
     let previousView = this.navCtrl.getPrevious();
@@ -51,19 +54,21 @@ export class TestTypesListPage implements OnInit {
   getTestTypeReferenceData(): void {
     if (!this.testTypeReferenceData) {
       this.testTypeService.getTestTypesFromStorage().subscribe(
-        data => {
-          this.testTypeReferenceData = data;
+        (data: TestTypesReferenceDataModel[]) => {
+          this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(data, 'id', 'asc');
         }
       )
     }
   }
 
   selectedItem(testType: TestTypesReferenceDataModel): void {
+    if (this.firstPage) this.testTypeCategoryName = testType.name;
     if (testType.nextTestTypesOrCategories) {
       this.navCtrl.push('TestTypesListPage', {
         vehicleData: this.vehicleData,
         testTypeData: testType.nextTestTypesOrCategories,
         previousPage: testType.name,
+        testTypeCategoryName: this.testTypeCategoryName,
         backBtn: this.previousPage || APP_STRINGS.TEST_TYPE
       });
     } else {
@@ -71,6 +76,7 @@ export class TestTypesListPage implements OnInit {
       for (let i = views.length - 1; i >= 0; i--) {
         if (views[i].component.name == 'TestCreatePage') {
           let test = this.testTypeService.createTestType(testType);
+          test.testTypeCategoryName = this.testTypeCategoryName;
           this.vehicleService.addTestType(this.vehicleData, test);
           this.navCtrl.popTo(views[i]);
         }

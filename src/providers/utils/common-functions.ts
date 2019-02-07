@@ -59,6 +59,27 @@ export class CommonFunctionsService {
     };
   }
 
+  public orderByStringId(key, order: 'asc' | 'desc' = 'asc') {
+    return (a, b) => {
+      if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+        return 0;
+      }
+
+      const varA = +a[key];
+      const varB = +b[key];
+
+      let comparison = 0;
+      if (varA > varB) {
+        comparison = 1;
+      } else if (varA < varB) {
+        comparison = -1;
+      }
+      return (
+        (order == 'desc') ? (comparison * -1) : comparison
+      );
+    };
+  }
+
   getTestResultColor(testResult: string): string {
     switch (testResult.toLowerCase()) {
       case TEST_TYPE_RESULTS.PASS:
@@ -70,6 +91,9 @@ export class CommonFunctionsService {
         return 'tertiary';
     }
   }
+
+
+
 
 
 }

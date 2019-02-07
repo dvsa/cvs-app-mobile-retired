@@ -28,19 +28,22 @@
       <img src="assets/timeline-oval.svg" item-start>
       <div class="timeline-item-content">
         <p>{{ timelineItem.startTime | date: 'shortTime' }} - {{ timelineItem.endTime | date: 'shortTime' }}</p>
-        <h2>Test ({{ timelineItem.vehicles[0].vrms[0].vrm }})</h2>
-        <span *ngFor="let vehicle of timelineItem.vehicles">
-          <span  *ngIf="timelineItem.status != TEST_REPORT_STATUS.CANCELLED">
+        <div *ngFor="let vehicle of timelineItem.vehicles">
+          <h2>Test ({{ vehicle.vrm }})</h2>
+          <span *ngFor="let vehicle of timelineItem.vehicles">
+          <span *ngIf="timelineItem.status != TEST_REPORT_STATUS.CANCELLED">
                     <p *ngFor="let vehicleTest of vehicle.testTypes">
-                      <span>{{ vehicleTest.categoryName }} •</span>
-                      <span *ngIf="vehicleTest.result === TEST_TYPE_RESULT.SUCCESSFUL" class="pass" text-uppercase>{{ vehicleTest.result }}</span>
-                      <span *ngIf="vehicleTest.result === TEST_TYPE_RESULT.UNSUCCESSFUL" class="fail" text-uppercase>{{ vehicleTest.result }}</span>
-                      <span *ngIf="vehicleTest.result === TEST_TYPE_RESULT.ABANDONED" class="fail" text-uppercase>{{ vehicleTest.result }}</span>
-                      <span *ngIf="vehicleTest.result === TEST_TYPE_RESULT.PRS" class="prs" text-uppercase>{{ vehicleTest.result }}</span>
+                      <span>{{ vehicleTest.testTypeCategoryName }} •</span>
+                      <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.SUCCESSFUL" class="pass" text-uppercase>{{ vehicleTest.testResult }}</span>
+                      <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.UNSUCCESSFUL" class="fail"
+                            text-uppercase>{{ vehicleTest.result }}</span>
+                      <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.ABANDONED" class="fail" text-uppercase>{{ vehicleTest.testResult }}</span>
+                      <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.PRS" class="prs" text-uppercase>{{ vehicleTest.testResult }}</span>
                     </p>
           </span>
           <p><b *ngIf="timelineItem.status === TEST_REPORT_STATUS.CANCELLED" text-uppercase>cancelled</b></p>
         </span>
+        </div>
       </div>
     </button>
   </ion-list>

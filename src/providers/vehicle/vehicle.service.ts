@@ -7,6 +7,7 @@ import { VisitService } from "../visit/visit.service";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TechRecordModel, VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
+import { TECH_RECORD_STATUS } from "../../models/models.enums";
 
 @Injectable()
 export class VehicleService {
@@ -62,14 +63,11 @@ export class VehicleService {
     return vehicle;
   }
 
-  getCurrentTechRecord(array): TechRecordModel {
-    let currentArray = array.techRecord.find(
-      techRec => {
-        return techRec['statusCode'] == 'current'
+  getCurrentTechRecord(vehicle: VehicleModel | VehicleTechRecordModel): TechRecordModel {
+    let currentArray = vehicle.techRecord.find(
+      (techRec: TechRecordModel) => {
+        return techRec['statusCode'] == TECH_RECORD_STATUS.CURRENT
       });
-    currentArray.noOfAxles = 2;
-    currentArray['vehicleSize'] = 'small';
-    currentArray['vehicleConfiguration'] = 'rigid';
     return currentArray;
   }
 
