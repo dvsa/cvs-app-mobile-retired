@@ -58,7 +58,7 @@ export class TestAbandoningPage implements OnInit {
       this.vehicleTest.additionalCommentsForAbandon = this.additionalComment;
     }
     this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest, false);
-    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
+    this.visitService.updateVisit();
   }
 
 }

@@ -180,7 +180,7 @@ export class CompleteTestPage implements OnInit {
 
   onSave() {
     this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest, this.testTypeDetails.hasDefects);
-    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
+    this.visitService.updateVisit();
     this.events.publish(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, this.completedFields);
     if (this.fromTestReview) {
       this.viewCtrl.dismiss(this.vehicleTest);

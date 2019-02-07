@@ -6,30 +6,40 @@ import { TestStationReferenceDataModel } from "../../models/reference-data-model
 import { TestModel } from "../../models/tests/test.model";
 import { TestDataModelMock } from "../../assets/data-mocks/data-model/test-data-model.mock";
 import { AuthService } from "../global/auth.service";
+import { HTTPService } from "../global/http.service";
+import { Events } from "ionic-angular";
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
   let storageService: StorageService;
   let authService: AuthService;
   let storageServiceSpy: any;
+  let httpService: HTTPService;
+  let httpServiceSpy;
 
   const TestStation: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
   const TEST: TestModel = TestDataModelMock.TestData;
 
   beforeEach(() => {
-    storageServiceSpy = jasmine.createSpyObj('StorageService', ['update']);
+    storageServiceSpy = jasmine.createSpyObj('StorageService', ['update', 'delete']);
+
+    httpServiceSpy = jasmine.createSpyObj('HTTPService', ['startVisit', 'endVisit']);
 
     TestBed.configureTestingModule({
       providers: [
         VisitService,
         AuthService,
-        {provide: StorageService, useValue: storageServiceSpy}
+        {provide: StorageService, useValue: storageServiceSpy},
+        Events,
+        {provide: StorageService, useValue: storageServiceSpy},
+        {provide: HTTPService, useValue: httpServiceSpy}
       ]
     });
     visitService = TestBed.get(VisitService);
     authService = TestBed.get(AuthService);
     storageService = TestBed.get(StorageService);
-    visitService.easterEgg = 'false';
+    httpService = TestBed.get(HTTPService);
+    visitService.caching = 'true';
   });
 
   afterEach(() => {
@@ -42,14 +52,17 @@ describe('Provider: VisitService', () => {
     expect(visitService.visit.startTime).toBeFalsy();
     visitService.visit = visitService.createVisit(TestStation);
     expect(visitService.visit.startTime).toBeTruthy();
+    visitService.updateVisit();
     expect(storageService.update).toHaveBeenCalled();
   });
 
   it('should end visit', () => {
     expect(visitService.visit.endTime).toBeFalsy();
-    visitService.endVisit();
+    const stubValue = 'someId';
+    visitService.visit.endTime = httpServiceSpy.startVisit.and.returnValue(stubValue);
     expect(visitService.visit.endTime).toBeTruthy();
-    expect(storageService.update).toHaveBeenCalled();
+    storageServiceSpy.delete();
+    expect(storageService.delete).toHaveBeenCalled();
   });
 
   it('should add test to visit.tests array', () => {
@@ -77,7 +90,7 @@ describe('Provider: VisitService', () => {
     expect(visitService.visit.tests.length).toBe(1);
     testsArr = visitService.getTests();
     expect(testsArr.length).toBe(1);
-  })
+  });
 
   it('should update the storage', () => {
     visitService.updateVisit();

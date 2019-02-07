@@ -4,6 +4,7 @@ import { AlertController } from 'ionic-angular';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
 import { APP_STRINGS } from "../../../app/app.enums";
 import { PhoneService } from "../../../providers/natives/phone.service";
+import { VisitService } from "../../../providers/visit/visit.service";
 
 @IonicPage()
 @Component({
@@ -17,7 +18,8 @@ export class TestStationDetailsPage implements OnInit {
               public alertCtrl: AlertController,
               public navParams: NavParams,
               private viewCtrl: ViewController,
-              private phoneService: PhoneService) {
+              private phoneService: PhoneService,
+              private visitService: VisitService) {
     this.testStation = navParams.get('testStation');
   }
 
@@ -36,7 +38,15 @@ export class TestStationDetailsPage implements OnInit {
         {
           text: APP_STRINGS.CONFIRM,
           handler: () => {
-            this.navCtrl.push('VisitTimelinePage', {testStation: this.testStation});
+            let startvisit$ = this.visitService.startVisit(this.testStation).subscribe(
+              (data) => {
+                startvisit$.unsubscribe();
+                this.visitService.createVisit(this.testStation, data.id);
+                this.navCtrl.push('VisitTimelinePage', {testStation: this.testStation});
+              },
+              (error) => {
+                console.log(error);
+              });
           }
         },
         {

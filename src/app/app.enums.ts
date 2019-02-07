@@ -14,7 +14,9 @@ export enum PATHS {
 }
 
 export enum LOCAL_STORAGE {
-  INIT_SYNC = 'initSyncDone'
+  INIT_SYNC = 'initSyncDone',
+  EASTER_EGG = 'easterEgg',
+  CACHING = 'caching'
 }
 
 export enum APP {
@@ -109,7 +111,10 @@ export enum APP_STRINGS {
   UNABLE_TO_SUBMIT_TESTS_TITLE = 'Unable to submit test',
   UNABLE_TO_SUBMIT_TESTS_TEXT = 'Make sure you are connected to the Internet and try again.',
   SETTINGS_BTN = 'Settings',
-  TRY_AGAIN_BTN = 'Try again'
+  TRY_AGAIN_BTN = 'Try again',
+  END_VISIT_TITLE = 'End visit',
+  END_VISIT_MSG = "You will not be able to add any other tests after you end this visit. Today's activity report will be sent to DVSA and ",
+  END_VISIT_LOADING = 'Submitting site visit'
 }
 
 export enum ODOMETER_METRIC {

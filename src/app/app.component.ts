@@ -8,7 +8,7 @@ import { SyncService } from "../providers/global/sync.service";
 import { AppConfig } from "../../config/app.config";
 import { StorageService } from "../providers/natives/storage.service";
 import { VisitService } from "../providers/visit/visit.service";
-import { STORAGE } from "./app.enums";
+import { LOCAL_STORAGE, STORAGE } from "./app.enums";
 
 @Component({
   templateUrl: 'app.html'
@@ -22,6 +22,15 @@ export class MyApp {
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
 
+      // easter egg
+      if (AppConfig.IS_PRODUCTION == 'true') {
+        localStorage.setItem(LOCAL_STORAGE.EASTER_EGG, 'false');
+        localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
+      } else {
+        localStorage.setItem(LOCAL_STORAGE.EASTER_EGG, 'true');
+        let cache = localStorage.getItem(LOCAL_STORAGE.CACHING);
+        cache ? localStorage.setItem(LOCAL_STORAGE.CACHING, cache) : localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
+      }
 
       this.storageService.read(STORAGE.STATE).then(
         (resp) => {
@@ -42,7 +51,7 @@ export class MyApp {
             this.navElem.setRoot(this.rootPage)
           }
         }
-      )
+      );
 
       // Mobile accessibility
       if (platform.is('cordova')) {

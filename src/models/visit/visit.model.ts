@@ -10,4 +10,5 @@ export interface VisitModel {
   testerId: string;
   testerEmail: string;
   tests: TestModel[];
+  id?: string;
 }

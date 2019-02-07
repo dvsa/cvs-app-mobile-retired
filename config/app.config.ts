@@ -41,6 +41,11 @@ export class AppConfig {
     return jsonData['BACKEND_URL_TEST_RESULTS'];
   }
 
+  public static get BACKEND_URL_VISIT() {
+    let jsonData = app;
+    return jsonData['BACKEND_URL_VISIT']
+  }
+
   public static get IS_PRODUCTION() {
     let jsonData = app;
     return jsonData['IS_PRODUCTION'];

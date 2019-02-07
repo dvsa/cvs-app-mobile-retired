@@ -35,19 +35,19 @@ export class VehicleService {
 
   addTestType(vehicle: VehicleModel, testType: TestTypeModel): void {
     vehicle.testTypes.push(testType);
-    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
+    this.visitService.updateVisit();
   }
 
   removeTestType(vehicle: VehicleModel, testType: TestTypeModel): void {
     const foundIndex = vehicle.testTypes.indexOf(testType);
     vehicle.testTypes.splice(foundIndex, 1);
-    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
+    this.visitService.updateVisit();
   }
 
   addPreparer(vehicle: VehicleModel, value: PreparersReferenceDataModel): void {
     vehicle.preparerId = value.preparerId;
     vehicle.preparerName = value.preparerName;
-    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
+    this.visitService.updateVisit();
   }
 
 
@@ -62,7 +62,7 @@ export class VehicleService {
   setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string): VehicleModel {
     vehicle.odometerReading = odomReading;
     vehicle.odometerMetric = odomMetric;
-    if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
+    this.visitService.updateVisit();
     return vehicle;
   }
 

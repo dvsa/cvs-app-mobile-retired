@@ -357,3 +357,13 @@ ion-list.vehicle-list {
 .margin-left-half{
   margin-left: 8px;
 }
+
+.black-bar {
+  height: 35px;
+  background-color: color($colors, dark);
+}
+
+.blue-bar {
+  height: 15px;
+  background-color: color($colors, tertiary);
+}
