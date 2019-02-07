@@ -7,108 +7,101 @@
 </ion-header>
   
 <ion-content no-padding>
-    <ng-container *ngFor="let vrm of vehicleData.vrms">
-        <div text-uppercase 
-             text-center 
-             class="vehicle-header-vrm-number" 
-             *ngIf="vrm.isPrimary">
-            {{ vrm.vrm }}
-        </div>
-    </ng-container>
-    <ng-container *ngFor="let techRecord of vehicleData.techRecord">
-        <ng-container *ngIf="commonFunc.checkForMatch(techRecord.statusCode, 'current')">
+    <div text-uppercase 
+         text-center 
+         class="vehicle-header-vrm-number">
+        {{ vehicleData.vrm }}
+    </div>
+         
+    <ion-list class="vehicle-list">
+        <ion-list-header>
+        </ion-list-header>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>COIF date</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.coifDate | date: dateFormat }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>NTA number</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.ntaNumber }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Conversion number</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.conversionRefNo }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Seats on upper deck</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.seatsUpperDeck }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Seats on lower deck</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.seatsLowerDeck }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Standing capacity</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.standingCapacity }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Speed restriction</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.speedRestriction }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Speed limiter</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.speedLimiterMrk ? appStrings.YES : appStrings.NO }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Tacho exempt</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.tachoExemptMrk ? appStrings.YES : appStrings.NO }}</p>
+            </div>
+        </ion-item>
+    </ion-list>
             
-            <ion-list class="vehicle-list">
-                <ion-list-header>
-                </ion-list-header>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>COIF date</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.coifDate | date: dateFormat }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>NTA number</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.ntaNumber }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Conversion number</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.conversionRefNo }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Seats on upper deck</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.seatsUpperDeck }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Seats on lower deck</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.seatsLowerDeck }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Standing capacity</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.standingCapacity }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Speed restriction</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.speedRestriction }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Speed limiter</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.speedLimiterMrk ? appStrings.YES : appStrings.NO }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Tacho exempt</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.tachoExemptMrk ? appStrings.YES : appStrings.NO }}</p>
-                    </div>
-                </ion-item>
-            </ion-list>
-                    
-            <ion-list class="vehicle-list">
-                <ion-list-header padding-left padding-right>DISPENSATIONS</ion-list-header>
-                <ion-item margin-left padding-right>
-                    <p text-wrap text-left>{{ techRecord.dispensations }}</p>
-                </ion-item>
-            </ion-list>
+    <ion-list class="vehicle-list">
+        <ion-list-header padding-left padding-right>DISPENSATIONS</ion-list-header>
+        <ion-item margin-left padding-right>
+            <p text-wrap text-left>{{ vehicleData.techRecord.dispensations }}</p>
+        </ion-item>
+    </ion-list>
 
-            <ion-list class="vehicle-list">
-                <ion-list-header padding-left padding-right>REMARKS</ion-list-header>
-                <ion-item margin-left padding-right>
-                    <p text-wrap text-left>{{ techRecord.remarks }}</p>
-                </ion-item>
-            </ion-list>
+    <ion-list class="vehicle-list">
+        <ion-list-header padding-left padding-right>REMARKS</ion-list-header>
+        <ion-item margin-left padding-right>
+            <p text-wrap text-left>{{ vehicleData.techRecord.remarks }}</p>
+        </ion-item>
+    </ion-list>
         
-        </ng-container>
-    </ng-container>
 </ion-content>

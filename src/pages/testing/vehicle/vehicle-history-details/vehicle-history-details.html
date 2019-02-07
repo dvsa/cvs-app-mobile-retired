@@ -135,12 +135,14 @@
           <ion-row justify-content-between>
             <ion-col col-12 text-start text-wrap>
               <span class="defect-ref">
-                {{ defect.item.deficiency.ref }}
+                <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
+                <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+                <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
               </span>
-              <ion-badge text-uppercase [color]="getDeficiencyColor(defect.item.deficiency.deficiencyCategory)">
-                {{ defect.item.deficiency.deficiencyCategory }}
+              <ion-badge text-uppercase [color]="getDeficiencyColor(defect.deficiencyCategory)">
+                {{ defect.deficiencyCategory }}
               </ion-badge>
-              <ion-badge *ngIf="defect.item.deficiency.prs" color="tertiary">PRS</ion-badge>
+              <ion-badge *ngIf="defect.prs" color="tertiary">PRS</ion-badge>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -150,13 +152,14 @@
           </ion-row>
           <ion-row>
             <ion-col col-12 text-start text-wrap>
-              {{ defect.item.itemNumber }}. {{ defect.item.itemDescription }}
+              {{ defect.itemNumber }}. {{ defect.itemDescription }}
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col col-12 text-start text-wrap>
-              ({{ defect.item.deficiency.deficiencyId }} {{ defect.item.deficiency.deficiencySubId }})
-              {{ defect.item.deficiency.deficiencyText }}
+              <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+              <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+              {{ defect.deficiencyText }}
             </ion-col>
           </ion-row>
           <ion-row>
