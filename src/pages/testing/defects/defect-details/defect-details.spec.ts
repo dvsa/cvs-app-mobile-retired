@@ -1,5 +1,5 @@
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams } from "ionic-angular";
+import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
 import { DefectDetailsPage } from "./defect-details";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
@@ -11,6 +11,7 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
+import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 
 describe('Component: DefectDetailsPage', () => {
   let comp: DefectDetailsPage;

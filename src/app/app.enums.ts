@@ -5,7 +5,8 @@ export enum STORAGE {
   PREPARERS = 'preparers',
   TECH_RECORDS = 'tech-records',
   STATE = 'state',
-  VISIT = 'visit'
+  VISIT = 'visit',
+  TEST_HISTORY = 'test-history'
 }
 
 export enum PATHS {

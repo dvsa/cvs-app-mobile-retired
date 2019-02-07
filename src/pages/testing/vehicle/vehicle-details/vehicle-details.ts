@@ -4,8 +4,8 @@ import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { TestService } from "../../../../providers/test/test.service";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { APP_STRINGS, DATE_FORMAT } from "../../../../app/app.enums";
-import { TestResultModel } from "../../../../models/tests/test-result.model";
+import { APP_STRINGS, DATE_FORMAT, STORAGE } from "../../../../app/app.enums";
+import { StorageService } from "../../../../providers/natives/storage.service";
 
 @IonicPage()
 @Component({
@@ -15,7 +15,6 @@ import { TestResultModel } from "../../../../models/tests/test-result.model";
 export class VehicleDetailsPage {
   vehicleData: VehicleModel;
   testData: TestModel;
-  testResultHistory: TestResultModel[];
   fromTestCreatePage: boolean;
   dateFormat: string = DATE_FORMAT.DD_MM_YYYY;
 
@@ -24,10 +23,10 @@ export class VehicleDetailsPage {
               private testReportService: TestService,
               public viewCtrl: ViewController,
               public alertCtrl: AlertController,
+              public storageService: StorageService,
               public commonFunc: CommonFunctionsService) {
     this.vehicleData = navParams.get('vehicle');
     this.testData = navParams.get('test');
-    this.testResultHistory = navParams.get('testResultsHistory');
     this.fromTestCreatePage = navParams.get('fromTestCreatePage');
   }
 
@@ -64,10 +63,14 @@ export class VehicleDetailsPage {
   }
 
   goToVehicleTestResultsHistory() {
-    this.navCtrl.push('VehicleHistoryPage', {
-      vehicleData: this.vehicleData,
-      testResultsHistory: this.testResultHistory,
-    });
+    this.storageService.read(STORAGE.TEST_HISTORY).then(
+      data => {
+        this.navCtrl.push('VehicleHistoryPage', {
+          vehicleData: this.vehicleData,
+          testResultsHistory: data ? data : [],
+        });
+      }
+    )
   }
 
   onTestHistory() {

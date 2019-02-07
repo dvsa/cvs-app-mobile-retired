@@ -6,6 +6,7 @@ export interface TestTypeModel {
   code?: string;
   name: string;
   id?: string;
+  testTypeCategoryName?: string;
   createdAt?: string;
   lastUpdatedAt?: string;
   testCode?: string;

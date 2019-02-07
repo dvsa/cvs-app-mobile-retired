@@ -11,7 +11,7 @@ describe('Provider: TestStationService', () => {
 
   const testStationData = TestStationDataMock.TestStationData;
   let initialData: TestStationReferenceDataModel[];
-  const properties: string[] = ['testStationName', 'testStationNumber', 'testStationAddress'];
+  const PROPERTIES: string[] = ['testStationName', 'testStationNumber', 'testStationAddress'];
   let filter: string;
 
   beforeEach(() => {
@@ -54,7 +54,7 @@ describe('Provider: TestStationService', () => {
 
   it('should return Test Station by name', () => {
     filter = 'An Test Station Name';
-    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, properties);
+    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
 
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0][0].testStationName).toEqual(filter);
@@ -62,7 +62,7 @@ describe('Provider: TestStationService', () => {
 
   it('should return Test Station by address', () => {
     filter = 'An Test Station Address';
-    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, properties);
+    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
 
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0][0].testStationAddress).toEqual(filter);
@@ -70,7 +70,7 @@ describe('Provider: TestStationService', () => {
 
   it('should return Test Station by pNumber', () => {
     filter = '123';
-    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, properties);
+    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
 
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0][0].testStationNumber).toEqual(filter);
@@ -78,7 +78,7 @@ describe('Provider: TestStationService', () => {
 
   it('should return nothing by unrelated string', () => {
     filter = 'xxx';
-    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, properties);
+    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
 
     expect(filteredData.length).toEqual(0);
   });

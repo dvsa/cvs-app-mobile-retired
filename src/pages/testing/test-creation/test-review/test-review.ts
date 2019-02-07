@@ -53,6 +53,11 @@ export class TestReviewPage implements OnInit {
     return this.vehicleService.formatOdometerReadingValue(vehicle.odometerReading) + ' ' + unit;
   }
 
+  getCurrentTechRecordVehicleType(vehicle): string {
+    let vehCurrentTechRec = this.vehicleService.getCurrentTechRecord(vehicle);
+    return vehCurrentTechRec.vehicleType;
+  }
+
   completeFields(testType) {
     if (testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT]) {
       this.completedFields[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] = testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT];

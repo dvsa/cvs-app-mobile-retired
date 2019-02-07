@@ -50,4 +50,5 @@ export class VisitTimelinePage implements OnInit {
       this.timeline.push(testReport);
     });
   }
+
 }

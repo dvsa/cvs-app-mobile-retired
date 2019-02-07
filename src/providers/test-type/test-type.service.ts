@@ -7,11 +7,12 @@ import { TestTypeModel } from "../../models/tests/test-type.model";
 import { DefectDetailsModel } from "../../models/defects/defect-details.model";
 import { VisitService } from "../visit/visit.service";
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
+import { CommonFunctionsService } from "../utils/common-functions";
 
 @Injectable()
 export class TestTypeService {
 
-  constructor(private storageService: StorageService, public visitService: VisitService) {
+  constructor(private storageService: StorageService, public visitService: VisitService, public commonFunctions: CommonFunctionsService) {
   }
 
   createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
@@ -83,5 +84,10 @@ export class TestTypeService {
     }
     return result;
   }
+
+  orderTestTypesArray(array, key, order?) {
+    return array.sort(this.commonFunctions.orderByStringId(key, order));
+  }
+
 
 }

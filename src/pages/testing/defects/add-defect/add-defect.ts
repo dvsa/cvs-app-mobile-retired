@@ -40,7 +40,7 @@ export class AddDefectPage implements OnInit {
     this.navCtrl.push('DefectDetailsPage', {
       vehicleTest: this.vehicleTest,
       deficiency: defect,
-      isEdit: false
+      isEdit: false,
     });
     this.clearSearch()
   }

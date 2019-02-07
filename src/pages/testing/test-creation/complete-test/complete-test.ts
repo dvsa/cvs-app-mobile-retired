@@ -154,7 +154,7 @@ export class CompleteTestPage implements OnInit {
   }
 
   openInputPage(section, input) {
-    const INPUT_MODAL = this.modalCtrl.create(TestTypeDetailsInputPage, {
+    const INPUT_MODAL = this.modalCtrl.create('TestTypeDetailsInputPage', {
       vehicleCategory: this.testTypeDetails.category,
       sectionName: section.sectionName,
       input: input,
@@ -191,9 +191,9 @@ export class CompleteTestPage implements OnInit {
 
   addDefect(): void {
     this.navCtrl.push('AddDefectCategoryPage', {
-      vehicleType: this.vehicle.techRecord[0].vehicleType,
+      vehicleType: this.vehicleService.getCurrentTechRecord(this.vehicle).vehicleType,
       vehicleTest: this.vehicleTest,
-      defects: this.defectsCategories
+      defects: this.defectsCategories,
     });
   }
 
