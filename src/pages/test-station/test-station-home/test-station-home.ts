@@ -6,10 +6,10 @@ import { VisitService } from "../../../providers/visit/visit.service";
 
 @IonicPage()
 @Component({
-  selector: 'page-atf-home',
-  templateUrl: 'atf-home.html'
+  selector: 'page-test-station-home',
+  templateUrl: 'test-station-home.html'
 })
-export class ATFHomePage implements OnInit {
+export class TestStationHomePage implements OnInit {
   count: number = 0;
 
   constructor(public navCtrl: NavController, public toastController: ToastController, private storageService: StorageService, private visitService: VisitService) {
@@ -24,7 +24,7 @@ export class ATFHomePage implements OnInit {
   }
 
   getStarted(): void {
-    this.navCtrl.push('ATFSearchPage');
+    this.navCtrl.push('TestStationSearchPage');
   }
 
   enableCache() {

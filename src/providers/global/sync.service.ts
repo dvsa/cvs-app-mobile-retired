@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HTTPService } from "./http.service";
 import { catchError, map, retryWhen } from "rxjs/operators";
 import { genericRetryStrategy } from "../utils/rxjs.utils";
-import { AtfReferenceDataModel } from "../../models/reference-data-models/atf.model";
+import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
 import { APP, STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
 import { AlertController, Events, LoadingController } from "ionic-angular";
@@ -49,7 +49,7 @@ export class SyncService {
     )
   }
 
-  getDataFromMicroservice(microservice): Observable<AtfReferenceDataModel[]> {
+  getDataFromMicroservice(microservice): Observable<TestStationReferenceDataModel[]> {
     return this.httpService['get' + microservice]()
       .pipe(
         map((data) => {

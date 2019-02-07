@@ -1,10 +1,9 @@
 import { TestBed } from "@angular/core/testing";
 import { VisitService } from "./visit.service";
 import { StorageService } from "../natives/storage.service";
-import { AtfDataMock } from "../../assets/data-mocks/reference-data-mocks/atf-data.mock";
-import { AtfReferenceDataModel } from "../../models/reference-data-models/atf.model";
+import { TestStationDataMock } from "../../assets/data-mocks/reference-data-mocks/test-station-data.mock";
+import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
 import { TestModel } from "../../models/tests/test.model";
-import { VisitDataMock } from "../../assets/data-mocks/visit-data.mock";
 import { TestDataModelMock } from "../../assets/data-mocks/data-model/test-data-model.mock";
 
 describe('Provider: VisitService', () => {
@@ -12,7 +11,7 @@ describe('Provider: VisitService', () => {
   let storageService: StorageService
   let storageServiceSpy: any;
 
-  const ATF: AtfReferenceDataModel = AtfDataMock.AtfData[0];
+  const TestStation: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
   const TEST: TestModel = TestDataModelMock.TestData;
 
   beforeEach(() => {
@@ -35,7 +34,7 @@ describe('Provider: VisitService', () => {
   it('should start a new visit', () => {
     expect(Object.keys(visitService.visit).length).toBe(0);
     expect(visitService.visit.startTime).toBeFalsy();
-    visitService.visit = visitService.createVisit(ATF);
+    visitService.visit = visitService.createVisit(TestStation);
     expect(visitService.visit.startTime).toBeTruthy();
     expect(storageService.update).toHaveBeenCalled();
   });
@@ -48,14 +47,14 @@ describe('Provider: VisitService', () => {
   });
 
   it('should add test to visit.tests array', () => {
-    visitService.createVisit(ATF);
+    visitService.createVisit(TestStation);
     expect(visitService.visit.tests.length).toBe(0);
     visitService.addTest(TEST);
     expect(visitService.visit.tests.length).toBe(1);
   });
 
   it('should remove the added test from the visit.tests array', () => {
-    visitService.createVisit(ATF);
+    visitService.createVisit(TestStation);
     expect(visitService.visit.tests.length).toBe(0);
     visitService.addTest(TEST);
     expect(visitService.visit.tests.length).toBe(1);
@@ -65,7 +64,7 @@ describe('Provider: VisitService', () => {
 
   it('should retrieve the tests array', () => {
     let testsArr = [];
-    visitService.createVisit(ATF);
+    visitService.createVisit(TestStation);
     expect(testsArr.length).toBe(0);
     expect(visitService.visit.tests.length).toBe(0);
     visitService.addTest(TEST);

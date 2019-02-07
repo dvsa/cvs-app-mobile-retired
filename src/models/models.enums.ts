@@ -14,7 +14,7 @@ export enum VEHICLE_CONFIGURATION {
   ARTICULATED = 'articulated'
 }
 
-export enum ATF_TYPE {
+export enum TEST_STATION_TYPE {
   ATF = 'atf',
   GVTS = 'gvts',
   TECHNICAL_SECTION_OFFICE = 'tass',
