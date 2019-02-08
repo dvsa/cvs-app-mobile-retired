@@ -70,6 +70,10 @@
                         </ion-col>
                     </ion-row>
                 </ion-grid>
+                <p padding-left class="certificate-number-guidance"
+                   *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER_CUSTOM && canDisplaySection(section)">After
+                    conducting the test, complete the Low Emissions Certificate and enter the certificate
+                    number.</p>
             </div>
         </ion-item-group>
 
