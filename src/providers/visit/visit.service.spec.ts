@@ -5,10 +5,12 @@ import { TestStationDataMock } from "../../assets/data-mocks/reference-data-mock
 import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
 import { TestModel } from "../../models/tests/test.model";
 import { TestDataModelMock } from "../../assets/data-mocks/data-model/test-data-model.mock";
+import { AuthService } from "../global/auth.service";
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
-  let storageService: StorageService
+  let storageService: StorageService;
+  let authService: AuthService;
   let storageServiceSpy: any;
 
   const TestStation: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
@@ -20,15 +22,19 @@ describe('Provider: VisitService', () => {
     TestBed.configureTestingModule({
       providers: [
         VisitService,
+        AuthService,
         {provide: StorageService, useValue: storageServiceSpy}
       ]
     });
     visitService = TestBed.get(VisitService);
+    authService = TestBed.get(AuthService);
     storageService = TestBed.get(StorageService);
+    visitService.easterEgg = 'false';
   });
 
   afterEach(() => {
     visitService = null;
+    authService = null;
   });
 
   it('should start a new visit', () => {
@@ -74,7 +80,7 @@ describe('Provider: VisitService', () => {
   })
 
   it('should update the storage', () => {
-    visitService.updateVisit()
+    visitService.updateVisit();
     expect(storageService.update).toHaveBeenCalled();
   })
 });

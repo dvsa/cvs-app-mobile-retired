@@ -42,34 +42,35 @@ export class DefectsService {
   createDefect(defCat: DefectCategoryReferenceDataModel, defItem: DefectItemReferenceDataModel, deficiency: DefectDeficiencyReferenceDataModel, vehicleType: string, isAdvisory: boolean): DefectDetailsModel {
     let metadata: DefectsMetadataModel = {
       category: {
-        imNumber: defCat.imNumber,
-        imDescription: defCat.imDescription,
         additionalInfo: (!isAdvisory) ? defCat.additionalInfo[vehicleType.toLowerCase()] : null
-      },
-      item: {
-        itemNumber: defItem.itemNumber,
-        itemDescription: defItem.itemDescription
       }
     };
 
     let defect: DefectDetailsModel = {
-      ref: (!isAdvisory) ? deficiency.ref: `${defCat.imNumber}.${defItem.itemNumber}`,
+      deficiencyRef: (!isAdvisory) ? deficiency.ref : `${defCat.imNumber}.${defItem.itemNumber}`,
       deficiencyCategory: (!isAdvisory) ? deficiency.deficiencyCategory : 'advisory',
       deficiencyId: (!isAdvisory) ? deficiency.deficiencyId : null,
       deficiencySubId: (!isAdvisory) ? deficiency.deficiencySubId : null,
       deficiencyText: (!isAdvisory) ? deficiency.deficiencyText : '',
+      imNumber: defCat.imNumber,
+      imDescription: defCat.imDescription,
+      itemNumber: defItem.itemNumber,
+      itemDescription: defItem.itemDescription,
+      additionalInformation: {
+        notes: '',
+        location: (!isAdvisory) ? {
+          vertical: '',
+          horizontal: '',
+          lateral: '',
+          longitudinal: '',
+          rowNumber: null,
+          seatNumber: null,
+          axleNumber: null
+        } : null
+      },
+      stdForProhibition: deficiency.stdForProhibition,
       metadata: metadata,
       prs: (!isAdvisory) ? false : null,
-      notes: '',
-      location: (!isAdvisory) ? {
-        vertical: '',
-        horizontal: '',
-        lateral: '',
-        longitudinal: '',
-        rowNumber: null,
-        seatNumber: null,
-        axleNumber: null
-      } : null
     };
     return defect;
   }

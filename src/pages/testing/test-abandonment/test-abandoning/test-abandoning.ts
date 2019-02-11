@@ -25,7 +25,7 @@ export class TestAbandoningPage implements OnInit {
 
   ngOnInit() {
     if (!this.editMode) {
-      this.additionalComment = this.vehicleTest.abandonment.additionalComment;
+      this.additionalComment = this.vehicleTest.additionalCommentsForAbandon;
     }
   }
 
@@ -53,9 +53,9 @@ export class TestAbandoningPage implements OnInit {
   }
 
   updateVehicleTestModel() {
-    this.vehicleTest.abandonment.reasons.push(...this.selectedReasons);
+    this.vehicleTest.reasons.push(...this.selectedReasons);
     if (this.additionalComment && this.additionalComment.length) {
-      this.vehicleTest.abandonment.additionalComment = this.additionalComment;
+      this.vehicleTest.additionalCommentsForAbandon = this.additionalComment;
     }
     this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest, false);
     if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();

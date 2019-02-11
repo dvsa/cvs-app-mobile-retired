@@ -6,5 +6,5 @@
   "BACKEND_URL_PREPARERS": "http://localhost:3003/preparers",
   "BACKEND_URL_TESTTYPES": "http://localhost:3002/test-types",
   "BACKEND_URL_TECHRECORDS": "http://localhost:3005/vehicles",
-  "BACKEND_URL_GET_TEST_RESULTS": "http://localhost:3006/test-results"
+  "BACKEND_URL_TEST_RESULTS": "http://localhost:3006/test-results"
 }

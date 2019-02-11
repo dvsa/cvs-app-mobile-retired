@@ -8,6 +8,7 @@ import {
   TestsWithoutSeatbelts,
   TestsWithoutDefects
 } from '../../../../assets/app-data/test-required-fields/test-required-fields.data';
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
 
 @IonicPage()
 @Component({
@@ -19,7 +20,7 @@ export class VehicleHistoryDetailsPage {
   testIndex: number;
   testTypeIndex: number;
   selectedTestResult: string;
-  selectedTestType: string;
+  selectedTestType: TestTypeModel;
   testTypeResults: {};
   defaultValues: {};
   testsWithoutCertificate: any;
@@ -70,7 +71,7 @@ export class VehicleHistoryDetailsPage {
       case TEST_TYPE_RESULTS.PASS:
         return 'secondary';
       case TEST_TYPE_RESULTS.FAIL:
-      case TEST_TYPE_RESULTS.ABANDONED: 
+      case TEST_TYPE_RESULTS.ABANDONED:
         return 'danger';
       case TEST_TYPE_RESULTS.PRS:
         return 'tertiary';

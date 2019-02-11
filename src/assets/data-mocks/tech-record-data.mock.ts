@@ -1,7 +1,7 @@
 import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 
 export class TechRecordDataMock {
-  public  static get VehicleTechRecordData(): VehicleTechRecordModel {
+  public static get VehicleTechRecordData(): VehicleTechRecordModel {
     return {
       "vrms": [
         {

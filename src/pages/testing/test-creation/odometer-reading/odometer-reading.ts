@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActionSheetController, IonicPage, NavController, NavParams, TextInput } from 'ionic-angular';
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { ODOMETER_METRIC, PATTERNS } from "../../../../app/app.enums";
+import { ODOMETER_METRIC, REG_EX_PATTERNS } from "../../../../app/app.enums";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 
@@ -28,7 +28,7 @@ export class OdometerReadingPage {
     this.vehicle = this.navParams.get('vehicle');
     this.odometerReading = this.vehicle.odometerReading.length ? this.vehicle.odometerReading : '';
     this.odometerMetric = this.vehicle.odometerMetric.length ? this.vehicle.odometerMetric : ODOMETER_METRIC.KILOMETRES;
-    this.patterns = PATTERNS;
+    this.patterns = REG_EX_PATTERNS;
   }
 
   ionViewDidEnter() {

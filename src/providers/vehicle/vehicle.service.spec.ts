@@ -52,7 +52,7 @@ describe('Provider: VehicleService', () => {
     let newVehicle;
     expect(newVehicle).toBeUndefined();
     newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
-    expect(newVehicle.techRecord.length).toBe(1);
+    expect(newVehicle.techRecord).toBeDefined();
   });
 
   it('should add a test-type to vehicle.testTypes array', () => {

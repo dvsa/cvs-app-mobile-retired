@@ -126,5 +126,17 @@ export class CommonFunctionsService {
     }
   }
 
+  cloneObject(oldObj) {
+    let newObj = oldObj;
+    if (oldObj && typeof oldObj === 'object') {
+      newObj = Object.prototype.toString.call(oldObj) === "[object Array]" ? [] : {};
+      for (let i in oldObj) {
+        newObj[i] = this.cloneObject(oldObj[i]);
+      }
+    }
+    return newObj;
+  }
+
+
 
 }

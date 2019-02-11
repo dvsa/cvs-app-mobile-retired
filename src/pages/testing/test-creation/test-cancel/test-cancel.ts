@@ -2,7 +2,11 @@ import { Component } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TestModel } from "../../../../models/tests/test.model";
 import { TestService } from "../../../../providers/test/test.service";
-import { TEST_REPORT_STATUSES } from "../../../../app/app.enums";
+import { APP_STRINGS, TEST_REPORT_STATUSES } from "../../../../app/app.enums";
+import { TestResultService } from "../../../../providers/test-result/test-result.service";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { Observable } from "rxjs";
+import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 
 @IonicPage()
 @Component({
@@ -16,7 +20,10 @@ export class TestCancelPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private testReportService: TestService,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private testResultService: TestResultService,
+              private openNativeSettings: OpenNativeSettings,
+              private visitService: VisitService) {
     this.testData = this.navParams.get('test');
   }
 
@@ -36,7 +43,8 @@ export class TestCancelPage {
             handler: () => {
               this.testData.status = TEST_REPORT_STATUSES.CANCELLED;
               this.testData.reasonForCancellation = this.cancellationReason;
-              this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 6));
+              this.testReportService.endTestReport(this.testData);
+              this.submit(this.testData);
             }
           }
         ]
@@ -50,6 +58,38 @@ export class TestCancelPage {
       });
     }
     alert.present();
+  }
+
+  submit(test) {
+    let stack: Observable<any>[] = [];
+    const TRY_AGAIN_ALERT = this.alertCtrl.create({
+      title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
+      message: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TEXT,
+      buttons: [{
+        text: APP_STRINGS.SETTINGS_BTN,
+        handler: () => {
+          this.openNativeSettings.open('settings');
+        }
+      }, {
+        text: APP_STRINGS.TRY_AGAIN_BTN,
+        handler: () => {
+          this.submit(this.testData);
+        }
+      }]
+    });
+
+    for (let vehicle of test.vehicles) {
+      let testResult = this.testResultService.createTestResult(this.visitService.visit, test, vehicle);
+      stack.push(this.testResultService.submitTestResult(testResult));
+      Observable.forkJoin(stack).subscribe(
+        () => {
+          this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 6));
+        },
+        () => {
+          TRY_AGAIN_ALERT.present();
+        }
+      )
+    }
   }
 
   isValidReason() {

@@ -8,7 +8,7 @@ import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TechRecordModel, VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
-import { TECH_RECORD_STATUS } from "../../models/models.enums";
+import { TECH_RECORD_STATUS } from "../../app/app.enums";
 
 @Injectable()
 export class VehicleService {
@@ -20,8 +20,8 @@ export class VehicleService {
     let newVehicle: VehicleModel = {} as VehicleModel;
     newVehicle.vrm = vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm;
     newVehicle.vin = vehicleTechRecord.vin;
-    newVehicle.techRecord = [];
-    newVehicle.techRecord.push(this.getCurrentTechRecord(vehicleTechRecord));
+    newVehicle.vehicleId = vehicleTechRecord.vehicleId;
+    newVehicle.techRecord = this.getCurrentTechRecord(vehicleTechRecord);
     newVehicle.testResultsHistory = [];
     newVehicle.countryOfRegistration = CountryOfRegistrationData.DefaultCountryData.key;
     newVehicle.euVehicleCategory = '';
@@ -66,7 +66,7 @@ export class VehicleService {
     return vehicle;
   }
 
-  getCurrentTechRecord(vehicle: VehicleModel | VehicleTechRecordModel): TechRecordModel {
+  getCurrentTechRecord(vehicle: VehicleTechRecordModel): TechRecordModel {
     let currentArray = vehicle.techRecord.find(
       (techRec: TechRecordModel) => {
         return techRec['statusCode'] == TECH_RECORD_STATUS.CURRENT

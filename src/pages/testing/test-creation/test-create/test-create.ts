@@ -25,7 +25,7 @@ import { CountryOfRegistrationData } from "../../../../assets/app-data/country-o
   selector: 'page-test-create',
   templateUrl: 'test-create.html',
 })
-export class TestCreatePage implements OnInit, OnDestroy {
+export class TestCreatePage implements OnInit {
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
   testData: TestModel;
   testTypesFieldsMetadata;
@@ -51,26 +51,21 @@ export class TestCreatePage implements OnInit, OnDestroy {
     let lastTestIndex = this.visitService.visit.tests.length - 1;
     this.testData = Object.keys(this.visitService.visit).length ? this.visitService.visit.tests[lastTestIndex] : this.navParams.get('test');
     if (this.visitService.easterEgg == 'false') this.stateReformingService.saveNavStack(this.navCtrl);
+  }
+
+  ionViewWillEnter() {
     this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
       this.completedFields = completedFields;
     });
   }
 
-  ngOnDestroy() {
-    this.events.unsubscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS);
-  }
-
   ionViewWillLeave() {
+    this.events.unsubscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS);
     if (this.slidingItems.length) {
       this.slidingItems.forEach(slidingItem => {
         slidingItem.close();
       });
     }
-  }
-
-  getCurrentTechRecordVehicleType(vehicle): string {
-    let vehCurrentTechRec = this.vehicleService.getCurrentTechRecord(vehicle);
-    return vehCurrentTechRec.vehicleType;
   }
 
   getCountryStringToBeDisplayed(vehicle: VehicleModel) {
@@ -100,13 +95,13 @@ export class TestCreatePage implements OnInit, OnDestroy {
   }
 
   getVehicleTypeIconToShow(vehicle: VehicleModel) {
-    return vehicle.techRecord[0].vehicleType.toLowerCase();
+    return vehicle.techRecord.vehicleType.toLowerCase();
   }
 
   getTestTypeStatus(testType: TestTypeModel) {
     let isInProgress = true;
     for (let testTypeFieldMetadata of this.testTypesFieldsMetadata) {
-      if (testType.id === testTypeFieldMetadata.testTypeId && testTypeFieldMetadata.sections.length) {
+      if (testType.testTypeId === testTypeFieldMetadata.testTypeId && testTypeFieldMetadata.sections.length) {
         isInProgress = false;
         testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
         for (let section of testTypeFieldMetadata.sections) {
@@ -144,7 +139,7 @@ export class TestCreatePage implements OnInit, OnDestroy {
     } else {
       this.navCtrl.push('TestAbandoningPage', {
         vehicleTest: vehicleTest,
-        selectedReasons: vehicleTest.abandonment.reasons,
+        selectedReasons: vehicleTest.reasons,
         editMode: false
       });
     }
@@ -199,7 +194,7 @@ export class TestCreatePage implements OnInit, OnDestroy {
   }
 
   isTestAbandoned(vehicleTest: TestTypeModel) {
-    return vehicleTest.abandonment.reasons.length > 0;
+    return vehicleTest.reasons.length > 0;
   }
 
   onAbandonVehicleTest(vehicleTest) {

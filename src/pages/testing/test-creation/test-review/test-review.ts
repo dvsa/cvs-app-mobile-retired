@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, ModalController, NavController, NavParams } from 'ionic-angular';
+import { AlertController, Events, IonicPage, ModalController, NavController, NavParams, ToastController } from 'ionic-angular';
 import { VisitModel } from "../../../../models/visit/visit.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import {
+  APP,
   APP_STRINGS,
-  DATE_FORMAT, DEFICIENCY_CATEGORY,
+  DATE_FORMAT,
+  DEFICIENCY_CATEGORY,
   ODOMETER_METRIC,
+  TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS
 } from "../../../../app/app.enums";
@@ -14,6 +17,13 @@ import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { CompleteTestPage } from "../complete-test/complete-test";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { TestModel } from "../../../../models/tests/test.model";
+import { TestResultService } from "../../../../providers/test-result/test-result.service";
+import { TestService } from "../../../../providers/test/test.service";
+import { Observable } from "rxjs";
+import { OpenNativeSettings } from "@ionic-native/open-native-settings";
+import { VisitService } from "../../../../providers/visit/visit.service";
 
 @IonicPage()
 @Component({
@@ -22,6 +32,7 @@ import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-
 })
 export class TestReviewPage implements OnInit {
   visit: VisitModel;
+  latestTest: TestModel;
   completedFields = [];
   appStrings;
   dateFormat;
@@ -30,11 +41,18 @@ export class TestReviewPage implements OnInit {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public visitService: VisitService,
               public commonFunctions: CommonFunctionsService,
+              public events: Events,
               private vehicleService: VehicleService,
               private defectsService: DefectsService,
-              private modalCtrl: ModalController) {
+              private modalCtrl: ModalController,
+              private alertCtrl: AlertController,
+              private testResultService: TestResultService,
+              private openNativeSettings: OpenNativeSettings,
+              private testService: TestService) {
     this.visit = this.navParams.get('visit');
+    this.latestTest = this.visitService.getLatestTest();
   }
 
   ngOnInit(): void {
@@ -45,17 +63,12 @@ export class TestReviewPage implements OnInit {
   }
 
   getVehicleTypeIconToShow(vehicle: VehicleModel) {
-    return vehicle.techRecord[0].vehicleType.toLowerCase();
+    return vehicle.techRecord.vehicleType.toLowerCase();
   }
 
   getOdometerStringToBeDisplayed(vehicle) {
     let unit = vehicle.odometerMetric === ODOMETER_METRIC.KILOMETRES ? 'km' : 'mi';
     return this.vehicleService.formatOdometerReadingValue(vehicle.odometerReading) + ' ' + unit;
-  }
-
-  getCurrentTechRecordVehicleType(vehicle): string {
-    let vehCurrentTechRec = this.vehicleService.getCurrentTechRecord(vehicle);
-    return vehCurrentTechRec.vehicleType;
   }
 
   completeFields(testType) {
@@ -73,10 +86,10 @@ export class TestReviewPage implements OnInit {
     }
   }
 
-  getTestTypeOptionalFieldsToDisplay(testType, field) {
+  getTestTypeOptionalFieldsToDisplay(testType: TestTypeModel, field) {
     let testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
     for (let testTypeFieldMetadata of testTypesFieldsMetadata) {
-      if (testType.id === testTypeFieldMetadata.testTypeId) {
+      if (testType.testTypeId === testTypeFieldMetadata.testTypeId) {
         return field === 'defects' ? testTypeFieldMetadata.hasDefects : testTypeFieldMetadata.hasNotes;
       }
     }
@@ -99,4 +112,67 @@ export class TestReviewPage implements OnInit {
     });
     MODAL.present();
   }
+
+  submitTest(test: TestModel) {
+    const ALERT = this.alertCtrl.create({
+      title: APP_STRINGS.SUBMIT_TEST,
+      message: APP_STRINGS.SUBMIT_TEST_MESSAGE,
+      buttons: [
+        {
+          text: APP_STRINGS.CANCEL
+        },
+        {
+          text: APP_STRINGS.SUBMIT,
+          handler: () => {
+            test.status = TEST_REPORT_STATUSES.SUBMITTED;
+            this.testService.endTestReport(test);
+            this.submit(test);
+          }
+        }
+      ]
+    });
+
+    ALERT.present();
+  }
+
+  submit(test) {
+    let stack: Observable<any>[] = [];
+    const TRY_AGAIN_ALERT = this.alertCtrl.create({
+      title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
+      message: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TEXT,
+      buttons: [{
+        text: APP_STRINGS.SETTINGS_BTN,
+        handler: () => {
+          this.openNativeSettings.open('settings');
+        }
+      }, {
+        text: APP_STRINGS.TRY_AGAIN_BTN,
+        handler: () => {
+          this.submit(test);
+        }
+      }]
+    });
+
+    for (let vehicle of test.vehicles) {
+      let testResult = this.testResultService.createTestResult(this.visit, test, vehicle);
+      stack.push(this.testResultService.submitTestResult(testResult));
+      Observable.forkJoin(stack).subscribe(
+        () => {
+          this.events.publish(APP.TEST_SUBMITTED);
+          let views = this.navCtrl.getViews();
+          for (let i = views.length - 1; i >= 0; i--) {
+            if (views[i].component.name == 'VisitTimelinePage') {
+              this.navCtrl.popTo(views[i]);
+            }
+          }
+
+        },
+        () => {
+          TRY_AGAIN_ALERT.present();
+        }
+      )
+    }
+
+  }
+
 }

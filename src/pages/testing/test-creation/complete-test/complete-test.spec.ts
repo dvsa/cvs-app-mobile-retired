@@ -6,7 +6,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DefectsReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
-import { DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
+import { DEFICIENCY_CATEGORY, TEST_TYPE_RESULTS } from "../../../../app/app.enums";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
@@ -20,7 +20,6 @@ import { of } from "rxjs/observable/of";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { TEST_RESULT } from "../../../../models/models.enums";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 
 describe('Component: CompleteTestPage', () => {
@@ -37,30 +36,29 @@ describe('Component: CompleteTestPage', () => {
 
   const DEFECTS: DefectCategoryReferenceDataModel[] = DefectsReferenceDataMock.DefectsData
   const ADDED_DEFECT: DefectDetailsModel = {
-    ref: '1.1.a',
+    deficiencyRef: '1.1.a',
     deficiencyCategory: DEFICIENCY_CATEGORY.MAJOR,
     deficiencyId: 'a',
     deficiencyText: 'missing',
+    imNumber: 1,
+    imDescription: 'test',
+    itemNumber: 1,
+    itemDescription: 'test2',
     metadata: {
-      category: {
-        imNumber: 1,
-        imDescription: 'test'
-      },
-      item: {
-        itemNumber: 1,
-        itemDescription: 'test2'
-      }
+      category: {}
     },
     prs: false,
-    notes: '',
-    location: {
-      vertical: '',
-      horizontal: '',
-      lateral: '',
-      longitudinal: '',
-      rowNumber: null,
-      seatNumber: null,
-      axleNumber: null
+    additionalInformation: {
+      notes: '',
+      location: {
+        vertical: '',
+        horizontal: '',
+        lateral: '',
+        longitudinal: '',
+        rowNumber: null,
+        seatNumber: null,
+        axleNumber: null
+      }
     }
   };
 
@@ -153,12 +151,13 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.vehicleTest.numberOfSeatbeltsFitted).toBeFalsy();
     comp.updateTestType();
     expect(comp.vehicleTest.numberOfSeatbeltsFitted).toEqual(3);
-  });;
+  });
+  ;
 
   it('should get the correct ddl value to be displayed', () => {
     comp.completedFields = {};
     comp.vehicleTest = navParams.get('vehicleTest');
-    comp.vehicleTest.testResult = TEST_RESULT.PASS;
+    comp.vehicleTest.testResult = TEST_TYPE_RESULTS.PASS;
     expect(comp.getDDLValueToDisplay(TEST_TYPES_METADATA.sections[0].inputs[0])).toEqual('Pass');
   });
 

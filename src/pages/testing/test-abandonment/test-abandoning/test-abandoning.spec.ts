@@ -71,12 +71,12 @@ describe('Component: TestAbandoningPage', () => {
   it('should update the vehicleTestModel with abandonment object', () => {
     component.vehicleTest = navParams.get('vehicleTest');
     component.selectedReasons = navParams.get('selectedReasons');
-    expect(component.vehicleTest.abandonment.reasons.length).toEqual(0);
-    expect(component.vehicleTest.abandonment.additionalComment).toEqual('');
+    expect(component.vehicleTest.reasons.length).toEqual(0);
+    expect(component.vehicleTest.additionalCommentsForAbandon).toEqual('');
     component.additionalComment = additionalComment;
     component.updateVehicleTestModel();
-    expect(component.vehicleTest.abandonment.reasons.length).toEqual(2);
-    expect(component.vehicleTest.abandonment.additionalComment).toEqual('Some additional comment');
+    expect(component.vehicleTest.reasons.length).toEqual(2);
+    expect(component.vehicleTest.additionalCommentsForAbandon).toEqual('Some additional comment');
   });
 
 });

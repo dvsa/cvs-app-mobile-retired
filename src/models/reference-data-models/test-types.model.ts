@@ -1,4 +1,4 @@
-import { VEHICLE_CONFIGURATION, VEHICLE_SIZE, VEHICLE_TYPE } from "../models.enums";
+import { VEHICLE_CONFIGURATION, VEHICLE_SIZE, VEHICLE_TYPE } from "../../app/app.enums";
 
 export interface TestTypesReferenceDataModel {
   id: string;

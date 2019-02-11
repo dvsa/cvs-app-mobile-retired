@@ -17,28 +17,30 @@ export class TestTypeService {
 
   createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
     let newTestType = {} as TestTypeModel;
-    newTestType.code = '';
     newTestType.name = testType.name;
     newTestType.testTypeName = testType.testTypeName;
-    newTestType.id = testType.id;
+    newTestType.testTypeId = testType.id;
     newTestType.certificateNumber = '';
-    newTestType.testExpiryDate = '';
     newTestType.testTypeStartTimestamp = new Date().toISOString();
     newTestType.testTypeEndTimestamp = '';
     newTestType.numberOfSeatbeltsFitted = null;
     newTestType.lastSeatbeltInstallationCheckDate = '';
     newTestType.seatbeltInstallationCheckDate = null;
     newTestType.testResult = null;
-    newTestType.prohibitionIssued = null;
-    newTestType.abandonment = {
-      reasons: [],
-      additionalComment: ''
-    };
+    newTestType.prohibitionIssued = false;
+    newTestType.reasonForAbandoning = '';
+    newTestType.reasons = [];
+    newTestType.additionalCommentsForAbandon = '';
     newTestType.additionalNotesRecorded = '';
     newTestType.defects = [];
     if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
     return newTestType
   }
+
+  endTestType(testType: TestTypeModel) {
+    testType.testTypeEndTimestamp = new Date().toISOString();
+  }
+
 
   addDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     testType.defects.push(defect);
@@ -47,8 +49,8 @@ export class TestTypeService {
 
   removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     let defIdx = testType.defects.map((e) => {
-      return e.ref
-    }).indexOf(defect.ref);
+      return e.deficiencyRef
+    }).indexOf(defect.deficiencyRef);
     testType.defects.splice(defIdx, 1);
     if (this.visitService.easterEgg == 'false') this.visitService.updateVisit();
   }
@@ -60,7 +62,7 @@ export class TestTypeService {
   setTestResult(testType: TestTypeModel, hasDefects: boolean): string | TEST_TYPE_RESULTS {
     let result = hasDefects ? TEST_TYPE_RESULTS.PASS : testType.testResult;
     let criticalDeficienciesArr: DefectDetailsModel[] = [];
-    if (testType.abandonment.reasons.length) return TEST_TYPE_RESULTS.ABANDONED;
+    if (testType.reasons.length) return TEST_TYPE_RESULTS.ABANDONED;
     if (testType.defects.length) testType.defects.forEach(
       (defect: DefectDetailsModel) => {
         switch (defect.deficiencyCategory.toLowerCase()) {
