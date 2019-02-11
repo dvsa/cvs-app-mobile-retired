@@ -48,7 +48,7 @@
       color: color($colors, light);
       font-weight: $font-weight-bold;
 
-      &.back-button{
+      &.back-button {
         font-weight: $font-weight-normal;
       }
     }
@@ -85,15 +85,15 @@
 
 .item-ios {
   padding-left: 0;
-  
-  &.item-block .item-inner{
+
+  &.item-block .item-inner {
     border-color: $color-grey-2;
   }
 }
 
-h1,h2,h3,h4,
+h1, h2, h3, h4,
 p[text-left],
-span[text-left]{
+span[text-left] {
   color: color($colors, dark);
 }
 
@@ -121,6 +121,7 @@ span[text-left]{
 .ios ion-footer {
   .footer-cta-section {
     padding: 0 16px;
+
     button {
       margin-bottom: 30px;
       font-weight: $font-weight-bold;
@@ -138,6 +139,7 @@ span[text-left]{
 
   .accessibility-bold-text {
     font-weight: 600 !important;
+
     span, p, h1, h2, h3, h4, h5 {
       font-weight: 600 !important;
     }
@@ -145,21 +147,21 @@ span[text-left]{
 }
 
 // Searchbars found in the header
-.header-ios ion-toolbar .searchbar-ios{
+.header-ios ion-toolbar .searchbar-ios {
 
   .searchbar-search-icon,
-  .searchbar-clear-icon{
+  .searchbar-clear-icon {
     filter: brightness(0) invert(1);
   }
 
-  .searchbar-input{
+  .searchbar-input {
     background-color: rgba(255, 255, 255, 0.3);
     color: color($colors, light);
-    
-    &::placeholder{
-      color: color($colors, light); 
+
+    &::placeholder {
+      color: color($colors, light);
     }
-  } 
+  }
 }
 
 .content-background-color-grey {
@@ -210,6 +212,7 @@ ion-item-group {
 .searchbar-ionToolBar {
   padding-top: 24px !important;
 }
+
 // Registration plate
 .vehicle-header-vrm-number {
   background: $color-reg-plate;
@@ -224,17 +227,17 @@ ion-item-group {
 }
 
 // Vehicle list general style
-ion-list.vehicle-list{
+ion-list.vehicle-list {
   border-bottom: 0.5px solid $color-grey-2;
   margin-bottom: 10px;
   background: color($colors, light);
 
-  ion-list-header.list-header{
+  ion-list-header.list-header {
     height: $list-header-height-small;
     background: $color-grey-3;
     border-bottom: 0.5px solid $color-grey-2;
 
-    ion-label{
+    ion-label {
       font-size: $font-size-small;
       font-weight: $font-weight-normal;
       margin-bottom: 0;
@@ -246,28 +249,28 @@ ion-list.vehicle-list{
     padding-right: 0;
   }
 
-  ion-item.item-ios{
+  ion-item.item-ios {
     width: calc(100% - 16px);
     border-bottom: 0.5px solid $color-grey-2;
 
-    &:last-child{
+    &:last-child {
       border-bottom: 0;
       margin-bottom: 1px; /* Fixes overlapping issue with the list's border-bottom */
     }
 
-    ion-label{
+    ion-label {
       color: $list-ios-header-color;
       font-weight: $font-weight-normal;
       line-height: 18px;
 
-      h3{
+      h3 {
         font-size: $font-size-medium;
         font-weight: $font-weight-normal;
         line-height: 22px;
         color: color($colors, dark);
       }
 
-      p[text-wrap]{
+      p[text-wrap] {
         font-size: $font-size-medium;
         font-weight: $font-weight-normal;
         line-height: 22px;
@@ -275,8 +278,8 @@ ion-list.vehicle-list{
       }
     }
 
-    [item-content]{
-      p{
+    [item-content] {
+      p {
         font-size: $font-size-medium;
         font-weight: $font-weight-normal;
         line-height: 22px;
@@ -284,18 +287,19 @@ ion-list.vehicle-list{
       }
     }
   }
+
   button.item-ios {
     height: 60px;
     width: calc(100% - 16px);
     border-bottom: 0.5px solid $color-grey-2;
 
-    &:last-child{
+    &:last-child {
       border-bottom: 0;
       margin-bottom: 1px; /* Fixes overlapping issue with the list's border-bottom */
     }
 
-    ion-label{
-      h3{
+    ion-label {
+      h3 {
         font-size: $font-size-medium;
       }
     }
@@ -306,12 +310,25 @@ ion-list.vehicle-list{
   color: color($colors, danger) !important;
 }
 
-.test-result{
+.submit-toast {
+
+  .toast-wrapper.toast-top {
+    background: unset;
+  }
+
+  .toast-message {
+    margin-top: 100px;
+    border-radius: $card-ios-border-radius;
+    background-color: color($colors, tertiary);
+  }
+}
+
+.test-result {
   font-weight: $font-weight-semi-bold;
   font-size: $font-size-medium;
 }
 
-.badge-ios-light{
+.badge-ios-light {
   border: 1px solid color($colors, dark);
 }
 
@@ -325,7 +342,7 @@ ion-list.vehicle-list{
   text-transform: capitalize;
 }
 
-.color-grey-1{
+.color-grey-1 {
   color: $color-grey-1;
 }
 

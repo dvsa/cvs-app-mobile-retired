@@ -9,12 +9,10 @@ import { TestTypesReferenceDataMock } from "../../src/assets/data-mocks/referenc
 export class TestTypeServiceMock {
   createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
     let newTestType = {} as TestTypeModel;
-    newTestType.code = '';
     newTestType.name = testType.name;
     newTestType.testTypeName = testType.testTypeName;
-    newTestType.id = testType.id;
+    newTestType.testTypeId = testType.id;
     newTestType.certificateNumber = '';
-    newTestType.testExpiryDate = '';
     newTestType.testTypeStartTimestamp = new Date().toISOString();
     newTestType.testTypeEndTimestamp = '';
     newTestType.numberOfSeatbeltsFitted = null;
@@ -22,10 +20,9 @@ export class TestTypeServiceMock {
     newTestType.seatbeltInstallationCheckDate = null;
     newTestType.testResult = null;
     newTestType.prohibitionIssued = null;
-    newTestType.abandonment = {
-      reasons: [],
-      additionalComment: ''
-    };
+    newTestType.reasons = [];
+    newTestType.reasonForAbandoning = '';
+    newTestType.additionalCommentsForAbandon = '';
     newTestType.additionalNotesRecorded = '';
     newTestType.defects = [];
     return newTestType
@@ -37,8 +34,8 @@ export class TestTypeServiceMock {
 
   removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     let defIdx = testType.defects.map((e) => {
-      return e.ref
-    }).indexOf(defect.ref);
+      return e.deficiencyRef
+    }).indexOf(defect.deficiencyRef);
     testType.defects.splice(defIdx, 1);
   }
 
@@ -49,7 +46,7 @@ export class TestTypeServiceMock {
   setTestResult(testType: TestTypeModel): TEST_TYPE_RESULTS {
     let result = TEST_TYPE_RESULTS.PASS;
     let criticalDeficienciesArr: DefectDetailsModel[] = [];
-    if (testType.abandonment.reasons.length) return TEST_TYPE_RESULTS.ABANDONED;
+    if (testType.reasons.length) return TEST_TYPE_RESULTS.ABANDONED;
     testType.defects.forEach(
       (defect: DefectDetailsModel) => {
         switch (defect.deficiencyCategory.toLowerCase()) {
@@ -68,7 +65,7 @@ export class TestTypeServiceMock {
         (defect) => {
           return defect.prs
         }
-      )
+      );
       result = criticalDefStatus ? TEST_TYPE_RESULTS.PRS : TEST_TYPE_RESULTS.FAIL;
     }
     return result;

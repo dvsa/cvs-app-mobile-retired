@@ -7,6 +7,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
@@ -21,10 +23,14 @@ describe('Component: DefectDetailsPage', () => {
 
   const vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const defect: DefectDetailsModel = {
-    ref: '1.1.a',
+    deficiencyRef: '1.1.a',
     deficiencyCategory: 'major',
     deficiencyId: 'a',
     deficiencyText: 'missing',
+    imNumber: 1,
+    imDescription: 'test',
+    itemNumber: 1,
+    itemDescription: 'test2',
     metadata: {
       category: {
         additionalInfo: {
@@ -38,33 +44,33 @@ describe('Component: DefectDetailsPage', () => {
             vertical: []
           },
           notes: false
-        },
-        imNumber: 1,
-        imDescription: 'test'
-      },
-      item: {
-        itemNumber: 1,
-        itemDescription: 'test2'
+        }
       }
     },
     prs: false,
-    notes: '',
-    location: {
-      vertical: '',
-      horizontal: '',
-      lateral: '',
-      longitudinal: '',
-      rowNumber: null,
-      seatNumber: null,
-      axleNumber: null
+    additionalInformation: {
+      notes: '',
+      location: {
+        vertical: '',
+        horizontal: '',
+        lateral: '',
+        longitudinal: '',
+        rowNumber: null,
+        seatNumber: null,
+        axleNumber: null
+      }
     }
   };
 
   const addedDefect: DefectDetailsModel = {
-    ref: '1.1.a',
+    deficiencyRef: '1.1.a',
     deficiencyCategory: 'major',
     deficiencyId: 'a',
     deficiencyText: 'missing',
+    imNumber: 1,
+    imDescription: 'test',
+    itemNumber: 1,
+    itemDescription: 'test2',
     metadata: {
       category: {
         additionalInfo: {
@@ -78,26 +84,22 @@ describe('Component: DefectDetailsPage', () => {
             vertical: []
           },
           notes: false
-        },
-        imNumber: 1,
-        imDescription: 'test'
-      },
-      item: {
-        itemNumber: 1,
-        itemDescription: 'test2'
+        }
       }
     },
     prs: false,
-    notes: '',
-    location: {
-      vertical: '',
-      horizontal: '',
-      lateral: '',
-      longitudinal: '',
-      rowNumber: null,
-      seatNumber: null,
-      axleNumber: null
-    }
+    additionalInformation: {
+      notes: '',
+      location: {
+        vertical: '',
+        horizontal: '',
+        lateral: '',
+        longitudinal: '',
+        rowNumber: null,
+        seatNumber: null,
+        axleNumber: null
+      }
+    },
   };
   const isEdit: boolean = false;
   let defectsServiceSpy;

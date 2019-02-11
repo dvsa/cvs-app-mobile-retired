@@ -1,165 +1,163 @@
 <ion-header>
-    <ion-navbar hideBackButton="true">
-        <ion-title margin-left>
-            Test review
-        </ion-title>
-        <ion-buttons start>
-            <button ion-button (click)="navCtrl.pop()" padding-horizontal>
-                <ion-icon name="arrow-back" padding-right></ion-icon>
-                <span>Test</span>
-            </button>
-        </ion-buttons>
-    </ion-navbar>
+  <ion-navbar hideBackButton="true">
+    <ion-title margin-left>
+      Test review
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="navCtrl.pop()" padding-horizontal>
+        <ion-icon name="arrow-back" padding-right></ion-icon>
+        <span>Test</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-    <ng-container *ngFor="let test of visit.tests" no-padding>
-        <ng-container *ngFor="let vehicle of test.vehicles" no-padding>
-            <ion-card>
-                <ion-item class="ion-item-title">
-                    <ion-img item-start class="vehicle-type-icon"
-                             src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="50"></ion-img>
-                    <h2 padding-left>{{ vehicle.vrm }} ({{getCurrentTechRecordVehicleType(vehicle)}})</h2>
-                    <p padding-left>{{ vehicle.vin }}</p>
-                </ion-item>
-                <ion-item padding-left
-                          class="bottom-divider">
-                    <h3 class="odometer-reading">Odometer reading</h3>
-                    <h3 item-end
-                        class="odometer-reading-status">
-                        {{getOdometerStringToBeDisplayed(vehicle)}}
-                    </h3>
-                </ion-item>
-            </ion-card>
+  <ng-container *ngFor="let vehicle of latestTest.vehicles" no-padding>
+    <ion-card>
+      <ion-item class="ion-item-title">
+        <ion-img item-start class="vehicle-type-icon"
+                 src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="50"></ion-img>
+        <h2 padding-left>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
+        <p padding-left>{{ vehicle.vin }}</p>
+      </ion-item>
+      <ion-item padding-left
+                class="bottom-divider">
+        <h3 class="odometer-reading">Odometer reading</h3>
+        <h3 item-end
+            class="odometer-reading-status">
+          {{getOdometerStringToBeDisplayed(vehicle)}}
+        </h3>
+      </ion-item>
+    </ion-card>
 
-            <div class="section-divider"></div>
+    <div class="section-divider"></div>
 
-            <div *ngFor="let testType of vehicle.testTypes">
-                <ion-card no-padding>
-                    <ion-item no-padding>
-                        <ion-grid no-padding>
-                            <ion-row padding-left>
-                                <ion-col col-8>
-                                    <p text-wrap
-                                       class="item-text-color">{{ testType.testTypeName }}</p>
-                                </ion-col>
-                                <ion-col col-4 text-right>
-                                    <p text-uppercase
-                                       class="test-result"
-                                       ion-text
-                                       [color]="commonFunctions.getTestResultColor(testType.testResult)">
-                                        {{ testType.testResult }}
-                                    </p>
-                                </ion-col>
-                            </ion-row>
-                        </ion-grid>
-                    </ion-item>
-                    <ion-item no-padding
-                              class="bottom-divider"
-                              *ngIf="testType.numberOfSeatbeltsFitted && testType.testResult !== testTypeResults.ABANDONED">
-                        <div margin-left class="test-field">
-                            <h3>Seatbelt installation check</h3>
-                            <h3 class="test-field-value">{{testType.seatbeltInstallationCheckDate ? appStrings.YES : appStrings.NO}}</h3>
-                        </div>
-                        <div margin-left class="test-field">
-                            <h3>Number of seatbelts fitted</h3>
-                            <h3 class="test-field-value">{{testType.numberOfSeatbeltsFitted}}</h3>
-                        </div>
-                        <div margin-left class="test-field">
-                            <h3>Most recent seatbelt check</h3>
-                            <h3 class="test-field-value">{{testType.lastSeatbeltInstallationCheckDate | date: dateFormat.D_MMM_YY}}</h3>
-                        </div>
-                    </ion-item>
-                    <ion-item no-padding
-                              class="bottom-divider"
-                              *ngIf="testType.certificateNumber && testType.testResult !== testTypeResults.ABANDONED">
-                        <div margin-left class="test-field test-field-no-border-top">
-                            <h3>Certificate number</h3>
-                            <h3 class="test-field-value">{{(testType.testResult === testTypeResults.PASS ? 'LP' : 'LF') + testType.certificateNumber}}</h3>
-                        </div>
-                    </ion-item>
-                    <ion-item padding-left
-                              class="bottom-divider"
-                              *ngIf="testType.testResult !== testTypeResults.ABANDONED && getTestTypeOptionalFieldsToDisplay(testType, 'defects')">
-                        <div margin-top margin-bottom class="defects-section-title">
-                            Defects
-                        </div>
-                        <div *ngIf="testType.defects.length">
-                            <div margin-bottom class="defect-details"
-                                 [ngClass]="{'border': i !== testType.defects.length - 1}"
-                                 *ngFor="let defect of testType.defects; let i = index">
-                                <h3 class="defect-name">
-                                  {{ defect.ref }}
-                                    <ion-badge text-uppercase no-margin
-                                               [color]="defectsService.getBadgeColor(defect.deficiencyCategory)">
-                                        {{ defect.deficiencyCategory }}
-                                    </ion-badge>
-                                    <ion-badge text-uppercase no-margin color="primary"
-                                               *ngIf="defect.prs">
-                                        PRS
-                                    </ion-badge>
-                                </h3>
-                                <h4 text-wrap class="parent-info-color">
-                                    {{ defect.metadata.category.imNumber }}. {{ defect.metadata.category.imDescription}}
-                                </h4>
-                                <h4 text-wrap class="parent-info-color">
-                                    {{ defect.metadata.item.itemNumber }}. {{ defect.metadata.item.itemDescription }}
-                                </h4>
-                                <h4 text-wrap class="parent-info-color"
-                                    *ngIf="defect.deficiencyCategory != commonFunctions.capitalizeString(deficiencyCategory.ADVISORY)">
-                                    <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }}). </span>
-                                    {{ defect.deficiencyText }}
-                                </h4>
-                                <h4 text-wrap class="parent-info-color"
-                                    *ngIf="defect.notes">{{defect.notes}}</h4>
-                            </div>
-                        </div>
-                        <h3 margin-bottom class="parent-info-color"
-                            *ngIf="!testType.defects.length">None
-                        </h3>
-                    </ion-item>
-                    <ion-item padding-left margin-bottom
-                              class="bottom-divider"
-                              *ngIf="testType.testResult !== testTypeResults.ABANDONED && getTestTypeOptionalFieldsToDisplay(testType, 'notes')">
-                        <div margin-top margin-bottom class="notes-section-title">
-                            Notes
-                        </div>
-                        <h3 text-wrap
-                            *ngIf="testType.additionalNotesRecorded.length">{{testType.additionalNotesRecorded}}</h3>
-                        <h3 class="parent-info-color" *ngIf="!testType.additionalNotesRecorded.length">None</h3>
-                    </ion-item>
-                    <ion-item padding-left margin-bottom
-                              class="bottom-divider"
-                              *ngIf="testType.testResult === testTypeResults.ABANDONED">
-                        <div margin-top margin-bottom class="notes-section-title">
-                            Reason(s) for abandoning
-                        </div>
-                        <h4 text-wrap class="parent-info-color"
-                            *ngFor="let reason of testType.abandonment.reasons">{{reason}}</h4>
-                    </ion-item>
-                    <ion-item padding-left margin-bottom
-                              class="bottom-divider"
-                              *ngIf="testType.testResult === testTypeResults.ABANDONED && testType.abandonment.additionalComment.length">
-                        <div margin-top margin-bottom class="notes-section-title">
-                            Notes
-                        </div>
-                        <h4 text-wrap class="parent-info-color">{{testType.abandonment.additionalComment}}</h4>
-                    </ion-item>
-                    <button ion-item
-                            padding-left
-                            class="bottom-divider change-details-button"
-                            *ngIf="testType.testResult !== testTypeResults.ABANDONED"
-                            (click)="openTestDetailsPage(vehicle, testType)"><h3>Change details</h3>
-                    </button>
-                </ion-card>
-                <div class="section-divider"></div>
+    <div *ngFor="let testType of vehicle.testTypes">
+      <ion-card no-padding>
+        <ion-item no-padding>
+          <ion-grid no-padding>
+            <ion-row padding-left>
+              <ion-col col-8>
+                <p text-wrap
+                   class="item-text-color">{{ testType.testTypeName }}</p>
+              </ion-col>
+              <ion-col col-4 text-right>
+                <p text-uppercase
+                   class="test-result"
+                   ion-text
+                   [color]="commonFunctions.getTestResultColor(testType.testResult)">
+                  {{ testType.testResult }}
+                </p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+        <ion-item no-padding
+                  class="bottom-divider"
+                  *ngIf="testType.numberOfSeatbeltsFitted && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-left class="test-field">
+            <h3>Seatbelt installation check</h3>
+            <h3 class="test-field-value">{{testType.seatbeltInstallationCheckDate ? appStrings.YES : appStrings.NO}}</h3>
+          </div>
+          <div margin-left class="test-field">
+            <h3>Number of seatbelts fitted</h3>
+            <h3 class="test-field-value">{{testType.numberOfSeatbeltsFitted}}</h3>
+          </div>
+          <div margin-left class="test-field">
+            <h3>Most recent seatbelt check</h3>
+            <h3 class="test-field-value">{{testType.lastSeatbeltInstallationCheckDate | date: dateFormat.D_MMM_YY}}</h3>
+          </div>
+        </ion-item>
+        <ion-item no-padding
+                  class="bottom-divider"
+                  *ngIf="testType.certificateNumber && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-left class="test-field test-field-no-border-top">
+            <h3>Certificate number</h3>
+            <h3 class="test-field-value">{{(testType.testResult === testTypeResults.PASS ? 'LP' : 'LF') + testType.certificateNumber}}</h3>
+          </div>
+        </ion-item>
+        <ion-item padding-left
+                  class="bottom-divider"
+                  *ngIf="testType.testResult !== testTypeResults.ABANDONED && getTestTypeOptionalFieldsToDisplay(testType, 'defects')">
+          <div margin-top margin-bottom class="defects-section-title">
+            Defects
+          </div>
+          <div *ngIf="testType.defects.length">
+            <div margin-bottom class="defect-details"
+                 [ngClass]="{'border': i !== testType.defects.length - 1}"
+                 *ngFor="let defect of testType.defects; let i = index">
+              <h3 class="defect-name">
+                {{ defect.deficiencyRef }}
+                <ion-badge text-uppercase no-margin
+                           [color]="defectsService.getBadgeColor(defect.deficiencyCategory)">
+                  {{ defect.deficiencyCategory }}
+                </ion-badge>
+                <ion-badge text-uppercase no-margin color="primary"
+                           *ngIf="defect.prs">
+                  PRS
+                </ion-badge>
+              </h3>
+              <h4 text-wrap class="parent-info-color">
+                {{ defect.imNumber }}. {{ defect.imDescription}}
+              </h4>
+              <h4 text-wrap class="parent-info-color">
+                {{ defect.itemNumber }}. {{ defect.itemDescription }}
+              </h4>
+              <h4 text-wrap class="parent-info-color"
+                  *ngIf="defect.deficiencyCategory != commonFunctions.capitalizeString(deficiencyCategory.ADVISORY)">
+                <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }}). </span>
+                {{ defect.deficiencyText }}
+              </h4>
+              <h4 text-wrap class="parent-info-color"
+                  *ngIf="defect.additionalInformation.notes">{{defect.additionalInformation.notes}}</h4>
             </div>
-        </ng-container>
-    </ng-container>
+          </div>
+          <h3 margin-bottom class="parent-info-color"
+              *ngIf="!testType.defects.length">None
+          </h3>
+        </ion-item>
+        <ion-item padding-left margin-bottom
+                  class="bottom-divider"
+                  *ngIf="testType.testResult !== testTypeResults.ABANDONED && getTestTypeOptionalFieldsToDisplay(testType, 'notes')">
+          <div margin-top margin-bottom class="notes-section-title">
+            Notes
+          </div>
+          <h3 text-wrap
+              *ngIf="testType.additionalNotesRecorded && testType.additionalNotesRecorded.length">{{testType.additionalNotesRecorded}}</h3>
+          <h3 class="parent-info-color" *ngIf="!testType.additionalNotesRecorded.length">None</h3>
+        </ion-item>
+        <ion-item padding-left margin-bottom
+                  class="bottom-divider"
+                  *ngIf="testType.testResult === testTypeResults.ABANDONED">
+          <div margin-top margin-bottom class="notes-section-title">
+            Reason(s) for abandoning
+          </div>
+          <h4 text-wrap class="parent-info-color"
+              *ngFor="let reason of testType.reasons">{{reason}}</h4>
+        </ion-item>
+        <ion-item padding-left margin-bottom
+                  class="bottom-divider"
+                  *ngIf="testType.testResult === testTypeResults.ABANDONED && testType.additionalCommentsForAbandon.length">
+          <div margin-top margin-bottom class="notes-section-title">
+            Notes
+          </div>
+          <h4 text-wrap class="parent-info-color">{{testType.additionalCommentsForAbandon}}</h4>
+        </ion-item>
+        <button ion-item
+                padding-left
+                class="bottom-divider change-details-button"
+                *ngIf="testType.testResult !== testTypeResults.ABANDONED"
+                (click)="openTestDetailsPage(vehicle, testType)"><h3>Change details</h3>
+        </button>
+      </ion-card>
+      <div class="section-divider"></div>
+    </div>
 
     <div margin-top class="footer-cta-section">
-        <button ion-button block color="secondary" (click)="submitTest()">Submit</button>
+      <button ion-button block color="secondary" (click)="submitTest(latestTest)">Submit</button>
     </div>
+  </ng-container>
 
 </ion-content>

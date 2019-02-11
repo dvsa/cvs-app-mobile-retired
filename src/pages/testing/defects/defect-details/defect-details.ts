@@ -61,7 +61,7 @@ export class DefectDetailsPage implements OnInit {
     let found = false;
     this.vehicleTest.defects.forEach(
       defect => {
-        if (defect.ref == this.defect.ref) {
+        if (defect.deficiencyRef == this.defect.deficiencyRef) {
           found = true;
         }
       }

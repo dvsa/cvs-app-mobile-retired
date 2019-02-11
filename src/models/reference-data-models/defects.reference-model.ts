@@ -1,4 +1,4 @@
-import { DEFICIENCY_CATEGORY, VEHICLE_TYPE } from "../models.enums";
+import { DEFICIENCY_CATEGORY, VEHICLE_TYPE } from "../../app/app.enums";
 
 export interface DefectCategoryReferenceDataModel {
   imNumber: number;

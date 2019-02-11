@@ -19,7 +19,7 @@ export class FilterTestTypeByVehiclePipe implements PipeTransform {
   }
 
   filterByVehicle(elem: TestTypesReferenceDataModel, vehicle: VehicleModel): TestTypesReferenceDataModel | boolean {
-    let techRecord = vehicle.techRecord[0];
+    let techRecord = vehicle.techRecord;
     if (elem.forVehicleType && elem.forVehicleType.indexOf(techRecord.vehicleType.toLowerCase()) == -1) return false;
     if (elem.forVehicleSize && elem.forVehicleSize.indexOf(techRecord.vehicleSize.toLowerCase()) == -1) return false;
     if (elem.forVehicleConfiguration && elem.forVehicleConfiguration.indexOf(techRecord.vehicleConfiguration.toLowerCase()) == -1) return false;

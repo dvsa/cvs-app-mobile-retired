@@ -37,7 +37,11 @@ export class HTTPService {
   }
 
   getTestResultsHistory(vin: string): Observable<TestResultModel[]> {
-    return this.http.get<TestResultModel[]>(`${AppConfig.BACKEND_URL_GET_TEST_RESULTS}/${vin}`)
+    return this.http.get<TestResultModel[]>(`${AppConfig.BACKEND_URL_TEST_RESULTS}/${vin}`)
+  }
+
+  postTestResult(body): Observable<any>{
+    return this.http.post<TestResultModel>(AppConfig.BACKEND_URL_TEST_RESULTS, body)
   }
 
 }

@@ -6,17 +6,16 @@ export class TestTypeDataModelMock {
     return {
       name: 'annual test',
       testTypeName: 'Annual test',
-      id: '1',
+      testTypeId: '1',
       testTypeStartTimestamp: '2018-12-19T00:00:00.000Z',
       numberOfSeatbeltsFitted: null,
       lastSeatbeltInstallationCheckDate: '',
       seatbeltInstallationCheckDate: null,
       testResult: TEST_TYPE_RESULTS.PASS,
-      abandonment: {
-        reasons: [],
-        additionalComment: ''
-      },
-      defects: []
+      reasonForAbandoning: '',
+      additionalCommentsForAbandon: '',
+      defects: [],
+      reasons: []
     }
   }
 }

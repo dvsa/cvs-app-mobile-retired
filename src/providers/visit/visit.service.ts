@@ -17,12 +17,20 @@ export class VisitService {
     this.visit.endTime = null;
     this.visit.testStationName = testStation.testStationName;
     this.visit.testStationPNumber = testStation.testStationPNumber;
-    this.visit.testStationType = testStation.testStationfType;
+    this.visit.testStationType = testStation.testStationType;
     this.visit.testerId = '';
     this.visit.testerName = '';
+    this.visit.testerEmail = '';
+    this.visit.testerId = '2019';
+    this.visit.testerName = 'Dublu Zero Sapte';
+    this.visit.testerEmail = 'test@email.com';
     this.visit.tests = [];
     this.updateVisit();
     return this.visit;
+  }
+
+  getLatestTest(): TestModel {
+    return this.visit.tests[this.visit.tests.length - 1];
   }
 
   endVisit() {
@@ -49,7 +57,7 @@ export class VisitService {
   }
 
   updateVisit() {
-    this.storageService.update('visit', this.visit);
+    if(this.easterEgg == 'false') this.storageService.update('visit', this.visit);
   }
 
 }

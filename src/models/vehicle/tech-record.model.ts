@@ -35,7 +35,7 @@ export interface TechRecordModel {
   grossUnladenWeight: number;
   noOfAxles: number;
   brakeCode: string;
-  vehicleClass: vehicleClassModel;
+  vehicleClass: VehicleClassModel;
   vehicleType: string;
   vehicleSize: string;
   vehicleConfiguration: string;
@@ -94,7 +94,7 @@ export interface BodyTypeModel {
   description: string;
 }
 
-export interface vehicleClassModel {
+export interface VehicleClassModel {
   code: string;
   description: string;
 }

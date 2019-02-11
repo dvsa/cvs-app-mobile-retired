@@ -8,14 +8,16 @@ export class DefectDetailsDataMock {
 
   public static get DefectDetails(): DefectDetailsModel[] {
     return [{
-      "ref": "1.1.a",
+      "deficiencyRef": "1.1.a",
       "deficiencyCategory": "major",
       "deficiencyId": "a",
       "deficiencyText": "missing.",
+      "imNumber": 1,
+      "imDescription": "Registration Plate",
+      "itemNumber": 1,
+      "itemDescription": "A registration plate:",
       "metadata": {
         "category": {
-          "imNumber": 1,
-          "imDescription": "Registration Plate",
           "additionalInfo": {
             "location": {
               "axleNumber": null,
@@ -27,31 +29,38 @@ export class DefectDetailsDataMock {
               "seatNumber": null
             }, "notes": false
           }
-        }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
+        }
       },
       "prs": false,
-      "notes": "",
-      "location": {
-        "vertical": "",
-        "horizontal": "",
-        "lateral": "",
-        "longitudinal": "front",
-        "rowNumber": null,
-        "seatNumber": null,
-        "axleNumber": null
-      }
+      "additionalInformation": {
+        "notes": "",
+        "location": {
+          "vertical": "",
+          "horizontal": "",
+          "lateral": "",
+          "longitudinal": "front",
+          "rowNumber": null,
+          "seatNumber": null,
+          "axleNumber": null
+        }
+      },
     }, {
-      "ref": "1.2",
+      "deficiencyRef": "1.2",
       "deficiencyCategory": "Advisory",
       "deficiencyId": null,
       "deficiencyText": "",
+      "imNumber": 1,
+      "imDescription": "Registration Plate",
+      "itemNumber": 2,
+      "itemDescription": "A registration mark:",
       "metadata": {
-        "category": {"imNumber": 1, "imDescription": "Registration Plate", "additionalInfo": null},
-        "item": {"itemNumber": 2, "itemDescription": "A registration mark:"}
+        "category": {"additionalInfo": null}
       },
       "prs": null,
-      "notes": "test",
-      "location": null
+      "additionalInformation": {
+        "notes": "test",
+        "location": null
+      }
     }]
   }
 

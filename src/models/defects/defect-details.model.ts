@@ -1,32 +1,36 @@
 import { LocationMetadataModel } from "../reference-data-models/defects.reference-model";
 
 export interface DefectDetailsModel {
-  ref: string;
+  imNumber: number;
+  imDescription: string;
+  additionalInformation?: DefectAdditionalInformationModel;
+  itemNumber: number;
+  itemDescription: string;
+  deficiencyRef: string;
   deficiencyId?: string;
   deficiencySubId?: string;
-  deficiencyText?: string;
   deficiencyCategory: string;
-  metadata: DefectsMetadataModel;
-  location?: DefectLocationModel;
-  notes?: string;
+  deficiencyText?: string;
+  stdForProhibition?: boolean;
   prs?: boolean;
+  /* ------------------------------------------------- */
+  metadata: DefectsMetadataModel;
+}
+
+export interface DefectAdditionalInformationModel {
+  location: DefectLocationModel;
+  notes: string;
 }
 
 export interface DefectsMetadataModel {
   category: {
-    imNumber: number;
-    imDescription: string
-    additionalInfo?: AdditionalInfoMetadataModel,
-  },
-  item: {
-    itemNumber: number;
-    itemDescription: string
+    additionalInfo?: AdditionalInfoMetadataModel;
   }
 }
 
 export interface AdditionalInfoMetadataModel {
-  location: LocationMetadataModel,
-  notes: boolean
+  location: LocationMetadataModel;
+  notes: boolean;
 }
 
 export interface DefectLocationModel {

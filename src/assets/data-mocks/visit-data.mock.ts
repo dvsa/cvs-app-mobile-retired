@@ -1,6 +1,3 @@
-import { TestTypeModel } from "../../models/tests/test-type.model";
-import { TestModel } from "../../models/tests/test.model";
-
 export class VisitDataMock {
 
   public static get VisitTestData() {
@@ -21,289 +18,255 @@ export class VisitDataMock {
 
   public static get VisitData() {
     return {
-      "startTime": "2019-01-14T14:32:12.536Z",
+      "startTime": "2019-02-12T11:41:54.833Z",
       "endTime": null,
       "testStationName": "Abshire-Kub",
       "testStationPNumber": "09-4129632",
-      "testStationType": "GVTS",
+      "testStationType": "gvts",
       "testerId": "",
       "testerName": "",
-      "tests": [{
-        "startTime": "2019-01-14T14:32:14.461Z",
-        "endTime": "2019-01-14T14:32:14.461Z",
-        "status": "cancelled",
-        "reasonForCancellation": "",
-        "vehicles": [{
-          "vrms": [
+      "testerEmail": "",
+      "tests": [
+        {
+          "startTime": "2019-02-12T11:41:56.409Z",
+          "endTime": null,
+          "status": null,
+          "reasonForCancellation": "",
+          "vehicles": [
             {
               "vrm": "BQ91YHQ",
-              "isPrimary": true
-            }
-          ],
-          "vin": "1B7GG36N12S678410",
-          "techRecord": [{
-            "bodyType": "other",
-            "grossKerbWeight": 20445,
-            "brakeCode": "o",
-            "coifDate": "1991-12-07",
-            "seatsUpperDeck": 57,
-            "standingCapacity": 251,
-            "brakes": {
-              "dataTrPsvBrakeTwo": "bmsZLJjBZFRMu3",
-              "dataTrpsvBrakeThree": "KeQHRwq9",
-              "parkingBrakeMrk": "Y",
-              "brakeCode": "1jU6",
-              "BrakeForceWheelsUpToHalfLocked": {
-                "secondaryBrakeForceB": 17115,
-                "parkingBrakeForceB": 0,
-                "serviceBrakeForceB": 6739
-              },
-              "retarderBrakeOne": "friction",
-              "brakeForceWheelsNotLocked": {"parkingBrakeForceA": 83665, "serviceBrakeForceA": 53671, "secondaryBrakeForceA": 45199},
-              "dataTrPsvBrakeOne": "oaCS4aZ5UGGZT",
-              "retarderBrakeTwo": "exhaust"
-            },
-            "bodyModel": "do",
-            "bodyMake": "Unisure",
-            "conversionRefNo": "S5J9z",
-            "grossLadenWeight": 82879,
-            "axles": [{
-              "axleNumber": 24075,
-              "weights": {"kerbWeight": 53850, "gbWeight": 40343, "ladenWeight": 6383, "designWeight": 30923},
-              "tyres": {
-                "tyreSize": "4IHi7",
-                "speedCategorySymbol": "J",
-                "fitmentCode": "single",
-                "dataTrPsvAxles": 416,
-                "plyRating": "E9",
-                "tyreCode": 1355
-              }
-            }],
-            "chassisModel": "non",
-            "grossGbWeight": 85025,
-            "dispensations": "3UZnR",
-            "manufactureDate": 3225,
-            "vehicleClass": "2 (MotorBikes over 200cc or with a sidecar)",
-            "chassisMake": "Zentix",
-            "noOfAxles": 2,
-            "grossDesignWeight": 71125,
-            "vehicleType": "PSV",
-            "speedLimiterMrk": true,
-            "regnDate": "2006-07-01",
-            "seatsLowerDeck": 986,
-            "tachoExemptMrk": true,
-            "unladenWeight": 0,
-            "ntaNumber": "pP",
-            "grossladenWeight": 0,
-            "reasonForCreation": "DFGIscm7",
-            "speedRestriction": 29,
-            "remarks": "bof1ikLSURNJi0oxHdAmyo1",
-            "statusCode": "current",
-            "vehicleSize": "small",
-            "vehicleConfiguration": "rigid"
-          }],
-          "testResultsHistory": [],
-          "odometerReading": "12233",
-          "odometerMetric": "kilometres",
-          "preparerId": "AK4434",
-          "preparerName": "Durrell Vehicles Limited",
-          "testTypes": [
-            {
-              "name": "Public Service Vehicle Annual Testing",
-              "categoryName": "Annual test",
-              "startTime": "2019-01-14T14:32:31.602Z",
-              "abandonment": {"reasons": []},
-              "defects": [{
-                "ref": "1.1.a",
-                "deficiencyCategory": "major",
-                "deficiencyId": "a",
-                "deficiencyText": "missing.",
-                "metadata": {
-                  "category": {
-                    "imNumber": 1,
-                    "imDescription": "Registration Plate",
-                    "additionalInfo": {
-                      "location": {
-                        "axleNumber": null,
-                        "horizontal": null,
-                        "vertical": null,
-                        "longitudinal": ["front", "rear"],
-                        "rowNumber": null,
-                        "lateral": null,
-                        "seatNumber": null
-                      }, "notes": false
-                    }
-                  }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
-                },
-                "prs": false,
-                "notes": "",
-                "location": {
-                  "vertical": "",
-                  "horizontal": "",
-                  "lateral": "",
-                  "longitudinal": "front",
-                  "rowNumber": null,
-                  "seatNumber": null,
-                  "axleNumber": null
-                }
-              }, {
-                "ref": "1.2",
-                "deficiencyCategory": "advisory",
-                "deficiencyId": null,
-                "deficiencyText": "",
-                "metadata": {
-                  "category": {"imNumber": 1, "imDescription": "Registration Plate", "additionalInfo": null},
-                  "item": {"itemNumber": 2, "itemDescription": "A registration mark:"}
-                },
-                "prs": null,
-                "notes": "test",
-                "location": null
-              }],
-              "endTime": "2019-01-14T14:32:51.690Z",
-              "result": "pass"
-            },
-            {
-              "name": "Retest",
-              "categoryName": "Voluntary test",
-              "startTime": "2019-01-14T14:32:31.602Z",
-              "abandonment": {"reasons": []},
-              "defects": [
-                {
-                  "ref": "1.1.a",
-                  "deficiencyCategory": "major",
-                  "deficiencyId": "a",
-                  "deficiencyText": "missing.",
-                  "metadata": {
-                    "category": {
-                      "imNumber": 1,
-                      "imDescription": "Registration Plate",
-                      "additionalInfo": {
-                        "location": {
-                          "axleNumber": null,
-                          "horizontal": null,
-                          "vertical": null,
-                          "longitudinal": ["front", "rear"],
-                          "rowNumber": null,
-                          "lateral": null,
-                          "seatNumber": null
-                        }, "notes": false
-                      }
-                    }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
+              "vin": "1B7GG36N12S678410",
+              "vehicleId": null,
+              "techRecord": {
+                "bodyType": "single Decker",
+                "grossKerbWeight": 13315,
+                "grossUnladenWeight": null,
+                "brakeCode": "171202",
+                "coifDate": "2010-12-20",
+                "seatsUpperDeck": 0,
+                "standingCapacity": 0,
+                "brakes": {
+                  "parkingBrakeMrk": null,
+                  "brakeCode": "171202",
+                  "retarderBrakeOne": "exhaust",
+                  "brakeForceWheelsNotLocked": {
+                    "parkingBrakeForceA": 2742,
+                    "serviceBrakeForceA": 7713,
+                    "secondaryBrakeForceA": 3857
                   },
-                  "prs": false,
-                  "notes": "",
-                  "location": {
-                    "vertical": "",
-                    "horizontal": "",
-                    "lateral": "",
-                    "longitudinal": "front",
-                    "rowNumber": null,
-                    "seatNumber": null,
-                    "axleNumber": null
+                  "dataTrBrakeTwo": "None",
+                  "retarderBrakeTwo": "exhaust",
+                  "dataTrBrakeOne": "None",
+                  "dataTrBrakeThree": "None",
+                  "brakeForceWheelsUpToHalfLocked": {
+                    "secondaryBrakeForceB": 3329,
+                    "parkingBrakeForceB": 2130,
+                    "serviceBrakeForceB": 6658
                   }
-                }
-              ],
-              "endTime": "2019-01-14T14:32:51.690Z",
-              "result": "fail"
-            },
-            {
-              "name": "Retest retest",
-              "categoryName": "Voluntary test",
-              "startTime": "2019-01-14T14:32:31.602Z",
-              "abandonment": {"reasons": []},
-              "defects": [{
-                "ref": "1.1.a",
-                "deficiencyCategory": "major",
-                "deficiencyId": "a",
-                "deficiencyText": "missing.",
-                "metadata": {
-                  "category": {
-                    "imNumber": 1,
-                    "imDescription": "Registration Plate",
-                    "additionalInfo": {
-                      "location": {
-                        "axleNumber": [],
-                        "horizontal": [],
-                        "vertical": [],
-                        "longitudinal": ["front"],
-                        "rowNumber": [],
-                        "lateral": [],
-                        "seatNumber": []
-                      }, "notes": false
+                },
+                "bodyModel": "Tourismo",
+                "bodyMake": "Plaxton",
+                "conversionRefNo": "2",
+                "grossLadenWeight": 17140,
+                "axles": [
+                  {
+                    "axleNumber": 1,
+                    "weights": {
+                      "kerbWeight": 5018,
+                      "gbWeight": 7100,
+                      "ladenWeight": 7100,
+                      "designWeight": 7100
+                    },
+                    "tyres": {
+                      "tyreSize": "295/80-22.5",
+                      "speedCategorySymbol": "J",
+                      "fitmentCode": "single",
+                      "dataTrAxles": 0,
+                      "plyRating": "A",
+                      "tyreCode": 456
                     }
-                  }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
-                },
-                "prs": true,
-                "notes": "",
-                "location": {
-                  "vertical": "",
-                  "horizontal": "",
-                  "lateral": "",
-                  "longitudinal": "front",
-                  "rowNumber": null,
-                  "seatNumber": null,
-                  "axleNumber": null
-                }
-              }],
-              "endTime": "2019-01-14T14:32:51.690Z",
-              "result": "prs"
-            },
-            {
-              "name": "Retest",
-              "categoryName": "Voluntary test",
-              "startTime": "2019-01-14T14:32:31.602Z",
-              "abandonment": {"reasons": []},
-              "defects": [{
-                "ref": "1.1.a",
-                "deficiencyCategory": "major",
-                "deficiencyId": "a",
-                "deficiencyText": "missing.",
-                "metadata": {
-                  "category": {
-                    "imNumber": 1,
-                    "imDescription": "Registration Plate",
-                    "additionalInfo": {
-                      "location": {
-                        "axleNumber": null,
-                        "horizontal": null,
-                        "vertical": null,
-                        "longitudinal": ["front", "rear"],
-                        "rowNumber": null,
-                        "lateral": null,
-                        "seatNumber": null
-                      }, "notes": false
+                  },
+                  {
+                    "axleNumber": 2,
+                    "weights": {
+                      "kerbWeight": 8297,
+                      "gbWeight": 11500,
+                      "ladenWeight": 11500,
+                      "designWeight": 12600
+                    },
+                    "tyres": {
+                      "tyreSize": "295/80-22.5",
+                      "speedCategorySymbol": "J",
+                      "fitmentCode": "double",
+                      "dataTrAxles": 0,
+                      "plyRating": "A",
+                      "tyreCode": 456
                     }
-                  }, "item": {"itemNumber": 1, "itemDescription": "A registration plate:"}
+                  }
+                ],
+                "chassisModel": "632,01",
+                "grossGbWeight": 18000,
+                "dispensations": "None",
+                "manufactureDate": 2010,
+                "vehicleClass": {
+                  "code": "S",
+                  "description": ""
                 },
-                "prs": false,
-                "notes": "",
-                "location": {
-                  "vertical": "",
-                  "horizontal": "",
-                  "lateral": "",
-                  "longitudinal": "front",
-                  "rowNumber": null,
-                  "seatNumber": null,
-                  "axleNumber": null
+                "chassisMake": "Mercedes",
+                "vehicleSize": "small",
+                "noOfAxles": 2,
+                "grossDesignWeight": 19000,
+                "vehicleType": "PSV",
+                "speedLimiterMrk": false,
+                "vehicleConfiguration": "rigid",
+                "regnDate": "2011-01-05",
+                "seatsLowerDeck": 50,
+                "tachoExemptMrk": false,
+                "unladenWeight": 0,
+                "ntaNumber": "7",
+                "reasonForCreation": "COIF",
+                "speedRestriction": 0,
+                "remarks": "None",
+                "statusCode": "current"
+              },
+              "testResultsHistory": [],
+              "countryOfRegistration": "gb",
+              "euVehicleCategory": "m2",
+              "odometerReading": "623",
+              "odometerMetric": "kilometres",
+              "preparerId": "AK4434",
+              "preparerName": "Durrell Vehicles Limited",
+              "testTypes": [
+                {
+                  "name": "Annual test",
+                  "testTypeName": "Annual test",
+                  "testTypeId": "1",
+                  "certificateNumber": "",
+                  "testExpiryDate": "",
+                  "testTypeStartTimestamp": "2019-02-12T11:42:19.008Z",
+                  "testTypeEndTimestamp": "",
+                  "numberOfSeatbeltsFitted": 3,
+                  "lastSeatbeltInstallationCheckDate": "2019-02-12",
+                  "seatbeltInstallationCheckDate": false,
+                  "testResult": "pass",
+                  "prohibitionIssued": null,
+                  "reasonForAbandoning": "",
+                  "reasons": [],
+                  "additionalCommentsForAbandon": "",
+                  "additionalNotesRecorded": "n jjlkl",
+                  "defects": [
+                    {
+                      "deficiencyRef": "54.1.d.i",
+                      "deficiencyCategory": "minor",
+                      "deficiencyId": "d",
+                      "deficiencyText": "reservoir is below minimum level.",
+                      "imNumber": 54,
+                      "imDescription": "Steering",
+                      "itemNumber": 1,
+                      "itemDescription": "Power steering:",
+                      "additionalInformation": {
+                        "notes": "",
+                        "location": {
+                          "vertical": "",
+                          "horizontal": "",
+                          "lateral": "",
+                          "longitudinal": "",
+                          "rowNumber": null,
+                          "seatNumber": null,
+                          "axleNumber": null
+                        }
+                      },
+                      "metadata": {
+                        "category": {
+                          "additionalInfo": {
+                            "location": {
+                              "axleNumber": [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                7,
+                                8,
+                                9,
+                                10
+                              ],
+                              "horizontal": [
+                                "inner",
+                                "outer"
+                              ],
+                              "vertical": null,
+                              "longitudinal": null,
+                              "rowNumber": null,
+                              "lateral": [
+                                "nearside",
+                                "offside",
+                                "centre"
+                              ],
+                              "seatNumber": null
+                            },
+                            "notes": true
+                          }
+                        }
+                      },
+                      "prs": true
+                    }
+                  ],
+                  "testTypeCategoryName": "Annual test",
+                  "completionStatus": "edit"
+                },
+                {
+                  "name": "LEC",
+                  "testTypeName": "Low Emissions Certificate (LEC) with annual test",
+                  "testTypeId": "39",
+                  "certificateNumber": "78348",
+                  "testExpiryDate": "",
+                  "testTypeStartTimestamp": "2019-02-12T11:43:07.963Z",
+                  "testTypeEndTimestamp": "",
+                  "numberOfSeatbeltsFitted": null,
+                  "lastSeatbeltInstallationCheckDate": "",
+                  "seatbeltInstallationCheckDate": null,
+                  "testResult": "pass",
+                  "prohibitionIssued": null,
+                  "reasonForAbandoning": "",
+                  "reasons": [],
+                  "additionalCommentsForAbandon": "",
+                  "additionalNotesRecorded": "",
+                  "defects": [],
+                  "testTypeCategoryName": "Technical test",
+                  "completionStatus": "edit"
+                },
+                {
+                  "name": "Speed limiter check",
+                  "testTypeName": "Voluntary speed limiter check",
+                  "testTypeId": "34",
+                  "certificateNumber": "",
+                  "testExpiryDate": "",
+                  "testTypeStartTimestamp": "2019-02-12T11:43:23.656Z",
+                  "testTypeEndTimestamp": "",
+                  "numberOfSeatbeltsFitted": null,
+                  "lastSeatbeltInstallationCheckDate": "",
+                  "seatbeltInstallationCheckDate": null,
+                  "testResult": "abandoned",
+                  "prohibitionIssued": null,
+                  "reasonForAbandoning": "",
+                  "reasons": [
+                    "The vehicle was not submitted for test at the appointed time",
+                    "The relevant test fee has not been paid",
+                    "Current Health and Safety legislation cannot be met in testing the vehicle"
+                  ],
+                  "additionalCommentsForAbandon": "wfdsewweewc",
+                  "additionalNotesRecorded": "",
+                  "defects": [],
+                  "testTypeCategoryName": "Voluntary test",
+                  "completionStatus": "edit"
                 }
-              }, {
-                "ref": "1.2",
-                "deficiencyCategory": "advisory",
-                "deficiencyId": null,
-                "deficiencyText": "",
-                "metadata": {
-                  "category": {"imNumber": 1, "imDescription": "Registration Plate", "additionalInfo": null},
-                  "item": {"itemNumber": 2, "itemDescription": "A registration mark:"}
-                },
-                "prs": null,
-                "notes": "test",
-                "location": null
-              }],
-              "endTime": "2019-01-14T14:32:51.690Z",
-              "result": "abandoned"
-            }]
-        }], "preparer": null
-      }]
+              ]
+            }
+          ]
+        }
+      ]
     }
   }
 }

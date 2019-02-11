@@ -87,7 +87,7 @@ export class CompleteTestPage implements OnInit {
   getTestTypeDetails() {
     let testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
     for (let testTypeFieldMetadata of testTypesFieldsMetadata) {
-      if (this.vehicleTest.id === testTypeFieldMetadata.testTypeId) {
+      if (this.vehicleTest.testTypeId === testTypeFieldMetadata.testTypeId) {
         return testTypeFieldMetadata;
       }
     }
@@ -163,8 +163,8 @@ export class CompleteTestPage implements OnInit {
     });
     INPUT_MODAL.onDidDismiss(data => {
       if (data.inputValue) {
-        this.vehicleTest[input.testTypePropertyName] = data.inputValue;
-        this.completedFields[input.testTypePropertyName] = data.inputValue;
+        this.vehicleTest[input.testTypePropertyName] = parseInt(data.inputValue);
+        this.completedFields[input.testTypePropertyName] = parseInt(data.inputValue);
       }
       if (data.fromTestReview) {
         this.fromTestReview = data.fromTestReview;
@@ -191,7 +191,7 @@ export class CompleteTestPage implements OnInit {
 
   addDefect(): void {
     this.navCtrl.push('AddDefectCategoryPage', {
-      vehicleType: this.vehicleService.getCurrentTechRecord(this.vehicle).vehicleType,
+      vehicleType: this.vehicle.techRecord.vehicleType,
       vehicleTest: this.vehicleTest,
       defects: this.defectsCategories,
     });

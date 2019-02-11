@@ -3,7 +3,7 @@ import { HTTPService } from "./http.service";
 import { catchError, map, retryWhen } from "rxjs/operators";
 import { genericRetryStrategy } from "../utils/rxjs.utils";
 import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
-import { APP, STORAGE } from "../../app/app.enums";
+import { APP, APP_STRINGS, STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
 import { AlertController, Events, LoadingController } from "ionic-angular";
 import { _throw } from "rxjs/observable/throw";
@@ -90,7 +90,7 @@ export class SyncService {
         message: 'Make sure you are connected to the internet and try again',
         buttons: [
           {
-            text: 'Settings',
+            text: APP_STRINGS.SETTINGS_BTN,
             handler: () => {
               this.openNativeSettings.open('settings');
               this.handleError();

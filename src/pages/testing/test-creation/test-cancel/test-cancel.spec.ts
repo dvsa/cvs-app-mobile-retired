@@ -8,12 +8,16 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
+import { TestResultService } from "../../../../providers/test-result/test-result.service";
+import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 
 describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
   let fixture: ComponentFixture<TestCancelPage>;
   let navCtrl: NavController;
   let testReportServiceSpy: any;
+  let testResultServiceSpy: any;
+  let openNativeSettingsSpy: any;
   let visitService: VisitService;
 
   const testReport: TestModel = {
@@ -26,15 +30,23 @@ describe('Component: TestCancelPage', () => {
 
   beforeEach(async(() => {
     testReportServiceSpy = jasmine.createSpyObj('testReportService', {'getTestReport': testReport});
+    testResultServiceSpy = jasmine.createSpyObj('testResultService', ['createTestResult']);
+    openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', [{
+      'open': new Promise(() => {
+        return true
+      })
+    }]);
 
     TestBed.configureTestingModule({
       declarations: [TestCancelPage],
       imports: [IonicModule.forRoot(TestCancelPage)],
       providers: [
         NavController,
+        {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: VisitService, useClass: VisitServiceMock},
-        {provide: TestService, useValue: testReportServiceSpy}
+        {provide: TestService, useValue: testReportServiceSpy},
+        {provide: TestResultService, useValue: testResultServiceSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

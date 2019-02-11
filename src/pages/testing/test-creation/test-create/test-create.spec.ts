@@ -100,8 +100,8 @@ describe('Component: TestCreatePage', () => {
 
   it('should say either a test is abandoned or not', () => {
     expect(component.isTestAbandoned(ADDED_VEHICLE_TEST)).toBeFalsy();
-    ADDED_VEHICLE_TEST.abandonment.reasons.push('Best reason');
-    ADDED_VEHICLE_TEST.abandonment.additionalComment = 'Additional comment';
+    ADDED_VEHICLE_TEST.reasons.push('Best reason');
+    ADDED_VEHICLE_TEST.additionalCommentsForAbandon = 'Additional comment';
     expect(component.isTestAbandoned(ADDED_VEHICLE_TEST)).toBeTruthy();
   });
 

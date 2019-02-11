@@ -13,8 +13,7 @@ export class VehicleServiceMock {
     let newVehicle: VehicleModel = {} as VehicleModel;
     newVehicle.vrm = vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm;
     newVehicle.vin = vehicleTechRecord.vin;
-    newVehicle.techRecord = [];
-    newVehicle.techRecord.push(this.getCurrentTechRecord(vehicleTechRecord));
+    newVehicle.techRecord = this.getCurrentTechRecord(vehicleTechRecord);
     newVehicle.testResultsHistory = [];
     newVehicle.odometerReading = '';
     newVehicle.odometerMetric = '';
