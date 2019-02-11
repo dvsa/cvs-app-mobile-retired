@@ -52,9 +52,9 @@ export class AppConfig {
     return jsonData['BACKEND_GET_CERTIFICATE'];
   }
 
-  public static get BACKEND_URL_ATF() {
+  public static get BACKEND_URL_TEST_STATIONS() {
     let jsonData = app;
-    return jsonData['BACKEND_URL_ATF'];
+    return jsonData['BACKEND_URL_TEST_STATIONS'];
   }
 
   public static get BACKEND_URL_DEFECTS() {

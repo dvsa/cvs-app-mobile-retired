@@ -17,7 +17,7 @@ export class HTTPService {
   }
 
   getAtfs(): Observable<TestStationReferenceDataModel[]> {
-    return this.http.get<TestStationReferenceDataModel[]>(AppConfig.BACKEND_URL_ATF)
+    return this.http.get<TestStationReferenceDataModel[]>(AppConfig.BACKEND_URL_TEST_STATIONS)
   }
 
   getDefects(): Observable<DefectItemReferenceDataModel[]> {
