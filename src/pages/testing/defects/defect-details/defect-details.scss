@@ -1,10 +1,36 @@
 page-defect-details {
-  .defect-status {
-    font-weight: bold;
-    font-size: 21px;
 
-    span {
-      color: color($colors, danger);
+  .content-ios {
+    color: color($colors, dark);
+  }
+
+  .item-description{
+    font-size: $font-size-medium;
+    font-weight: $font-weight-semi-bold;
+    display: inline-block;
+    text-transform: lowercase;
+
+    &::first-letter{
+      text-transform: capitalize;
+    }
+  }
+
+  p{
+    font-size: $font-size-medium;
+  }
+
+  .defect-status {
+    font-weight: $font-weight-semi-bold;
+    font-size: $font-size-medium-2;
+  }
+
+  ion-item-divider .label-ios {
+    font-size: $font-size-small;
+  }
+
+  ion-item{
+    .select-icon{
+      display: none;
     }
   }
 

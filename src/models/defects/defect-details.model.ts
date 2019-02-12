@@ -3,6 +3,7 @@ import { LocationMetadataModel } from "../reference-data-models/defects.referenc
 export interface DefectDetailsModel {
   ref: string;
   deficiencyId?: string;
+  deficiencySubId?: string;
   deficiencyText?: string;
   deficiencyCategory: string;
   metadata: DefectsMetadataModel;

@@ -1,7 +1,7 @@
 <ion-header transforming-searchBar [searchBarElemRef]="searchBar">
   <ion-navbar>
     <ion-title margin-left>
-      Defect item
+      Defect description
     </ion-title>
   </ion-navbar>
   <ion-toolbar>
@@ -27,7 +27,11 @@
                 (click)="selectDeficiency(deficiency)">
       <span>
           <h3>
-           {{ deficiency.ref }}
+            <span>
+                <span>{{ category.imNumber }}.{{ item.itemNumber }}</span>
+                <span *ngIf="deficiency.deficiencyId">({{ deficiency.deficiencyId }})</span>
+                <span *ngIf="deficiency.deficiencySubId">({{ deficiency.deficiencySubId }})</span>
+            </span>
             <ion-badge item-end text-uppercase
                        [color]="defectsService.getBadgeColor(deficiency.deficiencyCategory)"
                        [ngClass]="returnBadgeClass(deficiency.deficiencyCategory)">

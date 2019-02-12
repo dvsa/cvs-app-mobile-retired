@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { TEST_TYPE_RESULTS, DEFICIENCY_CATEGORY, DEFAULT_VALUES } from '../../../../app/app.enums';
+import { TEST_TYPE_RESULTS, DEFICIENCY_CATEGORY, DEFAULT_VALUES, APP_STRINGS } from '../../../../app/app.enums';
 import {
   TestsWithoutCertificate,
   TestsWithoutTestExpiry,
@@ -49,7 +49,7 @@ export class VehicleHistoryDetailsPage {
   }
 
   ionViewWillEnter() {
-    this.viewCtrl.setBackButtonText('Test history');
+    this.viewCtrl.setBackButtonText(APP_STRINGS.TEST_HISTORY);
   }
 
   getDeficiencyColor(deficiencyCategory: string): string {

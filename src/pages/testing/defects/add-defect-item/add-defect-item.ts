@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Events, IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
 import { DefectsService } from "../../../../providers/defects/defects.service";
-import { APP } from "../../../../app/app.enums";
+import { APP, APP_STRINGS } from "../../../../app/app.enums";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { DefectCategoryReferenceDataModel, DefectItemReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
 
@@ -17,7 +17,7 @@ export class AddDefectItemPage implements OnInit {
   filteredItems: DefectItemReferenceDataModel[];
   searchVal: string = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService, public events: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public defectsService: DefectsService, public events: Events) {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
     this.category = navParams.get('category');
@@ -25,6 +25,10 @@ export class AddDefectItemPage implements OnInit {
 
   ngOnInit() {
     this.filteredItems = this.populateItemsArray();
+  }
+
+  ionViewWillEnter() {
+    this.viewCtrl.setBackButtonText(APP_STRINGS.DEFECT_CAT);
   }
 
   selectItem(item: DefectItemReferenceDataModel): void {

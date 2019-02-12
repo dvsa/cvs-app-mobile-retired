@@ -25,7 +25,7 @@ export class VehicleAdditionalPage {
   }
 
   ionViewWillEnter() {
-    this.viewCtrl.setBackButtonText('Vehicle details');
+    this.viewCtrl.setBackButtonText(APP_STRINGS.VEHICLE_DETAILS);
   }
 
 }
