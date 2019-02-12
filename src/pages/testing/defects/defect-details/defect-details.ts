@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
 import { AdditionalInfoMetadataModel, DefectDetailsModel } from '../../../../models/defects/defect-details.model';
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { APP_STRINGS } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -15,9 +16,11 @@ export class DefectDetailsPage implements OnInit {
   defect: DefectDetailsModel;
   defectMetadata: AdditionalInfoMetadataModel;
   isEdit: boolean;
+  isLocation: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public viewCtrl: ViewController,
               public defectsService: DefectsService,
               private testTypeService: TestTypeService,
               private alertCtrl: AlertController) {
@@ -28,6 +31,11 @@ export class DefectDetailsPage implements OnInit {
 
   ngOnInit() {
     this.defectMetadata = this.defect.metadata.category.additionalInfo;
+    this.isLocation = this.checkForLocation(this.defectMetadata.location);
+  }
+
+  ionViewWillEnter() {
+    this.viewCtrl.setBackButtonText(APP_STRINGS.DEFECT_DESC);
   }
 
   addDefect(): void {
@@ -38,6 +46,15 @@ export class DefectDetailsPage implements OnInit {
         this.navCtrl.popTo(views[i]);
       }
     }
+  }
+
+  checkForLocation(location: {}): boolean{
+    for (let type in location){
+      if(location[type]){
+        return true;
+      }
+    }
+    return false;
   }
 
   checkIfDefectWasAdded(): boolean {

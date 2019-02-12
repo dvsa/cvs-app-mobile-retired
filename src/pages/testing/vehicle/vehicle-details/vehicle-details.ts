@@ -31,7 +31,7 @@ export class VehicleDetailsPage {
   }
 
   ionViewWillEnter() {
-    this.viewCtrl.setBackButtonText(this.fromTestCreatePage ? 'Test' : 'Identify vehicle');
+    this.viewCtrl.setBackButtonText(this.fromTestCreatePage ? APP_STRINGS.TEST : APP_STRINGS.IDENTIFY_VEHICLE);
   }
 
   goToPreparerPage(): void {

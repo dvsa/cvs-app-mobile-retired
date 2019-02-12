@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Events, IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
 import { DefectsService } from "../../../../providers/defects/defects.service";
-import { APP, DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
+import { APP, DEFICIENCY_CATEGORY, APP_STRINGS } from "../../../../app/app.enums";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import {
@@ -23,7 +23,7 @@ export class AddDefectPage implements OnInit {
   filteredDeficiencies: DefectDeficiencyReferenceDataModel[];
   searchVal: string = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public defectsService: DefectsService, public events: Events, public commonFunc: CommonFunctionsService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public defectsService: DefectsService, public events: Events, public commonFunc: CommonFunctionsService) {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
     this.category = navParams.get('category');
@@ -32,6 +32,10 @@ export class AddDefectPage implements OnInit {
 
   ngOnInit() {
     this.filteredDeficiencies = this.populateDeficienciesArray();
+  }
+
+  ionViewWillEnter() {
+    this.viewCtrl.setBackButtonText(APP_STRINGS.DEFECT_ITEM);
   }
 
   selectDeficiency(deficiency: DefectDeficiencyReferenceDataModel): void {

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { AbandonmentReasonItemModel } from "../../../../models/tests/abandonment-reason-item.model";
 import { TestAbandonmentReasonsData } from "../../../../assets/app-data/abandon-data/test-abandonment-reasons.data";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { APP_STRINGS } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -27,7 +28,7 @@ export class ReasonsSelectionPage {
   }
 
   ionViewDidLoad() {
-    this.viewCtrl.setBackButtonText('Test');
+    this.viewCtrl.setBackButtonText(APP_STRINGS.TEST);
   }
 
   onNext() {

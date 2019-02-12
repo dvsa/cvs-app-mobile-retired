@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Events, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { APP } from "../../../../app/app.enums";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
@@ -17,7 +17,7 @@ export class AddDefectCategoryPage implements OnInit {
   filteredCategories: DefectCategoryReferenceDataModel[];
   searchVal: string = '';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private defectsService: DefectsService, public events: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private defectsService: DefectsService, public events: Events) {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
     this.defectCategories = navParams.get('defects');
@@ -25,6 +25,10 @@ export class AddDefectCategoryPage implements OnInit {
 
   ngOnInit() {
     this.filteredCategories = this.populateCategoriesArray();
+  }
+
+  ionViewWillEnter() {
+    this.viewCtrl.setBackButtonText(this.vehicleTest.testTypeName);
   }
 
   selectCategory(category: DefectCategoryReferenceDataModel): void {

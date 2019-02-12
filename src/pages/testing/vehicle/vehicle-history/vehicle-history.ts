@@ -26,7 +26,7 @@ export class VehicleHistoryPage {
   }
 
   ionViewWillEnter() {
-    this.viewCtrl.setBackButtonText('Vehicle details');
+    this.viewCtrl.setBackButtonText(APP_STRINGS.VEHICLE_DETAILS);
     this.noHistory = APP_STRINGS.NO_HISTORY;
   }
 

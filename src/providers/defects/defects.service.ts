@@ -56,6 +56,7 @@ export class DefectsService {
       ref: (!isAdvisory) ? deficiency.ref: `${defCat.imNumber}.${defItem.itemNumber}`,
       deficiencyCategory: (!isAdvisory) ? deficiency.deficiencyCategory : 'advisory',
       deficiencyId: (!isAdvisory) ? deficiency.deficiencyId : null,
+      deficiencySubId: (!isAdvisory) ? deficiency.deficiencySubId : null,
       deficiencyText: (!isAdvisory) ? deficiency.deficiencyText : '',
       metadata: metadata,
       prs: (!isAdvisory) ? false : null,

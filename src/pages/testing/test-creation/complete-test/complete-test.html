@@ -84,7 +84,11 @@
             <ion-item-sliding #item *ngFor="let defect of vehicleTest.defects">
                 <ion-item class="defect-details" (click)="openDefect(defect)">
                     <h3 class="defect-name">
-                        {{ defect.ref }}
+                        <span>
+                            <span>{{ defect.metadata.category.imNumber }}.{{ defect.metadata.item.itemNumber }}</span>
+                            <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+                            <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+                        </span>
                         <ion-badge class="no-margin-right" item-end text-uppercase
                                    [color]="defectsService.getBadgeColor(defect.deficiencyCategory)">
                             {{ defect.deficiencyCategory }}
@@ -100,8 +104,13 @@
                         {{ defect.metadata.item.itemNumber }}. {{ defect.metadata.item.itemDescription }}
                     </h4>
                     <h4 class="parent-info-color truncate-text" *ngIf="defect.deficiencyCategory != 'Advisory'">
-                        ({{ defect.deficiencyId }}). {{ defect.deficiencyText }}
+                        <span>
+                            <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+                            <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+                        </span>
+                        {{ defect.deficiencyText }}
                     </h4>
+                    <ion-icon item-end name='arrow-forward' class="arrow-forward"></ion-icon>
                 </ion-item>
                 <ion-item-options>
                     <button ion-button color="danger" (click)="showAlert(item, defect)">Remove</button>
