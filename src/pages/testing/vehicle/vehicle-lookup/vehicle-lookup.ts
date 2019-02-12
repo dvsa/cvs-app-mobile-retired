@@ -35,8 +35,9 @@ export class VehicleLookupPage {
   searchVehicle(searchedValue: string): void {
     const LOADING = this.loadingCtrl.create({
       content: 'Loading...'
-    })
+    });
     LOADING.present();
+    searchedValue = searchedValue.replace(/\s+/g, '');
     this.vehicleService.getVehicleTechRecord(searchedValue.toUpperCase()).subscribe(
       (vehicleTechRecord: VehicleTechRecordModel) => {
         let vehicleData = this.vehicleService.createVehicle(vehicleTechRecord);
