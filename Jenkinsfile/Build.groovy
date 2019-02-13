@@ -7,7 +7,7 @@ ansiColor('xterm') {
                   SECRET_ID = "prod/mobile/config"
                   break
                 case "develop":
-                  SECRET_ID = "test/mobile/config"
+                  SECRET_ID = "develop/mobile/config"
                   break
                 default:
                   SECRET_ID = "feature/mobile/config"
