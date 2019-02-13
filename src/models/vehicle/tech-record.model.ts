@@ -1,6 +1,7 @@
 export interface VehicleTechRecordModel {
   vrms: VrmModel[];
   vin: string;
+  vehicleId: number;
   techRecord: TechRecordModel[];
 }
 
@@ -10,8 +11,8 @@ export interface TechRecordModel {
   chassisModel: string;
   bodyMake: string;
   bodyModel: string;
-  bodyType: string;
-  manufactureDate: number;
+  bodyType: BodyType;
+  manufactureYear: number;
   regnDate: string;
   coifDate: string;
   ntaNumber: string;
@@ -34,7 +35,7 @@ export interface TechRecordModel {
   grossUnladenWeight: number;
   noOfAxles: number;
   brakeCode: string;
-  vehicleClass: string;
+  vehicleClass: vehicleClass;
   vehicleType: string;
   vehicleSize: string;
   vehicleConfiguration: string;
@@ -59,7 +60,7 @@ export interface BrakeModel {
   dataTrBrakeOne: string;
   dataTrBrakeTwo: string;
   dataTrBrakeThree: string;
-  parkingBrakeMrk: string;
+  parkingBrakeMrk: boolean;
   retarderBrakeOne: string;
   retarderBrakeTwo: string;
   brakeForceWheelsNotLocked: BrakeForceWheelModel;
@@ -86,4 +87,14 @@ export interface TyresModel {
   dataTrPsvAxles: number;
   speedCategorySymbol: string;
   tyreCode: number;
+}
+
+export interface BodyType {
+  code: string;
+  description: string;
+}
+
+export interface vehicleClass {
+  code: string;
+  description: string;
 }

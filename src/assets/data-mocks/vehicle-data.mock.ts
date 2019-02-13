@@ -12,8 +12,11 @@ export class VehicleDataMock {
           "chassisModel": "Model",
           "bodyMake": "Sport",
           "bodyModel": "blanao",
-          "bodyType": "articulated",
-          "manufactureDate": 1989,
+          "bodyType": {
+            "code": "a",
+            "description": "articulated"
+          },
+          "manufactureYear": 1989,
           "regnDate": "2018-12-19",
           "coifDate": "2018-12-19",
           "ntaNumber": "1234",
@@ -36,8 +39,11 @@ export class VehicleDataMock {
           "grossUnladenWeight": 0,
           "noOfAxles": 0,
           "brakeCode": "string",
-          "vehicleClass": "2 (MotorBikes over 200cc or with a sidecar)",
-          "vehicleType": "PSV",
+          "vehicleClass": {
+            "code": "s",
+            "description": "single decker"
+          },
+          "vehicleType": "psv",
           "vehicleSize": "large",
           "vehicleConfiguration": "articulated",
           "brakes": {
@@ -45,7 +51,7 @@ export class VehicleDataMock {
             "dataTrBrakeOne": "random",
             "dataTrBrakeTwo": "string",
             "dataTrBrakeThree": "here",
-            "parkingBrakeMrk": "N",
+            "parkingBrakeMrk": false,
             "retarderBrakeOne": "electric",
             "retarderBrakeTwo": "electric",
             "brakeForceWheelsNotLocked": {
@@ -73,7 +79,7 @@ export class VehicleDataMock {
                 "plyRating": "10/10",
                 "fitmentCode": "double",
                 "dataTrPsvAxles": 0,
-                "speedCategorySymbol": "A7",
+                "speedCategorySymbol": "a7",
                 "tyreCode": 0
               }
             }
