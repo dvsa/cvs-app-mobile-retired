@@ -11,7 +11,7 @@ export interface TechRecordModel {
   chassisModel: string;
   bodyMake: string;
   bodyModel: string;
-  bodyType: BodyType;
+  bodyType: BodyTypeModel;
   manufactureYear: number;
   regnDate: string;
   coifDate: string;
@@ -35,7 +35,7 @@ export interface TechRecordModel {
   grossUnladenWeight: number;
   noOfAxles: number;
   brakeCode: string;
-  vehicleClass: vehicleClass;
+  vehicleClass: vehicleClassModel;
   vehicleType: string;
   vehicleSize: string;
   vehicleConfiguration: string;
@@ -89,12 +89,12 @@ export interface TyresModel {
   tyreCode: number;
 }
 
-export interface BodyType {
+export interface BodyTypeModel {
   code: string;
   description: string;
 }
 
-export interface vehicleClass {
+export interface vehicleClassModel {
   code: string;
   description: string;
 }
