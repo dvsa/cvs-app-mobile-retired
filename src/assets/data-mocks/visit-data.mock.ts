@@ -24,7 +24,7 @@ export class VisitDataMock {
       "startTime": "2019-01-14T14:32:12.536Z",
       "endTime": null,
       "testStationName": "Abshire-Kub",
-      "testStationNumber": "09-4129632",
+      "testStationPNumber": "09-4129632",
       "testStationType": "GVTS",
       "testerId": "",
       "testerName": "",

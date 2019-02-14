@@ -4,12 +4,12 @@ import { TestModel } from "../../src/models/tests/test.model";
 export class VisitServiceMock {
   visit: VisitModel = {} as VisitModel;
 
-  public createVisit(atf) {
+  public createVisit(testStation) {
     this.visit.startTime = new Date().toISOString();
     this.visit.endTime = null;
-    this.visit.testStationName = atf.atfName;
-    this.visit.testStationNumber = atf.atfNumber;
-    this.visit.testStationType = atf.atfType;
+    this.visit.testStationName = testStation.atfName;
+    this.visit.testStationPNumber = testStation.atfNumber;
+    this.visit.testStationType = testStation.atfType;
     this.visit.testerId = '';
     this.visit.testerName = '';
     this.visit.tests = [];

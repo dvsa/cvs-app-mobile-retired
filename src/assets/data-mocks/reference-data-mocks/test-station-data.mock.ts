@@ -4,7 +4,7 @@ export class TestStationDataMock {
       {
         testStationId: '123411',
         testStationName: 'An Test Station Name',
-        testStationNumber: '123',
+        testStationPNumber: '123',
         testStationContactNumber: '321',
         testStationAccessNotes: 'note',
         testStationGeneralNotes: 'gNote',
@@ -22,7 +22,7 @@ export class TestStationDataMock {
       }, {
         testStationId: '14111',
         testStationName: 'Other ATF Name',
-        testStationNumber: '456',
+        testStationPNumber: '456',
         testStationContactNumber: '654',
         testStationAccessNotes: 'note1',
         testStationGeneralNotes: 'gNote1',
@@ -38,7 +38,7 @@ export class TestStationDataMock {
       }, {
         testStationId: '124111',
         testStationName: 'That ATF Name',
-        testStationNumber: '789',
+        testStationPNumber: '789',
         testStationContactNumber: '987',
         testStationAccessNotes: 'note2',
         testStationGeneralNotes: 'gNote2',

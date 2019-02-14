@@ -11,7 +11,7 @@ describe('Provider: TestStationService', () => {
 
   const testStationData = TestStationDataMock.TestStationData;
   let initialData: TestStationReferenceDataModel[];
-  const PROPERTIES: string[] = ['testStationName', 'testStationNumber', 'testStationAddress'];
+  const PROPERTIES: string[] = ['testStationName', 'testStationPNumber', 'testStationAddress'];
   let filter: string;
 
   beforeEach(() => {
@@ -73,7 +73,7 @@ describe('Provider: TestStationService', () => {
     let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
 
     expect(filteredData.length).toEqual(1);
-    expect(filteredData[0][0].testStationNumber).toEqual(filter);
+    expect(filteredData[0][0].testStationPNumber).toEqual(filter);
   });
 
   it('should return nothing by unrelated string', () => {

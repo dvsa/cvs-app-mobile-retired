@@ -4,7 +4,7 @@ export  class TestResultModel {
   vrm: string;
   vin: string;
   testStationName: string;
-  testStationNumber: string;
+  testStationPNumber: string;
   testStationType: string;
   testerName: string;
   testerId: string;

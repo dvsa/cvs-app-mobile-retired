@@ -31,7 +31,7 @@ export class TestStationDetailsPage implements OnInit {
   startVisit(): void {
     let confirm = this.alertCtrl.create({
       title: APP_STRINGS.TEST_STATION_SAFETY,
-      subTitle: `Confirm that you are at ${this.testStation.testStationName} (${this.testStation.testStationNumber}) and that it is suitable to begin testing before continuing.`,
+      subTitle: `Confirm that you are at ${this.testStation.testStationName} (${this.testStation.testStationPNumber}) and that it is suitable to begin testing before continuing.`,
       buttons: [
         {
           text: APP_STRINGS.CONFIRM,
