@@ -1,20 +1,18 @@
 ansiColor('xterm') {
     node("mac")  {
-
-          withFolderProperties {
-              switch ("${env.BRANCH}") {
-                case "master":
-                  SECRET_ID = "prod/mobile/config"
-                  break
-                case "develop":
-                  SECRET_ID = "develop/mobile/config"
-                  break
-                default:
-                  SECRET_ID = "feature/mobile/config"
-                  break
-              }
+       withFolderProperties {
+          switch ("${env.BRANCH}") {
+            case "master":
+              SECRET_ID = "prod/mobile/config"
+              break
+            case "develop":
+              SECRET_ID = "develop/mobile/config"
+              break
+            default:
+              SECRET_ID = "feature/mobile/config"
+              break
           }
-
+         
           stage('Checkout') {
               checkout scm
           }
@@ -67,5 +65,6 @@ ansiColor('xterm') {
                 sh 'rm ~/Library/MobileDevice/Provisioning\\ Profiles/*.mobileprovision'
               }
           }
+       }
     }
 }
