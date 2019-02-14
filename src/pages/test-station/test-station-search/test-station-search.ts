@@ -45,7 +45,7 @@ export class TestStationSearchPage implements OnInit {
 
   searchList(e): void {
     this.searchVal = e.target.value;
-    this.filteredTestStations = this.testStationService.sortAndSearchTestStation(this.testStations, this.searchVal, ['testStationName', 'testStationNumber', 'testStationAddress'])
+    this.filteredTestStations = this.testStationService.sortAndSearchTestStation(this.testStations, this.searchVal, ['testStationName', 'testStationPNumber', 'testStationAddress'])
   }
 
   private clearSearch(): void {

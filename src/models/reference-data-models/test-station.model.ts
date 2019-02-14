@@ -2,7 +2,7 @@ import { TEST_STATION_TYPE } from "../models.enums";
 
 export interface TestStationReferenceDataModel {
       testStationId: string;
-      testStationNumber: string;
+      testStationPNumber: string;
       testStationName: string;
       testStationContactNumber: string;
       testStationAccessNotes: string;

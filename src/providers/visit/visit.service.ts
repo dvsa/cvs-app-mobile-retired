@@ -16,7 +16,7 @@ export class VisitService {
     this.visit.startTime = new Date().toISOString();
     this.visit.endTime = null;
     this.visit.testStationName = testStation.testStationName;
-    this.visit.testStationNumber = testStation.testStationNumber;
+    this.visit.testStationPNumber = testStation.testStationPNumber;
     this.visit.testStationType = testStation.testStationfType;
     this.visit.testerId = '';
     this.visit.testerName = '';
