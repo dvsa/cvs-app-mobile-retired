@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { StorageService } from "../../../providers/natives/storage.service";
 import { VisitService } from "../../../providers/visit/visit.service";
-import { LOCAL_STORAGE, STORAGE } from "../../../app/app.enums";
+import { LOCAL_STORAGE, STORAGE, APP_STRINGS } from "../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -11,6 +11,7 @@ import { LOCAL_STORAGE, STORAGE } from "../../../app/app.enums";
 })
 export class TestStationHomePage implements OnInit {
   count: number = 0;
+  appStrings: object = APP_STRINGS;
 
   constructor(public navCtrl: NavController, public toastController: ToastController, private storageService: StorageService, private visitService: VisitService) {
   }

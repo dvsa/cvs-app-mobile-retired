@@ -5,20 +5,19 @@
   </ion-grid>
 </ion-header>
 <ion-content padding>
-  <div padding-vertical>
-    <ion-img src="./assets/imgs/client-logo.svg" width="144" height="102" (click)="enableCache()"></ion-img>
+  <div class="logo">
+    <ion-img class="logo-img" src="./assets/imgs/client-logo.svg" width="140" height="94" (click)="enableCache()"></ion-img>
   </div>
 
-  <div margin-vertical class="beta">
+  <div class="beta">
    <span>BETA</span>
   </div>
 
-  <div class="start-title" padding-top>
-    <h1>Commercial Vehicle</h1>
-    <h1>Service</h1>
+  <div class="start-title">
+    <h1>{{ appStrings.APP_NAME }}</h1>
   </div>
 
-  <h4>Mobile Test Capture</h4>
+  <h2>{{ appStrings.APP_DESC_PT1 }}<br />{{ appStrings.APP_DESC_PT2 }}</h2>
 
 </ion-content>
 <ion-footer>
