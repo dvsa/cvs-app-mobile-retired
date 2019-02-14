@@ -26,6 +26,10 @@ import { CommonFunctionsService } from "../providers/utils/common-functions";
 import { Keyboard } from '@ionic-native/keyboard';
 import { MSAdal } from "@ionic-native/ms-adal";
 import { AuthInterceptor } from "../providers/interceptors/auth.interceptor";
+import { SignaturePadModule } from "angular2-signaturepad";
+import { ScreenOrientation } from "@ionic-native/screen-orientation";
+import { SignaturePopoverComponent } from "../components/signature-popover/signature-popover";
+import { SignatureService } from "../providers/signature/signature.service";
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -43,7 +47,8 @@ const CUSTOM_PROVIDERS = [
   PreparerService,
   VisitService,
   StateReformingService,
-  CommonFunctionsService
+  CommonFunctionsService,
+  SignatureService
 ];
 
 const IONIC_NATIVE_PROVIDERS = [
@@ -56,11 +61,13 @@ const IONIC_NATIVE_PROVIDERS = [
   MobileAccessibility,
   Keyboard,
   MSAdal,
+  ScreenOrientation
 ];
 
 @NgModule({
   declarations: [
     MyApp,
+    SignaturePopoverComponent
   ],
   imports: [
     BrowserModule,
@@ -68,11 +75,13 @@ const IONIC_NATIVE_PROVIDERS = [
     IonicModule.forRoot(MyApp, {statusbarPadding: true, swipeBackEnabled: false}),
     IonicStorageModule.forRoot({
       driverOrder: ['sqlite', 'websql', 'indexeddb']
-    })
+    }),
+    SignaturePadModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    SignaturePopoverComponent
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

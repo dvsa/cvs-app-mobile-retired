@@ -7,6 +7,7 @@ import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
 import { SyncService } from "../providers/global/sync.service";
 import { StorageService } from "../providers/natives/storage.service";
 import { VisitService } from "../providers/visit/visit.service";
+import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { AUTH, LOCAL_STORAGE, STORAGE } from "./app.enums";
 import { AppConfig } from "../../config/app.config";
 import { TesterDetailsModel } from "../models/tester-details.model";
@@ -19,7 +20,7 @@ export class MyApp {
   rootPage: any = 'TestStationHomePage';
   isProduction: boolean;
 
-  constructor(public platform: Platform, statusBar: StatusBar,public splashScreen: SplashScreen, private alertCtrl: AlertController, private syncService: SyncService, private authService: AuthService, private mobileAccessibility: MobileAccessibility, private renderer: Renderer2, public storageService: StorageService, public visitService: VisitService) {
+  constructor(public platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, private alertCtrl: AlertController, private syncService: SyncService, private authService: AuthService, private mobileAccessibility: MobileAccessibility, private renderer: Renderer2, public storageService: StorageService, public visitService: VisitService, private screenOrientation: ScreenOrientation) {
     platform.ready().then(() => {
       this.isProduction = (AppConfig.IS_PRODUCTION == 'true');
 
@@ -31,7 +32,11 @@ export class MyApp {
       this.setEasterEgg();
 
       // Mobile accessibility
-      if (this.platform.is('cordova')) this.accessibilityFeatures();
+      if (this.platform.is('cordova')) {
+        this.visitService.isCordova = true;
+        this.accessibilityFeatures();
+        this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
+      }
 
       // Resuming app from background Mobile Accessibility
       this.platform.resume.subscribe(() => {
@@ -69,7 +74,13 @@ export class MyApp {
         (resp: string) => {
           if (resp !== AUTH.MS_ADAL_ERROR_CODE) {
             this.authService.setJWTToken(resp).then(
-              () => this.syncService.startSync()
+              () => {
+                this.storageService.read(STORAGE.SIGNATURE_IMAGE).then(
+                  (data) => {
+                    if (!data) this.navElem.push('SignaturePadPage', {navController: this.navElem});
+                  });
+                this.syncService.startSync();
+              }
             );
           } else {
             console.error(`Authentication failed due to: ${resp}`);
@@ -112,7 +123,7 @@ export class MyApp {
   }
 
   private generateUserDetails(): void {
-    let localTesterDetails: TesterDetailsModel = JSON.parse(localStorage.getItem('tester-details'));
+    let localTesterDetails: TesterDetailsModel = JSON.parse(localStorage.getItem(LOCAL_STORAGE.TESTER_DETAILS));
     if (localTesterDetails) {
       this.authService.testerDetails = this.authService.setTesterDetails(null,
         localTesterDetails.testerId,
@@ -122,6 +133,5 @@ export class MyApp {
       this.authService.testerDetails = this.authService.setTesterDetails(null);
     }
   }
-
 }
 

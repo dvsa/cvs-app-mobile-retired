@@ -16,6 +16,8 @@ import { VisitService } from "../providers/visit/visit.service";
 import { VisitServiceMock } from "../../test-config/services-mocks/visit-service.mock";
 import { MSAdal } from "@ionic-native/ms-adal";
 import { AuthServiceMock } from "../../test-config/services-mocks/auth-service.mock";
+import { ScreenOrientation } from "@ionic-native/screen-orientation";
+
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -25,6 +27,7 @@ describe('Component: Root', () => {
   let syncService;
   let storageService;
   let visitService;
+  let screenOrientation: ScreenOrientation;
 
 
   beforeEach(async(() => {
@@ -42,7 +45,8 @@ describe('Component: Root', () => {
         {provide: AuthService, useClass: AuthServiceMock},
         CallNumber,
         OpenNativeSettings,
-        MobileAccessibility
+        MobileAccessibility,
+        ScreenOrientation
       ],
       imports: [
         BrowserModule,
@@ -62,6 +66,7 @@ describe('Component: Root', () => {
     syncService = TestBed.get(SyncService);
     storageService = TestBed.get(StorageService);
     visitService = TestBed.get(VisitService);
+    screenOrientation = TestBed.get(ScreenOrientation);
   });
 
   afterEach(() => {
@@ -71,6 +76,7 @@ describe('Component: Root', () => {
     syncService = null;
     storageService = null;
     visitService = null;
+    screenOrientation = null;
   });
 
   it('should create component', (done) => {
