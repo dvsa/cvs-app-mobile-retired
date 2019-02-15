@@ -81,7 +81,7 @@ export class TestResultsDataMock {
               }
             }, {
               "ref": "1.2",
-              "deficiencyCategory": "Advisory",
+              "deficiencyCategory": "advisory",
               "deficiencyId": null,
               "deficiencyText": "",
               "metadata": {

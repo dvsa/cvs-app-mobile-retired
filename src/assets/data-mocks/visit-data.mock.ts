@@ -148,7 +148,7 @@ export class VisitDataMock {
                 }
               }, {
                 "ref": "1.2",
-                "deficiencyCategory": "Advisory",
+                "deficiencyCategory": "advisory",
                 "deficiencyId": null,
                 "deficiencyText": "",
                 "metadata": {
@@ -213,7 +213,7 @@ export class VisitDataMock {
               "abandonment": {"reasons": []},
               "defects": [{
                 "ref": "1.1.a",
-                "deficiencyCategory": "Major",
+                "deficiencyCategory": "major",
                 "deficiencyId": "a",
                 "deficiencyText": "missing.",
                 "metadata": {
@@ -288,7 +288,7 @@ export class VisitDataMock {
                 }
               }, {
                 "ref": "1.2",
-                "deficiencyCategory": "Advisory",
+                "deficiencyCategory": "advisory",
                 "deficiencyId": null,
                 "deficiencyText": "",
                 "metadata": {
