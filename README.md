@@ -19,17 +19,13 @@ To get a working build running locally follow these steps:
 
 1. Clone the repository.
 
-2. Navigate to src/assets/data-mocks, create a folder called "config".
+2. Run `npm install`.
 
-3. Ask the devs for the "application.json" file, the one that needs to be added into the newly created folder.
+3. Run the following GIT command: "git update-index --assume-unchanged config/application.json"
 
-3. Run `npm install`.
+4. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
 
-4. Run the following GIT command: "git update-index --assume-unchanged config/application.json"
-
-5. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
-
-6. After finishing your development, if you encounter problems switching branches, use 'git update-index --no-assume-unchanged config/application.json' command. Revert changes made to 'config/application.json' and then switch branches.
+5. After finishing your development, if you encounter problems switching branches, use 'git update-index --no-assume-unchanged config/application.json' command. Revert changes made to 'config/application.json' and then switch branches.
 
 ### For testing in the browser:
 

@@ -1,12 +1,10 @@
 {
-  "IS_PRODUCTION": "",
-  "KEY_PHONE_NUMBER": "",
-  "AUTH_HEADERS": "",
-  "BACKEND_GET_CERTIFICATE": "",
-  "BACKEND_URL_TEST_STATIONS": "",
-  "BACKEND_URL_DEFECTS": "",
-  "BACKEND_URL_PREPARERS": "",
-  "BACKEND_URL_TESTTYPES": "",
-  "BACKEND_URL_TECHRECORDS": "",
-  "BACKEND_URL_GET_TEST_RESULTS": ""
+  "IS_PRODUCTION": "false",
+  "KEY_PHONE_NUMBER": "00000",
+  "BACKEND_URL_TEST_STATIONS": "http://localhost:3004/test-stations",
+  "BACKEND_URL_DEFECTS": "http://localhost:3001/defects",
+  "BACKEND_URL_PREPARERS": "http://localhost:3003/preparers",
+  "BACKEND_URL_TESTTYPES": "http://localhost:3002/test-types",
+  "BACKEND_URL_TECHRECORDS": "http://localhost:3005/vehicles",
+  "BACKEND_URL_GET_TEST_RESULTS": "http://localhost:3006/test-results"
 }

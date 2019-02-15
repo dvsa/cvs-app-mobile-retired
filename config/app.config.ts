@@ -8,8 +8,7 @@ export class AppConfig {
   }
 
   public static get BACKEND_GET_CERTIFICATE() {
-    let jsonData = app;
-    return jsonData['BACKEND_GET_CERTIFICATE'];
+    return 'test token here will be our token';
   }
 
   public static get BACKEND_URL_TEST_STATIONS() {
