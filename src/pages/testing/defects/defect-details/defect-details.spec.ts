@@ -9,6 +9,7 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
+import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 
 describe('Component: DefectDetailsPage', () => {
   let comp: DefectDetailsPage;
@@ -113,7 +114,8 @@ describe('Component: DefectDetailsPage', () => {
         NavController,
         {provide: TestTypeService, useClass: TestTypeServiceMock},
         {provide: DefectsService, useValue: defectsServiceSpy},
-        {provide: NavParams, useClass: NavParamsMock}
+        {provide: NavParams, useClass: NavParamsMock},
+        {provide: ViewController, useClass: ViewControllerMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });

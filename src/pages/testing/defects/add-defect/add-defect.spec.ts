@@ -1,6 +1,6 @@
 import { AddDefectPage } from "./add-defect";
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, NavController, NavParams } from "ionic-angular";
+import { AlertController, IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
@@ -13,6 +13,7 @@ import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectCategoryReferenceDataModel, DefectItemReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
+import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 
 describe('Component: AddDefectPage', () => {
   let comp: AddDefectPage;
@@ -51,7 +52,8 @@ describe('Component: AddDefectPage', () => {
         AlertController,
         {provide: NavParams, useClass: NavParamsMock},
         {provide: DefectsService, useValue: defectsServiceSpy},
-        {provide: CommonFunctionsService, useValue: commonFunctionsServiceSpy}
+        {provide: CommonFunctionsService, useValue: commonFunctionsServiceSpy},
+        {provide: ViewController, useClass: ViewControllerMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
