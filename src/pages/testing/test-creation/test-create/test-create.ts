@@ -90,10 +90,6 @@ export class TestCreatePage implements OnInit {
     }
   }
 
-  presentSearchVehicle(): void {
-    this.navCtrl.push('VehicleLookupPage');
-  }
-
   getVehicleTypeIconToShow(vehicle: VehicleModel) {
     return vehicle.techRecord.vehicleType.toLowerCase();
   }
