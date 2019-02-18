@@ -114,7 +114,9 @@ export enum APP_STRINGS {
   TRY_AGAIN_BTN = 'Try again',
   END_VISIT_TITLE = 'End visit',
   END_VISIT_MSG = "You will not be able to add any other tests after you end this visit. Today's activity report will be sent to DVSA and ",
-  END_VISIT_LOADING = 'Submitting site visit'
+  END_VISIT_LOADING = 'Submitting site visit',
+  REMOVE_DEFECT_TITLE = 'Remove defect',
+  REMOVE_DEFECT_MSG = 'This action will remove this defect.',
 }
 
 export enum ODOMETER_METRIC {
