@@ -6,6 +6,7 @@ import { APP_STRINGS } from "../../../../app/app.enums";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { PreparersReferenceDataModel } from "../../../../models/reference-data-models/preparers.model";
+import { TestService } from '../../../../providers/test/test.service';
 
 
 @IonicPage()
@@ -26,7 +27,8 @@ export class AddPreparerPage implements OnInit {
               public preparerService: PreparerService,
               private alertCtrl: AlertController,
               private vehicleService: VehicleService,
-              private viewCtrl: ViewController) {
+              private viewCtrl: ViewController,
+              private testReportService: TestService) {
     this.vehicleData = this.navParams.get('vehicle');
     this.testData = this.navParams.get('test');
   }
@@ -76,6 +78,7 @@ export class AddPreparerPage implements OnInit {
         {
           text: APP_STRINGS.CONFIRM,
           handler: () => {
+            this.testReportService.addVehicle(this.testData, this.vehicleData);
             this.selectPreparer(preparer);
             this.navCtrl.push('TestCreatePage', {
               test: this.testData

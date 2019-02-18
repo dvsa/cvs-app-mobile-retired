@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
-import { TestService } from "../../../../providers/test/test.service";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { APP_STRINGS, DATE_FORMAT, STORAGE } from "../../../../app/app.enums";
 import { StorageService } from "../../../../providers/natives/storage.service";
@@ -20,7 +19,6 @@ export class VehicleDetailsPage {
 
   constructor(public navCtrl: NavController,
               private navParams: NavParams,
-              private testReportService: TestService,
               public viewCtrl: ViewController,
               public alertCtrl: AlertController,
               public storageService: StorageService,
@@ -44,7 +42,6 @@ export class VehicleDetailsPage {
         }, {
           text: APP_STRINGS.CONFIRM,
           handler: () => {
-            this.testReportService.addVehicle(this.testData, this.vehicleData);
             this.navCtrl.push('AddPreparerPage', {
               vehicle: this.vehicleData,
               test: this.testData
