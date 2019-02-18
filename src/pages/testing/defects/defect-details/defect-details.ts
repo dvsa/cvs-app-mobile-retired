@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
-import { AdditionalInfoMetadataModel, DefectDetailsModel } from '../../../../models/defects/defect-details.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, IonicPage, Navbar, NavController, NavParams, ViewController } from 'ionic-angular';
+import { AdditionalInfoMetadataModel, DefectDetailsModel, DefectLocationModel } from '../../../../models/defects/defect-details.model';
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
@@ -17,6 +17,9 @@ export class DefectDetailsPage implements OnInit {
   defectMetadata: AdditionalInfoMetadataModel;
   isEdit: boolean;
   isLocation: boolean;
+  tempDefectLocation: DefectLocationModel;
+  tempDefectNotes: string;
+  @ViewChild(Navbar) navBar: Navbar;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -30,12 +33,22 @@ export class DefectDetailsPage implements OnInit {
   }
 
   ngOnInit() {
+    this.tempDefectLocation = Object.assign({}, this.defect.additionalInformation.location);
+    this.tempDefectNotes = this.defect.additionalInformation.notes;
     this.defectMetadata = this.defect.metadata.category.additionalInfo;
     this.isLocation = this.checkForLocation(this.defectMetadata.location);
   }
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.DEFECT_DESC);
+  }
+
+  ionViewDidLoad() {
+    this.navBar.backButtonClick = () => {
+      this.defect.additionalInformation.location = Object.assign({}, this.tempDefectLocation);
+      this.defect.additionalInformation.notes = this.tempDefectNotes;
+      this.navCtrl.pop();
+    }
   }
 
   addDefect(): void {
@@ -71,16 +84,16 @@ export class DefectDetailsPage implements OnInit {
 
   removeDefectConfirm(defect: DefectDetailsModel): void {
     const confirm = this.alertCtrl.create({
-      title: 'Remove defect',
-      message: 'This action will remove this defect.',
+      title: APP_STRINGS.REMOVE_DEFECT_TITLE,
+      message: APP_STRINGS.REMOVE_DEFECT_MSG,
       buttons: [
         {
-          text: 'Cancel',
+          text: APP_STRINGS.CANCEL,
           handler: () => {
           }
         },
         {
-          text: 'Remove',
+          text: APP_STRINGS.REMOVE,
           handler: () => {
             this.removeDefect(defect);
           }
