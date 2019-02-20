@@ -14,6 +14,7 @@ export class TestStationSearchPage implements OnInit {
   testStations: TestStationReferenceDataModel[] = [];
   filteredTestStations: TestStationReferenceDataModel[] = [];
   searchVal: string = '';
+  focusOut: boolean = false;
 
   constructor(public navCtrl: NavController, public events: Events, private testStationService: TestStationService) {
   }
@@ -35,6 +36,7 @@ export class TestStationSearchPage implements OnInit {
     this.navCtrl.push('TestStationDetailsPage', {testStation: testStation}).then(
       () => {
         this.clearSearch();
+        this.focusOut = false;
       }
     );
   }
@@ -52,5 +54,9 @@ export class TestStationSearchPage implements OnInit {
     this.events.publish(APP.NAV_OUT);
     this.searchVal = '';
     this.filteredTestStations = this.testStationService.sortAndSearchTestStation(this.testStations, this.searchVal, ['testStationName']);
+  }
+
+  keepCancelOn(ev, hideCancel?: boolean) {
+    this.focusOut = !hideCancel;
   }
 }

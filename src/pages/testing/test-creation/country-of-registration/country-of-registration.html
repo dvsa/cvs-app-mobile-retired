@@ -12,6 +12,9 @@
     </ion-navbar>
     <ion-toolbar>
         <ion-searchbar (ionInput)="searchList($event)"
+                       (ionFocus)="keepCancelOn($event)"
+                       (ionCancel)="keepCancelOn($event, true)"
+                       [ngClass]="{'keep-cancel-on': focusOut}"
                        [(ngModel)]="searchVal"
                        [showCancelButton]="true"
                        [cancelButtonText]="'Cancel'"

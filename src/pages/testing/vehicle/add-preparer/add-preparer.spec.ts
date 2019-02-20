@@ -61,7 +61,7 @@ describe('Component: AddPreparerPage', () => {
       };
       return params[param];
     })
-  })
+  });
 
   afterEach(() => {
     fixture.destroy();
@@ -82,19 +82,14 @@ describe('Component: AddPreparerPage', () => {
     inject([VehicleService], (injectService: VehicleService) => {
       expect(injectService).toBe(vehicleService);
     })
-  )
+  );
 
   it('should make variable true on searchBar focus on', () => {
-    comp.searchbarFocus = false;
-    expect(comp.searchbarFocus).toBeFalsy();
-    comp.setFocus();
-    expect(comp.searchbarFocus).toBeTruthy();
-  });
-
-  it('should make variable false on searchBar cancel', () => {
-    comp.searchbarFocus = true;
-    expect(comp.searchbarFocus).toBeTruthy();
-    comp.cancelFocus();
-    expect(comp.searchbarFocus).toBeFalsy();
+    let ev = 'something';
+    let hideCancel = false;
+    comp.focusOut = false;
+    expect(comp.focusOut).toBeFalsy();
+    comp.keepCancelOn(ev, hideCancel);
+    expect(comp.focusOut).toBeTruthy();
   });
 });
