@@ -15,7 +15,7 @@ import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { APP, APP_STRINGS, ODOMETER_METRIC, TEST_COMPLETION_STATUS } from "../../../../app/app.enums";
+import { APP, APP_STRINGS, ODOMETER_METRIC, TEST_COMPLETION_STATUS, TEST_TYPE_INPUTS } from "../../../../app/app.enums";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
@@ -102,7 +102,8 @@ export class TestCreatePage implements OnInit {
         testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
         for (let section of testTypeFieldMetadata.sections) {
           for (let input of section.inputs) {
-            if (!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false) {
+            if (!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false
+              && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_LAST_DATE) {
               isInProgress = true;
               testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
             } else {

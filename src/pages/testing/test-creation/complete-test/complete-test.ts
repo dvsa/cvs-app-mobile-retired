@@ -163,8 +163,8 @@ export class CompleteTestPage implements OnInit {
     });
     INPUT_MODAL.onDidDismiss(data => {
       if (data.inputValue) {
-        this.vehicleTest[input.testTypePropertyName] = parseInt(data.inputValue);
-        this.completedFields[input.testTypePropertyName] = parseInt(data.inputValue);
+        this.vehicleTest[input.testTypePropertyName] = data.inputValue;
+        this.completedFields[input.testTypePropertyName] = data.inputValue;
       }
       if (data.fromTestReview) {
         this.fromTestReview = data.fromTestReview;
