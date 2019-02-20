@@ -37,7 +37,7 @@ export class VisitTimelinePage implements OnInit {
 
   ngOnInit() {
     this.visit = Object.keys(this.visitService.visit).length ? this.visitService.visit : this.visitService.createVisit(this.navParams.get('testStation'));
-    if (this.visitService.easterEgg == 'false') this.stateReformingService.saveNavStack(this.navCtrl);
+    if (this.visitService.caching == 'true') this.stateReformingService.saveNavStack(this.navCtrl);
     this.events.subscribe(APP.TEST_SUBMITTED, () => {
       const TOAST = this.toastCtrl.create({
         message: APP_STRINGS.SUBMIT_TEST_TOAST_MESSAGE,
@@ -47,7 +47,6 @@ export class VisitTimelinePage implements OnInit {
       });
       TOAST.present();
     });
-    if (this.visitService.caching == 'true') this.stateReformingService.saveNavStack(this.navCtrl);
   }
 
   ionViewWillEnter() {
