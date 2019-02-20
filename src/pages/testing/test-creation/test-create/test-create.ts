@@ -53,7 +53,7 @@ export class TestCreatePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    if (this.visitService.caching =='true') this.stateReformingService.saveNavStack(this.navCtrl);
+    if (this.visitService.caching == 'true') this.stateReformingService.saveNavStack(this.navCtrl);
     this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
       this.completedFields = completedFields;
     });
@@ -112,7 +112,7 @@ export class TestCreatePage implements OnInit {
             }
           }
         }
-      } else if (testType.id === testTypeFieldMetadata.testTypeId && !testTypeFieldMetadata.sections.length) {
+      } else if (testType.testTypeId === testTypeFieldMetadata.testTypeId && !testTypeFieldMetadata.sections.length) {
         isInProgress = false;
         testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
       }
@@ -189,6 +189,7 @@ export class TestCreatePage implements OnInit {
   }
 
   removeVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
+    this.vehicleService.removeSicFields(vehicle, this.completedFields);
     this.vehicleService.removeTestType(vehicle, vehicleTest);
   }
 
