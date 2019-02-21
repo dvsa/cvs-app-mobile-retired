@@ -8,6 +8,7 @@ import { TestDataModelMock } from "../../assets/data-mocks/data-model/test-data-
 import { AuthService } from "../global/auth.service";
 import { HTTPService } from "../global/http.service";
 import { Events } from "ionic-angular";
+import { CommonFunctionsService } from "../utils/common-functions";
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
@@ -29,6 +30,7 @@ describe('Provider: VisitService', () => {
       providers: [
         VisitService,
         AuthService,
+        CommonFunctionsService,
         {provide: StorageService, useValue: storageServiceSpy},
         Events,
         {provide: StorageService, useValue: storageServiceSpy},
