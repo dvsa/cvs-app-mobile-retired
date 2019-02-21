@@ -51,7 +51,7 @@ export class DefectsService {
       deficiencyCategory: (!isAdvisory) ? deficiency.deficiencyCategory : 'advisory',
       deficiencyId: (!isAdvisory) ? deficiency.deficiencyId : null,
       deficiencySubId: (!isAdvisory) ? deficiency.deficiencySubId : null,
-      deficiencyText: (!isAdvisory) ? deficiency.deficiencyText : '',
+      deficiencyText: (!isAdvisory) ? deficiency.deficiencyText : null,
       imNumber: defCat.imNumber,
       imDescription: defCat.imDescription,
       itemNumber: defItem.itemNumber,
@@ -68,7 +68,7 @@ export class DefectsService {
           axleNumber: null
         } : null
       },
-      stdForProhibition: deficiency.stdForProhibition,
+      stdForProhibition: (!isAdvisory) ? deficiency.stdForProhibition : null,
       metadata: metadata,
       prs: (!isAdvisory) ? false : null,
     };
