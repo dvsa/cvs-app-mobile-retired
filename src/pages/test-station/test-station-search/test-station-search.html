@@ -6,11 +6,15 @@
   </ion-navbar>
   <ion-toolbar>
     <ion-searchbar (ionInput)="searchList($event)"
+                   (ionFocus)="keepCancelOn($event)"
+                   (ionCancel)="keepCancelOn($event, true)"
                    [(ngModel)]="searchVal"
+                   [ngClass]="{'keep-cancel-on': focusOut}"
                    [showCancelButton]="true"
                    [cancelButtonText]="'Cancel'"
                    placeholder="Search for ATF name, address or P-number"
-                   #searchBar>
+                   #searchBar
+                   id="stay-cancel">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>

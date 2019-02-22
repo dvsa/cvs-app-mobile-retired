@@ -80,6 +80,13 @@
         background-color: $color-grey-4;
       }
     }
+
+    .searchbar-ios.keep-cancel-on {
+      .searchbar-ios-cancel {
+        display: block;
+        padding-left: 8px;
+      }
+    }
   }
 }
 
@@ -332,13 +339,13 @@ ion-list.vehicle-list {
   border: 1px solid color($colors, dark);
 }
 
-.item-inner > ion-icon.ion-ios-arrow-forward{
+.item-inner > ion-icon.ion-ios-arrow-forward {
   font-size: $font-size-medium-2;
   display: flex;
   align-items: center;
 }
 
-.action-sheet-ios .action-sheet-button{
+.action-sheet-ios .action-sheet-button {
   text-transform: capitalize;
 }
 
@@ -346,15 +353,15 @@ ion-list.vehicle-list {
   color: $color-grey-1;
 }
 
-.color-grey-2{
+.color-grey-2 {
   color: $color-grey-2;
 }
 
-.margin-vertical-half{
+.margin-vertical-half {
   margin: 8px 0;
 }
 
-.margin-left-half{
+.margin-left-half {
   margin-left: 8px;
 }
 

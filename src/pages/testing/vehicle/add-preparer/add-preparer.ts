@@ -18,7 +18,7 @@ export class AddPreparerPage implements OnInit {
   preparers: PreparersReferenceDataModel[] = [];
   filteredPreparers: PreparersReferenceDataModel[] = [];
   searchValue: string;
-  searchbarFocus: boolean = false;
+  focusOut: boolean = false;
   vehicleData: VehicleModel;
   testData: TestModel;
 
@@ -49,6 +49,7 @@ export class AddPreparerPage implements OnInit {
   }
 
   selectPreparer(preparer: PreparersReferenceDataModel): void {
+    this.focusOut = false;
     this.vehicleService.addPreparer(this.vehicleData, preparer);
   }
 
@@ -95,12 +96,8 @@ export class AddPreparerPage implements OnInit {
     this.filteredPreparers = this.preparerService.search(this.preparers, this.searchValue);
   }
 
-  setFocus(): void {
-    this.searchbarFocus = true;
-  }
-
-  cancelFocus(): void {
-    this.searchbarFocus = false;
+  keepCancelOn(ev, hideCancel?: boolean) {
+    this.focusOut = !hideCancel;
   }
 
 }

@@ -6,7 +6,10 @@
   </ion-navbar>
   <ion-toolbar>
     <ion-searchbar (ionInput)="searchList($event)"
+                   (ionFocus)="keepCancelOn($event)"
+                   (ionCancel)="keepCancelOn($event, true)"
                    [(ngModel)]="searchVal"
+                   [ngClass]="{'keep-cancel-on': focusOut}"
                    [showCancelButton]="true"
                    [cancelButtonText]="'Cancel'"
                    placeholder="Search for a defect category or IM number"

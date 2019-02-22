@@ -8,18 +8,19 @@
                    [(ngModel)]="searchValue"
                    [showCancelButton]="true"
                    [cancelButtonText]="'Cancel'"
-                   (ionFocus)="setFocus()"
-                   (ionCancel)="cancelFocus()"
+                   (ionFocus)="keepCancelOn($event)"
+                   (ionCancel)="keepCancelOn($event, true)"
+                   [ngClass]="{'keep-cancel-on': focusOut}"
                    placeholder="Search for preparer ID number"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding>
   <ion-list *ngIf="filteredPreparers.length > 0">
-    <button ion-item no-lines padding-left (click)="presentConfirm('Preparer ID not given')" class="min-height" *ngIf="!searchbarFocus">
+    <button ion-item no-lines padding-left (click)="presentConfirm('Preparer ID not given')" class="min-height" *ngIf="!focusOut">
       <span ion-text color="dark">No preparer ID given</span>
     </button>
-    <ion-list-header text-uppercase padding-left *ngIf="!searchbarFocus">List of preparers</ion-list-header>
+    <ion-list-header text-uppercase padding-left *ngIf="!focusOut">List of preparers</ion-list-header>
     <button ion-item detail-none padding-left
             *ngFor="let preparer of filteredPreparers"
             (click)="presentConfirm(preparer)" class="min-height">
@@ -31,7 +32,7 @@
       </ion-grid>
     </button>
   </ion-list>
-  <ion-grid *ngIf="searchbarFocus && filteredPreparers.length == 0"
+  <ion-grid *ngIf="focusOut && filteredPreparers.length == 0"
             [ngClass]="filteredPreparers.length == 0 ? 'noResults' : ''">
     <ion-row align-items-center>
       <ion-col col-8 offset-2>

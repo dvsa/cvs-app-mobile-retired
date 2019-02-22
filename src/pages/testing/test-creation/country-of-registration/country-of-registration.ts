@@ -20,6 +20,7 @@ export class RegionReadingPage implements OnInit {
   filteredCountries = [];
   groupedCountries = [];
   vehicle: VehicleModel;
+  focusOut: boolean = false;
 
   constructor(private commonFunctionsService: CommonFunctionsService,
               private viewCtrl: ViewController,
@@ -52,6 +53,7 @@ export class RegionReadingPage implements OnInit {
   }
 
   setVehicleRegCountry(regCountryItem) {
+    this.focusOut = false;
     this.vehicle.countryOfRegistration = regCountryItem.key;
     this.visitService.updateVisit();
     this.events.publish(APP.NAV_OUT);
@@ -61,6 +63,10 @@ export class RegionReadingPage implements OnInit {
 
   onSave() {
     this.viewCtrl.dismiss();
+  }
+
+  keepCancelOn(ev, hideCancel?: boolean) {
+    this.focusOut = !hideCancel;
   }
 }
 

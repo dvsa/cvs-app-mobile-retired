@@ -16,6 +16,7 @@ export class AddDefectItemPage implements OnInit {
   category: DefectCategoryReferenceDataModel;
   filteredItems: DefectItemReferenceDataModel[];
   searchVal: string = '';
+  focusOut: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public defectsService: DefectsService, public events: Events) {
     this.vehicleType = navParams.get('vehicleType');
@@ -32,6 +33,7 @@ export class AddDefectItemPage implements OnInit {
   }
 
   selectItem(item: DefectItemReferenceDataModel): void {
+    this.focusOut = false;
     this.navCtrl.push('AddDefectPage', {
       vehicleType: this.vehicleType,
       vehicleTest: this.vehicleTest,
@@ -49,5 +51,9 @@ export class AddDefectItemPage implements OnInit {
   private populateItemsArray(): DefectItemReferenceDataModel[] {
     let filteredArr = this.defectsService.searchDefect(this.category.items, this.searchVal, ['itemNumber', 'itemDescription']);
     return this.defectsService.orderDefectsArray(filteredArr, 'itemNumber', 'asc');
+  }
+
+  keepCancelOn(ev, hideCancel?: boolean) {
+    this.focusOut = !hideCancel;
   }
 }
