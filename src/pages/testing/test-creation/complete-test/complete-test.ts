@@ -263,6 +263,7 @@ export class CompleteTestPage implements OnInit {
   }
 
   removeTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
+    this.vehicleService.removeSicFields(vehicle, this.completedFields);
     this.vehicleService.removeTestType(vehicle, vehicleTest);
     this.navCtrl.pop();
   }

@@ -8,7 +8,7 @@ import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TechRecordModel, VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
-import { TECH_RECORD_STATUS } from "../../app/app.enums";
+import { TECH_RECORD_STATUS, TEST_TYPE_INPUTS } from "../../app/app.enums";
 
 @Injectable()
 export class VehicleService {
@@ -50,7 +50,6 @@ export class VehicleService {
     this.visitService.updateVisit();
   }
 
-
   getVehicleTechRecord(param): Observable<VehicleTechRecordModel> {
     return this.httpService.getTechRecords(param);
   }
@@ -72,6 +71,24 @@ export class VehicleService {
         return techRec['statusCode'] == TECH_RECORD_STATUS.CURRENT
       });
     return currentArray;
+  }
+
+  hasOnlyOneTestTypeWithSic(vehicle: VehicleModel) {
+    let testsFound = 0;
+    for (let testType of vehicle.testTypes) {
+      if (testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] || testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] === false) {
+        testsFound++;
+      }
+    }
+    return testsFound === 1;
+  }
+
+  removeSicFields(vehicle, fields) {
+    if (this.hasOnlyOneTestTypeWithSic(vehicle)) {
+      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_CARRIED_OUT)) delete fields[TEST_TYPE_INPUTS.SIC_CARRIED_OUT];
+      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER)) delete fields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER];
+      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_LAST_DATE)) delete fields[TEST_TYPE_INPUTS.SIC_LAST_DATE];
+    }
   }
 
   formatOdometerReadingValue(string: string): string {
