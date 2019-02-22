@@ -56,7 +56,8 @@
                     <ion-datetime item-end
                                   displayFormat="D MMM YYYY"
                                   [(ngModel)]="completedFields[input.testTypePropertyName]"
-                                  (ngModelChange)="onDatetimeChange($event, input.testTypePropertyName)"></ion-datetime>
+                                  (ngModelChange)="onDatetimeChange($event, input.testTypePropertyName)"
+                                  [max]="today"></ion-datetime>
                 </button>
                 <ion-grid class="certificateNumberCustom"
                           *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER_CUSTOM && canDisplaySection(section)">
