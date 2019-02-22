@@ -33,6 +33,7 @@ export class CompleteTestPage implements OnInit {
   completedFields;
   fromTestReview;
   defectsCategories: DefectCategoryReferenceDataModel[];
+  today: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -53,6 +54,7 @@ export class CompleteTestPage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.today = new Date().toISOString();
     this.testTypeFields = TEST_TYPE_FIELDS;
     this.testTypeDetails = this.getTestTypeDetails();
     this.updateTestType();
