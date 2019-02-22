@@ -28,8 +28,7 @@ export class TestTypeDetailsInputPage implements OnInit {
     this.sectionName = this.navParams.get('sectionName');
     this.input = this.navParams.get('input');
     this.fromTestReview = this.navParams.get('fromTestReview');
-    let existentValue = this.navParams.get('existentValue');
-    this.inputValue = existentValue !== null ? existentValue : '0';
+    this.inputValue = this.navParams.get('existentValue');
     this.testTypeFields = TEST_TYPE_FIELDS;
     this.patterns = REG_EX_PATTERNS;
   }
