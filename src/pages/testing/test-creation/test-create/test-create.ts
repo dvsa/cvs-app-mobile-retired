@@ -112,6 +112,9 @@ export class TestCreatePage implements OnInit {
             }
           }
         }
+      } else if (testType.id === testTypeFieldMetadata.testTypeId && !testTypeFieldMetadata.sections.length) {
+        isInProgress = false;
+        testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
       }
     }
     return isInProgress ? 'In progress' : 'Edit';
