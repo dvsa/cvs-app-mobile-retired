@@ -7,19 +7,23 @@ import { ActivityModel } from "../../models/visit/activity.model";
 import { Events } from "ionic-angular";
 import { LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
 import { Observable } from "rxjs";
+import { CommonFunctionsService } from "../utils/common-functions";
 
 @Injectable()
 export class VisitService {
   visit: VisitModel;
   easterEgg: string;
   caching: string;
+  testerStaffId: string;
 
   constructor(public storageService: StorageService,
               private httpService: HTTPService,
-              public events: Events) {
+              public events: Events,
+              private commonFunc: CommonFunctionsService) {
     this.visit = {} as VisitModel;
     this.easterEgg = localStorage.getItem(LOCAL_STORAGE.EASTER_EGG);
     this.caching = localStorage.getItem(LOCAL_STORAGE.CACHING);
+    this.testerStaffId = this.commonFunc.randomString();
   }
 
   createVisit(testStation, id?: string) {
@@ -28,10 +32,9 @@ export class VisitService {
     this.visit.testStationName = testStation.testStationName;
     this.visit.testStationPNumber = testStation.testStationPNumber;
     this.visit.testStationType = testStation.testStationType;
-    this.visit.testerId = '';
     this.visit.testerName = '';
     this.visit.testerEmail = '';
-    this.visit.testerId = '2019';
+    this.visit.testerId = this.testerStaffId;
     this.visit.testerName = 'Dublu Zero Sapte';
     this.visit.testerEmail = 'test@email.com';
     this.visit.tests = [];
@@ -48,7 +51,7 @@ export class VisitService {
       testStationEmail: testStation.testStationEmails[0],
       testStationType: testStation.testStationType,
       testerName: 'Maria Ciobanu',
-      testerStaffId: '2019'
+      testerStaffId: this.testerStaffId
     };
     return this.httpService.startVisit(activities);
   }
@@ -83,5 +86,4 @@ export class VisitService {
   updateVisit() {
     if (this.caching == 'true') this.storageService.update(STORAGE.VISIT, this.visit);
   }
-
 }
