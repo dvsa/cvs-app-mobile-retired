@@ -82,7 +82,11 @@ export class TestResultService {
         if (!testType.reasonForAbandoning) delete testType.reasonForAbandoning;
         if (!testType.additionalNotesRecorded) delete testType.additionalNotesRecorded;
         if (!testType.additionalCommentsForAbandon) delete testType.additionalCommentsForAbandon;
-        if (!testType.numberOfSeatbeltsFitted) delete testType.numberOfSeatbeltsFitted;
+        if (!testType.numberOfSeatbeltsFitted) {
+          delete testType.numberOfSeatbeltsFitted
+        } else {
+          testType.numberOfSeatbeltsFitted = parseInt(testType.numberOfSeatbeltsFitted);
+        }
         if (!testType.lastSeatbeltInstallationCheckDate) delete testType.lastSeatbeltInstallationCheckDate;
         if (!testType.seatbeltInstallationCheckDate) delete testType.seatbeltInstallationCheckDate;
 
