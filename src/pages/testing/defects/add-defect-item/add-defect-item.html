@@ -12,7 +12,7 @@
                    [ngClass]="{'keep-cancel-on': focusOut}"
                    [showCancelButton]="true"
                    [cancelButtonText]="'Cancel'"
-                   placeholder="Search for a defect category or IM number"
+                   [placeholder]="appStrings.PLACEHOLDER_DEFECT_ITEM"
                    #searchBar>
     </ion-searchbar>
   </ion-toolbar>
@@ -20,7 +20,7 @@
 
 <ion-content no-padding class="content-background-color-grey">
   <ion-list text-wrap *ngIf="filteredItems.length > 0">
-    <ion-item-divider padding-left>
+    <ion-item-divider class="defect-heading" padding-left>
       {{ category.imNumber }}. {{ category.imDescription }}
     </ion-item-divider>
     <ion-item detail-none padding-left

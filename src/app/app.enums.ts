@@ -117,6 +117,9 @@ export enum APP_STRINGS {
   END_VISIT_LOADING = 'Submitting site visit',
   REMOVE_DEFECT_TITLE = 'Remove defect',
   REMOVE_DEFECT_MSG = 'This action will remove this defect.',
+  PLACEHOLDER_DEFECT_CAT = 'Search for a defect category or IM number',
+  PLACEHOLDER_DEFECT_ITEM = 'Search for a defect item',
+  PLACEHOLDER_DEFECT_DESC = 'Search for a defect description'
 }
 
 export enum ODOMETER_METRIC {

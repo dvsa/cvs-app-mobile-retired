@@ -378,3 +378,13 @@ ion-list.vehicle-list {
 .card-ios{
   box-shadow: none;
 }
+
+ion-item-divider.defect-heading{
+  height: 60px;
+
+  .label-ios{
+    font-size: $font-size-medium-2;
+    font-weight: $font-weight-semi-bold;
+    color: color($colors, dark);
+  }
+}

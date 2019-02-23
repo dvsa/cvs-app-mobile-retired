@@ -12,7 +12,7 @@
                    [(ngModel)]="searchVal"
                    [showCancelButton]="true"
                    [cancelButtonText]="'Cancel'"
-                   placeholder="Search for a defect category or IM number"
+                   [placeholder]="appStrings.PLACEHOLDER_DEFECT_DESC"
                    #searchBar>
     </ion-searchbar>
   </ion-toolbar>
@@ -21,7 +21,7 @@
 <ion-content no-padding class="content-background-color-grey">
   <ion-list text-wrap *ngIf="filteredDeficiencies.length > 0">
     <ion-item-group>
-      <ion-item-divider padding-left>
+      <ion-item-divider class="defect-heading" padding-left>
         {{ category.imNumber }}.{{ item.itemNumber }} {{ item.itemDescription }}
       </ion-item-divider>
       <ion-item detail-none padding-left
@@ -30,7 +30,7 @@
                 (click)="selectDeficiency(deficiency)">
       <span>
           <h3>
-            <span>
+            <span class="bold">
                 <span>{{ category.imNumber }}.{{ item.itemNumber }}</span>
                 <span *ngIf="deficiency.deficiencyId">({{ deficiency.deficiencyId }})</span>
                 <span *ngIf="deficiency.deficiencySubId">({{ deficiency.deficiencySubId }})</span>
