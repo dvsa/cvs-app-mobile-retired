@@ -152,6 +152,13 @@ export class CompleteTestPage implements OnInit {
         }
       }
     }
+    if (!this.completedFields[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_CARRIED_OUT){
+      this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = '';
+      this.completedFields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = null;
+      if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE) {
+        return false;
+      }
+    }
     return true;
   }
 

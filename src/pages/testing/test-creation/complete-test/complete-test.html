@@ -42,7 +42,7 @@
                 <button ion-item
                         class="bottom-divider"
                         (click)="openInputPage(section, input)"
-                        *ngIf="input.type === testTypeFields.NUMBER">
+                        *ngIf="input.type === testTypeFields.NUMBER && canDisplayInput(input)">
                     <h3>{{input.label}}</h3>
                     <h3 item-end class="current-value"
                         [ngClass]="{'no-data': !completedFields[input.testTypePropertyName]}">{{completedFields[input.testTypePropertyName] || input.defaultValue}}</h3>
