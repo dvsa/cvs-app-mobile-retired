@@ -16,5 +16,10 @@ page-add-defect {
   .badge-text-black {
     color: color($colors, dark);
   }
+
+  .bold span{
+    font-weight: $font-weight-semi-bold;
+  }
+  
 }
 
