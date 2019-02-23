@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, Events, IonicPage, ModalController, NavController, NavParams, ToastController } from 'ionic-angular';
+import { AlertController, Events, IonicPage, ModalController, ViewController, NavController, NavParams, ToastController } from 'ionic-angular';
 import { VisitModel } from "../../../../models/visit/visit.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import {
@@ -43,6 +43,7 @@ export class TestReviewPage implements OnInit {
               public navParams: NavParams,
               public visitService: VisitService,
               public commonFunctions: CommonFunctionsService,
+              public viewCtrl: ViewController,
               public events: Events,
               private vehicleService: VehicleService,
               private defectsService: DefectsService,
@@ -60,6 +61,10 @@ export class TestReviewPage implements OnInit {
     this.dateFormat = DATE_FORMAT;
     this.testTypeResults = TEST_TYPE_RESULTS;
     this.deficiencyCategory = DEFICIENCY_CATEGORY;
+  }
+
+  ionViewWillEnter() {
+    this.viewCtrl.setBackButtonText(APP_STRINGS.TEST);
   }
 
   getVehicleTypeIconToShow(vehicle: VehicleModel) {

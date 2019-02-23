@@ -10,13 +10,13 @@ page-test-review {
     .card-ios {
       .ion-item-title {
         h2 {
-          font-size: 14px;
+          font-size: $font-size-medium;
         }
 
         p {
           padding-top: 4px;
           font-weight: normal;
-          font-size: 12px;
+          font-size: $font-size-normal;
         }
       }
 
@@ -36,10 +36,10 @@ page-test-review {
 
       .item-ios {
         .label-ios {
-          margin: 0 8px 0 0;
+          margin: 0;
 
           .test-field {
-            padding: 16px 0;
+            padding: 16px 16px 16px 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -51,15 +51,20 @@ page-test-review {
 
             h3 {
               margin: 0;
+              font-size: $font-size-medium;
             }
           }
 
           .defects-section-title,
           .notes-section-title {
-            font-size: $font-size-small;
+            font-size: $font-size-normal;
+            margin-bottom: 8px;
           }
 
           .defect-details {
+            margin-top: 12px;
+            margin-bottom: 12px;
+
             &.border {
               padding-bottom: 8px;
               margin-bottom: 8px;
@@ -73,25 +78,28 @@ page-test-review {
 
             h3.defect-name {
               font-weight: bold;
-
-              span {
-                color: color($colors, danger);
-              }
+              font-size: $font-size-medium;
             }
           }
 
           .parent-info-color {
-            color: $color-grey-2;
+            color: $color-grey-1;
+            font-size: $font-size-medium;
           }
 
           h3[margin-bottom].parent-info-color {
             margin-bottom: 16px;
+          }
+
+          p{
+            font-size: $font-size-medium;
           }
         }
 
         .test-type,
         .odometer-reading {
           margin-top: 2px;
+          font-size: $font-size-medium;
         }
 
         [item-start].vehicle-type-icon {
@@ -113,26 +121,32 @@ page-test-review {
 
         [item-end].test-type-status {
           margin: 0;
+          font-size: $font-size-medium;
         }
 
         [item-end].odometer-reading-status {
-          margin: 0 8px;
+          font-size: $font-size-medium;
+          margin: 0;
         }
 
         [item-end].test-type-status.test-type-pass {
           color: color($colors, secondary);
+          font-size: $font-size-medium;
         }
 
         [item-end].test-type-status.test-type-fail {
           color: color($colors, danger);
+          font-size: $font-size-medium;
         }
 
         [item-end].test-type-status.test-type-inProgress {
           color: $color-grey-2;
+          font-size: $font-size-medium;
         }
 
         [item-end].odometer-reading-status.odometer-reading-start {
           color: $color-grey-2;
+          font-size: $font-size-medium;
         }
 
         [item-end].odometer-reading-icon {
@@ -154,14 +168,34 @@ page-test-review {
     }
   }
 
-  .item-text-color {
+  .item-ios p.item-text-color {
     color: color($colors, dark);
     font-weight: $font-weight-bold;
+    font-weight: $font-size-medium;
   }
 
   .change-details-button {
+    padding: 8px 0 8px 16px;
+    
     h3 {
       color: color($colors, primary);
+      font-size: $font-size-medium;
     }
+  }
+
+  .footer-cta-section button{
+    font-weight: $font-weight-semi-bold;
+  }
+
+  ion-img {
+    background: none;
+  }
+
+  .height-60{
+    height: 60px;
+  }
+
+  .item-ios.item-block .item-inner{
+    padding-right: 0;
   }
 }

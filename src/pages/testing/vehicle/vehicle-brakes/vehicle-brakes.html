@@ -7,137 +7,129 @@
   </ion-header>
   
 <ion-content no-padding>
-    <ng-container *ngFor="let vrm of vehicleData.vrms">
-        <div text-uppercase 
-             text-center 
-             class="vehicle-header-vrm-number" 
-             *ngIf="vrm.isPrimary">
-            {{ vrm.vrm }}
-        </div>
-    </ng-container>
-    <ng-container *ngFor="let techRecord of vehicleData.techRecord">
-        <ng-container *ngIf="commonFunc.checkForMatch(techRecord.statusCode, 'current')">
-            
-            <ion-list class="vehicle-list">
-                <ion-list-header>
-                </ion-list-header>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Brake code</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.brakes.brakeCode }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Service</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.brakes.dataTrBrakeOne }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Secondary</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.brakes.dataTrBrakeTwo }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Parking</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.brakes.dataTrBrakeThree }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left>
-                    <ion-label>
-                        <h3>Retarder 1</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.brakes.retarderBrakeOne }}</p>
-                    </div>
-                </ion-item>
-                <ion-item margin-left> 
-                    <ion-label>
-                        <h3>Retarder 2</h3>
-                    </ion-label>
-                    <div item-content padding-right>
-                        <p>{{ techRecord.brakes.retarderBrakeTwo }}</p>
-                    </div>
-                </ion-item>
-            </ion-list>
+    <div text-uppercase 
+         text-center 
+         class="vehicle-header-vrm-number">
+        {{ vehicleData.vrm }}
+    </div>
+   
+    <ion-list class="vehicle-list">
+        <ion-list-header>
+        </ion-list-header>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Brake code</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.brakeCode }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Service</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.dataTrBrakeOne }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Secondary</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.dataTrBrakeTwo }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Parking</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.dataTrBrakeThree }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Retarder 1</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.retarderBrakeOne }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left> 
+            <ion-label>
+                <h3>Retarder 2</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.retarderBrakeTwo }}</p>
+            </div>
+        </ion-item>
+    </ion-list>
 
-            <ion-list class="vehicle-list">
-                    <ion-list-header padding-left 
-                                     padding-right 
-                                     text-wrap 
-                                     class="list-header-double">
-                                        BRAKE FORCE<br> NO WHEELS LOCKED
-                    </ion-list-header>
-                    <ion-item margin-left>
-                        <ion-label>
-                            <h3>Service</h3>
-                        </ion-label>
-                        <div item-content padding-right>
-                            <p>{{ techRecord.brakes.brakeForceWheelsNotLocked.serviceBrakeForceA }}</p>
-                        </div>
-                    </ion-item>
-                    <ion-item margin-left>
-                        <ion-label>
-                            <h3>Secondary</h3>
-                        </ion-label>
-                        <div item-content padding-right>
-                            <p>{{ techRecord.brakes.brakeForceWheelsNotLocked.secondaryBrakeForceA }}</p>
-                        </div>
-                    </ion-item>
-                    <ion-item margin-left>
-                        <ion-label>
-                            <h3>Parking</h3>
-                        </ion-label>
-                        <div item-content padding-right>
-                            <p>{{ techRecord.brakes.brakeForceWheelsNotLocked.parkingBrakeForceA }}</p>
-                        </div>
-                    </ion-item>
-                </ion-list>
+    <ion-list class="vehicle-list">
+        <ion-list-header padding-left 
+                            padding-right 
+                            text-wrap 
+                            class="list-header-double">
+                            BRAKE FORCE<br> NO WHEELS LOCKED
+        </ion-list-header>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Service</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked.serviceBrakeForceA }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Secondary</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked.secondaryBrakeForceA }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Parking</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked.parkingBrakeForceA }}</p>
+            </div>
+        </ion-item>
+    </ion-list>
 
-                <ion-list class="vehicle-list">
-                    <ion-list-header padding-left 
-                                     padding-right 
-                                     text-wrap  
-                                     class="list-header-double">
-                                        BRAKE FORCE<br> UP TO AND INCLUDING HALF WHEELS LOCKED
-                    </ion-list-header>
-                    <ion-item margin-left>
-                        <ion-label>
-                            <h3>Service</h3>
-                        </ion-label>
-                        <div item-content padding-right>
-                            <p>{{ techRecord.brakes.brakeForceWheelsUpToHalfLocked.serviceBrakeForceB }}</p>
-                        </div>
-                    </ion-item>
-                    <ion-item margin-left>
-                        <ion-label>
-                            <h3>Secondary</h3>
-                        </ion-label>
-                        <div item-content padding-right>
-                            <p>{{ techRecord.brakes.brakeForceWheelsUpToHalfLocked.secondaryBrakeForceB }}</p>
-                        </div>
-                    </ion-item>
-                    <ion-item margin-left>
-                        <ion-label>
-                            <h3>Parking</h3>
-                        </ion-label>
-                        <div item-content padding-right>
-                            <p>{{ techRecord.brakes.brakeForceWheelsUpToHalfLocked.parkingBrakeForceB }}</p>
-                        </div>
-                    </ion-item>
-                </ion-list>
-
-        </ng-container>
-    </ng-container>
+    <ion-list class="vehicle-list">
+        <ion-list-header padding-left 
+                            padding-right 
+                            text-wrap  
+                            class="list-header-double">
+                            BRAKE FORCE<br> UP TO AND INCLUDING HALF WHEELS LOCKED
+        </ion-list-header>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Service</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked.serviceBrakeForceB }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Secondary</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked.secondaryBrakeForceB }}</p>
+            </div>
+        </ion-item>
+        <ion-item margin-left>
+            <ion-label>
+                <h3>Parking</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked.parkingBrakeForceB }}</p>
+            </div>
+        </ion-item>
+    </ion-list>
 </ion-content>
   
