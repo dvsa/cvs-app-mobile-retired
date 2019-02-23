@@ -17,6 +17,7 @@ export class AddDefectItemPage implements OnInit {
   filteredItems: DefectItemReferenceDataModel[];
   searchVal: string = '';
   focusOut: boolean = false;
+  appStrings: {} = APP_STRINGS;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public defectsService: DefectsService, public events: Events) {
     this.vehicleType = navParams.get('vehicleType');

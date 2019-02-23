@@ -59,7 +59,6 @@ export class VisitTimelinePage implements OnInit {
 
   createNewTestReport(): void {
     let test = this.testReportService.createTest();
-    this.visitService.addTest(test);
     this.navCtrl.push('VehicleLookupPage', {test: test});
   }
 
