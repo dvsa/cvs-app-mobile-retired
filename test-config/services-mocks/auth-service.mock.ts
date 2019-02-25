@@ -1,5 +1,5 @@
 import { TesterDetailsModel } from "../../src/models/tester-details.model";
-import { MSAdal } from "@ionic-native/ms-adal";
+import { AuthenticationResult, MSAdal } from "@ionic-native/ms-adal";
 import { Observable } from "rxjs";
 import { STORAGE } from "../../src/app/app.enums";
 import { of } from "rxjs/observable/of";
@@ -31,15 +31,33 @@ export class AuthServiceMock {
     return this.jwtToken
   }
 
-  private setTesterDetails(token) {
-    let decodedToken = this.decodeJWT(token);
-
-    this.testerDetails.testerId = decodedToken['oid'];
-    this.testerDetails.testerName = decodedToken['name'];
-    this.testerDetails.testerEmail = decodedToken['upn'];
-  }
-
   private decodeJWT(token) {
     return this.decodedToken;
+  }
+
+  private setTesterDetails(authResponse: AuthenticationResult,
+                           testerId = this.randomString(9),
+                           testerName = this.randomString(9),
+                           testerEmail = `${testerName}.${testerId}@email.com`): TesterDetailsModel {
+
+    let details: TesterDetailsModel = {
+      testerName,
+      testerId,
+      testerEmail
+    };
+
+    if (authResponse) {
+      let decodedToken = this.decodeJWT(authResponse.accessToken);
+      details.testerId = decodedToken['oid'];
+      details.testerName = decodedToken['name'];
+      details.testerEmail = decodedToken['upn'];
+    }
+    localStorage.setItem('tester-details', JSON.stringify(details));
+    return details
+  }
+
+
+  private randomString(lenght: number): string {
+    return Math.random().toString(36).substr(2, lenght);
   }
 }

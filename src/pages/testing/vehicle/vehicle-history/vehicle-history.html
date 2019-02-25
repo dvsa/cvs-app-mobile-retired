@@ -41,7 +41,7 @@
                   <p>{{ commonFunc.convertDate(testType.testTypeStartTimestamp) }}</p>
                 </ion-col>
               </ion-row>
-              <ion-row padding-left *ngIf="!commonFunc.checkForMatch(testType.testResult, testTypeResults.ABANDONED)">
+              <ion-row padding-left *ngIf="!commonFunc.checkForMatch(testType.testResult, testTypeResults.ABANDONED) && testType.testExpiryDate">
                 <ion-col col-3>
                   <p>Expiry date</p>
                 </ion-col>

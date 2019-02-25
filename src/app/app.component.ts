@@ -9,6 +9,7 @@ import { StorageService } from "../providers/natives/storage.service";
 import { VisitService } from "../providers/visit/visit.service";
 import { LOCAL_STORAGE, STORAGE } from "./app.enums";
 import { AppConfig } from "../../config/app.config";
+import { TesterDetailsModel } from "../models/tester-details.model";
 
 @Component({
   templateUrl: 'app.html'
@@ -29,6 +30,15 @@ export class MyApp {
           }
         );
       } else {
+        let localTesterDetails: TesterDetailsModel = JSON.parse(localStorage.getItem('tester-details'));
+        if(localTesterDetails) {
+          this.authService.testerDetails = this.authService.setTesterDetails(null,
+            localTesterDetails.testerId,
+            localTesterDetails.testerName,
+            localTesterDetails.testerEmail);
+        } else {
+          this.authService.testerDetails = this.authService.setTesterDetails(null);
+        }
         this.syncService.startSync();
       }
 

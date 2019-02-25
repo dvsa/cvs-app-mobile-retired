@@ -3,6 +3,7 @@ import { AuthService } from "./auth.service";
 import { STORAGE } from "../../app/app.enums";
 import { MSAdal } from "@ionic-native/ms-adal";
 import { Platform } from "ionic-angular";
+import { CommonFunctionsService } from "../utils/common-functions";
 
 describe(`AuthService`, () => {
   let authService: AuthService;
@@ -15,6 +16,7 @@ describe(`AuthService`, () => {
       imports: [],
       providers: [
         AuthService,
+        CommonFunctionsService,
         Platform,
         MSAdal
       ],
@@ -25,7 +27,7 @@ describe(`AuthService`, () => {
   afterEach(() => {
     authService = null;
     localStorage.clear();
-  })
+  });
 
   it('should add the JWT Token into localstorage', () => {
     expect(localStorage.getItem(STORAGE.JWT_TOKEN)).toBeFalsy();
@@ -39,4 +41,4 @@ describe(`AuthService`, () => {
     expect(localStorage.getItem(STORAGE.JWT_TOKEN)).toBeTruthy();
     expect(authService.getJWTToken()).toBe(JWT_TOKEN);
   })
-})
+});

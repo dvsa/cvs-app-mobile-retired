@@ -24,6 +24,7 @@ import { TestService } from "../../../../providers/test/test.service";
 import { Observable } from "rxjs";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { VisitService } from "../../../../providers/visit/visit.service";
+import { tap } from "rxjs/operators";
 
 @IonicPage()
 @Component({
@@ -161,9 +162,11 @@ export class TestReviewPage implements OnInit {
     for (let vehicle of test.vehicles) {
       let testResult = this.testResultService.createTestResult(this.visit, test, vehicle);
       stack.push(this.testResultService.submitTestResult(testResult));
-      Observable.forkJoin(stack).subscribe(
+      Observable.forkJoin(stack).pipe(
+        tap(
+          () => this.events.publish(APP.TEST_SUBMITTED))
+      ).subscribe(
         () => {
-          this.events.publish(APP.TEST_SUBMITTED);
           let views = this.navCtrl.getViews();
           for (let i = views.length - 1; i >= 0; i--) {
             if (views[i].component.name == 'VisitTimelinePage') {
