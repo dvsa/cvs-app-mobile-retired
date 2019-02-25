@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [ngClass]="{'margin-top-fix': isCertificateNumberFocused}">
     <ion-navbar hideBackButton="true">
         <ion-title margin-left>
             Test type details
@@ -12,7 +12,8 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content class="content-background-color-grey">
+<ion-content class="content-background-color-grey"
+             [ngClass]="{'margin-top-fix': isCertificateNumberFocused}">
     <ion-list class="full-dividers-list">
 
         <ion-item text-wrap><h2 class="test-type-name">{{vehicleTest.testTypeName}}</h2></ion-item>
@@ -67,6 +68,9 @@
                         <ion-col col-10 class="certificateNumberCustom-input">
                             <ion-input [placeholder]="input.placeholder"
                                        type="number"
+                                       [pattern]="patterns.NUMERIC"
+                                       (focus)="isCertificateNumberFocused = true"
+                                       (blur)="isCertificateNumberFocused = false"
                                        [(ngModel)]="vehicleTest[input.testTypePropertyName]"></ion-input>
                         </ion-col>
                     </ion-row>
