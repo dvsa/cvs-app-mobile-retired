@@ -21,7 +21,6 @@ export class AuthService {
 
   login(): Observable<string> {
     this.authContext = this.msAdal.createAuthenticationContext(AppConfig.MSAL_AUTHORITY);
-    if(!this.jwtToken) this.authContext.tokenCache.clear();
     return Observable.from(this.authContext.tokenCache.readItems()).pipe(
       flatMap(
         (items: TokenCacheItem[]) => {
