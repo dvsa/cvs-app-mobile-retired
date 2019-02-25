@@ -380,11 +380,12 @@ ion-list.vehicle-list {
 }
 
 ion-item-divider.defect-heading{
-  height: 60px;
+  min-height: 60px;
 
   .label-ios{
     font-size: $font-size-medium-2;
     font-weight: $font-weight-semi-bold;
     color: color($colors, dark);
+    padding: 8px 0;
   }
 }
