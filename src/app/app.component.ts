@@ -21,12 +21,16 @@ export class MyApp {
     platform.ready().then(() => {
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
-      this.authService.login().subscribe(
-        (data: string) => {
-          this.authService.setJWTToken(data);
-          this.syncService.startSync();
-        }
-      );
+      if (platform.is('cordova')) {
+        this.authService.login().subscribe(
+          (data: string) => {
+            this.authService.setJWTToken(data);
+            this.syncService.startSync();
+          }
+        );
+      } else {
+        this.syncService.startSync();
+      }
 
       // easter egg
       if (AppConfig.IS_PRODUCTION == 'true') {

@@ -2,17 +2,20 @@ import { TestBed } from "@angular/core/testing";
 import { AuthService } from "./auth.service";
 import { STORAGE } from "../../app/app.enums";
 import { MSAdal } from "@ionic-native/ms-adal";
+import { Platform } from "ionic-angular";
 
 describe(`AuthService`, () => {
   let authService: AuthService;
 
-  const JWT_TOKEN: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20ifQ.BlL6ll8xB4iGqDn_KB2mezWRFMHRqbRu-NxDB3443s0';
+  // dummy hand crafted jwt token for testing purpose only
+  const JWT_TOKEN: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20ifQ.BlL6ll8xB4iGqDn_KB2mezWRFMHRqbRu-NxDB3443s0';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
         AuthService,
+        Platform,
         MSAdal
       ],
     });
