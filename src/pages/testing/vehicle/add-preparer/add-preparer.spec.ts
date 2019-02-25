@@ -11,6 +11,7 @@ import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-da
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
+import { VisitService } from "../../../../providers/visit/visit.service";
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -19,6 +20,7 @@ describe('Component: AddPreparerPage', () => {
   let testService: TestService;
   let navCtrl: NavController;
   let vehicleService: VehicleService;
+  let visitService: VisitService;
 
   const TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
 
@@ -36,7 +38,8 @@ describe('Component: AddPreparerPage', () => {
         {provide: NavParams, useClass: NavParamsMock},
         {provide: PreparerService, useValue: preparerServiceSpy},
         {provide: VehicleService, useClass: VehicleServiceMock},
-        {provide: ViewController, useClass: ViewControllerMock}
+        {provide: ViewController, useClass: ViewControllerMock},
+        {provide: VisitService, useClass: VisitDataMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -49,6 +52,7 @@ describe('Component: AddPreparerPage', () => {
     testService = TestBed.get(TestService);
     navCtrl = TestBed.get(NavController);
     vehicleService = TestBed.get(VehicleService);
+    visitService = TestBed.get(VisitService);
   });
 
   beforeEach(() => {
@@ -69,6 +73,7 @@ describe('Component: AddPreparerPage', () => {
     preparerService = null;
     testService = null;
     vehicleService = null;
+    visitService = null;
   });
 
   it('should create the component', () => {
@@ -76,6 +81,7 @@ describe('Component: AddPreparerPage', () => {
     expect(comp).toBeTruthy();
     expect(preparerService).toBeTruthy();
     expect(testService).toBeTruthy();
+    expect(visitService).toBeTruthy();
   });
 
   it('should VehicleService and TestCancelPage Component share the same instance',
