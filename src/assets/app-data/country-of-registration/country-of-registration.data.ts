@@ -6,12 +6,12 @@ export class CountryOfRegistrationData {
 
   public static get CountryData() {
     return [
-      {key: "gb", value: "United Kingdom - GB"},
+      {key: "gb", value: "Great Britain and Northern Ireland - GB"},
       {key: "gba", value: "Alderney - GBA"},
       {key: "gbg", value: "Guernsey - GBG"},
       {key: "gbj", value: "Jersey - GBJ"},
       {key: "gbm", value: "Isle of Man - GBM"},
-      {key: "bgz", value: "Gibraltar - GBZ"},
+      {key: "gbz", value: "Gibraltar - GBZ"},
       {key: "a", value: "Austria - A"},
       {key: "b", value: "Belgium - B"},
       {key: "bih", value: "Bosnia and Herzegovina - BIH"},
@@ -30,7 +30,7 @@ export class CountryOfRegistrationData {
       {key: "i", value: "Italy - I"},
       {key: "lv", value: "Latvia - LV"},
       {key: "lt", value: "Lithuania - LT"},
-      {key: "l", value: "Luxemburg - L"},
+      {key: "l", value: "Luxembourg - L"},
       {key: "m", value: "Malta - M"},
       {key: "nl", value: "Netherlands - NL"},
       {key: "n", value: "Norway - N"},
@@ -43,7 +43,7 @@ export class CountryOfRegistrationData {
       {key: "s", value: "Sweden - S"},
       {key: "ch", value: "Switzerland - CH"},
       {key: "non-eu", value: "Non EU"},
-      {key: "not-kwnown", value: "Not Known"}
+      {key: "not-known", value: "Not Known"}
     ]
   }
 }
