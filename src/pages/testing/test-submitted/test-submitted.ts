@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { AppConfig } from "../../../../config/app.config";
 import { TestModel } from "../../../models/tests/test.model";
 
 @IonicPage()
@@ -26,8 +25,8 @@ export class TestSubmittedPage {
     let options = {
       message: 'The following certificates have now been issued',
       subject: 'Certificates',
-      files: [AppConfig.BACKEND_GET_CERTIFICATE],
-      url: AppConfig.BACKEND_GET_CERTIFICATE,
+      files: [''],
+      url: '',
       chooserTitle: 'Pick an app'
     };
     this.socialSharing.shareWithOptions(options);

@@ -8,9 +8,12 @@ import { TechRecordDataMock } from "../../assets/data-mocks/tech-record-data.moc
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeService } from "../test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../test-config/services-mocks/test-type-service.mock";
+import { AuthService } from "../global/auth.service";
+import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
 
 describe('Provider: TestResultService', () => {
   let testResultService: TestResultService;
+  let authService: AuthService;
   let httpServiceSpy: any;
 
   const VISIT = VisitDataMock.VisitData;
@@ -30,11 +33,13 @@ describe('Provider: TestResultService', () => {
       providers: [
         TestResultService,
         CommonFunctionsService,
+        {provide: AuthService, useClass: AuthServiceMock},
         {provide: TestTypeService, useClass: TestTypeServiceMock},
         {provide: HTTPService, useValue: httpServiceSpy}
       ]
     });
 
+    authService = TestBed.get(AuthService);
     testResultService = TestBed.get(TestResultService);
     httpServiceSpy = TestBed.get(HTTPService);
   });
@@ -42,6 +47,7 @@ describe('Provider: TestResultService', () => {
   afterEach(() => {
     testResultService = null;
     httpServiceSpy = null;
+    authService = null;
   });
 
   it('should create a test result', () => {
