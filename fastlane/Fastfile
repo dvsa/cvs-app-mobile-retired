@@ -12,7 +12,7 @@ platform :ios do
       build_number: ENV['BUILD_NUMBER'],
       build_flag: ['-UseModernBuildSystem=0']
     )
-    zip(path: "./platforms/ios/build/device/CVSMobile.app.dSYM")
+    zip(path: "./platforms/ios/build/device/Vehicle Testing.app.dSYM")
     sh("touch latest")
     aws_s3(
       access_key: ENV['AWS_ACCESS_KEY_ID'],
@@ -22,8 +22,8 @@ platform :ios do
       files: [
         './fastlane/latest',
       ],
-      ipa: './platforms/ios/build/device/CVSMobile.ipa',
-      dsym: './platforms/ios/build/device/CVSMobile.app.dSYM.zip'
+      ipa: './platforms/ios/build/device/Vehicle Testing.ipa',
+      dsym: './platforms/ios/build/device/Vehicle Testing.app.dSYM.zip'
     )
     sh("touch $BRANCH.txt && echo $S3_IPA_OUTPUT_PATH > $BRANCH.txt && aws s3 cp $BRANCH.txt s3://dvsa-cvs-mobile-artefacts/files/$BRANCH.txt")
   end
