@@ -3,20 +3,32 @@ page-test-create {
     background-color: $color-grey-3;
 
     .card-ios {
+      .item-ios h3 {
+        font-size: $font-size-medium;
+      }
+
+      .label-ios {
+        margin: 22px 8px 22px 0;
+      }
+
       .ion-item-title {
         h2 {
-          font-size: 14px;
+          font-size: $font-size-medium;
         }
 
         p {
           padding-top: 4px;
           font-weight: normal;
-          font-size: 12px;
+          font-size: $font-size-medium;
+
+          &.vehicle-vin {
+            font-size: $font-size-normal;
+          }
         }
       }
 
       .btn-add-test {
-        font-size: 14px;
+        font-size: $font-size-medium;
         color: color($colors, primary);
       }
 
@@ -36,7 +48,7 @@ page-test-create {
         }
 
         [item-end].vehicle-details {
-          margin: 8px;
+          margin: 8px 8px 8px 4px;
           color: $color-grey-1;
         }
 
@@ -45,6 +57,10 @@ page-test-create {
           font-size: $font-size-medium;
           display: flex;
           align-items: center;
+        }
+
+        [item-end].ion-ios-add-circle-outline {
+          margin-right: 16px;
         }
 
         [item-end].test-type-status {

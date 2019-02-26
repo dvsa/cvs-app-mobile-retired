@@ -3,7 +3,7 @@ page-country-of-registration {
   ion-header[transforming-searchBar] {
 
     ion-navbar.toolbar.toolbar-ios.statusbar-padding {
-      height: 80px;
+      height: 100px;
       padding-top: 24px !important;
     }
 
@@ -11,17 +11,25 @@ page-country-of-registration {
       padding-top: 20px;
 
       .toolbar-title.toolbar-title-ios {
-        font-size: $font-size-large;
+        font-size: $font-size-extra-large;
       }
     }
   }
 
-  .scroll-content.searchbar-scroll--margin-big {
-    margin-top: 130px !important;
-  }
-
   ion-list.list-ios {
     margin-bottom: 0;
+
+    button .label-ios {
+      margin: 22px 8px 22px 0;
+      
+      h3 {
+        font-size: $font-size-medium;
+      }
+    }
+  }
+
+  ion-item-divider .label-ios {
+    font-size: $font-size-medium;
   }
 
   .no-border {

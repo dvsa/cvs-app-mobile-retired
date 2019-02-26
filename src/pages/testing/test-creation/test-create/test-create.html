@@ -19,9 +19,9 @@
             <button ion-item detail-none class="ion-item-title"
                     (click)="onVehicleDetails(vehicle)">
                 <ion-img item-start class="vehicle-type-icon"
-                         src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="50"></ion-img>
-                <h2>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
-                <p>{{ vehicle.vin }}</p>
+                         src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="63" height="27"></ion-img>
+                <h2 text-uppercase>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
+                <p class="vehicle-vin">{{ vehicle.vin }}</p>
                 <h3 item-end class="vehicle-details">Details</h3>
                 <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
             </button>

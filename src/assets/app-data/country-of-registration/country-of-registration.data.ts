@@ -43,7 +43,7 @@ export class CountryOfRegistrationData {
       {key: "s", value: "Sweden - S"},
       {key: "ch", value: "Switzerland - CH"},
       {key: "non-eu", value: "Non EU"},
-      {key: "not-known", value: "Not Known"}
+      {key: "not-known", value: "Country Not Known"}
     ]
   }
 }

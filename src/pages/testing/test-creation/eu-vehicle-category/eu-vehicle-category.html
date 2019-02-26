@@ -14,9 +14,9 @@
 
 <ion-content class="content-background-color-grey">
 
-    <p padding-left class="subtitle">M - vehicles designed and constructed for the carriage of passengers and
+    <p padding-horizontal class="subtitle">M - vehicles designed and constructed for the carriage of passengers and
         comprising:</p>
-    <ion-list>
+    <ion-list class="eu-cat">
         <button ion-item padding-left detail-none
                 *ngFor="let elem of categoriesArr"
                 (click)="setVehicleCategory(elem.key)">
