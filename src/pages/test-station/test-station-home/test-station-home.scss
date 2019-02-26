@@ -1,33 +1,55 @@
 page-test-station-home {
+
+  .scroll-content{
+    padding: 16px 34px !important;
+  }
+
+  .logo{
+    padding-top: 18px;
+  }
+
+  ion-img.logo-img{
+    width: 140px;
+
+    img{
+      max-height: 100%;
+    }
+  }
+
   .black-bar {
-    height: 35px;
+    height: 43px;
     background-color: color($colors, dark);
   }
 
   .blue-bar {
-    height: 15px;
+    height: 11px;
     background-color: color($colors, tertiary);
   }
 
   .beta{
-    display: inline-block;
-    font-family: $title-font-family;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: color($colors, tertiary);
     color: color($colors, light);
-    padding: 1px 5px;
+    margin-top: 65px;
+    width: 54px;
+    height: 22px;
 
     span{
-      font-size: $font-size-medium;
+      font-family: $sf-pro-display-font-family;
+      font-size: $font-size-normal;
       font-weight: $font-weight-bold;
-      letter-spacing: -0.5px;
     }
   }
 
   .start-title {
+    margin-top: 15px;
    
     h1 {
       font-size: $font-size-extra-large;
       font-weight: $font-weight-bold;
+      font-family: $sf-pro-display-font-family;
       margin: 0;
     }
   }
@@ -36,8 +58,10 @@ page-test-station-home {
     background: none;
   }
 
-  h4 {
+  h2 {
     margin-top: 10px;
-    font-size: $font-size-large;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-normal;
+    font-family: $sf-pro-display-font-family;
   }
 }

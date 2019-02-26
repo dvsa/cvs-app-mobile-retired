@@ -124,7 +124,10 @@ export enum APP_STRINGS {
   REMOVE_DEFECT_MSG = 'This action will remove this defect.',
   PLACEHOLDER_DEFECT_CAT = 'Search for a defect category or IM number',
   PLACEHOLDER_DEFECT_ITEM = 'Search for a defect item',
-  PLACEHOLDER_DEFECT_DESC = 'Search for a defect description'
+  PLACEHOLDER_DEFECT_DESC = 'Search for a defect description',
+  APP_NAME = 'Vehicle Testing',
+  APP_DESC_PT1 = 'Use this app to record PSV tests at',
+  APP_DESC_PT2 = 'Authorised Testing Facilities (ATFs).',
 }
 
 export enum ODOMETER_METRIC {
