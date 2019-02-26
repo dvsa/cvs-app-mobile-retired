@@ -15,6 +15,7 @@ import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
 import { VisitService } from "../providers/visit/visit.service";
 import { VisitServiceMock } from "../../test-config/services-mocks/visit-service.mock";
 import { MSAdal } from "@ionic-native/ms-adal";
+import { AuthServiceMock } from "../../test-config/services-mocks/auth-service.mock";
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -34,14 +35,14 @@ describe('Component: Root', () => {
       providers: [
         StatusBar,
         SplashScreen,
-        AuthService,
         StorageService,
         MSAdal,
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: SyncService, useValue: syncServiceSpy},
+        {provide: AuthService, useClass: AuthServiceMock},
         CallNumber,
         OpenNativeSettings,
-        MobileAccessibility,
+        MobileAccessibility
       ],
       imports: [
         BrowserModule,

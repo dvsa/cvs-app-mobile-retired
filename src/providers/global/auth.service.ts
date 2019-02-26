@@ -8,6 +8,7 @@ import { Observable } from "rxjs";
 import { flatMap } from "rxjs/operators";
 import { CommonRegExp } from "../utils/common-regExp";
 import { Platform } from "ionic-angular";
+import { CommonFunctionsService } from "../utils/common-functions";
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
   jwtToken: string;
   authContext: AuthenticationContext;
 
-  constructor(private msAdal: MSAdal, public platform: Platform) {
+  constructor(private msAdal: MSAdal, public platform: Platform, private commonFunc: CommonFunctionsService) {
     this.testerDetails = {} as TesterDetailsModel;
     this.jwtToken = localStorage.getItem(STORAGE.JWT_TOKEN);
   }
@@ -29,14 +30,14 @@ export class AuthService {
           return this.authContext.acquireTokenSilentAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, '').then(
             (silentAuthResponse: AuthenticationResult) => {
               let authHeader = silentAuthResponse.createAuthorizationHeader();
-              this.setTesterDetails(silentAuthResponse);
+              this.testerDetails = this.setTesterDetails(silentAuthResponse);
               return authHeader;
             },
             () => {
               return this.authContext.acquireTokenAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, AppConfig.MSAL_REDIRECT_URL, '', '').then(
                 (authResponse: AuthenticationResult) => {
                   let authHeader = authResponse.createAuthorizationHeader();
-                  this.setTesterDetails(authResponse);
+                  this.testerDetails = this.setTesterDetails(authResponse);
                   return authHeader;
                 }
               ).catch(
@@ -65,12 +66,25 @@ export class AuthService {
     return this.jwtToken
   }
 
-  private setTesterDetails(authResponse: AuthenticationResult) {
-    let decodedToken = this.decodeJWT(authResponse.accessToken);
+  setTesterDetails(authResponse: AuthenticationResult,
+                   testerId = this.commonFunc.randomString(9),
+                   testerName = this.commonFunc.randomString(9),
+                   testerEmail = `${testerName}.${testerId}@email.com`): TesterDetailsModel {
 
-    this.testerDetails.testerId = decodedToken['oid'];
-    this.testerDetails.testerName = decodedToken['name'];
-    this.testerDetails.testerEmail = decodedToken['upn'];
+    let details: TesterDetailsModel = {
+      testerName,
+      testerId,
+      testerEmail
+    };
+
+    if (authResponse) {
+      let decodedToken = this.decodeJWT(authResponse.accessToken);
+      details.testerId = decodedToken['oid'];
+      details.testerName = decodedToken['name'];
+      details.testerEmail = decodedToken['upn'];
+    }
+    localStorage.setItem('tester-details', JSON.stringify(details));
+    return details
   }
 
   private decodeJWT(token) {

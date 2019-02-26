@@ -8,7 +8,6 @@ import { Events } from "ionic-angular";
 import { LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
 import { Observable } from "rxjs";
 import { AuthService } from "../global/auth.service";
-import { CommonFunctionsService } from "../utils/common-functions";
 
 @Injectable()
 export class VisitService {

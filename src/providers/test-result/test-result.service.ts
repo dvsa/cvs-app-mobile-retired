@@ -15,7 +15,6 @@ export class TestResultService {
     private httpService: HTTPService,
     private commFunc: CommonFunctionsService,
     private testTypeService: TestTypeService) {
-
   }
 
   createTestResult(visit, test, vehicle: VehicleModel): TestResultModel {
