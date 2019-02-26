@@ -4,7 +4,6 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { AuthInterceptor } from "./auth.interceptor";
 import { HTTPService } from "../global/http.service";
 import { Data } from "@angular/router";
-import { PATHS } from "../../app/app.enums";
 import { AuthService } from "../global/auth.service";
 import { of } from "rxjs/observable/of";
 
@@ -14,6 +13,7 @@ describe(`AuthHttpInterceptor`, () => {
   let authServiceSpy: any;
   let httpMock: HttpTestingController;
   const TEST_URL: string = '';
+  // dummy hand crafted jwt token for testing purpose only
   const JWT_TOKEN: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20ifQ.BlL6ll8xB4iGqDn_KB2mezWRFMHRqbRu-NxDB3443s0';
 
   beforeEach(() => {
