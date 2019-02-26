@@ -10,7 +10,13 @@ import {
 } from 'ionic-angular';
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
-import { APP, DEFICIENCY_CATEGORY, TEST_TYPE_FIELDS, TEST_TYPE_INPUTS } from "../../../../app/app.enums";
+import {
+  APP,
+  DEFICIENCY_CATEGORY,
+  REG_EX_PATTERNS,
+  TEST_TYPE_FIELDS,
+  TEST_TYPE_INPUTS
+} from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
@@ -33,7 +39,9 @@ export class CompleteTestPage implements OnInit {
   completedFields;
   fromTestReview;
   defectsCategories: DefectCategoryReferenceDataModel[];
+  isCertificateNumberFocused: boolean;
   today: string;
+  patterns;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -51,6 +59,8 @@ export class CompleteTestPage implements OnInit {
     this.vehicleTest = navParams.get('vehicleTest');
     this.completedFields = navParams.get('completedFields');
     this.fromTestReview = navParams.get('fromTestReview');
+    this.patterns = REG_EX_PATTERNS;
+    this.isCertificateNumberFocused = false;
   }
 
   ngOnInit(): void {

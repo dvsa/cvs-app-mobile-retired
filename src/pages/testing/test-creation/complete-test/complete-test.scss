@@ -121,22 +121,26 @@ ion-app.ios page-complete-test {
     }
   }
 
-  .scroll-content{
+  .scroll-content {
     margin-top: 100px;
   }
 
-  ion-item-divider{
+  ion-item-divider {
     height: 40px;
 
-    ion-label{
+    ion-label {
       margin-top: 11px;
     }
   }
 
-  .test-type-name{
+  .test-type-name {
     font-weight: $font-weight-bold;
     font-size: $font-size-medium;
 
+  }
+
+  .margin-top-fix {
+    margin-top: 70px;
   }
 
 }
