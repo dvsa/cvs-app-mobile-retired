@@ -55,30 +55,17 @@ export class AddPreparerPage implements OnInit {
     this.vehicleService.addPreparer(this.vehicleData, preparer);
   }
 
-  presentConfirm(value: PreparersReferenceDataModel | string): void {
-    let preparer: PreparersReferenceDataModel = {
-        preparerName: '',
-        preparerId: null
-      },
-      noPreparer: boolean = false;
-    if (typeof value === 'string') {
-      preparer.preparerName = value;
-      noPreparer = true;
-    } else {
-      preparer = value;
-      noPreparer = false;
-    }
+  presentConfirm(preparer: PreparersReferenceDataModel): void {
     let alert = this.alertCtrl.create({
-      title: noPreparer ? APP_STRINGS.WITHOUT_PREPARER : APP_STRINGS.CONFIRM_PREPARER,
-      message: noPreparer ? APP_STRINGS.ALERT_MESSAGE : `You have selected ${preparer.preparerId} as the preparer of this vehicle for testing.`,
+      title: !preparer.preparerId ? APP_STRINGS.WITHOUT_PREPARER : APP_STRINGS.CONFIRM_PREPARER,
+      message: !preparer.preparerId ? APP_STRINGS.PREPARER_ALERT_MESSAGE : `You have selected ${preparer.preparerId} as the preparer of this vehicle for testing.`,
       buttons: [
         {
           text: APP_STRINGS.CANCEL,
           role: 'cancel',
           handler: () => {
           }
-        },
-        {
+        }, {
           text: APP_STRINGS.CONFIRM,
           handler: () => {
             this.visitService.addTest(this.testData);

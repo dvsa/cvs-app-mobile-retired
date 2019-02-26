@@ -45,7 +45,7 @@ export class TestStationDetailsPage implements OnInit {
                 this.navCtrl.push('VisitTimelinePage', {testStation: this.testStation});
               },
               (error) => {
-                console.log(error);
+                console.error(`Starting activity failed due to: ${error}`);
               });
           }
         },

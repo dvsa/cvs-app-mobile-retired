@@ -39,6 +39,7 @@ export class TestReviewPage implements OnInit {
   dateFormat;
   testTypeResults;
   deficiencyCategory;
+  submitInProgress: boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -120,25 +121,30 @@ export class TestReviewPage implements OnInit {
   }
 
   submitTest(test: TestModel) {
-    const ALERT = this.alertCtrl.create({
-      title: APP_STRINGS.SUBMIT_TEST,
-      message: APP_STRINGS.SUBMIT_TEST_MESSAGE,
-      buttons: [
-        {
-          text: APP_STRINGS.CANCEL
-        },
-        {
-          text: APP_STRINGS.SUBMIT,
-          handler: () => {
-            test.status = TEST_REPORT_STATUSES.SUBMITTED;
-            this.testService.endTestReport(test);
-            this.submit(test);
+    if (!this.submitInProgress) {
+      const ALERT = this.alertCtrl.create({
+        title: APP_STRINGS.SUBMIT_TEST,
+        message: APP_STRINGS.SUBMIT_TEST_MESSAGE,
+        buttons: [
+          {
+            text: APP_STRINGS.CANCEL,
+            handler: () => {
+              this.submitInProgress = false;
+            }
+          },
+          {
+            text: APP_STRINGS.SUBMIT,
+            handler: () => {
+              this.submitInProgress = true;
+              test.status = TEST_REPORT_STATUSES.SUBMITTED;
+              this.testService.endTestReport(test);
+              this.submit(test);
+            }
           }
-        }
-      ]
-    });
-
-    ALERT.present();
+        ]
+      });
+      ALERT.present();
+    }
   }
 
   submit(test) {
@@ -167,6 +173,7 @@ export class TestReviewPage implements OnInit {
           () => this.events.publish(APP.TEST_SUBMITTED))
       ).subscribe(
         () => {
+          this.submitInProgress = false;
           let views = this.navCtrl.getViews();
           for (let i = views.length - 1; i >= 0; i--) {
             if (views[i].component.name == 'VisitTimelinePage') {

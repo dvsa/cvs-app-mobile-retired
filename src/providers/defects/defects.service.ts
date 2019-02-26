@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { from } from "rxjs/observable/from";
-import { STORAGE } from "../../app/app.enums";
+import { DEFICIENCY_CATEGORY, STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
-import { DEFICIENCY_CATEGORY } from "../../app/app.enums";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { DefectDetailsModel, DefectsMetadataModel } from "../../models/defects/defect-details.model";
 import {
@@ -48,7 +47,7 @@ export class DefectsService {
 
     let defect: DefectDetailsModel = {
       deficiencyRef: (!isAdvisory) ? deficiency.ref : `${defCat.imNumber}.${defItem.itemNumber}`,
-      deficiencyCategory: (!isAdvisory) ? deficiency.deficiencyCategory : 'advisory',
+      deficiencyCategory: (!isAdvisory) ? deficiency.deficiencyCategory : DEFICIENCY_CATEGORY.ADVISORY,
       deficiencyId: (!isAdvisory) ? deficiency.deficiencyId : null,
       deficiencySubId: (!isAdvisory) ? deficiency.deficiencySubId : null,
       deficiencyText: (!isAdvisory) ? deficiency.deficiencyText : null,

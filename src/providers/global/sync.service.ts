@@ -3,7 +3,7 @@ import { HTTPService } from "./http.service";
 import { catchError, map, retryWhen } from "rxjs/operators";
 import { genericRetryStrategy } from "../utils/rxjs.utils";
 import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
-import { APP, APP_STRINGS, STORAGE } from "../../app/app.enums";
+import { APP, APP_STRINGS, LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
 import { AlertController, Events, LoadingController } from "ionic-angular";
 import { _throw } from "rxjs/observable/throw";
@@ -23,8 +23,9 @@ export class SyncService {
 
   constructor(private httpService: HTTPService, private storageService: StorageService, public events: Events, private alertCtrl: AlertController, private openNativeSettings: OpenNativeSettings, private callNumber: CallNumber, public loadingCtrl: LoadingController) {
     this.initSyncDone = !!localStorage.getItem(APP.INIT_SYNC);
+    let jwtToken = !!localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
     if (!this.initSyncDone) {
-      this.loading.present();
+      if (jwtToken) this.loading.present();
       this.events.subscribe('initSyncDone', () => {
         localStorage.setItem(APP.INIT_SYNC, 'true');
         this.loading.dismissAll();

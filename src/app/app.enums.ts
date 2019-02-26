@@ -7,7 +7,6 @@ export enum STORAGE {
   STATE = 'state',
   VISIT = 'visit',
   TEST_HISTORY = 'test-history',
-  JWT_TOKEN = 'jwt-token'
 }
 
 export enum PATHS {
@@ -15,13 +14,16 @@ export enum PATHS {
 }
 
 export enum STATUS_CODE {
-  UNAUTHORIZED = 401
+  UNAUTHORIZED = 401,
+  FORBIDDEN = 403
 }
 
 export enum LOCAL_STORAGE {
   INIT_SYNC = 'initSyncDone',
   EASTER_EGG = 'easterEgg',
-  CACHING = 'caching'
+  CACHING = 'caching',
+  TESTER_DETAILS = 'tester-details',
+  JWT_TOKEN = 'jwt-token',
 }
 
 export enum APP {
@@ -80,7 +82,7 @@ export enum APP_STRINGS {
   VEHICLE_DETAILS = 'Vehicle details',
   WITHOUT_PREPARER = 'Continue without preparerID',
   CONFIRM_PREPARER = 'Confirm preparer',
-  ALERT_MESSAGE = 'You will not be able to add a preparer for this vehicle later.',
+  PREPARER_ALERT_MESSAGE = 'You will not be able to add a preparer for this vehicle later.',
   CANCEL = 'Cancel',
   CONFIRM = 'Confirm',
   SUBMIT = 'Submit',
@@ -220,5 +222,6 @@ export enum TECH_RECORD_STATUS {
 }
 
 export enum AUTH {
-  INVALID_TOKEN = 'Invalid Token'
+  INVALID_TOKEN = 'Invalid Token',
+  MS_ADAL_ERROR_CODE = 'AD_ERROR_UI_USER_CANCEL'
 }
