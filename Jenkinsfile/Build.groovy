@@ -42,7 +42,8 @@ ansiColor('xterm') {
           }
 
           stage ("SonarQube") {
-              sh "npm run sonar-scanner"
+              // sh "npm run sonar-scanner"
+              sh "echo 'temporarily disabled'"
           }
 
           stage('Create .ipa File') {
