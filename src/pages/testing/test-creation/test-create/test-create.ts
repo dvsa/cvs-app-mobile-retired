@@ -102,10 +102,13 @@ export class TestCreatePage implements OnInit {
         testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
         for (let section of testTypeFieldMetadata.sections) {
           for (let input of section.inputs) {
-            if (!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false
-              && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_LAST_DATE) {
-              isInProgress = true;
-              testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
+            if (!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false) {
+              if ((input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER
+                && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_LAST_DATE) || (testTypeFieldMetadata.category === 'B'
+                && (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER || input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE))) {
+                isInProgress = true;
+                testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
+              }
             } else {
               if (!this.completedFields.hasOwnProperty(input.testTypePropertyName) && input.testTypePropertyName !== 'testResult' && input.testTypePropertyName !== 'certificateNumber') {
                 this.completedFields[input.testTypePropertyName] = testType[input.testTypePropertyName];
