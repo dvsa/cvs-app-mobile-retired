@@ -39,10 +39,11 @@ describe('Component: TestStationSearchPage', () => {
     testStationService = null;
   });
 
-  it('should create component', () => {
+  it('should create component', (done) => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
     expect(testStationService).toBeTruthy();
+    done();
   });
 
   it('should TestStationService and TestStationSearchPage Component share the same instance',
