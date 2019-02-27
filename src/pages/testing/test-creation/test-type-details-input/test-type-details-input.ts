@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AlertController, IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, IonicPage, NavParams, TextInput, ViewController } from 'ionic-angular';
 import { APP_STRINGS, TEST_TYPE_FIELDS, REG_EX_PATTERNS } from "../../../../app/app.enums";
 
 @IonicPage()
@@ -17,6 +17,8 @@ export class TestTypeDetailsInputPage implements OnInit {
   testTypeFields;
   patterns;
 
+  @ViewChild('valueInput') valueInput: TextInput;
+
   constructor(public navParams: NavParams,
               private viewCtrl: ViewController,
               private cdRef: ChangeDetectorRef,
@@ -31,6 +33,12 @@ export class TestTypeDetailsInputPage implements OnInit {
     this.inputValue = this.navParams.get('existentValue');
     this.testTypeFields = TEST_TYPE_FIELDS;
     this.patterns = REG_EX_PATTERNS;
+  }
+
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.valueInput.setFocus();
+    }, 150);
   }
 
   valueInputChange(value) {
