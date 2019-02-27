@@ -159,9 +159,10 @@ describe('Component: DefectDetailsPage', () => {
     testTypeService = null;
   });
 
-  it('should create component', () => {
+  it('should create component', (done) => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
+    done();
   });
 
   it('should TestTypeService and Root Component share the same instance',

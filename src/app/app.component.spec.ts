@@ -73,9 +73,10 @@ describe('Component: Root', () => {
     visitService = null;
   });
 
-  it('should create component', () => {
+  it('should create component', (done) => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
+    done();
   });
 
   it('should AuthService and Root Component share the same instance',
