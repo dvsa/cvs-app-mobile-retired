@@ -62,6 +62,7 @@ export class VehicleLookupPage {
           })
       },
       () => {
+        this.searchVal = '';
         LOADING.dismiss();
         this.showAlert();
       });
