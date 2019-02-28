@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { AuthService } from "./auth.service";
-import { STORAGE } from "../../app/app.enums";
+import { LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
 import { MSAdal } from "@ionic-native/ms-adal";
 import { Platform } from "ionic-angular";
 import { CommonFunctionsService } from "../utils/common-functions";
@@ -30,15 +30,15 @@ describe(`AuthService`, () => {
   });
 
   it('should add the JWT Token into localstorage', () => {
-    expect(localStorage.getItem(STORAGE.JWT_TOKEN)).toBeFalsy();
+    expect(localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN)).toBeFalsy();
     authService.setJWTToken(JWT_TOKEN);
-    expect(localStorage.getItem(STORAGE.JWT_TOKEN)).toBeTruthy();
+    expect(localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN)).toBeTruthy();
   });
 
   it('should get the JWT Token', () => {
-    expect(localStorage.getItem(STORAGE.JWT_TOKEN)).toBeFalsy();
+    expect(localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN)).toBeFalsy();
     authService.setJWTToken(JWT_TOKEN);
-    expect(localStorage.getItem(STORAGE.JWT_TOKEN)).toBeTruthy();
+    expect(localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN)).toBeTruthy();
     expect(authService.getJWTToken()).toBe(JWT_TOKEN);
   })
 });

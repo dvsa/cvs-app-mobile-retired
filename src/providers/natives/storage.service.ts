@@ -6,19 +6,15 @@ export class StorageService {
   constructor(private storage: Storage) {
   }
 
-  create(key: string, dataArray: any | any[]): void {
-    this.storage.set(key, dataArray).catch(
-      err => console.log(err)
-    )
+  create(key: string, dataArray: any | any[]): Promise<any> {
+    return this.storage.set(key, dataArray);
   }
 
   read(key: string): Promise<any> {
     return this.storage.get(key).then(
-      (data: any) => {
-        return data;
-      }
+      (data: any) => data
     ).catch(
-      err => console.log(err)
+      (error) => console.error(`Storage service read error: ${error}`)
     )
   }
 
@@ -26,15 +22,13 @@ export class StorageService {
     return this.storage.remove(key).then(
       (data: any) => {
         return this.storage.set(key, value).then(
-          (data: any) => {
-            return data
-          }
+          (data: any) => data
         ).catch(
-          err => console.log(err)
+          error => console.error(`Storage service update error, during storage.set: ${error}`)
         )
       }
     ).catch(
-      err => console.log(err)
+      error => console.error(`Storage service update error, during storage.remove: ${error}`)
     )
   }
 
@@ -45,7 +39,7 @@ export class StorageService {
         return data
       }
     ).catch(
-      err => console.log(err)
+      error => console.error(`Storage service delete error: ${error}`)
     )
   }
 
@@ -55,7 +49,7 @@ export class StorageService {
         return data
       }
     ).catch(
-      err => console.log(err)
+      error => console.error(`Storage service clear error: ${error}`)
     )
   }
 }

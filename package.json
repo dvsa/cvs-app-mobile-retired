@@ -11,6 +11,7 @@
     "security-checks": "git-secrets --scan && git log -p | scanrepo",
     "ionic:serve": "ionic-app-scripts serve --nobrowser",
     "build": "ionic-app-scripts build --target cordova --platform ios",
+    "emulate-ios": "ionic cordova emulate ios --target=iPhone-8-Plus -- --buildFlag=-UseModernBuildSystem=0",
     "test-ci-headless": "karma start ./test-config/karma.conf.js",
     "test-watch": "karma start ./test-config/karma.conf.js --watch",
     "test-coverage": "karma start ./test-config/karma.conf.js --coverage",

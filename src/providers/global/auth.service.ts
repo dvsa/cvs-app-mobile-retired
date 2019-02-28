@@ -3,12 +3,12 @@ import { AppConfig } from "../../../config/app.config";
 import { AuthenticationContext, AuthenticationResult, MSAdal, TokenCacheItem } from "@ionic-native/ms-adal";
 import * as jwt_decode from "jwt-decode";
 import { TesterDetailsModel } from "../../models/tester-details.model";
-import { APP, STORAGE } from "../../app/app.enums";
+import { LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
 import { Observable } from "rxjs";
-import { flatMap } from "rxjs/operators";
 import { CommonRegExp } from "../utils/common-regExp";
 import { Platform } from "ionic-angular";
 import { CommonFunctionsService } from "../utils/common-functions";
+import { ErrorObservable } from "rxjs/observable/ErrorObservable";
 
 @Injectable()
 export class AuthService {
@@ -18,47 +18,49 @@ export class AuthService {
 
   constructor(private msAdal: MSAdal, public platform: Platform, private commonFunc: CommonFunctionsService) {
     this.testerDetails = {} as TesterDetailsModel;
-    this.jwtToken = localStorage.getItem(STORAGE.JWT_TOKEN);
+    this.jwtToken = localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
   }
 
-  login(): Observable<string> {
+  login(): Observable<string | ErrorObservable> {
     this.authContext = this.msAdal.createAuthenticationContext(AppConfig.MSAL_AUTHORITY);
-    if(!this.jwtToken) this.authContext.tokenCache.clear();
-    return Observable.from(this.readTokenCache()).pipe(
-      flatMap(
-        (items: TokenCacheItem[]) => {
-          return this.authContext.acquireTokenSilentAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, '').then(
-            (silentAuthResponse: AuthenticationResult) => {
-              let authHeader = silentAuthResponse.createAuthorizationHeader();
-              this.testerDetails = this.setTesterDetails(silentAuthResponse);
-              return authHeader;
-            },
-            () => {
-              return this.authContext.acquireTokenAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, AppConfig.MSAL_REDIRECT_URL, '', '').then(
-                (authResponse: AuthenticationResult) => {
-                  let authHeader = authResponse.createAuthorizationHeader();
-                  this.testerDetails = this.setTesterDetails(authResponse);
-                  return authHeader;
-                }
-              ).catch(
-                (error: any) => {
-                  return error;
-                }
-              )
-            }
-          )
-        }
-      )
+    if (!this.jwtToken) this.authContext.tokenCache.clear();
+    return Observable.from(this.loginSilently());
+  }
+
+  private loginSilently(): Promise<string> {
+    return this.authContext.acquireTokenSilentAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, '').then(
+      (silentAuthResponse: AuthenticationResult) => {
+        let authHeader = silentAuthResponse.createAuthorizationHeader();
+        this.testerDetails = this.setTesterDetails(silentAuthResponse);
+        return authHeader;
+      },
+    ).catch(
+      () => {
+        return this.loginWithUI();
+      }
     )
   }
 
-  setJWTToken(token) {
-    if (token) {
-      let tokenStr = token.slice(7, token.length - 1);
-      if (tokenStr.match(CommonRegExp.JTW_TOKEN)) {
-        this.jwtToken = token;
-        localStorage.setItem(STORAGE.JWT_TOKEN, this.jwtToken);
+  private loginWithUI(): Promise<string> {
+    return this.authContext.acquireTokenAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, AppConfig.MSAL_REDIRECT_URL, '', '').then(
+      (authResponse: AuthenticationResult) => {
+        let authHeader = authResponse.createAuthorizationHeader();
+        this.testerDetails = this.setTesterDetails(authResponse);
+        return authHeader;
       }
+    ).catch(
+      (error: string) => {
+        return error['code'];
+      }
+    )
+  }
+
+  setJWTToken(token): Promise<any> {
+    let tokenStr = token ? token.slice(7, token.length - 1) : null;
+    if (tokenStr && tokenStr.match(CommonRegExp.JTW_TOKEN)) {
+      this.jwtToken = token;
+      localStorage.setItem(LOCAL_STORAGE.JWT_TOKEN, this.jwtToken);
+      return Promise.resolve();
     }
   }
 

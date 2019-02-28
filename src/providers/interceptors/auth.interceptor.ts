@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { AuthService } from "../global/auth.service";
 import { catchError, filter, finalize, switchMap, take } from "rxjs/operators";
 import { _throw } from "rxjs/observable/throw";
-import { AUTH } from "../../app/app.enums";
+import { AUTH, STATUS_CODE } from "../../app/app.enums";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError(error => {
         if (error instanceof HttpErrorResponse) {
           switch ((<HttpErrorResponse>error).status) {
-            case 401:
+            case STATUS_CODE.UNAUTHORIZED, STATUS_CODE.FORBIDDEN:
               return this.handle401Error(req, next);
           }
         } else {

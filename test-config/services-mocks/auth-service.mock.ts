@@ -1,7 +1,7 @@
 import { TesterDetailsModel } from "../../src/models/tester-details.model";
-import { AuthenticationResult, MSAdal } from "@ionic-native/ms-adal";
+import { AuthenticationResult } from "@ionic-native/ms-adal";
 import { Observable } from "rxjs";
-import { STORAGE } from "../../src/app/app.enums";
+import { LOCAL_STORAGE } from "../../src/app/app.enums";
 import { of } from "rxjs/observable/of";
 
 export class AuthServiceMock {
@@ -24,7 +24,7 @@ export class AuthServiceMock {
 
   setJWTToken(token) {
     this.jwtToken = token
-    localStorage.setItem(STORAGE.JWT_TOKEN, this.jwtToken);
+    localStorage.setItem(LOCAL_STORAGE.JWT_TOKEN, this.jwtToken);
   }
 
   getJWTToken() {

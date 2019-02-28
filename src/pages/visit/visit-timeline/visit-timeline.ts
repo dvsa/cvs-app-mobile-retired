@@ -90,6 +90,8 @@ export class VisitTimelinePage implements OnInit {
                 this.visitService.visit = {} as VisitModel;
                 this.loading.dismissAll();
                 this.navCtrl.push('EndVisitConfirmPage', {testStationName: this.visit.testStationName});
+              }, () => {
+                this.loading.dismissAll();
               });
           }
         }
