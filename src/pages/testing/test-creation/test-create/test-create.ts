@@ -1,12 +1,12 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import {
-  IonicPage,
-  NavController,
   AlertController,
-  ItemSliding,
-  NavParams,
   Events,
-  ModalController
+  IonicPage,
+  ItemSliding,
+  ModalController,
+  NavController,
+  NavParams
 } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
 import { PhoneService } from '../../../../providers/natives/phone.service';
@@ -15,7 +15,14 @@ import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { APP, APP_STRINGS, ODOMETER_METRIC, TEST_COMPLETION_STATUS, TEST_TYPE_INPUTS } from "../../../../app/app.enums";
+import {
+  APP,
+  APP_STRINGS,
+  ODOMETER_METRIC,
+  TEST_COMPLETION_STATUS,
+  TEST_TYPE_INPUTS,
+  TEST_TYPE_RESULTS
+} from "../../../../app/app.enums";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
@@ -221,7 +228,7 @@ export class TestCreatePage implements OnInit {
         requiredFieldsCompleted = false;
       }
       finishedTest = vehicle.testTypes.every((test: TestTypeModel) => {
-        return test.completionStatus != TEST_COMPLETION_STATUS.IN_PROGRESS;
+        return test.completionStatus != TEST_COMPLETION_STATUS.IN_PROGRESS || test.testResult === TEST_TYPE_RESULTS.ABANDONED;
       });
     }
     if (!finishedTest || !requiredFieldsCompleted) {
