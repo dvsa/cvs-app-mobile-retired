@@ -12,7 +12,7 @@ export class TestService {
     newTest.startTime = new Date().toISOString();
     newTest.endTime = null;
     newTest.status = null;
-    newTest.reasonForCancellation = '';
+    newTest.reasonForCancellation = null;
     newTest.vehicles = []
     return newTest;
   }

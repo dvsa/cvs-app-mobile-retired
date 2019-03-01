@@ -11,11 +11,13 @@ export class DefectDetailsDataMock {
       "deficiencyRef": "1.1.a",
       "deficiencyCategory": "major",
       "deficiencyId": "a",
+      "deficiencySubId": null,
       "deficiencyText": "missing.",
       "imNumber": 1,
       "imDescription": "Registration Plate",
       "itemNumber": 1,
       "itemDescription": "A registration plate:",
+      "stdForProhibition": false,
       "metadata": {
         "category": {
           "additionalInfo": {
@@ -48,6 +50,8 @@ export class DefectDetailsDataMock {
       "deficiencyRef": "1.2",
       "deficiencyCategory": "Advisory",
       "deficiencyId": null,
+      "deficiencySubId": null,
+      "stdForProhibition": false,
       "deficiencyText": "",
       "imNumber": 1,
       "imDescription": "Registration Plate",

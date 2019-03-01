@@ -26,8 +26,8 @@ export class OdometerReadingPage {
               private vehicleService: VehicleService,
               private cdRef: ChangeDetectorRef) {
     this.vehicle = this.navParams.get('vehicle');
-    this.odometerReading = this.vehicle.odometerReading.length ? this.vehicle.odometerReading : '';
-    this.odometerMetric = this.vehicle.odometerMetric.length ? this.vehicle.odometerMetric : ODOMETER_METRIC.KILOMETRES;
+    this.odometerReading = this.vehicle.odometerReading && this.vehicle.odometerReading.length ? this.vehicle.odometerReading : null;
+    this.odometerMetric = this.vehicle.odometerMetric && this.vehicle.odometerMetric.length ? this.vehicle.odometerMetric : ODOMETER_METRIC.KILOMETRES;
     this.patterns = REG_EX_PATTERNS;
   }
 

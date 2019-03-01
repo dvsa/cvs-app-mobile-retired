@@ -61,13 +61,7 @@ export class TestResultService {
   }
 
   submitTestResult(testResult: TestResultModel) {
-    // to match backend implementation
     let newTestResult = this.commFunc.cloneObject(testResult);
-
-    if (!newTestResult.reasonForCancellation) delete newTestResult.reasonForCancellation;
-    if (!newTestResult.odometerReading) delete newTestResult.odometerReading;
-    if (!newTestResult.odometerReadingUnits) delete newTestResult.odometerReadingUnits;
-    if (!newTestResult.euVehicleCategory) delete newTestResult.euVehicleCategory;
 
     if (newTestResult.testTypes.length) {
       for (let testType of newTestResult.testTypes) {
@@ -75,34 +69,19 @@ export class TestResultService {
           if (testType.reasons.length) {
             testType.reasonForAbandoning = this.concatenateReasonsArray(testType.reasons);
           }
-          delete testType.reasons;
+          // delete testType.reasons;
         }
-        if (testType.certificateNumber.length) {
+        if (testType.certificateNumber) {
           testType.certificateNumber = testType.testResult === TEST_TYPE_RESULTS.PASS ? 'LP' + testType.certificateNumber : 'LF' + testType.certificateNumber;
         }
         delete testType.completionStatus;
         delete testType.testTypeCategoryName;
-        if (!testType.certificateNumber) delete testType.certificateNumber;
-        if (!testType.reasonForAbandoning) delete testType.reasonForAbandoning;
-        if (!testType.additionalNotesRecorded) delete testType.additionalNotesRecorded;
-        if (!testType.additionalCommentsForAbandon) delete testType.additionalCommentsForAbandon;
-        if (!testType.numberOfSeatbeltsFitted) {
-          delete testType.numberOfSeatbeltsFitted
-        } else {
-          testType.numberOfSeatbeltsFitted = parseInt(testType.numberOfSeatbeltsFitted);
-        }
-        if (!testType.lastSeatbeltInstallationCheckDate) delete testType.lastSeatbeltInstallationCheckDate;
-        if (!testType.seatbeltInstallationCheckDate) delete testType.seatbeltInstallationCheckDate;
-
+        if (testType.numberOfSeatbeltsFitted) testType.numberOfSeatbeltsFitted = parseInt(testType.numberOfSeatbeltsFitted);
         this.testTypeService.endTestType(testType);
 
         if (testType.defects.length) {
           for (let defect of testType.defects) {
             if (defect.hasOwnProperty('metadata')) delete defect.metadata;
-            for (let key in defect.additionalInformation.location) {
-              if (!defect.additionalInformation.location[key]) delete defect.additionalInformation.location[key]
-            }
-            if (!defect.additionalInformation.notes) delete defect.additionalInformation.notes;
           }
         }
       }

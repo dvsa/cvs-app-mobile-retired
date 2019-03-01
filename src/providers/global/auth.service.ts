@@ -92,13 +92,4 @@ export class AuthService {
   private decodeJWT(token) {
     return jwt_decode(token);
   }
-
-  private readTokenCache(): Promise<any> {
-    if (this.platform.is('cordova')) {
-      return this.authContext.tokenCache.readItems()
-    } else {
-      return Promise.resolve();
-    }
-  }
-
 }

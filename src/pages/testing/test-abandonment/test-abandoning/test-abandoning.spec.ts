@@ -72,7 +72,7 @@ describe('Component: TestAbandoningPage', () => {
     component.vehicleTest = navParams.get('vehicleTest');
     component.selectedReasons = navParams.get('selectedReasons');
     expect(component.vehicleTest.reasons.length).toEqual(0);
-    expect(component.vehicleTest.additionalCommentsForAbandon).toEqual('');
+    expect(component.vehicleTest.additionalCommentsForAbandon).toEqual(null);
     component.additionalComment = additionalComment;
     component.updateVehicleTestModel();
     expect(component.vehicleTest.reasons.length).toEqual(2);

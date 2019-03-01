@@ -24,11 +24,11 @@ export class VehicleService {
     newVehicle.techRecord = this.getCurrentTechRecord(vehicleTechRecord);
     newVehicle.testResultsHistory = [];
     newVehicle.countryOfRegistration = CountryOfRegistrationData.DefaultCountryData.key;
-    newVehicle.euVehicleCategory = '';
-    newVehicle.odometerReading = '';
-    newVehicle.odometerMetric = '';
-    newVehicle.preparerId = '';
-    newVehicle.preparerName = '';
+    newVehicle.euVehicleCategory = null;
+    newVehicle.odometerReading = null;
+    newVehicle.odometerMetric = null;
+    newVehicle.preparerId = null;
+    newVehicle.preparerName = null;
     newVehicle.testTypes = [];
     return newVehicle;
   }
