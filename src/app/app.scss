@@ -161,9 +161,19 @@ span[text-left] {
     filter: brightness(0) invert(1);
   }
 
+  .searchbar-search-icon {
+    left: 10px;
+    top: 12px;
+    width: 14px;
+    height: 14px;
+    background-size: 14px;
+  }
+
   .searchbar-input {
     background-color: rgba(255, 255, 255, 0.3);
     color: color($colors, light);
+    font-size: $font-size-medium;
+    height: 36px;
 
     &::placeholder {
       color: color($colors, light);

@@ -3,7 +3,7 @@ page-eu-vehicle-category {
   ion-header {
 
     ion-navbar.toolbar.toolbar-ios.statusbar-padding {
-      height: 80px;
+      height: 100px;
       padding-top: 24px !important;
     }
 
@@ -11,7 +11,7 @@ page-eu-vehicle-category {
       padding-top: 20px;
 
       .toolbar-title.toolbar-title-ios {
-        font-size: $font-size-large;
+        font-size: $font-size-extra-large;
       }
     }
   }
@@ -19,10 +19,34 @@ page-eu-vehicle-category {
   .subtitle {
     font-size: $font-size-medium;
     font-weight: $font-weight-bold;
+    margin: 8px 0;
   }
 
   .selected {
     color: color($colors, primary);
+  }
+
+  .eu-cat {
+    .label-ios {
+      margin: 16px 28px 16px 0;
+    }
+
+    h3 {
+      font-size: $font-size-medium;
+    }
+
+    p {
+      font-size: $font-size-normal;
+    }
+
+    ion-icon[item-end]{
+      display: flex;
+      align-items: center;
+      margin: 0;
+      position: absolute;
+      right: 16px;
+      height: 100%;
+    }
   }
 
 }
