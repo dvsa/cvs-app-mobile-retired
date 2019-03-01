@@ -220,6 +220,7 @@ export class CompleteTestPage implements OnInit {
       vehicleType: this.vehicle.techRecord.vehicleType,
       vehicleTest: this.vehicleTest,
       defects: this.defectsCategories,
+      fromTestReview: this.fromTestReview
     });
   }
 

@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonicPage, Navbar, NavController, NavParams, ViewController } from 'ionic-angular';
-import { AdditionalInfoMetadataModel, DefectDetailsModel, DefectLocationModel } from '../../../../models/defects/defect-details.model';
+import {
+  AdditionalInfoMetadataModel,
+  DefectDetailsModel,
+  DefectLocationModel
+} from '../../../../models/defects/defect-details.model';
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
@@ -19,6 +23,7 @@ export class DefectDetailsPage implements OnInit {
   isLocation: boolean;
   tempDefectLocation: DefectLocationModel;
   tempDefectNotes: string;
+  fromTestReview: boolean;
   @ViewChild(Navbar) navBar: Navbar;
 
   constructor(public navCtrl: NavController,
@@ -30,6 +35,7 @@ export class DefectDetailsPage implements OnInit {
     this.vehicleTest = navParams.get('vehicleTest');
     this.defect = navParams.get('deficiency');
     this.isEdit = navParams.get('isEdit');
+    this.fromTestReview = this.navParams.get('fromTestReview');
   }
 
   ngOnInit() {
@@ -52,18 +58,23 @@ export class DefectDetailsPage implements OnInit {
   }
 
   addDefect(): void {
-    let views = this.navCtrl.getViews();
-    for (let i = views.length - 1; i >= 0; i--) {
-      if (views[i].component.name == "CompleteTestPage") {
-        if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
-        this.navCtrl.popTo(views[i]);
+    if (!this.fromTestReview) {
+      let views = this.navCtrl.getViews();
+      for (let i = views.length - 1; i >= 0; i--) {
+        if (views[i].component.name == "CompleteTestPage") {
+          if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
+          this.navCtrl.popTo(views[i]);
+        }
       }
+    } else {
+      this.testTypeService.addDefect(this.vehicleTest, this.defect);
+      this.navCtrl.popToRoot();
     }
   }
 
-  checkForLocation(location: {}): boolean{
-    for (let type in location){
-      if(location[type]){
+  checkForLocation(location: {}): boolean {
+    for (let type in location) {
+      if (location[type]) {
         return true;
       }
     }

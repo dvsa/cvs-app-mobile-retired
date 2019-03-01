@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, Events, IonicPage, ModalController, ViewController, NavController, NavParams, ToastController } from 'ionic-angular';
+import {
+  AlertController,
+  Events,
+  IonicPage,
+  ModalController,
+  ViewController,
+  NavController,
+  NavParams
+} from 'ionic-angular';
 import { VisitModel } from "../../../../models/visit/visit.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import {
@@ -111,10 +119,8 @@ export class TestReviewPage implements OnInit {
       fromTestReview: true
     });
     MODAL.onDidDismiss(data => {
-      for (let key of Object.keys(this.completedFields)) {
-        if (!data[key] && data[key] !== false) {
-          this.navCtrl.pop();
-        }
+      if (testType[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER] && !data[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER]) {
+        this.navCtrl.pop();
       }
     });
     MODAL.present();

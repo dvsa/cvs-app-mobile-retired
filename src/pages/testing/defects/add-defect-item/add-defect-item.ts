@@ -3,7 +3,10 @@ import { Events, IonicPage, NavController, ViewController, NavParams } from 'ion
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { APP, APP_STRINGS } from "../../../../app/app.enums";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { DefectCategoryReferenceDataModel, DefectItemReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
+import {
+  DefectCategoryReferenceDataModel,
+  DefectItemReferenceDataModel
+} from "../../../../models/reference-data-models/defects.reference-model";
 
 @IonicPage()
 @Component({
@@ -15,6 +18,7 @@ export class AddDefectItemPage implements OnInit {
   vehicleTest: TestTypeModel;
   category: DefectCategoryReferenceDataModel;
   filteredItems: DefectItemReferenceDataModel[];
+  fromTestReview: boolean;
   searchVal: string = '';
   focusOut: boolean = false;
   appStrings: {} = APP_STRINGS;
@@ -23,6 +27,7 @@ export class AddDefectItemPage implements OnInit {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
     this.category = navParams.get('category');
+    this.fromTestReview = navParams.get('fromTestReview');
   }
 
   ngOnInit() {
@@ -39,7 +44,8 @@ export class AddDefectItemPage implements OnInit {
       vehicleType: this.vehicleType,
       vehicleTest: this.vehicleTest,
       category: this.category,
-      item: item
+      item: item,
+      fromTestReview: this.fromTestReview
     });
     this.events.publish(APP.NAV_OUT);
   }

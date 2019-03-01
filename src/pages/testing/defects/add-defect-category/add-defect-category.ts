@@ -15,6 +15,7 @@ export class AddDefectCategoryPage implements OnInit {
   vehicleTest: TestTypeModel;
   defectCategories: DefectCategoryReferenceDataModel[];
   filteredCategories: DefectCategoryReferenceDataModel[];
+  fromTestReview: boolean;
   searchVal: string = '';
   focusOut: boolean = false;
   appStrings: {} = APP_STRINGS;
@@ -23,6 +24,7 @@ export class AddDefectCategoryPage implements OnInit {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
     this.defectCategories = navParams.get('defects');
+    this.fromTestReview = navParams.get('fromTestReview');
   }
 
   ngOnInit() {
@@ -38,7 +40,8 @@ export class AddDefectCategoryPage implements OnInit {
     this.navCtrl.push('AddDefectItemPage', {
       vehicleType: this.vehicleType,
       vehicleTest: this.vehicleTest,
-      category: category
+      category: category,
+      fromTestReview: this.fromTestReview
     });
     this.events.publish(APP.NAV_OUT);
   }
@@ -52,6 +55,7 @@ export class AddDefectCategoryPage implements OnInit {
     let filteredArr = this.defectsService.searchDefect(this.defectCategories, this.searchVal, ['imNumber', 'imDescription']);
     return this.defectsService.orderDefectsArray(filteredArr, 'imNumber', 'asc');
   }
+
   keepCancelOn(ev, hideCancel?: boolean) {
     this.focusOut = !hideCancel;
   }
