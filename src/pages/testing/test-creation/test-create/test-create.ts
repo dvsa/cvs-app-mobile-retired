@@ -18,7 +18,7 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import {
   APP,
   APP_STRINGS,
-  ODOMETER_METRIC,
+  ODOMETER_METRIC, PAGE_NAMES,
   TEST_COMPLETION_STATUS,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS
@@ -38,7 +38,6 @@ export class TestCreatePage implements OnInit {
   testTypesFieldsMetadata;
   testCompletionStatus;
   completedFields = {};
-  countriesArr = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -54,13 +53,13 @@ export class TestCreatePage implements OnInit {
   }
 
   ngOnInit() {
+    this.stateReformingService.saveNavStack(this.navCtrl);
     this.testCompletionStatus = TEST_COMPLETION_STATUS;
     let lastTestIndex = this.visitService.visit.tests.length - 1;
     this.testData = Object.keys(this.visitService.visit).length ? this.visitService.visit.tests[lastTestIndex] : this.navParams.get('test');
   }
 
   ionViewWillEnter() {
-    if (this.visitService.caching == 'true') this.stateReformingService.saveNavStack(this.navCtrl);
     this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
       this.completedFields = completedFields;
     });
@@ -134,22 +133,22 @@ export class TestCreatePage implements OnInit {
   }
 
   addVehicleTest(vehicle: VehicleModel): void {
-    this.navCtrl.push('TestTypesListPage', {vehicleData: vehicle});
+    this.navCtrl.push(PAGE_NAMES.TEST_TYPES_LIST_PAGE, {vehicleData: vehicle});
   }
 
   onVehicleDetails(vehicle: VehicleModel) {
-    this.navCtrl.push('VehicleDetailsPage', {vehicle: vehicle, fromTestCreatePage: true});
+    this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {vehicle: vehicle, fromTestCreatePage: true});
   }
 
   openTest(vehicle: VehicleModel, vehicleTest: TestTypeModel): void {
     if (!this.isTestAbandoned(vehicleTest)) {
-      this.navCtrl.push('CompleteTestPage', {
+      this.navCtrl.push(PAGE_NAMES.COMPLETE_TEST_PAGE, {
         vehicle: vehicle,
         vehicleTest: vehicleTest,
         completedFields: this.completedFields
       });
     } else {
-      this.navCtrl.push('TestAbandoningPage', {
+      this.navCtrl.push(PAGE_NAMES.TEST_ABANDONING_PAGE, {
         vehicleTest: vehicleTest,
         selectedReasons: vehicleTest.reasons,
         editMode: false
@@ -158,18 +157,21 @@ export class TestCreatePage implements OnInit {
   }
 
   onOdometer(index: number) {
-    this.navCtrl.push('OdometerReadingPage', {vehicle: this.testData.vehicles[index]});
+    const MODAL = this.modalCtrl.create(PAGE_NAMES.ODOMETER_READING_PAGE, {
+      vehicle: this.testData.vehicles[index]
+    });
+    MODAL.present();
   }
 
   onCountryOfRegistration(vehicle: VehicleModel) {
-    const MODAL = this.modalCtrl.create('RegionReadingPage', {
+    const MODAL = this.modalCtrl.create(PAGE_NAMES.REGION_READING_PAGE, {
       vehicle: vehicle
     });
     MODAL.present();
   }
 
   onVehicleCategory(vehicle: VehicleModel) {
-    const MODAL = this.modalCtrl.create('CategoryReadingPage', {
+    const MODAL = this.modalCtrl.create(PAGE_NAMES.CATEGORY_READING_PAGE, {
       vehicle: vehicle
     });
     MODAL.present();
@@ -207,11 +209,11 @@ export class TestCreatePage implements OnInit {
   }
 
   onAbandonVehicleTest(vehicleTest) {
-    this.navCtrl.push('ReasonsSelectionPage', {vehicleTest: vehicleTest});
+    this.navCtrl.push(PAGE_NAMES.REASONS_SELECTION_PAGE, {vehicleTest: vehicleTest});
   }
 
   onCancel() {
-    this.navCtrl.push('TestCancelPage', {
+    this.navCtrl.push(PAGE_NAMES.TEST_CANCEL_PAGE, {
       test: this.testData
     });
   }
@@ -235,7 +237,7 @@ export class TestCreatePage implements OnInit {
       });
       alert.present();
     } else {
-      this.navCtrl.push('TestReviewPage', {visit: this.visitService.visit})
+      this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE, {visit: this.visitService.visit})
     }
   }
 }

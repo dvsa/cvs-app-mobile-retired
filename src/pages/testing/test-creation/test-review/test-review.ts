@@ -33,6 +33,7 @@ import { Observable } from "rxjs";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { tap } from "rxjs/operators";
+import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 
 @IonicPage()
 @Component({
@@ -60,6 +61,7 @@ export class TestReviewPage implements OnInit {
               private modalCtrl: ModalController,
               private alertCtrl: AlertController,
               private testResultService: TestResultService,
+              private stateReformingService: StateReformingService,
               private openNativeSettings: OpenNativeSettings,
               private testService: TestService) {
     this.visit = this.navParams.get('visit');
@@ -183,6 +185,7 @@ export class TestReviewPage implements OnInit {
           let views = this.navCtrl.getViews();
           for (let i = views.length - 1; i >= 0; i--) {
             if (views[i].component.name == 'VisitTimelinePage') {
+              this.stateReformingService.onTestReview();
               this.navCtrl.popTo(views[i]);
             }
           }

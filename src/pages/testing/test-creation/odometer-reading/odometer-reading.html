@@ -1,38 +1,37 @@
 <ion-header>
-
-    <ion-navbar hideBackButton>
-        <ion-title>Odometer reading</ion-title>
-        <ion-buttons end>
-            <button ion-button (click)="onSave()">
-                Save
-            </button>
-        </ion-buttons>
-    </ion-navbar>
-
+  <ion-navbar>
+    <ion-title margin-left>
+      Odometer reading
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="onSave()">
+        Save
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
-
 <ion-content class="content-background-color-grey">
-    <ion-list>
-        <ion-item-group>
-            <ion-item-divider padding-left>Reading</ion-item-divider>
-            <ion-item padding-left>
-                <ion-input placeholder="Enter value"
-                           type="number"
-                           [pattern]="patterns.NUMERIC"
-                           maxlength="7"
-                           [(ngModel)]="odometerReading"
-                           (ngModelChange)="valueInputChange($event)"
-                           #valueInput></ion-input>
-            </ion-item>
-        </ion-item-group>
-        <ion-item-group>
-            <ion-item-divider padding-left>Unit</ion-item-divider>
-            <button ion-item padding-left
-                    (click)="onEdit()">
-                <h3 class="unit">{{displayOdometerMetricCapitalized()}}</h3>
-                <h3 item-end class="unit-edit">Edit</h3>
-            </button>
-        </ion-item-group>
-    </ion-list>
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider padding-left>Reading</ion-item-divider>
+      <ion-item padding-left>
+        <ion-input placeholder="Enter value"
+                   type="number"
+                   [pattern]="patterns.NUMERIC"
+                   maxlength="7"
+                   [(ngModel)]="odometerReading"
+                   (ngModelChange)="valueInputChange($event)"
+                   #valueInput></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider padding-left>Unit</ion-item-divider>
+      <button ion-item padding-left
+              (click)="onEdit()">
+        <h3 class="unit">{{displayOdometerMetricCapitalized()}}</h3>
+        <h3 item-end class="unit-edit">Edit</h3>
+      </button>
+    </ion-item-group>
+  </ion-list>
 </ion-content>

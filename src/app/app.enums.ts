@@ -242,3 +242,19 @@ export enum SIGNATURE_STATUS {
   SAVED = 'signature:saved',
   ERROR = 'signature:error'
 }
+
+
+export enum PAGE_NAMES {
+  CATEGORY_READING_PAGE = 'CategoryReadingPage',
+  REGION_READING_PAGE = 'RegionReadingPage',
+  ODOMETER_READING_PAGE = 'OdometerReadingPage',
+  TEST_ABANDONING_PAGE = 'TestAbandoningPage',
+  COMPLETE_TEST_PAGE = 'CompleteTestPage',
+  VEHICLE_DETAILS_PAGE = 'VehicleDetailsPage',
+  TEST_TYPES_LIST_PAGE = 'TestTypesListPage',
+  REASONS_SELECTION_PAGE = 'ReasonsSelectionPage',
+  TEST_CANCEL_PAGE = 'TestCancelPage',
+  TEST_REVIEW_PAGE = 'TestReviewPage',
+  SIGNATURE_PAD_PAGE = 'SignaturePadPage',
+  VISIT_TIMELINE_PAGE = 'VisitTimelinePage'
+}
