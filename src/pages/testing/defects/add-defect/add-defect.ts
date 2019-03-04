@@ -21,6 +21,7 @@ export class AddDefectPage implements OnInit {
   category: DefectCategoryReferenceDataModel;
   item: DefectItemReferenceDataModel;
   filteredDeficiencies: DefectDeficiencyReferenceDataModel[];
+  fromTestReview: boolean;
   searchVal: string = '';
   focusOut: boolean = false;
   appStrings: {} = APP_STRINGS;
@@ -30,6 +31,7 @@ export class AddDefectPage implements OnInit {
     this.vehicleTest = navParams.get('vehicleTest');
     this.category = navParams.get('category');
     this.item = navParams.get('item');
+    this.fromTestReview = navParams.get('fromTestReview');
   }
 
   ngOnInit() {
@@ -48,6 +50,7 @@ export class AddDefectPage implements OnInit {
       vehicleTest: this.vehicleTest,
       deficiency: defect,
       isEdit: false,
+      fromTestReview: this.fromTestReview
     });
     this.clearSearch()
   }
