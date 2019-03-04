@@ -1,0 +1,37 @@
+page-signature-pad {
+  .header-color {
+    background-color: color($colors, dark);
+
+    h4 {
+      color: color($colors, light);
+    }
+  }
+
+  .signature-row {
+    background-color: color($colors, light);
+  }
+
+  .make-full-width {
+    width: 100%;
+  }
+
+  div {
+    signature-pad {
+      canvas {
+        border: 1px solid $color-grey-3;
+        display: block;
+        margin: 12px auto;
+        width: 95%;
+      }
+    }
+  }
+
+  button.cancel {
+    font-weight: $font-weight-normal;
+    color: color($colors, primary);
+  }
+
+  .sign-text {
+    color: $color-grey-1;
+  }
+}

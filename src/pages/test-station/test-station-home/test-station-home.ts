@@ -3,6 +3,7 @@ import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { StorageService } from "../../../providers/natives/storage.service";
 import { VisitService } from "../../../providers/visit/visit.service";
 import { LOCAL_STORAGE, STORAGE, APP_STRINGS } from "../../../app/app.enums";
+import { ScreenOrientation } from "@ionic-native/screen-orientation";
 
 @IonicPage()
 @Component({
@@ -13,12 +14,13 @@ export class TestStationHomePage implements OnInit {
   count: number = 0;
   appStrings: object = APP_STRINGS;
 
-  constructor(public navCtrl: NavController, public toastController: ToastController, private storageService: StorageService, private visitService: VisitService) {
+  constructor(public navCtrl: NavController, public toastController: ToastController, private storageService: StorageService, private visitService: VisitService, private screenOrientation: ScreenOrientation) {
   }
 
   ngOnInit() {
     this.visitService.easterEgg = localStorage.getItem(LOCAL_STORAGE.EASTER_EGG);
     this.visitService.caching = localStorage.getItem(LOCAL_STORAGE.CACHING);
+    if (this.visitService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
   }
 
   ionViewDidLeave() {

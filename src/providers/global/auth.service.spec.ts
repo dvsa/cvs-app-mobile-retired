@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
 import { AuthService } from "./auth.service";
-import { LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
+import { LOCAL_STORAGE } from "../../app/app.enums";
 import { MSAdal } from "@ionic-native/ms-adal";
 import { Platform } from "ionic-angular";
 import { CommonFunctionsService } from "../utils/common-functions";

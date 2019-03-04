@@ -7,6 +7,8 @@ export enum STORAGE {
   STATE = 'state',
   VISIT = 'visit',
   TEST_HISTORY = 'test-history',
+  JWT_TOKEN = 'jwt-token',
+  SIGNATURE_IMAGE = 'signature-image'
 }
 
 export enum PATHS {
@@ -89,6 +91,7 @@ export enum APP_STRINGS {
   OK = 'OK',
   YES = 'Yes',
   NO = 'No',
+  SAVE = 'Save',
   REPORT_ISSUE = 'Report issue',
   TEST_STATION_SAFETY = 'Confirm ATF and safety',
   REPORT_TITLE = 'Report an ATF issue',
@@ -119,6 +122,7 @@ export enum APP_STRINGS {
   UNABLE_TO_SUBMIT_TESTS_TEXT = 'Make sure you are connected to the Internet and try again.',
   SETTINGS_BTN = 'Settings',
   TRY_AGAIN_BTN = 'Try again',
+  CALL_SUPP_BTN = 'Call technical support',
   END_VISIT_TITLE = 'End visit',
   END_VISIT_MSG = "You will not be able to add any other tests after you end this visit. Today's activity report will be sent to DVSA and ",
   END_VISIT_LOADING = 'Submitting site visit',
@@ -130,6 +134,14 @@ export enum APP_STRINGS {
   APP_NAME = 'Vehicle Testing',
   APP_DESC_PT1 = 'Use this app to record PSV tests at',
   APP_DESC_PT2 = 'Authorised Testing Facilities (ATFs).',
+  SIGNATURE_TEXT = "Once you are happy with your signature, select 'Save'. After it has been saved, it cannot be edited and will be used each time you need to sign a certificate.",
+  SIGNATURE_DIVIDER = 'use your finger to sign below',
+  SIGN_CONF_TITLE = 'Save signature',
+  SIGN_CONF_MSG = 'After it has been saved, it cannot be edited and will be used each time you need to sign a certificate.',
+  SIGN_TOAST_MSG = "Your Signature has been saved and will be used each time you need to sign a certificate",
+  SIGN_NOT_ENTERED = 'Signature not entered',
+  SIGN_ENTER = 'You must enter your signature before saving.',
+  SIGN_UNABLE_LOAD_DATA = 'Unable to load data'
 }
 
 export enum ODOMETER_METRIC {
@@ -224,4 +236,9 @@ export enum TECH_RECORD_STATUS {
 export enum AUTH {
   INVALID_TOKEN = 'Invalid Token',
   MS_ADAL_ERROR_CODE = 'AD_ERROR_UI_USER_CANCEL'
+}
+
+export enum SIGNATURE_STATUS {
+  SAVED = 'signature:saved',
+  ERROR = 'signature:error'
 }

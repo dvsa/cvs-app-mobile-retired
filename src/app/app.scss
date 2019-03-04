@@ -396,3 +396,23 @@ ion-item-divider.defect-heading {
     background: $color-grey-4;
   }
 }
+
+
+//signature popover component custom css class
+.signature-popover {
+  .popover-content {
+    width: 320px;
+    background-color: $color-grey-3;
+  }
+
+  ion-backdrop {
+    opacity: 0.4 !important;
+  }
+}
+
+.sign-toast-css {
+  .toast-message {
+    border-radius: 0.65rem !important;
+    background-color: color($colors, primary);
+  }
+}

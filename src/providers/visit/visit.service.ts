@@ -14,6 +14,7 @@ export class VisitService {
   visit: VisitModel;
   easterEgg: string;
   caching: string;
+  isCordova: boolean = false;
 
   constructor(public storageService: StorageService,
               private httpService: HTTPService,

@@ -52,4 +52,8 @@ export class HTTPService {
   endVisit(visitID: string): Observable<any> {
     return this.http.put(`${AppConfig.BACKEND_URL_VISIT}/${visitID}/end`, null);
   }
+
+  saveSignature(staffId: string, signatureString: string): Observable<any> {
+    return this.http.put(`${AppConfig.BACKEND_URL_SIGNATURE}${staffId}.base64`, signatureString);
+  }
 }
