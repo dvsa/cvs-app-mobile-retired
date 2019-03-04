@@ -1,5 +1,21 @@
 page-odometer-reading {
 
+  ion-header {
+
+    ion-navbar.toolbar.toolbar-ios.statusbar-padding {
+      height: 100px;
+      padding-top: 24px !important;
+    }
+
+    ion-title[margin-left].title-ios {
+      padding-top: 20px;
+
+      .toolbar-title.toolbar-title-ios {
+        font-size: $font-size-extra-large;
+      }
+    }
+  }
+
   .item-divider-ios {
     font-size: $font-size-small;
     text-transform: uppercase;
