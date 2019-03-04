@@ -1,3 +1,4 @@
+
 <ion-header>
   <ion-navbar>
     <ion-title margin-left>
@@ -123,8 +124,8 @@
             Notes
           </div>
           <h3 text-wrap
-              *ngIf="testType.additionalNotesRecorded && testType.additionalNotesRecorded.length">{{testType.additionalNotesRecorded}}</h3>
-          <h3 class="parent-info-color" *ngIf="!testType.additionalNotesRecorded.length">None</h3>
+              *ngIf="testType.additionalNotesRecorded">{{testType.additionalNotesRecorded}}</h3>
+          <h3 class="parent-info-color" *ngIf="!testType.additionalNotesRecorded">None</h3>
         </ion-item>
         <ion-item padding-left margin-bottom
                   class="bottom-divider"
@@ -137,7 +138,7 @@
         </ion-item>
         <ion-item padding-left margin-bottom
                   class="bottom-divider"
-                  *ngIf="testType.testResult === testTypeResults.ABANDONED && testType.additionalCommentsForAbandon.length">
+                  *ngIf="testType.testResult === testTypeResults.ABANDONED && testType.additionalCommentsForAbandon">
           <div margin-top class="notes-section-title">
             Notes
           </div>

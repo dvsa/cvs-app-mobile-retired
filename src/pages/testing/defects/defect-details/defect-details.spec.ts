@@ -26,11 +26,13 @@ describe('Component: DefectDetailsPage', () => {
     deficiencyRef: '1.1.a',
     deficiencyCategory: 'major',
     deficiencyId: 'a',
+    deficiencySubId: null,
     deficiencyText: 'missing',
     imNumber: 1,
     imDescription: 'test',
     itemNumber: 1,
     itemDescription: 'test2',
+    stdForProhibition: false,
     metadata: {
       category: {
         additionalInfo: {
@@ -67,10 +69,12 @@ describe('Component: DefectDetailsPage', () => {
     deficiencyCategory: 'major',
     deficiencyId: 'a',
     deficiencyText: 'missing',
+    deficiencySubId: null,
     imNumber: 1,
     imDescription: 'test',
     itemNumber: 1,
     itemDescription: 'test2',
+    stdForProhibition: false,
     metadata: {
       category: {
         additionalInfo: {

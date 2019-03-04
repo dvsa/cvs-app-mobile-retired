@@ -43,6 +43,8 @@ describe('Component: CompleteTestPage', () => {
     imNumber: 1,
     imDescription: 'test',
     itemNumber: 1,
+    stdForProhibition: false,
+    deficiencySubId: null,
     itemDescription: 'test2',
     metadata: {
       category: {}

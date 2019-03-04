@@ -3,17 +3,17 @@ import { LocationMetadataModel } from "../reference-data-models/defects.referenc
 export interface DefectDetailsModel {
   imNumber: number;
   imDescription: string;
-  additionalInformation?: DefectAdditionalInformationModel;
+  additionalInformation: DefectAdditionalInformationModel;
   itemNumber: number;
   itemDescription: string;
   deficiencyRef: string;
-  deficiencyId?: string;
-  deficiencySubId?: string;
+  deficiencyId: string | null;
+  deficiencySubId: string | null;
   deficiencyCategory: string;
-  deficiencyText?: string;
-  stdForProhibition?: boolean;
-  prs?: boolean;
-  /* ------------------------------------------------- */
+  deficiencyText: string | null;
+  stdForProhibition: boolean | null;
+  prs: boolean | null;
+  /* -------- ONLY FOR FE -------- */
   metadata: DefectsMetadataModel;
 }
 

@@ -78,7 +78,9 @@ export class TestCreatePage implements OnInit {
   }
 
   doesOdometerDataExist(index: number) {
-    return this.testData.vehicles[index].odometerReading.length && this.testData.vehicles[index].odometerMetric.length;
+    if (this.testData.vehicles[index].odometerReading) {
+      return this.testData.vehicles[index].odometerReading.length && this.testData.vehicles[index].odometerMetric.length;
+    }
   }
 
   getOdometerStringToBeDisplayed(index: number) {

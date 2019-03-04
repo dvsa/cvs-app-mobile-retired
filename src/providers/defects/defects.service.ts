@@ -56,12 +56,12 @@ export class DefectsService {
       itemNumber: defItem.itemNumber,
       itemDescription: defItem.itemDescription,
       additionalInformation: {
-        notes: '',
+        notes: null,
         location: (!isAdvisory) ? {
-          vertical: '',
-          horizontal: '',
-          lateral: '',
-          longitudinal: '',
+          vertical: null,
+          horizontal: null,
+          lateral: null,
+          longitudinal: null,
           rowNumber: null,
           seatNumber: null,
           axleNumber: null

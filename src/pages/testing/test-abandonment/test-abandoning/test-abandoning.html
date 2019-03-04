@@ -22,9 +22,9 @@
             </ion-item>
         </ion-item-group>
         <ion-item-group>
-            <ion-item-divider *ngIf="editMode || additionalComment.length" padding-left>Additional comments (optional)
+            <ion-item-divider *ngIf="editMode || additionalComment" padding-left>Additional comments (optional)
             </ion-item-divider>
-            <ion-item *ngIf="editMode || additionalComment.length" padding-left>
+            <ion-item *ngIf="editMode || additionalComment" padding-left>
                 <ion-textarea placeholder="Add comments"
                               rows="5"
                               [(ngModel)]="additionalComment"

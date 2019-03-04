@@ -20,18 +20,18 @@ export class TestTypeService {
     newTestType.name = testType.name;
     newTestType.testTypeName = testType.testTypeName;
     newTestType.testTypeId = testType.id;
-    newTestType.certificateNumber = '';
+    newTestType.certificateNumber = null;
     newTestType.testTypeStartTimestamp = new Date().toISOString();
-    newTestType.testTypeEndTimestamp = '';
+    newTestType.testTypeEndTimestamp = null;
     newTestType.numberOfSeatbeltsFitted = null;
-    newTestType.lastSeatbeltInstallationCheckDate = '';
+    newTestType.lastSeatbeltInstallationCheckDate = null;
     newTestType.seatbeltInstallationCheckDate = null;
     newTestType.testResult = null;
     newTestType.prohibitionIssued = false;
-    newTestType.reasonForAbandoning = '';
+    newTestType.reasonForAbandoning = null;
     newTestType.reasons = [];
-    newTestType.additionalCommentsForAbandon = '';
-    newTestType.additionalNotesRecorded = '';
+    newTestType.additionalCommentsForAbandon = null;
+    newTestType.additionalNotesRecorded = null;
     newTestType.defects = [];
     this.visitService.updateVisit();
     return newTestType
