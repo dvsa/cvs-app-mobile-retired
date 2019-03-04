@@ -177,10 +177,8 @@ describe('Component: CompleteTestPage', () => {
     let input = TEST_TYPES_METADATA.sections[2].inputs[2];
     comp.completedFields = {};
     comp.completedFields.seatbeltInstallationCheckDate = false;
-    comp.completedFields.numberOfSeatbeltsFitted = '0';
-    expect(comp.canDisplayInput(input)).toBeFalsy();
-    comp.completedFields.seatbeltInstallationCheckDate = true;
-    comp.completedFields.numberOfSeatbeltsFitted = '123';
     expect(comp.canDisplayInput(input)).toBeTruthy();
+    comp.completedFields.seatbeltInstallationCheckDate = true;
+    expect(comp.canDisplayInput(input)).toBeFalsy();
   });
 });

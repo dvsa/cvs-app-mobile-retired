@@ -113,6 +113,14 @@ export class CompleteTestPage implements OnInit {
         cssClass: input.values[index].cssClass,
         handler: () => {
           this.vehicleTest[input.testTypePropertyName] = input.values[index].value;
+          if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
+            if (input.values[index].value) {
+              this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.today;
+            } else {
+              this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = '';
+              this.completedFields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = null;
+            }
+          }
           if (input.testTypePropertyName !== 'testResult' && input.testTypePropertyName !== 'certificateNumber') {
             this.completedFields[input.testTypePropertyName] = input.values[index].value;
           }
@@ -155,18 +163,17 @@ export class CompleteTestPage implements OnInit {
     if (this.testTypeDetails.category === 'B' && input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
       return false;
     }
+    if (this.completedFields[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] && input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE) {
+      if (!this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE]) {
+        this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.today;
+      }
+      return false;
+    }
     if (input.dependentOn && input.dependentOn.length) {
       for (let dep of input.dependentOn) {
         if (this.completedFields[dep.testTypePropertyName] && this.completedFields[dep.testTypePropertyName] === dep.valueToBeDifferentFrom) {
           return false;
         }
-      }
-    }
-    if (!this.completedFields[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_CARRIED_OUT){
-      this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = '';
-      this.completedFields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = null;
-      if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE) {
-        return false;
       }
     }
     return true;
