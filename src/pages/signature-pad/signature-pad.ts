@@ -67,7 +67,6 @@ export class SignaturePadPage implements OnInit {
 
   clearSignature() {
     this.signaturePad.clear();
-    this.presentToast();
   }
 
   showConfirm() {

@@ -175,10 +175,6 @@ export class TestCreatePage implements OnInit {
     MODAL.present();
   }
 
-  launchDialer(): void {
-    this.phoneService.callPhoneNumber('00447976824451');
-  }
-
   onRemoveVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel, slidingItem: ItemSliding) {
     slidingItem.close();
     const alert = this.alertCtrl.create({
