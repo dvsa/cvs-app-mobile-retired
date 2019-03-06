@@ -161,8 +161,8 @@ export enum DATE_FORMAT {
 }
 
 export enum DEFAULT_VALUES {
-  NONE = 'none',
-  NOT_ENTERED = 'not entered'
+  NONE = 'None',
+  NOT_ENTERED = 'Not entered'
 }
 
 export enum REG_EX_PATTERNS {

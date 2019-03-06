@@ -4,7 +4,6 @@ import { CommonFunctionsService } from "../../../../providers/utils/common-funct
 import { TEST_TYPE_RESULTS, DEFICIENCY_CATEGORY, DEFAULT_VALUES, APP_STRINGS } from '../../../../app/app.enums';
 import {
   TestsWithoutCertificate,
-  TestsWithoutTestExpiry,
   TestsWithoutSeatbelts,
   TestsWithoutDefects
 } from '../../../../assets/app-data/test-required-fields/test-required-fields.data';
@@ -24,9 +23,15 @@ export class VehicleHistoryDetailsPage {
   testTypeResults: {};
   defaultValues: {};
   testsWithoutCertificate: any;
-  testsWithoutTestExpiry: any;
   testsWithoutSeatbelts: any;
   testsWithoutDefects: any;
+  doesNotHaveCert: boolean;
+  doesNotHaveDefects: boolean;
+  doesNotHaveBelts: boolean;
+  doesNotHaveExpiry: boolean;
+  isTestResultAbandon: boolean;
+  isTestResultFail: boolean;
+  testResultColor: string;
 
 
   constructor(public navCtrl: NavController,
@@ -43,14 +48,29 @@ export class VehicleHistoryDetailsPage {
     this.selectedTestType = this.testResultHistory[this.testIndex].testTypes[this.testTypeIndex];
     this.testTypeResults = TEST_TYPE_RESULTS;
     this.defaultValues = DEFAULT_VALUES;
-    this.testsWithoutCertificate = TestsWithoutCertificate.TestsWithoutCertificate;
-    this.testsWithoutTestExpiry = TestsWithoutTestExpiry.TestsWithoutTestExpiry;
-    this.testsWithoutSeatbelts = TestsWithoutSeatbelts.TestsWithoutSeatbelts;
-    this.testsWithoutDefects = TestsWithoutDefects.TestsWithoutDefects;
+
+    this.setTestMetadata();
+    this.compareTestWithMetadata();
+
+    this.isTestResultAbandon = this.commonFunc.checkForMatch(this.selectedTestType.testResult, TEST_TYPE_RESULTS.ABANDONED);
+    this.isTestResultFail = this.commonFunc.checkForMatch(this.selectedTestType.testResult, TEST_TYPE_RESULTS.FAIL);
+    this.testResultColor = this.commonFunc.getTestResultColor(this.selectedTestType.testResult);
   }
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.TEST_HISTORY);
+  }
+
+  setTestMetadata(){
+    this.testsWithoutCertificate = TestsWithoutCertificate.TestsWithoutCertificate;
+    this.testsWithoutSeatbelts = TestsWithoutSeatbelts.TestsWithoutSeatbelts;
+    this.testsWithoutDefects = TestsWithoutDefects.TestsWithoutDefects;
+  }
+
+  compareTestWithMetadata(){
+    this.doesNotHaveCert = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutCertificate);
+    this.doesNotHaveDefects = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutDefects);
+    this.doesNotHaveBelts = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutSeatbelts);
   }
 
   getDeficiencyColor(deficiencyCategory: string): string {
@@ -66,15 +86,4 @@ export class VehicleHistoryDetailsPage {
     }
   }
 
-  getTestResultColor(testResult: string): string {
-    switch (testResult.toLowerCase()) {
-      case TEST_TYPE_RESULTS.PASS:
-        return 'secondary';
-      case TEST_TYPE_RESULTS.FAIL:
-      case TEST_TYPE_RESULTS.ABANDONED:
-        return 'danger';
-      case TEST_TYPE_RESULTS.PRS:
-        return 'tertiary';
-    }
-  }
 }

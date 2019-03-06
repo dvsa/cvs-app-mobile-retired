@@ -20,4 +20,6 @@ export interface TestTypeModel {
   completionStatus?: string
   testTypeCategoryName?: string;
   reasons?: string[];
+  testNumber?: string;
+  testExpiryDate?: string;
 }

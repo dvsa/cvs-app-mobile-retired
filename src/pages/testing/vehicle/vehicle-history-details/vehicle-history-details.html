@@ -33,7 +33,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ commonFunc.convertDate(selectedTestType.testTypeStartTimestamp) }}
+              {{ selectedTestType.testTypeStartTimestamp | date:'dd MMM yyyy' }}
             </span>
           </ion-col>
         </ion-row>
@@ -47,8 +47,8 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ commonFunc.getTimeFromDate(selectedTestType.testTypeStartTimestamp) }} -
-              {{ commonFunc.getTimeFromDate(selectedTestType.testTypeEndTimestamp) }}
+              {{ selectedTestType.testTypeStartTimestamp | date:'HH:mm' }} -
+              {{ selectedTestType.testTypeEndTimestamp | date:'HH:mm' }}
             </span>
           </ion-col>
         </ion-row>
@@ -59,14 +59,14 @@
         <ion-row justify-content-between>
           <ion-col col-3 text-start><span text-left>Test result</span></ion-col>
           <ion-col col-9 text-end>
-            <span text-uppercase ion-text class="test-result" [color]="getTestResultColor(selectedTestType.testResult)">
+            <span text-uppercase ion-text class="test-result" [color]="testResultColor">
               {{ selectedTestType.testResult }}
             </span>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item ion-item detail-none padding-left *ngIf="!commonFunc.checkForMatchInArray(selectedTestType.testTypeName, testsWithoutTestExpiry) && selectedTestType.testExpiryDate">
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.testExpiryDate">
       <ion-grid no-padding>
         <ion-row justify-content-between>
           <ion-col col-3 text-start>
@@ -74,13 +74,16 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ commonFunc.convertDate(selectedTestType.testExpiryDate) || defaultValues.NONE }}
+              {{ selectedTestType.testExpiryDate | date:'dd MMM yyyy' }}
             </span>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item ion-item detail-none padding-left *ngIf="!commonFunc.checkForMatchInArray(selectedTestType.testTypeName, testsWithoutCertificate)">
+    <ion-item ion-item 
+              detail-none 
+              padding-left 
+              *ngIf="!doesNotHaveCert && !isTestResultAbandon && !isTestResultFail; else showTestNumber">
       <ion-grid no-padding>
         <ion-row justify-content-between>
           <ion-col col-3 text-start>
@@ -94,9 +97,25 @@
         </ion-row>
       </ion-grid>
     </ion-item>
+    <ng-template #showTestNumber>
+      <ion-item ion-item detail-none padding-left>
+        <ion-grid no-padding>
+          <ion-row justify-content-between>
+            <ion-col col-3 text-start>
+              <span text-left>Test number</span>
+            </ion-col>
+            <ion-col col-9 text-end>
+              <span text-capitalize>
+                {{ selectedTestType.testNumber || defaultValues.NONE }}
+              </span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ng-template>
   </ion-list>
 
-  <ion-list class="list-margin" *ngIf="commonFunc.checkForMatch(selectedTestType.testResult, testTypeResults.ABANDONED)">
+  <ion-list class="list-margin" *ngIf="isTestResultAbandon">
     <ion-list-header text-uppercase padding-left>REASON(S) FOR ABANDONING</ion-list-header>
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
@@ -109,6 +128,10 @@
         </ion-row>
       </ion-grid>
     </ion-item>
+  </ion-list>
+
+  <ion-list class="list-margin" *ngIf="isTestResultAbandon">
+    <ion-list-header text-uppercase padding-left>Notes</ion-list-header>
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
@@ -117,7 +140,7 @@
               {{ selectedTestType.additionalCommentsForAbandon }}
             </span>
             <ng-template #noAbandonedComments>
-              <span text-capitalize>
+              <span>
                 {{ defaultValues.NOT_ENTERED }}
               </span>
             </ng-template>
@@ -127,9 +150,9 @@
     </ion-item>
   </ion-list>
 
-  <ion-list class="list-margin" *ngIf="!commonFunc.checkForMatchInArray(selectedTestType.testTypeName, testsWithoutDefects)">
+  <ion-list class="list-margin" *ngIf="!doesNotHaveDefects">
     <ion-list-header text-uppercase padding-left>DEFECTS</ion-list-header>
-    <ng-container *ngIf="selectedTestType.defects; else noDefects">
+    <ng-container *ngIf="selectedTestType.defects.length > 0; else noDefects">
       <ion-item ion-item detail-none padding-left class="defect" *ngFor="let defect of selectedTestType.defects">
         <ion-grid no-padding>
           <ion-row justify-content-between>
@@ -201,20 +224,20 @@
           </ion-row>
         </ion-grid>
       </ion-item>
-      <ng-template #noDefects>
-        <ion-item ion-item detail-none padding-left class="defect">
-          <ion-grid no-padding>
-            <ion-row justify-content-between>
-              <ion-col col-12 text-start text-wrap>
-                <span text-capitalize>
-                  {{ defaultValues.NOT_ENTERED }}
-                </span>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </ng-template>
     </ng-container>
+    <ng-template #noDefects>
+      <ion-item ion-item detail-none padding-left>
+        <ion-grid no-padding>
+          <ion-row justify-content-between>
+            <ion-col col-12 text-start text-wrap>
+              <span>
+                {{ defaultValues.NOT_ENTERED }}
+              </span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ng-template>
   </ion-list>
 
   <ion-list class="list-margin">
@@ -227,7 +250,7 @@
               {{ selectedTestResult.odometerReading }} {{ selectedTestResult.odometerReadingUnits }}
             </span>
             <ng-template #noOdometerReading>
-              <span text-left text-capitalize>
+              <span text-left>
                   {{ defaultValues.NOT_ENTERED }}
               </span>
             </ng-template>
@@ -237,7 +260,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-list class="list-margin" *ngIf="!commonFunc.checkForMatchInArray(selectedTestType.testTypeName, testsWithoutSeatbelts)">
+  <ion-list class="list-margin" *ngIf="!doesNotHaveBelts">
     <ion-list-header text-uppercase padding-left>SEATBELT INSTALLATION CHECK</ion-list-header>
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
@@ -246,8 +269,8 @@
             <span text-left>Carried out during inspection</span>
           </ion-col>
           <ion-col col-9 text-end>
-            <span text-capitalize>
-              {{ commonFunc.convertBoolean(selectedTestType.seatbeltInstallationCheckDate) || defaultValues.NOT_ENTERED }}
+            <span>
+              {{ selectedTestType.seatbeltInstallationCheckDate | formatBoolean }}
             </span>
           </ion-col>
         </ion-row>
@@ -260,7 +283,7 @@
             <span text-left>Number of seatbelts</span>
           </ion-col>
           <ion-col col-9 text-end>
-            <span text-capitalize>
+            <span>
               {{ selectedTestType.numberOfSeatbeltsFitted || defaultValues.NOT_ENTERED }}
             </span>
           </ion-col>
@@ -274,8 +297,8 @@
             <span text-left>Previous seatbelt installation check</span>
           </ion-col>
           <ion-col col-9 text-end>
-            <span text-capitalize>
-              {{ commonFunc.convertDate(selectedTestType.lastSeatbeltInstallationCheckDate) || defaultValues.NOT_ENTERED }}
+            <span>
+              {{ (selectedTestType.lastSeatbeltInstallationCheckDate | date:'dd MMM yyyy') || defaultValues.NOT_ENTERED }}
             </span>
           </ion-col>
         </ion-row>
