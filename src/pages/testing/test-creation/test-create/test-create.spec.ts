@@ -5,7 +5,6 @@ import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
-import { PhoneService } from "../../../../providers/natives/phone.service";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ODOMETER_METRIC } from "../../../../app/app.enums";
@@ -20,6 +19,7 @@ import { StateReformingServiceMock } from "../../../../../test-config/services-m
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
 import { AppServiceMock } from "../../../../../test-config/services-mocks/app-service.mock";
 
@@ -33,8 +33,7 @@ describe('Component: TestCreatePage', () => {
   let appService: AppService;
   let testService: TestService;
   let stateReformingService: StateReformingService;
-
-  let phoneServiceSpy: any;
+  let callNumberSpy: any;
 
   const testReport: TestModel = {
     startTime: null,
@@ -48,7 +47,7 @@ describe('Component: TestCreatePage', () => {
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
 
   beforeEach(async(() => {
-    phoneServiceSpy = jasmine.createSpyObj('phoneService', ['callPhoneNumber']);
+    callNumberSpy = jasmine.createSpyObj('CallNumber', ['callPhoneNumber']);
 
     TestBed.configureTestingModule({
       declarations: [TestCreatePage],
@@ -57,7 +56,7 @@ describe('Component: TestCreatePage', () => {
         NavController,
         CommonFunctionsService,
         {provide: AppService, useClass: AppServiceMock},
-        {provide: PhoneService, useValue: phoneServiceSpy},
+        {provide: CallNumber, useValue: callNumberSpy},
         {provide: StateReformingService, useClass: StateReformingServiceMock},
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: VisitService, useClass: VisitServiceMock},
