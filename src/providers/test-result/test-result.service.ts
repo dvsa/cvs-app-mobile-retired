@@ -69,7 +69,7 @@ export class TestResultService {
           if (testType.reasons.length) {
             testType.reasonForAbandoning = this.concatenateReasonsArray(testType.reasons);
           }
-          // delete testType.reasons;
+          delete testType.reasons;
         }
         if (testType.certificateNumber) {
           testType.certificateNumber = testType.testResult === TEST_TYPE_RESULTS.PASS ? 'LP' + testType.certificateNumber : 'LF' + testType.certificateNumber;
