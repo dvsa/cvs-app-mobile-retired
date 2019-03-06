@@ -38,15 +38,15 @@
                   <p>Test date</p>
                 </ion-col>
                 <ion-col col-9 text-right>
-                  <p>{{ commonFunc.convertDate(testType.testTypeStartTimestamp) }}</p>
+                  <p>{{ testType.testTypeStartTimestamp | date:'dd MMM yyyy' }}</p>
                 </ion-col>
               </ion-row>
-              <ion-row padding-left *ngIf="!commonFunc.checkForMatch(testType.testResult, testTypeResults.ABANDONED) && testType.testExpiryDate">
+              <ion-row padding-left *ngIf="testType.testExpiryDate">
                 <ion-col col-3>
                   <p>Expiry date</p>
                 </ion-col>
                 <ion-col col-9 text-right>
-                  <p>{{ commonFunc.convertDate(testType.testExpiryDate) }}</p>
+                  <p>{{ testType.testExpiryDate | date:'dd MMM yyyy' }}</p>
                 </ion-col>
               </ion-row>
             </ion-grid>
