@@ -9,7 +9,6 @@ import {
   NavParams
 } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
-import { PhoneService } from '../../../../providers/natives/phone.service';
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
@@ -26,6 +25,7 @@ import {
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
+import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
 
 @IonicPage()
@@ -42,7 +42,7 @@ export class TestCreatePage implements OnInit {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public phoneService: PhoneService,
+              public callNumber: CallNumber,
               public alertCtrl: AlertController,
               public appService: AppService,
               public visitService: VisitService,

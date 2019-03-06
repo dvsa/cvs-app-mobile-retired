@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
-import { APP_STRINGS, PAGE_NAMES } from "../../../app/app.enums";
-import { PhoneService } from "../../../providers/natives/phone.service";
+import { APP_STRINGS,PAGE_NAMES } from "../../../app/app.enums";
 import { VisitService } from "../../../providers/visit/visit.service";
+import { CallNumber } from "@ionic-native/call-number";
+import { AppConfig } from "../../../../config/app.config";
 
 @IonicPage()
 @Component({
@@ -18,7 +19,7 @@ export class TestStationDetailsPage implements OnInit {
               public alertCtrl: AlertController,
               public navParams: NavParams,
               private viewCtrl: ViewController,
-              private phoneService: PhoneService,
+              private callNumber: CallNumber,
               private visitService: VisitService) {
     this.testStation = navParams.get('testStation');
   }
@@ -69,7 +70,7 @@ export class TestStationDetailsPage implements OnInit {
     confirm.present();
   }
 
-  callNumber(): void {
+  callPhoneNumber(): void {
     let confirm = this.alertCtrl.create({
       title: `${this.testStation.testStationContactNumber}`,
       buttons: [
@@ -79,7 +80,11 @@ export class TestStationDetailsPage implements OnInit {
         {
           text: APP_STRINGS.CALL,
           handler: () => {
-            this.phoneService.callPhoneNumber(this.testStation.testStationContactNumber);
+            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
+              data => console.log(data),
+              err => console.log(err)
+            );
+            return false;
           }
         }
       ]
