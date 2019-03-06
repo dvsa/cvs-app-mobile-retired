@@ -15,12 +15,14 @@ export class TestAbandoningPage implements OnInit {
   additionalComment: string;
   editMode: string;
   altAbandon: boolean;
+  fromTestReview: boolean;
 
   constructor(private navParams: NavParams, private alertCtrl: AlertController, private navCtrl: NavController, public visitService: VisitService, private testTypeService: TestTypeService) {
     this.vehicleTest = this.navParams.get('vehicleTest');
     this.selectedReasons = this.navParams.get('selectedReasons');
     this.editMode = this.navParams.get('editMode');
     this.altAbandon = this.navParams.get('altAbandon');
+    this.fromTestReview = this.navParams.get('fromTestReview');
   }
 
   ngOnInit() {
@@ -43,7 +45,11 @@ export class TestAbandoningPage implements OnInit {
           cssClass: 'danger-action-button',
           handler: () => {
             this.updateVehicleTestModel();
-            this.altAbandon ? this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 4)) : this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 3));
+            if (!this.fromTestReview) {
+              this.altAbandon ? this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 4)) : this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 3));
+            } else {
+              this.navCtrl.popToRoot();
+            }
           }
         }
       ]
