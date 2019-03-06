@@ -67,7 +67,7 @@ export class DefectDetailsPage implements OnInit {
         }
       }
     } else {
-      this.testTypeService.addDefect(this.vehicleTest, this.defect);
+      if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
       this.navCtrl.popToRoot();
     }
   }

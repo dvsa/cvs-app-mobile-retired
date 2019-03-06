@@ -15,7 +15,7 @@ import {
   DEFICIENCY_CATEGORY,
   REG_EX_PATTERNS,
   TEST_TYPE_FIELDS,
-  TEST_TYPE_INPUTS
+  TEST_TYPE_INPUTS, TEST_TYPE_RESULTS
 } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
@@ -73,6 +73,12 @@ export class CompleteTestPage implements OnInit {
         this.defectsCategories = defects;
       }
     );
+  }
+
+  ionViewDidEnter() {
+    if (this.fromTestReview && this.vehicleTest.testResult === TEST_TYPE_RESULTS.ABANDONED) {
+      this.viewCtrl.dismiss(this.vehicleTest);
+    }
   }
 
   updateTestType() {
@@ -229,7 +235,8 @@ export class CompleteTestPage implements OnInit {
       this.navCtrl.push('DefectDetailsPage', {
         vehicleTest: this.vehicleTest,
         deficiency: defect,
-        isEdit: true
+        isEdit: true,
+        fromTestReview: this.fromTestReview
       });
     } else {
       this.navCtrl.push('AdvisoryDetailsPage', {
@@ -296,7 +303,11 @@ export class CompleteTestPage implements OnInit {
   }
 
   abandonTestType(vehicleTest: TestTypeModel) {
-    this.navCtrl.push('ReasonsSelectionPage', {vehicleTest: vehicleTest, altAbandon: true});
+    this.navCtrl.push('ReasonsSelectionPage', {
+      vehicleTest: vehicleTest,
+      altAbandon: true,
+      fromTestReview: this.fromTestReview
+    });
   }
 
 }
