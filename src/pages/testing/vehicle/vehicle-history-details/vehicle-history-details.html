@@ -129,7 +129,7 @@
 
   <ion-list class="list-margin" *ngIf="!commonFunc.checkForMatchInArray(selectedTestType.testTypeName, testsWithoutDefects)">
     <ion-list-header text-uppercase padding-left>DEFECTS</ion-list-header>
-    <ng-container *ngIf="selectedTestType.defects; else noDefects">
+    <ng-container *ngIf="selectedTestType.defects.length > 0; else noDefects">
       <ion-item ion-item detail-none padding-left class="defect" *ngFor="let defect of selectedTestType.defects">
         <ion-grid no-padding>
           <ion-row justify-content-between>
@@ -201,20 +201,20 @@
           </ion-row>
         </ion-grid>
       </ion-item>
-      <ng-template #noDefects>
-        <ion-item ion-item detail-none padding-left class="defect">
-          <ion-grid no-padding>
-            <ion-row justify-content-between>
-              <ion-col col-12 text-start text-wrap>
-                <span text-capitalize>
-                  {{ defaultValues.NOT_ENTERED }}
-                </span>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </ng-template>
     </ng-container>
+    <ng-template #noDefects>
+      <ion-item ion-item detail-none padding-left>
+        <ion-grid no-padding>
+          <ion-row justify-content-between>
+            <ion-col col-12 text-start text-wrap>
+              <span text-capitalize>
+                {{ defaultValues.NOT_ENTERED }}
+              </span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ng-template>
   </ion-list>
 
   <ion-list class="list-margin">
