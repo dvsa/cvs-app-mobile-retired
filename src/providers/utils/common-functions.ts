@@ -1,4 +1,4 @@
-import { TEST_TYPE_RESULTS } from "../../app/app.enums";
+import { TEST_TYPE_RESULTS, ODOMETER_METRIC } from "../../app/app.enums";
 
 export class CommonFunctionsService {
 
@@ -118,7 +118,11 @@ export class CommonFunctionsService {
     return newObj;
   }
 
-  randomString(lenght: number): string {
-    return Math.random().toString(36).substr(2, lenght);
+  randomString(length: number): string {
+    return Math.random().toString(36).substr(2, length);
+  }
+
+  getDistanceType(distanceType: string): string {
+    return distanceType === ODOMETER_METRIC.MILES ? ODOMETER_METRIC.MI : ODOMETER_METRIC.KM;
   }
 }

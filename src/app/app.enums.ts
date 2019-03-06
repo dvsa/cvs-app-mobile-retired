@@ -152,7 +152,9 @@ export enum APP_STRINGS {
 
 export enum ODOMETER_METRIC {
   KILOMETRES = 'kilometres',
-  MILES = 'miles'
+  MILES = 'miles',
+  KM = 'km',
+  MI = 'mi'
 }
 
 export enum DATE_FORMAT {

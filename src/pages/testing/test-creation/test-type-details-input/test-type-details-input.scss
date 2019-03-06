@@ -16,4 +16,16 @@ page-test-type-details-input {
     color: color($colors, primary);
   }
 
+  ion-content p {
+    margin-top: 8px;
+  }
+
+  ion-item-divider {
+    height: 40px;
+
+    .label-ios {
+      margin-top: 11px;
+    }
+  }
+
 }

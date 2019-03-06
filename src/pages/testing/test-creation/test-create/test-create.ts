@@ -93,7 +93,7 @@ export class TestCreatePage implements OnInit {
 
   getOdometerStringToBeDisplayed(index: number) {
     if (this.doesOdometerDataExist(index)) {
-      let unit = this.testData.vehicles[index].odometerMetric === ODOMETER_METRIC.KILOMETRES ? 'km' : 'mi';
+      let unit = this.commonFunctions.getDistanceType(this.testData.vehicles[index].odometerMetric);
       return this.vehicleService.formatOdometerReadingValue(this.testData.vehicles[index].odometerReading) + ' ' + unit;
     } else {
       return 'Enter';

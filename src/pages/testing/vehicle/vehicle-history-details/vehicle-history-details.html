@@ -246,8 +246,8 @@
       <ion-grid no-padding>
         <ion-row justify-content-between>
           <ion-col col-3 text-start>
-            <span text-left text-capitalize *ngIf="selectedTestResult.odometerReading; else noOdometerReading">
-              {{ selectedTestResult.odometerReading }} {{ selectedTestResult.odometerReadingUnits }}
+            <span text-left *ngIf="selectedTestResult.odometerReading; else noOdometerReading">
+              {{ selectedTestResult.odometerReading | number }} {{ distanceType }}
             </span>
             <ng-template #noOdometerReading>
               <span text-left>
