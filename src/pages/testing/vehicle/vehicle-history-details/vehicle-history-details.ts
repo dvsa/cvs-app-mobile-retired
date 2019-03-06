@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { TEST_TYPE_RESULTS, DEFICIENCY_CATEGORY, DEFAULT_VALUES, APP_STRINGS } from '../../../../app/app.enums';
+import { 
+  TEST_TYPE_RESULTS, 
+  DEFICIENCY_CATEGORY, 
+  DEFAULT_VALUES, 
+  APP_STRINGS, 
+  ODOMETER_METRIC 
+} from '../../../../app/app.enums';
 import {
   TestsWithoutCertificate,
   TestsWithoutSeatbelts,
@@ -32,6 +38,7 @@ export class VehicleHistoryDetailsPage {
   isTestResultAbandon: boolean;
   isTestResultFail: boolean;
   testResultColor: string;
+  distanceType: string;
 
 
   constructor(public navCtrl: NavController,
@@ -65,6 +72,7 @@ export class VehicleHistoryDetailsPage {
     this.testsWithoutCertificate = TestsWithoutCertificate.TestsWithoutCertificate;
     this.testsWithoutSeatbelts = TestsWithoutSeatbelts.TestsWithoutSeatbelts;
     this.testsWithoutDefects = TestsWithoutDefects.TestsWithoutDefects;
+    this.distanceType = this.commonFunc.getDistanceType(this.testResultHistory[this.testIndex].odometerReadingUnits);
   }
 
   compareTestWithMetadata(){
