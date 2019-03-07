@@ -48,9 +48,16 @@ export class SignaturePadPage implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.visitService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
     this.dividerText = APP_STRINGS.SIGNATURE_DIVIDER;
     this.underSignText = APP_STRINGS.SIGNATURE_TEXT;
+  }
+
+  ionViewWillEnter() {
+    if (this.visitService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
+  }
+
+  ionViewWillLeave() {
+    if (this.visitService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
   }
 
   ngAfterViewInit() {
@@ -59,10 +66,6 @@ export class SignaturePadPage implements OnInit {
 
   drawComplete() {
     this.signatureService.signatureString = this.signaturePad.toDataURL('image/png');
-  }
-
-  drawStart() {
-    console.log('begin drawing');
   }
 
   clearSignature() {

@@ -8,7 +8,7 @@ import { SyncService } from "../providers/global/sync.service";
 import { StorageService } from "../providers/natives/storage.service";
 import { VisitService } from "../providers/visit/visit.service";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
-import { AUTH, LOCAL_STORAGE, STORAGE } from "./app.enums";
+import { AUTH, LOCAL_STORAGE, PAGE_NAMES, STORAGE } from "./app.enums";
 import { AppConfig } from "../../config/app.config";
 import { TesterDetailsModel } from "../models/tester-details.model";
 
@@ -77,7 +77,9 @@ export class MyApp {
               () => {
                 this.storageService.read(STORAGE.SIGNATURE_IMAGE).then(
                   (data) => {
-                    if (!data) this.navElem.push('SignaturePadPage', {navController: this.navElem});
+                    if (!data) {
+                      this.navElem.push(PAGE_NAMES.SIGNATURE_PAD_PAGE, {navController: this.navElem});
+                    }
                   });
                 this.syncService.startSync();
               }

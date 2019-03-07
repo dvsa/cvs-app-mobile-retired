@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import { StorageService } from "../../../providers/natives/storage.service";
 import { VisitService } from "../../../providers/visit/visit.service";
-import { LOCAL_STORAGE, STORAGE, APP_STRINGS } from "../../../app/app.enums";
-import { ScreenOrientation } from "@ionic-native/screen-orientation";
+import { LOCAL_STORAGE, STORAGE, APP_STRINGS, PAGE_NAMES } from "../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -14,13 +13,12 @@ export class TestStationHomePage implements OnInit {
   count: number = 0;
   appStrings: object = APP_STRINGS;
 
-  constructor(public navCtrl: NavController, public toastController: ToastController, private storageService: StorageService, private visitService: VisitService, private screenOrientation: ScreenOrientation) {
+  constructor(public navCtrl: NavController, public toastController: ToastController, private storageService: StorageService, private visitService: VisitService) {
   }
 
   ngOnInit() {
     this.visitService.easterEgg = localStorage.getItem(LOCAL_STORAGE.EASTER_EGG);
     this.visitService.caching = localStorage.getItem(LOCAL_STORAGE.CACHING);
-    if (this.visitService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
   }
 
   ionViewDidLeave() {
@@ -28,7 +26,7 @@ export class TestStationHomePage implements OnInit {
   }
 
   getStarted(): void {
-    this.navCtrl.push('TestStationSearchPage');
+    this.navCtrl.push(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
   }
 
   enableCache() {
@@ -40,12 +38,12 @@ export class TestStationHomePage implements OnInit {
         this.storageService.delete(STORAGE.STATE);
         this.storageService.delete(STORAGE.VISIT);
         this.count = 0;
-        this.presentToast('Storage was cleared and caching was disabled. Ride on');
+        this.presentToast(APP_STRINGS.CACHING_ENABLED_STORAGE_CLEARED);
       } else {
         localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
         this.visitService.caching = 'true';
         this.count = 0;
-        this.presentToast('Caching was enabled');
+        this.presentToast(APP_STRINGS.CACHING_ENABLED);
       }
     }
   }

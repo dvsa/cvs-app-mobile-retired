@@ -3,9 +3,8 @@ import { HTTPService } from "../global/http.service";
 import { Observable } from "rxjs";
 import { NavController } from "ionic-angular";
 import { VisitService } from "../visit/visit.service";
-import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { AuthService } from "../global/auth.service";
-import { STORAGE } from "../../app/app.enums";
+import { PAGE_NAMES, STORAGE } from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
 
 @Injectable()
@@ -14,7 +13,6 @@ export class SignatureService {
 
   constructor(private httpService: HTTPService,
               private visitService: VisitService,
-              private screenOrientation: ScreenOrientation,
               private authService: AuthService,
               private storageService: StorageService) {
   }
@@ -24,12 +22,8 @@ export class SignatureService {
   }
 
   goToRootPage(navCtrl: NavController): void {
-    navCtrl.setRoot('TestStationHomePage').then(() => {
-      navCtrl.pop().then(
-        () => {
-          if (this.visitService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
-        }
-      );
+    navCtrl.setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE).then(() => {
+      navCtrl.popToRoot()
     });
   }
 
