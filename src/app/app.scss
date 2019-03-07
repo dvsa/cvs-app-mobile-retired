@@ -25,13 +25,13 @@ body{
   }
 
   ion-navbar {
-    min-height: 80px;
+    min-height: 116px;
     height: inherit;
 
     ion-title {
       padding: 0;
       height: 44px;
-      margin: 35px 0 0 10px;
+      margin: 46px 0 0 10px;
 
       .toolbar-title-ios {
         text-align: left;
@@ -107,17 +107,22 @@ span[text-left] {
 .ios ion-nav > .ion-page > .toolbar.statusbar-padding:first-child,
 .ios ion-nav > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
 .ios > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.ios .modal-wrapper > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
 .ios ion-tab > .ion-page > .toolbar.statusbar-padding:first-child,
 .ios ion-tab > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
 .ios ion-tabs > .ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child,
 .ios ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child,
 .ios ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child {
-  padding-top: calc(20px + 4px);
+  padding-top: 24px;
   padding-left: calc(constant(safe-area-inset-left) + 4px);
   padding-right: calc(constant(safe-area-inset-right) + 4px);
-  padding-top: calc(constant(safe-area-inset-top) + 4px);
-  min-height: calc(80px + 20px);
-  min-height: calc(80px + constant(safe-area-inset-top));
+  min-height: 116px;
+
+  .title-ios {
+    margin-top: 46px;
+    padding-top: 20px;
+    min-height: 64px;
+  }
 }
 
 .ios ion-footer {
@@ -206,11 +211,11 @@ ion-item-group {
 }
 
 .searchbar-scroll--margin-small {
-  margin-top: 67px !important;
+  margin-top: 72px !important;
 }
 
 .searchbar-scroll--margin-big {
-  margin-top: 150px !important;
+  margin-top: 166px !important;
 }
 
 .searchbar-scroll--margin-bot {

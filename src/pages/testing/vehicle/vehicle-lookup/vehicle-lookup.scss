@@ -4,6 +4,10 @@ page-vehicle-lookup {
     border: 1px solid $color-grey-2;
     border-radius: 5px;
     padding-left: 8px;
+
+    ::placeholder {
+      text-transform: none;
+    }
   }
 
   .custom-button {
@@ -12,5 +16,9 @@ page-vehicle-lookup {
 
   .shadow {
     box-shadow: 0 2px 2px $color-grey-2;
+  }
+
+  .header-ios ion-navbar button {
+    font-weight: $font-weight-normal;
   }
 }
