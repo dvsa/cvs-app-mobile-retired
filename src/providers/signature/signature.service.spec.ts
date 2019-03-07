@@ -6,7 +6,6 @@ import { VisitService } from "../visit/visit.service";
 import { AuthService } from "../global/auth.service";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
 import { VisitServiceMock } from "../../../test-config/services-mocks/visit-service.mock";
-import { ScreenOrientation } from "@ionic-native/screen-orientation";
 
 
 describe('SignatureService', () => {
@@ -26,7 +25,6 @@ describe('SignatureService', () => {
       imports: [],
       providers: [
         SignatureService,
-        ScreenOrientation,
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: StorageService, useValue: storageServiceSpy},

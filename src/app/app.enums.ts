@@ -141,7 +141,9 @@ export enum APP_STRINGS {
   SIGN_TOAST_MSG = "Your Signature has been saved and will be used each time you need to sign a certificate",
   SIGN_NOT_ENTERED = 'Signature not entered',
   SIGN_ENTER = 'You must enter your signature before saving.',
-  SIGN_UNABLE_LOAD_DATA = 'Unable to load data'
+  SIGN_UNABLE_LOAD_DATA = 'Unable to load data',
+  CACHING_ENABLED_STORAGE_CLEARED = 'Storage was cleared and caching was disabled. Ride on',
+  CACHING_ENABLED = 'Caching was enabled'
 }
 
 export enum ODOMETER_METRIC {
@@ -245,6 +247,8 @@ export enum SIGNATURE_STATUS {
 
 
 export enum PAGE_NAMES {
+  TEST_STATION_SEARCH_PAGE = 'TestStationSearchPage',
+  TEST_STATION_HOME_PAGE = 'TestStationHomePage',
   CATEGORY_READING_PAGE = 'CategoryReadingPage',
   REGION_READING_PAGE = 'RegionReadingPage',
   ODOMETER_READING_PAGE = 'OdometerReadingPage',
