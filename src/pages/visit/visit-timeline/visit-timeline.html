@@ -52,7 +52,10 @@
 <ion-footer>
   <ion-toolbar class="gray-toolbar">
     <ion-buttons class="button-centered">
-      <button ion-button (click)="endVisit()" color="primary">
+      <button ion-button 
+              (click)="endVisit()" 
+              color="primary"
+              [ngClass]="{buttonOpacity: changeOpacity}">
         End visit
       </button>
     </ion-buttons>

@@ -39,6 +39,7 @@ export class TestCreatePage implements OnInit {
   testTypesFieldsMetadata;
   testCompletionStatus;
   completedFields = {};
+  changeOpacity: boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -222,6 +223,7 @@ export class TestCreatePage implements OnInit {
 
   reviewTest(): void {
     let noTestAdded: boolean;
+    this.changeOpacity = true;
     let finishedTest;
     let requiredFieldsCompleted = true;
     for (let vehicle of this.testData.vehicles) {
@@ -240,6 +242,7 @@ export class TestCreatePage implements OnInit {
         buttons: [APP_STRINGS.OK]
       });
       alert.present();
+      alert.onDidDismiss(() => this.changeOpacity = false);
     } else if (!noTestAdded) {
       let alert = this.alertCtrl.create({
         title: APP_STRINGS.NO_TESTS_ADDED,
@@ -247,6 +250,7 @@ export class TestCreatePage implements OnInit {
         buttons: [APP_STRINGS.OK]
       });
       alert.present();
+      alert.onDidDismiss(() => this.changeOpacity = false);
     } else {
       this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE, {visit: this.visitService.visit})
     }

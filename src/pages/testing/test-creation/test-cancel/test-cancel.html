@@ -3,7 +3,8 @@
         <ion-title>Cancel test</ion-title>
         <ion-buttons end>
             <button ion-button
-                    (click)="onSubmit()">
+                    (click)="onSubmit()"
+                    [ngClass]="{buttonOpacity: changeOpacity}">
                 Submit
             </button>
         </ion-buttons>

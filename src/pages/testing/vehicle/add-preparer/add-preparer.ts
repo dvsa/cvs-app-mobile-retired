@@ -22,6 +22,7 @@ export class AddPreparerPage implements OnInit {
   focusOut: boolean = false;
   vehicleData: VehicleModel;
   testData: TestModel;
+  activeIndex: number;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -79,6 +80,7 @@ export class AddPreparerPage implements OnInit {
       ]
     });
     alert.present();
+    alert.onDidDismiss(() => this.activeIndex = null);
   }
 
   searchList(ev): void {

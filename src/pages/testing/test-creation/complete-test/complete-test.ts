@@ -42,6 +42,7 @@ export class CompleteTestPage implements OnInit {
   isCertificateNumberFocused: boolean;
   today: string;
   patterns;
+  changeBackground: boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -274,6 +275,7 @@ export class CompleteTestPage implements OnInit {
   }
 
   onRemoveTestType(vehicle, vehicleTest) {
+    this.changeBackground = true;
     const confirm = this.alertCtrl.create({
       title: 'Remove test type',
       message: 'This action will remove this test type from the vehicle.',
@@ -290,6 +292,7 @@ export class CompleteTestPage implements OnInit {
       ]
     });
     confirm.present();
+    confirm.onDidDismiss(() => this.changeBackground = false);
   }
 
   removeDefect(defect) {
