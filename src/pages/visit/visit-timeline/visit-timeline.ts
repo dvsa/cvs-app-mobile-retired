@@ -22,6 +22,7 @@ export class VisitTimelinePage implements OnInit {
   loading = this.loadingCtrl.create({
     content: APP_STRINGS.END_VISIT_LOADING
   });
+  changeOpacity: boolean = false;
 
   constructor(public navCtrl: NavController,
               public stateReformingService: StateReformingService,
@@ -73,6 +74,7 @@ export class VisitTimelinePage implements OnInit {
   }
 
   showConfirm(): void {
+    this.changeOpacity = true;
     const CONFIRM = this.alertCtrl.create({
       title: APP_STRINGS.END_VISIT_TITLE,
       message: `${APP_STRINGS.END_VISIT_MSG}${this.visit.testStationName}.`,
@@ -100,5 +102,6 @@ export class VisitTimelinePage implements OnInit {
       ]
     });
     CONFIRM.present();
+    CONFIRM.onDidDismiss(() => this.changeOpacity = false);
   }
 }

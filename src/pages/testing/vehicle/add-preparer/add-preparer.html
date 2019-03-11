@@ -17,13 +17,20 @@
 
 <ion-content no-padding>
   <ion-list *ngIf="filteredPreparers.length > 0">
-    <button ion-item no-lines padding-left (click)="presentConfirm({preparerId: '', preparerName: 'Preparer ID not given'})" class="min-height" *ngIf="!focusOut">
+    <button ion-item 
+            no-lines 
+            padding-left 
+            [ngClass]="{buttonBackground: activeIndex === -1}"
+            (click)="activeIndex = -1; presentConfirm({preparerId: '', preparerName: 'Preparer ID not given'})" 
+            class="min-height" 
+            *ngIf="!focusOut">
       <span ion-text color="dark">No preparer ID given</span>
     </button>
     <ion-list-header text-uppercase padding-left *ngIf="!focusOut">List of preparers</ion-list-header>
     <button ion-item detail-none padding-left
-            *ngFor="let preparer of filteredPreparers"
-            (click)="presentConfirm(preparer)" class="min-height">
+            *ngFor="let preparer of filteredPreparers; let i = index"
+            [ngClass]="{buttonBackground: activeIndex === i}"
+            (click)="activeIndex = i; presentConfirm(preparer)" class="min-height">
       <ion-grid no-padding>
         <ion-row justify-content-between>
           <ion-col col-3 text-start><span text-left>{{ preparer.preparerId }}</span></ion-col>

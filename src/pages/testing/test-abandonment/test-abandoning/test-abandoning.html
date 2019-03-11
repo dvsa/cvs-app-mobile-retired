@@ -4,6 +4,7 @@
         <ion-title *ngIf="!editMode">Abandoned test</ion-title>
         <ion-buttons end>
             <button ion-button
+                    [ngClass]="{buttonOpacity: changeOpacity}"
                     (click)="onDone()"
                     *ngIf="editMode">
                 Done

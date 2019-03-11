@@ -12,7 +12,9 @@
             </ng-container>
         </ion-title>
         <ion-buttons end *ngIf="testData && !fromTestCreatePage">
-            <button ion-button (click)="goToPreparerPage()">
+            <button ion-button 
+                    (click)="goToPreparerPage()"
+                    [ngClass]="{buttonOpacity: changeOpacity}">
                 Confirm
             </button>
         </ion-buttons>
@@ -126,7 +128,7 @@
 
     <ion-list class="vehicle-list">
         <ion-list-header padding-left padding-right>VIEW MORE INFORMATION</ion-list-header>
-        <button ion-item margin-left (click)="goToVehicleTestResultsHistory()">
+        <button ion-item padding-left (click)="goToVehicleTestResultsHistory()">
             <ng-container>
                 <h3>
                     <span *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, 'trl');
@@ -140,16 +142,16 @@
                 </h3>
             </ng-container>
         </button>
-        <button ion-item margin-left (click)="showMoreDetails('VehicleBrakesPage')">
+        <button ion-item padding-left (click)="showMoreDetails('VehicleBrakesPage')">
             <h3>Brakes</h3>
         </button>
-        <button ion-item margin-left (click)="showMoreDetails('VehicleWeightsPage')">
+        <button ion-item padding-left (click)="showMoreDetails('VehicleWeightsPage')">
             <h3>Weights</h3>
         </button>
-        <button ion-item margin-left (click)="showMoreDetails('VehicleTyresPage')">
+        <button ion-item padding-left (click)="showMoreDetails('VehicleTyresPage')">
             <h3>Tyres</h3>
         </button>
-        <button ion-item margin-left (click)="showMoreDetails('VehicleAdditionalPage')">
+        <button ion-item padding-left (click)="showMoreDetails('VehicleAdditionalPage')">
             <h3>Additional vehicle details</h3>
         </button>
     </ion-list>

@@ -14,6 +14,8 @@ import { AppConfig } from "../../../../config/app.config";
 })
 export class TestStationDetailsPage implements OnInit {
   testStation: TestStationReferenceDataModel;
+  changeOpacity: boolean = false;
+  nextAlert: boolean = false;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
@@ -32,6 +34,7 @@ export class TestStationDetailsPage implements OnInit {
   }
 
   startVisit(): void {
+    this.changeOpacity = true;
     let confirm = this.alertCtrl.create({
       title: APP_STRINGS.TEST_STATION_SAFETY,
       subTitle: `Confirm that you are at ${this.testStation.testStationName} (${this.testStation.testStationPNumber}) and that it is suitable to begin testing before continuing.`,
@@ -54,12 +57,16 @@ export class TestStationDetailsPage implements OnInit {
           text: APP_STRINGS.REPORT_ISSUE,
           cssClass: 'danger-action-button',
           handler: () => {
+            this.nextAlert = true;
             let alert = this.alertCtrl.create({
               title: APP_STRINGS.REPORT_TITLE,
               subTitle: APP_STRINGS.SPEAK_TO_TTL,
               buttons: [APP_STRINGS.OK]
             });
             alert.present();
+            alert.onDidDismiss(() => {
+              this.nextAlert = this.changeOpacity = false;
+            })
           }
         },
         {
@@ -68,6 +75,11 @@ export class TestStationDetailsPage implements OnInit {
       ]
     });
     confirm.present();
+    confirm.onDidDismiss(() => {
+      if(!this.nextAlert) {
+        this.changeOpacity = false; 
+      }
+    });
   }
 
   callPhoneNumber(): void {

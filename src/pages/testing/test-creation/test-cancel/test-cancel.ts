@@ -16,7 +16,8 @@ import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 export class TestCancelPage {
   testData: TestModel;
   cancellationReason: string = '';
-
+  changeOpacity; nextAlert; tryAgain: boolean = false;
+ 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private testReportService: TestService,
@@ -29,6 +30,7 @@ export class TestCancelPage {
   }
 
   onSubmit() {
+    this.changeOpacity = true;
     let alert;
     if (this.isValidReason()) {
       alert = this.alertCtrl.create({
@@ -45,6 +47,7 @@ export class TestCancelPage {
               this.testData.status = TEST_REPORT_STATUSES.CANCELLED;
               this.testData.reasonForCancellation = this.cancellationReason;
               this.testReportService.endTestReport(this.testData);
+              this.nextAlert = true;
               this.submit(this.testData);
             }
           }
@@ -59,6 +62,7 @@ export class TestCancelPage {
       });
     }
     alert.present();
+    alert.onDidDismiss(() => this.changeOpacity = this.nextAlert);
   }
 
   submit(test) {
@@ -74,6 +78,7 @@ export class TestCancelPage {
       }, {
         text: APP_STRINGS.TRY_AGAIN_BTN,
         handler: () => {
+          this.tryAgain = true; 
           this.submit(this.testData);
         }
       }]
@@ -95,6 +100,14 @@ export class TestCancelPage {
         () => {
           LOADING.dismiss();
           TRY_AGAIN_ALERT.present();
+          TRY_AGAIN_ALERT.onDidDismiss(() => {
+            if(!this.tryAgain) {
+              this.nextAlert = this.changeOpacity = false; 
+            }
+            else {
+              this.tryAgain = false;
+            }
+          });
         }
       )
     }

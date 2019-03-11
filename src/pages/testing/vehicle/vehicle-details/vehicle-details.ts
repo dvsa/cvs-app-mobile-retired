@@ -16,6 +16,7 @@ export class VehicleDetailsPage {
   testData: TestModel;
   fromTestCreatePage: boolean;
   dateFormat: string = DATE_FORMAT.DD_MM_YYYY;
+  changeOpacity: boolean = false;
 
   constructor(public navCtrl: NavController,
               private navParams: NavParams,
@@ -33,6 +34,7 @@ export class VehicleDetailsPage {
   }
 
   goToPreparerPage(): void {
+    this.changeOpacity = true;
     let confirm = this.alertCtrl.create({
       title: APP_STRINGS.CONFIRM_VEHICLE,
       message: APP_STRINGS.CONFIRM_VEHICLE_MSG,
@@ -51,6 +53,7 @@ export class VehicleDetailsPage {
       ]
     });
     confirm.present();
+    confirm.onDidDismiss(() => this.changeOpacity = false);
   }
 
   showMoreDetails(pageName: string): void {

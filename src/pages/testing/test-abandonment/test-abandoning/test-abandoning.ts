@@ -16,6 +16,7 @@ export class TestAbandoningPage implements OnInit {
   editMode: string;
   altAbandon: boolean;
   fromTestReview: boolean;
+  changeOpacity: boolean = false;
 
   constructor(private navParams: NavParams, private alertCtrl: AlertController, private navCtrl: NavController, public visitService: VisitService, private testTypeService: TestTypeService) {
     this.vehicleTest = this.navParams.get('vehicleTest');
@@ -32,6 +33,7 @@ export class TestAbandoningPage implements OnInit {
   }
 
   onDone() {
+    this.changeOpacity = true;
     const alert = this.alertCtrl.create({
       title: 'Abandon test',
       message: 'You will not be able to make changes to this test after it has been abandoned.',
@@ -54,7 +56,7 @@ export class TestAbandoningPage implements OnInit {
         }
       ]
     });
-
+    alert.onDidDismiss(() => this.changeOpacity = false);
     alert.present();
   }
 

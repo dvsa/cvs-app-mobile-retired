@@ -307,12 +307,14 @@ ion-list.vehicle-list {
 
   button.item-ios {
     height: 60px;
-    width: calc(100% - 16px);
-    border-bottom: 0.5px solid $color-grey-2;
+  
+    .item-inner {
+      border-bottom: 0.5px solid $color-grey-2;
+      height: 60px;
+    }
 
     &:last-child {
       border-bottom: 0;
-      margin-bottom: 1px; /* Fixes overlapping issue with the list's border-bottom */
     }
 
     ion-label {
@@ -325,6 +327,14 @@ ion-list.vehicle-list {
 
 .danger-action-button {
   color: color($colors, danger) !important;
+}
+
+.buttonOpacity {
+  opacity: 0.4;
+}
+
+.buttonBackground {
+  background-color: #d9d9d9;
 }
 
 .submit-toast {

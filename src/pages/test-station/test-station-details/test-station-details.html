@@ -4,7 +4,9 @@
         ATF details
         </ion-title>
         <ion-buttons end>
-            <button ion-button (click)="startVisit()">
+            <button ion-button 
+                    [ngClass]="{buttonOpacity: changeOpacity}"
+                    (click)="startVisit()">
                 Start visit
             </button>
         </ion-buttons>
