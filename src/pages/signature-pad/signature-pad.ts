@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, Events, IonicPage, NavController, NavParams, PopoverController, ToastController } from 'ionic-angular';
+import { AlertController, Events, IonicPage, NavController, PopoverController } from 'ionic-angular';
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
-import { VisitService } from "../../providers/visit/visit.service";
 import { APP_STRINGS, LOCAL_STORAGE, SIGNATURE_STATUS } from "../../app/app.enums";
 import { SignaturePopoverComponent } from "../../components/signature-popover/signature-popover";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
@@ -27,14 +26,11 @@ export class SignaturePadPage implements OnInit {
   };
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               public popoverCtrl: PopoverController,
               public events: Events,
-              public toastCtrl: ToastController,
               public alertCtrl: AlertController,
               public appService: AppService,
               private screenOrientation: ScreenOrientation,
-              private visitService: VisitService,
               private openNativeSettings: OpenNativeSettings,
               private signatureService: SignatureService) {
     this.events.subscribe(SIGNATURE_STATUS.ERROR,

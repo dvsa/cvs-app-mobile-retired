@@ -77,7 +77,7 @@ describe(`AppService: `, () => {
     appService = new AppService(platform, toast, storageService, authService);
 
     expect(appService).toBeTruthy();
-  })
+  });
 
   it("should set AppServices's readonly flags", () => {
     appService = new AppService(platform, toast, storageService, authService);
@@ -141,6 +141,44 @@ describe(`AppService: `, () => {
 
     expect(localStorage.getItem(LOCAL_STORAGE.EASTER_EGG)).toBe('true');
     expect(localStorage.getItem(LOCAL_STORAGE.CACHING)).toBe('true');
-  })
+  });
 
+  it('testing enableCache method: easterEgg = true, caching = true', () => {
+    appService = new AppService(platform, toast, storageService, authService);
+    appService.count = 0;
+    appService.easterEgg = true;
+    appService.caching = true;
+    appService.enableCache();
+    expect(appService.count).toEqual(1);
+    expect(appService.caching).toBeTruthy();
+    appService.enableCache();
+    expect(appService.count).toEqual(2);
+    expect(appService.caching).toBeTruthy();
+    appService.enableCache();
+    expect(appService.count).toEqual(0);
+    expect(appService.caching).toBeFalsy();
+  });
+
+  it('testing enableCache method: easterEgg = true, caching = false', () => {
+    appService = new AppService(platform, toast, storageService, authService);
+    appService.count = 0;
+    appService.easterEgg = true;
+    appService.caching = false;
+    appService.enableCache();
+    expect(appService.count).toEqual(1);
+    expect(appService.caching).toBeFalsy();
+    appService.enableCache();
+    expect(appService.count).toEqual(2);
+    expect(appService.caching).toBeFalsy();
+    appService.enableCache();
+    expect(appService.count).toEqual(0);
+    expect(appService.caching).toBeTruthy();
+  });
+
+  it('should test setEasterEgg method with isProduction = true', () => {
+    appService = new AppService(platform, toast, storageService, authService);
+    appService.setEasterEgg();
+    expect(localStorage.setItem).toHaveBeenCalledWith(LOCAL_STORAGE.EASTER_EGG, 'true');
+    expect(localStorage.setItem).toHaveBeenCalledWith(LOCAL_STORAGE.CACHING, 'true');
+  });
 });

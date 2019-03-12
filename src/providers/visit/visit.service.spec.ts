@@ -21,7 +21,7 @@ describe('Provider: VisitService', () => {
   let httpService: HTTPService;
   let httpServiceSpy;
 
-  const TestStation: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
+  const TEST_STATION: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
   const TEST: TestModel = TestDataModelMock.TestData;
 
   beforeEach(() => {
@@ -54,30 +54,49 @@ describe('Provider: VisitService', () => {
   it('should start a new visit', () => {
     expect(Object.keys(visitService.visit).length).toBe(0);
     expect(visitService.visit.startTime).toBeFalsy();
-    visitService.visit = visitService.createVisit(TestStation);
+    visitService.visit = visitService.createVisit(TEST_STATION);
+    expect(visitService.visit.startTime).toBeTruthy();
+    visitService.updateVisit();
+    expect(storageService.update).toHaveBeenCalled();
+  });
+
+  it('should start a new visit, with id given', () => {
+    expect(Object.keys(visitService.visit).length).toBe(0);
+    expect(visitService.visit.startTime).toBeFalsy();
+    visitService.visit = visitService.createVisit(TEST_STATION, '32fe');
     expect(visitService.visit.startTime).toBeTruthy();
     visitService.updateVisit();
     expect(storageService.update).toHaveBeenCalled();
   });
 
   it('should end visit', () => {
-    expect(visitService.visit.endTime).toBeFalsy();
-    const stubValue = 'someId';
-    visitService.visit.endTime = httpServiceSpy.startVisit.and.returnValue(stubValue);
-    expect(visitService.visit.endTime).toBeTruthy();
-    storageServiceSpy.delete();
-    expect(storageService.delete).toHaveBeenCalled();
+    visitService.endVisit('f34f43');
+    expect(httpService.endVisit).toHaveBeenCalled();
+  });
+
+  it('should return the latest test', () => {
+    visitService.createVisit(TEST_STATION);
+    let aTest: TestModel = {
+      "startTime": null,
+      "endTime": '14 March',
+      "status": null,
+      "reasonForCancellation": '',
+      "vehicles": []
+    };
+    visitService.visit.tests.push(aTest);
+    let lateTest = visitService.getLatestTest();
+    expect(lateTest.endTime).toMatch('14 March');
   });
 
   it('should add test to visit.tests array', () => {
-    visitService.createVisit(TestStation);
+    visitService.createVisit(TEST_STATION);
     expect(visitService.visit.tests.length).toBe(0);
     visitService.addTest(TEST);
     expect(visitService.visit.tests.length).toBe(1);
   });
 
   it('should remove the added test from the visit.tests array', () => {
-    visitService.createVisit(TestStation);
+    visitService.createVisit(TEST_STATION);
     expect(visitService.visit.tests.length).toBe(0);
     visitService.addTest(TEST);
     expect(visitService.visit.tests.length).toBe(1);
@@ -87,7 +106,7 @@ describe('Provider: VisitService', () => {
 
   it('should retrieve the tests array', () => {
     let testsArr = [];
-    visitService.createVisit(TestStation);
+    visitService.createVisit(TEST_STATION);
     expect(testsArr.length).toBe(0);
     expect(visitService.visit.tests.length).toBe(0);
     visitService.addTest(TEST);
@@ -96,8 +115,19 @@ describe('Provider: VisitService', () => {
     expect(testsArr.length).toBe(1);
   });
 
+  it('should start a visit, call httpservice.startvisit', () => {
+    visitService.startVisit(TEST_STATION);
+    expect(httpService.startVisit).toHaveBeenCalled();
+  });
+
   it('should update the storage', () => {
     visitService.updateVisit();
     expect(storageService.update).toHaveBeenCalled();
-  })
+  });
+
+  it('should not update the storage', () => {
+    appService.caching = false;
+    visitService.updateVisit();
+    expect(storageService.update).not.toHaveBeenCalled();
+  });
 });

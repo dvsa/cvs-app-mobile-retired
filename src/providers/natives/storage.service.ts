@@ -13,9 +13,7 @@ export class StorageService {
   read(key: string): Promise<any> {
     return this.storage.get(key).then(
       (data: any) => data
-    ).catch(
-      (error) => console.error(`Storage service read error: ${error}`)
-    )
+    );
   }
 
   update(key, value): Promise<any> {
@@ -23,13 +21,9 @@ export class StorageService {
       (data: any) => {
         return this.storage.set(key, value).then(
           (data: any) => data
-        ).catch(
-          error => console.error(`Storage service update error, during storage.set: ${error}`)
-        )
+        );
       }
-    ).catch(
-      error => console.error(`Storage service update error, during storage.remove: ${error}`)
-    )
+    );
   }
 
 
@@ -38,9 +32,7 @@ export class StorageService {
       data => {
         return data
       }
-    ).catch(
-      error => console.error(`Storage service delete error: ${error}`)
-    )
+    );
   }
 
   clearStorage(): Promise<any> {
@@ -48,8 +40,6 @@ export class StorageService {
       (data) => {
         return data
       }
-    ).catch(
-      error => console.error(`Storage service clear error: ${error}`)
-    )
+    );
   }
 }

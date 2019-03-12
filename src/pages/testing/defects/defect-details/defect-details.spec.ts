@@ -7,8 +7,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";

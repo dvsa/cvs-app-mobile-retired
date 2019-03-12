@@ -56,4 +56,19 @@ describe('Provider: PreparerService', () => {
 
     expect(filteredData.length).toEqual(0);
   });
+
+  it('should return nothing by no array', () => {
+    filter = 'xxx';
+    let preparerArray;
+    let filteredData = preparerService.search(preparerArray, filter);
+
+    expect(filteredData.length).toEqual(0);
+  });
+
+  it('should return array as no filter entered', () => {
+    let filter;
+    let filteredData = preparerService.search(preparerData, filter);
+
+    expect(filteredData.length).toEqual(preparerData.length);
+  });
 });

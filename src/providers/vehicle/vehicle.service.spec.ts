@@ -4,18 +4,19 @@ import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { VisitService } from "../visit/visit.service";
 import { VisitServiceMock } from "../../../test-config/services-mocks/visit-service.mock";
-import { of } from "rxjs/observable/of";
 import { HTTPService } from "../global/http.service";
 import { VehicleService } from "./vehicle.service";
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
-import { ODOMETER_METRIC } from "../../app/app.enums";
+import { ODOMETER_METRIC, TEST_TYPE_RESULTS } from "../../app/app.enums";
 import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
+import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
 
 describe('Provider: VehicleService', () => {
   let vehicleService: VehicleService;
   let visitService: VisitService;
   let httpService: HTTPService;
   let httpServiceSpy: any;
+  let vehicle = VehicleDataMock.VehicleData;
 
   const VEHICLE_TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const TEST_TYPE: TestTypeModel = TestTypeDataModelMock.TestTypeData;
@@ -26,9 +27,7 @@ describe('Provider: VehicleService', () => {
 
 
   beforeEach(() => {
-    httpServiceSpy = jasmine.createSpyObj('HTTPService', [{
-      'getTechRecords': of(TechRecordDataMock.VehicleTechRecordData)
-    }]);
+    httpServiceSpy = jasmine.createSpyObj('HTTPService', ['getTechRecords', 'getTestResultsHistory']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -71,7 +70,7 @@ describe('Provider: VehicleService', () => {
     vehicleService.setOdometer(newVehicle, odomReading, odomMetric);
     expect(newVehicle.odometerReading).toBe(odomReading);
     expect(newVehicle.odometerMetric).toBe(odomMetric);
-  })
+  });
 
   it('should remove the added test-type from vehicle.testTypes array', () => {
     let newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
@@ -94,5 +93,39 @@ describe('Provider: VehicleService', () => {
   it('should format odometer reading value', () => {
     let number = '1000';
     expect(vehicleService.formatOdometerReadingValue(number)).toBe('1,000');
-  })
+  });
+
+  it('should check if httpService.getTechRecords was called', () => {
+    vehicleService.getVehicleTechRecord('BQ91YHQ');
+    expect(httpService.getTechRecords).toHaveBeenCalled();
+  });
+
+  it('should check if httpService.getTestResultsHistory was called', () => {
+    vehicleService.getTestResultsHistory('BQ91YHQ');
+    expect(httpService.getTestResultsHistory).toHaveBeenCalled();
+  });
+
+  it('should test hasOnlyOneTestTypeWithSic', () => {
+    for (let i = 0; i <= 3; i++) vehicle.testTypes.push(TEST_TYPE);
+    vehicle.testTypes.push({
+      name: 'annual test',
+      testTypeName: 'Annual test',
+      testTypeId: '1',
+      certificateNumber: null,
+      testTypeStartTimestamp: '2018-12-19T00:00:00.000Z',
+      testTypeEndTimestamp: null,
+      numberOfSeatbeltsFitted: null,
+      lastSeatbeltInstallationCheckDate: null,
+      seatbeltInstallationCheckDate: false,
+      prohibitionIssued: null,
+      additionalNotesRecorded: null,
+      testResult: TEST_TYPE_RESULTS.PASS,
+      reasonForAbandoning: null,
+      additionalCommentsForAbandon: null,
+      defects: [],
+      reasons: []
+    });
+    let onlyOne = vehicleService.hasOnlyOneTestTypeWithSic(vehicle);
+    expect(onlyOne).toBeTruthy();
+  });
 });

@@ -1,8 +1,8 @@
-import {async, ComponentFixture, inject, TestBed} from "@angular/core/testing";
-import {IonicModule, NavController} from "ionic-angular";
-import {TestStationSearchPage} from "./test-station-search";
-import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
-import {TestStationService} from "../../../providers/test-station/test-station.service";
+import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
+import { Events, IonicModule, NavController } from "ionic-angular";
+import { TestStationSearchPage } from "./test-station-search";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { TestStationService } from "../../../providers/test-station/test-station.service";
 
 describe('Component: TestStationSearchPage', () => {
   let comp: TestStationSearchPage;
@@ -52,4 +52,11 @@ describe('Component: TestStationSearchPage', () => {
     })
   );
 
+  it('should test keepCancelOn method', () => {
+    expect(comp.focusOut).toBeFalsy();
+    comp.keepCancelOn('ev');
+    expect(comp.focusOut).toBeTruthy();
+    comp.keepCancelOn('ev', true);
+    expect(comp.focusOut).toBeFalsy();
+  });
 });

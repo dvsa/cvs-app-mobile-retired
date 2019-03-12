@@ -44,7 +44,15 @@ describe('Provider: TestStationService', () => {
   });
 
   it('should return searched value as bold', () => {
-    expect(testStationService.boldSearchVal('test', 'es')).toBe('t<strong>es</strong>t')
+    expect(testStationService.boldSearchVal('test', 'es')).toBe('t<strong>es</strong>t');
+  });
+
+  it('should return str, find null', () => {
+    expect(testStationService.boldSearchVal('test', null)).toMatch('test');
+  });
+
+  it('should return string as find not fount in str', () => {
+    expect(testStationService.boldSearchVal('test', 'xxx')).toMatch('test');
   });
 
   it('should order the list', () => {
