@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { VehicleDetailsPage } from "./vehicle-details";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { TestService } from "../../../../providers/test/test.service";
+import { PipesModule } from "../../../../pipes/pipes.module";
 
 @NgModule({
   declarations: [
@@ -10,6 +11,7 @@ import { TestService } from "../../../../providers/test/test.service";
   ],
   imports: [
     IonicPageModule.forChild(VehicleDetailsPage),
+    PipesModule
   ],
   providers: [
     CommonFunctionsService,

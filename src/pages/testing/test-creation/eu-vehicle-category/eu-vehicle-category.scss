@@ -46,6 +46,10 @@ page-eu-vehicle-category {
       position: absolute;
       right: 16px;
       height: 100%;
+
+      &::before{
+        font-size: 34px;
+      }
     }
   }
 

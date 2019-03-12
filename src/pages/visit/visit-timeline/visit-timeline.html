@@ -18,9 +18,9 @@
       <div class="timeline-bar"></div>
       <img src="assets/timeline-pin-with-line.svg" item-start>
       <div class="timeline-item-content">
-        <p>{{ visit.startTime | date: 'shortTime' }}</p>
+        <p>{{ visit.startTime | date: 'HH:mm' }}</p>
         <h2>{{ visit.testStationName }}</h2>
-        <p>Started site visit</p>
+        <p class="timeline-message">Started site visit</p>
       </div>
     </button>
     <button ion-item *ngFor="let timelineItem of timeline" class="timeline-test">
@@ -29,10 +29,10 @@
       <div class="timeline-item-content">
         <p>{{ timelineItem.startTime | date: 'shortTime' }} - {{ timelineItem.endTime | date: 'shortTime' }}</p>
         <div *ngFor="let vehicle of timelineItem.vehicles">
-          <h2>Test ({{ vehicle.vrm }})</h2>
+          <h2>Test ({{ vehicle.vrm | formatVrm }})</h2>
           <span *ngFor="let vehicle of timelineItem.vehicles">
           <span *ngIf="timelineItem.status != TEST_REPORT_STATUS.CANCELLED">
-                    <p *ngFor="let vehicleTest of vehicle.testTypes">
+                    <p class="timeline-message" *ngFor="let vehicleTest of vehicle.testTypes">
                       <span>{{ vehicleTest.testTypeCategoryName }} •</span>
                       <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.PASS" class="pass" text-uppercase>{{ vehicleTest.testResult }}</span>
                       <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.FAIL" class="fail"

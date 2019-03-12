@@ -16,11 +16,11 @@ ion-app.ios page-visit-timeline {
         img {
           position: relative;
           top: 10px;
-          margin-left: 15.4px;
+          margin-left: 13px;
           margin-right: 0;
           z-index: 1;
-          width: 25.5px;
-          height: 27px;
+          width: 30px;
+          height: 32px;
         }
 
         .timeline-bar {
@@ -35,12 +35,16 @@ ion-app.ios page-visit-timeline {
           margin: 15px 0;
 
           h2 {
-            font-size: $font-size-medium;
-            font-weight: 500;
+            font-size: $font-size-medium-2;
+            font-weight: $font-weight-semi-bold; 
           }
 
           p {
             font-size: $font-size-normal;
+          }
+
+          .timeline-message {
+            font-size: $font-size-medium;
           }
 
           span {

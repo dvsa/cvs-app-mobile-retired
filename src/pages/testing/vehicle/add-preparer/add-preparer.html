@@ -39,14 +39,11 @@
       </ion-grid>
     </button>
   </ion-list>
-  <ion-grid *ngIf="focusOut && filteredPreparers.length == 0"
-            [ngClass]="filteredPreparers.length == 0 ? 'noResults' : ''">
-    <ion-row align-items-center>
-      <ion-col col-8 offset-2>
-        <span text-center class="no-results__title">No results found</span>
-        <span text-center class="no-results__text">You can search for a preparer by its ID number</span>
-        <span text-center class="no-results__link" (click)="presentConfirm({preparerId: '', preparerName: 'Preparer ID not found'})">Continue without preparer ID</span>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div *ngIf="focusOut && filteredPreparers.length == 0"
+       [ngClass]="filteredPreparers.length == 0 ? 'no-result' : ''">
+    <h3>No results found</h3>
+    <span>You can search for a preparer by its ID number</span>
+    <span class="no-result-link" (click)="presentConfirm({preparerId: '', preparerName: 'Preparer ID not found'})">Continue without preparer ID</span>
+  </div>
+     
 </ion-content>
