@@ -8,6 +8,10 @@ export class DefectsReferenceDataMock {
     return DefectsReferenceDataMock.DefectsData[0];
   }
 
+  public static get DefectDataDeficiencies() {
+    return DefectsReferenceDataMock.DefectsData[1].items[2].deficiencies;
+  }
+
   public static get DefectsData() {
     return [{
       "imDescription": "Registration Plate",

@@ -35,7 +35,7 @@ export class TestTypesListPage implements OnInit {
   }
 
   ngOnInit() {
-    if(this.testTypeReferenceData) this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(this.testTypeReferenceData, 'id', 'asc')
+    if(this.testTypeReferenceData) this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(this.testTypeReferenceData, 'id', 'asc');
     this.backBtn = this.navParams.get('backBtn');
     this.getTestTypeReferenceData();
     let previousView = this.navCtrl.getPrevious();

@@ -1,8 +1,10 @@
-import {TestBed} from '@angular/core/testing';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Data} from "@angular/router";
-import {HTTPService} from "./http.service";
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Data } from "@angular/router";
+import { HTTPService } from "./http.service";
+import { ActivityModel } from "../../models/visit/activity.model";
+import { ActivityDataModelMock } from "../../assets/data-mocks/data-model/activity-data-model.mock";
 
 describe(`Provider: HttpService`, () => {
   let httpClient: HttpClient;
@@ -44,8 +46,79 @@ describe(`Provider: HttpService`, () => {
     req.error(mockError);
   });
 
+  it('test getAtfs', () => {
+    let data;
+    expect(data).toBeUndefined();
+    data = httpService.getAtfs();
+    expect(data).toBeTruthy();
+  });
+
+  it('test getDefects', () => {
+    let data;
+    expect(data).toBeUndefined();
+    data = httpService.getDefects();
+    expect(data).toBeTruthy();
+  });
+
+  it('test getTestTypes', () => {
+    let data;
+    expect(data).toBeUndefined();
+    data = httpService.getTestTypes();
+    expect(data).toBeTruthy();
+  });
+
+  it('test getPreparers', () => {
+    let data;
+    expect(data).toBeUndefined();
+    data = httpService.getPreparers();
+    expect(data).toBeTruthy();
+  });
+
+  it('test getTechRecords', () => {
+    let data;
+    expect(data).toBeUndefined();
+    data = httpService.getTechRecords('bq91yhq');
+    expect(data).toBeTruthy();
+  });
+
+  it('test getTestResultsHistory', () => {
+    let data;
+    expect(data).toBeUndefined();
+    data = httpService.getTestResultsHistory('23423443');
+    expect(data).toBeTruthy();
+  });
+
+  it('test postTestResult', () => {
+    let data;
+    expect(data).toBeUndefined();
+    data = httpService.postTestResult('23423443');
+    expect(data).toBeTruthy();
+  });
+
+  it('test startVisit', () => {
+    let data;
+    let activities: ActivityModel = ActivityDataModelMock.ActivityData;
+    expect(data).toBeUndefined();
+    data = httpService.startVisit(activities);
+    expect(data).toBeTruthy();
+  });
+
+  it('test endVisit', () => {
+    let data;
+    expect(data).toBeUndefined();
+    data = httpService.endVisit('23423443');
+    expect(data).toBeTruthy();
+  });
+
+  it('test saveSignature', () => {
+    let data;
+    expect(data).toBeUndefined();
+    data = httpService.saveSignature('23423443', 'a big string');
+    expect(data).toBeTruthy();
+  });
+
   afterEach(() => {
     httpMock.verify();
-  })
+  });
 
 });

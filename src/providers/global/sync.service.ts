@@ -69,7 +69,7 @@ export class SyncService {
       )
   }
 
-  private handleData(array: any[]): void {
+  handleData(array: any[]): void {
     array.forEach(
       (elem, index) => {
         if (elem) {
@@ -91,7 +91,7 @@ export class SyncService {
     }
   }
 
-  private handleError(): Observable<any> {
+  handleError(): Observable<any> {
     let alert = this.alertCtrl.create({
         title: 'Unable to load data',
         enableBackdropDismiss: false,

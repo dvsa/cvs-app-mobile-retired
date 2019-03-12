@@ -3,17 +3,18 @@ import { TestResultService } from "./test-result.service";
 import { VisitDataMock } from "../../assets/data-mocks/visit-data.mock";
 import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
 import { HTTPService } from "../global/http.service";
-import { of } from "rxjs/observable/of";
-import { TechRecordDataMock } from "../../assets/data-mocks/tech-record-data.mock";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeService } from "../test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../test-config/services-mocks/test-type-service.mock";
 import { AuthService } from "../global/auth.service";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
+import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
+import { DefectDetailsDataMock } from "../../assets/data-mocks/defect-details-data.mock";
 
 describe('Provider: TestResultService', () => {
   let testResultService: TestResultService;
   let authService: AuthService;
+  let httpService: HTTPService;
   let httpServiceSpy: any;
 
   const VISIT = VisitDataMock.VisitData;
@@ -41,12 +42,12 @@ describe('Provider: TestResultService', () => {
 
     authService = TestBed.get(AuthService);
     testResultService = TestBed.get(TestResultService);
-    httpServiceSpy = TestBed.get(HTTPService);
+    httpService = TestBed.get(HTTPService);
   });
 
   afterEach(() => {
     testResultService = null;
-    httpServiceSpy = null;
+    httpService = null;
     authService = null;
   });
 
@@ -64,4 +65,50 @@ describe('Provider: TestResultService', () => {
     expect(resultedString.length).toBeGreaterThan(1);
   });
 
+  it('should concatenate the reasons array into one string', function () {
+    let resultedString = '';
+    let reasons: string[] = [];
+    expect(resultedString.length).toEqual(0);
+    resultedString = testResultService.concatenateReasonsArray(reasons);
+    expect(resultedString.length).toBeGreaterThan(1);
+  });
+
+  it('should submit a test result(no testTypes) calling httpService.postTestResult', () => {
+    let testResult = testResultService.createTestResult(VISIT, TEST, VEHICLE);
+    testResultService.submitTestResult(testResult);
+    expect(httpService.postTestResult).toHaveBeenCalled();
+  });
+
+  it('should submit a test result(with testTypes) calling httpService.postTestResult', () => {
+    let testResult = testResultService.createTestResult(VISIT, TEST, VEHICLE);
+    testResult.testTypes.push(TestTypeDataModelMock.TestTypeData);
+    testResultService.submitTestResult(testResult);
+    expect(httpService.postTestResult).toHaveBeenCalled();
+  });
+
+  it('should submit a test result(with testTypes + reasons.length > 1; certificateNumber) calling httpService.postTestResult', () => {
+    let testResult = testResultService.createTestResult(VISIT, TEST, VEHICLE);
+    testResult.testTypes.push(TestTypeDataModelMock.TestTypeData);
+    testResult.testTypes[0].reasons = REASONS;
+    testResult.testTypes[0].certificateNumber = 'g34g3g34g3';
+    testResultService.submitTestResult(testResult);
+    expect(httpService.postTestResult).toHaveBeenCalled();
+  });
+
+  it('should submit a test result(with testTypes + no reasons + numberOfSeatbeltsFitted + defects added with/no metadata) calling httpService.postTestResult', () => {
+    let testResult = testResultService.createTestResult(VISIT, TEST, VEHICLE);
+    testResult.testTypes.push(TestTypeDataModelMock.TestTypeData);
+    delete testResult.testTypes[0].reasons;
+    testResult.testTypes[0].certificateNumber = 'g34g3g34g3';
+    testResult.testTypes[0].testResult = 'g34g3g34g3';
+    testResult.testTypes[0].numberOfSeatbeltsFitted = 2;
+    let defect1 = DefectDetailsDataMock.DefectData;
+    let defect2 = DefectDetailsDataMock.DefectData;
+    delete defect2.metadata;
+    testResult.testTypes[0].defects.push(defect1);
+    testResult.testTypes[0].defects.push(defect2);
+
+    testResultService.submitTestResult(testResult);
+    expect(httpService.postTestResult).toHaveBeenCalled();
+  });
 });

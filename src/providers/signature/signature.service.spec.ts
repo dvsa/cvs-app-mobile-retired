@@ -4,10 +4,10 @@ import { StorageService } from "../natives/storage.service";
 import { HTTPService } from "../global/http.service";
 import { AuthService } from "../global/auth.service";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
-import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { AppService } from "../global/app.service";
 import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
-import { App, Events, ToastController } from "ionic-angular";
+import { Events, ToastController } from "ionic-angular";
+import { APP_STRINGS, SIGNATURE_STATUS } from "../../app/app.enums";
 import { ToastControllerMock } from "ionic-mocks";
 
 
@@ -19,17 +19,21 @@ describe('SignatureService', () => {
   let httpServiceSpy;
   let appService: AppService;
   let authService: AuthService;
+  let eventsSpy: any;
+  let events: Events;
+  let toastCtrl: ToastController;
+
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['create']);
     httpServiceSpy = jasmine.createSpyObj('HTTPService', ['saveSignature']);
+    eventsSpy = jasmine.createSpyObj('Events', ['unsubscribe']);
 
     TestBed.configureTestingModule({
       imports: [],
       providers: [
         SignatureService,
-        ScreenOrientation,
-        Events,
+        {provide: Events, useValue: eventsSpy},
         {provide: ToastController, useFactory: () => ToastControllerMock.instance()},
         {provide: AppService, useClass: AppServiceMock},
         {provide: AuthService, useClass: AuthServiceMock},
@@ -42,6 +46,8 @@ describe('SignatureService', () => {
     httpService = TestBed.get(HTTPService);
     appService = TestBed.get(AppService);
     authService = TestBed.get(AuthService);
+    events = TestBed.get(Events);
+    toastCtrl = TestBed.get(ToastController);
   });
 
 
@@ -53,8 +59,24 @@ describe('SignatureService', () => {
     authService = null;
   });
 
+  it('should check if saveSignature haveBeenCalled', () => {
+    signatureService.signatureString = 'ojghhghasghwogjwrgohjrgohergoueqhgpieqhgeqpughouh234rh34oruh43pu3h45u4h5pio34h53uh53p4o5h34potuh3outh3poituh3tpu3htpiou3htp';
+    signatureService.saveSignature();
+    expect(httpService.saveSignature).toHaveBeenCalled();
+  });
+
+
   it('should save signature in storage', () => {
     signatureService.saveToStorage();
     expect(storageService.create).toHaveBeenCalled();
+  });
+
+  it('should test if events.unsubscribe haveBeenCalled', () => {
+    let toast = toastCtrl.create();
+    expect(toastCtrl.create).toHaveBeenCalled();
+    signatureService.presentSuccessToast();
+    expect(events.unsubscribe).toHaveBeenCalledWith(SIGNATURE_STATUS.SAVED);
+    expect(events.unsubscribe).toHaveBeenCalledWith(SIGNATURE_STATUS.ERROR);
+    expect(toast.present).toHaveBeenCalled();
   });
 });

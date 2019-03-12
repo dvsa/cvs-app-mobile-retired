@@ -106,7 +106,7 @@ export class AuthService {
     return details
   }
 
-  private decodeJWT(token) {
+  decodeJWT(token) {
     return jwt_decode(token);
   }
 }

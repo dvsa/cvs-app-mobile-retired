@@ -50,7 +50,7 @@ export class TestStationSearchPage implements OnInit {
     this.filteredTestStations = this.testStationService.sortAndSearchTestStation(this.testStations, this.searchVal, ['testStationName', 'testStationPNumber', 'testStationAddress'])
   }
 
-  private clearSearch(): void {
+  clearSearch(): void {
     this.events.publish(APP.NAV_OUT);
     this.searchVal = '';
     this.filteredTestStations = this.testStationService.sortAndSearchTestStation(this.testStations, this.searchVal, ['testStationName']);

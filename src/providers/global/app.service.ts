@@ -15,7 +15,7 @@ export class AppService {
   public isJwtTokenStored: boolean;
   public easterEgg: boolean;
   public caching: boolean;
-  private count: number = 0;
+  count: number = 0;
 
   constructor(private platform: Platform,
               private toastController: ToastController,
@@ -108,6 +108,4 @@ export class AppService {
     });
     TOAST.present();
   }
-
-
 }

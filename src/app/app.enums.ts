@@ -82,6 +82,14 @@ export enum TEST_TYPE_INPUTS {
   CERTIFICATE_NUMBER = 'certificateNumber'
 }
 
+export enum APP_COLORS {
+  ATTENTION = 'attention',
+  DANGER = 'danger',
+  DARK = 'dark',
+  LIGHT = 'light',
+  TERTIARY = 'tertiary'
+}
+
 export enum APP_STRINGS {
   VEHICLE_DETAILS = 'Vehicle details',
   WITHOUT_PREPARER = 'Continue without preparerID',

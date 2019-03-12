@@ -8,7 +8,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Camera } from '@ionic-native/camera';
 import { CallNumber } from '@ionic-native/call-number';
 import { MyApp } from './app.component';
-import { CameraService } from '../providers/natives/camera.service';
 import { HTTPService } from '../providers/global/http.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { IonicStorageModule } from "@ionic/storage";
@@ -43,7 +42,6 @@ const CUSTOM_PROVIDERS = [
   HTTPService,
   StorageService,
   AuthService,
-  CameraService,
   PreparerService,
   VisitService,
   StateReformingService,

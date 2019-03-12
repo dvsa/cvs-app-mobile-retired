@@ -10,11 +10,8 @@ export class CommonFunctionsService {
     return inputValue.toLowerCase() === expectedValue.toLowerCase();
   }
 
-  public checkForMatchInArray(inputValue: string, expectedArray: any): boolean {
-    let checkArray = expectedArray.map(function (x) {
-      return x.toLowerCase()
-    });
-    return checkArray.includes(inputValue.toLowerCase());
+  public checkForMatchInArray(inputValue: string, expectedArray: any[]): boolean {
+    return expectedArray.indexOf(inputValue.toLowerCase()) != -1;
   }
 
   public searchFor(array: any[], filter: string, properties: string[]) {

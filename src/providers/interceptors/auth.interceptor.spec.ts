@@ -19,7 +19,7 @@ describe(`AuthHttpInterceptor`, () => {
   beforeEach(() => {
     authServiceSpy = jasmine.createSpyObj('AuthService', {
       'getJWTToken': of(JWT_TOKEN)
-    })
+    });
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

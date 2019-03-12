@@ -1,22 +1,26 @@
 import { Injectable } from "@angular/core";
 import { HTTPService } from "../global/http.service";
 import { Observable } from "rxjs";
-import { Events, NavController, ToastController } from "ionic-angular";
-import { ScreenOrientation } from "@ionic-native/screen-orientation";
+import { Events, ToastController } from "ionic-angular";
 import { AuthService } from "../global/auth.service";
 import { AppService } from "../global/app.service";
 import { StorageService } from "../natives/storage.service";
-import { PAGE_NAMES, APP_STRINGS, SIGNATURE_STATUS, STORAGE } from "../../app/app.enums";
+import { APP_STRINGS, SIGNATURE_STATUS, STORAGE } from "../../app/app.enums";
 
 @Injectable()
 export class SignatureService {
   signatureString: string;
+  toast = this.toastCtrl.create({
+    message: APP_STRINGS.SIGN_TOAST_MSG,
+    duration: 4000,
+    position: 'top',
+    cssClass: 'sign-toast-css'
+  });
 
   constructor(private httpService: HTTPService,
               private appService: AppService,
               private events: Events,
               private toastCtrl: ToastController,
-              private screenOrientation: ScreenOrientation,
               private storageService: StorageService,
               private authService: AuthService) {
   }
@@ -32,13 +36,6 @@ export class SignatureService {
   presentSuccessToast(): void {
     this.events.unsubscribe(SIGNATURE_STATUS.SAVED);
     this.events.unsubscribe(SIGNATURE_STATUS.ERROR);
-    const TOAST = this.toastCtrl.create({
-      message: APP_STRINGS.SIGN_TOAST_MSG,
-      duration: 4000,
-      position: 'top',
-      cssClass: 'sign-toast-css'
-    });
-    TOAST.present();
+    this.toast.present();
   }
-
 }

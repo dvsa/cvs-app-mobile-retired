@@ -32,6 +32,10 @@ export class TestTypeServiceMock {
     testType.defects.push(defect);
   }
 
+  endTestType(testType: TestTypeModel) {
+    testType.testTypeEndTimestamp = new Date().toISOString();
+  }
+
   removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     let defIdx = testType.defects.map((e) => {
       return e.deficiencyRef
