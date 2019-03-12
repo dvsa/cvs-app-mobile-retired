@@ -66,6 +66,10 @@ page-test-create {
         [item-end].test-type-status {
           margin: 0;
           color: $color-grey-1;
+
+          &.text-ios-danger{
+            color: color($colors, danger);
+          }
         }
 
         [item-end].odometer-reading-status {

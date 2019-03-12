@@ -208,6 +208,26 @@ ion-item-group {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+  text-align: center;
+
+  h3 {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-semi-bold;
+    color: $color-grey-1;
+    margin: 4px;
+  }
+
+  span {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-normal;
+    color: $color-grey-1;
+  }
+
+  .no-result-link{
+    font-size: $font-size-medium;
+    text-decoration: underline;
+    color: color($colors, primary);
+  }
 }
 
 .searchbar-scroll--margin-small {

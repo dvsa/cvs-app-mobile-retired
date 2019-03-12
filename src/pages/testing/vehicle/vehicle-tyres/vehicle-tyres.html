@@ -10,7 +10,7 @@
     <div text-uppercase 
          text-center 
          class="vehicle-header-vrm-number">
-        {{ vehicleData.vrm }}
+        {{ vehicleData.vrm | formatVrm }}
    </div>
        
     <ion-list class="vehicle-list" *ngFor="let axle of vehicleData.techRecord.axles">
