@@ -40,6 +40,7 @@
         </ion-row>
       </ion-grid>
     </ion-item-group>
+<div *ngIf="defectMetadata">
 
     <ion-item-group *ngIf="isLocation">
       <ion-item-divider text-uppercase>
@@ -112,6 +113,7 @@
         <ion-textarea placeholder="Add notes" [(ngModel)]="defect.additionalInformation.notes" maxlength="200" class="textarea-height"></ion-textarea>
       </ion-item>
     </ion-item-group>
+</div>
 
     <ion-item-group>
       <ion-item-divider text-uppercase>

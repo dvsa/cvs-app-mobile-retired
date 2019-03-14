@@ -42,7 +42,7 @@ export class DefectDetailsPage implements OnInit {
     this.tempDefectLocation = Object.assign({}, this.defect.additionalInformation.location);
     this.tempDefectNotes = this.defect.additionalInformation.notes;
     this.defectMetadata = this.defect.metadata.category.additionalInfo;
-    this.isLocation = this.checkForLocation(this.defectMetadata.location);
+    this.isLocation = this.defectMetadata && this.defectMetadata.location ? this.checkForLocation(this.defectMetadata.location) : false;
   }
 
   ionViewWillEnter() {
