@@ -41,7 +41,7 @@ export class DefectsService {
   createDefect(defCat: DefectCategoryReferenceDataModel, defItem: DefectItemReferenceDataModel, deficiency: DefectDeficiencyReferenceDataModel, vehicleType: string, isAdvisory: boolean): DefectDetailsModel {
     let metadata: DefectsMetadataModel = {
       category: {
-        additionalInfo: (!isAdvisory) ? defCat.additionalInfo[vehicleType.toLowerCase()] : null
+        additionalInfo: (!isAdvisory) ? defCat.additionalInfo ? defCat.additionalInfo[vehicleType.toLowerCase()] : null : null
       }
     };
 
