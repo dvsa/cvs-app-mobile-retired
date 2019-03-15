@@ -162,7 +162,7 @@
               {{ defect.deficiencyText }}
             </ion-col>
           </ion-row>
-          <ion-row>
+          <ion-row *ngIf="defect.additionalInformation.location">
             <ion-col col-12 text-start text-wrap class="additional-info">
               <span *ngIf="defect.additionalInformation.location.vertical" text-capitalize>
                 <span class="forward-slash">/</span>
