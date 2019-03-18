@@ -103,6 +103,8 @@ export enum APP_STRINGS {
   NO_SEATBELTS_ENTERED_SUBTITLE = 'The number of seatbelts fitted must be greater than zero (0) to carry out an installation check.',
   COMPLETE_ALL_TESTS = 'You must complete all test types marked "in progress" before reviewing.',
   TEST_NOT_COMPLETE = 'Test not complete',
+  NO_TESTS_ADDED = 'No test type',
+  PLEASE_ADD_TEST = 'Add a test type before reviewing.',
   REMOVE = 'Remove',
   REMOVE_TEST_TITLE = 'Remove test',
   REMOVE_TEST_MSG = 'This action will remove this test from the vehicle.',
