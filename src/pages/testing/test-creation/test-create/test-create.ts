@@ -219,6 +219,7 @@ export class TestCreatePage implements OnInit {
   }
 
   reviewTest(): void {
+    let noTestAdded: boolean;
     let finishedTest;
     let requiredFieldsCompleted = true;
     for (let vehicle of this.testData.vehicles) {
@@ -228,11 +229,19 @@ export class TestCreatePage implements OnInit {
       finishedTest = vehicle.testTypes.every((test: TestTypeModel) => {
         return test.completionStatus != TEST_COMPLETION_STATUS.IN_PROGRESS || test.testResult === TEST_TYPE_RESULTS.ABANDONED;
       });
+      noTestAdded = vehicle.testTypes.length > 0;
     }
     if (!finishedTest || !requiredFieldsCompleted) {
       let alert = this.alertCtrl.create({
         title: APP_STRINGS.TEST_NOT_COMPLETE,
         subTitle: APP_STRINGS.COMPLETE_ALL_TESTS,
+        buttons: [APP_STRINGS.OK]
+      });
+      alert.present();
+    } else if (!noTestAdded) {
+      let alert = this.alertCtrl.create({
+        title: APP_STRINGS.NO_TESTS_ADDED,
+        subTitle: APP_STRINGS.PLEASE_ADD_TEST,
         buttons: [APP_STRINGS.OK]
       });
       alert.present();
