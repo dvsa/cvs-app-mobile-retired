@@ -36,7 +36,6 @@ export class VisitDataMock {
             {
               "vrm": "BQ91YHQ",
               "vin": "1B7GG36N12S678410",
-              "vehicleId": null,
               "techRecord": {
                 "bodyType": "single Decker",
                 "grossKerbWeight": 13315,
@@ -46,7 +45,7 @@ export class VisitDataMock {
                 "seatsUpperDeck": 0,
                 "standingCapacity": 0,
                 "brakes": {
-                  "parkingBrakeMrk": null,
+                  "brakeCodeOriginal": '123',
                   "brakeCode": "171202",
                   "retarderBrakeOne": "exhaust",
                   "brakeForceWheelsNotLocked": {
@@ -71,6 +70,7 @@ export class VisitDataMock {
                 "axles": [
                   {
                     "axleNumber": 1,
+                    "parkingBrakeMrk": null,
                     "weights": {
                       "kerbWeight": 5018,
                       "gbWeight": 7100,

@@ -4,7 +4,7 @@ import { TestTypeService } from '../../../../providers/test-type/test-type.servi
 import { TestTypesReferenceDataModel } from "../../../../models/reference-data-models/test-types.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { APP_STRINGS } from "../../../../app/app.enums";
+import { APP_STRINGS, PAGE_NAMES } from "../../../../app/app.enums";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 
 @IonicPage()
@@ -39,7 +39,7 @@ export class TestTypesListPage implements OnInit {
     this.backBtn = this.navParams.get('backBtn');
     this.getTestTypeReferenceData();
     let previousView = this.navCtrl.getPrevious();
-    this.firstPage = previousView.id != 'TestTypesListPage';
+    this.firstPage = previousView.id != PAGE_NAMES.TEST_TYPES_LIST_PAGE;
   }
 
   ionViewWillEnter() {

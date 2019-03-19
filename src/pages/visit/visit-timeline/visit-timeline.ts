@@ -7,6 +7,7 @@ import { VisitModel } from "../../../models/visit/visit.model";
 import { StateReformingService } from "../../../providers/global/state-reforming.service";
 import { APP, APP_STRINGS, STORAGE, TEST_REPORT_STATUSES, TEST_TYPE_RESULTS } from "../../../app/app.enums";
 import { StorageService } from "../../../providers/natives/storage.service";
+import { AppService } from "../../../providers/global/app.service";
 
 @IonicPage()
 @Component({
@@ -23,14 +24,15 @@ export class VisitTimelinePage implements OnInit {
   });
 
   constructor(public navCtrl: NavController,
+              public stateReformingService: StateReformingService,
+              public loadingCtrl: LoadingController,
+              public events: Events,
+              public appService: AppService,
               private navParams: NavParams,
               private testReportService: TestService,
               private visitService: VisitService,
-              public stateReformingService: StateReformingService,
               private alertCtrl: AlertController,
-              public loadingCtrl: LoadingController,
               private storageService: StorageService,
-              public events: Events,
               private toastCtrl: ToastController) {
     this.timeline = [];
   }

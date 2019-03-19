@@ -1,5 +1,5 @@
 import { Component, Renderer2, ViewChild } from '@angular/core';
-import { Platform, AlertController, Nav } from 'ionic-angular';
+import { Platform, AlertController, Nav, Events, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from "../providers/global/auth.service";
@@ -8,32 +8,38 @@ import { SyncService } from "../providers/global/sync.service";
 import { StorageService } from "../providers/natives/storage.service";
 import { VisitService } from "../providers/visit/visit.service";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
-import { AUTH, LOCAL_STORAGE, PAGE_NAMES, STORAGE } from "./app.enums";
-import { AppConfig } from "../../config/app.config";
+import { LOCAL_STORAGE, PAGE_NAMES, SIGNATURE_STATUS, STORAGE } from "./app.enums";
 import { TesterDetailsModel } from "../models/tester-details.model";
+import { AppService } from "../providers/global/app.service";
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) navElem: Nav;
-  rootPage: any = 'TestStationHomePage';
-  isProduction: boolean;
+  rootPage: any = PAGE_NAMES.TEST_STATION_HOME_PAGE;
 
-  constructor(public platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen, private alertCtrl: AlertController, private syncService: SyncService, private authService: AuthService, private mobileAccessibility: MobileAccessibility, private renderer: Renderer2, public storageService: StorageService, public visitService: VisitService, private screenOrientation: ScreenOrientation) {
+  constructor(public platform: Platform,
+              public statusBar: StatusBar,
+              public splashScreen: SplashScreen,
+              public visitService: VisitService,
+              public storageService: StorageService,
+              public appService: AppService,
+              public events: Events,
+              private alertCtrl: AlertController,
+              private syncService: SyncService,
+              private authService: AuthService,
+              private mobileAccessibility: MobileAccessibility,
+              private renderer: Renderer2,
+              private screenOrientation: ScreenOrientation) {
     platform.ready().then(() => {
-      this.isProduction = (AppConfig.IS_PRODUCTION == 'true');
-
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
 
-      this.startAuthProcess();
-      this.manageAppState();
-      this.setEasterEgg();
+      this.initApp();
 
       // Mobile accessibility
-      if (this.platform.is('cordova')) {
-        this.visitService.isCordova = true;
+      if (this.appService.isCordova) {
         this.accessibilityFeatures();
         this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
       }
@@ -43,6 +49,47 @@ export class MyApp {
         this.accessibilityFeatures();
       });
     });
+  }
+
+  initApp() {
+    this.authService.createAuthContext().then(
+      () => {
+        this.appService.manageAppInit().then(
+          () => {
+            this.startAuthProcess();
+          }
+        )
+      }
+    )
+  }
+
+  private startAuthProcess(): void {
+    if (this.appService.isCordova) {
+      this.authService.login().subscribe(
+        (resp: string) => {
+          if (this.authService.isValidToken(resp)) {
+            this.authService.setJWTToken(resp).then(
+              () => {
+                this.appService.isJwtTokenStored = true;
+                this.navigateToSignature();
+                this.syncService.startSync();
+              }
+            );
+          } else {
+            this.navElem.setRoot(this.rootPage).then(
+              () => {
+                this.splashScreen.hide();
+              }
+            )
+            console.error(`Authentication failed due to: ${resp}`);
+          }
+        }
+      );
+    } else {
+      this.manageAppState();
+      this.generateUserDetails();
+      this.syncService.startSync();
+    }
   }
 
   private manageAppState(): void {
@@ -68,45 +115,25 @@ export class MyApp {
     )
   }
 
-  private startAuthProcess(): void {
-    if (this.platform.is('cordova')) {
-      this.authService.login().subscribe(
-        (resp: string) => {
-          if (resp !== AUTH.MS_ADAL_ERROR_CODE) {
-            this.authService.setJWTToken(resp).then(
-              () => {
-                this.storageService.read(STORAGE.SIGNATURE_IMAGE).then(
-                  (data) => {
-                    if (!data) {
-                      this.navElem.push(PAGE_NAMES.SIGNATURE_PAD_PAGE, {navController: this.navElem});
-                    }
-                  });
-                this.syncService.startSync();
-              }
-            );
-          } else {
-            console.error(`Authentication failed due to: ${resp}`);
-            if (!this.isProduction) {
-              this.generateUserDetails();
-              this.syncService.startSync();
+
+  navigateToSignature(): void {
+    if (!this.appService.isSignatureRegistered) {
+      this.navElem.push(PAGE_NAMES.SIGNATURE_PAD_PAGE, {navController: this.navElem}).then(
+        () => {
+          this.events.subscribe(SIGNATURE_STATUS.SAVED_EVENT,
+            () => {
+              this.events.unsubscribe(SIGNATURE_STATUS.SAVED_EVENT);
+              this.setRootPage().then(
+                () => {
+                  this.manageAppState();
+                }
+              )
             }
-          }
+          )
         }
       );
     } else {
-      this.generateUserDetails();
-      this.syncService.startSync();
-    }
-  }
-
-  private setEasterEgg(): void {
-    if (this.isProduction) {
-      localStorage.setItem(LOCAL_STORAGE.EASTER_EGG, 'false');
-      localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
-    } else {
-      localStorage.setItem(LOCAL_STORAGE.EASTER_EGG, 'true');
-      let cache = localStorage.getItem(LOCAL_STORAGE.CACHING);
-      cache ? localStorage.setItem(LOCAL_STORAGE.CACHING, cache) : localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
+      this.manageAppState();
     }
   }
 
@@ -135,5 +162,12 @@ export class MyApp {
       this.authService.testerDetails = this.authService.setTesterDetails(null);
     }
   }
+
+  private setRootPage(): Promise<any> {
+    return this.navElem.setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE).then(() => {
+      return this.navElem.popToRoot()
+    });
+  }
+
 }
 

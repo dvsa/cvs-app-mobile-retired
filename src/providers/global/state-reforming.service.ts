@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { StorageService } from "../natives/storage.service";
 import { PAGE_NAMES, STORAGE } from "../../app/app.enums";
-import { VisitService } from "../visit/visit.service";
+import { AppService } from "./app.service";
 
 interface StateHistoryModel {
   page: string;
@@ -11,11 +11,11 @@ interface StateHistoryModel {
 @Injectable()
 export class StateReformingService {
 
-  constructor(public storageService: StorageService, private visitService: VisitService) {
+  constructor(public storageService: StorageService, private appService: AppService) {
   }
 
   saveNavStack(nav) {
-    if (this.visitService.caching == 'true') {
+    if (this.appService.caching) {
       let stateHistory: StateHistoryModel[] = [];
       for (let i = 0; i < nav.length(); i++) {
         const view = nav.getByIndex(i);

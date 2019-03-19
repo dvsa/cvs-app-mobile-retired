@@ -2,10 +2,13 @@ import { TestBed } from "@angular/core/testing";
 import { SignatureService } from "./signature.service";
 import { StorageService } from "../natives/storage.service";
 import { HTTPService } from "../global/http.service";
-import { VisitService } from "../visit/visit.service";
 import { AuthService } from "../global/auth.service";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
-import { VisitServiceMock } from "../../../test-config/services-mocks/visit-service.mock";
+import { ScreenOrientation } from "@ionic-native/screen-orientation";
+import { AppService } from "../global/app.service";
+import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
+import { App, Events, ToastController } from "ionic-angular";
+import { ToastControllerMock } from "ionic-mocks";
 
 
 describe('SignatureService', () => {
@@ -14,7 +17,7 @@ describe('SignatureService', () => {
   let storageServiceSpy: any;
   let httpService: HTTPService;
   let httpServiceSpy;
-  let visitService: VisitService;
+  let appService: AppService;
   let authService: AuthService;
 
   beforeEach(() => {
@@ -25,7 +28,10 @@ describe('SignatureService', () => {
       imports: [],
       providers: [
         SignatureService,
-        {provide: VisitService, useClass: VisitServiceMock},
+        ScreenOrientation,
+        Events,
+        {provide: ToastController, useFactory: () => ToastControllerMock.instance()},
+        {provide: AppService, useClass: AppServiceMock},
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: StorageService, useValue: storageServiceSpy},
         {provide: HTTPService, useValue: httpServiceSpy}
@@ -34,7 +40,7 @@ describe('SignatureService', () => {
     signatureService = TestBed.get(SignatureService);
     storageService = TestBed.get(StorageService);
     httpService = TestBed.get(HTTPService);
-    visitService = TestBed.get(VisitService);
+    appService = TestBed.get(AppService);
     authService = TestBed.get(AuthService);
   });
 
@@ -43,10 +49,9 @@ describe('SignatureService', () => {
     signatureService = null;
     storageService = null;
     httpService = null;
-    visitService = null;
+    appService = null;
     authService = null;
   });
-
 
   it('should save signature in storage', () => {
     signatureService.saveToStorage();

@@ -5,7 +5,6 @@ import { TestResultModel } from "../tests/test-result.model";
 export interface VehicleModel {
   vrm: string;
   vin: string;
-  vehicleId?: number;
   techRecord: TechRecordModel;
   testResultsHistory?: TestResultModel[];
   countryOfRegistration?: string;

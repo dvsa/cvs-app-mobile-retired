@@ -8,7 +8,7 @@ export enum STORAGE {
   VISIT = 'visit',
   TEST_HISTORY = 'test-history',
   JWT_TOKEN = 'jwt-token',
-  SIGNATURE_IMAGE = 'signature-image'
+  SIGNATURE = 'signature-image'
 }
 
 export enum PATHS {
@@ -22,10 +22,12 @@ export enum STATUS_CODE {
 
 export enum LOCAL_STORAGE {
   INIT_SYNC = 'initSyncDone',
+  FIRST_INIT = 'firstInit',
   EASTER_EGG = 'easterEgg',
   CACHING = 'caching',
   TESTER_DETAILS = 'tester-details',
   JWT_TOKEN = 'jwt-token',
+  SIGNATURE = 'signature-image'
 }
 
 export enum APP {
@@ -239,12 +241,18 @@ export enum TECH_RECORD_STATUS {
 
 export enum AUTH {
   INVALID_TOKEN = 'Invalid Token',
-  MS_ADAL_ERROR_CODE = 'AD_ERROR_UI_USER_CANCEL'
+  MS_ADAL_ERROR_CODE = 'AD_ERROR_UI_USER_CANCEL',
+  MS_ADA_ERROR_USER_INPUT = 'AD_ERROR_SERVER_USER_INPUT_NEEDED'
 }
 
 export enum SIGNATURE_STATUS {
   SAVED = 'signature:saved',
-  ERROR = 'signature:error'
+  ERROR = 'signature:error',
+  SAVED_EVENT = 'signature-saved'
+}
+
+export enum VISIT {
+  ACTIVITY_TYPE = 'visit'
 }
 
 

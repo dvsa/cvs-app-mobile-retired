@@ -26,6 +26,7 @@ import {
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
+import { AppService } from "../../../../providers/global/app.service";
 
 @IonicPage()
 @Component({
@@ -43,6 +44,7 @@ export class TestCreatePage implements OnInit {
               public navParams: NavParams,
               public phoneService: PhoneService,
               public alertCtrl: AlertController,
+              public appService: AppService,
               public visitService: VisitService,
               public stateReformingService: StateReformingService,
               private vehicleService: VehicleService,

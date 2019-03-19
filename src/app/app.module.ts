@@ -30,6 +30,7 @@ import { SignaturePadModule } from "angular2-signaturepad";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { SignaturePopoverComponent } from "../components/signature-popover/signature-popover";
 import { SignatureService } from "../providers/signature/signature.service";
+import { AppService } from "../providers/global/app.service";
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -38,6 +39,7 @@ const IONIC_PROVIDERS = [
 ];
 
 const CUSTOM_PROVIDERS = [
+  AppService,
   SyncService,
   HTTPService,
   StorageService,

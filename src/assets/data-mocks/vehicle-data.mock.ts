@@ -46,10 +46,10 @@ export class VehicleDataMock {
         "vehicleConfiguration": "articulated",
         "brakes": {
           "brakeCode": "brkCode",
+          "brakeCodeOriginal": '123',
           "dataTrBrakeOne": "random",
           "dataTrBrakeTwo": "string",
           "dataTrBrakeThree": "here",
-          "parkingBrakeMrk": false,
           "retarderBrakeOne": "electric",
           "retarderBrakeTwo": "electric",
           "brakeForceWheelsNotLocked": {
@@ -66,6 +66,7 @@ export class VehicleDataMock {
         "axles": [
           {
             "axleNumber": 0,
+            "parkingBrakeMrk": false,
             "weights": {
               "kerbWeight": 0,
               "ladenWeight": 0,

@@ -1,4 +1,3 @@
-
 <ion-header>
   <ion-grid no-padding>
     <ion-row justify-content-between align-items-center class="header-color">
@@ -15,14 +14,13 @@
   </ion-grid>
 </ion-header>
 
-
 <ion-content no-padding class="content-background-color-grey">
   <ion-grid no-padding>
     <ion-row class="signature-row" justify-content-center no-padding>
       <ion-item-group class="make-full-width">
         <ion-item-divider padding-left text-uppercase>{{ dividerText }}</ion-item-divider>
         <div>
-          <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()" id="signatureCanvas"></signature-pad>
+          <signature-pad [options]="signaturePadOptions" (onEndEvent)="drawComplete()" id="signatureCanvas"></signature-pad>
         </div>
       </ion-item-group>
     </ion-row>

@@ -5,24 +5,21 @@ import { StorageService } from "../natives/storage.service";
 import { HTTPService } from "../global/http.service";
 import { ActivityModel } from "../../models/visit/activity.model";
 import { Events } from "ionic-angular";
-import { LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
+import { STORAGE, VISIT } from "../../app/app.enums";
 import { Observable } from "rxjs";
 import { AuthService } from "../global/auth.service";
+import { AppService } from "../global/app.service";
 
 @Injectable()
 export class VisitService {
   visit: VisitModel;
-  easterEgg: string;
-  caching: string;
-  isCordova: boolean = false;
 
   constructor(public storageService: StorageService,
-              private httpService: HTTPService,
+              public appService: AppService,
               public authService: AuthService,
-              public events: Events) {
+              public events: Events,
+              private httpService: HTTPService){
     this.visit = {} as VisitModel;
-    this.easterEgg = localStorage.getItem(LOCAL_STORAGE.EASTER_EGG);
-    this.caching = localStorage.getItem(LOCAL_STORAGE.CACHING);
   }
 
   createVisit(testStation, id?: string) {
@@ -42,7 +39,7 @@ export class VisitService {
 
   startVisit(testStation): Observable<any> {
     let activities: ActivityModel = {
-      activityType: 'visit',
+      activityType: VISIT.ACTIVITY_TYPE,
       testStationName: testStation.testStationName,
       testStationPNumber: testStation.testStationPNumber,
       testStationEmail: testStation.testStationEmails[0],
@@ -60,7 +57,6 @@ export class VisitService {
   getLatestTest(): TestModel {
     return this.visit.tests[this.visit.tests.length - 1];
   }
-
 
   addTest(test: TestModel) {
     this.visit.tests.push(test);
@@ -81,6 +77,6 @@ export class VisitService {
   }
 
   updateVisit() {
-    if (this.caching == 'true') this.storageService.update(STORAGE.VISIT, this.visit);
+    if (this.appService.caching) this.storageService.update(STORAGE.VISIT, this.visit);
   }
 }

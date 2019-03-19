@@ -2,7 +2,8 @@ import { TesterDetailsModel } from "../../src/models/tester-details.model";
 import { AuthenticationResult } from "@ionic-native/ms-adal";
 import { Observable } from "rxjs";
 import { LOCAL_STORAGE } from "../../src/app/app.enums";
-import { of } from "rxjs/observable/of";
+import { ErrorObservable } from "rxjs/observable/ErrorObservable";
+import { CommonFunctionsService } from "../../src/providers/utils/common-functions";
 
 export class AuthServiceMock {
   testerDetails: TesterDetailsModel;
@@ -12,39 +13,56 @@ export class AuthServiceMock {
     "name": "John Doe",
     "upn": "test@email.com"
   };
+  authContext: any;
 
   constructor() {
     this.testerDetails = {} as TesterDetailsModel;
-    this.jwtToken = '';
   }
 
-  login(): Observable<string> {
-    return of(this.jwtToken)
+  createAuthContext(): Promise<any> {
+    return Promise.resolve();
   }
 
-  setJWTToken(token) {
-    this.jwtToken = token
+  resetTokenCache(): Promise<any> {
+    return Promise.resolve();
+  }
+
+  login(isError: boolean): Observable<string | ErrorObservable> {
+    return Observable.from(this.loginSilently(isError));
+  }
+
+  private loginSilently(isError): Promise<string> {
+    if (isError) return this.loginWithUI();
+    return Promise.resolve('success');
+  }
+
+  private loginWithUI(): Promise<string> {
+    return Promise.resolve(this.jwtToken);
+  }
+
+  setJWTToken(token): Promise<any> {
+    this.jwtToken = token;
     localStorage.setItem(LOCAL_STORAGE.JWT_TOKEN, this.jwtToken);
+    return Promise.resolve();
   }
 
   getJWTToken() {
     return this.jwtToken
   }
 
-  private decodeJWT(token) {
-    return this.decodedToken;
+  isValidToken(token, isError: boolean): boolean {
+    return !isError;
   }
 
-  private setTesterDetails(authResponse: AuthenticationResult,
-                           testerId = this.randomString(9),
-                           testerName = this.randomString(9),
-                           testerEmail = `${testerName}.${testerId}@email.com`): TesterDetailsModel {
+  setTesterDetails(authResponse: AuthenticationResult): TesterDetailsModel {
+    let commonFunc = new CommonFunctionsService();
 
     let details: TesterDetailsModel = {
-      testerName,
-      testerId,
-      testerEmail
+      testerName: commonFunc.randomString(9),
+      testerId: commonFunc.randomString(9),
+      testerEmail: ''
     };
+    details.testerEmail = `${details.testerName}.${details.testerId}@email.com`
 
     if (authResponse) {
       let decodedToken = this.decodeJWT(authResponse.accessToken);
@@ -56,8 +74,7 @@ export class AuthServiceMock {
     return details
   }
 
-
-  private randomString(lenght: number): string {
-    return Math.random().toString(36).substr(2, lenght);
+  private decodeJWT(token) {
+    return this.decodedToken;
   }
 }

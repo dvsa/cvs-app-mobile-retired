@@ -17,18 +17,19 @@ import { VisitServiceMock } from "../../test-config/services-mocks/visit-service
 import { MSAdal } from "@ionic-native/ms-adal";
 import { AuthServiceMock } from "../../test-config/services-mocks/auth-service.mock";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
-
+import { AppService } from "../providers/global/app.service";
+import { AppServiceMock } from "../../test-config/services-mocks/app-service.mock";
 
 describe('Component: Root', () => {
   let comp: MyApp;
   let fixture: ComponentFixture<MyApp>;
   let syncServiceSpy;
   let authService;
+  let appService;
   let syncService;
   let storageService;
   let visitService;
   let screenOrientation: ScreenOrientation;
-
 
   beforeEach(async(() => {
     syncServiceSpy = jasmine.createSpy('SyncService', () => 'startSync');
@@ -43,6 +44,7 @@ describe('Component: Root', () => {
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: SyncService, useValue: syncServiceSpy},
         {provide: AuthService, useClass: AuthServiceMock},
+        {provide: AppService, useClass: AppServiceMock},
         CallNumber,
         OpenNativeSettings,
         MobileAccessibility,
@@ -65,6 +67,7 @@ describe('Component: Root', () => {
     authService = TestBed.get(AuthService);
     syncService = TestBed.get(SyncService);
     storageService = TestBed.get(StorageService);
+    appService = TestBed.get(AppService);
     visitService = TestBed.get(VisitService);
     screenOrientation = TestBed.get(ScreenOrientation);
   });
