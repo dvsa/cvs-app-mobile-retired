@@ -15,7 +15,7 @@ import {
   APP_STRINGS,
   DATE_FORMAT,
   DEFICIENCY_CATEGORY,
-  ODOMETER_METRIC,
+  ODOMETER_METRIC, PAGE_NAMES,
   TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS
@@ -114,7 +114,7 @@ export class TestReviewPage implements OnInit {
 
   openTestDetailsPage(vehicle, testType) {
     this.completeFields(testType);
-    const MODAL = this.modalCtrl.create('CompleteTestPage', {
+    const MODAL = this.modalCtrl.create(PAGE_NAMES.COMPLETE_TEST_PAGE, {
       vehicle: vehicle,
       vehicleTest: testType,
       completedFields: this.completedFields,
@@ -184,7 +184,7 @@ export class TestReviewPage implements OnInit {
           this.submitInProgress = false;
           let views = this.navCtrl.getViews();
           for (let i = views.length - 1; i >= 0; i--) {
-            if (views[i].component.name == 'VisitTimelinePage') {
+            if (views[i].component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
               this.stateReformingService.onTestReview();
               this.navCtrl.popTo(views[i]);
             }

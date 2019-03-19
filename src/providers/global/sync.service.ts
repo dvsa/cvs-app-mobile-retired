@@ -12,6 +12,7 @@ import { CallNumber } from "@ionic-native/call-number";
 import { Observable } from "rxjs";
 import { of } from "rxjs/observable/of";
 import { AppConfig } from "../../../config/app.config";
+import { AppService } from "./app.service";
 
 @Injectable()
 export class SyncService {
@@ -21,19 +22,25 @@ export class SyncService {
   });
   loadOrder: Observable<any>[] = [];
 
-  constructor(private httpService: HTTPService, private storageService: StorageService, public events: Events, private alertCtrl: AlertController, private openNativeSettings: OpenNativeSettings, private callNumber: CallNumber, public loadingCtrl: LoadingController) {
-    this.initSyncDone = !!localStorage.getItem(APP.INIT_SYNC);
-    let jwtToken = !!localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
-    if (!this.initSyncDone) {
-      if (jwtToken) this.loading.present();
+  constructor(public events: Events,
+              public loadingCtrl: LoadingController,
+              public appService: AppService,
+              private httpService: HTTPService,
+              private storageService: StorageService,
+              private alertCtrl: AlertController,
+              private openNativeSettings: OpenNativeSettings,
+              private callNumber: CallNumber) {
+  }
+
+  startSync(): void {
+    if (!this.appService.isInitSyncDone) {
+      this.loading.present();
       this.events.subscribe('initSyncDone', () => {
         localStorage.setItem(APP.INIT_SYNC, 'true');
         this.loading.dismissAll();
       });
     }
-  }
 
-  startSync(): void {
     const microservicesListArray: Array<string> = ['Atfs', 'Defects', 'TestTypes', 'Preparers'];
     microservicesListArray.forEach((elem) => {
       this.loadOrder.push(this.getDataFromMicroservice(elem));

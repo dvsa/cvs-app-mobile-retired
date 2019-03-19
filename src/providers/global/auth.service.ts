@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AppConfig } from "../../../config/app.config";
-import { AuthenticationContext, AuthenticationResult, MSAdal, TokenCacheItem } from "@ionic-native/ms-adal";
+import { AuthenticationContext, AuthenticationResult, MSAdal } from "@ionic-native/ms-adal";
 import * as jwt_decode from "jwt-decode";
 import { TesterDetailsModel } from "../../models/tester-details.model";
-import { LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
+import { AUTH, LOCAL_STORAGE } from "../../app/app.enums";
 import { Observable } from "rxjs";
 import { CommonRegExp } from "../utils/common-regExp";
 import { Platform } from "ionic-angular";
@@ -16,14 +16,24 @@ export class AuthService {
   jwtToken: string;
   authContext: AuthenticationContext;
 
-  constructor(private msAdal: MSAdal, public platform: Platform, private commonFunc: CommonFunctionsService) {
+  constructor(private msAdal: MSAdal,
+              public platform: Platform,
+              private commonFunc: CommonFunctionsService) {
     this.testerDetails = {} as TesterDetailsModel;
     this.jwtToken = localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
   }
 
-  login(): Observable<string | ErrorObservable> {
+  createAuthContext(): Promise<any> {
     this.authContext = this.msAdal.createAuthenticationContext(AppConfig.MSAL_AUTHORITY);
-    if (!this.jwtToken) this.authContext.tokenCache.clear();
+    return Promise.resolve();
+  }
+
+  resetTokenCache(): Promise<any> {
+    this.authContext.tokenCache.clear();
+    return Promise.resolve();
+  }
+
+  login(): Observable<string | ErrorObservable> {
     return Observable.from(this.loginSilently());
   }
 
@@ -35,8 +45,12 @@ export class AuthService {
         return authHeader;
       },
     ).catch(
-      () => {
-        return this.loginWithUI();
+      (error) => {
+        if (error.code == AUTH.MS_ADA_ERROR_USER_INPUT) {
+          return this.loginWithUI();
+        } else {
+          console.error(error);
+        }
       }
     )
   }
@@ -50,22 +64,25 @@ export class AuthService {
       }
     ).catch(
       (error: string) => {
+        console.log(error);
         return error['code'];
       }
     )
   }
 
   setJWTToken(token): Promise<any> {
-    let tokenStr = token ? token.slice(7, token.length - 1) : null;
-    if (tokenStr && tokenStr.match(CommonRegExp.JTW_TOKEN)) {
-      this.jwtToken = token;
-      localStorage.setItem(LOCAL_STORAGE.JWT_TOKEN, this.jwtToken);
-      return Promise.resolve();
-    }
+    this.jwtToken = token;
+    localStorage.setItem(LOCAL_STORAGE.JWT_TOKEN, this.jwtToken);
+    return Promise.resolve();
   }
 
   getJWTToken() {
     return this.jwtToken
+  }
+
+  isValidToken(token): boolean {
+    let tokenStr = token ? token.slice(7, token.length - 1) : null;
+    return (tokenStr && tokenStr.match(CommonRegExp.JTW_TOKEN));
   }
 
   setTesterDetails(authResponse: AuthenticationResult,

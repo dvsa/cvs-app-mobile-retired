@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
-import { APP_STRINGS } from "../../../app/app.enums";
+import { APP_STRINGS, PAGE_NAMES } from "../../../app/app.enums";
 import { PhoneService } from "../../../providers/natives/phone.service";
 import { VisitService } from "../../../providers/visit/visit.service";
 
@@ -42,7 +42,7 @@ export class TestStationDetailsPage implements OnInit {
               (data) => {
                 startvisit$.unsubscribe();
                 this.visitService.createVisit(this.testStation, data.id);
-                this.navCtrl.push('VisitTimelinePage', {testStation: this.testStation});
+                this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, {testStation: this.testStation});
               },
               (error) => {
                 console.error(`Starting activity failed due to: ${error}`);

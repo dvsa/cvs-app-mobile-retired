@@ -14,7 +14,6 @@ export class TechRecordDataMock {
         }
       ],
       "vin": "1B7GG36N12S678410",
-      "vehicleId": 0,
       "techRecord": [
         {
           "chassisMake": "Volvo",
@@ -57,10 +56,10 @@ export class TechRecordDataMock {
           "vehicleConfiguration": "articulated",
           "brakes": {
             "brakeCode": "brkCode",
+            "brakeCodeOriginal": '123',
             "dataTrBrakeOne": "random",
             "dataTrBrakeTwo": "string",
             "dataTrBrakeThree": "here",
-            "parkingBrakeMrk": false,
             "retarderBrakeOne": "electric",
             "retarderBrakeTwo": "electric",
             "brakeForceWheelsNotLocked": {
@@ -77,6 +76,7 @@ export class TechRecordDataMock {
           "axles": [
             {
               "axleNumber": 0,
+              "parkingBrakeMrk": false,
               "weights": {
                 "kerbWeight": 0,
                 "ladenWeight": 0,

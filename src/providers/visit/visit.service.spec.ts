@@ -9,9 +9,12 @@ import { AuthService } from "../global/auth.service";
 import { HTTPService } from "../global/http.service";
 import { Events } from "ionic-angular";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
+import { AppService } from "../global/app.service";
+import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
+  let appService: AppService;
   let storageService: StorageService;
   let authService: AuthService;
   let storageServiceSpy: any;
@@ -29,16 +32,18 @@ describe('Provider: VisitService', () => {
       providers: [
         Events,
         VisitService,
+        {provide: AppService, useClass: AppServiceMock},
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: StorageService, useValue: storageServiceSpy},
         {provide: HTTPService, useValue: httpServiceSpy}
       ]
     });
     visitService = TestBed.get(VisitService);
+    appService = TestBed.get(AppService);
     authService = TestBed.get(AuthService);
     storageService = TestBed.get(StorageService);
     httpService = TestBed.get(HTTPService);
-    visitService.caching = 'true';
+    appService.caching = true;
   });
 
   afterEach(() => {

@@ -19,7 +19,7 @@ export class TestStationService {
   sortAndSearchTestStation(items: any[], filter: string, properties: string[]): any[] {
     let filteredArray: any[] = [];
     if (!items || !filter) {
-      if ((filter === '' || filter == undefined) && Array.isArray(items[0])) {
+      if ((filter === '' || filter == undefined) && (items && Array.isArray(items[0]))) {
         items.forEach(
           (elem: TestStationReferenceDataModel[]) => {
             elem.forEach(

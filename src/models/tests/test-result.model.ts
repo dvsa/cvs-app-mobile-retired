@@ -4,7 +4,6 @@ import { VehicleClassModel } from "../vehicle/tech-record.model";
 export class TestResultModel {
   vrm: string; // vehicle
   vin: string; // vehicle
-  vehicleId: string; // vehicle
   testStationName: string; // visit
   testStationPNumber: string; // visit - old: testStationNumber
   testStationType: string; // visit

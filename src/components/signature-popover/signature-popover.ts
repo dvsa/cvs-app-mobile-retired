@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { APP_STRINGS, SIGNATURE_STATUS } from "../../app/app.enums";
+import { APP_STRINGS, LOCAL_STORAGE, SIGNATURE_STATUS } from "../../app/app.enums";
 import { Events, LoadingController, ViewController } from "ionic-angular";
 import { SignatureService } from "../../providers/signature/signature.service";
+import { AppService } from "../../providers/global/app.service";
 
 @Component({
   selector: 'signature-popover',
@@ -17,6 +18,7 @@ export class SignaturePopoverComponent implements OnInit {
 
   constructor(public viewCtrl: ViewController,
               public events: Events,
+              public appService: AppService,
               public loadingCtrl: LoadingController,
               public signatureService: SignatureService) {
   }
@@ -31,20 +33,28 @@ export class SignaturePopoverComponent implements OnInit {
   }
 
   confirmPop() {
-    this.loading.present();
-    this.viewCtrl.dismiss().then(
+    this.loading.present().then(
       () => {
-        this.signatureService.saveSignature().subscribe(
+        this.viewCtrl.dismiss().then(
           () => {
-            this.signatureService.saveToStorage().then(() => {
-              this.loading.dismissAll();
-              this.events.publish(SIGNATURE_STATUS.SAVED);
-            });
-          },
-          () => {
-            this.loading.dismissAll();
-            this.events.publish(SIGNATURE_STATUS.ERROR);
-          });
-      });
+            this.signatureService.saveSignature().subscribe(
+              () => {
+                this.signatureService.saveToStorage().then(() => {
+                  this.signatureService.presentSuccessToast();
+                  localStorage.setItem(LOCAL_STORAGE.SIGNATURE, 'true');
+                  this.appService.isSignatureRegistered = true;
+                  this.loading.dismissAll();
+                  this.events.publish(SIGNATURE_STATUS.SAVED_EVENT);
+                });
+              },
+              () => {
+                this.loading.dismissAll();
+                this.events.publish(SIGNATURE_STATUS.ERROR);
+              }
+            );
+          }
+        )
+      }
+    );
   }
 }

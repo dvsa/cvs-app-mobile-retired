@@ -20,6 +20,8 @@ import { StateReformingServiceMock } from "../../../../../test-config/services-m
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { AppService } from "../../../../providers/global/app.service";
+import { AppServiceMock } from "../../../../../test-config/services-mocks/app-service.mock";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -28,6 +30,7 @@ describe('Component: TestCreatePage', () => {
   let navParams: NavParams;
   let vehicleService: VehicleService;
   let visitService: VisitService;
+  let appService: AppService;
   let testService: TestService;
   let stateReformingService: StateReformingService;
 
@@ -53,6 +56,7 @@ describe('Component: TestCreatePage', () => {
       providers: [
         NavController,
         CommonFunctionsService,
+        {provide: AppService, useClass: AppServiceMock},
         {provide: PhoneService, useValue: phoneServiceSpy},
         {provide: StateReformingService, useClass: StateReformingServiceMock},
         {provide: VehicleService, useClass: VehicleServiceMock},
@@ -69,6 +73,7 @@ describe('Component: TestCreatePage', () => {
     navParams = TestBed.get(NavParams);
     vehicleService = TestBed.get(VehicleService);
     testService = TestBed.get(TestService);
+    appService = TestBed.get(AppService);
     visitService = TestBed.get(VisitService);
     stateReformingService = TestBed.get(StateReformingService);
   }));

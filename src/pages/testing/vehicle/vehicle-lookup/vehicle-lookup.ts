@@ -6,7 +6,7 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { catchError, map, tap } from "rxjs/operators";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { STORAGE } from "../../../../app/app.enums";
+import { PAGE_NAMES, STORAGE } from "../../../../app/app.enums";
 import { StorageService } from "../../../../providers/natives/storage.service";
 
 @IonicPage()
@@ -69,7 +69,7 @@ export class VehicleLookupPage {
   }
 
   close(): void {
-    if (this.navCtrl.getPrevious().component.name == 'VisitTimelinePage') {
+    if (this.navCtrl.getPrevious().component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
       this.visitService.removeTest(this.testData);
     }
     this.navCtrl.pop();
@@ -86,7 +86,7 @@ export class VehicleLookupPage {
   }
 
   goToVehicleDetails(vehicleData, testResultHistory?: TestResultModel[]) {
-    this.navCtrl.push('VehicleDetailsPage', {
+    this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
       test: this.testData,
       vehicle: vehicleData
     });

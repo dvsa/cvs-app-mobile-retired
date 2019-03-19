@@ -1,7 +1,6 @@
 export interface VehicleTechRecordModel {
   vrms: VrmModel[];
   vin: string;
-  vehicleId: number;
   techRecord: TechRecordModel[];
 }
 
@@ -60,14 +59,15 @@ export interface BrakeModel {
   dataTrBrakeOne: string;
   dataTrBrakeTwo: string;
   dataTrBrakeThree: string;
-  parkingBrakeMrk: boolean;
   retarderBrakeOne: string;
   retarderBrakeTwo: string;
+  brakeCodeOriginal: string;
   brakeForceWheelsNotLocked: BrakeForceWheelModel;
   brakeForceWheelsUpToHalfLocked: BrakeForceWheelModel;
 }
 
 export interface AxelsModel {
+  parkingBrakeMrk: boolean;
   axleNumber: number
   weights: WeightsModel;
   tyres: TyresModel;

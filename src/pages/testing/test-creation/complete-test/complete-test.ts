@@ -12,7 +12,7 @@ import { DefectDetailsModel } from "../../../../models/defects/defect-details.mo
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import {
   APP,
-  DEFICIENCY_CATEGORY,
+  DEFICIENCY_CATEGORY, PAGE_NAMES,
   REG_EX_PATTERNS,
   TEST_TYPE_FIELDS,
   TEST_TYPE_INPUTS, TEST_TYPE_RESULTS
@@ -303,7 +303,7 @@ export class CompleteTestPage implements OnInit {
   }
 
   abandonTestType(vehicleTest: TestTypeModel) {
-    this.navCtrl.push('ReasonsSelectionPage', {
+    this.navCtrl.push(PAGE_NAMES.REASONS_SELECTION_PAGE, {
       vehicleTest: vehicleTest,
       altAbandon: true,
       fromTestReview: this.fromTestReview

@@ -3,10 +3,11 @@ import { AlertController, Events, IonicPage, NavController, NavParams, PopoverCo
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { VisitService } from "../../providers/visit/visit.service";
-import { APP_STRINGS, SIGNATURE_STATUS } from "../../app/app.enums";
+import { APP_STRINGS, LOCAL_STORAGE, SIGNATURE_STATUS } from "../../app/app.enums";
 import { SignaturePopoverComponent } from "../../components/signature-popover/signature-popover";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { SignatureService } from "../../providers/signature/signature.service";
+import { AppService } from "../../providers/global/app.service";
 
 @IonicPage()
 @Component({
@@ -27,20 +28,15 @@ export class SignaturePadPage implements OnInit {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private screenOrientation: ScreenOrientation,
-              private visitService: VisitService,
               public popoverCtrl: PopoverController,
               public events: Events,
               public toastCtrl: ToastController,
               public alertCtrl: AlertController,
+              public appService: AppService,
+              private screenOrientation: ScreenOrientation,
+              private visitService: VisitService,
               private openNativeSettings: OpenNativeSettings,
               private signatureService: SignatureService) {
-    this.navRef = this.navParams.get('navController');
-    this.events.subscribe(SIGNATURE_STATUS.SAVED,
-      () => {
-        this.presentToast();
-        this.signatureService.goToRootPage(this.navRef);
-      });
     this.events.subscribe(SIGNATURE_STATUS.ERROR,
       () => {
         this.showConfirm();
@@ -53,11 +49,11 @@ export class SignaturePadPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    if (this.visitService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
+    if (this.appService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
   }
 
   ionViewWillLeave() {
-    if (this.visitService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
+    if (this.appService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
   }
 
   ngAfterViewInit() {
@@ -73,45 +69,46 @@ export class SignaturePadPage implements OnInit {
   }
 
   showConfirm() {
-    const confirmSave = this.alertCtrl.create({
+    const CONFIRM_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.SIGN_UNABLE_LOAD_DATA,
       message: '',
       buttons: [
         {
           text: APP_STRINGS.SETTINGS_BTN,
           handler: () => {
-            if (this.visitService.isCordova) this.openNativeSettings.open('settings');
+            if (this.appService.isCordova) this.openNativeSettings.open('settings');
           }
-        },
-        {
+        }, {
           text: APP_STRINGS.CALL_SUPP_BTN,
           handler: () => {
             console.log('technical support clicked');
           }
-        },
-        {
+        }, {
           text: APP_STRINGS.TRY_AGAIN_BTN,
           handler: () => {
             this.signatureService.saveSignature().subscribe(
               () => {
-                this.presentToast();
+                this.signatureService.presentSuccessToast();
+                localStorage.setItem(LOCAL_STORAGE.SIGNATURE, 'true');
+                this.appService.isSignatureRegistered = true;
                 this.events.unsubscribe(SIGNATURE_STATUS.ERROR);
-                this.signatureService.goToRootPage(this.navCtrl);
+                this.events.publish(SIGNATURE_STATUS.SAVED_EVENT);
               },
               () => {
                 this.showConfirm();
-              });
+              }
+            );
           }
         }
       ]
     });
-    confirmSave.present();
+    CONFIRM_ALERT.present();
   }
 
   presentPopover() {
-    let popover = this.popoverCtrl.create(SignaturePopoverComponent, {}, {cssClass: 'signature-popover'});
+    const POPOVER = this.popoverCtrl.create(SignaturePopoverComponent, {}, {cssClass: 'signature-popover'});
     if (!this.signaturePad.isEmpty()) {
-      popover.present();
+      POPOVER.present();
     } else {
       const EMPTY_SIGNATURE = this.alertCtrl.create({
         title: APP_STRINGS.SIGN_NOT_ENTERED,
@@ -120,17 +117,5 @@ export class SignaturePadPage implements OnInit {
       });
       EMPTY_SIGNATURE.present();
     }
-  }
-
-  presentToast() {
-    this.events.unsubscribe(SIGNATURE_STATUS.SAVED);
-    this.events.unsubscribe(SIGNATURE_STATUS.ERROR);
-    const toast = this.toastCtrl.create({
-      message: APP_STRINGS.SIGN_TOAST_MSG,
-      duration: 4000,
-      position: 'top',
-      cssClass: 'sign-toast-css'
-    });
-    toast.present();
   }
 }
