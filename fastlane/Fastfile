@@ -18,6 +18,7 @@ platform :ios do
       access_key: ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
       bucket: 'dvsa-cvs-mobile-artefacts',
+      path: 'v{CFBundleShortVersionString}/',
       region: 'eu-west-1',
       files: [
         './fastlane/latest',
