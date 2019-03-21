@@ -9,7 +9,7 @@ platform :ios do
       type: 'enterprise',
       team_id: 'K84TL26V3P',
       provisioning_profile: 'ac3691fb-ca69-4a49-a54a-0b2757a2ef1a',
-      build_number: ENV['BUILD_NUMBER'],
+      #build_number: ENV['BUILD_NUMBER'],
       build_flag: ['-UseModernBuildSystem=0']
     )
     zip(path: "./platforms/ios/build/device/Vehicle Testing.app.dSYM")
