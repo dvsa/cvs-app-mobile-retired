@@ -38,8 +38,8 @@ export class AppService {
     if (this.isCordova) {
 
       if (this.isInitRunDone) {
-        this.setFlags();
         this.setEasterEgg();
+        this.setFlags();
         return Promise.resolve();
       } else {
         let arr = [
@@ -51,15 +51,15 @@ export class AppService {
         return Promise.all(arr).then(
           () => {
             localStorage.setItem(LOCAL_STORAGE.FIRST_INIT, 'done');
-            this.setFlags();
             this.setEasterEgg();
+            this.setFlags();
             return Promise.resolve(true);
           }
         )
       }
     } else {
-      this.setFlags();
       this.setEasterEgg();
+      this.setFlags();
       return Promise.resolve(true);
     }
   }
