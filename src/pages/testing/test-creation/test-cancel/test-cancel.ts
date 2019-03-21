@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { TestModel } from "../../../../models/tests/test.model";
 import { TestService } from "../../../../providers/test/test.service";
 import { APP_STRINGS, TEST_REPORT_STATUSES } from "../../../../app/app.enums";
@@ -23,7 +23,8 @@ export class TestCancelPage {
               private alertCtrl: AlertController,
               private testResultService: TestResultService,
               private openNativeSettings: OpenNativeSettings,
-              private visitService: VisitService) {
+              private visitService: VisitService,
+              private loadingCtrl: LoadingController) {
     this.testData = this.navParams.get('test');
   }
 
@@ -78,14 +79,21 @@ export class TestCancelPage {
       }]
     });
 
+    const LOADING = this.loadingCtrl.create({
+      content: 'Loading...'
+    });
+    LOADING.present();
+
     for (let vehicle of test.vehicles) {
       let testResult = this.testResultService.createTestResult(this.visitService.visit, test, vehicle);
       stack.push(this.testResultService.submitTestResult(testResult));
       Observable.forkJoin(stack).subscribe(
         () => {
+          LOADING.dismiss();
           this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 6));
         },
         () => {
+          LOADING.dismiss();
           TRY_AGAIN_ALERT.present();
         }
       )

@@ -6,7 +6,7 @@ import {
   ModalController,
   ViewController,
   NavController,
-  NavParams
+  NavParams, LoadingController
 } from 'ionic-angular';
 import { VisitModel } from "../../../../models/visit/visit.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
@@ -63,7 +63,8 @@ export class TestReviewPage implements OnInit {
               private testResultService: TestResultService,
               private stateReformingService: StateReformingService,
               private openNativeSettings: OpenNativeSettings,
-              private testService: TestService) {
+              private testService: TestService,
+              private loadingCtrl: LoadingController) {
     this.visit = this.navParams.get('visit');
     this.latestTest = this.visitService.getLatestTest();
   }
@@ -173,6 +174,11 @@ export class TestReviewPage implements OnInit {
       }]
     });
 
+    const LOADING = this.loadingCtrl.create({
+      content: 'Loading...'
+    });
+    LOADING.present();
+
     for (let vehicle of test.vehicles) {
       let testResult = this.testResultService.createTestResult(this.visit, test, vehicle);
       stack.push(this.testResultService.submitTestResult(testResult));
@@ -181,6 +187,7 @@ export class TestReviewPage implements OnInit {
           () => this.events.publish(APP.TEST_SUBMITTED))
       ).subscribe(
         () => {
+          LOADING.dismiss();
           this.submitInProgress = false;
           let views = this.navCtrl.getViews();
           for (let i = views.length - 1; i >= 0; i--) {
@@ -192,6 +199,7 @@ export class TestReviewPage implements OnInit {
 
         },
         () => {
+          LOADING.dismiss();
           TRY_AGAIN_ALERT.present();
         }
       )
