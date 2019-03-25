@@ -82,7 +82,7 @@ ion-app.ios page-visit-timeline {
         }
 
         .timeline-bar {
-          border-left-color: color($colors, primary);
+          border-left-color: color($colors, tertiary);
           top: 40%;
         }
       }
@@ -104,7 +104,7 @@ ion-app.ios page-visit-timeline {
         }
 
         .timeline-bar {
-          border-left-color: color($colors, primary);
+          border-left-color: color($colors, tertiary);
         }
       }
 
@@ -118,6 +118,12 @@ ion-app.ios page-visit-timeline {
         }
       }
     }
+  }
+
+  .item-divider-ios {
+    margin-top: 1px;
+    border-top: 1px solid $color-grey-2;
+    border-bottom: 1px solid $color-grey-2;
   }
 
   .button-centered {
