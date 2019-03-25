@@ -252,6 +252,7 @@ export class TestCreatePage implements OnInit {
       alert.present();
       alert.onDidDismiss(() => this.changeOpacity = false);
     } else {
+      this.changeOpacity = false;
       this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE, {visit: this.visitService.visit})
     }
   }
