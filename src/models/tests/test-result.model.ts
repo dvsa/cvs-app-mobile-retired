@@ -24,6 +24,7 @@ export class TestResultModel {
   euVehicleCategory: string | null; // vehicle
   countryOfRegistration: string | null; // vehicle
   vehicleSize: string; // tech record
+  noOfAxles: number; // tech record
   reasonForCancellation: string | null; // test
   testTypes: TestTypeModel[];
 }

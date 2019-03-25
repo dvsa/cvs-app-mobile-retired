@@ -43,6 +43,7 @@ export class TestResultService {
     newTestResult.euVehicleCategory = vehicle.euVehicleCategory;
     newTestResult.countryOfRegistration = vehicle.countryOfRegistration;
     newTestResult.vehicleSize = vehicle.techRecord.vehicleSize;
+    newTestResult.noOfAxles = vehicle.techRecord.noOfAxles;
     newTestResult.testTypes = vehicle.testTypes;
 
     return newTestResult;
