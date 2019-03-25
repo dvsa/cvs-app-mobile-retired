@@ -87,6 +87,11 @@ page-test-review {
             font-size: $font-size-medium;
           }
 
+          .parent-info-color-sm {
+            color: $color-grey-1;
+            font-size: $font-size-normal;
+          }
+
           h3[margin-bottom].parent-info-color {
             margin-bottom: 16px;
           }
@@ -198,4 +203,15 @@ page-test-review {
   .item-ios.item-block .item-inner{
     padding-right: 0;
   }
+
+  .additional-info {
+    & span:first-of-type {
+      text-transform: capitalize;
+    }
+
+    & span:last-of-type .comma {
+      display: none;
+    }
+  }
+
 }
