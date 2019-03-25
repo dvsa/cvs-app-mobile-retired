@@ -404,6 +404,7 @@ ion-item-divider.defect-heading {
 //signature popover component custom css class
 .signature-popover {
   .popover-content {
+    position: static;
     width: 320px;
     background-color: $color-grey-3;
   }
