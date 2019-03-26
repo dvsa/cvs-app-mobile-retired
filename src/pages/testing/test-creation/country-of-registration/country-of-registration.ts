@@ -55,13 +55,11 @@ export class RegionReadingPage implements OnInit {
   setVehicleRegCountry(regCountryItem) {
     this.focusOut = false;
     this.vehicle.countryOfRegistration = regCountryItem.key;
-    this.visitService.updateVisit();
     this.events.publish(APP.NAV_OUT);
-    this.searchVal = '';
-    this.resetFilteredCountries();
   }
 
   onSave() {
+    this.visitService.updateVisit();
     this.viewCtrl.dismiss();
   }
 
