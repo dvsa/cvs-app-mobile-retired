@@ -84,7 +84,7 @@ export class VisitTimelinePage implements OnInit {
           role: 'cancel'
         },
         {
-          text: APP_STRINGS.CONFIRM,
+          text: APP_STRINGS.END_VISIT_TITLE,
           handler: () => {
             this.loading.present();
             this.visitService.endVisit(this.visit.id).subscribe(
