@@ -26,7 +26,7 @@ export class AdvisoryDetailsPage {
   submitAdvisory(): void {
     let views = this.navCtrl.getViews();
     for (let i = views.length - 1; i >= 0; i--) {
-      if (views[i].component.name == "CompleteTestPage") {
+      if (views[i].component.name == "CompleteTestPage" || views[i].component.name == "ModalCmp") {
         if (!this.isEdit) {
           this.vehicleTest.defects.push(this.advisory);
         }

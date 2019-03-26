@@ -12,7 +12,7 @@
       <ion-item padding-vertical class="ion-item-title">
         <ion-img item-start class="vehicle-type-icon"
                  src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="65" height="27"></ion-img>
-        <h2 text-uppercase padding-left>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2> 
+        <h2 text-uppercase padding-left>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
         <p padding-left>{{ vehicle.vin }}</p>
       </ion-item>
       <ion-item padding-horizontal
@@ -108,7 +108,7 @@
                 <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
                 {{ defect.deficiencyText }}
               </h4>
-              <h4 padding-right class="additional-info parent-info-color-sm"> 
+              <h4 padding-right class="additional-info parent-info-color-sm" *ngIf="defect.additionalInformation.location">
                 <span *ngIf="defect.additionalInformation.location.vertical">
                   {{ defect.additionalInformation.location.vertical }}<span class="comma">,</span>
                 </span>
