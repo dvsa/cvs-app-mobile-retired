@@ -99,9 +99,6 @@ export class TestReviewPage implements OnInit {
     if (testType[TEST_TYPE_INPUTS.SIC_LAST_DATE]) {
       this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = testType[TEST_TYPE_INPUTS.SIC_LAST_DATE];
     }
-    if (testType[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER]) {
-      this.completedFields[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER] = testType[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER];
-    }
   }
 
   getTestTypeOptionalFieldsToDisplay(testType: TestTypeModel, field) {
@@ -114,6 +111,7 @@ export class TestReviewPage implements OnInit {
   }
 
   openTestDetailsPage(vehicle, testType) {
+    let initialTestType = this.commonFunctions.cloneObject(testType);
     this.completeFields(testType);
     const MODAL = this.modalCtrl.create(PAGE_NAMES.COMPLETE_TEST_PAGE, {
       vehicle: vehicle,
@@ -122,7 +120,7 @@ export class TestReviewPage implements OnInit {
       fromTestReview: true
     });
     MODAL.onDidDismiss(data => {
-      if (testType[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER] && !data[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER]) {
+      if (initialTestType[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER] && !data[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER]) {
         this.navCtrl.pop();
       }
     });
