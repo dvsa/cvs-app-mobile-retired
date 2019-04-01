@@ -122,7 +122,7 @@ export class TestReviewPage implements OnInit {
       fromTestReview: true
     });
     MODAL.onDidDismiss(data => {
-      if (testType[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER] && !data[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER]) {
+      if (!testType[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER] && !data[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER]) {
         this.navCtrl.pop();
       }
     });
