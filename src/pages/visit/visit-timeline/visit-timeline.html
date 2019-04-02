@@ -19,7 +19,10 @@
       <img src="assets/timeline-pin-with-line.svg" item-start>
       <div class="timeline-item-content">
         <p>{{ visit.startTime | date: 'HH:mm' }}</p>
-        <h2>{{ visit.testStationName }} ({{ visit.testStationPNumber }})</h2>
+        <h2>
+          <span class="test-station-name">{{ visit.testStationName }}</span>
+          <span>({{ visit.testStationPNumber }})</span>
+        </h2>
         <p class="timeline-message">Started site visit</p>
       </div>
     </button>
