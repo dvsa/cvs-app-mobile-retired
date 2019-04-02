@@ -17,7 +17,7 @@ platform :ios do
     aws_s3(
       access_key: ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-      bucket: 'dvsa-cvs-mobile-artefacts/$BRANCH',
+      bucket: 'dvsa-cvs-mobile-artefacts',
       path: 'v{CFBundleShortVersionString}/',
       region: 'eu-west-1',
       files: [
