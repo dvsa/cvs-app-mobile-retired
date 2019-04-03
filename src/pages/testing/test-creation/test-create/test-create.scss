@@ -24,6 +24,7 @@ page-test-create {
 
           &.vehicle-vin {
             font-size: $font-size-normal;
+            color: color($colors, dark);
           }
         }
       }
@@ -38,7 +39,7 @@ page-test-create {
       }
 
       .item-ios {
-        
+
         .test-type {
           font-weight: $font-weight-semi-bold;
         }
