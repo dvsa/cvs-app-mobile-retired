@@ -121,7 +121,7 @@ export enum APP_STRINGS {
   TEST_HISTORY = 'Test history',
   SUBMIT_TEST = 'Submit test',
   SUBMIT_TEST_MESSAGE = 'You will not be able to make changes to this test after it has been submitted.',
-  SUBMIT_TEST_TOAST_MESSAGE = 'The test have been submitted and emailed to andy@dvsa.gov.uk',
+  SUBMIT_TEST_TOAST_MESSAGE = 'The test has been submitted and emailed to andy@dvsa.gov.uk',
   UNABLE_TO_SUBMIT_TESTS_TITLE = 'Unable to submit test',
   UNABLE_TO_SUBMIT_TESTS_TEXT = 'Make sure you are connected to the Internet and try again.',
   SETTINGS_BTN = 'Settings',
