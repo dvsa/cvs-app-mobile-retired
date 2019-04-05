@@ -66,8 +66,7 @@ export class VehicleLookupPage {
           () => {
             this.storageService.update(STORAGE.TEST_HISTORY, []);
             LOADING.dismiss();
-            this.handleError(vehicleData);
-            // this.goToVehicleDetails(vehicleData);
+            this.goToVehicleDetails(vehicleData);
           })
       },
       () => {
