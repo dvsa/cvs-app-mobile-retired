@@ -6,6 +6,11 @@ export class AppConfig {
     return jsonData['MSAL_CLIENT_ID'];
   }
 
+  public static get STAFF_ID_KEY() {
+    let jsonData = app;
+    return jsonData['STAFF_ID_KEY'];
+  }
+
   public static get MSAL_REDIRECT_URL() {
     let jsonData = app;
     return jsonData['MSAL_REDIRECT_URL'];

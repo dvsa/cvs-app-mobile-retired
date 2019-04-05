@@ -1,5 +1,6 @@
 {
   "IS_PRODUCTION": "false",
+  "STAFF_ID_KEY": "extn.StaffId",
   "KEY_PHONE_NUMBER": "03001232325",
   "MSAL_CLIENT_ID": "",
   "MSAL_AUTHORITY": "",

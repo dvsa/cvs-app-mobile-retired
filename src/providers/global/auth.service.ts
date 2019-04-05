@@ -98,7 +98,7 @@ export class AuthService {
 
     if (authResponse) {
       let decodedToken = this.decodeJWT(authResponse.accessToken);
-      details.testerId = decodedToken['oid'];
+      details.testerId = decodedToken[AppConfig.STAFF_ID_KEY][0];
       details.testerName = decodedToken['name'];
       details.testerEmail = decodedToken['upn'];
     }
