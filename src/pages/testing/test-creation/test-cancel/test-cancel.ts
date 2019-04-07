@@ -17,7 +17,7 @@ export class TestCancelPage {
   testData: TestModel;
   cancellationReason: string = '';
   changeOpacity; nextAlert; tryAgain: boolean = false;
- 
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private testReportService: TestService,
@@ -69,7 +69,7 @@ export class TestCancelPage {
     let stack: Observable<any>[] = [];
     const TRY_AGAIN_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
-      message: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TEXT,
+      message: APP_STRINGS.NO_INTERNET_CONNECTION,
       buttons: [{
         text: APP_STRINGS.SETTINGS_BTN,
         handler: () => {
@@ -78,7 +78,7 @@ export class TestCancelPage {
       }, {
         text: APP_STRINGS.TRY_AGAIN_BTN,
         handler: () => {
-          this.tryAgain = true; 
+          this.tryAgain = true;
           this.submit(this.testData);
         }
       }]
@@ -102,7 +102,7 @@ export class TestCancelPage {
           TRY_AGAIN_ALERT.present();
           TRY_AGAIN_ALERT.onDidDismiss(() => {
             if(!this.tryAgain) {
-              this.nextAlert = this.changeOpacity = false; 
+              this.nextAlert = this.changeOpacity = false;
             }
             else {
               this.tryAgain = false;

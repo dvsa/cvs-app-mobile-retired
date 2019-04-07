@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
-import { APP_STRINGS,PAGE_NAMES } from "../../../app/app.enums";
+import { APP_STRINGS,PAGE_NAMES, AUTH } from "../../../app/app.enums";
 import { VisitService } from "../../../providers/visit/visit.service";
 import { CallNumber } from "@ionic-native/call-number";
 import { AppConfig } from "../../../../config/app.config";
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 
 @IonicPage()
 @Component({
@@ -22,7 +23,8 @@ export class TestStationDetailsPage implements OnInit {
               public navParams: NavParams,
               private viewCtrl: ViewController,
               private callNumber: CallNumber,
-              private visitService: VisitService) {
+              private visitService: VisitService,
+              private openNativeSettings: OpenNativeSettings) {
     this.testStation = navParams.get('testStation');
   }
 
@@ -31,6 +33,37 @@ export class TestStationDetailsPage implements OnInit {
 
   ionViewDidLoad() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.SEARCH_TEST_STATION);
+  }
+
+  private confirmStartVisit() {
+    let startvisit$ = this.visitService.startVisit(this.testStation).subscribe(
+      (data) => {
+        startvisit$.unsubscribe();
+        this.visitService.createVisit(this.testStation, data.id);
+        this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, {testStation: this.testStation});
+      },
+      (error) => {
+        console.error(`Starting activity failed due to: ${error}`);
+        if (error && error.error === AUTH.INTERNET_REQUIRED) {
+          const TRY_AGAIN_ALERT = this.alertCtrl.create({
+            title: APP_STRINGS.UNABLE_TO_START_VISIT,
+            message: APP_STRINGS.NO_INTERNET_CONNECTION,
+            buttons: [{
+              text: APP_STRINGS.SETTINGS_BTN,
+              handler: () => {
+                this.openNativeSettings.open('settings');
+              }
+            },
+            {
+              text: APP_STRINGS.TRY_AGAIN_BTN,
+              handler: () => {
+                this.confirmStartVisit();
+              }
+            }]
+          });
+          TRY_AGAIN_ALERT.present();
+        }
+      });
   }
 
   startVisit(): void {
@@ -42,15 +75,7 @@ export class TestStationDetailsPage implements OnInit {
         {
           text: APP_STRINGS.CONFIRM,
           handler: () => {
-            let startvisit$ = this.visitService.startVisit(this.testStation).subscribe(
-              (data) => {
-                startvisit$.unsubscribe();
-                this.visitService.createVisit(this.testStation, data.id);
-                this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, {testStation: this.testStation});
-              },
-              (error) => {
-                console.error(`Starting activity failed due to: ${error}`);
-              });
+            this.confirmStartVisit();
           }
         },
         {
@@ -77,7 +102,7 @@ export class TestStationDetailsPage implements OnInit {
     confirm.present();
     confirm.onDidDismiss(() => {
       if(!this.nextAlert) {
-        this.changeOpacity = false; 
+        this.changeOpacity = false;
       }
     });
   }

@@ -16,6 +16,9 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
+    if (!window.navigator.onLine) {
+      return Observable.throw(new HttpErrorResponse({ error: AUTH.INTERNET_REQUIRED }));
+    }
     return next.handle(this.addAuthHeader(req, this.authService.getJWTToken())).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse) {
