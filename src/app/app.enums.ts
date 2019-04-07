@@ -123,7 +123,9 @@ export enum APP_STRINGS {
   SUBMIT_TEST_MESSAGE = 'You will not be able to make changes to this test after it has been submitted.',
   SUBMIT_TEST_TOAST_MESSAGE = 'The test has been submitted and emailed to andy@dvsa.gov.uk',
   UNABLE_TO_SUBMIT_TESTS_TITLE = 'Unable to submit test',
-  UNABLE_TO_SUBMIT_TESTS_TEXT = 'Make sure you are connected to the Internet and try again.',
+  UNABLE_TO_START_VISIT = 'Unable to start visit',
+  UNABLE_TO_END_VISIT = 'Unable to end visit',
+  NO_INTERNET_CONNECTION = 'Make sure you are connected to the Internet and try again.',
   SETTINGS_BTN = 'Settings',
   TRY_AGAIN_BTN = 'Try again',
   CALL_SUPP_BTN = 'Call technical support',
@@ -243,6 +245,7 @@ export enum TECH_RECORD_STATUS {
 
 export enum AUTH {
   INVALID_TOKEN = 'Invalid Token',
+  INTERNET_REQUIRED = 'Internet is required.',
   MS_ADAL_ERROR_CODE = 'AD_ERROR_UI_USER_CANCEL',
   MS_ADA_ERROR_USER_INPUT = 'AD_ERROR_SERVER_USER_INPUT_NEEDED'
 }

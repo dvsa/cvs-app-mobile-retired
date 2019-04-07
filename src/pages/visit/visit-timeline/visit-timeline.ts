@@ -5,9 +5,10 @@ import { TestModel } from "../../../models/tests/test.model";
 import { VisitService } from "../../../providers/visit/visit.service";
 import { VisitModel } from "../../../models/visit/visit.model";
 import { StateReformingService } from "../../../providers/global/state-reforming.service";
-import { APP, APP_STRINGS, STORAGE, TEST_REPORT_STATUSES, TEST_TYPE_RESULTS } from "../../../app/app.enums";
+import { APP, APP_STRINGS, STORAGE, TEST_REPORT_STATUSES, TEST_TYPE_RESULTS, AUTH } from "../../../app/app.enums";
 import { StorageService } from "../../../providers/natives/storage.service";
 import { AppService } from "../../../providers/global/app.service";
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 
 @IonicPage()
 @Component({
@@ -19,9 +20,6 @@ export class VisitTimelinePage implements OnInit {
   timeline: TestModel[];
   TEST_REPORT_STATUS = TEST_REPORT_STATUSES;
   TEST_TYPE_RESULT = TEST_TYPE_RESULTS;
-  loading = this.loadingCtrl.create({
-    content: APP_STRINGS.END_VISIT_LOADING
-  });
   changeOpacity: boolean = false;
 
   constructor(public navCtrl: NavController,
@@ -34,7 +32,8 @@ export class VisitTimelinePage implements OnInit {
               private visitService: VisitService,
               private alertCtrl: AlertController,
               private storageService: StorageService,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              private openNativeSettings: OpenNativeSettings) {
     this.timeline = [];
   }
 
@@ -73,8 +72,45 @@ export class VisitTimelinePage implements OnInit {
     });
   }
 
+  private confirmEndVisit() {
+    const LOADING = this.loadingCtrl.create({
+      content: APP_STRINGS.END_VISIT_LOADING
+    });
+    LOADING.present();
+    this.visitService.endVisit(this.visit.id).subscribe(
+      () => {
+        this.storageService.delete(STORAGE.VISIT);
+        this.storageService.delete(STORAGE.STATE);
+        this.visitService.visit = {} as VisitModel;
+        LOADING.dismiss();
+        this.navCtrl.push('EndVisitConfirmPage', {testStationName: this.visit.testStationName});
+      }, (error) => {
+        LOADING.dismiss();
+        if (error && error.error === AUTH.INTERNET_REQUIRED) {
+          const TRY_AGAIN_ALERT = this.alertCtrl.create({
+            title: APP_STRINGS.UNABLE_TO_END_VISIT,
+            message: APP_STRINGS.NO_INTERNET_CONNECTION,
+            buttons: [{
+              text: APP_STRINGS.SETTINGS_BTN,
+              handler: () => {
+                this.openNativeSettings.open('settings');
+              }
+            },
+            {
+              text: APP_STRINGS.TRY_AGAIN_BTN,
+              handler: () => {
+                this.confirmEndVisit();
+              }
+            }]
+          });
+          TRY_AGAIN_ALERT.present();
+        }
+      });
+  }
+
   showConfirm(): void {
     this.changeOpacity = true;
+
     const CONFIRM = this.alertCtrl.create({
       title: APP_STRINGS.END_VISIT_TITLE,
       message: `${APP_STRINGS.END_VISIT_MSG}${this.visit.testStationName}.`,
@@ -86,17 +122,7 @@ export class VisitTimelinePage implements OnInit {
         {
           text: APP_STRINGS.END_VISIT_TITLE,
           handler: () => {
-            this.loading.present();
-            this.visitService.endVisit(this.visit.id).subscribe(
-              () => {
-                this.storageService.delete(STORAGE.VISIT);
-                this.storageService.delete(STORAGE.STATE);
-                this.visitService.visit = {} as VisitModel;
-                this.loading.dismissAll();
-                this.navCtrl.push('EndVisitConfirmPage', {testStationName: this.visit.testStationName});
-              }, () => {
-                this.loading.dismissAll();
-              });
+            this.confirmEndVisit();
           }
         }
       ]

@@ -158,7 +158,7 @@ export class TestReviewPage implements OnInit {
     let stack: Observable<any>[] = [];
     const TRY_AGAIN_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
-      message: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TEXT,
+      message: APP_STRINGS.NO_INTERNET_CONNECTION,
       buttons: [{
         text: APP_STRINGS.SETTINGS_BTN,
         handler: () => {
