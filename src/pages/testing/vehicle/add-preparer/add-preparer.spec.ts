@@ -1,7 +1,7 @@
 import { AddPreparerPage } from "./add-preparer";
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
-import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
+import { AlertController, IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestService } from "../../../../providers/test/test.service";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
@@ -12,6 +12,10 @@ import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 import { VisitService } from "../../../../providers/visit/visit.service";
+import { PipesModule } from "../../../../pipes/pipes.module";
+import { PreparersDataMock } from "../../../../assets/data-mocks/reference-data-mocks/preparers-data.mock";
+import { AlertControllerMock } from "ionic-mocks";
+import { of } from "rxjs/observable/of";
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -21,20 +25,26 @@ describe('Component: AddPreparerPage', () => {
   let navCtrl: NavController;
   let vehicleService: VehicleService;
   let visitService: VisitService;
+  let preparerServiceSpy: any;
 
   const TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
 
   beforeEach(async(() => {
-    const preparerServiceSpy = jasmine.createSpyObj('PreparerService', ['getPreparersFromStorage, search']);
-
+    preparerServiceSpy = jasmine.createSpyObj(
+      'PreparerService', [
+        {'getPreparersFromStorage': of(PreparersDataMock.PreparersData)}
+      ]
+    );
     TestBed.configureTestingModule({
       declarations: [AddPreparerPage],
       imports: [
-        IonicModule.forRoot(AddPreparerPage)
+        IonicModule.forRoot(AddPreparerPage),
+        PipesModule
       ],
       providers: [
         NavController,
         TestService,
+        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: PreparerService, useValue: preparerServiceSpy},
         {provide: VehicleService, useClass: VehicleServiceMock},
@@ -90,12 +100,33 @@ describe('Component: AddPreparerPage', () => {
     })
   );
 
-  it('should make variable true on searchBar focus on', () => {
-    let ev = 'something';
-    let hideCancel = false;
-    comp.focusOut = false;
-    expect(comp.focusOut).toBeFalsy();
-    comp.keepCancelOn(ev, hideCancel);
-    expect(comp.focusOut).toBeTruthy();
+  it('should format the data from confirm with a preparer selected', () => {
+    spyOn(comp, 'presentPreparerConfirm').and.callThrough();
+    comp.preparers = PreparersDataMock.PreparersData;
+    comp.searchValue = 'AK4434';
+    comp.formatDataForConfirm();
+    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({preparerId: 'AK4434', preparerName: 'Durrell Vehicles Limited'})
   });
+
+  it('should format the data from confirm without a preparer selected', () => {
+    spyOn(comp, 'presentPreparerConfirm').and.callThrough();
+    comp.preparers = PreparersDataMock.PreparersData;
+    comp.searchValue = '';
+    comp.formatDataForConfirm();
+    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({preparerId: 'No preparer ID given', preparerName: ''}, false)
+  });
+
+  it('should format the data from confirm with a preparer not found', () => {
+    spyOn(comp, 'presentPreparerConfirm').and.callThrough();
+    comp.preparers = PreparersDataMock.PreparersData;
+    comp.searchValue = 'xxx';
+    comp.formatDataForConfirm();
+    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({preparerId: 'No preparer ID found', preparerName: ''}, false, true)
+  });
+
+  it('should get data from service', () => {
+    expect(comp.preparers).toBeDefined();
+  })
+
+
 });

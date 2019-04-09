@@ -9,6 +9,10 @@ page-add-preparer {
     color: $color-grey-1;
   }
 
+  .button-inner {
+    font-weight: $font-weight-normal;
+  }
+
   .truncate-text {
     display: inherit;
     white-space: nowrap;
@@ -19,4 +23,18 @@ page-add-preparer {
     min-height: 55px;
   }
 
+  .info-text {
+    padding-top: 8px;
+    color: $color-grey-1;
+  }
+
+  .srch-preparer-input {
+    border-width: 1px;
+    border-color: $color-grey-2;
+    border-style: solid none solid none;
+  }
+
+  .item-ios.item-block .item-inner {
+    border: 0;
+  }
 }
