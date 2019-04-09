@@ -8,7 +8,7 @@ import {
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { APP_STRINGS } from "../../../../app/app.enums";
+import { APP_STRINGS, DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -24,6 +24,7 @@ export class DefectDetailsPage implements OnInit {
   tempDefectLocation: DefectLocationModel;
   tempDefectNotes: string;
   fromTestReview: boolean;
+  showPrs: boolean = true;
   @ViewChild(Navbar) navBar: Navbar;
 
   constructor(public navCtrl: NavController,
@@ -43,6 +44,7 @@ export class DefectDetailsPage implements OnInit {
     this.tempDefectNotes = this.defect.additionalInformation.notes;
     this.defectMetadata = this.defect.metadata.category.additionalInfo;
     this.isLocation = this.defectMetadata && this.defectMetadata.location ? this.checkForLocation(this.defectMetadata.location) : false;
+    this.checkForPrs(this.defect);
   }
 
   ionViewWillEnter() {
@@ -91,6 +93,14 @@ export class DefectDetailsPage implements OnInit {
       }
     );
     return found;
+  }
+
+  checkForPrs(defect: any): void {
+    if(defect.deficiencyCategory === DEFICIENCY_CATEGORY.DANGEROUS || 
+       defect.deficiencyCategory === DEFICIENCY_CATEGORY.MINOR) {
+      this.showPrs = false;
+      defect.prs = null;
+    }
   }
 
   removeDefectConfirm(defect: DefectDetailsModel): void {
