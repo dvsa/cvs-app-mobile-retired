@@ -178,5 +178,24 @@ describe('Component: DefectDetailsPage', () => {
     expect(comp.checkIfDefectWasAdded()).toBeTruthy();
   });
 
+  it('should check if the PRS option is available for major defects', () => {
+    comp.checkForPrs(defect);
+    expect(comp.defect.prs).toBeFalsy();
+    expect(comp.showPrs).toBeTruthy();
+  });
+
+  it('should check if the PRS option is unavailable for dangerous defects', () => {
+    defect.deficiencyCategory = 'dangerous';
+    comp.checkForPrs(defect);
+    expect(comp.defect.prs).toBeNull();
+    expect(comp.showPrs).toBeFalsy();
+  });
+
+  it('should check if the PRS option is unavailable for minor defects', () => {
+    defect.deficiencyCategory = 'minor';
+    comp.checkForPrs(defect);
+    expect(comp.defect.prs).toBeNull();
+    expect(comp.showPrs).toBeFalsy();
+  });
 
 });
