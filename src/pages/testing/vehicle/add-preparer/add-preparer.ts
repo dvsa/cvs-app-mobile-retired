@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
 import { TestModel } from "../../../../models/tests/test.model";
@@ -17,12 +17,12 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 })
 export class AddPreparerPage implements OnInit {
   preparers: PreparersReferenceDataModel[] = [];
-  filteredPreparers: PreparersReferenceDataModel[] = [];
   searchValue: string;
   focusOut: boolean = false;
   vehicleData: VehicleModel;
   testData: TestModel;
   activeIndex: number;
+  preparerInfoText: string = APP_STRINGS.ADD_PREPARER_INFO_TEXT;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -30,6 +30,7 @@ export class AddPreparerPage implements OnInit {
               private alertCtrl: AlertController,
               private vehicleService: VehicleService,
               private visitService: VisitService,
+              private cdRef: ChangeDetectorRef,
               private viewCtrl: ViewController,
               private testReportService: TestService) {
     this.vehicleData = this.navParams.get('vehicle');
@@ -47,7 +48,7 @@ export class AddPreparerPage implements OnInit {
   getPreparers(): void {
     this.preparerService.getPreparersFromStorage().subscribe(
       (data: PreparersReferenceDataModel[]) => {
-        this.preparers = this.filteredPreparers = this.preparerService.search(data, this.searchValue);
+        this.preparers = data;
       });
   }
 
@@ -56,13 +57,28 @@ export class AddPreparerPage implements OnInit {
     this.vehicleService.addPreparer(this.vehicleData, preparer);
   }
 
-  presentConfirm(preparer: PreparersReferenceDataModel): void {
-    let alert = this.alertCtrl.create({
-      title: !preparer.preparerId ? APP_STRINGS.WITHOUT_PREPARER : APP_STRINGS.CONFIRM_PREPARER,
-      message: !preparer.preparerId ? APP_STRINGS.PREPARER_ALERT_MESSAGE : `You have selected ${preparer.preparerId} as the preparer of this vehicle for testing.`,
+  formatDataForConfirm(): void {
+    if (this.searchValue && this.searchValue.length > 0) {
+      let searchVal = this.searchValue.toLowerCase().replace(/ /g, '');
+      let preparer = this.preparers.find((elem) => elem.preparerId.toLowerCase() === searchVal);
+
+      if (preparer) {
+        this.presentPreparerConfirm(preparer);
+      } else {
+        this.presentPreparerConfirm({preparerId: 'No preparer ID found', preparerName: ''}, false, true);
+      }
+    } else {
+      this.presentPreparerConfirm({preparerId: 'No preparer ID given', preparerName: ''}, false);
+    }
+  }
+
+  presentPreparerConfirm(preparer: PreparersReferenceDataModel, preparerFound = true, showSearchAgain = false) {
+    const ALERT = this.alertCtrl.create({
+      title: preparerFound ? `${preparer.preparerName} (${preparer.preparerId})` : APP_STRINGS.WITHOUT_PREPARER,
+      message: preparerFound ? APP_STRINGS.CONFIRM_PREPARER : APP_STRINGS.WITHOUT_PREPARER_MSG,
       buttons: [
         {
-          text: APP_STRINGS.CANCEL,
+          text: !showSearchAgain ? APP_STRINGS.CANCEL : APP_STRINGS.PREPARER_NOT_FOUND,
           role: 'cancel',
           handler: () => {
           }
@@ -79,17 +95,17 @@ export class AddPreparerPage implements OnInit {
         }
       ]
     });
-    alert.present();
-    alert.onDidDismiss(() => this.activeIndex = null);
-  }
-
-  searchList(ev): void {
-    this.searchValue = ev.target.value;
-    this.filteredPreparers = this.preparerService.search(this.preparers, this.searchValue);
+    ALERT.present();
+    ALERT.onDidDismiss(() => this.activeIndex = null);
   }
 
   keepCancelOn(ev, hideCancel?: boolean) {
     this.focusOut = !hideCancel;
+  }
+
+  valueInputChange(value) {
+    this.cdRef.detectChanges();
+    this.searchValue = value.length > 9 ? value.substring(0, 9) : value;
   }
 
 }

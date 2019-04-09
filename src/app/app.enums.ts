@@ -92,9 +92,11 @@ export enum APP_COLORS {
 
 export enum APP_STRINGS {
   VEHICLE_DETAILS = 'Vehicle details',
-  WITHOUT_PREPARER = 'Continue without preparerID',
-  CONFIRM_PREPARER = 'Confirm preparer',
-  PREPARER_ALERT_MESSAGE = 'You will not be able to add a preparer for this vehicle later.',
+  WITHOUT_PREPARER = 'Continue without preparer ID',
+  CONFIRM_PREPARER = 'You are about to add this preparer to the test',
+  ADD_PREPARER_INFO_TEXT = 'If you are shown a preparer ID, add this to the test now',
+  WITHOUT_PREPARER_MSG = "You won't be able to add this information later" ,
+  PREPARER_NOT_FOUND = 'Search again',
   CANCEL = 'Cancel',
   CONFIRM = 'Confirm',
   SUBMIT = 'Submit',

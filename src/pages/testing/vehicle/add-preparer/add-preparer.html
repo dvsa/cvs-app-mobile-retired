@@ -1,49 +1,34 @@
-<ion-header transforming-searchBar [searchBarElemRef]="searchBar">
+<ion-header>
   <ion-navbar>
-    <ion-title margin-left>Select preparer</ion-title>
+  <ion-buttons end>
+    <button ion-button (click)="formatDataForConfirm()">
+      <span>Start Test</span>
+    </button>
+  </ion-buttons>
+    <ion-title margin-left>Enter preparer ID</ion-title>
   </ion-navbar>
-  <ion-toolbar>
-    <ion-searchbar #searchBar
-                   (ionInput)="searchList($event)"
-                   [(ngModel)]="searchValue"
-                   [showCancelButton]="true"
-                   [cancelButtonText]="'Cancel'"
-                   (ionFocus)="keepCancelOn($event)"
-                   (ionCancel)="keepCancelOn($event, true)"
-                   [ngClass]="{'keep-cancel-on': focusOut}"
-                   placeholder="Search for preparer ID number"></ion-searchbar>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding>
-  <ion-list *ngIf="filteredPreparers.length > 0">
-    <button ion-item 
-            no-lines 
-            padding-left 
-            [ngClass]="{buttonBackground: activeIndex === -1}"
-            (click)="activeIndex = -1; presentConfirm({preparerId: '', preparerName: 'Preparer ID not given'})" 
-            class="min-height" 
-            *ngIf="!focusOut">
-      <span ion-text color="dark">No preparer ID given</span>
-    </button>
-    <ion-list-header text-uppercase padding-left *ngIf="!focusOut">List of preparers</ion-list-header>
-    <button ion-item detail-none padding-left
-            *ngFor="let preparer of filteredPreparers; let i = index"
-            [ngClass]="{buttonBackground: activeIndex === i}"
-            (click)="activeIndex = i; presentConfirm(preparer)" class="min-height">
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col col-3 text-start><span text-left>{{ preparer.preparerId }}</span></ion-col>
-          <ion-col col-9 text-end><span class="item__preparer-name truncate-text">{{ preparer.preparerName }}</span></ion-col>
-        </ion-row>
-      </ion-grid>
-    </button>
-  </ion-list>
-  <div *ngIf="focusOut && filteredPreparers.length == 0"
-       [ngClass]="filteredPreparers.length == 0 ? 'no-result' : ''">
-    <h3>No results found</h3>
-    <span>You can search for a preparer by its ID number</span>
-    <span class="no-result-link" (click)="presentConfirm({preparerId: '', preparerName: 'Preparer ID not found'})">Continue without preparer ID</span>
-  </div>
-     
+
+  <ion-grid no-padding>
+    <ion-row justify-content-center>
+      <ion-col col-6>
+        <div text-uppercase
+             text-center
+             class="vehicle-header-vrm-number">
+          {{ vehicleData.vrm | formatVrm }}
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row no-border>
+      <ion-item padding-horizontal class="srch-preparer-input">
+        <ion-input placeholder="Enter preparer ID if known" [(ngModel)]="searchValue" (ngModelChange)="valueInputChange($event)"></ion-input>
+      </ion-item>
+    </ion-row>
+    <ion-row padding-horizontal class="info-text">
+      <span>{{ preparerInfoText }}</span>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
