@@ -35,6 +35,7 @@ export class VehicleHistoryDetailsPage {
   doesNotHaveDefects: boolean;
   doesNotHaveBelts: boolean;
   doesNotHaveExpiry: boolean;
+  doDefectsExist: boolean;
   isTestResultAbandon: boolean;
   isTestResultFail: boolean;
   testResultColor: string;
@@ -55,6 +56,7 @@ export class VehicleHistoryDetailsPage {
     this.selectedTestType = this.testResultHistory[this.testIndex].testTypes[this.testTypeIndex];
     this.testTypeResults = TEST_TYPE_RESULTS;
     this.defaultValues = DEFAULT_VALUES;
+    this.doDefectsExist = this.checkForDefects(this.selectedTestType.defects);
 
     this.setTestMetadata();
     this.compareTestWithMetadata();
@@ -91,6 +93,15 @@ export class VehicleHistoryDetailsPage {
         return 'danger';
       case DEFICIENCY_CATEGORY.MINOR:
         return 'attention';
+    }
+  }
+
+  checkForDefects(defects: any) : boolean {
+    if (defects === null || !defects.length) {
+      return false;
+    }
+    else {
+      return true;
     }
   }
 

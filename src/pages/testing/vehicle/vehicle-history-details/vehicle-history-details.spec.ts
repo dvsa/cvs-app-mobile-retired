@@ -12,6 +12,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
   let fixture: ComponentFixture<VehicleHistoryDetailsPage>;
   let navCtrl: NavController;
   let commonFunctionsService: any;
+  let defects: any;
 
   beforeEach(async(() => {
   
@@ -53,6 +54,47 @@ describe('Component: VehicleHistoryDetailsPage', () => {
     expect(commonFunctionsService.getTestResultColor('fail')).toEqual('danger');
     expect(commonFunctionsService.getTestResultColor('abandoned')).toEqual('danger');
     expect(commonFunctionsService.getTestResultColor('prs')).toEqual('tertiary');
+  });
+
+  it('should return false if defects is null', () => {
+    defects = null;
+    expect(comp.checkForDefects(defects)).toBeFalsy;
+  });
+
+  it('should return false if defects array is empty', () => {
+    defects = [];
+    expect(comp.checkForDefects(defects)).toBeFalsy;
+  });
+
+  it('should return true if defects array is not empty', () => {
+    defects = [
+      {
+        "deficiencyCategory": "major",
+        "deficiencyText": "missing.",
+        "prs": false,
+        "additionalInformation": {
+          "location": {
+            "axleNumber": null,
+            "horizontal": null,
+            "vertical": null,
+            "longitudinal": "front",
+            "rowNumber": null,
+            "lateral": null,
+            "seatNumber": null
+          },
+          "notes": "None"
+        },
+        "itemNumber": 1,
+        "deficiencyRef": "1.1.a",
+        "stdForProhibition": false,
+        "deficiencySubId": null,
+        "imDescription": "Registration Plate",
+        "deficiencyId": "a",
+        "itemDescription": "A registration plate:",
+        "imNumber": 1
+      }
+    ];
+    expect(comp.checkForDefects(defects)).toBeTruthy;
   });
 
 });

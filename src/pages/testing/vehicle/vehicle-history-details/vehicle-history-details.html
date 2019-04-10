@@ -152,7 +152,7 @@
 
   <ion-list class="list-margin" *ngIf="!doesNotHaveDefects">
     <ion-list-header text-uppercase padding-left>DEFECTS</ion-list-header>
-    <ng-container *ngIf="selectedTestType.defects.length > 0; else noDefects">
+    <ng-container *ngIf="doDefectsExist; else noDefects">
       <ion-item ion-item detail-none padding-left class="defect" *ngFor="let defect of selectedTestType.defects">
         <ion-grid no-padding>
           <ion-row justify-content-between>
