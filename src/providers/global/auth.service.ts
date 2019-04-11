@@ -3,7 +3,7 @@ import { AppConfig } from "../../../config/app.config";
 import { AuthenticationContext, AuthenticationResult, MSAdal } from "@ionic-native/ms-adal";
 import * as jwt_decode from "jwt-decode";
 import { TesterDetailsModel } from "../../models/tester-details.model";
-import { AUTH, LOCAL_STORAGE } from "../../app/app.enums";
+import { AUTH, LOCAL_STORAGE, TESTER_ROLES } from "../../app/app.enums";
 import { Observable } from "rxjs";
 import { CommonRegExp } from "../utils/common-regExp";
 import { Platform } from "ionic-angular";
@@ -15,6 +15,7 @@ export class AuthService {
   testerDetails: TesterDetailsModel;
   jwtToken: string;
   authContext: AuthenticationContext;
+  userRoles: string[] = [];
 
   constructor(private msAdal: MSAdal,
               public platform: Platform,
@@ -85,15 +86,17 @@ export class AuthService {
     return (tokenStr && tokenStr.match(CommonRegExp.JTW_TOKEN));
   }
 
-  setTesterDetails(authResponse: AuthenticationResult,
+  setTesterDetails(authResponse: AuthenticationResult | any,
                    testerId = this.commonFunc.randomString(9),
                    testerName = this.commonFunc.randomString(9),
-                   testerEmail = `${testerName}.${testerId}@email.com`): TesterDetailsModel {
+                   testerEmail = `${testerName}.${testerId}@email.com`,
+                   testerRoles = [TESTER_ROLES.FULL_ACCESS]): TesterDetailsModel {
 
     let details: TesterDetailsModel = {
       testerName,
       testerId,
-      testerEmail
+      testerEmail,
+      testerRoles
     };
 
     if (authResponse) {
@@ -101,12 +104,18 @@ export class AuthService {
       details.testerId = decodedToken['oid'];
       details.testerName = decodedToken['name'];
       details.testerEmail = decodedToken['upn'];
+      details.testerRoles = decodedToken['roles'];
     }
+    this.userRoles = details.testerRoles;
     localStorage.setItem('tester-details', JSON.stringify(details));
     return details
   }
 
   decodeJWT(token) {
     return jwt_decode(token);
+  }
+
+  hasRights(userRoles: string[], neededRoles: string[]): boolean {
+    return userRoles.some(role => neededRoles.indexOf(role) >= 0);
   }
 }

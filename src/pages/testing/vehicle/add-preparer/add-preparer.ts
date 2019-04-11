@@ -2,12 +2,13 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
 import { TestModel } from "../../../../models/tests/test.model";
-import { APP_STRINGS } from "../../../../app/app.enums";
+import { APP_STRINGS, TESTER_ROLES } from "../../../../app/app.enums";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { PreparersReferenceDataModel } from "../../../../models/reference-data-models/preparers.model";
 import { TestService } from '../../../../providers/test/test.service';
 import { VisitService } from "../../../../providers/visit/visit.service";
+import { AuthService } from "../../../../providers/global/auth.service";
 
 
 @IonicPage()
@@ -32,13 +33,18 @@ export class AddPreparerPage implements OnInit {
               private visitService: VisitService,
               private cdRef: ChangeDetectorRef,
               private viewCtrl: ViewController,
-              private testReportService: TestService) {
+              private testReportService: TestService,
+              private authService: AuthService) {
     this.vehicleData = this.navParams.get('vehicle');
     this.testData = this.navParams.get('test');
   }
 
   ngOnInit() {
     this.getPreparers();
+  }
+
+  ionViewCanEnter() {
+    return this.hasRightsToTestVechicle([TESTER_ROLES.FULL_ACCESS], this.authService.userRoles, this.vehicleData.techRecord.vehicleType)
   }
 
   ionViewWillEnter() {
@@ -108,4 +114,28 @@ export class AddPreparerPage implements OnInit {
     this.searchValue = value.length > 9 ? value.substring(0, 9) : value;
   }
 
+  hasRightsToTestVechicle(neededRights: string[], userRights: string[], vehicleType: string) {
+    switch (vehicleType) {
+      case "psv": {
+        neededRights.push(TESTER_ROLES.PSV);
+        break;
+      }
+      case "hgv": {
+        neededRights.push(TESTER_ROLES.HGV);
+        break;
+      }
+      case "adr": {
+        neededRights.push(TESTER_ROLES.ADR);
+        break;
+      }
+      case "tir": {
+        neededRights.push(TESTER_ROLES.TIR);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    return this.authService.hasRights(userRights, neededRights);
+  }
 }
