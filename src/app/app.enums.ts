@@ -37,6 +37,14 @@ export enum APP {
   TEST_TYPES_UPDATE_COMPLETED_FIELDS = 'updateCompletedFields'
 }
 
+export enum TESTER_ROLES {
+  FULL_ACCESS = 'CVSFullAccess',
+  PSV = 'CVSPsvTester',
+  HGV = 'CVSHgvTester',
+  ADR = 'CVSAdrTester',
+  TIR = 'CVSTirTester'
+}
+
 export enum DEFICIENCY_CATEGORY {
   ADVISORY = 'advisory',
   DANGEROUS = 'dangerous',
@@ -159,7 +167,10 @@ export enum APP_STRINGS {
   SIGN_ENTER = 'You must enter your signature before saving.',
   SIGN_UNABLE_LOAD_DATA = 'Unable to load data',
   CACHING_ENABLED_STORAGE_CLEARED = 'Storage was cleared and caching was disabled. Ride on',
-  CACHING_ENABLED = 'Caching was enabled'
+  CACHING_ENABLED = 'Caching was enabled',
+  UNAUTHORISED = 'Unable to authorize',
+  UNAUTHORISED_MSG = "Your account isn't currently authorised to use this app. Close the app or call IT support.",
+  UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support."
 }
 
 export enum ODOMETER_METRIC {
@@ -280,10 +291,12 @@ export enum PAGE_NAMES {
   TEST_ABANDONING_PAGE = 'TestAbandoningPage',
   COMPLETE_TEST_PAGE = 'CompleteTestPage',
   VEHICLE_DETAILS_PAGE = 'VehicleDetailsPage',
+  VEHICLE_HISTORY_PAGE = 'VehicleHistoryPage',
   TEST_TYPES_LIST_PAGE = 'TestTypesListPage',
   REASONS_SELECTION_PAGE = 'ReasonsSelectionPage',
   TEST_CANCEL_PAGE = 'TestCancelPage',
   TEST_REVIEW_PAGE = 'TestReviewPage',
   SIGNATURE_PAD_PAGE = 'SignaturePadPage',
-  VISIT_TIMELINE_PAGE = 'VisitTimelinePage'
+  VISIT_TIMELINE_PAGE = 'VisitTimelinePage',
+  ADD_PREPARER_PAGE = 'AddPreparerPage'
 }

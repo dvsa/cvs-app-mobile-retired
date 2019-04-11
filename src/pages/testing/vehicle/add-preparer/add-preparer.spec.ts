@@ -16,6 +16,9 @@ import { PipesModule } from "../../../../pipes/pipes.module";
 import { PreparersDataMock } from "../../../../assets/data-mocks/reference-data-mocks/preparers-data.mock";
 import { AlertControllerMock } from "ionic-mocks";
 import { of } from "rxjs/observable/of";
+import { AuthService } from "../../../../providers/global/auth.service";
+import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
+import { TESTER_ROLES } from "../../../../app/app.enums";
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -45,6 +48,7 @@ describe('Component: AddPreparerPage', () => {
         NavController,
         TestService,
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
+        {provide: AuthService, useClass: AuthServiceMock},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: PreparerService, useValue: preparerServiceSpy},
         {provide: VehicleService, useClass: VehicleServiceMock},
@@ -126,7 +130,42 @@ describe('Component: AddPreparerPage', () => {
 
   it('should get data from service', () => {
     expect(comp.preparers).toBeDefined();
-  })
+  });
 
+  it( 'should check if user has rights to test selected vehicle', () => {
+    let neededRoles = [TESTER_ROLES.FULL_ACCESS];
+    let testerRoles = [TESTER_ROLES.HGV];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'psv')).toBeFalsy();
+    neededRoles = [TESTER_ROLES.FULL_ACCESS];
+    testerRoles = [TESTER_ROLES.PSV];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'psv')).toBeTruthy();
 
+    neededRoles = [TESTER_ROLES.FULL_ACCESS];
+    testerRoles = [TESTER_ROLES.PSV];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'hgv')).toBeFalsy();
+    neededRoles = [TESTER_ROLES.FULL_ACCESS];
+    testerRoles = [TESTER_ROLES.HGV];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'hgv')).toBeTruthy();
+
+    neededRoles = [TESTER_ROLES.FULL_ACCESS];
+    testerRoles = [TESTER_ROLES.PSV];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'adr')).toBeFalsy();
+    neededRoles = [TESTER_ROLES.FULL_ACCESS];
+    testerRoles = [TESTER_ROLES.ADR];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'adr')).toBeTruthy();
+
+    neededRoles = [TESTER_ROLES.FULL_ACCESS];
+    testerRoles = [TESTER_ROLES.PSV];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'tir')).toBeFalsy();
+    neededRoles = [TESTER_ROLES.FULL_ACCESS];
+    testerRoles = [TESTER_ROLES.TIR];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'tir')).toBeTruthy();
+
+    neededRoles = [TESTER_ROLES.FULL_ACCESS];
+    testerRoles = [TESTER_ROLES.PSV];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, '')).toBeFalsy();
+    neededRoles = [TESTER_ROLES.FULL_ACCESS];
+    testerRoles = [TESTER_ROLES.HGV];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, '')).toBeFalsy();
+  });
 });

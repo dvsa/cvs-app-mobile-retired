@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     if (!window.navigator.onLine) {
-      return Observable.throw(new HttpErrorResponse({ error: AUTH.INTERNET_REQUIRED }));
+      return Observable.throw(new HttpErrorResponse({error: AUTH.INTERNET_REQUIRED}));
     }
     return next.handle(this.addAuthHeader(req, this.authService.getJWTToken())).pipe(
       catchError(error => {
@@ -25,9 +25,9 @@ export class AuthInterceptor implements HttpInterceptor {
           switch ((<HttpErrorResponse>error).status) {
             case STATUS_CODE.UNAUTHORIZED, STATUS_CODE.FORBIDDEN:
               return this.handle401Error(req, next);
+            default:
+              return _throw(error);
           }
-        } else {
-          return _throw(error);
         }
       })
     )

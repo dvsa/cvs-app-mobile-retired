@@ -3,8 +3,10 @@ import { IonicPage, NavController, NavParams, ViewController, AlertController } 
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { APP_STRINGS, DATE_FORMAT, STORAGE } from "../../../../app/app.enums";
+import { APP_STRINGS, DATE_FORMAT, PAGE_NAMES, STORAGE } from "../../../../app/app.enums";
 import { StorageService } from "../../../../providers/natives/storage.service";
+import { AppConfig } from "../../../../../config/app.config";
+import { CallNumber } from "@ionic-native/call-number";
 
 @IonicPage()
 @Component({
@@ -23,7 +25,8 @@ export class VehicleDetailsPage {
               public viewCtrl: ViewController,
               public alertCtrl: AlertController,
               public storageService: StorageService,
-              public commonFunc: CommonFunctionsService) {
+              public commonFunc: CommonFunctionsService,
+              private callNumber: CallNumber) {
     this.vehicleData = navParams.get('vehicle');
     this.testData = navParams.get('test');
     this.fromTestCreatePage = navParams.get('fromTestCreatePage');
@@ -44,10 +47,35 @@ export class VehicleDetailsPage {
         }, {
           text: APP_STRINGS.CONFIRM,
           handler: () => {
-            this.navCtrl.push('AddPreparerPage', {
+            this.navCtrl.push(PAGE_NAMES.ADD_PREPARER_PAGE, {
               vehicle: this.vehicleData,
               test: this.testData
-            });
+            }).then(
+              (resp) => {
+                if (!resp) {
+                  const alert = this.alertCtrl.create({
+                    title: APP_STRINGS.UNAUTHORISED,
+                    message: APP_STRINGS.UNAUTHORISED_TEST_MSG,
+                    buttons: [
+                      {
+                        text: APP_STRINGS.CANCEL,
+                        role: 'cancel'
+                      },
+                      {
+                        text: APP_STRINGS.CALL,
+                        handler: () => {
+                          this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
+                            data => console.log(data),
+                            err => console.log(err)
+                          );
+                          return false;
+                        }
+                      }
+                    ]
+                  });
+                  alert.present();
+                }
+              });
           }
         }
       ]
@@ -65,7 +93,7 @@ export class VehicleDetailsPage {
   goToVehicleTestResultsHistory() {
     this.storageService.read(STORAGE.TEST_HISTORY).then(
       data => {
-        this.navCtrl.push('VehicleHistoryPage', {
+        this.navCtrl.push(PAGE_NAMES.VEHICLE_HISTORY_PAGE, {
           vehicleData: this.vehicleData,
           testResultsHistory: data ? data : [],
         });

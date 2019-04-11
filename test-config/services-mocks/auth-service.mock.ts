@@ -7,12 +7,14 @@ import { CommonFunctionsService } from "../../src/providers/utils/common-functio
 
 export class AuthServiceMock {
   testerDetails: TesterDetailsModel;
-  jwtToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20ifQ.BlL6ll8xB4iGqDn_KB2mezWRFMHRqbRu-NxDB3443s0';
+  jwtToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNGdWxsQWNjZXNzIl19.Bt0QdsvYs5jrefzefhp_KofkkpE6KjqFE693jpjEL5Y';
   decodedToken = {
     "oid": "1234567890",
     "name": "John Doe",
-    "upn": "test@email.com"
+    "upn": "test@email.com",
+    "roles": ["CVSFullAccess"]
   };
+  userRoles: string[] = [];
   authContext: any;
 
   constructor() {
@@ -60,7 +62,8 @@ export class AuthServiceMock {
     let details: TesterDetailsModel = {
       testerName: commonFunc.randomString(9),
       testerId: commonFunc.randomString(9),
-      testerEmail: ''
+      testerEmail: '',
+      testerRoles: ['CVSFullAccess']
     };
     details.testerEmail = `${details.testerName}.${details.testerId}@email.com`
 
@@ -70,11 +73,16 @@ export class AuthServiceMock {
       details.testerName = decodedToken['name'];
       details.testerEmail = decodedToken['upn'];
     }
+    this.userRoles = details.testerRoles;
     localStorage.setItem('tester-details', JSON.stringify(details));
     return details
   }
 
   private decodeJWT(token) {
     return this.decodedToken;
+  }
+
+  hasRights(userRoles: string[], neededRoles: string[]): boolean {
+    return userRoles.some(role => neededRoles.indexOf(role) >= 0);
   }
 }

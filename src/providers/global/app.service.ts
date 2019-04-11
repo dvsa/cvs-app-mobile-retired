@@ -65,7 +65,7 @@ export class AppService {
   }
 
   clearLocalStorage(): Promise<any> {
-    localStorage.clear()
+    localStorage.clear();
     return Promise.resolve(true);
   }
 
@@ -98,7 +98,6 @@ export class AppService {
       cache ? localStorage.setItem(LOCAL_STORAGE.CACHING, cache) : localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
     }
   }
-
 
   private presentToast(message: string): void {
     const TOAST = this.toastController.create({
