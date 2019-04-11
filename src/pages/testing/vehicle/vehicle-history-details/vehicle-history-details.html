@@ -15,7 +15,7 @@
         <ion-row justify-content-between>
           <ion-col col-12 text-start text-wrap>
             <span text-capitalize text-left>
-              {{ selectedTestType.testTypeName }}
+              {{ selectedTestType.testTypeName || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -33,7 +33,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ selectedTestType.testTypeStartTimestamp | date:'dd MMM yyyy' }}
+              {{ (selectedTestType.testTypeStartTimestamp | date:'dd MMM yyyy') || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -47,8 +47,8 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ selectedTestType.testTypeStartTimestamp | date:'HH:mm' }} -
-              {{ selectedTestType.testTypeEndTimestamp | date:'HH:mm' }}
+              {{ (selectedTestType.testTypeStartTimestamp | date:'HH:mm') || defaultValues.NONE }} -
+              {{ (selectedTestType.testTypeEndTimestamp | date:'HH:mm') || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -60,7 +60,7 @@
           <ion-col col-3 text-start><span text-left>Test result</span></ion-col>
           <ion-col col-9 text-end>
             <span text-uppercase ion-text class="test-result" [color]="testResultColor">
-              {{ selectedTestType.testResult }}
+              {{ selectedTestType.testResult || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -74,7 +74,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ selectedTestType.testExpiryDate | date:'dd MMM yyyy' }}
+              {{ (selectedTestType.testExpiryDate | date:'dd MMM yyyy') || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -122,7 +122,7 @@
         <ion-row justify-content-between>
           <ion-col col-12 text-start text-wrap>
             <span>
-              {{ selectedTestType.reasonForAbandoning }}
+              {{ selectedTestType.reasonForAbandoning || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -137,7 +137,7 @@
         <ion-row justify-content-between>
           <ion-col col-12 text-start text-wrap>
             <span *ngIf="selectedTestType.additionalCommentsForAbandon; else noAbandonedComments">
-              {{ selectedTestType.additionalCommentsForAbandon }}
+              {{ selectedTestType.additionalCommentsForAbandon || defaultValues.NONE }}
             </span>
             <ng-template #noAbandonedComments>
               <span>
@@ -162,7 +162,9 @@
                 <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
                 <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
               </span>
-              <ion-badge text-uppercase [color]="getDeficiencyColor(defect.deficiencyCategory)">
+              <ion-badge *ngIf="defect.deficiencyCategory" 
+                         text-uppercase 
+                         [color]="getDeficiencyColor(defect.deficiencyCategory)">
                 {{ defect.deficiencyCategory }}
               </ion-badge>
               <ion-badge *ngIf="defect.prs" color="tertiary">PRS</ion-badge>
@@ -219,7 +221,7 @@
           </ion-row>
           <ion-row>
             <ion-col col-12 text-start text-wrap>
-              {{ defect.additionalInformation.notes }}
+              {{ defect.additionalInformation.notes || defaultValues.NONE }}
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -247,7 +249,7 @@
         <ion-row justify-content-between>
           <ion-col col-3 text-start>
             <span text-left *ngIf="selectedTestResult.odometerReading; else noOdometerReading">
-              {{ selectedTestResult.odometerReading | number }} {{ distanceType }}
+              {{ (selectedTestResult.odometerReading | number) || defaultValues.NONE }} {{ distanceType }}
             </span>
             <ng-template #noOdometerReading>
               <span text-left>
@@ -270,7 +272,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span>
-              {{ selectedTestType.seatbeltInstallationCheckDate | formatBoolean }}
+              {{ (selectedTestType.seatbeltInstallationCheckDate | formatBoolean) || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -316,7 +318,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ selectedTestResult.testStationName }}
+              {{ selectedTestResult.testStationName || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -329,7 +331,7 @@
             <span text-left>P-number</span>
           </ion-col>
           <ion-col col-9 text-end>
-            <span text-capitalize>{{ selectedTestResult.testStationPNumber }}</span>
+            <span text-capitalize>{{ selectedTestResult.testStationPNumber || defaultValues.NONE }}</span>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -346,7 +348,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ selectedTestResult.testerName }}
+              {{ selectedTestResult.testerName || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -360,7 +362,7 @@
           </ion-col>
           <ion-col col-9 text-end>
             <span text-capitalize>
-              {{ selectedTestResult.testerStaffId }}
+              {{ selectedTestResult.testerStaffId || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
