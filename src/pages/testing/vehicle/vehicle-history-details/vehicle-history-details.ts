@@ -31,9 +31,9 @@ export class VehicleHistoryDetailsPage {
   testsWithoutCertificate: any;
   testsWithoutSeatbelts: any;
   testsWithoutDefects: any;
-  doesNotHaveCert: boolean;
-  doesNotHaveDefects: boolean;
-  doesNotHaveBelts: boolean;
+  doesNotHaveCert: boolean = false;
+  doesNotHaveDefects: boolean = false;
+  doesNotHaveBelts: boolean = false;
   doesNotHaveExpiry: boolean;
   doDefectsExist: boolean;
   isTestResultAbandon: boolean;
@@ -78,9 +78,11 @@ export class VehicleHistoryDetailsPage {
   }
 
   compareTestWithMetadata(){
-    this.doesNotHaveCert = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutCertificate);
-    this.doesNotHaveDefects = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutDefects);
-    this.doesNotHaveBelts = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutSeatbelts);
+    if(this.selectedTestType.testTypeName) {
+      this.doesNotHaveCert = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutCertificate);
+      this.doesNotHaveDefects = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutDefects);
+      this.doesNotHaveBelts = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutSeatbelts);
+    }
   }
 
   getDeficiencyColor(deficiencyCategory: string): string {
