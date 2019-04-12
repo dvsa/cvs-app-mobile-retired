@@ -19,7 +19,8 @@ export class TestTypeDataModelMock {
       reasonForAbandoning: null,
       additionalCommentsForAbandon: null,
       defects: [],
-      reasons: []
+      reasons: [],
+      linkedIds: ['38', '39']
     }
   }
 }

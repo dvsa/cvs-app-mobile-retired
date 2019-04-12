@@ -35,7 +35,7 @@ export class TestTypesListPage implements OnInit {
   }
 
   ngOnInit() {
-    if(this.testTypeReferenceData) this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(this.testTypeReferenceData, 'id', 'asc');
+    if (this.testTypeReferenceData) this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(this.testTypeReferenceData, 'id', 'asc');
     this.backBtn = this.navParams.get('backBtn');
     this.getTestTypeReferenceData();
     let previousView = this.navCtrl.getPrevious();
@@ -49,6 +49,8 @@ export class TestTypesListPage implements OnInit {
       this.backBtnName = this.commonFunctions.capitalizeString(this.backBtn);
       this.viewCtrl.setBackButtonText(this.backBtnName);
     }
+
+
   }
 
   getTestTypeReferenceData(): void {
@@ -61,11 +63,12 @@ export class TestTypesListPage implements OnInit {
     }
   }
 
-  selectedItem(testType: TestTypesReferenceDataModel): void {
+  selectedItem(testType: TestTypesReferenceDataModel, vehicleData: VehicleModel): void {
     if (this.firstPage) this.testTypeCategoryName = testType.name;
+
     if (testType.nextTestTypesOrCategories) {
-      this.navCtrl.push('TestTypesListPage', {
-        vehicleData: this.vehicleData,
+      this.navCtrl.push(PAGE_NAMES.TEST_TYPES_LIST_PAGE, {
+        vehicleData: vehicleData,
         testTypeData: testType.nextTestTypesOrCategories,
         previousPage: testType.name,
         testTypeCategoryName: this.testTypeCategoryName,
@@ -74,11 +77,11 @@ export class TestTypesListPage implements OnInit {
     } else {
       let views = this.navCtrl.getViews();
       for (let i = views.length - 1; i >= 0; i--) {
-        if (views[i].component.name == 'TestCreatePage') {
+        if (views[i].component.name == PAGE_NAMES.TEST_CREATE_PAGE) {
           testType.name = this.testTypeCategoryName;
           let test = this.testTypeService.createTestType(testType);
           test.testTypeCategoryName = this.testTypeCategoryName;
-          this.vehicleService.addTestType(this.vehicleData, test);
+          this.vehicleService.addTestType(vehicleData, test);
           this.navCtrl.popTo(views[i]);
         }
       }
@@ -87,5 +90,30 @@ export class TestTypesListPage implements OnInit {
 
   cancelTypes() {
     this.navCtrl.pop();
+  }
+
+  canDisplay(addedTestsIds: string[], testToDisplay: TestTypesReferenceDataModel | any): boolean {
+    return addedTestsIds.every(elem => testToDisplay.linkedIds.indexOf(elem) > -1);
+  }
+
+  canDisplayCategory(testTypeCategory: TestTypesReferenceDataModel, addedTestTypesIds: string[]): boolean {
+    let displayable = false;
+    if (testTypeCategory.nextTestTypesOrCategories) {
+      for (let elem of testTypeCategory.nextTestTypesOrCategories) {
+        if (elem.nextTestTypesOrCategories) {
+          displayable = this.canDisplayCategory(elem, addedTestTypesIds);
+        } else {
+          if (addedTestTypesIds.indexOf(elem.id) === -1) displayable = true;
+        }
+      }
+      return displayable;
+    }
+    return addedTestTypesIds.indexOf(testTypeCategory.id) === -1;
+  }
+
+  addedTestTypesIds(vehicleData: VehicleModel): string[] {
+    let addedIds = [];
+    for (let testType of vehicleData.testTypes) addedIds.push(testType.testTypeId);
+    return addedIds;
   }
 }

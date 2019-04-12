@@ -15,13 +15,15 @@
 <ion-content no-padding class="content-background-color-grey">
   <ion-list>
     <ion-item-group>
-      <ion-item detail-none padding-left
-                class="list-item-height"
-                *ngFor="let testType of testTypeReferenceData | filterTestTypeByVehicle: vehicleData"
-                (click)="selectedItem(testType)">
-        <h3>{{ testType.name }}</h3>
-        <ion-icon item-end *ngIf="testType.nextTestTypesOrCategories" name="arrow-forward"></ion-icon>
-      </ion-item>
+      <ng-container *ngFor="let testType of testTypeReferenceData | filterTestTypeByVehicle: vehicleData">
+        <ion-item detail-none padding-left
+                  class="list-item-height"
+                  *ngIf="vehicleData.testTypes.length === 0 || canDisplay(addedTestTypesIds(vehicleData), testType) && canDisplayCategory(testType, addedTestTypesIds(vehicleData))"
+                  (click)="selectedItem(testType, vehicleData)">
+          <h3>{{ testType.name }}</h3>
+          <ion-icon item-end *ngIf="testType.nextTestTypesOrCategories" name="arrow-forward"></ion-icon>
+        </ion-item>
+      </ng-container>
     </ion-item-group>
   </ion-list>
 </ion-content>

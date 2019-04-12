@@ -292,6 +292,7 @@ export enum PAGE_NAMES {
   CATEGORY_READING_PAGE = 'CategoryReadingPage',
   REGION_READING_PAGE = 'RegionReadingPage',
   ODOMETER_READING_PAGE = 'OdometerReadingPage',
+  TEST_CREATE_PAGE = 'TestCreatePage',
   TEST_ABANDONING_PAGE = 'TestAbandoningPage',
   COMPLETE_TEST_PAGE = 'CompleteTestPage',
   VEHICLE_DETAILS_PAGE = 'VehicleDetailsPage',

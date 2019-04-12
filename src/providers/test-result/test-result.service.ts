@@ -6,6 +6,7 @@ import { TEST_TYPE_RESULTS } from "../../app/app.enums";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeService } from "../test-type/test-type.service";
 import { AuthService } from "../global/auth.service";
+import { del } from "selenium-webdriver/http";
 
 @Injectable()
 export class TestResultService {
@@ -67,6 +68,7 @@ export class TestResultService {
 
     if (newTestResult.testTypes.length) {
       for (let testType of newTestResult.testTypes) {
+        if (testType.hasOwnProperty('linkedIds')) delete testType.linkedIds;
         if (testType.hasOwnProperty('reasons')) {
           if (testType.reasons.length) {
             testType.reasonForAbandoning = this.concatenateReasonsArray(testType.reasons);

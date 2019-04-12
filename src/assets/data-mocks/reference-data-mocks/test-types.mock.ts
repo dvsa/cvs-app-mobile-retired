@@ -20,6 +20,7 @@
           ],
           "forVehicleAxles": null,
           "testTypeClassification": "Annual With Certificate",
+          "linkedIds": ['38', '39']
         },
         {
           "id": "2",
@@ -51,7 +52,8 @@
                 "rigid"
               ],
               "forVehicleAxles": null,
-              "testTypeClassification": "Annual With Certificate"
+              "testTypeClassification": "Annual With Certificate",
+              "linkedIds": ['38', '39']
             },
             {
               "id": "4",
@@ -67,7 +69,8 @@
                 "rigid"
               ],
               "forVehicleAxles": null,
-              "testTypeClassification": "Annual With Certificate"
+              "testTypeClassification": "Annual With Certificate",
+              "linkedIds": ['38', '39']
             }
           ]
         },
@@ -119,7 +122,8 @@
                     "articulated"
                   ],
                   "forVehicleAxles": null,
-                  "testTypeClassification": "Annual With Certificate"
+                  "testTypeClassification": "Annual With Certificate",
+                  "linkedIds": ['38', '39']
                 },
                 {
                   "id": "8",
@@ -136,7 +140,8 @@
                     "rigid"
                   ],
                   "forVehicleAxles": null,
-                  "testTypeClassification": "Annual With Certificate"
+                  "testTypeClassification": "Annual With Certificate",
+                  "linkedIds": ['38', '39']
                 }
               ]
             },
@@ -173,7 +178,8 @@
                   ],
                   forVehicleAxles: [
                     2
-                  ]
+                  ],
+                  "linkedIds": ['38', '39']
                 }
               ]
             }
@@ -195,6 +201,7 @@
           forVehicleAxles: [
             2
           ],
+          "linkedIds": null,
           nextTestTypesOrCategories: null
         }
       ]

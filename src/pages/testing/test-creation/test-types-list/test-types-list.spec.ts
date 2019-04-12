@@ -14,18 +14,23 @@ import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/t
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { TEST_TYPE_RESULTS } from "../../../../app/app.enums";
 
 describe('Component: TestTypesListPage', () => {
   let comp: TestTypesListPage;
   let fixture: ComponentFixture<TestTypesListPage>;
 
   let navCtrl: NavController;
+  let navCtrlSpy: any;
   let navParams: NavParams;
   let testTypeService: TestTypeService;
   let vehicleService: VehicleService;
   let storageServiceSpy: any;
   let vehicleServiceSpy;
   let commonFunctionsService: CommonFunctionsService;
+  let vehicleData: VehicleModel = VehicleDataMock.VehicleData;
 
   const testTypes: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
   const vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
@@ -34,7 +39,8 @@ describe('Component: TestTypesListPage', () => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       'read': new Promise(resolve => resolve(testTypes))
     });
-    vehicleServiceSpy = jasmine.createSpyObj('VehicleService', ['createVehicle', 'addTestType', 'removeTestType'])
+    vehicleServiceSpy = jasmine.createSpyObj('VehicleService', ['createVehicle', 'addTestType', 'removeTestType']);
+    navCtrlSpy = jasmine.createSpyObj('NavController', ['push', 'pop', 'popTo', 'getViews', 'get', 'getPrevious']);
 
     TestBed.configureTestingModule({
       declarations: [TestTypesListPage],
@@ -43,7 +49,7 @@ describe('Component: TestTypesListPage', () => {
         IonicModule.forRoot(TestTypesListPage)
       ],
       providers: [
-        NavController,
+        {provide: NavController, useValue: navCtrlSpy},
         CommonFunctionsService,
         {provide: TestTypeService, useClass: TestTypeServiceMock},
         {provide: VehicleService, useValue: vehicleServiceSpy},
@@ -95,4 +101,58 @@ describe('Component: TestTypesListPage', () => {
       expect(injectService).toBe(testTypeService);
     })
   );
+
+  it('should return true of false if the testType can be displayed', () => {
+    let addedIds = ['38', '39'];
+    expect(comp.canDisplay(addedIds, testTypes[0])).toBeTruthy();
+    addedIds = ['38', '30'];
+    expect(comp.canDisplay(addedIds, testTypes[0])).toBeFalsy();
+  });
+
+  it('should return true or false if the leafs of the category are already added or not.', () => {
+    let addedIds = ['1', '38', '39'];
+    expect(comp.canDisplayCategory(testTypes[1], addedIds)).toBeTruthy();
+    expect(comp.canDisplayCategory(testTypes[0], addedIds)).toBeFalsy();
+    expect(comp.canDisplayCategory(testTypes[2], addedIds)).toBeTruthy();
+
+  });
+
+  it('should return an array with the ids and the added tests', () => {
+    vehicleData.testTypes.push({
+      name: 'annual test',
+      testTypeName: 'Annual test',
+      testTypeId: '3',
+      certificateNumber: null,
+      testTypeStartTimestamp: '2018-12-19T00:00:00.000Z',
+      testTypeEndTimestamp: null,
+      numberOfSeatbeltsFitted: null,
+      lastSeatbeltInstallationCheckDate: null,
+      seatbeltInstallationCheckDate: null,
+      prohibitionIssued: null,
+      additionalNotesRecorded: null,
+      testResult: TEST_TYPE_RESULTS.PASS,
+      reasonForAbandoning: null,
+      additionalCommentsForAbandon: null,
+      defects: [],
+      reasons: [],
+      linkedIds: ['38', '39']
+    });
+    let result = comp.addedTestTypesIds(vehicleData);
+    expect(result.length).toBe(1);
+  });
+
+  it('should test flow of selectedItem', () => {
+    comp.firstPage = false;
+    comp.selectedItem(testTypes[1], vehicleData);
+    expect(navCtrl.push).toHaveBeenCalled();
+    comp.firstPage = true;
+    comp.selectedItem(testTypes[1], vehicleData);
+    expect(navCtrl.getViews).not.toHaveBeenCalled();
+    expect(navCtrl.popTo).not.toHaveBeenCalled();
+  });
+
+  it('should check if navCtrl.pop was called', () => {
+    comp.cancelTypes();
+    expect(navCtrl.pop).toHaveBeenCalled();
+  });
 });

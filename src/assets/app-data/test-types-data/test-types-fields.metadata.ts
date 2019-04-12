@@ -5,6 +5,7 @@ export class TestTypesFieldsMetadata {
     return [
       {
         testTypeId: '1',
+        testTypeName: 'Annual test',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -51,6 +52,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '3',
+        testTypeName: "Class 6A seatbelt installation check (annual test)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -97,6 +99,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '4',
+        testTypeName: "Class 6A seatbelt installation check (first test)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -143,6 +146,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '7',
+        testTypeName: "Paid retest",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -189,6 +193,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '8',
+        testTypeName: "Paid retest with Class 6A seatbelt installation check",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -242,6 +247,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '10',
+        testTypeName: "Part-paid retest",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -288,6 +294,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '14',
+        testTypeName: "Paid prohibition clearance (full inspection with certificate)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -334,6 +341,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '15',
+        testTypeName: "Paid prohibition clearance (full inspection without certificate)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -380,6 +388,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '16',
+        testTypeName: "Part-paid prohibition clearance (full inspection)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -426,6 +435,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '18',
+        testTypeName: "Paid prohibition clearance (retest with certificate)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -472,6 +482,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '19',
+        testTypeName: "Paid prohibition clearance (retest without certificate)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -517,6 +528,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '21',
+        testTypeName: "Part-paid prohibition clearance (retest with certificate)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -563,6 +575,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '22',
+        testTypeName: "Part-paid prohibition clearance (retest without certificate)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -608,6 +621,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '23',
+        testTypeName: "Part-paid prohibition clearance (partial inspection)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -653,60 +667,8 @@ export class TestTypesFieldsMetadata {
         hasNotes: true
       },
       {
-        testTypeId: '24',
-        sections: [],
-        category: 'A',
-        hasDefects: true,
-        hasNotes: true
-      },
-      {
-        testTypeId: '25',
-        sections: [
-          {
-            sectionName: 'Seatbelt installation check',
-            inputs: [
-              {
-                testTypePropertyName: 'seatbeltInstallationCheckDate',
-                label: 'Carried out during this test',
-                type: 'ddl',
-                title: 'Was a seatbelt installation check carried out?',
-                values: [
-                  {
-                    text: 'Yes',
-                    value: true,
-                    cssClass: ''
-                  },
-                  {
-                    text: 'No',
-                    value: false,
-                    cssClass: ''
-                  }
-                ],
-                defaultValue: 'Yes'
-              },
-              {
-                testTypePropertyName: 'numberOfSeatbeltsFitted',
-                label: 'Number of seatbelts fitted',
-                info: 'If there are no seatbelts fitted, enter zero (0).',
-                type: 'number',
-                defaultValue: 'Enter'
-              },
-              {
-                testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
-                label: 'Most recent installation check',
-                type: 'date',
-                defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
-              }
-            ]
-          }
-        ],
-        category: 'B',
-        hasDefects: true,
-        hasNotes: true
-      },
-      {
         testTypeId: '27',
+        testTypeName: "Paid prohibition clearance with Class 6A seatbelt installation check (full inspection)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -753,6 +715,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '28',
+        testTypeName: "Prohibition clearance (retest with Class 6A seatbelt installation check)",
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -799,6 +762,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '30',
+        testTypeName: "Voluntary brake test",
         sections: [
           {
             sectionName: 'Result',
@@ -831,6 +795,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '31',
+        testTypeName: "Voluntary headlamp aim check",
         sections: [
           {
             sectionName: 'Result',
@@ -863,6 +828,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '32',
+        testTypeName: "Voluntary smoke test",
         sections: [
           {
             sectionName: 'Result',
@@ -895,6 +861,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '33',
+        testTypeName: "Voluntary multi check (headlamp aim, smoke and brake test)",
         sections: [
           {
             sectionName: 'Result',
@@ -927,6 +894,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '34',
+        testTypeName: "Voluntary speed limiter check",
         sections: [
           {
             sectionName: 'Result',
@@ -959,6 +927,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '35',
+        testTypeName: "Voluntary Vitesse 100",
         sections: [
           {
             sectionName: 'Result',
@@ -991,6 +960,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '36',
+        testTypeName: "Voluntary Tempo 100",
         sections: [
           {
             sectionName: 'Result',
@@ -1023,6 +993,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '38',
+        testTypeName: "Notifiable alteration check",
         sections: [
           {
             sectionName: 'Result',
@@ -1055,6 +1026,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '39',
+        testTypeName: "Low Emissions Certificate (LEC) with annual test",
         sections: [
           {
             sectionName: 'Result',
