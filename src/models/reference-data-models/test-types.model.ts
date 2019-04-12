@@ -10,6 +10,7 @@ export interface TestTypesReferenceDataModel {
   testTypeClassification?: string;
   forVehicleAxles?: number[] | null;
   nextTestTypesOrCategories?: TestTypesReferenceDataModel[];
+  linkedIds?: string[] | null;
 }
 
 

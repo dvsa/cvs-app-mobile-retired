@@ -22,4 +22,5 @@ export interface TestTypeModel {
   reasons?: string[];
   testNumber?: string;
   testExpiryDate?: string;
+  linkedIds?: string[] | null;
 }

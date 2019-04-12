@@ -158,6 +158,11 @@ describe('Provider: CommonFunctionsService', () => {
     expect(groupedArray[0][0]['value']).toMatch('Alderney - GBA');
   });
 
+  it('should return the intersection of n arrays', () => {
+    let someArray = [['2', '39', '40'], ['43', '2'], ['2']];
+    expect(commonFunctionsService.intersection(someArray)[0]).toBe('2');
+  });
+
   it('should order the dates of each test type if testTypeArray is not empty', () => {
     const testTypeArray = TestTypeArrayDataMock.TestTypeArrayData;
     commonFunctionsService.orderTestTypeArrayByDate(testTypeArray);

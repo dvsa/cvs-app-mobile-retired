@@ -124,6 +124,24 @@ export class CommonFunctionsService {
     return distanceType === ODOMETER_METRIC.MILES ? ODOMETER_METRIC.MI : ODOMETER_METRIC.KM;
   }
 
+  intersection(allowedTestsArray: string[][]): string[] {
+    let result = [];
+    for (let i = 0; i < allowedTestsArray.length; i++) {
+      let currentList = allowedTestsArray[i];
+      for (let y = 0; y < currentList.length; y++) {
+        let currentValue = currentList[y];
+        if (result.indexOf(currentValue) === -1) {
+          if (allowedTestsArray.filter((obj) => {
+            return obj.indexOf(currentValue) == -1
+          }).length == 0) {
+            result.push(currentValue);
+          }
+        }
+      }
+    }
+    return result;
+  }
+
   orderTestTypeArrayByDate(testTypeArray: TestTypeModel[]): void {
     if (testTypeArray.length) {
       testTypeArray.sort((a,b) => {

@@ -123,7 +123,8 @@ describe('Provider: VehicleService', () => {
       reasonForAbandoning: null,
       additionalCommentsForAbandon: null,
       defects: [],
-      reasons: []
+      reasons: [],
+      linkedIds: null
     });
     let onlyOne = vehicleService.hasOnlyOneTestTypeWithSic(vehicle);
     expect(onlyOne).toBeTruthy();

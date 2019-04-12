@@ -116,7 +116,7 @@ export class AuthService {
   }
 
   getJWTToken() {
-    return this.jwtToken
+    return this.jwtToken;
   }
 
   getOid() {

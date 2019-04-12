@@ -33,6 +33,7 @@ export class TestTypeService {
     newTestType.additionalCommentsForAbandon = null;
     newTestType.additionalNotesRecorded = null;
     newTestType.defects = [];
+    newTestType.linkedIds = testType.linkedIds;
     this.visitService.updateVisit();
     return newTestType
   }
