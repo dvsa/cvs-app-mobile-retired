@@ -124,12 +124,8 @@ export class AddPreparerPage implements OnInit {
         neededRights.push(TESTER_ROLES.HGV);
         break;
       }
-      case "adr": {
-        neededRights.push(TESTER_ROLES.ADR);
-        break;
-      }
-      case "tir": {
-        neededRights.push(TESTER_ROLES.TIR);
+      case "trl": {
+        neededRights.push(TESTER_ROLES.HGV);
         break;
       }
       default: {
