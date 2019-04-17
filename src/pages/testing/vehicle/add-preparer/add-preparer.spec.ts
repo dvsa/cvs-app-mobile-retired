@@ -149,17 +149,10 @@ describe('Component: AddPreparerPage', () => {
 
     neededRoles = [TESTER_ROLES.FULL_ACCESS];
     testerRoles = [TESTER_ROLES.PSV];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'adr')).toBeFalsy();
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'trl')).toBeFalsy();
     neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    testerRoles = [TESTER_ROLES.ADR];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'adr')).toBeTruthy();
-
-    neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    testerRoles = [TESTER_ROLES.PSV];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'tir')).toBeFalsy();
-    neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    testerRoles = [TESTER_ROLES.TIR];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'tir')).toBeTruthy();
+    testerRoles = [TESTER_ROLES.HGV];
+    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'trl')).toBeTruthy();
 
     neededRoles = [TESTER_ROLES.FULL_ACCESS];
     testerRoles = [TESTER_ROLES.PSV];
