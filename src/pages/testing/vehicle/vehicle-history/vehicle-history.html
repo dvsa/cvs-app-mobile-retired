@@ -14,46 +14,43 @@
     </div>
 
   <ion-list class="tests-list" *ngIf="testResultHistory.length">
-    <ng-container *ngFor="let test of testResultHistory; let testIndex = index">
-      <ng-container *ngIf="commonFunc.checkForMatch(test.testStatus, 'submitted')">
-        <ng-container *ngFor="let testType of test.testTypes; let testTypeIndex = index">
+  
+    <ng-container *ngFor="let testType of testTypeArray">
 
-          <button ion-item (click)="showTestDetails(testIndex, testTypeIndex)">
-            <ion-grid>
-              <ion-row padding-left>
-                <ion-col col-8>
-                  <p text-wrap>{{ testType.name }}</p>
-                </ion-col>
-                <ion-col col-4 text-right>
-                  <p text-uppercase
-                     class="test-result"
-                     ion-text
-                     [color]="commonFunc.getTestResultColor(testType.testResult)">
-                    {{ testType.testResult }}
-                  </p>
-                </ion-col>
-              </ion-row>
-              <ion-row padding-left>
-                <ion-col col-3>
-                  <p>Test date</p>
-                </ion-col>
-                <ion-col col-9 text-right>
-                  <p>{{ testType.testTypeStartTimestamp | date:'dd MMM yyyy' }}</p>
-                </ion-col>
-              </ion-row>
-              <ion-row padding-left *ngIf="testType.testExpiryDate">
-                <ion-col col-3>
-                  <p>Expiry date</p>
-                </ion-col>
-                <ion-col col-9 text-right>
-                  <p>{{ testType.testExpiryDate | date:'dd MMM yyyy' }}</p>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </button>
+      <button ion-item (click)="showTestDetails(testType.testIndex, testType.testTypeIndex)">
+        <ion-grid>
+          <ion-row padding-left>
+            <ion-col col-8>
+              <p text-wrap>{{ testType.name }}</p>
+            </ion-col>
+            <ion-col col-4 text-right>
+              <p text-uppercase
+                  class="test-result"
+                  ion-text
+                  [color]="commonFunc.getTestResultColor(testType.testResult)">
+                {{ testType.testResult }}
+              </p>
+            </ion-col>
+          </ion-row>
+          <ion-row padding-left>
+            <ion-col col-3>
+              <p>Test date</p>
+            </ion-col>
+            <ion-col col-9 text-right>
+              <p>{{ testType.testTypeStartTimestamp | date:'dd MMM yyyy' }}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row padding-left *ngIf="testType.testExpiryDate">
+            <ion-col col-3>
+              <p>Expiry date</p>
+            </ion-col>
+            <ion-col col-9 text-right>
+              <p>{{ testType.testExpiryDate | date:'dd MMM yyyy' }}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </button>
 
-        </ng-container>
-      </ng-container>
     </ng-container>
   </ion-list>
 
