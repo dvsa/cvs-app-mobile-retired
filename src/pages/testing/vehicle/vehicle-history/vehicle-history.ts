@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { APP_STRINGS, TEST_TYPE_RESULTS } from '../../../../app/app.enums';
+import { APP_STRINGS, TEST_TYPE_RESULTS, TEST_REPORT_STATUSES } from '../../../../app/app.enums';
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 
 @IonicPage()
@@ -16,6 +16,8 @@ export class VehicleHistoryPage {
   testResultHistory: TestResultModel[];
   testTypeResults = TEST_TYPE_RESULTS;
   noHistory: string;
+  testResultHistoryClone: any[] = [];
+  testTypeArray: any[] = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -23,6 +25,12 @@ export class VehicleHistoryPage {
               public commonFunc: CommonFunctionsService) {
     this.vehicleData = navParams.get('vehicleData');
     this.testResultHistory = navParams.get('testResultsHistory');
+  }
+
+  ngOnInit() {
+    this.testResultHistoryClone = this.commonFunc.cloneObject(this.testResultHistory);
+    this.createTestTypeArray();
+    this.orderTestTypeArrayByDate();
   }
 
   ionViewWillEnter() {
@@ -36,6 +44,29 @@ export class VehicleHistoryPage {
       testIndex: testIndex,
       testTypeIndex: testTypeIndex
     });
+  }
+
+  createTestTypeArray(): void {
+    if(this.testResultHistory.length) {
+      this.testResultHistoryClone.forEach((testResult, testIndex) => {
+        if(testResult.testTypes.length && testResult.testStatus === TEST_REPORT_STATUSES.SUBMITTED) {
+          testResult.testTypes.forEach((testType, typeTypeIndex) => {
+            testType.testIndex = testIndex;
+            testType.testTypeIndex = typeTypeIndex;
+            this.testTypeArray.push(testType);
+          });
+        }
+      });
+      delete this.testResultHistoryClone;
+    }
+  }
+
+  orderTestTypeArrayByDate(): void {
+    if(this.testTypeArray.length) {
+      this.testTypeArray.sort((a,b) => {
+        return +new Date(b.testTypeStartTimestamp) - +new Date(a.testTypeStartTimestamp);
+      });
+    }
   }
 
 }
