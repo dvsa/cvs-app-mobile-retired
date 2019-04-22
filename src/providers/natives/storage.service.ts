@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable()
 export class StorageService {
+  private storageSub = new Subject<any>();
+
   constructor(private storage: Storage) {
   }
 
@@ -26,6 +29,19 @@ export class StorageService {
     );
   }
 
+  watchStorage(): Observable<any> {
+    return this.storageSub.asObservable();
+  }
+
+  setItem(key: string, data: any) {
+    localStorage.setItem(key, data);
+    this.storageSub.next();
+  }
+
+  removeItem(key) {
+    localStorage.removeItem(key);
+    this.storageSub.next();
+  }
 
   delete(key: string): Promise<any> {
     return this.storage.remove(key).then(

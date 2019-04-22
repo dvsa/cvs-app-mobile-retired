@@ -18,7 +18,8 @@ import {
   ODOMETER_METRIC, PAGE_NAMES,
   TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
-  TEST_TYPE_RESULTS
+  TEST_TYPE_RESULTS,
+  LOCAL_STORAGE
 } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
@@ -34,6 +35,7 @@ import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { tap } from "rxjs/operators";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
+import { StorageService } from '../../../../providers/natives/storage.service';
 
 @IonicPage()
 @Component({
@@ -49,6 +51,7 @@ export class TestReviewPage implements OnInit {
   testTypeResults;
   deficiencyCategory;
   submitInProgress: boolean = false;
+  isTestSubmitted: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -64,7 +67,8 @@ export class TestReviewPage implements OnInit {
               private stateReformingService: StateReformingService,
               private openNativeSettings: OpenNativeSettings,
               private testService: TestService,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private storageService: StorageService) {
     this.visit = this.navParams.get('visit');
     this.latestTest = this.visitService.getLatestTest();
   }
@@ -74,6 +78,10 @@ export class TestReviewPage implements OnInit {
     this.dateFormat = DATE_FORMAT;
     this.testTypeResults = TEST_TYPE_RESULTS;
     this.deficiencyCategory = DEFICIENCY_CATEGORY;
+    this.storageService.watchStorage().subscribe(() => {
+      this.isTestSubmitted = localStorage.getItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
+      this.isTestSubmitted ? this.viewCtrl.showBackButton(false) : this.viewCtrl.showBackButton(true);
+    });
   }
 
   ionViewWillEnter() {
@@ -142,6 +150,7 @@ export class TestReviewPage implements OnInit {
           {
             text: APP_STRINGS.SUBMIT,
             handler: () => {
+              this.storageService.setItem(LOCAL_STORAGE.IS_TEST_SUBMITTED, 'true');
               this.submitInProgress = true;
               test.status = TEST_REPORT_STATUSES.SUBMITTED;
               this.testService.endTestReport(test);
@@ -185,6 +194,7 @@ export class TestReviewPage implements OnInit {
           () => this.events.publish(APP.TEST_SUBMITTED))
       ).subscribe(
         () => {
+          this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
           LOADING.dismiss();
           this.submitInProgress = false;
           let views = this.navCtrl.getViews();
