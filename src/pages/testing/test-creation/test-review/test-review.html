@@ -172,7 +172,7 @@
         </ion-item>
         <button ion-item
                 class="bottom-divider change-details-button"
-                *ngIf="testType.testResult !== testTypeResults.ABANDONED"
+                *ngIf="!isTestSubmitted && testType.testResult !== testTypeResults.ABANDONED"
                 (click)="openTestDetailsPage(vehicle, testType)">
           <h3>Change details</h3>
         </button>

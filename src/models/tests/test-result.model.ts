@@ -2,6 +2,7 @@ import { TestTypeModel } from "./test-type.model";
 import { VehicleClassModel } from "../vehicle/tech-record.model";
 
 export class TestResultModel {
+  testResultId: string;
   vrm: string; // vehicle
   vin: string; // vehicle
   testStationName: string; // visit

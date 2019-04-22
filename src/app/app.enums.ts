@@ -27,7 +27,8 @@ export enum LOCAL_STORAGE {
   CACHING = 'caching',
   TESTER_DETAILS = 'tester-details',
   JWT_TOKEN = 'jwt-token',
-  SIGNATURE = 'signature-image'
+  SIGNATURE = 'signature-image',
+  IS_TEST_SUBMITTED = 'is-test-submitted'
 }
 
 export enum APP {

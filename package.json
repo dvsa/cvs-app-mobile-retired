@@ -47,6 +47,7 @@
     "@ionic-native/status-bar": "^4.12.2",
     "@ionic-native/wheel-selector": "^4.17.0",
     "@ionic/storage": "^2.2.0",
+    "@types/uuidv4": "^2.0.0",
     "angular2-signaturepad": "^2.8.0",
     "call-number": "^1.0.1",
     "cordova-ios": "^4.5.5",
@@ -76,6 +77,7 @@
     "phonegap-plugin-mobile-accessibility": "^1.0.5",
     "rxjs": "^5.5.12",
     "sw-toolbox": "3.6.0",
+    "uuid": "^3.3.2",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
