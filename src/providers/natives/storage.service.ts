@@ -34,12 +34,12 @@ export class StorageService {
   }
 
   setItem(key: string, data: any) {
-    localStorage.setItem(key, data);
+    this.storage.set(key, data);
     this.storageSub.next();
   }
 
   removeItem(key) {
-    localStorage.removeItem(key);
+    this.storage.remove(key);
     this.storageSub.next();
   }
 

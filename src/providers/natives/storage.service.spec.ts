@@ -2,6 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { StorageService } from "./storage.service";
 import { Storage } from '@ionic/storage';
 import { StorageMock } from "ionic-mocks";
+import { Observable } from "rxjs";
 
 describe('Provider: StorageService', () => {
   let storageService: StorageService;
@@ -50,4 +51,19 @@ describe('Provider: StorageService', () => {
     storageService.clearStorage();
     expect(storage.clear).toHaveBeenCalled();
   });
+
+  it('should return storage observable', () => {
+    expect(storageService.watchStorage()).toEqual(jasmine.any(Observable));
+  });
+
+  it('should call storage.setItem', () => {
+    let value: any;
+    storageService.setItem('key', value);
+    expect(storage.set).toHaveBeenCalled();
+  });
+
+  it('should call storage.remove', () => {
+    storageService.removeItem('key');
+    expect(storage.remove).toHaveBeenCalled();
+  })
 });
