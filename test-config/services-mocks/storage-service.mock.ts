@@ -17,6 +17,20 @@ export class StorageServiceMock {
     return Promise.resolve();
   }
 
+  watchStorage(isError: boolean): Promise<any> {
+    if(isError) return Promise.reject();
+    return Promise.resolve();
+  }
+
+  setItem(isError: boolean): Promise<any> {
+    if(isError) return Promise.reject();
+    return Promise.resolve();
+  }
+
+  removeItem(isError: boolean): Promise<any> {
+    if(isError) return Promise.reject();
+    return Promise.resolve();
+  }
 
   delete(isError: boolean): Promise<any> {
     if(isError) return Promise.reject();
