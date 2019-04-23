@@ -2,7 +2,7 @@ import { TestReviewPage } from "./test-review";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { NavControllerMock, NavParamsMock, ViewControllerMock } from "ionic-mocks";
+import { NavControllerMock, ViewControllerMock } from "ionic-mocks";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
@@ -16,7 +16,7 @@ import { TestResultService } from "../../../../providers/test-result/test-result
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { TestService } from "../../../../providers/test/test.service";
 import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
-import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
+import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -56,33 +56,18 @@ describe('Component: TestReviewPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestReviewPage);
     component = fixture.componentInstance;
-    navCtrl = TestBed.get(NavController);
-    vehicleService = TestBed.get(VehicleService);
-    navParams = TestBed.get(NavParams);
     visitService = TestBed.get(VisitService);
-    testService = TestBed.get(TestService);
-    stateReformingService = TestBed.get(StateReformingService);
-    storageService = TestBed.get(StorageService);
-  })
+  });
 
   beforeEach(() => {
-    const navParams = fixture.debugElement.injector.get(NavParams);
-
-    navParams.get = jasmine.createSpy('get').and.callFake((param) => {
-      const params = {
-        'visit': null,
-      };
-      return params[param];
-    })
-  })
+    spyOn(window.localStorage, 'getItem').and.callFake(function() {
+			return JSON.stringify({"test":"test"});
+		});
+  });
 
   afterEach(() => {
     fixture.destroy();
     component = null;
-    vehicleService = null;
-    visitService = null;
-    stateReformingService = null;
-    storageService = null;
   });
 
   it('should create the component', () => {
@@ -92,6 +77,6 @@ describe('Component: TestReviewPage', () => {
 
   it('should check the ngOnInit logic', () => {
     component.ngOnInit();
-    expect(storageService.watchStorage).toHaveBeenCalled();
+    expect(window.localStorage.getItem).toHaveBeenCalled();
   });
 });

@@ -1,5 +1,6 @@
 import { VisitModel } from "../../src/models/visit/visit.model";
 import { TestModel } from "../../src/models/tests/test.model";
+import { VisitDataMock } from "../../src/assets/data-mocks/visit-data.mock";
 
 export class VisitServiceMock {
   visit: VisitModel = {} as VisitModel;
@@ -36,6 +37,10 @@ export class VisitServiceMock {
 
   public getTests(): TestModel[] {
     return this.visit.tests;
+  }
+
+  getLatestTest(): TestModel {
+    return VisitDataMock.VisitTestDataArray[VisitDataMock.VisitTestDataArray.length - 1];
   }
 
   public updateVisit() {

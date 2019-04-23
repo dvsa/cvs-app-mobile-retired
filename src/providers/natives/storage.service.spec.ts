@@ -20,6 +20,18 @@ describe('Provider: StorageService', () => {
     storage = TestBed.get(Storage);
   });
 
+  beforeEach(() => {
+    let store = {};
+
+    spyOn(window.localStorage, 'setItem').and.callFake((key, value) => {
+      return store[key] = value;
+    });
+
+    spyOn(window.localStorage, 'removeItem').and.callFake((key) =>  {
+      delete store[key];
+    });
+  });
+
   afterEach(() => {
     storageService = null;
     storage = null;
@@ -56,14 +68,14 @@ describe('Provider: StorageService', () => {
     expect(storageService.watchStorage()).toEqual(jasmine.any(Observable));
   });
 
-  it('should call storage.setItem', () => {
+  it('should setItem into localStorage', () => {
     let value: any;
     storageService.setItem('key', value);
-    expect(storage.set).toHaveBeenCalled();
+    expect(window.localStorage.setItem).toHaveBeenCalled();
   });
 
-  it('should call storage.remove', () => {
+  it('should removeItem from localStorage', () => {
     storageService.removeItem('key');
-    expect(storage.remove).toHaveBeenCalled();
-  })
+    expect(window.localStorage.removeItem).toHaveBeenCalled();
+  });
 });
