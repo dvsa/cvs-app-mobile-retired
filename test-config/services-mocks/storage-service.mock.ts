@@ -1,3 +1,6 @@
+import { Observable } from "rxjs";
+import { of } from "rxjs/observable/of";
+
 export class StorageServiceMock {
   constructor() {
   }
@@ -17,9 +20,8 @@ export class StorageServiceMock {
     return Promise.resolve();
   }
 
-  watchStorage(isError: boolean): Promise<any> {
-    if(isError) return Promise.reject();
-    return Promise.resolve();
+  watchStorage(isError: boolean): Observable<any> {
+    return of({});
   }
 
   setItem(isError: boolean): Promise<any> {
