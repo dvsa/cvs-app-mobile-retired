@@ -35,6 +35,7 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { tap } from "rxjs/operators";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { StorageService } from '../../../../providers/natives/storage.service';
+import { DefectsService } from "../../../../providers/defects/defects.service";
 
 @IonicPage()
 @Component({
@@ -58,6 +59,7 @@ export class TestReviewPage implements OnInit {
               public commonFunctions: CommonFunctionsService,
               public viewCtrl: ViewController,
               public events: Events,
+              public defectsService: DefectsService,
               private vehicleService: VehicleService,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController,

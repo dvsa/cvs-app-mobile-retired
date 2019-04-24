@@ -17,18 +17,13 @@ import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { TestService } from "../../../../providers/test/test.service";
 import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
+import { DefectsService } from "../../../../providers/defects/defects.service";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
   let fixture: ComponentFixture<TestReviewPage>;
-  let navCtrl: NavController;
-  let navParams: NavParams;
-  let vehicleService: VehicleService;
   let visitService: VisitService;
-  let stateReformingService: StateReformingService;
-  let storageService: StorageService;
   let testResultServiceSpy: any;
-  let testService: TestService;
 
   beforeEach(async(() => {
     testResultServiceSpy = jasmine.createSpyObj('testResultService', ['submitTestResult']);
@@ -39,6 +34,7 @@ describe('Component: TestReviewPage', () => {
       providers: [
         CommonFunctionsService,
         OpenNativeSettings,
+        DefectsService,
         {provide: TestResultService, useValue: testResultServiceSpy},
         {provide: TestService, useClass: TestServiceMock},
         {provide: StorageService, useClass: StorageServiceMock},
