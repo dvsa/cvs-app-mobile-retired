@@ -6,7 +6,6 @@ import { TEST_TYPE_RESULTS } from "../../app/app.enums";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeService } from "../test-type/test-type.service";
 import { AuthService } from "../global/auth.service";
-import * as uuidv4 from 'uuid/v4';
 
 @Injectable()
 export class TestResultService {
@@ -21,7 +20,7 @@ export class TestResultService {
   createTestResult(visit, test, vehicle: VehicleModel): TestResultModel {
     let newTestResult = {} as TestResultModel;
 
-    newTestResult.testResultId = uuidv4();
+    newTestResult.testResultId = test.testResultId;
     newTestResult.vrm = vehicle.vrm;
     newTestResult.vin = vehicle.vin;
     newTestResult.testStationName = visit.testStationName;
