@@ -30,7 +30,7 @@ export class VehicleHistoryPage {
   ngOnInit() {
     this.testResultHistoryClone = this.commonFunc.cloneObject(this.testResultHistory);
     this.createTestTypeArray();
-    this.orderTestTypeArrayByDate();
+    this.commonFunc.orderTestTypeArrayByDate(this.testTypeArray);
   }
 
   ionViewWillEnter() {
@@ -60,13 +60,4 @@ export class VehicleHistoryPage {
       delete this.testResultHistoryClone;
     }
   }
-
-  orderTestTypeArrayByDate(): void {
-    if(this.testTypeArray.length) {
-      this.testTypeArray.sort((a,b) => {
-        return +new Date(b.testTypeStartTimestamp) - +new Date(a.testTypeStartTimestamp);
-      });
-    }
-  }
-
 }

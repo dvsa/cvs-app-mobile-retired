@@ -3,6 +3,7 @@ import { TestBed } from "@angular/core/testing";
 import { CommonFunctionsService } from "./common-functions";
 import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
 import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
+import { TestTypeArrayDataMock } from "../../assets/data-mocks/test-type-array-data.mock";
 
 describe('Provider: CommonFunctionsService', () => {
   let commonFunctionsService: CommonFunctionsService;
@@ -155,5 +156,19 @@ describe('Provider: CommonFunctionsService', () => {
     let sortedArr = array.sort(commonFunctionsService.orderBy('value', 'asc'));
     let groupedArray = commonFunctionsService.groupArrayAlphabetically(sortedArr, 'value');
     expect(groupedArray[0][0]['value']).toMatch('Alderney - GBA');
+  });
+
+  it('should order the dates of each test type if testTypeArray is not empty', () => {
+    const testTypeArray = TestTypeArrayDataMock.TestTypeArrayData;
+    commonFunctionsService.orderTestTypeArrayByDate(testTypeArray);
+    let firstDate = +new Date(testTypeArray[0].testTypeStartTimestamp);
+    let nextDate = +new Date(testTypeArray[1].testTypeStartTimestamp);
+    expect(firstDate).toBeGreaterThan(nextDate);
+  });
+
+  it('should not order the dates if testTypeArray is empty', () => {
+    const testTypeArray = [];
+    commonFunctionsService.orderTestTypeArrayByDate(testTypeArray);
+    expect(testTypeArray.length).toBeFalsy();
   });
 });
