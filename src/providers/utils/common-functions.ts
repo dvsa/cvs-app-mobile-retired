@@ -1,4 +1,5 @@
 import { TEST_TYPE_RESULTS, ODOMETER_METRIC } from "../../app/app.enums";
+import { TestTypeModel } from "../../models/tests/test-type.model";
 
 export class CommonFunctionsService {
 
@@ -121,5 +122,13 @@ export class CommonFunctionsService {
 
   getDistanceType(distanceType: string): string {
     return distanceType === ODOMETER_METRIC.MILES ? ODOMETER_METRIC.MI : ODOMETER_METRIC.KM;
+  }
+
+  orderTestTypeArrayByDate(testTypeArray: TestTypeModel[]): void {
+    if (testTypeArray.length) {
+      testTypeArray.sort((a,b) => {
+        return +new Date(b.testTypeStartTimestamp) - +new Date(a.testTypeStartTimestamp);
+      });
+    }
   }
 }
