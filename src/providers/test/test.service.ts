@@ -1,5 +1,6 @@
 import { TestModel } from "../../models/tests/test.model";
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
+import * as uuidv4 from 'uuid/v4';
 
 export class TestService {
 
@@ -8,11 +9,14 @@ export class TestService {
 
   createTest() {
     let newTest = {} as TestModel;
+
+    newTest.testResultId = uuidv4();
     newTest.startTime = new Date().toISOString();
     newTest.endTime = null;
     newTest.status = null;
     newTest.reasonForCancellation = null;
     newTest.vehicles = [];
+
     return newTest;
   }
 
