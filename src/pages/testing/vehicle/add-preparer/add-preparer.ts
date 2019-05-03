@@ -79,17 +79,32 @@ export class AddPreparerPage implements OnInit {
   }
 
   presentPreparerConfirm(preparer: PreparersReferenceDataModel, preparerFound = true, showSearchAgain = false) {
+    let showThisTitle, showThisMessage;
+
+    if(!preparerFound && !showSearchAgain) {
+      showThisTitle = APP_STRINGS.WITHOUT_PREPARER;
+      showThisMessage = APP_STRINGS.WITHOUT_PREPARER_MSG;
+    }
+    else if (!preparerFound && showSearchAgain) {
+      showThisTitle = APP_STRINGS.PREPARER_NOT_FOUND;
+      showThisMessage = APP_STRINGS.PREPARER_NOT_FOUND_MSG;
+    }
+    else {
+      showThisTitle = `${preparer.preparerName} (${preparer.preparerId})`;
+      showThisMessage = APP_STRINGS.CONFIRM_PREPARER;
+    }
+
     const ALERT = this.alertCtrl.create({
-      title: preparerFound ? `${preparer.preparerName} (${preparer.preparerId})` : APP_STRINGS.WITHOUT_PREPARER,
-      message: preparerFound ? APP_STRINGS.CONFIRM_PREPARER : APP_STRINGS.WITHOUT_PREPARER_MSG,
+      title: showThisTitle,
+      message: showThisMessage,
       buttons: [
         {
-          text: !showSearchAgain ? APP_STRINGS.CANCEL : APP_STRINGS.PREPARER_NOT_FOUND,
+          text: !showSearchAgain ? APP_STRINGS.CANCEL : APP_STRINGS.SEARCH_AGAIN,
           role: 'cancel',
           handler: () => {
           }
         }, {
-          text: APP_STRINGS.CONFIRM,
+          text: !showSearchAgain ? APP_STRINGS.CONFIRM : APP_STRINGS.CONTINUE,
           handler: () => {
             this.visitService.addTest(this.testData);
             this.testReportService.addVehicle(this.testData, this.vehicleData);
