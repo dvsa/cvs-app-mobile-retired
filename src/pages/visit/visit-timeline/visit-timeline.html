@@ -26,10 +26,12 @@
         <p class="timeline-message">Started site visit</p>
       </div>
     </button>
-    <button ion-item *ngFor="let timelineItem of timeline" class="timeline-test">
-      <div class="timeline-bar"></div>
-      <img src="assets/timeline-oval.svg" item-start>
-      <div class="timeline-item-content">
+    <button ion-item *ngFor="let timelineItem of timeline" class="timeline-test" (click)="editWaitTime(timelineItem)">
+      <div class="timeline-bar timeline-bar-waitItem" *ngIf="timelineItem.activityType" [ngClass]="timelineItem.waitReason.length > 0 ? 'timeline-bar-waitItem-tertiary' : ''"></div>
+      <div class="timeline-bar" *ngIf="!timelineItem.activityType"></div>
+      <img src="assets/timeline_warning_icon.svg" alt="warning" item-start *ngIf="timelineItem.activityType && timelineItem.waitReason.length === 0">
+      <img src="assets/timeline-oval.svg" alt="all good" item-start *ngIf="!timelineItem.activityType">
+      <div class="timeline-item-content" *ngIf="timelineItem.activityType !== VISIT_TYPE.ACTIVITY_TYPE_WAIT">
         <p>{{ timelineItem.startTime | date: 'HH:mm' }} - {{ timelineItem.endTime | date: 'HH:mm' }}</p>
         <div *ngFor="let vehicle of timelineItem.vehicles">
           <h2>Test ({{ vehicle.vrm | formatVrm }})</h2>
@@ -47,6 +49,19 @@
           <p><b *ngIf="timelineItem.status === TEST_REPORT_STATUS.CANCELLED" text-uppercase>cancelled</b></p>
         </span>
         </div>
+      </div>
+      <div class="timeline-item-content" *ngIf="timelineItem.activityType === VISIT_TYPE.ACTIVITY_TYPE_WAIT" [ngClass]="timelineItem.waitReason.length > 0 ? 'timeline-item-content-waitItem' : ''">
+        <p>{{ timelineItem.startTime | date: 'HH:mm' }} <span *ngIf="timelineItem.endTime">-</span> {{ timelineItem.endTime | date: 'HH:mm' }}</p>
+        <h2 *ngIf="timelineItem.waitReason.length === 0 else hasReasons">Time not testing</h2>
+        <ng-template #hasReasons>
+          <ng-container *ngFor="let reason of timelineItem.waitReason">
+            <h2>{{reason}}</h2>
+          </ng-container>
+        </ng-template>
+        <p class="timeline-message" *ngIf="timelineItem.waitReason.length === 0 else hasNotes">Provide reason</p>
+        <ng-template #hasNotes>
+          <p class="timeline-message">{{timelineItem.notes}}</p>
+        </ng-template>
       </div>
     </button>
   </ion-list>

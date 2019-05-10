@@ -9,6 +9,7 @@ import { STORAGE, VISIT } from "../../app/app.enums";
 import { Observable } from "rxjs";
 import { AuthService } from "../global/auth.service";
 import { AppService } from "../global/app.service";
+import { ActivityService } from "../activity/activity.service";
 
 @Injectable()
 export class VisitService {
@@ -18,7 +19,8 @@ export class VisitService {
               public appService: AppService,
               public authService: AuthService,
               public events: Events,
-              private httpService: HTTPService){
+              private httpService: HTTPService,
+              private activityService: ActivityService) {
     this.visit = {} as VisitModel;
   }
 
@@ -27,6 +29,7 @@ export class VisitService {
     this.visit.endTime = null;
     this.visit.testStationName = testStation.testStationName;
     this.visit.testStationPNumber = testStation.testStationPNumber;
+    this.visit.testStationEmail = testStation.testStationEmails[0];
     this.visit.testStationType = testStation.testStationType;
     this.visit.testerId = this.authService.testerDetails.testerId;
     this.visit.testerName = this.authService.testerDetails.testerName;
@@ -39,7 +42,7 @@ export class VisitService {
 
   startVisit(testStation): Observable<any> {
     let activities: ActivityModel = {
-      activityType: VISIT.ACTIVITY_TYPE,
+      activityType: VISIT.ACTIVITY_TYPE_VISIT,
       testStationName: testStation.testStationName,
       testStationPNumber: testStation.testStationPNumber,
       testStationEmail: testStation.testStationEmails[0],
@@ -60,6 +63,12 @@ export class VisitService {
 
   addTest(test: TestModel) {
     this.visit.tests.push(test);
+    let latestActivity = this.activityService.activities[this.activityService.activities.length -1];
+    if (latestActivity && latestActivity.activityType === VISIT.ACTIVITY_TYPE_WAIT) {
+      this.activityService.activities[this.activityService.activities.length -1].endTime = test.startTime;
+      this.activityService.updateActivities();
+      this.activityService.waitTimeStarted = false;
+    }
     this.updateVisit();
   }
 

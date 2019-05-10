@@ -1,18 +1,20 @@
-import {Component} from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
-import {TestModel} from "../../../../models/tests/test.model";
-import {TestService} from "../../../../providers/test/test.service";
-import {APP_STRINGS, FIREBASE, TEST_REPORT_STATUSES} from "../../../../app/app.enums";
-import {TestResultService} from "../../../../providers/test-result/test-result.service";
-import {VisitService} from "../../../../providers/visit/visit.service";
-import {Observable} from "rxjs";
-import {OpenNativeSettings} from "@ionic-native/open-native-settings";
-import {AuthService} from "../../../../providers/global/auth.service";
-import {Store} from "@ngrx/store";
-import {Log, LogsModel} from "../../../../modules/logs/logs.model";
+import { Component } from '@angular/core';
+import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
+import { TestModel } from "../../../../models/tests/test.model";
+import { TestService } from "../../../../providers/test/test.service";
+import { APP_STRINGS, FIREBASE, TEST_REPORT_STATUSES } from "../../../../app/app.enums";
+import { TestResultService } from "../../../../providers/test-result/test-result.service";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { Observable } from "rxjs";
+import { OpenNativeSettings } from "@ionic-native/open-native-settings";
+import { AuthService } from "../../../../providers/global/auth.service";
+import { Store } from "@ngrx/store";
+import { Log, LogsModel } from "../../../../modules/logs/logs.model";
 import * as logsActions from "../../../../modules/logs/logs.actions";
-import {catchError} from "rxjs/operators";
-import {FirebaseLogsService} from "../../../../providers/firebase-logs/firebase-logs.service";
+import { catchError } from "rxjs/operators";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { ActivityService } from "../../../../providers/activity/activity.service";
+import { Firebase } from "@ionic-native/firebase";
 
 @IonicPage()
 @Component({
@@ -35,9 +37,11 @@ export class TestCancelPage {
               private openNativeSettings: OpenNativeSettings,
               private visitService: VisitService,
               private loadingCtrl: LoadingController,
+              private firebase: Firebase,
               private authService: AuthService,
               private store$: Store<LogsModel>,
-              private firebaseLogsService: FirebaseLogsService) {
+              private firebaseLogsService: FirebaseLogsService,
+              private activityService: ActivityService) {
     this.testData = this.navParams.get('test');
   }
 
@@ -122,6 +126,17 @@ export class TestCancelPage {
           };
           this.store$.dispatch(new logsActions.SaveLog(log));
           this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
+          let activity = this.activityService.createActivityBodyForCall(this.visitService.visit, testResult, false);
+          this.activityService.submitActivity(activity).subscribe(
+            (resp) => {
+              let activityIndex = this.activityService.activities.map((activity) => activity.endTime).indexOf(testResult.testStartTimestamp);
+              if (activityIndex > -1) this.activityService.activities[activityIndex].id = resp.id;
+              this.activityService.updateActivities();
+            },
+            () => {
+              this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Wait activity submission failed"});
+            }
+          );
           LOADING.dismiss();
           this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 6));
         },

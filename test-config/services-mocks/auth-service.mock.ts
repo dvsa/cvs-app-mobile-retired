@@ -1,4 +1,4 @@
-import { TesterDetailsModel } from "../../src/models/tester-details.model";
+ import { TesterDetailsModel } from "../../src/models/tester-details.model";
 import { AuthenticationResult } from "@ionic-native/ms-adal";
 import { Observable } from "rxjs";
 import { LOCAL_STORAGE } from "../../src/app/app.enums";

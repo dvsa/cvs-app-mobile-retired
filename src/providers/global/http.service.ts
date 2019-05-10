@@ -54,6 +54,14 @@ export class HTTPService {
     return this.http.put(`${AppConfig.BACKEND_URL_VISIT}/${visitID}/end`, null, {observe: 'response'});
   }
 
+  postActivity(activities: ActivityModel): Observable<any> {
+    return this.http.post(AppConfig.BACKEND_URL_VISIT, activities);
+  }
+
+  updateActivity(activities): Observable<any> {
+    return this.http.put(`${AppConfig.BACKEND_URL_VISIT}/update`, activities);
+  }
+
   saveSignature(staffId: string, signatureString: string): Observable<HttpResponse<any>> {
     return this.http.put(`${AppConfig.BACKEND_URL_SIGNATURE}${staffId}.base64`, signatureString, {observe: 'response'});
   }

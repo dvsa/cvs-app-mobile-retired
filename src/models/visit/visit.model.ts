@@ -5,6 +5,7 @@ export interface VisitModel {
   endTime: string;
   testStationName: string;
   testStationPNumber: string;
+  testStationEmail: string;
   testStationType: string;
   testerName: string;
   testerId: string;
