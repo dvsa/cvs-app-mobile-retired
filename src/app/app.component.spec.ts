@@ -21,6 +21,10 @@ import { AppService } from "../providers/global/app.service";
 import { AppServiceMock } from "../../test-config/services-mocks/app-service.mock";
 import { FirebaseLogsService } from "../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../test-config/services-mocks/firebaseLogsService.mock";
+import { ActivityService } from "../providers/activity/activity.service";
+import { ActivityServiceMock } from "../../test-config/services-mocks/activity-service.mock";
+import { of } from "rxjs/observable/of";
+import { STORAGE } from "./app.enums";
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -45,6 +49,7 @@ describe('Component: Root', () => {
         StorageService,
         MSAdal,
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
+        {provide: ActivityService, useClass: ActivityServiceMock},
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: SyncService, useValue: syncServiceSpy},
         {provide: AuthService, useClass: AuthServiceMock},
@@ -119,5 +124,73 @@ describe('Component: Root', () => {
       expect(injectService).toBe(visitService);
     })
   );
+
+  it('Should check manageAppState method state resp: true, visit resp: true, activities resp: false', () => {
+    storageService.read = jasmine.createSpy('read').and.callFake((key) => {
+      let keyReturn;
+      switch (key) {
+        case STORAGE.STATE: {
+          keyReturn = true;
+          break;
+        }
+        case STORAGE.VISIT: {
+          keyReturn = true;
+          break;
+        }
+        case STORAGE.ACTIVITIES: {
+          keyReturn = false;
+          break;
+        }
+      }
+      return new Promise(resolve => resolve(keyReturn))
+    });
+    comp.manageAppState();
+    expect(storageService.read).toHaveBeenCalled();
+  });
+
+  it('Should check manageAppState method state resp: true, visit resp: true, activities resp: true', () => {
+    storageService.read = jasmine.createSpy('read').and.callFake((key) => {
+      let keyReturn;
+      switch (key) {
+        case STORAGE.STATE: {
+          keyReturn = true;
+          break;
+        }
+        case STORAGE.VISIT: {
+          keyReturn = true;
+          break;
+        }
+        case STORAGE.ACTIVITIES: {
+          keyReturn = true;
+          break;
+        }
+      }
+      return new Promise(resolve => resolve(keyReturn))
+    });
+    comp.manageAppState();
+    expect(storageService.read).toHaveBeenCalled();
+  });
+
+  it('Should check manageAppState method false state response', () => {
+    storageService.read = jasmine.createSpy('read').and.callFake((key) => {
+      let keyReturn;
+      switch (key) {
+        case STORAGE.STATE: {
+          keyReturn = false;
+          break;
+        }
+        case STORAGE.VISIT: {
+          keyReturn = true;
+          break;
+        }
+        case STORAGE.ACTIVITIES: {
+          keyReturn = false;
+          break;
+        }
+      }
+      return new Promise(resolve => resolve(keyReturn))
+    });
+    comp.manageAppState()
+  });
 
 });

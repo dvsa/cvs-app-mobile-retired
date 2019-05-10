@@ -7,4 +7,9 @@ export interface ActivityModel {
   testerName: string;
   testerStaffId: string
   startTime?: string;
+  endTime?: string;
+  parentId?: string;
+  waitReason?: string[];
+  notes?: string;
+  id?: string;
 }

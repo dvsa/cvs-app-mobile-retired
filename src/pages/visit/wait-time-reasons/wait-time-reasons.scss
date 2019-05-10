@@ -1,0 +1,24 @@
+ion-app.ios page-wait-time-reasons {
+  .selected {
+    color: color($colors, primary);
+  }
+
+  .checkbox-icon {
+    display: none;
+  }
+
+  .divider-border {
+    border-top: 0.55px solid #c8c7cc;
+    border-bottom: 0.55px solid #c8c7cc;
+  }
+
+  ion-item.item-block {
+    min-height: 4.9rem;
+  }
+
+  ion-item:nth-child(6) {
+    div.item-inner {
+      border-bottom: none;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { Data } from "@angular/router";
 import { HTTPService } from "./http.service";
 import { ActivityModel } from "../../models/visit/activity.model";
 import { ActivityDataModelMock } from "../../assets/data-mocks/data-model/activity-data-model.mock";
+import { ActivityDataMock } from "../../assets/data-mocks/activity.data.mock";
 
 describe(`Provider: HttpService`, () => {
   let httpClient: HttpClient;
@@ -100,6 +101,25 @@ describe(`Provider: HttpService`, () => {
     let activities: ActivityModel = ActivityDataModelMock.ActivityData;
     expect(data).toBeUndefined();
     data = httpService.startVisit(activities);
+    expect(data).toBeTruthy();
+  });
+
+  it('test postActivity', () => {
+    let data;
+    let waitActivity: ActivityModel = ActivityDataMock.WaitActivityData;
+    expect(data).toBeUndefined();
+    data = httpService.postActivity(waitActivity);
+    expect(data).toBeTruthy();
+  });
+
+  it('test updateActivity', () => {
+    let data;
+    let updateWaitActivities = ActivityDataMock.UpdateActivities;
+    let updateWaitActivity = ActivityDataMock.UpdateActivity;
+    expect(data).toBeUndefined();
+    data = httpService.updateActivity(updateWaitActivities);
+    expect(data).toBeTruthy();
+    data = httpService.updateActivity(updateWaitActivity);
     expect(data).toBeTruthy();
   });
 

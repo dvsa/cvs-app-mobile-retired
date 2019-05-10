@@ -11,6 +11,7 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { FIREBASE, LOCAL_STORAGE, PAGE_NAMES, SIGNATURE_STATUS, STORAGE } from "./app.enums";
 import { TesterDetailsModel } from "../models/tester-details.model";
 import { AppService } from "../providers/global/app.service";
+import { ActivityService } from "../providers/activity/activity.service";
 import { FirebaseLogsService } from "../providers/firebase-logs/firebase-logs.service";
 
 @Component({
@@ -24,6 +25,7 @@ export class MyApp {
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
               public visitService: VisitService,
+              public activityService: ActivityService,
               public storageService: StorageService,
               public appService: AppService,
               public events: Events,
@@ -38,7 +40,7 @@ export class MyApp {
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
       this.firebaseLogsService.logEvent(FIREBASE.TEST_EVENT, FIREBASE.PAGE_VIEW, FIREBASE.OPEN_APP);
- 
+
       this.initApp();
 
       // Mobile accessibility
@@ -68,7 +70,6 @@ export class MyApp {
 
   private startAuthProcess(): void {
     if (this.appService.isCordova) {
-
       this.authService.login().subscribe(
         (resp: string) => {
           if (this.authService.isValidToken(resp)) {
@@ -96,7 +97,7 @@ export class MyApp {
     }
   }
 
-  private manageAppState(): void {
+  manageAppState(): void {
     this.storageService.read(STORAGE.STATE).then(
       (resp) => {
         let stateResp = resp;
@@ -109,7 +110,12 @@ export class MyApp {
                 () => this.splashScreen.hide()
               );
             }
-          )
+          );
+          this.storageService.read(STORAGE.ACTIVITIES).then(
+            (resp) => {
+              if (resp) this.activityService.activities = resp;
+            }
+          );
         } else {
           this.navElem.setRoot(this.rootPage).then(
             () => this.splashScreen.hide()
