@@ -7,6 +7,7 @@ import { TestResultService } from "../../../../providers/test-result/test-result
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { Observable } from "rxjs";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
+import { Firebase } from '@ionic-native/firebase';
 
 @IonicPage()
 @Component({
@@ -25,7 +26,8 @@ export class TestCancelPage {
               private testResultService: TestResultService,
               private openNativeSettings: OpenNativeSettings,
               private visitService: VisitService,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private firebase: Firebase) {
     this.testData = this.navParams.get('test');
   }
 
@@ -100,6 +102,7 @@ export class TestCancelPage {
         () => {
           LOADING.dismiss();
           TRY_AGAIN_ALERT.present();
+          this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Test submission failed"});
           TRY_AGAIN_ALERT.onDidDismiss(() => {
             if(!this.tryAgain) {
               this.nextAlert = this.changeOpacity = false;

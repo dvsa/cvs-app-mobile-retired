@@ -9,6 +9,7 @@ import { SignatureService } from "../../providers/signature/signature.service";
 import { AlertControllerMock, EventsMock, NavControllerMock, PopoverControllerMock } from "ionic-mocks";
 import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
 import { SignaturePad } from "angular2-signaturepad/signature-pad";
+import { Firebase } from "@ionic-native/firebase";
 
 describe('Component: SignaturePadPage', () => {
   let fixture: ComponentFixture<SignaturePadPage>;
@@ -41,6 +42,7 @@ describe('Component: SignaturePadPage', () => {
         IonicModule.forRoot(SignaturePadPage)
       ],
       providers: [
+        Firebase,
         {provide: AppService, useClass: AppServiceMock},
         {provide: SignatureService, useValue: signatureServiceSpy},
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
@@ -105,6 +107,6 @@ describe('Component: SignaturePadPage', () => {
 
   it('test showConfirm: alertCtrl.create haveBeenCalled', () => {
     comp.showConfirm();
-    expect(alertCtrl.create).toHaveBeenCalled()
+    expect(alertCtrl.create).toHaveBeenCalled();
   });
 });

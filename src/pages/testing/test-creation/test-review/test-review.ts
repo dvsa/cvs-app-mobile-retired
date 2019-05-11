@@ -36,6 +36,7 @@ import { tap } from "rxjs/operators";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { DefectsService } from "../../../../providers/defects/defects.service";
+import { Firebase } from '@ionic-native/firebase';
 
 @IonicPage()
 @Component({
@@ -68,7 +69,8 @@ export class TestReviewPage implements OnInit {
               private openNativeSettings: OpenNativeSettings,
               private testService: TestService,
               private loadingCtrl: LoadingController,
-              private storageService: StorageService) {
+              private storageService: StorageService,
+              private firebase: Firebase) {
     this.visit = this.navParams.get('visit');
     this.latestTest = this.visitService.getLatestTest();
   }
@@ -213,6 +215,7 @@ export class TestReviewPage implements OnInit {
         () => {
           LOADING.dismiss();
           TRY_AGAIN_ALERT.present();
+          this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Test submission failed"});
         }
       )
     }

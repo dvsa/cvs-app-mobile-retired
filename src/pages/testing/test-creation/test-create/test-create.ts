@@ -27,6 +27,7 @@ import { CommonFunctionsService } from "../../../../providers/utils/common-funct
 import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
 import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
+import { Firebase } from '@ionic-native/firebase';
 
 @IonicPage()
 @Component({
@@ -51,7 +52,8 @@ export class TestCreatePage implements OnInit {
               private vehicleService: VehicleService,
               private events: Events,
               private commonFunctions: CommonFunctionsService,
-              private modalCtrl: ModalController) {
+              private modalCtrl: ModalController,
+              private firebase: Firebase) {
     this.testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
   }
 
@@ -242,6 +244,7 @@ export class TestCreatePage implements OnInit {
         buttons: [APP_STRINGS.OK]
       });
       alert.present();
+      this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Not all tests completed before review"});
       alert.onDidDismiss(() => this.changeOpacity = false);
     } else if (!noTestAdded) {
       let alert = this.alertCtrl.create({
@@ -250,6 +253,7 @@ export class TestCreatePage implements OnInit {
         buttons: [APP_STRINGS.OK]
       });
       alert.present();
+      this.firebase.logEvent('test_error', {content_type: 'error', item_id: "No test added before review"});
       alert.onDidDismiss(() => this.changeOpacity = false);
     } else {
       this.changeOpacity = false;

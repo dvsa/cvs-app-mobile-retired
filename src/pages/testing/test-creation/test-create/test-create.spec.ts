@@ -1,6 +1,6 @@
 import { TestCreatePage } from "./test-create";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams } from "ionic-angular";
+import { IonicModule, NavController, NavParams, AlertController } from "ionic-angular";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
@@ -22,6 +22,8 @@ import { CommonFunctionsService } from "../../../../providers/utils/common-funct
 import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
 import { AppServiceMock } from "../../../../../test-config/services-mocks/app-service.mock";
+import { Firebase } from "@ionic-native/firebase";
+import { AlertControllerMock } from "ionic-mocks";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -53,8 +55,10 @@ describe('Component: TestCreatePage', () => {
       declarations: [TestCreatePage],
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
+        Firebase,
         NavController,
         CommonFunctionsService,
+        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: AppService, useClass: AppServiceMock},
         {provide: CallNumber, useValue: callNumberSpy},
         {provide: StateReformingService, useClass: StateReformingServiceMock},
@@ -141,4 +145,26 @@ describe('Component: TestCreatePage', () => {
     expect(component.getTestTypeStatus(ADDED_VEHICLE_TEST)).toEqual('Edit');
   });
 
+  it('should not allow to review a test because not all mandatory fields completed', () => {
+    let newTest = testService.createTest();
+    let newVehicle = vehicleService.createVehicle(vehicle);
+    vehicleService.addTestType(newVehicle, ADDED_VEHICLE_TEST);
+    newTest.vehicles.push(newVehicle);
+    component.testData = newTest;
+
+    component.reviewTest();
+  });
+
+  it('should not allow to review a test because no testType added', () => {
+    let newTest = testService.createTest();
+    let newVehicle = vehicleService.createVehicle(vehicle);
+    newTest.vehicles.push(newVehicle);
+    newVehicle.testTypes = [];
+    newVehicle.countryOfRegistration = 'United Kingdom';
+    newVehicle.euVehicleCategory = 'm1';
+    newVehicle.odometerReading = '122';
+    component.testData = newTest;
+
+    component.reviewTest();
+  });
 });

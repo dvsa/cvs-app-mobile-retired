@@ -1,7 +1,15 @@
 import { TestStationDetailsPage } from "./test-station-details";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams, AlertController, ViewController, LoadingController } from "ionic-angular";
+import {
+  IonicModule,
+  NavController,
+  NavParams,
+  AlertController,
+  ViewController,
+  LoadingController
+} from "ionic-angular";
 import { PipesModule } from "../../../pipes/pipes.module";
+import { Firebase } from "@ionic-native/firebase";
 import { NavControllerMock, AlertControllerMock, ViewControllerMock, LoadingControllerMock } from "ionic-mocks";
 import { CallNumber } from "@ionic-native/call-number";
 import { VisitService } from "../../../providers/visit/visit.service";
@@ -20,10 +28,13 @@ describe('Component: TestStationDetailsPage', () => {
   let openNativeSettingsSpy: any;
   let navParams: NavParams;
   let visitServiceMock: VisitServiceMock;
+  let firebase: Firebase;
+  let firebaseSpy: any;
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', ['open']);
+    firebaseSpy = jasmine.createSpyObj('Firebase', ['logEvent']);
 
     TestBed.configureTestingModule({
       declarations: [TestStationDetailsPage],
@@ -32,6 +43,7 @@ describe('Component: TestStationDetailsPage', () => {
         PipesModule
       ],
       providers: [
+        {provide: Firebase, useValue: firebaseSpy},
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
@@ -50,6 +62,7 @@ describe('Component: TestStationDetailsPage', () => {
     component = fixture.componentInstance;
     navParams = TestBed.get(NavParams);
     visitServiceMock = TestBed.get(VisitService);
+    firebase = TestBed.get(Firebase);
   });
 
   beforeEach(() => {
@@ -71,6 +84,7 @@ describe('Component: TestStationDetailsPage', () => {
     fixture.destroy();
     component = null;
     navParams = null;
+    firebase = null;
   });
 
   it('should create component', () => {
@@ -81,6 +95,7 @@ describe('Component: TestStationDetailsPage', () => {
   it('should test confirmStartVisit', () => {
     visitServiceMock.isError = true;
     component.confirmStartVisit();
+    expect(firebase.logEvent).toHaveBeenCalled();
     visitServiceMock.isError = false;
     component.confirmStartVisit();
     expect(component.isNextPageLoading).toBeFalsy();

@@ -29,6 +29,7 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { SignaturePopoverComponent } from "../components/signature-popover/signature-popover";
 import { SignatureService } from "../providers/signature/signature.service";
 import { AppService } from "../providers/global/app.service";
+import { Firebase } from '@ionic-native/firebase';
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -59,7 +60,8 @@ const IONIC_NATIVE_PROVIDERS = [
   MobileAccessibility,
   Keyboard,
   MSAdal,
-  ScreenOrientation
+  ScreenOrientation,
+  Firebase
 ];
 
 @NgModule({

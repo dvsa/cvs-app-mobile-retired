@@ -1,4 +1,4 @@
-import { IonicModule, NavController, NavParams } from "ionic-angular";
+import { IonicModule, NavController, NavParams, AlertController, LoadingController } from "ionic-angular";
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestCancelPage } from "./test-cancel";
@@ -10,6 +10,8 @@ import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 import { TestResultService } from "../../../../providers/test-result/test-result.service";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
+import { Firebase } from "@ionic-native/firebase";
+import { AlertControllerMock, LoadingControllerMock } from "ionic-mocks";
 
 describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
@@ -19,6 +21,7 @@ describe('Component: TestCancelPage', () => {
   let testResultServiceSpy: any;
   let openNativeSettingsSpy: any;
   let visitService: VisitService;
+  let alertCtrl: AlertController;
 
   const testReport: TestModel = {
     startTime: null,
@@ -30,7 +33,7 @@ describe('Component: TestCancelPage', () => {
 
   beforeEach(async(() => {
     testReportServiceSpy = jasmine.createSpyObj('testReportService', {'getTestReport': testReport});
-    testResultServiceSpy = jasmine.createSpyObj('testResultService', ['createTestResult']);
+    testResultServiceSpy = jasmine.createSpyObj('testResultService', ['createTestResult', 'submitTestResult']);
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', [{
       'open': new Promise(() => {
         return true
@@ -41,7 +44,10 @@ describe('Component: TestCancelPage', () => {
       declarations: [TestCancelPage],
       imports: [IonicModule.forRoot(TestCancelPage)],
       providers: [
+        Firebase,
         NavController,
+        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
+        {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: VisitService, useClass: VisitServiceMock},
@@ -57,6 +63,7 @@ describe('Component: TestCancelPage', () => {
     component = fixture.componentInstance;
     navCtrl = TestBed.get(NavController);
     visitService = TestBed.get(VisitService);
+    alertCtrl = TestBed.get(AlertController);
   });
 
   beforeEach(() => {
@@ -74,6 +81,7 @@ describe('Component: TestCancelPage', () => {
     fixture.destroy();
     component = null;
     visitService = null;
+    alertCtrl = null;
   });
 
   it('should create the component', () => {
@@ -94,4 +102,8 @@ describe('Component: TestCancelPage', () => {
     expect(component.isValidReason()).toBeTruthy();
   });
 
+  it('should test submitting a test', () => {
+    component.submit(VisitDataMock.VisitTestData);
+    expect(alertCtrl.create).toHaveBeenCalled();
+  });
 });

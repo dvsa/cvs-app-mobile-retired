@@ -11,6 +11,7 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { LOCAL_STORAGE, PAGE_NAMES, SIGNATURE_STATUS, STORAGE } from "./app.enums";
 import { TesterDetailsModel } from "../models/tester-details.model";
 import { AppService } from "../providers/global/app.service";
+import { Firebase } from '@ionic-native/firebase';
 
 @Component({
   templateUrl: 'app.html'
@@ -31,11 +32,13 @@ export class MyApp {
               private authService: AuthService,
               private mobileAccessibility: MobileAccessibility,
               private renderer: Renderer2,
+              private firebase: Firebase,
               private screenOrientation: ScreenOrientation) {
     platform.ready().then(() => {
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
-
+      this.firebase.logEvent('test_event', {content_type: 'page_view', item_id: 'open_app'});
+ 
       this.initApp();
 
       // Mobile accessibility

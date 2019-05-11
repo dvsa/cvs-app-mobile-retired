@@ -3,6 +3,7 @@ import { APP_STRINGS, LOCAL_STORAGE, SIGNATURE_STATUS } from "../../app/app.enum
 import { Events, LoadingController, ViewController } from "ionic-angular";
 import { SignatureService } from "../../providers/signature/signature.service";
 import { AppService } from "../../providers/global/app.service";
+import { Firebase } from '@ionic-native/firebase';
 
 @Component({
   selector: 'signature-popover',
@@ -20,7 +21,8 @@ export class SignaturePopoverComponent implements OnInit {
               public events: Events,
               public appService: AppService,
               public loadingCtrl: LoadingController,
-              public signatureService: SignatureService) {
+              public signatureService: SignatureService,
+              private firebase: Firebase) {
   }
 
   ngOnInit(): void {
@@ -50,6 +52,7 @@ export class SignaturePopoverComponent implements OnInit {
               () => {
                 this.loading.dismissAll();
                 this.events.publish(SIGNATURE_STATUS.ERROR);
+                this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Saving signature failed"});
               }
             );
           }
