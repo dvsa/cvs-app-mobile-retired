@@ -13,6 +13,7 @@ import { Observable } from "rxjs";
 import { of } from "rxjs/observable/of";
 import { AppConfig } from "../../../config/app.config";
 import { AppService } from "./app.service";
+import { Firebase } from "@ionic-native/firebase";
 
 @Injectable()
 export class SyncService {
@@ -29,7 +30,8 @@ export class SyncService {
               private storageService: StorageService,
               private alertCtrl: AlertController,
               private openNativeSettings: OpenNativeSettings,
-              private callNumber: CallNumber) {
+              private callNumber: CallNumber,
+              private firebase: Firebase) {
   }
 
   startSync(): void {
@@ -65,7 +67,10 @@ export class SyncService {
           return data;
         }),
         retryWhen(genericRetryStrategy()),
-        catchError(() => of(undefined))
+        catchError(() => {
+          this.firebase.logEvent('test_error', {content_type: 'error', item_id: `Error at ${microservice} microservice`});
+          return of(undefined)
+        })
       )
   }
 

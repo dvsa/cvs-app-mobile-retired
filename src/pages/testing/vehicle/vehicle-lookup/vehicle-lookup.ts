@@ -14,6 +14,7 @@ import { _throw } from "rxjs/observable/throw";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { CallNumber } from "@ionic-native/call-number";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { Firebase } from '@ionic-native/firebase';
 
 @IonicPage()
 @Component({
@@ -32,6 +33,7 @@ export class VehicleLookupPage {
               public storageService: StorageService,
               private openNativeSettings: OpenNativeSettings,
               private vehicleService: VehicleService,
+              private firebase: Firebase,
               private callNumber: CallNumber) {
     this.testData = navParams.get('test');
   }
@@ -67,12 +69,14 @@ export class VehicleLookupPage {
             this.storageService.update(STORAGE.TEST_HISTORY, []);
             LOADING.dismiss();
             this.goToVehicleDetails(vehicleData);
+            this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Failed retrieving the testResultsHistory"});
           })
       },
       () => {
         this.searchVal = '';
         LOADING.dismiss();
         this.showAlert();
+        this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Failed retrieving the techRecord"});
       }
     );
   }
@@ -92,6 +96,7 @@ export class VehicleLookupPage {
       buttons: ['OK']
     });
     alert.present();
+    this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Vehicle not found"});
   }
 
   goToVehicleDetails(vehicleData, testResultHistory?: TestResultModel[]) {

@@ -8,6 +8,7 @@ import { APP_STRINGS } from "../../app/app.enums";
 import { SignatureServiceMock } from "../../../test-config/services-mocks/signature-service.mock";
 import { AppService } from "../../providers/global/app.service";
 import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
+import { Firebase } from "@ionic-native/firebase";
 
 describe('Component: SignaturePopoverComponent', () => {
   let fixture: ComponentFixture<SignaturePopoverComponent>;
@@ -26,6 +27,7 @@ describe('Component: SignaturePopoverComponent', () => {
         SignaturePopoverComponent
       ],
       providers: [
+        Firebase,
         {provide: Events, useFactory: () => EventsMock},
         {provide: SignatureService, useClass: SignatureServiceMock},
         {provide: ViewController, useFactory: () => ViewControllerMock.instance()},

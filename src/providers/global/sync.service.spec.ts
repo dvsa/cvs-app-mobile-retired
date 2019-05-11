@@ -14,6 +14,7 @@ import { TestStationDataMock } from "../../assets/data-mocks/reference-data-mock
 import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
 import { AppService } from "./app.service";
 import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
+import { Firebase } from "@ionic-native/firebase";
 
 
 describe('Provider: SyncService', () => {
@@ -33,6 +34,7 @@ describe('Provider: SyncService', () => {
 
     TestBed.configureTestingModule({
       providers: [
+        Firebase,
         SyncService,
         OpenNativeSettings,
         CallNumber,

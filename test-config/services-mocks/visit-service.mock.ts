@@ -27,6 +27,7 @@ export class VisitServiceMock {
 
   public endVisit() {
     this.visit.endTime = new Date().toISOString();
+    return Observable.throw({});
   }
 
   public addTest(test: TestModel) {

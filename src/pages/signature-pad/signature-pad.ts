@@ -7,6 +7,7 @@ import { SignaturePopoverComponent } from "../../components/signature-popover/si
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { SignatureService } from "../../providers/signature/signature.service";
 import { AppService } from "../../providers/global/app.service";
+import { Firebase } from '@ionic-native/firebase';
 
 @IonicPage()
 @Component({
@@ -32,7 +33,8 @@ export class SignaturePadPage implements OnInit {
               public appService: AppService,
               private screenOrientation: ScreenOrientation,
               private openNativeSettings: OpenNativeSettings,
-              private signatureService: SignatureService) {
+              private signatureService: SignatureService,
+              private firebase: Firebase) {
     this.events.subscribe(SIGNATURE_STATUS.ERROR,
       () => {
         this.showConfirm();
@@ -91,6 +93,7 @@ export class SignaturePadPage implements OnInit {
                 this.events.publish(SIGNATURE_STATUS.SAVED_EVENT);
               },
               () => {
+                this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Saving signature failed"});
                 this.showConfirm();
               }
             );

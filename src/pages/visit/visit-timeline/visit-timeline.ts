@@ -9,6 +9,7 @@ import { APP, APP_STRINGS, STORAGE, TEST_REPORT_STATUSES, TEST_TYPE_RESULTS, AUT
 import { StorageService } from "../../../providers/natives/storage.service";
 import { AppService } from "../../../providers/global/app.service";
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { Firebase } from '@ionic-native/firebase';
 
 @IonicPage()
 @Component({
@@ -33,7 +34,8 @@ export class VisitTimelinePage implements OnInit {
               private alertCtrl: AlertController,
               private storageService: StorageService,
               private toastCtrl: ToastController,
-              private openNativeSettings: OpenNativeSettings) {
+              private openNativeSettings: OpenNativeSettings,
+              private firebase: Firebase) {
     this.timeline = [];
   }
 
@@ -72,7 +74,7 @@ export class VisitTimelinePage implements OnInit {
     });
   }
 
-  private confirmEndVisit() {
+  confirmEndVisit() {
     const LOADING = this.loadingCtrl.create({
       content: APP_STRINGS.END_VISIT_LOADING
     });
@@ -86,6 +88,7 @@ export class VisitTimelinePage implements OnInit {
         this.navCtrl.push('EndVisitConfirmPage', {testStationName: this.visit.testStationName});
       }, (error) => {
         LOADING.dismiss();
+        this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Ending activity failed"});
         if (error && error.error === AUTH.INTERNET_REQUIRED) {
           const TRY_AGAIN_ALERT = this.alertCtrl.create({
             title: APP_STRINGS.UNABLE_TO_END_VISIT,

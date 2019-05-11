@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, LoadingController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
-import { APP_STRINGS,PAGE_NAMES, AUTH } from "../../../app/app.enums";
+import { APP_STRINGS, PAGE_NAMES, AUTH } from "../../../app/app.enums";
 import { VisitService } from "../../../providers/visit/visit.service";
 import { CallNumber } from "@ionic-native/call-number";
 import { AppConfig } from "../../../../config/app.config";
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { Firebase } from '@ionic-native/firebase';
 import { Subscription } from 'rxjs';
 
 @IonicPage()
@@ -28,6 +29,7 @@ export class TestStationDetailsPage implements OnInit {
               private callNumber: CallNumber,
               private visitService: VisitService,
               private openNativeSettings: OpenNativeSettings,
+              private firebase: Firebase,
               private loadingCtrl: LoadingController) {
     this.testStation = navParams.get('testStation');
   }
@@ -57,6 +59,7 @@ export class TestStationDetailsPage implements OnInit {
         this.isNextPageLoading = false;
         LOADING.dismiss();
         console.error(`Starting activity failed due to: ${error}`);
+        this.firebase.logEvent('test_error', {content_type: 'error', item_id: 'Starting activity failed'});
         if (error && error.error === AUTH.INTERNET_REQUIRED) {
           const TRY_AGAIN_ALERT = this.alertCtrl.create({
             title: APP_STRINGS.UNABLE_TO_START_VISIT,
@@ -67,12 +70,12 @@ export class TestStationDetailsPage implements OnInit {
                 this.openNativeSettings.open('settings');
               }
             },
-            {
-              text: APP_STRINGS.TRY_AGAIN_BTN,
-              handler: () => {
-                this.confirmStartVisit();
-              }
-            }]
+              {
+                text: APP_STRINGS.TRY_AGAIN_BTN,
+                handler: () => {
+                  this.confirmStartVisit();
+                }
+              }]
           });
           TRY_AGAIN_ALERT.present();
         }
@@ -114,7 +117,7 @@ export class TestStationDetailsPage implements OnInit {
     });
     confirm.present();
     confirm.onDidDismiss(() => {
-      if(!this.nextAlert) {
+      if (!this.nextAlert) {
         this.changeOpacity = false;
       }
     });

@@ -1,3 +1,5 @@
+import { VisitModel } from "../../models/visit/visit.model";
+
 export class VisitDataMock {
 
   public static get VisitTestData() {
@@ -16,8 +18,9 @@ export class VisitDataMock {
     return VisitDataMock.VisitData.tests[0].vehicles[0].testTypes[0];
   }
 
-  public static get VisitData() {
+  public static get VisitData(): any {
     return {
+      "id": "11",
       "startTime": "2019-02-12T11:41:54.833Z",
       "endTime": null,
       "testStationName": "Abshire-Kub",

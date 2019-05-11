@@ -19,6 +19,7 @@ import { AuthServiceMock } from "../../test-config/services-mocks/auth-service.m
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { AppService } from "../providers/global/app.service";
 import { AppServiceMock } from "../../test-config/services-mocks/app-service.mock";
+import { Firebase } from '@ionic-native/firebase';
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -37,6 +38,7 @@ describe('Component: Root', () => {
     TestBed.configureTestingModule({
       declarations: [MyApp],
       providers: [
+        Firebase,
         StatusBar,
         SplashScreen,
         StorageService,
