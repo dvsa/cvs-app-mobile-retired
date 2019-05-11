@@ -172,7 +172,7 @@ export enum APP_STRINGS {
   SIGN_UNABLE_LOAD_DATA = 'Unable to load data',
   CACHING_ENABLED_STORAGE_CLEARED = 'Storage was cleared and caching was disabled. Ride on',
   CACHING_ENABLED = 'Caching was enabled',
-  UNAUTHORISED = 'Unable to authorize',
+  UNAUTHORISED = 'Unable to authorise',
   UNAUTHORISED_MSG = "Your account isn't currently authorised to use this app. Close the app or call IT support.",
   UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support."
 }

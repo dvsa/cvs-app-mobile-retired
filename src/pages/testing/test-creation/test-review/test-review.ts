@@ -181,6 +181,10 @@ export class TestReviewPage implements OnInit {
       }]
     });
 
+    TRY_AGAIN_ALERT.onDidDismiss(() => {
+      this.submitInProgress = false;
+    });
+
     const LOADING = this.loadingCtrl.create({
       content: 'Loading...'
     });
