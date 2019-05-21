@@ -133,11 +133,7 @@ export class TestStationDetailsPage implements OnInit {
         {
           text: APP_STRINGS.CALL,
           handler: () => {
-            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
-              data => console.log(data),
-              err => console.log(err)
-            );
-            return false;
+            this.callNumber.callNumber(this.testStation.testStationContactNumber, true);
           }
         }
       ]

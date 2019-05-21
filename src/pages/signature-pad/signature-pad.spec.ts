@@ -9,6 +9,7 @@ import { SignatureService } from "../../providers/signature/signature.service";
 import { AlertControllerMock, EventsMock, NavControllerMock, PopoverControllerMock } from "ionic-mocks";
 import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
 import { SignaturePad } from "angular2-signaturepad/signature-pad";
+import { CallNumber } from "@ionic-native/call-number";
 import { Firebase } from "@ionic-native/firebase";
 
 describe('Component: SignaturePadPage', () => {
@@ -27,12 +28,15 @@ describe('Component: SignaturePadPage', () => {
   let openNativeSettings: OpenNativeSettings;
   let signaturePad: SignaturePad;
   let signaturePadSpy: any;
+  let callNumber: CallNumber;
+  let callNumberSpy: any;
 
   beforeEach(async(() => {
     signatureServiceSpy = jasmine.createSpyObj('SignatureService', ['saveSignature', 'saveToStorage', 'presentSuccessToast']);
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', ['open']);
     signaturePadSpy = jasmine.createSpyObj('SignaturePad', ['clear', 'toDataURL', 'isEmpty']);
+    callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -51,7 +55,8 @@ describe('Component: SignaturePadPage', () => {
         {provide: ScreenOrientation, useValue: screenOrientationSpy},
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
         {provide: Events, useFactory: () => EventsMock.instance()},
-        {provide: SignaturePad, useValue: signaturePadSpy}
+        {provide: SignaturePad, useValue: signaturePadSpy},
+        {provide: CallNumber, useValue: callNumberSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -69,6 +74,7 @@ describe('Component: SignaturePadPage', () => {
     screenOrientation = TestBed.get(ScreenOrientation);
     openNativeSettings = TestBed.get(OpenNativeSettings);
     signaturePad = TestBed.get(SignaturePad);
+    callNumber = TestBed.get(CallNumber);
   });
 
   afterEach(() => {
@@ -83,6 +89,8 @@ describe('Component: SignaturePadPage', () => {
     screenOrientation = null;
     openNativeSettings = null;
     signaturePad = null;
+    callNumber = null;
+    callNumberSpy = null;
   });
 
   it('should create component', () => expect(comp).toBeDefined());
