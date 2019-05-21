@@ -7,6 +7,8 @@ import { SignaturePopoverComponent } from "../../components/signature-popover/si
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { SignatureService } from "../../providers/signature/signature.service";
 import { AppService } from "../../providers/global/app.service";
+import { CallNumber } from "@ionic-native/call-number";
+import { AppConfig } from "../../../config/app.config";
 import { Firebase } from '@ionic-native/firebase';
 
 @IonicPage()
@@ -34,7 +36,8 @@ export class SignaturePadPage implements OnInit {
               private screenOrientation: ScreenOrientation,
               private openNativeSettings: OpenNativeSettings,
               private signatureService: SignatureService,
-              private firebase: Firebase) {
+              private firebase: Firebase,
+              private callNumber: CallNumber) {
     this.events.subscribe(SIGNATURE_STATUS.ERROR,
       () => {
         this.showConfirm();
@@ -79,7 +82,7 @@ export class SignaturePadPage implements OnInit {
         }, {
           text: APP_STRINGS.CALL_SUPP_BTN,
           handler: () => {
-            console.log('technical support clicked');
+            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true);
           }
         }, {
           text: APP_STRINGS.TRY_AGAIN_BTN,
