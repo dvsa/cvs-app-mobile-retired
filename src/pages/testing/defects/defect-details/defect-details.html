@@ -24,6 +24,7 @@
               <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
               <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
               <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+              <span class="asterisk" *ngIf="defect.stdForProhibition">*</span>
           </span>
           <ion-badge class="margin-left-half" item-end text-uppercase [color]="defectsService.getBadgeColor(defect.deficiencyCategory)">
             {{ defect.deficiencyCategory }}
