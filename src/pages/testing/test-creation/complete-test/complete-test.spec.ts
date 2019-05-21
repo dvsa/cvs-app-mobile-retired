@@ -181,4 +181,17 @@ describe('Component: CompleteTestPage', () => {
     comp.completedFields.seatbeltInstallationCheckDate = true;
     expect(comp.canDisplayInput(input)).toBeFalsy();
   });
+
+  it('should create a handler for a DDL button', () => {
+    comp.today = new Date().toISOString();
+    comp.completedFields = {};
+    comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest.lastSeatbeltInstallationCheckDate = '2019-01-14';
+    let input = TestTypeMetadataMock.TestTypeMetadata.sections[2].inputs[0];
+    comp.createDDLButtons(input);
+    comp.createDDLButtonHandler(input, 1);
+    expect(comp.vehicleTest.lastSeatbeltInstallationCheckDate).toBeNull();
+    comp.createDDLButtonHandler(input, 0);
+    expect(comp.vehicleTest.lastSeatbeltInstallationCheckDate).toBeDefined();
+  });
 });
