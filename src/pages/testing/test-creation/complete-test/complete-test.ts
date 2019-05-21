@@ -112,6 +112,21 @@ export class CompleteTestPage implements OnInit {
     }
   }
 
+  createDDLButtonHandler(input, index) {
+    this.vehicleTest[input.testTypePropertyName] = input.values[index].value;
+    if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
+      if (input.values[index].value) {
+        this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.today;
+      } else {
+        this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = null;
+        this.completedFields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = null;
+      }
+    }
+    if (input.testTypePropertyName !== 'testResult' && input.testTypePropertyName !== 'certificateNumber') {
+      this.completedFields[input.testTypePropertyName] = input.values[index].value;
+    }
+  }
+
   createDDLButtons(input) {
     let buttons = [];
     for (let index in input.values) {
@@ -119,18 +134,7 @@ export class CompleteTestPage implements OnInit {
         text: input.values[index].text,
         cssClass: input.values[index].cssClass,
         handler: () => {
-          this.vehicleTest[input.testTypePropertyName] = input.values[index].value;
-          if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
-            if (input.values[index].value) {
-              this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.today;
-            } else {
-              this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = null;
-              this.completedFields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = null;
-            }
-          }
-          if (input.testTypePropertyName !== 'testResult' && input.testTypePropertyName !== 'certificateNumber') {
-            this.completedFields[input.testTypePropertyName] = input.values[index].value;
-          }
+          this.createDDLButtonHandler(input, index);
         }
       };
       buttons.push(button);
