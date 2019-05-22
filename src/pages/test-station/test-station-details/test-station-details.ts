@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, LoadingController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
 import { APP_STRINGS,PAGE_NAMES, AUTH } from "../../../app/app.enums";
@@ -7,6 +7,7 @@ import { VisitService } from "../../../providers/visit/visit.service";
 import { CallNumber } from "@ionic-native/call-number";
 import { AppConfig } from "../../../../config/app.config";
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { Subscription } from 'rxjs';
 
 @IonicPage()
 @Component({
@@ -17,6 +18,8 @@ export class TestStationDetailsPage implements OnInit {
   testStation: TestStationReferenceDataModel;
   changeOpacity: boolean = false;
   nextAlert: boolean = false;
+  isNextPageLoading: boolean = false;
+  startVisitSubscription: Subscription;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
@@ -24,7 +27,8 @@ export class TestStationDetailsPage implements OnInit {
               private viewCtrl: ViewController,
               private callNumber: CallNumber,
               private visitService: VisitService,
-              private openNativeSettings: OpenNativeSettings) {
+              private openNativeSettings: OpenNativeSettings,
+              private loadingCtrl: LoadingController) {
     this.testStation = navParams.get('testStation');
   }
 
@@ -35,14 +39,23 @@ export class TestStationDetailsPage implements OnInit {
     this.viewCtrl.setBackButtonText(APP_STRINGS.SEARCH_TEST_STATION);
   }
 
-  private confirmStartVisit() {
-    let startvisit$ = this.visitService.startVisit(this.testStation).subscribe(
+  confirmStartVisit() {
+    const LOADING = this.loadingCtrl.create({
+      content: 'Loading...'
+    });
+    this.isNextPageLoading = true;
+    LOADING.present();
+    this.startVisitSubscription = this.visitService.startVisit(this.testStation).subscribe(
       (data) => {
-        startvisit$.unsubscribe();
+        this.isNextPageLoading = false;
+        LOADING.dismiss();
+        this.startVisitSubscription.unsubscribe();
         this.visitService.createVisit(this.testStation, data.id);
         this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, {testStation: this.testStation});
       },
       (error) => {
+        this.isNextPageLoading = false;
+        LOADING.dismiss();
         console.error(`Starting activity failed due to: ${error}`);
         if (error && error.error === AUTH.INTERNET_REQUIRED) {
           const TRY_AGAIN_ALERT = this.alertCtrl.create({

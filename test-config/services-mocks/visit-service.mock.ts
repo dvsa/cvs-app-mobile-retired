@@ -1,9 +1,12 @@
 import { VisitModel } from "../../src/models/visit/visit.model";
 import { TestModel } from "../../src/models/tests/test.model";
 import { VisitDataMock } from "../../src/assets/data-mocks/visit-data.mock";
+import { Observable } from "rxjs";
+import { of } from "rxjs/observable/of";
 
 export class VisitServiceMock {
   visit: VisitModel = {} as VisitModel;
+  isError: boolean = false;
 
   public createVisit(testStation) {
     this.visit.startTime = new Date().toISOString();
@@ -16,6 +19,10 @@ export class VisitServiceMock {
     this.visit.tests = [];
     this.updateVisit();
     return this.visit;
+  }
+
+  public startVisit(): Observable<any> {
+    return this.isError ? Observable.throw({}) : of({id: '123'});
   }
 
   public endVisit() {
