@@ -13,6 +13,7 @@ export interface DefectDetailsModel {
   deficiencyText: string | null;
   stdForProhibition: boolean | null;
   prs: boolean | null;
+  prohibitionIssued: boolean | null;
   /* -------- ONLY FOR FE -------- */
   metadata: DefectsMetadataModel;
 }
