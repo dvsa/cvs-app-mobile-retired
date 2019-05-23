@@ -180,7 +180,10 @@ export enum APP_STRINGS {
   UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support.",
   WAIT_REASONS_MSG_ISSUE = "You've selected 'Site issue', give more details in notes section.",
   WAIT_REASONS_MSG_OTHER = "You've selected 'Other', give more details in notes section.",
-  WAIT_REASONS_TITLE = "Add notes"
+  WAIT_REASONS_TITLE = "Add notes",
+  PROHIBITION_TITLE = "Prohibition alert",
+  PROHIBITION_MSG_NOTES = "Explain why you haven't issued a prohibition for this defect in the Notes section.",
+  PROHIBITION_MSG_CONFIRM = "This defect requires you to issue a prohibition in Mobile Compliance. Confirm you’ve done this in the Prohibition section.",
 }
 
 export enum ODOMETER_METRIC {
@@ -377,11 +380,11 @@ export enum FIREBASE_AUTH {
 }
 
 export enum FIREBASE_DEFECTS {
-    ADD_DEFECT = 'add_defect',
-    REMOVE_DEFECT = 'remove_defect',
-    DEFECT_NOTES_USAGE = 'defect_notes_usage',
-    ADD_DEFECT_TIME_TAKEN = 'add_defect_time_taken',
-    DEFICIENCY_REFERENCE ='deficiency_reference',
-    ADD_DEFECT_START_TIME ='add_defect_start_time', 
-    ADD_DEFECT_END_TIME ='add_defect_end_time'
+  ADD_DEFECT = 'add_defect',
+  REMOVE_DEFECT = 'remove_defect',
+  DEFECT_NOTES_USAGE = 'defect_notes_usage',
+  ADD_DEFECT_TIME_TAKEN = 'add_defect_time_taken',
+  DEFICIENCY_REFERENCE = 'deficiency_reference',
+  ADD_DEFECT_START_TIME = 'add_defect_start_time',
+  ADD_DEFECT_END_TIME = 'add_defect_end_time'
 }

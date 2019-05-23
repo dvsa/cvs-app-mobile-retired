@@ -1,4 +1,4 @@
-import { async, ComponentFixture, inject, TestBed, tick } from "@angular/core/testing";
+import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
 import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
 import { DefectDetailsPage } from "./defect-details";
 import { DefectsService } from "../../../../providers/defects/defects.service";
@@ -13,7 +13,7 @@ import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { By } from "@angular/platform-browser";
-import { FIREBASE_DEFECTS } from "../../../../app/app.enums";
+import { FIREBASE_DEFECTS, APP_STRINGS } from "../../../../app/app.enums";
 import { NavControllerMock } from "../../../../../test-config/ionic-mocks/nav-controller.mock";
 
 describe('Component: DefectDetailsPage', () => {
@@ -54,6 +54,7 @@ describe('Component: DefectDetailsPage', () => {
       }
     },
     prs: false,
+    prohibitionIssued: false,
     additionalInformation: {
       notes: '',
       location: {
@@ -96,6 +97,7 @@ describe('Component: DefectDetailsPage', () => {
       }
     },
     prs: false,
+    prohibitionIssued: false,
     additionalInformation: {
       notes: '',
       location: {
@@ -121,12 +123,12 @@ describe('Component: DefectDetailsPage', () => {
       declarations: [DefectDetailsPage],
       imports: [IonicModule.forRoot(DefectDetailsPage)],
       providers: [
-        { provide: NavController, useFactory: () => NavControllerMock.instance()},
-        { provide: TestTypeService, useClass: TestTypeServiceMock },
-        { provide: DefectsService, useValue: defectsServiceSpy },
-        { provide: NavParams, useClass: NavParamsMock },
-        { provide: ViewController, useClass: ViewControllerMock },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
+        {provide: NavController, useFactory: () => NavControllerMock.instance()},
+        {provide: TestTypeService, useClass: TestTypeServiceMock},
+        {provide: DefectsService, useValue: defectsServiceSpy},
+        {provide: NavParams, useClass: NavParamsMock},
+        {provide: ViewController, useClass: ViewControllerMock},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -160,6 +162,8 @@ describe('Component: DefectDetailsPage', () => {
     comp.defect = navParams.get('deficiency');
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.isEdit = navParams.get('isEdit');
+    spyOn(comp, 'addDefect');
+    spyOn(comp, 'showProhibitionAlert');
   });
 
   afterEach(() => {
@@ -219,11 +223,67 @@ describe('Component: DefectDetailsPage', () => {
   });
 
   it('should contain the defect reference when a note is added', () => {
-    comp.fromTestReview=true;
-    comp.notesChanged=true;
+    comp.fromTestReview = true;
+    comp.notesChanged = true;
     spyOn(firebaseLogsService, 'logEvent').and.returnValue(Promise.resolve(true));
     comp.addDefect();
     expect(firebaseLogsService.logEvent).toHaveBeenCalledTimes(1);
     expect(firebaseLogsService.logEvent).toHaveBeenCalledWith(FIREBASE_DEFECTS.DEFECT_NOTES_USAGE, FIREBASE_DEFECTS.DEFICIENCY_REFERENCE, defect.deficiencyRef);
+  });
+
+  it('should not change the prohibition attributes if defect category is not dangerous', () => {
+    comp.checkForProhibition(defect);
+    expect(comp.showProhibition).toBeFalsy();
+    expect(comp.prohibitionAsterisk).toBeFalsy();
+  });
+
+  it('should set the prohibition attributes correctly if defect is dangerous and prohibitionIssued is true', () => {
+    defect.deficiencyCategory = 'dangerous';
+    defect.prohibitionIssued = true;
+    comp.checkForProhibition(defect);
+    expect(comp.showProhibition).toBeTruthy();
+    expect(comp.prohibitionAsterisk).toBeFalsy();
+  });
+
+  it('should set the prohibition attributes correctly if defect is dangerous, stdForProhibition is true and prohibitionIssued is true', () => {
+    defect.deficiencyCategory = 'dangerous';
+    defect.prohibitionIssued = true;
+    defect.stdForProhibition = true;
+    comp.checkForProhibition(defect);
+    expect(comp.showProhibition).toBeTruthy();
+    expect(comp.prohibitionAsterisk).toBeTruthy();
+  });
+
+  it('should add a defect if showProhibition is false', () => {
+    comp.showProhibition = false;
+    comp.checkProhibitionStatus();
+    expect(comp.addDefect).toHaveBeenCalled();
+  });
+
+  it('should add a defect if showProhibition is true, prohibitionAsterisk is false and prohibitionIssued is true', () => {
+    comp.showProhibition = true;
+    comp.prohibitionAsterisk = false;
+    comp.defect.prohibitionIssued = true;
+    comp.checkProhibitionStatus();
+    expect(comp.addDefect).toHaveBeenCalled();
+  });
+
+  it('should show correct alert if showProhibition is true, prohibitionAsterisk is false and prohibitionIssued is false', () => {
+    comp.showProhibition = true;
+    comp.prohibitionAsterisk = false;
+    comp.defect.prohibitionIssued = false;
+    comp.checkProhibitionStatus();
+    expect(comp.addDefect).not.toHaveBeenCalled();
+    expect(comp.showProhibitionAlert).toHaveBeenCalledWith(APP_STRINGS.PROHIBITION_MSG_CONFIRM);
+  });
+
+  it('should show correct alert if showProhibition is true, prohibitionAsterisk is true, prohibitionIssued is false and notes is null', () => {
+    comp.showProhibition = true;
+    comp.prohibitionAsterisk = true;
+    comp.defect.prohibitionIssued = false;
+    comp.defect.additionalInformation.notes = null;
+    comp.checkProhibitionStatus();
+    expect(comp.addDefect).not.toHaveBeenCalled();
+    expect(comp.showProhibitionAlert).toHaveBeenCalledWith(APP_STRINGS.PROHIBITION_MSG_NOTES);
   });
 });
