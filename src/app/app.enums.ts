@@ -174,7 +174,10 @@ export enum APP_STRINGS {
   CACHING_ENABLED = 'Caching was enabled',
   UNAUTHORISED = 'Unable to authorise',
   UNAUTHORISED_MSG = "Your account isn't currently authorised to use this app. Close the app or call IT support.",
-  UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support."
+  UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support.",
+  PROHIBITION_TITLE = "Prohibition alert",
+  PROHIBITION_MSG_NOTES = "Explain why you haven't issued a prohibition for this defect in the Notes section.",
+  PROHIBITION_MSG_CONFIRM = "This defect requires you to issue a prohibition in Mobile Compliance. Confirm you’ve done this in the Prohibition section.",
 }
 
 export enum ODOMETER_METRIC {

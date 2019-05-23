@@ -9,6 +9,7 @@ import { DefectsService } from "../../../../providers/defects/defects.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { APP_STRINGS, DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
+import { ProhibitionClearanceTestTypesData } from "../../../../assets/app-data/test-types-data/prohibition-clearance-test-types.data";
 
 @IonicPage()
 @Component({
@@ -25,6 +26,10 @@ export class DefectDetailsPage implements OnInit {
   tempDefectNotes: string;
   fromTestReview: boolean;
   showPrs: boolean = true;
+  showProhibition: boolean = false;
+  prohibitionAsterisk: boolean = false;
+  prohibitionClearanceTestTypesIds: string[] = ProhibitionClearanceTestTypesData.ProhibitionClearanceTestTypesIds;
+  isProhibitionClearance: boolean;
   @ViewChild(Navbar) navBar: Navbar;
 
   constructor(public navCtrl: NavController,
@@ -45,10 +50,12 @@ export class DefectDetailsPage implements OnInit {
     this.defectMetadata = this.defect.metadata.category.additionalInfo;
     this.isLocation = this.defectMetadata && this.defectMetadata.location ? this.checkForLocation(this.defectMetadata.location) : false;
     this.checkForPrs(this.defect);
+    this.checkForProhibition(this.defect);
   }
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.DEFECT_DESC);
+    this.isProhibitionClearance = this.prohibitionClearanceTestTypesIds.indexOf(this.vehicleTest.testTypeId) !== -1;
   }
 
   ionViewDidLoad() {
@@ -96,11 +103,45 @@ export class DefectDetailsPage implements OnInit {
   }
 
   checkForPrs(defect: any): void {
-    if(defect.deficiencyCategory === DEFICIENCY_CATEGORY.DANGEROUS || 
-       defect.deficiencyCategory === DEFICIENCY_CATEGORY.MINOR) {
+    if (defect.deficiencyCategory === DEFICIENCY_CATEGORY.DANGEROUS ||
+      defect.deficiencyCategory === DEFICIENCY_CATEGORY.MINOR) {
       this.showPrs = false;
       defect.prs = null;
     }
+  }
+
+  checkForProhibition(defect: any): void {
+    if (defect.deficiencyCategory === DEFICIENCY_CATEGORY.DANGEROUS) {
+      this.showProhibition = true;
+      if (this.defect.stdForProhibition) this.prohibitionAsterisk = true;
+    }
+  }
+
+  checkProhibitionStatus(): void {
+    if (this.showProhibition) {
+      if (this.prohibitionAsterisk && !this.defect.prohibitionIssued && !this.defect.additionalInformation.notes) {
+        this.showProhibitionAlert(APP_STRINGS.PROHIBITION_MSG_NOTES);
+      } else if (!this.prohibitionAsterisk && !this.defect.prohibitionIssued) {
+        this.showProhibitionAlert(APP_STRINGS.PROHIBITION_MSG_CONFIRM);
+      } else {
+        this.addDefect();
+      }
+    } else {
+      this.addDefect();
+    }
+  }
+
+  showProhibitionAlert(showThisMessage: string): void {
+    const alert = this.alertCtrl.create({
+      title: APP_STRINGS.PROHIBITION_TITLE,
+      message: showThisMessage,
+      buttons: [
+        {
+          text: APP_STRINGS.OK
+        }
+      ]
+    });
+    alert.present();
   }
 
   removeDefectConfirm(defect: DefectDetailsModel): void {
