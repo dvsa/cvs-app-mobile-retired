@@ -50,6 +50,7 @@ describe('Component: CompleteTestPage', () => {
       category: {}
     },
     prs: false,
+    prohibitionIssued: false,
     additionalInformation: {
       notes: '',
       location: {

@@ -10,6 +10,7 @@ import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
+import { APP_STRINGS } from "../../../../app/app.enums";
 
 describe('Component: DefectDetailsPage', () => {
   let comp: DefectDetailsPage;
@@ -48,6 +49,7 @@ describe('Component: DefectDetailsPage', () => {
       }
     },
     prs: false,
+    prohibitionIssued: false,
     additionalInformation: {
       notes: '',
       location: {
@@ -90,6 +92,7 @@ describe('Component: DefectDetailsPage', () => {
       }
     },
     prs: false,
+    prohibitionIssued: false,
     additionalInformation: {
       notes: '',
       location: {
@@ -152,6 +155,8 @@ describe('Component: DefectDetailsPage', () => {
     comp.defect = navParams.get('deficiency');
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.isEdit = navParams.get('isEdit');
+    spyOn(comp, 'addDefect');
+    spyOn(comp, 'showProhibitionAlert');
   });
 
   afterEach(() => {
@@ -198,4 +203,60 @@ describe('Component: DefectDetailsPage', () => {
     expect(comp.showPrs).toBeFalsy();
   });
 
+  it('should not change the prohibition attributes if defect category is not dangerous', () => {
+    comp.checkForProhibition(defect);
+    expect(comp.showProhibition).toBeFalsy();
+    expect(comp.prohibitionAsterisk).toBeFalsy();
+  });
+
+  it('should set the prohibition attributes correctly if defect is dangerous and prohibitionIssued is true', () => {
+    defect.deficiencyCategory = 'dangerous';
+    defect.prohibitionIssued = true;
+    comp.checkForProhibition(defect);
+    expect(comp.showProhibition).toBeTruthy();
+    expect(comp.prohibitionAsterisk).toBeFalsy();
+  });
+
+  it('should set the prohibition attributes correctly if defect is dangerous, stdForProhibition is true and prohibitionIssued is true', () => {
+    defect.deficiencyCategory = 'dangerous';
+    defect.prohibitionIssued = true;
+    defect.stdForProhibition = true;
+    comp.checkForProhibition(defect);
+    expect(comp.showProhibition).toBeTruthy();
+    expect(comp.prohibitionAsterisk).toBeTruthy();
+  });
+
+  it('should add a defect if showProhibition is false', () => {
+    comp.showProhibition = false;
+    comp.checkProhibitionStatus();
+    expect(comp.addDefect).toHaveBeenCalled();
+  });
+
+  it('should add a defect if showProhibition is true, prohibitionAsterisk is false and prohibitionIssued is true', () => {
+    comp.showProhibition = true;
+    comp.prohibitionAsterisk = false;
+    comp.defect.prohibitionIssued = true;
+    comp.checkProhibitionStatus();
+    expect(comp.addDefect).toHaveBeenCalled();
+  });
+
+  it('should show correct alert if showProhibition is true, prohibitionAsterisk is false and prohibitionIssued is false', () => {
+    comp.showProhibition = true;
+    comp.prohibitionAsterisk = false;
+    comp.defect.prohibitionIssued = false;
+    comp.checkProhibitionStatus();
+    expect(comp.addDefect).not.toHaveBeenCalled();
+    expect(comp.showProhibitionAlert).toHaveBeenCalledWith(APP_STRINGS.PROHIBITION_MSG_CONFIRM);
+  });
+
+  it('should show correct alert if showProhibition is true, prohibitionAsterisk is true, prohibitionIssued is false and notes is null', () => {
+    comp.showProhibition = true;
+    comp.prohibitionAsterisk = true;
+    comp.defect.prohibitionIssued = false;
+    comp.defect.additionalInformation.notes = null;
+    comp.checkProhibitionStatus();
+    expect(comp.addDefect).not.toHaveBeenCalled();
+    expect(comp.showProhibitionAlert).toHaveBeenCalledWith(APP_STRINGS.PROHIBITION_MSG_NOTES);
+  });
+  
 });

@@ -70,6 +70,7 @@ export class DefectsService {
       stdForProhibition: (!isAdvisory) ? deficiency.stdForProhibition : null,
       metadata: metadata,
       prs: (!isAdvisory) ? false : null,
+      prohibitionIssued: false,
     };
     return defect;
   }
