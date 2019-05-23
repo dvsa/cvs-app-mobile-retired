@@ -134,6 +134,13 @@
                               [(ngModel)]="vehicleTest.additionalNotesRecorded"></ion-textarea>
             </ion-item>
         </ion-item-group>
+        <ion-item-group *ngIf="!this.testTypeDetails.hasDefects">
+            <ion-item-divider>PROHIBITION</ion-item-divider>
+            <ion-item>
+                <ion-label>Issued in Mobile Compliance</ion-label>
+                <ion-toggle color="secondary" checked="false" [(ngModel)]="vehicleTest.prohibitionIssued"></ion-toggle>
+            </ion-item>
+        </ion-item-group>
         <ion-item-group>
             <ion-item-divider></ion-item-divider>
             <button ion-item 
