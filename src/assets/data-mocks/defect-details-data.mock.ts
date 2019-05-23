@@ -34,6 +34,7 @@ export class DefectDetailsDataMock {
         }
       },
       "prs": false,
+      "prohibitionIssued": false,
       "additionalInformation": {
         "notes": "",
         "location": {
@@ -61,6 +62,7 @@ export class DefectDetailsDataMock {
         "category": {"additionalInfo": null}
       },
       "prs": null,
+      "prohibitionIssued": false,
       "additionalInformation": {
         "notes": "test",
         "location": null
