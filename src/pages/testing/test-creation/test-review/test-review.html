@@ -52,7 +52,8 @@
                   *ngIf="testType.numberOfSeatbeltsFitted && testType.testResult !== testTypeResults.ABANDONED">
           <div margin-left class="test-field test-field-no-border-top">
             <h3>Seatbelt installation check</h3>
-            <h3 class="test-field-value">{{testType.seatbeltInstallationCheckDate ? appStrings.YES : appStrings.NO}}</h3>
+            <h3
+              class="test-field-value">{{testType.seatbeltInstallationCheckDate ? appStrings.YES : appStrings.NO}}</h3>
           </div>
           <div margin-left class="test-field">
             <h3>Number of seatbelts fitted</h3>
@@ -68,7 +69,8 @@
                   *ngIf="testType.certificateNumber && testType.testResult !== testTypeResults.ABANDONED">
           <div margin-left class="test-field test-field-no-border-top">
             <h3>Certificate number</h3>
-            <h3 class="test-field-value">{{(testType.testResult === testTypeResults.PASS ? 'LP' : 'LF') + testType.certificateNumber}}</h3>
+            <h3
+              class="test-field-value">{{(testType.testResult === testTypeResults.PASS ? 'LP' : 'LF') + testType.certificateNumber}}</h3>
           </div>
         </ion-item>
         <ion-item padding-left
@@ -108,7 +110,8 @@
                 <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
                 {{ defect.deficiencyText }}
               </h4>
-              <h4 padding-right class="additional-info parent-info-color-sm" *ngIf="defect.additionalInformation.location">
+              <h4 padding-right class="additional-info parent-info-color-sm"
+                  *ngIf="defect.additionalInformation.location">
                 <span *ngIf="defect.additionalInformation.location.vertical">
                   {{ defect.additionalInformation.location.vertical }}<span class="comma">,</span>
                 </span>
@@ -134,6 +137,8 @@
               <h4 padding-right text-wrap class="parent-info-color-sm"
                   *ngIf="defect.additionalInformation.notes">{{ defect.additionalInformation.notes }}
               </h4>
+              <h4 padding-right text-wrap class="parent-info-color-sm" *ngIf="defect.prohibitionIssued">
+                Prohibition issued - Yes</h4>
             </div>
           </div>
           <h3 margin-bottom class="parent-info-color"
@@ -151,6 +156,15 @@
               class="parent-info-color"
               *ngIf="testType.additionalNotesRecorded">{{testType.additionalNotesRecorded}}</h3>
           <h3 class="parent-info-color" *ngIf="!testType.additionalNotesRecorded">None</h3>
+        </ion-item>
+        <ion-item no-padding
+                  class="bottom-divider"
+                  *ngIf="testType.prohibitionIssued && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-left class="test-field test-field-no-border-top">
+            <h3>Prohibition Issued</h3>
+            <h3
+              class="test-field-value">Yes</h3>
+          </div>
         </ion-item>
         <ion-item padding-left margin-bottom
                   class="bottom-divider"

@@ -23,7 +23,6 @@ import {
 } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { CompleteTestPage } from "../complete-test/complete-test";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestModel } from "../../../../models/tests/test.model";
