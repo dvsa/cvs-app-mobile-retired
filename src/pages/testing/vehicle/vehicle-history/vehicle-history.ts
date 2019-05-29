@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { APP_STRINGS, TEST_TYPE_RESULTS, TEST_REPORT_STATUSES } from '../../../../app/app.enums';
 import { TestResultModel } from "../../../../models/tests/test-result.model";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
 
 @IonicPage()
 @Component({
@@ -47,9 +48,9 @@ export class VehicleHistoryPage {
   }
 
   createTestTypeArray(): void {
-    if(this.testResultHistory.length) {
+    if (this.testResultHistory.length) {
       this.testResultHistoryClone.forEach((testResult, testIndex) => {
-        if(testResult.testTypes.length && testResult.testStatus === TEST_REPORT_STATUSES.SUBMITTED) {
+        if (testResult.testTypes.length && testResult.testStatus === TEST_REPORT_STATUSES.SUBMITTED) {
           testResult.testTypes.forEach((testType, typeTypeIndex) => {
             testType.testIndex = testIndex;
             testType.testTypeIndex = typeTypeIndex;
@@ -59,5 +60,21 @@ export class VehicleHistoryPage {
       });
       delete this.testResultHistoryClone;
     }
+  }
+
+  haveProhibition(testType): boolean {
+    let resp = false;
+    if (testType.prohibitionIssued) {
+      resp = true;
+    } else {
+      if (testType.defects.length) {
+        testType.defects.forEach((defect) => {
+          if (defect.prohibitionIssued) resp = true;
+        });
+      } else {
+        resp = false;
+      }
+    }
+    return resp;
   }
 }
