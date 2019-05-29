@@ -98,4 +98,86 @@ describe('Component: VehicleHistoryPage', () => {
     comp.createTestTypeArray();
     expect(comp.testTypeArray.length).toBeFalsy();
   });
+
+  it('should check if any defect have an prohibition issued and returns true, otherwise return false', () => {
+    let testType = {
+      "prohibitionIssued": false,
+      "testCode": "pms",
+      "lastUpdatedAt": "2019-05-23T12:49:21.455Z",
+      "testNumber": "W01B89366",
+      "additionalCommentsForAbandon": "none",
+      "numberOfSeatbeltsFitted": 2,
+      "testTypeEndTimestamp": "2019-01-14T10:36:33.987Z",
+      "reasonForAbandoning": "none",
+      "lastSeatbeltInstallationCheckDate": "2019-01-14",
+      "createdAt": "2019-05-23T12:49:21.455Z",
+      "testTypeId": "19",
+      "testTypeStartTimestamp": "2019-01-14T10:36:33.987Z",
+      "certificateNumber": "12334",
+      "testTypeName": "Annual test",
+      "seatbeltInstallationCheckDate": true,
+      "additionalNotesRecorded": "VEHICLE FRONT ROW SECOND SEAT HAS MISSING SEATBELT",
+      "defects": [{
+        "deficiencyCategory": "major",
+        "deficiencyText": "missing.",
+        "prs": false,
+        "additionalInformation": {
+          "location": {"axleNumber": null, "horizontal": null, "vertical": "upper", "longitudinal": null, "rowNumber": 1, "lateral": "centre", "seatNumber": 2},
+          "notes": "seatbelt missing"
+        },
+        "itemNumber": 1,
+        "deficiencyRef": "3.1.a",
+        "stdForProhibition": false,
+        "prohibitionIssued": false,
+        "deficiencySubId": null,
+        "imDescription": "Seat Belts & Supplementary Restraint Systems",
+        "deficiencyId": "a",
+        "itemDescription": "Obligatory Seat Belt:",
+        "imNumber": 3
+      }, {
+        "deficiencyCategory": "major",
+        "deficiencyText": "missing.",
+        "prs": false,
+        "additionalInformation": {
+          "location": {"axleNumber": null, "horizontal": null, "vertical": "upper", "longitudinal": null, "rowNumber": 1, "lateral": "centre", "seatNumber": 2},
+          "notes": "seatbelt missing"
+        },
+        "itemNumber": 1,
+        "deficiencyRef": "3.1.a",
+        "stdForProhibition": true,
+        "prohibitionIssued": true,
+        "deficiencySubId": null,
+        "imDescription": "Seat Belts & Supplementary Restraint Systems",
+        "deficiencyId": "a",
+        "itemDescription": "Obligatory Seat Belt:",
+        "imNumber": 3
+      }, {
+        "deficiencyCategory": "major",
+        "deficiencyText": "missing.",
+        "prs": false,
+        "additionalInformation": {
+          "location": {"axleNumber": null, "horizontal": null, "vertical": "upper", "longitudinal": null, "rowNumber": 1, "lateral": "centre", "seatNumber": 2},
+          "notes": "seatbelt missing"
+        },
+        "itemNumber": 1,
+        "deficiencyRef": "3.1.a",
+        "stdForProhibition": false,
+        "prohibitionIssued": false,
+        "deficiencySubId": null,
+        "imDescription": "Seat Belts & Supplementary Restraint Systems",
+        "deficiencyId": "a",
+        "itemDescription": "Obligatory Seat Belt:",
+        "imNumber": 3
+      }],
+      "name": "Annual test",
+      "testResult": "fail",
+      "testIndex": 52,
+      "testTypeIndex": 0
+    };
+    expect(comp.haveProhibition(testType)).toBeTruthy();
+    testType.defects = [];
+    expect(comp.haveProhibition(testType)).toBeFalsy();
+    testType.prohibitionIssued = true;
+    expect(comp.haveProhibition(testType)).toBeTruthy();
+  });
 });

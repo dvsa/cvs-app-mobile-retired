@@ -7,14 +7,14 @@
 </ion-header>
 
 <ion-content no-padding>
-    <div text-uppercase
-         text-center
-         class="vehicle-header-vrm-number">
-      {{ vehicleData.vrm | formatVrm }}
-    </div>
+  <div text-uppercase
+       text-center
+       class="vehicle-header-vrm-number">
+    {{ vehicleData.vrm | formatVrm }}
+  </div>
 
   <ion-list class="tests-list" *ngIf="testResultHistory.length">
-  
+
     <ng-container *ngFor="let testType of testTypeArray">
 
       <button ion-item (click)="showTestDetails(testType.testIndex, testType.testTypeIndex)">
@@ -24,11 +24,19 @@
               <p text-wrap>{{ testType.name }}</p>
             </ion-col>
             <ion-col col-4 text-right>
-              <p text-uppercase
-                  class="test-result"
-                  ion-text
-                  [color]="commonFunc.getTestResultColor(testType.testResult)">
+              <p *ngIf="!haveProhibition(testType)"
+                 text-uppercase
+                 class="test-result"
+                 ion-text
+                 [color]="commonFunc.getTestResultColor(testType.testResult)">
                 {{ testType.testResult }}
+              </p>
+              <p *ngIf="haveProhibition(testType)"
+                 text-uppercase
+                 class="test-result"
+                 ion-text
+                 color="dark">
+                PROHIBITION
               </p>
             </ion-col>
           </ion-row>
