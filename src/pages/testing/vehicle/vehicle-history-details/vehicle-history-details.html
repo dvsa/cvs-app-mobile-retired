@@ -66,6 +66,20 @@
         </ion-row>
       </ion-grid>
     </ion-item>
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.prohibitionIssued">
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-3 text-start>
+            <span text-left>Prohibition issued</span>
+          </ion-col>
+          <ion-col col-9 text-end>
+            <span text-capitalize>
+              Yes
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
     <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.testExpiryDate">
       <ion-grid no-padding>
         <ion-row justify-content-between>
@@ -162,8 +176,8 @@
                 <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
                 <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
               </span>
-              <ion-badge *ngIf="defect.deficiencyCategory" 
-                         text-uppercase 
+              <ion-badge *ngIf="defect.deficiencyCategory"
+                         text-uppercase
                          [color]="getDeficiencyColor(defect.deficiencyCategory)">
                 {{ defect.deficiencyCategory }}
               </ion-badge>
@@ -191,11 +205,11 @@
             <ion-col col-12 text-start text-wrap class="additional-info">
               <span *ngIf="defect.additionalInformation.location.vertical" text-capitalize>
                 <span class="forward-slash">/</span>
-                  {{ defect.additionalInformation.location.vertical }}
+                {{ defect.additionalInformation.location.vertical }}
               </span>
               <span *ngIf="defect.additionalInformation.location.horizontal" text-capitalize>
                 <span class="forward-slash">/</span>
-                  {{ defect.additionalInformation.location.horizontal }}
+                {{ defect.additionalInformation.location.horizontal }}
               </span>
               <span *ngIf="defect.additionalInformation.location.lateral" text-capitalize>
                 <span class="forward-slash">/</span>
@@ -222,6 +236,11 @@
           <ion-row>
             <ion-col col-12 text-start text-wrap>
               {{ defect.additionalInformation.notes || defaultValues.NONE }}
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="defect.prohibitionIssued">
+            <ion-col col-12 text-start text-wrap>
+              Prohibition issued - Yes
             </ion-col>
           </ion-row>
         </ion-grid>
