@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   AlertController,
   Events,
@@ -8,8 +8,8 @@ import {
   NavController,
   NavParams, LoadingController
 } from 'ionic-angular';
-import { VisitModel } from "../../../../models/visit/visit.model";
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import {VisitModel} from "../../../../models/visit/visit.model";
+import {CommonFunctionsService} from "../../../../providers/utils/common-functions";
 import {
   APP,
   APP_STRINGS,
@@ -19,28 +19,28 @@ import {
   TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
-  LOCAL_STORAGE
+  LOCAL_STORAGE, FIREBASE
 } from "../../../../app/app.enums";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { CompleteTestPage } from "../complete-test/complete-test";
-import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestModel } from "../../../../models/tests/test.model";
-import { TestResultService } from "../../../../providers/test-result/test-result.service";
-import { TestService } from "../../../../providers/test/test.service";
-import { Observable } from "rxjs";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { catchError, tap } from "rxjs/operators";
-import { StateReformingService } from "../../../../providers/global/state-reforming.service";
-import { StorageService } from '../../../../providers/natives/storage.service';
-import { DefectsService } from "../../../../providers/defects/defects.service";
-import { Firebase } from '@ionic-native/firebase';
-import { AuthService } from "../../../../providers/global/auth.service";
-import { Store } from "@ngrx/store";
-import { Log, LogsModel } from "../../../../modules/logs/logs.model";
+import {VehicleModel} from "../../../../models/vehicle/vehicle.model";
+import {VehicleService} from "../../../../providers/vehicle/vehicle.service";
+import {CompleteTestPage} from "../complete-test/complete-test";
+import {TestTypesFieldsMetadata} from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
+import {TestTypeModel} from "../../../../models/tests/test-type.model";
+import {TestModel} from "../../../../models/tests/test.model";
+import {TestResultService} from "../../../../providers/test-result/test-result.service";
+import {TestService} from "../../../../providers/test/test.service";
+import {Observable} from "rxjs";
+import {OpenNativeSettings} from "@ionic-native/open-native-settings";
+import {VisitService} from "../../../../providers/visit/visit.service";
+import {catchError, tap} from "rxjs/operators";
+import {StateReformingService} from "../../../../providers/global/state-reforming.service";
+import {StorageService} from '../../../../providers/natives/storage.service';
+import {DefectsService} from "../../../../providers/defects/defects.service";
+import {AuthService} from "../../../../providers/global/auth.service";
+import {Store} from "@ngrx/store";
+import {Log, LogsModel} from "../../../../modules/logs/logs.model";
 import * as logsActions from "../../../../modules/logs/logs.actions";
+import {FirebaseLogsService} from "../../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -75,9 +75,9 @@ export class TestReviewPage implements OnInit {
               private testService: TestService,
               private loadingCtrl: LoadingController,
               private storageService: StorageService,
-              private firebase: Firebase,
               private authService: AuthService,
-              private store$: Store<LogsModel>) {
+              private store$: Store<LogsModel>,
+              private firebaseLogsService: FirebaseLogsService) {
     this.visit = this.navParams.get('visit');
     this.latestTest = this.visitService.getLatestTest();
   }
@@ -222,6 +222,7 @@ export class TestReviewPage implements OnInit {
             timestamp: Date.now(),
           };
           this.store$.dispatch(new logsActions.SaveLog(log));
+          this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_TEST);
           this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
           LOADING.dismiss();
           this.submitInProgress = false;
@@ -237,11 +238,9 @@ export class TestReviewPage implements OnInit {
         (error) => {
           LOADING.dismiss();
           TRY_AGAIN_ALERT.present();
-          this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Test submission failed"});
+          this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.TEST_SUBMISSION_FAILED);
         }
       )
     }
-
   }
-
 }

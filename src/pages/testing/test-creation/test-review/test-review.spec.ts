@@ -1,5 +1,5 @@
-import { TestReviewPage } from "./test-review";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import {TestReviewPage} from "./test-review";
+import {ComponentFixture, async, TestBed} from "@angular/core/testing";
 import {
   IonicModule,
   NavController,
@@ -8,30 +8,31 @@ import {
   AlertController,
   LoadingController
 } from "ionic-angular";
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { NavControllerMock, ViewControllerMock, AlertControllerMock, LoadingControllerMock } from "ionic-mocks";
-import { StateReformingService } from "../../../../providers/global/state-reforming.service";
-import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { StorageService } from "../../../../providers/natives/storage.service";
-import { StorageServiceMock } from "../../../../../test-config/services-mocks/storage-service.mock";
-import { TestResultService } from "../../../../providers/test-result/test-result.service";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { TestService } from "../../../../providers/test/test.service";
-import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { DefectsService } from "../../../../providers/defects/defects.service";
-import { Firebase } from "@ionic-native/firebase";
-import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
-import { AuthService } from "../../../../providers/global/auth.service";
-import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
-import { Store } from "@ngrx/store";
-import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
-import { TestResultServiceMock } from "../../../../../test-config/services-mocks/test-result-service.mock";
+import {CommonFunctionsService} from "../../../../providers/utils/common-functions";
+import {NavControllerMock, ViewControllerMock, AlertControllerMock, LoadingControllerMock} from "ionic-mocks";
+import {StateReformingService} from "../../../../providers/global/state-reforming.service";
+import {StateReformingServiceMock} from "../../../../../test-config/services-mocks/state-reforming-service.mock";
+import {VehicleService} from "../../../../providers/vehicle/vehicle.service";
+import {VehicleServiceMock} from "../../../../../test-config/services-mocks/vehicle-service.mock";
+import {VisitService} from "../../../../providers/visit/visit.service";
+import {VisitServiceMock} from "../../../../../test-config/services-mocks/visit-service.mock";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {StorageService} from "../../../../providers/natives/storage.service";
+import {StorageServiceMock} from "../../../../../test-config/services-mocks/storage-service.mock";
+import {TestResultService} from "../../../../providers/test-result/test-result.service";
+import {OpenNativeSettings} from "@ionic-native/open-native-settings";
+import {TestService} from "../../../../providers/test/test.service";
+import {TestServiceMock} from "../../../../../test-config/services-mocks/test-service.mock";
+import {NavParamsMock} from "../../../../../test-config/ionic-mocks/nav-params.mock";
+import {DefectsService} from "../../../../providers/defects/defects.service";
+import {VisitDataMock} from "../../../../assets/data-mocks/visit-data.mock";
+import {AuthService} from "../../../../providers/global/auth.service";
+import {AuthServiceMock} from "../../../../../test-config/services-mocks/auth-service.mock";
+import {Store} from "@ngrx/store";
+import {TestStore} from "../../../../providers/interceptors/auth.interceptor.spec";
+import {TestResultServiceMock} from "../../../../../test-config/services-mocks/test-result-service.mock";
+import {FirebaseLogsService} from "../../../../providers/firebase-logs/firebase-logs.service";
+import {FirebaseLogsServiceMock} from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -45,7 +46,6 @@ describe('Component: TestReviewPage', () => {
       declarations: [TestReviewPage],
       imports: [IonicModule.forRoot(TestReviewPage)],
       providers: [
-        Firebase,
         CommonFunctionsService,
         OpenNativeSettings,
         DefectsService,
@@ -61,7 +61,8 @@ describe('Component: TestReviewPage', () => {
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: Store, useClass: TestStore},
-        {provide: NavParams, useClass: NavParamsMock}
+        {provide: NavParams, useClass: NavParamsMock},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
