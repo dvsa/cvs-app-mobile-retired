@@ -25,6 +25,7 @@ import { AppServiceMock } from "../../../../../test-config/services-mocks/app-se
 import { AlertControllerMock, ModalControllerMock, NavControllerMock } from "ionic-mocks";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -196,5 +197,19 @@ describe('Component: TestCreatePage', () => {
     component.onOdometer(0);
     expect(modalctrl.create).toHaveBeenCalled();
     expect(firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time).toBeTruthy();
+  });
+
+  it('should check if logEvent was called', () => {
+    spyOn(firebaseLogsService, 'logEvent');
+    let vehicle = VehicleDataMock.VehicleData;
+    vehicle.countryOfRegistration = '';
+    component.logMissingFields(vehicle);
+    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+
+    vehicle.countryOfRegistration = 'gb';
+    vehicle.euVehicleCategory = 'something';
+    vehicle.odometerReading = '1233';
+    component.logMissingFields(vehicle);
+    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
   });
 });

@@ -7,7 +7,6 @@ import {TestResultService} from "../../../../providers/test-result/test-result.s
 import {VisitService} from "../../../../providers/visit/visit.service";
 import {Observable} from "rxjs";
 import {OpenNativeSettings} from "@ionic-native/open-native-settings";
-import {Firebase} from '@ionic-native/firebase';
 import {AuthService} from "../../../../providers/global/auth.service";
 import {Store} from "@ngrx/store";
 import {Log, LogsModel} from "../../../../modules/logs/logs.model";
@@ -122,6 +121,7 @@ export class TestCancelPage {
             timestamp: Date.now(),
           };
           this.store$.dispatch(new logsActions.SaveLog(log));
+          this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
           LOADING.dismiss();
           this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 6));
         },
