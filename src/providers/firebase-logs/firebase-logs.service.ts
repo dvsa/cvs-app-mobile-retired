@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Firebase } from "@ionic-native/firebase";
+import {Injectable} from "@angular/core";
+import {Firebase} from "@ionic-native/firebase";
 
 @Injectable()
 export class FirebaseLogsService {
@@ -31,10 +31,10 @@ export class FirebaseLogsService {
   }
 
   logEvent(eventName: string,
-      paramName1?: string, paramValue1?: any,
-      paramName2?: string, paramValue2?: any,
-      paramName3?: string, paramValue3?: any,
-      paramName4?: string, paramValue4?: any): Promise<any> {
+           paramName1?: string, paramValue1?: any,
+           paramName2?: string, paramValue2?: any,
+           paramName3?: string, paramValue3?: any,
+           paramName4?: string, paramValue4?: any): Promise<any> {
     let data = {};
     if (paramName1) data[paramName1] = paramValue1 || '';
     if (paramName2) data[paramName2] = paramValue2;

@@ -232,6 +232,7 @@ export class TestCreatePage implements OnInit {
     let requiredFieldsCompleted = true;
     for (let vehicle of this.testData.vehicles) {
       if (!vehicle.countryOfRegistration || !vehicle.euVehicleCategory || !vehicle.odometerReading) {
+        this.logMissingFields(vehicle);
         requiredFieldsCompleted = false;
       }
       finishedTest = vehicle.testTypes.every((test: TestTypeModel) => {
@@ -247,6 +248,9 @@ export class TestCreatePage implements OnInit {
       });
       alert.present();
       this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.NOT_ALL_TESTS_COMPLETED);
+      if (!finishedTest) {
+        this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.NOT_ALL_TESTS_COMPLETED);
+      }
       alert.onDidDismiss(() => this.changeOpacity = false);
     } else if (!noTestAdded) {
       let alert = this.alertCtrl.create({
@@ -256,10 +260,17 @@ export class TestCreatePage implements OnInit {
       });
       alert.present();
       this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.NO_TEST_ADDED);
+      this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.MISSING_MADATORY_FIELD, FIREBASE.NO_TEST_ADDED);
       alert.onDidDismiss(() => this.changeOpacity = false);
     } else {
       this.changeOpacity = false;
       this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE, {visit: this.visitService.visit})
     }
+  }
+
+  logMissingFields(vehicle) {
+    if (!vehicle.countryOfRegistration) this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.MISSING_MADATORY_FIELD, FIREBASE.COUNTRY_OF_REGISTRATION);
+    if (!vehicle.euVehicleCategory) this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.MISSING_MADATORY_FIELD, FIREBASE.EU_VEHICLE_CATEGORY);
+    if (!vehicle.odometerReading) this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.MISSING_MADATORY_FIELD, FIREBASE.ODOMETER_READING);
   }
 }
