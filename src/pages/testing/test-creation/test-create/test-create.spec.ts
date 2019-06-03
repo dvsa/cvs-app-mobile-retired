@@ -1,30 +1,30 @@
-import {TestCreatePage} from "./test-create";
-import {async, ComponentFixture, TestBed} from "@angular/core/testing";
-import {IonicModule, NavController, NavParams, AlertController} from "ionic-angular";
-import {VehicleService} from "../../../../providers/vehicle/vehicle.service";
-import {TestTypeModel} from "../../../../models/tests/test-type.model";
-import {TestTypeDataModelMock} from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
-import {TechRecordDataMock} from "../../../../assets/data-mocks/tech-record-data.mock";
-import {NavParamsMock} from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
-import {ODOMETER_METRIC} from "../../../../app/app.enums";
-import {TestModel} from "../../../../models/tests/test.model";
-import {TestService} from "../../../../providers/test/test.service";
-import {TestServiceMock} from "../../../../../test-config/services-mocks/test-service.mock";
-import {VehicleServiceMock} from "../../../../../test-config/services-mocks/vehicle-service.mock";
-import {VisitService} from "../../../../providers/visit/visit.service";
-import {VisitServiceMock} from "../../../../../test-config/services-mocks/visit-service.mock";
-import {StateReformingService} from "../../../../providers/global/state-reforming.service";
-import {StateReformingServiceMock} from "../../../../../test-config/services-mocks/state-reforming-service.mock";
-import {VisitDataMock} from "../../../../assets/data-mocks/visit-data.mock";
-import {VehicleTechRecordModel} from "../../../../models/vehicle/tech-record.model";
-import {CommonFunctionsService} from "../../../../providers/utils/common-functions";
-import {CallNumber} from "@ionic-native/call-number";
-import {AppService} from "../../../../providers/global/app.service";
-import {AppServiceMock} from "../../../../../test-config/services-mocks/app-service.mock";
-import {AlertControllerMock, NavControllerMock} from "ionic-mocks";
-import {FirebaseLogsService} from "../../../../providers/firebase-logs/firebase-logs.service";
-import {FirebaseLogsServiceMock} from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { TestCreatePage } from "./test-create";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { IonicModule, NavController, NavParams, AlertController, ModalController } from "ionic-angular";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
+import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
+import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ODOMETER_METRIC } from "../../../../app/app.enums";
+import { TestModel } from "../../../../models/tests/test.model";
+import { TestService } from "../../../../providers/test/test.service";
+import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
+import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
+import { StateReformingService } from "../../../../providers/global/state-reforming.service";
+import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
+import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
+import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { CallNumber } from "@ionic-native/call-number";
+import { AppService } from "../../../../providers/global/app.service";
+import { AppServiceMock } from "../../../../../test-config/services-mocks/app-service.mock";
+import { AlertControllerMock, ModalControllerMock, NavControllerMock } from "ionic-mocks";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -38,6 +38,7 @@ describe('Component: TestCreatePage', () => {
   let stateReformingService: StateReformingService;
   let callNumberSpy: any;
   let firebaseLogsService: FirebaseLogsService;
+  let modalctrl: ModalController;
 
   const testReport: TestModel = {
     startTime: null,
@@ -60,6 +61,7 @@ describe('Component: TestCreatePage', () => {
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         CommonFunctionsService,
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
+        {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: AppService, useClass: AppServiceMock},
         {provide: CallNumber, useValue: callNumberSpy},
@@ -82,6 +84,7 @@ describe('Component: TestCreatePage', () => {
     visitService = TestBed.get(VisitService);
     stateReformingService = TestBed.get(StateReformingService);
     firebaseLogsService = TestBed.get(FirebaseLogsService);
+    modalctrl = TestBed.get(ModalController);
   }));
 
   beforeEach(() => {
@@ -103,6 +106,7 @@ describe('Component: TestCreatePage', () => {
     visitService = null;
     stateReformingService = null;
     firebaseLogsService = null;
+    modalctrl = null;
   });
 
   it('should create the component', () => {
@@ -182,5 +186,15 @@ describe('Component: TestCreatePage', () => {
     component.completedFields = {};
     component.removeVehicleTest(vehicleService.createVehicle(vehicle), ADDED_VEHICLE_TEST);
     expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+  });
+
+  it('should test onOdometer logic', () => {
+    let newTest = testService.createTest();
+    let newVehicle = vehicleService.createVehicle(vehicle);
+    newTest.vehicles.push(newVehicle);
+    component.testData = newTest;
+    component.onOdometer(0);
+    expect(modalctrl.create).toHaveBeenCalled();
+    expect(firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time).toBeTruthy();
   });
 });
