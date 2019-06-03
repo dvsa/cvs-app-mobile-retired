@@ -19,6 +19,8 @@ import { of } from "rxjs/observable/of";
 import { AuthService } from "../../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
 import { TESTER_ROLES } from "../../../../app/app.enums";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -29,6 +31,7 @@ describe('Component: AddPreparerPage', () => {
   let vehicleService: VehicleService;
   let visitService: VisitService;
   let preparerServiceSpy: any;
+  let firebaseLogsService: FirebaseLogsService;
 
   const TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
 
@@ -47,6 +50,7 @@ describe('Component: AddPreparerPage', () => {
       providers: [
         NavController,
         TestService,
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: NavParams, useClass: NavParamsMock},
@@ -67,6 +71,7 @@ describe('Component: AddPreparerPage', () => {
     navCtrl = TestBed.get(NavController);
     vehicleService = TestBed.get(VehicleService);
     visitService = TestBed.get(VisitService);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   beforeEach(() => {
@@ -88,6 +93,7 @@ describe('Component: AddPreparerPage', () => {
     testService = null;
     vehicleService = null;
     visitService = null;
+    firebaseLogsService = null;
   });
 
   it('should create the component', () => {
@@ -160,5 +166,11 @@ describe('Component: AddPreparerPage', () => {
     neededRoles = [TESTER_ROLES.FULL_ACCESS];
     testerRoles = [TESTER_ROLES.HGV];
     expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, '')).toBeFalsy();
+  });
+
+  it('should check if firebase.logEvent was called', () => {
+    spyOn(firebaseLogsService, 'logEvent');
+    comp.logIntoFirebase();
+    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
   });
 });

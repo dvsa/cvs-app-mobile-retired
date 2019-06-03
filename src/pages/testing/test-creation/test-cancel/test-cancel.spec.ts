@@ -10,13 +10,14 @@ import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 import { TestResultService } from "../../../../providers/test-result/test-result.service";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { Firebase } from "@ionic-native/firebase";
 import { AlertControllerMock, LoadingControllerMock, NavControllerMock } from "ionic-mocks";
 import { AuthService } from "../../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
 import { Store } from "@ngrx/store";
 import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
 import { TestResultServiceMock } from "../../../../../test-config/services-mocks/test-result-service.mock";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
@@ -47,8 +48,8 @@ describe('Component: TestCancelPage', () => {
       declarations: [TestCancelPage],
       imports: [IonicModule.forRoot(TestCancelPage)],
       providers: [
-        Firebase,
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
@@ -80,7 +81,7 @@ describe('Component: TestCancelPage', () => {
       };
       return params[param];
     })
-  })
+  });
 
   afterEach(() => {
     fixture.destroy();

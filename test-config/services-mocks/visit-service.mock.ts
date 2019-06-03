@@ -1,8 +1,8 @@
-import { VisitModel } from "../../src/models/visit/visit.model";
-import { TestModel } from "../../src/models/tests/test.model";
-import { VisitDataMock } from "../../src/assets/data-mocks/visit-data.mock";
-import { Observable } from "rxjs";
-import { of } from "rxjs/observable/of";
+import {VisitModel} from "../../src/models/visit/visit.model";
+import {TestModel} from "../../src/models/tests/test.model";
+import {VisitDataMock} from "../../src/assets/data-mocks/visit-data.mock";
+import {Observable} from "rxjs";
+import {of} from "rxjs/observable/of";
 
 export class VisitServiceMock {
   visit: VisitModel = {} as VisitModel;
@@ -27,7 +27,7 @@ export class VisitServiceMock {
 
   public endVisit() {
     this.visit.endTime = new Date().toISOString();
-    return Observable.throw({error: {error: ''}});
+    return this.isError ? Observable.throw({error: {error: ''}}) : of(true);
   }
 
   public addTest(test: TestModel) {
@@ -54,5 +54,4 @@ export class VisitServiceMock {
   public updateVisit() {
     return new Promise((resolve) => (resolve(true)));
   }
-
 }
