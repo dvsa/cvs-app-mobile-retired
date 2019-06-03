@@ -1,17 +1,20 @@
-import { TestBed } from "@angular/core/testing";
-import { AuthService } from "./auth.service";
-import { LOCAL_STORAGE, TESTER_ROLES } from "../../app/app.enums";
-import { MSAdal } from "@ionic-native/ms-adal";
-import { Platform } from "ionic-angular";
-import { CommonFunctionsService } from "../utils/common-functions";
-import { NetworkStateProvider } from "../../modules/logs/network-state.service";
-import { NetworkStateProviderMock } from "../../modules/logs/network-state.service.mock";
+import {TestBed} from "@angular/core/testing";
+import {AuthService} from "./auth.service";
+import {LOCAL_STORAGE, TESTER_ROLES} from "../../app/app.enums";
+import {MSAdal} from "@ionic-native/ms-adal";
+import {Platform} from "ionic-angular";
+import {CommonFunctionsService} from "../utils/common-functions";
+import {NetworkStateProvider} from "../../modules/logs/network-state.service";
+import {NetworkStateProviderMock} from "../../modules/logs/network-state.service.mock";
+import {AuthServiceMock} from "../../../test-config/services-mocks/auth-service.mock";
+import {FirebaseLogsService} from "../firebase-logs/firebase-logs.service";
+import {Firebase} from "@ionic-native/firebase";
 
 describe(`AuthService`, () => {
   let authService: AuthService;
 
   // dummy hand crafted jwt token for testing purpose only
-  const JWT_TOKEN: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNQc3ZUZXN0ZXIiXX0.3e1fwZmSolm2tn6USxaLKupMVNfaRGq04z3hEOcfsP4';
+  const JWT_TOKEN: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNQc3ZUZXN0ZXIiXSwidGlkIjoiMTIzNDU2Nzg5MCJ9.9prTaDS-toi8z6HUbuhm5es1IcRp-BHVAqxjuu7C7-k';
   const JWT_TOKEN_EMPTY: string = '';
 
   beforeEach(() => {
@@ -22,11 +25,17 @@ describe(`AuthService`, () => {
         CommonFunctionsService,
         Platform,
         MSAdal,
-        {provide: NetworkStateProvider, useClass: NetworkStateProviderMock}
+        {provide: NetworkStateProvider, useClass: NetworkStateProviderMock},
+        FirebaseLogsService,
+        {provide: Firebase, useValue: jasmine.createSpyObj<Firebase>(['logEvent'])}
       ],
     });
 
     authService = TestBed.get(AuthService);
+  });
+
+  beforeEach(() => {
+    localStorage.clear();
   });
 
   afterEach(() => {
@@ -97,6 +106,21 @@ describe(`AuthService`, () => {
     expect(result.testerEmail).toBeTruthy();
     expect(result.testerName).toBeTruthy();
     expect(result.testerRoles[0]).toBe(TESTER_ROLES.PSV);
+  });
+
+  it('should set the tenantId with authResponse', () => {
+    authService.setTesterDetails({accessToken: JWT_TOKEN});
+    expect(authService.tenantId).toBe('1234567890');
+  });
+
+  it('should set the tester details in localStorage', () => {
+    authService.setTesterDetails({accessToken: JWT_TOKEN});
+    expect(localStorage.getItem('tester-details')).toEqual(JSON.stringify({
+      testerName: "John Doe",
+      testerId: "1234567890",
+      testerEmail: "test@email.com",
+      testerRoles: [TESTER_ROLES.PSV]
+    }));
   });
 
   it('should test if it is valid token', () => {

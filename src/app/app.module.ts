@@ -38,6 +38,7 @@ import { LogsProvider } from "../modules/logs/logs.service";
 import { SecureStorage } from "@ionic-native/secure-storage";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
+import { FirebaseLogsService } from "../providers/firebase-logs/firebase-logs.service";
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -55,7 +56,8 @@ const CUSTOM_PROVIDERS = [
   VisitService,
   StateReformingService,
   CommonFunctionsService,
-  SignatureService
+  SignatureService,
+  FirebaseLogsService
 ];
 
 const IONIC_NATIVE_PROVIDERS = [

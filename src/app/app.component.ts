@@ -8,10 +8,10 @@ import { SyncService } from "../providers/global/sync.service";
 import { StorageService } from "../providers/natives/storage.service";
 import { VisitService } from "../providers/visit/visit.service";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
-import { LOCAL_STORAGE, PAGE_NAMES, SIGNATURE_STATUS, STORAGE } from "./app.enums";
+import { FIREBASE, LOCAL_STORAGE, PAGE_NAMES, SIGNATURE_STATUS, STORAGE } from "./app.enums";
 import { TesterDetailsModel } from "../models/tester-details.model";
 import { AppService } from "../providers/global/app.service";
-import { Firebase } from '@ionic-native/firebase';
+import { FirebaseLogsService } from "../providers/firebase-logs/firebase-logs.service";
 
 @Component({
   templateUrl: 'app.html'
@@ -32,12 +32,12 @@ export class MyApp {
               private authService: AuthService,
               private mobileAccessibility: MobileAccessibility,
               private renderer: Renderer2,
-              private firebase: Firebase,
+              private firebaseLogsService: FirebaseLogsService,
               private screenOrientation: ScreenOrientation) {
     platform.ready().then(() => {
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
-      this.firebase.logEvent('test_event', {content_type: 'page_view', item_id: 'open_app'});
+      this.firebaseLogsService.logEvent(FIREBASE.TEST_EVENT, FIREBASE.PAGE_VIEW, FIREBASE.OPEN_APP);
  
       this.initApp();
 
@@ -68,6 +68,7 @@ export class MyApp {
 
   private startAuthProcess(): void {
     if (this.appService.isCordova) {
+
       this.authService.login().subscribe(
         (resp: string) => {
           if (this.authService.isValidToken(resp)) {

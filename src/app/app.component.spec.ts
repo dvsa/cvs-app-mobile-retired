@@ -19,7 +19,8 @@ import { AuthServiceMock } from "../../test-config/services-mocks/auth-service.m
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { AppService } from "../providers/global/app.service";
 import { AppServiceMock } from "../../test-config/services-mocks/app-service.mock";
-import { Firebase } from '@ionic-native/firebase';
+import { FirebaseLogsService } from "../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -31,6 +32,7 @@ describe('Component: Root', () => {
   let storageService;
   let visitService;
   let screenOrientation: ScreenOrientation;
+  let firebaseLogsService: FirebaseLogsService;
 
   beforeEach(async(() => {
     syncServiceSpy = jasmine.createSpy('SyncService', () => 'startSync');
@@ -38,11 +40,11 @@ describe('Component: Root', () => {
     TestBed.configureTestingModule({
       declarations: [MyApp],
       providers: [
-        Firebase,
         StatusBar,
         SplashScreen,
         StorageService,
         MSAdal,
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: SyncService, useValue: syncServiceSpy},
         {provide: AuthService, useClass: AuthServiceMock},
@@ -72,6 +74,7 @@ describe('Component: Root', () => {
     appService = TestBed.get(AppService);
     visitService = TestBed.get(VisitService);
     screenOrientation = TestBed.get(ScreenOrientation);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   afterEach(() => {
@@ -82,11 +85,14 @@ describe('Component: Root', () => {
     storageService = null;
     visitService = null;
     screenOrientation = null;
+    firebaseLogsService = null;
   });
 
   it('should create component', (done) => {
+    spyOn(firebaseLogsService, 'logEvent');
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
+    expect(firebaseLogsService.logEvent).not.toHaveBeenCalled();
     done();
   });
 
