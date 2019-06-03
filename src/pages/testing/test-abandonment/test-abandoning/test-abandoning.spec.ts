@@ -9,6 +9,8 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: TestAbandoningPage', () => {
   let component: TestAbandoningPage;
@@ -29,6 +31,7 @@ describe('Component: TestAbandoningPage', () => {
       providers: [
         NavController,
         AlertController,
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: TestTypeService, useClass: TestTypeServiceMock},
         {provide: NavParams, useClass: NavParamsMock}

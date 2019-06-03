@@ -1,29 +1,30 @@
-import { TestCreatePage } from "./test-create";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams, AlertController } from "ionic-angular";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ODOMETER_METRIC } from "../../../../app/app.enums";
-import { TestModel } from "../../../../models/tests/test.model";
-import { TestService } from "../../../../providers/test/test.service";
-import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
-import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { StateReformingService } from "../../../../providers/global/state-reforming.service";
-import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
-import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
-import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { CallNumber } from "@ionic-native/call-number";
-import { AppService } from "../../../../providers/global/app.service";
-import { AppServiceMock } from "../../../../../test-config/services-mocks/app-service.mock";
-import { Firebase } from "@ionic-native/firebase";
-import { AlertControllerMock } from "ionic-mocks";
+import {TestCreatePage} from "./test-create";
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
+import {IonicModule, NavController, NavParams, AlertController} from "ionic-angular";
+import {VehicleService} from "../../../../providers/vehicle/vehicle.service";
+import {TestTypeModel} from "../../../../models/tests/test-type.model";
+import {TestTypeDataModelMock} from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
+import {TechRecordDataMock} from "../../../../assets/data-mocks/tech-record-data.mock";
+import {NavParamsMock} from "../../../../../test-config/ionic-mocks/nav-params.mock";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {ODOMETER_METRIC} from "../../../../app/app.enums";
+import {TestModel} from "../../../../models/tests/test.model";
+import {TestService} from "../../../../providers/test/test.service";
+import {TestServiceMock} from "../../../../../test-config/services-mocks/test-service.mock";
+import {VehicleServiceMock} from "../../../../../test-config/services-mocks/vehicle-service.mock";
+import {VisitService} from "../../../../providers/visit/visit.service";
+import {VisitServiceMock} from "../../../../../test-config/services-mocks/visit-service.mock";
+import {StateReformingService} from "../../../../providers/global/state-reforming.service";
+import {StateReformingServiceMock} from "../../../../../test-config/services-mocks/state-reforming-service.mock";
+import {VisitDataMock} from "../../../../assets/data-mocks/visit-data.mock";
+import {VehicleTechRecordModel} from "../../../../models/vehicle/tech-record.model";
+import {CommonFunctionsService} from "../../../../providers/utils/common-functions";
+import {CallNumber} from "@ionic-native/call-number";
+import {AppService} from "../../../../providers/global/app.service";
+import {AppServiceMock} from "../../../../../test-config/services-mocks/app-service.mock";
+import {AlertControllerMock, NavControllerMock} from "ionic-mocks";
+import {FirebaseLogsService} from "../../../../providers/firebase-logs/firebase-logs.service";
+import {FirebaseLogsServiceMock} from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -36,6 +37,7 @@ describe('Component: TestCreatePage', () => {
   let testService: TestService;
   let stateReformingService: StateReformingService;
   let callNumberSpy: any;
+  let firebaseLogsService: FirebaseLogsService;
 
   const testReport: TestModel = {
     startTime: null,
@@ -55,9 +57,9 @@ describe('Component: TestCreatePage', () => {
       declarations: [TestCreatePage],
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
-        Firebase,
-        NavController,
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         CommonFunctionsService,
+        {provide: NavController, useFactory: () => NavControllerMock.instance()},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: AppService, useClass: AppServiceMock},
         {provide: CallNumber, useValue: callNumberSpy},
@@ -79,6 +81,7 @@ describe('Component: TestCreatePage', () => {
     appService = TestBed.get(AppService);
     visitService = TestBed.get(VisitService);
     stateReformingService = TestBed.get(StateReformingService);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   }));
 
   beforeEach(() => {
@@ -90,7 +93,7 @@ describe('Component: TestCreatePage', () => {
       };
       return params[param];
     })
-  })
+  });
 
   afterEach(() => {
     fixture.destroy();
@@ -99,6 +102,7 @@ describe('Component: TestCreatePage', () => {
     vehicleService = null;
     visitService = null;
     stateReformingService = null;
+    firebaseLogsService = null;
   });
 
   it('should create the component', () => {
@@ -166,5 +170,17 @@ describe('Component: TestCreatePage', () => {
     component.testData = newTest;
 
     component.reviewTest();
+  });
+
+  it('should test firebase logging when adding a test type', () => {
+    component.addVehicleTest(vehicleService.createVehicle(vehicle));
+    expect(firebaseLogsService.add_test_type_time.add_test_type_start_time).toBeTruthy();
+  });
+
+  it('should test firebase logging when removing a test type', () => {
+    spyOn(firebaseLogsService, 'logEvent');
+    component.completedFields = {};
+    component.removeVehicleTest(vehicleService.createVehicle(vehicle), ADDED_VEHICLE_TEST);
+    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
   });
 });
