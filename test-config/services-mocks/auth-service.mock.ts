@@ -7,14 +7,16 @@ import { CommonFunctionsService } from "../../src/providers/utils/common-functio
 
 export class AuthServiceMock {
   testerDetails: TesterDetailsModel;
-  jwtToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNGdWxsQWNjZXNzIl19.Bt0QdsvYs5jrefzefhp_KofkkpE6KjqFE693jpjEL5Y';
+  jwtToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNGdWxsQWNjZXNzIl0sInRpZCI6IjEyMzQ1Njc4OTAifQ.WiuTyp6cSXYb7L94JbjDy3F9Tt_qvrj9MWZq4xvEi6E';
   decodedToken = {
     "oid": "1234567890",
     "name": "John Doe",
     "upn": "test@email.com",
-    "roles": ["CVSFullAccess"]
+    "roles": ["CVSFullAccess"],
+    "tid": "1234567890"
   };
   userRoles: string[] = [];
+  tenantId: string;
   authContext: any;
 
   constructor() {
@@ -76,6 +78,7 @@ export class AuthServiceMock {
       details.testerId = decodedToken['oid'];
       details.testerName = decodedToken['name'];
       details.testerEmail = decodedToken['upn'];
+      this.tenantId = decodedToken['tid'];
     }
     this.userRoles = details.testerRoles;
     localStorage.setItem('tester-details', JSON.stringify(details));
