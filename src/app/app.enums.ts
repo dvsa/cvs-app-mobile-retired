@@ -352,3 +352,13 @@ export enum FIREBASE_AUTH {
   USER_ROLES = 'user_roles',
   ERROR_MESSAGE = 'error_message',
 }
+
+export enum FIREBASE_DEFECTS {
+    ADD_DEFECT = 'add_defect',
+    REMOVE_DEFECT = 'remove_defect',
+    DEFECT_NOTES_USAGE = 'defect_notes_usage',
+    ADD_DEFECT_TIME_TAKEN = 'add_defect_time_taken',
+    DEFICIENCY_REFERENCE ='deficiency_reference',
+    ADD_DEFECT_START_TIME ='add_defect_start_time', 
+    ADD_DEFECT_END_TIME ='add_defect_end_time'
+}

@@ -9,12 +9,16 @@ import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-da
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { TEST_TYPE_RESULTS } from "../../app/app.enums";
+import { TEST_TYPE_RESULTS, FIREBASE_DEFECTS } from "../../app/app.enums";
+import { FirebaseLogsServiceMock } from "../../../test-config/services-mocks/firebaseLogsService.mock";
+import { FirebaseLogsService } from "../firebase-logs/firebase-logs.service";
+import { Firebase } from "@ionic-native/firebase";
 
 describe('Provider: TestTypeService', () => {
   let testTypeService: TestTypeService;
   let storageService: StorageService;
   let visitService: VisitService;
+  let firebaseLogsService: FirebaseLogsService;
 
   let visitServiceSpy: any;
   let storageServiceSpy: any;
@@ -35,19 +39,22 @@ describe('Provider: TestTypeService', () => {
         TestTypeService,
         CommonFunctionsService,
         {provide: VisitService, useValue: visitServiceSpy},
-        {provide: StorageService, useValue: storageServiceSpy}
+        {provide: StorageService, useValue: storageServiceSpy},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
       ]
     });
 
     testTypeService = TestBed.get(TestTypeService);
     storageService = TestBed.get(StorageService);
     visitService = TestBed.get(VisitService);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   afterEach(() => {
     testTypeService = null;
     storageService = null;
     visitService = null;
+    firebaseLogsService = null;
   });
 
   it('create a testType', () => {
@@ -71,12 +78,27 @@ describe('Provider: TestTypeService', () => {
     expect(visitService.updateVisit).toHaveBeenCalled();
   });
 
+  it('should log exactly 2 events to firebase', () => {
+    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    spyOn(firebaseLogsService, 'logEvent').and.returnValue(Promise.resolve(true));
+    testTypeService.addDefect(testType, DEFECT);
+    expect(firebaseLogsService.logEvent).toHaveBeenCalledTimes(2);
+  });
+
   it('should remove a defect from test', () => {
     let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
     testType.defects = DefectDetailsDataMock.DefectDetails;
     expect(testType.defects.length).toEqual(2);
     testTypeService.removeDefect(testType, DEFECT);
     expect(testType.defects.length).toEqual(1);
+  });
+
+  it('should log the remove event to firebase when removing a defect', () => {
+    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    testType.defects = DefectDetailsDataMock.DefectDetails;
+    spyOn(firebaseLogsService, 'logEvent').and.returnValue(Promise.resolve(true));
+    testTypeService.removeDefect(testType, DEFECT);
+    expect(firebaseLogsService.logEvent).toHaveBeenCalledTimes(1);
   });
 
   it('should set test result to FAIL: hasDefects true', () => {

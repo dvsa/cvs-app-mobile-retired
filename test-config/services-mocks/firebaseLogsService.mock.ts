@@ -23,6 +23,12 @@ export class FirebaseLogsServiceMock {
     add_odometer_reading_time_taken: 0
   };
 
+  add_defect_time_taken = {
+    add_defect_start_time: <number>null,
+    add_defect_end_time: <number>null,
+    add_defect_time_taken: <string>null
+  };
+
   constructor() {
 
   }
