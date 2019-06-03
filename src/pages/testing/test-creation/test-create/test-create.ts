@@ -163,6 +163,8 @@ export class TestCreatePage implements OnInit {
   }
 
   onOdometer(index: number) {
+    this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time = Date.now();
+
     const MODAL = this.modalCtrl.create(PAGE_NAMES.ODOMETER_READING_PAGE, {
       vehicle: this.testData.vehicles[index]
     });

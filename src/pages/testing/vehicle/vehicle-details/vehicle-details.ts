@@ -3,10 +3,11 @@ import { IonicPage, NavController, NavParams, ViewController, AlertController } 
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { APP_STRINGS, DATE_FORMAT, PAGE_NAMES, STORAGE } from "../../../../app/app.enums";
+import { APP_STRINGS, DATE_FORMAT, FIREBASE, PAGE_NAMES, STORAGE } from "../../../../app/app.enums";
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { AppConfig } from "../../../../../config/app.config";
 import { CallNumber } from "@ionic-native/call-number";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -26,7 +27,8 @@ export class VehicleDetailsPage {
               public alertCtrl: AlertController,
               public storageService: StorageService,
               public commonFunc: CommonFunctionsService,
-              private callNumber: CallNumber) {
+              private callNumber: CallNumber,
+              private firebaseLogsService: FirebaseLogsService) {
     this.vehicleData = navParams.get('vehicle');
     this.testData = navParams.get('test');
     this.fromTestCreatePage = navParams.get('fromTestCreatePage');
@@ -34,6 +36,15 @@ export class VehicleDetailsPage {
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(this.fromTestCreatePage ? APP_STRINGS.TEST : APP_STRINGS.IDENTIFY_VEHICLE);
+  }
+
+  ionViewDidEnter() {
+    this.firebaseLogsService.search_vehicle_time.search_vehicle_end_time = Date.now();
+
+    this.firebaseLogsService.search_vehicle_time.search_vehicle_time_taken = this.firebaseLogsService.differenceInHMS(this.firebaseLogsService.search_vehicle_time.search_vehicle_start_time, this.firebaseLogsService.search_vehicle_time.search_vehicle_end_time);
+    this.firebaseLogsService.logEvent(FIREBASE.SEARCH_VEHICLE_TIME_TAKEN, FIREBASE.SEARCH_VEHICLE_START_TIME, this.firebaseLogsService.search_vehicle_time.search_vehicle_start_time.toString(), FIREBASE.SEARCH_VEHICLE_END_TIME, this.firebaseLogsService.search_vehicle_time.search_vehicle_end_time.toString(), FIREBASE.SEARCH_VEHICLE_TIME_TAKEN, this.firebaseLogsService.search_vehicle_time.search_vehicle_time_taken);
+
+    this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_start_time = Date.now();
   }
 
   goToPreparerPage(): void {
@@ -47,6 +58,8 @@ export class VehicleDetailsPage {
         }, {
           text: APP_STRINGS.CONFIRM,
           handler: () => {
+            this.loggingInAlertHandler();
+
             this.navCtrl.push(PAGE_NAMES.ADD_PREPARER_PAGE, {
               vehicle: this.vehicleData,
               test: this.testData
@@ -99,5 +112,14 @@ export class VehicleDetailsPage {
         });
       }
     )
+  }
+
+  loggingInAlertHandler() {
+    this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_end_time = Date.now();
+
+    this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_time_taken = this.firebaseLogsService.differenceInHMS(this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_start_time, this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_end_time);
+    this.firebaseLogsService.logEvent(FIREBASE.CONFIRM_VEHICLE_TIME_TAKEN, FIREBASE.CONFIRM_VEHICLE_START_TIME, this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_start_time.toString(), FIREBASE.CONFIRM_VEHICLE_END_TIME, this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_end_time.toString(), FIREBASE.CONFIRM_VEHICLE_TIME_TAKEN, this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_time_taken);
+
+    this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time = Date.now();
   }
 }

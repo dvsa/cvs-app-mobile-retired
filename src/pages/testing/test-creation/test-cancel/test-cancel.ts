@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
-import { TestModel } from "../../../../models/tests/test.model";
-import { TestService } from "../../../../providers/test/test.service";
-import { APP_STRINGS, TEST_REPORT_STATUSES } from "../../../../app/app.enums";
-import { TestResultService } from "../../../../providers/test-result/test-result.service";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { Observable } from "rxjs";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { Firebase } from '@ionic-native/firebase';
-import { AuthService } from "../../../../providers/global/auth.service";
-import { Store } from "@ngrx/store";
-import { Log, LogsModel } from "../../../../modules/logs/logs.model";
+import {Component} from '@angular/core';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {TestModel} from "../../../../models/tests/test.model";
+import {TestService} from "../../../../providers/test/test.service";
+import {APP_STRINGS, FIREBASE, TEST_REPORT_STATUSES} from "../../../../app/app.enums";
+import {TestResultService} from "../../../../providers/test-result/test-result.service";
+import {VisitService} from "../../../../providers/visit/visit.service";
+import {Observable} from "rxjs";
+import {OpenNativeSettings} from "@ionic-native/open-native-settings";
+import {Firebase} from '@ionic-native/firebase';
+import {AuthService} from "../../../../providers/global/auth.service";
+import {Store} from "@ngrx/store";
+import {Log, LogsModel} from "../../../../modules/logs/logs.model";
 import * as logsActions from "../../../../modules/logs/logs.actions";
-import { catchError } from "rxjs/operators";
+import {catchError} from "rxjs/operators";
+import {FirebaseLogsService} from "../../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -35,9 +36,9 @@ export class TestCancelPage {
               private openNativeSettings: OpenNativeSettings,
               private visitService: VisitService,
               private loadingCtrl: LoadingController,
-              private firebase: Firebase,
               private authService: AuthService,
-              private store$: Store<LogsModel>) {
+              private store$: Store<LogsModel>,
+              private firebaseLogsService: FirebaseLogsService) {
     this.testData = this.navParams.get('test');
   }
 
@@ -127,7 +128,7 @@ export class TestCancelPage {
         (error) => {
           LOADING.dismiss();
           TRY_AGAIN_ALERT.present();
-          this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Test submission failed"});
+          this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.TEST_SUBMISSION_FAILED);
           TRY_AGAIN_ALERT.onDidDismiss(() => {
             if (!this.tryAgain) {
               this.nextAlert = this.changeOpacity = false;

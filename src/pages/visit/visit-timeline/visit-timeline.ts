@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   AlertController,
   Events,
@@ -8,20 +8,29 @@ import {
   NavParams,
   ToastController
 } from 'ionic-angular';
-import { TestService } from "../../../providers/test/test.service";
-import { TestModel } from "../../../models/tests/test.model";
-import { VisitService } from "../../../providers/visit/visit.service";
-import { VisitModel } from "../../../models/visit/visit.model";
-import { StateReformingService } from "../../../providers/global/state-reforming.service";
-import { APP, APP_STRINGS, STORAGE, TEST_REPORT_STATUSES, TEST_TYPE_RESULTS, AUTH } from "../../../app/app.enums";
-import { StorageService } from "../../../providers/natives/storage.service";
-import { AppService } from "../../../providers/global/app.service";
-import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-import { Firebase } from '@ionic-native/firebase';
-import { AuthService } from "../../../providers/global/auth.service";
-import { Store } from "@ngrx/store";
-import { Log, LogsModel } from "../../../modules/logs/logs.model";
+import {TestService} from "../../../providers/test/test.service";
+import {TestModel} from "../../../models/tests/test.model";
+import {VisitService} from "../../../providers/visit/visit.service";
+import {VisitModel} from "../../../models/visit/visit.model";
+import {StateReformingService} from "../../../providers/global/state-reforming.service";
+import {
+  APP,
+  APP_STRINGS,
+  STORAGE,
+  TEST_REPORT_STATUSES,
+  TEST_TYPE_RESULTS,
+  AUTH,
+  PAGE_NAMES,
+  FIREBASE
+} from "../../../app/app.enums";
+import {StorageService} from "../../../providers/natives/storage.service";
+import {AppService} from "../../../providers/global/app.service";
+import {OpenNativeSettings} from '@ionic-native/open-native-settings';
+import {AuthService} from "../../../providers/global/auth.service";
+import {Store} from "@ngrx/store";
+import {Log, LogsModel} from "../../../modules/logs/logs.model";
 import * as logsActions from "../../../modules/logs/logs.actions";
+import {FirebaseLogsService} from "../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -48,9 +57,9 @@ export class VisitTimelinePage implements OnInit {
               private storageService: StorageService,
               private toastCtrl: ToastController,
               private openNativeSettings: OpenNativeSettings,
-              private firebase: Firebase,
               private authService: AuthService,
-              private store$: Store<LogsModel>) {
+              private store$: Store<LogsModel>,
+              private firebaseLogsService: FirebaseLogsService) {
     this.timeline = [];
   }
 
@@ -77,8 +86,9 @@ export class VisitTimelinePage implements OnInit {
   }
 
   createNewTestReport(): void {
+    this.firebaseLogsService.search_vehicle_time.search_vehicle_start_time = Date.now();
     let test = this.testReportService.createTest();
-    this.navCtrl.push('VehicleLookupPage', {test: test});
+    this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {test: test});
   }
 
   private createTimeline(): void {
@@ -107,7 +117,7 @@ export class VisitTimelinePage implements OnInit {
         this.storageService.delete(STORAGE.STATE);
         this.visitService.visit = {} as VisitModel;
         LOADING.dismiss();
-        this.navCtrl.push('EndVisitConfirmPage', {testStationName: this.visit.testStationName});
+        this.navCtrl.push(PAGE_NAMES.END_VISIT_CONFIRM_PAGE, {testStationName: this.visit.testStationName});
       }, (error) => {
         const log: Log = {
           type: 'error',
@@ -116,7 +126,7 @@ export class VisitTimelinePage implements OnInit {
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
         LOADING.dismiss();
-        this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Ending activity failed"});
+        this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.ENDING_ACTIVITY_FAILED);
         if (error && error.error === AUTH.INTERNET_REQUIRED) {
           const TRY_AGAIN_ALERT = this.alertCtrl.create({
             title: APP_STRINGS.UNABLE_TO_END_VISIT,

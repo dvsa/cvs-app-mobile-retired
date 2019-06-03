@@ -2,13 +2,14 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
 import { TestModel } from "../../../../models/tests/test.model";
-import { APP_STRINGS, TESTER_ROLES } from "../../../../app/app.enums";
+import { APP_STRINGS, FIREBASE, PAGE_NAMES, TESTER_ROLES } from "../../../../app/app.enums";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { PreparersReferenceDataModel } from "../../../../models/reference-data-models/preparers.model";
 import { TestService } from '../../../../providers/test/test.service';
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { AuthService } from "../../../../providers/global/auth.service";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 
 
 @IonicPage()
@@ -34,7 +35,8 @@ export class AddPreparerPage implements OnInit {
               private cdRef: ChangeDetectorRef,
               private viewCtrl: ViewController,
               private testReportService: TestService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private firebaseLogsService: FirebaseLogsService) {
     this.vehicleData = this.navParams.get('vehicle');
     this.testData = this.navParams.get('test');
   }
@@ -81,15 +83,13 @@ export class AddPreparerPage implements OnInit {
   presentPreparerConfirm(preparer: PreparersReferenceDataModel, preparerFound = true, showSearchAgain = false) {
     let showThisTitle, showThisMessage;
 
-    if(!preparerFound && !showSearchAgain) {
+    if (!preparerFound && !showSearchAgain) {
       showThisTitle = APP_STRINGS.WITHOUT_PREPARER;
       showThisMessage = APP_STRINGS.WITHOUT_PREPARER_MSG;
-    }
-    else if (!preparerFound && showSearchAgain) {
+    } else if (!preparerFound && showSearchAgain) {
       showThisTitle = APP_STRINGS.PREPARER_NOT_FOUND;
       showThisMessage = APP_STRINGS.PREPARER_NOT_FOUND_MSG;
-    }
-    else {
+    } else {
       showThisTitle = `${preparer.preparerName} (${preparer.preparerId})`;
       showThisMessage = APP_STRINGS.CONFIRM_PREPARER;
     }
@@ -106,10 +106,12 @@ export class AddPreparerPage implements OnInit {
         }, {
           text: !showSearchAgain ? APP_STRINGS.CONFIRM : APP_STRINGS.CONTINUE,
           handler: () => {
+            this.logIntoFirebase();
+
             this.visitService.addTest(this.testData);
             this.testReportService.addVehicle(this.testData, this.vehicleData);
             this.selectPreparer(preparer);
-            this.navCtrl.push('TestCreatePage', {
+            this.navCtrl.push(PAGE_NAMES.TEST_CREATE_PAGE, {
               test: this.testData
             });
           }
@@ -148,5 +150,12 @@ export class AddPreparerPage implements OnInit {
       }
     }
     return this.authService.hasRights(userRights, neededRights);
+  }
+
+  logIntoFirebase() {
+    this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time = Date.now();
+
+    this.firebaseLogsService.confirm_preparer_time.confirm_preparer_time_taken = this.firebaseLogsService.differenceInHMS(this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time);
+    this.firebaseLogsService.logEvent(FIREBASE.CONFIRM_PREPARER_TIME_TAKEN, FIREBASE.CONFIRM_PREPARER_START_TIME, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time.toString(), FIREBASE.CONFIRM_PREPARER_END_TIME, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time.toString(), FIREBASE.CONFIRM_PREPARER_TIME_TAKEN, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_time_taken);
   }
 }
