@@ -80,6 +80,7 @@ describe('Component: CompleteTestPage', () => {
       imports: [IonicModule.forRoot(CompleteTestPage)],
       providers: [
         NavController,
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: TestTypeService, useClass: TestTypeServiceMock},

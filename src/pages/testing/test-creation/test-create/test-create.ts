@@ -16,7 +16,7 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import {
   APP,
-  APP_STRINGS,
+  APP_STRINGS, FIREBASE,
   ODOMETER_METRIC, PAGE_NAMES,
   TEST_COMPLETION_STATUS,
   TEST_TYPE_INPUTS,
@@ -27,7 +27,7 @@ import { CommonFunctionsService } from "../../../../providers/utils/common-funct
 import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
 import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
-import { Firebase } from '@ionic-native/firebase';
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -53,7 +53,7 @@ export class TestCreatePage implements OnInit {
               private events: Events,
               private commonFunctions: CommonFunctionsService,
               private modalCtrl: ModalController,
-              private firebase: Firebase) {
+              private firebaseLogsService: FirebaseLogsService) {
     this.testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
   }
 
@@ -138,6 +138,7 @@ export class TestCreatePage implements OnInit {
   }
 
   addVehicleTest(vehicle: VehicleModel): void {
+    this.firebaseLogsService.add_test_type_time.add_test_type_start_time = Date.now();
     this.navCtrl.push(PAGE_NAMES.TEST_TYPES_LIST_PAGE, {vehicleData: vehicle});
   }
 
@@ -205,6 +206,7 @@ export class TestCreatePage implements OnInit {
   }
 
   removeVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
+    this.firebaseLogsService.logEvent(FIREBASE.REMOVE_TEST_TYPE, FIREBASE.TEST_TYPE_NAME, vehicleTest.testTypeName);
     this.vehicleService.removeSicFields(vehicle, this.completedFields);
     this.vehicleService.removeTestType(vehicle, vehicleTest);
   }
@@ -244,7 +246,7 @@ export class TestCreatePage implements OnInit {
         buttons: [APP_STRINGS.OK]
       });
       alert.present();
-      this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Not all tests completed before review"});
+      this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.NOT_ALL_TESTS_COMPLETED);
       alert.onDidDismiss(() => this.changeOpacity = false);
     } else if (!noTestAdded) {
       let alert = this.alertCtrl.create({
@@ -253,7 +255,7 @@ export class TestCreatePage implements OnInit {
         buttons: [APP_STRINGS.OK]
       });
       alert.present();
-      this.firebase.logEvent('test_error', {content_type: 'error', item_id: "No test added before review"});
+      this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.NO_TEST_ADDED);
       alert.onDidDismiss(() => this.changeOpacity = false);
     } else {
       this.changeOpacity = false;

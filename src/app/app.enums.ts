@@ -337,6 +337,12 @@ export enum FIREBASE {
   CONFIRM_VEHICLE_TIME_TAKEN = 'confirm_vehicle_time_taken',
   CONFIRM_VEHICLE_START_TIME = 'confirm_vehicle_start_time',
   CONFIRM_VEHICLE_END_TIME = 'confirm_vehicle_end_time',
+  ADD_TEST_TYPE_TIME_TAKEN = 'add_test_type_time_taken',
+  ADD_TEST_TYPE_START_TIME = 'add_test_type_start_time',
+  ADD_TEST_TYPE_END_TIME = 'add_test_type_end_time',
+  REMOVE_TEST_TYPE = 'remove_test_type',
+  ABANDON_TEST_TYPE = 'abandon_test_type',
+  TEST_TYPE_NAME = 'test_type_name'
 }
 
 export enum FIREBASE_AUTH {

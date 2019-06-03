@@ -3,6 +3,8 @@ import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angu
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FIREBASE } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -18,7 +20,12 @@ export class TestAbandoningPage implements OnInit {
   fromTestReview: boolean;
   changeOpacity: boolean = false;
 
-  constructor(private navParams: NavParams, private alertCtrl: AlertController, private navCtrl: NavController, public visitService: VisitService, private testTypeService: TestTypeService) {
+  constructor(private navParams: NavParams,
+              private alertCtrl: AlertController,
+              private navCtrl: NavController,
+              public visitService: VisitService,
+              private testTypeService: TestTypeService,
+              private firebaseLogsService: FirebaseLogsService) {
     this.vehicleTest = this.navParams.get('vehicleTest');
     this.selectedReasons = this.navParams.get('selectedReasons');
     this.editMode = this.navParams.get('editMode');
@@ -61,6 +68,7 @@ export class TestAbandoningPage implements OnInit {
   }
 
   updateVehicleTestModel() {
+    this.firebaseLogsService.logEvent(FIREBASE.ABANDON_TEST_TYPE, FIREBASE.TEST_TYPE_NAME, this.vehicleTest.testTypeName);
     this.vehicleTest.reasons.push(...this.selectedReasons);
     if (this.additionalComment && this.additionalComment.length) {
       this.vehicleTest.additionalCommentsForAbandon = this.additionalComment;
