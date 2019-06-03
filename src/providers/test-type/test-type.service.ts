@@ -2,17 +2,22 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { StorageService } from "../natives/storage.service";
 import { from } from "rxjs/observable/from";
-import { DEFICIENCY_CATEGORY, STORAGE, TEST_TYPE_RESULTS } from "../../app/app.enums";
+import { DEFICIENCY_CATEGORY, STORAGE, TEST_TYPE_RESULTS, FIREBASE_DEFECTS } from "../../app/app.enums";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { DefectDetailsModel } from "../../models/defects/defect-details.model";
 import { VisitService } from "../visit/visit.service";
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { CommonFunctionsService } from "../utils/common-functions";
+import { FirebaseLogsService } from '../firebase-logs/firebase-logs.service';
 
 @Injectable()
 export class TestTypeService {
 
-  constructor(private storageService: StorageService, public visitService: VisitService, public commonFunctions: CommonFunctionsService) {
+  constructor(private storageService: StorageService,
+    public visitService: VisitService,
+    public commonFunctions: CommonFunctionsService,
+    private firebaseLogsService: FirebaseLogsService
+  ) {
   }
 
   createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
@@ -46,6 +51,19 @@ export class TestTypeService {
   addDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     testType.defects.push(defect);
     this.visitService.updateVisit();
+    this.logFirebaseAddDefect(defect.deficiencyRef);
+  }
+
+  private logFirebaseAddDefect(deficiencyRef: string) {
+    this.firebaseLogsService.logEvent(FIREBASE_DEFECTS.ADD_DEFECT, FIREBASE_DEFECTS.DEFICIENCY_REFERENCE, deficiencyRef);
+
+    let parameters = this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN];
+    parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME] = Date.now();
+    parameters[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN] = this.firebaseLogsService.differenceInHMS(parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME])
+    this.firebaseLogsService.logEvent(FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN,
+      FIREBASE_DEFECTS.ADD_DEFECT_START_TIME, parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],
+      FIREBASE_DEFECTS.ADD_DEFECT_END_TIME, parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME],
+      FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN, parameters[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN]);
   }
 
   removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
@@ -54,6 +72,11 @@ export class TestTypeService {
     }).indexOf(defect.deficiencyRef);
     testType.defects.splice(defIdx, 1);
     this.visitService.updateVisit();
+    this.logFirebaseRemoveDefect(defect.deficiencyRef);
+  }
+
+  private logFirebaseRemoveDefect(deficiencyRef: string) {
+  this.firebaseLogsService.logEvent(FIREBASE_DEFECTS.REMOVE_DEFECT, FIREBASE_DEFECTS.DEFICIENCY_REFERENCE, deficiencyRef);
   }
 
   getTestTypesFromStorage(): Observable<any> {

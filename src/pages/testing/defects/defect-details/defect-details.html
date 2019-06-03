@@ -111,7 +111,7 @@
         <span padding-left>NOTES</span>
       </ion-item-divider>
       <ion-item padding-left>
-        <ion-textarea placeholder="Add notes" [(ngModel)]="defect.additionalInformation.notes" maxlength="200" class="textarea-height"></ion-textarea>
+        <ion-textarea placeholder="Add notes" [(ngModel)]="defect.additionalInformation.notes" (ngModelChange)="notesChanged=true" maxlength="200" class="textarea-height"></ion-textarea>
       </ion-item>
     </ion-item-group>
 </div>

@@ -21,6 +21,8 @@ import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/t
 import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -84,7 +86,8 @@ describe('Component: CompleteTestPage', () => {
         AlertController,
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: DefectsService, useValue: defectsServiceSpy},
-        {provide: ViewController, useClass: ViewControllerMock}
+        {provide: ViewController, useClass: ViewControllerMock},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

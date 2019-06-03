@@ -8,7 +8,8 @@ import {
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { APP_STRINGS, DEFICIENCY_CATEGORY } from "../../../../app/app.enums";
+import { APP_STRINGS, DEFICIENCY_CATEGORY, FIREBASE_DEFECTS } from "../../../../app/app.enums";
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 
 @IonicPage()
 @Component({
@@ -25,6 +26,7 @@ export class DefectDetailsPage implements OnInit {
   tempDefectNotes: string;
   fromTestReview: boolean;
   showPrs: boolean = true;
+  notesChanged: boolean = false;
   @ViewChild(Navbar) navBar: Navbar;
 
   constructor(public navCtrl: NavController,
@@ -32,7 +34,8 @@ export class DefectDetailsPage implements OnInit {
               public viewCtrl: ViewController,
               public defectsService: DefectsService,
               private testTypeService: TestTypeService,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private firebaseLogsService: FirebaseLogsService) {
     this.vehicleTest = navParams.get('vehicleTest');
     this.defect = navParams.get('deficiency');
     this.isEdit = navParams.get('isEdit');
@@ -72,6 +75,7 @@ export class DefectDetailsPage implements OnInit {
       if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
       this.navCtrl.popToRoot();
     }
+    if(this.notesChanged)this.logFirebaseNotesChanged();
   }
 
   checkForLocation(location: {}): boolean {
@@ -127,5 +131,9 @@ export class DefectDetailsPage implements OnInit {
   removeDefect(defect: DefectDetailsModel): void {
     this.testTypeService.removeDefect(this.vehicleTest, defect);
     this.navCtrl.pop();
+  }
+  
+  private logFirebaseNotesChanged() {
+    this.firebaseLogsService.logEvent(FIREBASE_DEFECTS.DEFECT_NOTES_USAGE,FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,this.defect.deficiencyRef);
   }
 }
