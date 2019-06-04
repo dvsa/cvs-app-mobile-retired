@@ -8,6 +8,9 @@ import { AppService } from "../../../providers/global/app.service";
 import { AuthService } from "../../../providers/global/auth.service";
 import { AppConfig } from "../../../../config/app.config";
 import { CallNumber } from "@ionic-native/call-number";
+import { Log, LogsModel } from "../../../modules/logs/logs.model";
+import { Store } from "@ngrx/store";
+import { StartSendingLogs } from "../../../modules/logs/logs.actions";
 
 @IonicPage()
 @Component({
@@ -24,10 +27,12 @@ export class TestStationHomePage implements OnInit {
               private screenOrientation: ScreenOrientation,
               public authService: AuthService,
               private alertCtrl: AlertController,
-              private callNumber: CallNumber) {
+              private callNumber: CallNumber,
+              private store$: Store<LogsModel>) {
   }
 
   ngOnInit() {
+    this.store$.dispatch(new StartSendingLogs());
     if (this.appService.isCordova) this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
     let neededRoles: string[] = [TESTER_ROLES.FULL_ACCESS, TESTER_ROLES.PSV, TESTER_ROLES.HGV, TESTER_ROLES.ADR, TESTER_ROLES.TIR];
     if (!this.authService.hasRights(this.authService.userRoles, neededRoles)) {

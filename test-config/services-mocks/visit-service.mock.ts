@@ -22,12 +22,12 @@ export class VisitServiceMock {
   }
 
   public startVisit(): Observable<any> {
-    return this.isError ? Observable.throw({}) : of({id: '123'});
+    return this.isError ? Observable.throw({error: {error: ''}}) : of({body: {id: '123'}});
   }
 
   public endVisit() {
     this.visit.endTime = new Date().toISOString();
-    return Observable.throw({});
+    return Observable.throw({error: {error: ''}});
   }
 
   public addTest(test: TestModel) {

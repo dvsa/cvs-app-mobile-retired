@@ -8,6 +8,11 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { Observable } from "rxjs";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { Firebase } from '@ionic-native/firebase';
+import { AuthService } from "../../../../providers/global/auth.service";
+import { Store } from "@ngrx/store";
+import { Log, LogsModel } from "../../../../modules/logs/logs.model";
+import * as logsActions from "../../../../modules/logs/logs.actions";
+import { catchError } from "rxjs/operators";
 
 @IonicPage()
 @Component({
@@ -17,7 +22,10 @@ import { Firebase } from '@ionic-native/firebase';
 export class TestCancelPage {
   testData: TestModel;
   cancellationReason: string = '';
-  changeOpacity; nextAlert; tryAgain: boolean = false;
+  changeOpacity;
+  nextAlert;
+  tryAgain: boolean = false;
+  oid: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -27,7 +35,9 @@ export class TestCancelPage {
               private openNativeSettings: OpenNativeSettings,
               private visitService: VisitService,
               private loadingCtrl: LoadingController,
-              private firebase: Firebase) {
+              private firebase: Firebase,
+              private authService: AuthService,
+              private store$: Store<LogsModel>) {
     this.testData = this.navParams.get('test');
   }
 
@@ -69,6 +79,7 @@ export class TestCancelPage {
 
   submit(test) {
     let stack: Observable<any>[] = [];
+    this.oid = this.authService.getOid();
     const TRY_AGAIN_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
       message: APP_STRINGS.NO_INTERNET_CONNECTION,
@@ -93,21 +104,34 @@ export class TestCancelPage {
 
     for (let vehicle of test.vehicles) {
       let testResult = this.testResultService.createTestResult(this.visitService.visit, test, vehicle);
-      stack.push(this.testResultService.submitTestResult(testResult));
+      stack.push(this.testResultService.submitTestResult(testResult).pipe(catchError((error: any) => {
+        const log: Log = {
+          type: 'error',
+          message: `${this.oid} - ${error.status} ${error.error.errors ? error.error.errors[0] : error.error} for API call to ${error.url} with the body message ${JSON.stringify(testResult)}`,
+          timestamp: Date.now(),
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
+        return Observable.throw(error);
+      })));
       Observable.forkJoin(stack).subscribe(
-        () => {
+        (response: any) => {
+          const log: Log = {
+            type: 'info',
+            message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
+            timestamp: Date.now(),
+          };
+          this.store$.dispatch(new logsActions.SaveLog(log));
           LOADING.dismiss();
           this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 6));
         },
-        () => {
+        (error) => {
           LOADING.dismiss();
           TRY_AGAIN_ALERT.present();
           this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Test submission failed"});
           TRY_AGAIN_ALERT.onDidDismiss(() => {
-            if(!this.tryAgain) {
+            if (!this.tryAgain) {
               this.nextAlert = this.changeOpacity = false;
-            }
-            else {
+            } else {
               this.tryAgain = false;
             }
           });

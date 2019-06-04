@@ -9,6 +9,7 @@ import { CommonRegExp } from "../utils/common-regExp";
 import { Platform } from "ionic-angular";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { ErrorObservable } from "rxjs/observable/ErrorObservable";
+import { NetworkStateProvider } from "../../modules/logs/network-state.service";
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,8 @@ export class AuthService {
 
   constructor(private msAdal: MSAdal,
               public platform: Platform,
-              private commonFunc: CommonFunctionsService) {
+              private commonFunc: CommonFunctionsService,
+              private networkStateProvider: NetworkStateProvider) {
     this.testerDetails = {} as TesterDetailsModel;
     this.jwtToken = localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
   }
@@ -61,6 +63,8 @@ export class AuthService {
       (authResponse: AuthenticationResult) => {
         let authHeader = authResponse.createAuthorizationHeader();
         this.testerDetails = this.setTesterDetails(authResponse);
+        this.networkStateProvider.initialiseNetworkState();
+
         return authHeader;
       }
     ).catch(
@@ -79,6 +83,10 @@ export class AuthService {
 
   getJWTToken() {
     return this.jwtToken
+  }
+
+  getOid() {
+    return (JSON.parse(localStorage.getItem('tester-details'))).testerId;
   }
 
   isValidToken(token): boolean {

@@ -10,6 +10,10 @@ import { AppService } from "../../providers/global/app.service";
 import { CallNumber } from "@ionic-native/call-number";
 import { AppConfig } from "../../../config/app.config";
 import { Firebase } from '@ionic-native/firebase';
+import { Log, LogsModel } from "../../modules/logs/logs.model";
+import * as logsActions from "../../modules/logs/logs.actions";
+import { AuthService } from "../../providers/global/auth.service";
+import { Store } from "@ngrx/store";
 
 @IonicPage()
 @Component({
@@ -21,6 +25,7 @@ export class SignaturePadPage implements OnInit {
   underSignText: string;
   dividerText: string;
   navRef: NavController;
+  oid: string;
 
   public signaturePadOptions: Object = {
     'minWidth': 2,
@@ -37,6 +42,8 @@ export class SignaturePadPage implements OnInit {
               private openNativeSettings: OpenNativeSettings,
               private signatureService: SignatureService,
               private firebase: Firebase,
+              private authService: AuthService,
+              private store$: Store<LogsModel>,
               private callNumber: CallNumber) {
     this.events.subscribe(SIGNATURE_STATUS.ERROR,
       () => {
@@ -87,15 +94,28 @@ export class SignaturePadPage implements OnInit {
         }, {
           text: APP_STRINGS.TRY_AGAIN_BTN,
           handler: () => {
+            this.oid = this.authService.getOid();
             this.signatureService.saveSignature().subscribe(
-              () => {
+              (response) => {
+                const log: Log = {
+                  type: 'info',
+                  message: `${this.oid} - ${response.status} ${response.body.message} for API call to ${response.url}`,
+                  timestamp: Date.now(),
+                };
+                this.store$.dispatch(new logsActions.SaveLog(log));
                 this.signatureService.presentSuccessToast();
                 localStorage.setItem(LOCAL_STORAGE.SIGNATURE, 'true');
                 this.appService.isSignatureRegistered = true;
                 this.events.unsubscribe(SIGNATURE_STATUS.ERROR);
                 this.events.publish(SIGNATURE_STATUS.SAVED_EVENT);
               },
-              () => {
+              (error) => {
+                const log: Log = {
+                  type: 'error',
+                  message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url}`,
+                  timestamp: Date.now(),
+                };
+                this.store$.dispatch(new logsActions.SaveLog(log));
                 this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Saving signature failed"});
                 this.showConfirm();
               }

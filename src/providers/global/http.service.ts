@@ -10,6 +10,7 @@ import { TestResultModel } from "../../models/tests/test-result.model";
 import { DefectItemReferenceDataModel } from "../../models/reference-data-models/defects.reference-model";
 import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { ActivityModel } from "../../models/visit/activity.model";
+import { Log } from "../../modules/logs/logs.model";
 
 @Injectable()
 export class HTTPService {
@@ -17,43 +18,47 @@ export class HTTPService {
   constructor(private http: HttpClient) {
   }
 
-  getAtfs(): Observable<TestStationReferenceDataModel[]> {
-    return this.http.get<TestStationReferenceDataModel[]>(AppConfig.BACKEND_URL_TEST_STATIONS)
+  getAtfs(): Observable<HttpResponse<TestStationReferenceDataModel[]>> {
+    return this.http.get<TestStationReferenceDataModel[]>(AppConfig.BACKEND_URL_TEST_STATIONS, {observe: 'response'});
   }
 
-  getDefects(): Observable<DefectItemReferenceDataModel[]> {
-    return this.http.get<DefectItemReferenceDataModel[]>(AppConfig.BACKEND_URL_DEFECTS)
+  getDefects(): Observable<HttpResponse<DefectItemReferenceDataModel[]>> {
+    return this.http.get<DefectItemReferenceDataModel[]>(AppConfig.BACKEND_URL_DEFECTS, {observe: 'response'})
   }
 
-  getTestTypes(): Observable<TestTypesReferenceDataModel[]> {
-    return this.http.get<TestTypesReferenceDataModel[]>(AppConfig.BACKEND_URL_TESTTYPES);
+  getTestTypes(): Observable<HttpResponse<TestTypesReferenceDataModel[]>> {
+    return this.http.get<TestTypesReferenceDataModel[]>(AppConfig.BACKEND_URL_TESTTYPES, {observe: 'response'});
   }
 
-  getPreparers(): Observable<PreparersReferenceDataModel[]> {
-    return this.http.get<PreparersReferenceDataModel[]>(AppConfig.BACKEND_URL_PREPARERS);
+  getPreparers(): Observable<HttpResponse<PreparersReferenceDataModel[]>> {
+    return this.http.get<PreparersReferenceDataModel[]>(AppConfig.BACKEND_URL_PREPARERS, {observe: 'response'});
   }
 
-  getTechRecords(param): Observable<VehicleTechRecordModel> {
-    return this.http.get<VehicleTechRecordModel>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/?status=current`);
+  getTechRecords(param): Observable<HttpResponse<VehicleTechRecordModel>> {
+    return this.http.get<VehicleTechRecordModel>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/?status=current`, {observe: 'response'});
   }
 
-  getTestResultsHistory(vin: string): Observable<TestResultModel[]> {
-    return this.http.get<TestResultModel[]>(`${AppConfig.BACKEND_URL_TEST_RESULTS}/${vin}`)
+  getTestResultsHistory(vin: string): Observable<HttpResponse<TestResultModel[]>> {
+    return this.http.get<TestResultModel[]>(`${AppConfig.BACKEND_URL_TEST_RESULTS}/${vin}`, {observe: 'response'});
   }
 
-  postTestResult(body): Observable<any>{
-    return this.http.post<TestResultModel>(AppConfig.BACKEND_URL_TEST_RESULTS, body)
+  postTestResult(body): Observable<HttpResponse<any>> {
+    return this.http.post<TestResultModel>(AppConfig.BACKEND_URL_TEST_RESULTS, body, {observe: 'response'});
   }
 
-  startVisit(activities: ActivityModel): Observable<any> {
-    return this.http.post(AppConfig.BACKEND_URL_VISIT, activities);
+  startVisit(activities: ActivityModel): Observable<HttpResponse<any>> {
+    return this.http.post(AppConfig.BACKEND_URL_VISIT, activities, {observe: 'response'});
   }
 
-  endVisit(visitID: string): Observable<any> {
-    return this.http.put(`${AppConfig.BACKEND_URL_VISIT}/${visitID}/end`, null);
+  endVisit(visitID: string): Observable<HttpResponse<any>> {
+    return this.http.put(`${AppConfig.BACKEND_URL_VISIT}/${visitID}/end`, null, {observe: 'response'});
   }
 
-  saveSignature(staffId: string, signatureString: string): Observable<any> {
-    return this.http.put(`${AppConfig.BACKEND_URL_SIGNATURE}${staffId}.base64`, signatureString);
+  saveSignature(staffId: string, signatureString: string): Observable<HttpResponse<any>> {
+    return this.http.put(`${AppConfig.BACKEND_URL_SIGNATURE}${staffId}.base64`, signatureString, {observe: 'response'});
+  }
+
+  sendLogs(logs: Log[]): Observable<HttpResponse<any>> {
+    return this.http.post(AppConfig.BACKEND_URL_LOGS, logs, {observe: 'response'});
   }
 }

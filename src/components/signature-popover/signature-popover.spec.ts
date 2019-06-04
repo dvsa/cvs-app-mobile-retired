@@ -9,6 +9,10 @@ import { SignatureServiceMock } from "../../../test-config/services-mocks/signat
 import { AppService } from "../../providers/global/app.service";
 import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
 import { Firebase } from "@ionic-native/firebase";
+import { AuthService } from "../../providers/global/auth.service";
+import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
+import { Store } from "@ngrx/store";
+import { TestStore } from "../../providers/interceptors/auth.interceptor.spec";
 
 describe('Component: SignaturePopoverComponent', () => {
   let fixture: ComponentFixture<SignaturePopoverComponent>;
@@ -32,7 +36,9 @@ describe('Component: SignaturePopoverComponent', () => {
         {provide: SignatureService, useClass: SignatureServiceMock},
         {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
-        {provide: AppService, useClass: AppServiceMock}
+        {provide: AppService, useClass: AppServiceMock},
+        {provide: AuthService, useClass: AuthServiceMock},
+        {provide: Store, useClass: TestStore},
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

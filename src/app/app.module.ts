@@ -30,6 +30,14 @@ import { SignaturePopoverComponent } from "../components/signature-popover/signa
 import { SignatureService } from "../providers/signature/signature.service";
 import { AppService } from "../providers/global/app.service";
 import { Firebase } from '@ionic-native/firebase';
+import { LogsModule } from "../modules/logs/logs.module";
+import { DataStoreProvider } from "../modules/logs/data-store.service";
+import { Network } from "@ionic-native/network";
+import { NetworkStateProvider } from "../modules/logs/network-state.service";
+import { LogsProvider } from "../modules/logs/logs.service";
+import { SecureStorage } from "@ionic-native/secure-storage";
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -61,7 +69,12 @@ const IONIC_NATIVE_PROVIDERS = [
   Keyboard,
   MSAdal,
   ScreenOrientation,
-  Firebase
+  Firebase,
+  DataStoreProvider,
+  Network,
+  NetworkStateProvider,
+  LogsProvider,
+  SecureStorage,
 ];
 
 @NgModule({
@@ -76,7 +89,10 @@ const IONIC_NATIVE_PROVIDERS = [
     IonicStorageModule.forRoot({
       driverOrder: ['sqlite', 'websql', 'indexeddb']
     }),
-    SignaturePadModule
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    SignaturePadModule,
+    LogsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
