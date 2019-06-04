@@ -9,6 +9,10 @@ import { AppConfig } from "../../../../config/app.config";
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { Firebase } from '@ionic-native/firebase';
 import { Subscription } from 'rxjs';
+import { AuthService } from "../../../providers/global/auth.service";
+import { Store } from "@ngrx/store";
+import { Log, LogsModel } from "../../../modules/logs/logs.model";
+import * as logsActions from "../../../modules/logs/logs.actions";
 
 @IonicPage()
 @Component({
@@ -21,6 +25,7 @@ export class TestStationDetailsPage implements OnInit {
   nextAlert: boolean = false;
   isNextPageLoading: boolean = false;
   startVisitSubscription: Subscription;
+  oid: string;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
@@ -30,7 +35,9 @@ export class TestStationDetailsPage implements OnInit {
               private visitService: VisitService,
               private openNativeSettings: OpenNativeSettings,
               private firebase: Firebase,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private authService: AuthService,
+              private store$: Store<LogsModel>) {
     this.testStation = navParams.get('testStation');
   }
 
@@ -46,19 +53,32 @@ export class TestStationDetailsPage implements OnInit {
       content: 'Loading...'
     });
     this.isNextPageLoading = true;
+    this.oid = this.authService.getOid();
     LOADING.present();
     this.startVisitSubscription = this.visitService.startVisit(this.testStation).subscribe(
       (data) => {
+        const log: Log = {
+          type: 'info',
+          message: `${this.oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,
+          timestamp: Date.now(),
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
         this.isNextPageLoading = false;
         LOADING.dismiss();
         this.startVisitSubscription.unsubscribe();
-        this.visitService.createVisit(this.testStation, data.id);
+        this.visitService.createVisit(this.testStation, data.body.id);
         this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, {testStation: this.testStation});
       },
       (error) => {
+        const log: Log = {
+          type: 'error',
+          message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+          timestamp: Date.now(),
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
         this.isNextPageLoading = false;
         LOADING.dismiss();
-        console.error(`Starting activity failed due to: ${error}`);
+        console.error(`Starting activity failed due to: ${error.error.error}`);
         this.firebase.logEvent('test_error', {content_type: 'error', item_id: 'Starting activity failed'});
         if (error && error.error === AUTH.INTERNET_REQUIRED) {
           const TRY_AGAIN_ALERT = this.alertCtrl.create({

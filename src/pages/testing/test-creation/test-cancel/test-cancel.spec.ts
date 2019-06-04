@@ -11,14 +11,18 @@ import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 import { TestResultService } from "../../../../providers/test-result/test-result.service";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { Firebase } from "@ionic-native/firebase";
-import { AlertControllerMock, LoadingControllerMock } from "ionic-mocks";
+import { AlertControllerMock, LoadingControllerMock, NavControllerMock } from "ionic-mocks";
+import { AuthService } from "../../../../providers/global/auth.service";
+import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
+import { Store } from "@ngrx/store";
+import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
+import { TestResultServiceMock } from "../../../../../test-config/services-mocks/test-result-service.mock";
 
 describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
   let fixture: ComponentFixture<TestCancelPage>;
   let navCtrl: NavController;
   let testReportServiceSpy: any;
-  let testResultServiceSpy: any;
   let openNativeSettingsSpy: any;
   let visitService: VisitService;
   let alertCtrl: AlertController;
@@ -33,7 +37,6 @@ describe('Component: TestCancelPage', () => {
 
   beforeEach(async(() => {
     testReportServiceSpy = jasmine.createSpyObj('testReportService', {'getTestReport': testReport});
-    testResultServiceSpy = jasmine.createSpyObj('testResultService', ['createTestResult', 'submitTestResult']);
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', [{
       'open': new Promise(() => {
         return true
@@ -45,14 +48,16 @@ describe('Component: TestCancelPage', () => {
       imports: [IonicModule.forRoot(TestCancelPage)],
       providers: [
         Firebase,
-        NavController,
+        {provide: NavController, useFactory: () => NavControllerMock.instance()},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: TestService, useValue: testReportServiceSpy},
-        {provide: TestResultService, useValue: testResultServiceSpy}
+        {provide: TestResultService, useClass: TestResultServiceMock},
+        {provide: AuthService, useClass: AuthServiceMock},
+        {provide: Store, useClass: TestStore}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

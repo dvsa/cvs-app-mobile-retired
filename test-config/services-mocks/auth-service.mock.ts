@@ -52,6 +52,10 @@ export class AuthServiceMock {
     return this.jwtToken
   }
 
+  getOid() {
+    return this.decodedToken.oid;
+  }
+
   isValidToken(token, isError: boolean): boolean {
     return !isError;
   }

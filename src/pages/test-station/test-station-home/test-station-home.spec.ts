@@ -13,6 +13,8 @@ import { VisitServiceMock } from "../../../../test-config/services-mocks/visit-s
 import { AuthServiceMock } from "../../../../test-config/services-mocks/auth-service.mock";
 import { AlertControllerMock } from "ionic-mocks";
 import { PAGE_NAMES } from "../../../app/app.enums";
+import { Store } from "@ngrx/store";
+import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec";
 
 describe('Component: TestStationHomePage', () => {
   let comp: TestStationHomePage;
@@ -29,6 +31,7 @@ describe('Component: TestStationHomePage', () => {
   let callNumber: CallNumber;
   let callNumberSpy: any;
   let navCtrlSpy: any;
+  let $store: any;
 
 
   beforeEach(async(() => {
@@ -49,6 +52,7 @@ describe('Component: TestStationHomePage', () => {
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: ScreenOrientation, useValue: screenOrientationSpy},
         {provide: AuthService, useClass: AuthServiceMock},
+        {provide: Store, useClass: TestStore},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: CallNumber, useValue: callNumberSpy}
       ],
@@ -67,6 +71,7 @@ describe('Component: TestStationHomePage', () => {
     authService = TestBed.get(AuthService);
     alertCtrl = TestBed.get(AlertController);
     callNumber = TestBed.get(CallNumber);
+    // $store = TestBed.get(Store);
   });
 
   afterEach(() => {
@@ -82,6 +87,7 @@ describe('Component: TestStationHomePage', () => {
     appServiceSpy = null;
     callNumberSpy = null;
     screenOrientationSpy = null;
+    // $store = null;
   });
 
   it('should create component', (done) => {

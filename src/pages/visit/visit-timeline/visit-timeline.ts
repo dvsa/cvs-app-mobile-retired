@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, Events, IonicPage, LoadingController, NavController, NavParams, ToastController } from 'ionic-angular';
+import {
+  AlertController,
+  Events,
+  IonicPage,
+  LoadingController,
+  NavController,
+  NavParams,
+  ToastController
+} from 'ionic-angular';
 import { TestService } from "../../../providers/test/test.service";
 import { TestModel } from "../../../models/tests/test.model";
 import { VisitService } from "../../../providers/visit/visit.service";
@@ -10,6 +18,10 @@ import { StorageService } from "../../../providers/natives/storage.service";
 import { AppService } from "../../../providers/global/app.service";
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { Firebase } from '@ionic-native/firebase';
+import { AuthService } from "../../../providers/global/auth.service";
+import { Store } from "@ngrx/store";
+import { Log, LogsModel } from "../../../modules/logs/logs.model";
+import * as logsActions from "../../../modules/logs/logs.actions";
 
 @IonicPage()
 @Component({
@@ -22,6 +34,7 @@ export class VisitTimelinePage implements OnInit {
   TEST_REPORT_STATUS = TEST_REPORT_STATUSES;
   TEST_TYPE_RESULT = TEST_TYPE_RESULTS;
   changeOpacity: boolean = false;
+  oid: string;
 
   constructor(public navCtrl: NavController,
               public stateReformingService: StateReformingService,
@@ -35,7 +48,9 @@ export class VisitTimelinePage implements OnInit {
               private storageService: StorageService,
               private toastCtrl: ToastController,
               private openNativeSettings: OpenNativeSettings,
-              private firebase: Firebase) {
+              private firebase: Firebase,
+              private authService: AuthService,
+              private store$: Store<LogsModel>) {
     this.timeline = [];
   }
 
@@ -79,14 +94,27 @@ export class VisitTimelinePage implements OnInit {
       content: APP_STRINGS.END_VISIT_LOADING
     });
     LOADING.present();
+    this.oid = this.authService.getOid();
     this.visitService.endVisit(this.visit.id).subscribe(
-      () => {
+      (response) => {
+        const log: Log = {
+          type: 'info',
+          message: `${this.oid} - ${response.status} ${response.statusText} for API call to ${response.url}`,
+          timestamp: Date.now(),
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
         this.storageService.delete(STORAGE.VISIT);
         this.storageService.delete(STORAGE.STATE);
         this.visitService.visit = {} as VisitModel;
         LOADING.dismiss();
         this.navCtrl.push('EndVisitConfirmPage', {testStationName: this.visit.testStationName});
       }, (error) => {
+        const log: Log = {
+          type: 'error',
+          message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+          timestamp: Date.now(),
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
         LOADING.dismiss();
         this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Ending activity failed"});
         if (error && error.error === AUTH.INTERNET_REQUIRED) {
@@ -99,12 +127,12 @@ export class VisitTimelinePage implements OnInit {
                 this.openNativeSettings.open('settings');
               }
             },
-            {
-              text: APP_STRINGS.TRY_AGAIN_BTN,
-              handler: () => {
-                this.confirmEndVisit();
-              }
-            }]
+              {
+                text: APP_STRINGS.TRY_AGAIN_BTN,
+                handler: () => {
+                  this.confirmEndVisit();
+                }
+              }]
           });
           TRY_AGAIN_ALERT.present();
         }

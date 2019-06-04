@@ -15,6 +15,10 @@ import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-da
 import { AppService } from "./app.service";
 import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
 import { Firebase } from "@ionic-native/firebase";
+import { AuthService } from "./auth.service";
+import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
+import { Store } from "@ngrx/store";
+import { TestStore } from "../interceptors/auth.interceptor.spec";
 
 
 describe('Provider: SyncService', () => {
@@ -41,6 +45,8 @@ describe('Provider: SyncService', () => {
         {provide: AppService, useClass: AppServiceMock},
         {provide: HTTPService, useValue: httpServiceSpy},
         {provide: StorageService, useValue: storageServiceSpy},
+        {provide: AuthService, useClass: AuthServiceMock},
+        {provide: Store, useClass: TestStore},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: Events, useFactory: () => EventsMock.instance()}

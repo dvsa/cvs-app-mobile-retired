@@ -1,6 +1,13 @@
 import { TestReviewPage } from "./test-review";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams, ViewController, AlertController, LoadingController } from "ionic-angular";
+import {
+  IonicModule,
+  NavController,
+  NavParams,
+  ViewController,
+  AlertController,
+  LoadingController
+} from "ionic-angular";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { NavControllerMock, ViewControllerMock, AlertControllerMock, LoadingControllerMock } from "ionic-mocks";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
@@ -20,16 +27,19 @@ import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { Firebase } from "@ionic-native/firebase";
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
+import { AuthService } from "../../../../providers/global/auth.service";
+import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
+import { Store } from "@ngrx/store";
+import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
+import { TestResultServiceMock } from "../../../../../test-config/services-mocks/test-result-service.mock";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
   let fixture: ComponentFixture<TestReviewPage>;
   let visitService: VisitService;
-  let testResultServiceSpy: any;
   let alertCtrl: AlertController;
 
   beforeEach(async(() => {
-    testResultServiceSpy = jasmine.createSpyObj('testResultService', ['createTestResult', 'submitTestResult']);
 
     TestBed.configureTestingModule({
       declarations: [TestReviewPage],
@@ -41,7 +51,7 @@ describe('Component: TestReviewPage', () => {
         DefectsService,
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
-        {provide: TestResultService, useValue: testResultServiceSpy},
+        {provide: TestResultService, useClass: TestResultServiceMock},
         {provide: TestService, useClass: TestServiceMock},
         {provide: StorageService, useClass: StorageServiceMock},
         {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
@@ -49,6 +59,8 @@ describe('Component: TestReviewPage', () => {
         {provide: StateReformingService, useClass: StateReformingServiceMock},
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: VisitService, useClass: VisitServiceMock},
+        {provide: AuthService, useClass: AuthServiceMock},
+        {provide: Store, useClass: TestStore},
         {provide: NavParams, useClass: NavParamsMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -63,9 +75,9 @@ describe('Component: TestReviewPage', () => {
   });
 
   beforeEach(() => {
-    spyOn(window.localStorage, 'getItem').and.callFake(function() {
-			return JSON.stringify({"test":"test"});
-		});
+    spyOn(window.localStorage, 'getItem').and.callFake(function () {
+      return JSON.stringify({"test": "test"});
+    });
   });
 
   afterEach(() => {

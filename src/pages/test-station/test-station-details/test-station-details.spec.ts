@@ -18,6 +18,10 @@ import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestStationReferenceDataModel } from "../../../models/reference-data-models/test-station.model";
 import { NavParamsMock } from "../../../../test-config/ionic-mocks/nav-params.mock";
+import { AuthService } from "../../../providers/global/auth.service";
+import { AuthServiceMock } from "../../../../test-config/services-mocks/auth-service.mock";
+import { Store } from "@ngrx/store";
+import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec";
 
 describe('Component: TestStationDetailsPage', () => {
   let component: TestStationDetailsPage;
@@ -51,7 +55,9 @@ describe('Component: TestStationDetailsPage', () => {
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
         {provide: CallNumber, useValue: callNumberSpy},
         {provide: VisitService, useClass: VisitServiceMock},
-        {provide: OpenNativeSettings, useValue: openNativeSettingsSpy}
+        {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
+        {provide: AuthService, useClass: AuthServiceMock},
+        {provide: Store, useClass: TestStore}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

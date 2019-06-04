@@ -71,6 +71,11 @@ export class AppConfig {
     return jsonData['BACKEND_URL_SIGNATURE'];
   }
 
+  public static get BACKEND_URL_LOGS() {
+    let jsonData = app;
+    return jsonData['BACKEND_URL_LOGS'];
+  }
+
   public static get IS_PRODUCTION() {
     let jsonData = app;
     return jsonData['IS_PRODUCTION'];

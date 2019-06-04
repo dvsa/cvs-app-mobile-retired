@@ -5,6 +5,9 @@ import { AuthService } from "../global/auth.service";
 import { catchError, filter, finalize, switchMap, take } from "rxjs/operators";
 import { _throw } from "rxjs/observable/throw";
 import { AUTH, STATUS_CODE } from "../../app/app.enums";
+import { Log, LogsModel } from "../../modules/logs/logs.model";
+import * as logsActions from "../../modules/logs/logs.actions";
+import { Store } from "@ngrx/store";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -12,13 +15,21 @@ export class AuthInterceptor implements HttpInterceptor {
   isRefreshingToken: boolean = false;
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService,
+              private store$: Store<LogsModel>) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     if (!window.navigator.onLine) {
       return Observable.throw(new HttpErrorResponse({error: AUTH.INTERNET_REQUIRED}));
     }
+    const oid = this.authService.getOid();
+    const log: Log = {
+      type: 'info',
+      message: `${oid} - API call to ${req.url}`,
+      timestamp: Date.now(),
+    };
+    this.store$.dispatch(new logsActions.SaveLog(log));
     return next.handle(this.addAuthHeader(req, this.authService.getJWTToken())).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse) {

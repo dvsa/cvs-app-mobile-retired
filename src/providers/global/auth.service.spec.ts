@@ -1,10 +1,11 @@
 import { TestBed } from "@angular/core/testing";
 import { AuthService } from "./auth.service";
 import { LOCAL_STORAGE, TESTER_ROLES } from "../../app/app.enums";
-import { AuthenticationResult, MSAdal, UserInfo } from "@ionic-native/ms-adal";
+import { MSAdal } from "@ionic-native/ms-adal";
 import { Platform } from "ionic-angular";
 import { CommonFunctionsService } from "../utils/common-functions";
-import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
+import { NetworkStateProvider } from "../../modules/logs/network-state.service";
+import { NetworkStateProviderMock } from "../../modules/logs/network-state.service.mock";
 
 describe(`AuthService`, () => {
   let authService: AuthService;
@@ -20,7 +21,8 @@ describe(`AuthService`, () => {
         AuthService,
         CommonFunctionsService,
         Platform,
-        MSAdal
+        MSAdal,
+        {provide: NetworkStateProvider, useClass: NetworkStateProviderMock}
       ],
     });
 

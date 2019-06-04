@@ -1,11 +1,26 @@
 import { VisitTimelinePage } from "./visit-timeline";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, LoadingController, Events, AlertController, NavParams, ToastController } from "ionic-angular";
+import {
+  IonicModule,
+  NavController,
+  LoadingController,
+  Events,
+  AlertController,
+  NavParams,
+  ToastController
+} from "ionic-angular";
 import { PipesModule } from "../../../pipes/pipes.module";
 import { Firebase } from "@ionic-native/firebase";
 import { StateReformingService } from "../../../providers/global/state-reforming.service";
 import { StateReformingServiceMock } from "../../../../test-config/services-mocks/state-reforming-service.mock";
-import { LoadingControllerMock, EventsMock, NavControllerMock, AlertControllerMock, NavParamsMock, ToastControllerMock } from "ionic-mocks";
+import {
+  LoadingControllerMock,
+  EventsMock,
+  NavControllerMock,
+  AlertControllerMock,
+  NavParamsMock,
+  ToastControllerMock
+} from "ionic-mocks";
 import { AppService } from "../../../providers/global/app.service";
 import { AppServiceMock } from "../../../../test-config/services-mocks/app-service.mock";
 import { TestService } from "../../../providers/test/test.service";
@@ -17,6 +32,10 @@ import { StorageServiceMock } from "../../../../test-config/services-mocks/stora
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { VisitDataMock } from "../../../assets/data-mocks/visit-data.mock";
+import { AuthService } from "../../../providers/global/auth.service";
+import { AuthServiceMock } from "../../../../test-config/services-mocks/auth-service.mock";
+import { Store } from "@ngrx/store";
+import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec";
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -47,6 +66,8 @@ describe('Component: VisitTimelinePage', () => {
         {provide: TestService, useClass: TestServiceMock},
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: StorageService, useClass: StorageServiceMock},
+        {provide: AuthService, useClass: AuthServiceMock},
+        {provide: Store, useClass: TestStore},
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

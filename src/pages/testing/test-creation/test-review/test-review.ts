@@ -32,11 +32,15 @@ import { TestService } from "../../../../providers/test/test.service";
 import { Observable } from "rxjs";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { VisitService } from "../../../../providers/visit/visit.service";
-import { tap } from "rxjs/operators";
+import { catchError, tap } from "rxjs/operators";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { Firebase } from '@ionic-native/firebase';
+import { AuthService } from "../../../../providers/global/auth.service";
+import { Store } from "@ngrx/store";
+import { Log, LogsModel } from "../../../../modules/logs/logs.model";
+import * as logsActions from "../../../../modules/logs/logs.actions";
 
 @IonicPage()
 @Component({
@@ -53,6 +57,7 @@ export class TestReviewPage implements OnInit {
   deficiencyCategory;
   submitInProgress: boolean = false;
   isTestSubmitted: string;
+  oid: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -70,7 +75,9 @@ export class TestReviewPage implements OnInit {
               private testService: TestService,
               private loadingCtrl: LoadingController,
               private storageService: StorageService,
-              private firebase: Firebase) {
+              private firebase: Firebase,
+              private authService: AuthService,
+              private store$: Store<LogsModel>) {
     this.visit = this.navParams.get('visit');
     this.latestTest = this.visitService.getLatestTest();
   }
@@ -167,6 +174,7 @@ export class TestReviewPage implements OnInit {
 
   submit(test) {
     let stack: Observable<any>[] = [];
+    this.oid = this.authService.getOid();
     const TRY_AGAIN_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
       message: APP_STRINGS.NO_INTERNET_CONNECTION,
@@ -194,12 +202,26 @@ export class TestReviewPage implements OnInit {
 
     for (let vehicle of test.vehicles) {
       let testResult = this.testResultService.createTestResult(this.visit, test, vehicle);
-      stack.push(this.testResultService.submitTestResult(testResult));
+      stack.push(this.testResultService.submitTestResult(testResult).pipe(catchError((error: any) => {
+        const log: Log = {
+          type: 'error',
+          message: `${this.oid} - ${error.status} ${error.error.errors ? error.error.errors[0] : error.error} for API call to ${error.url} with the body message ${JSON.stringify(testResult)}`,
+          timestamp: Date.now(),
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
+        return Observable.throw(error);
+      })));
       Observable.forkJoin(stack).pipe(
         tap(
           () => this.events.publish(APP.TEST_SUBMITTED))
       ).subscribe(
-        () => {
+        (response: any) => {
+          const log: Log = {
+            type: 'info',
+            message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
+            timestamp: Date.now(),
+          };
+          this.store$.dispatch(new logsActions.SaveLog(log));
           this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
           LOADING.dismiss();
           this.submitInProgress = false;
@@ -212,7 +234,7 @@ export class TestReviewPage implements OnInit {
           }
 
         },
-        () => {
+        (error) => {
           LOADING.dismiss();
           TRY_AGAIN_ALERT.present();
           this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Test submission failed"});

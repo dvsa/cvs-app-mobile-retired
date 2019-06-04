@@ -9,6 +9,7 @@ import { TechRecordModel, VehicleTechRecordModel } from "../../models/vehicle/te
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
 import { TECH_RECORD_STATUS, TEST_TYPE_INPUTS } from "../../app/app.enums";
+import { HttpResponse } from "@angular/common/http";
 
 @Injectable()
 export class VehicleService {
@@ -49,7 +50,7 @@ export class VehicleService {
     this.visitService.updateVisit();
   }
 
-  getVehicleTechRecord(param): Observable<VehicleTechRecordModel> {
+  getVehicleTechRecord(param): Observable<HttpResponse<VehicleTechRecordModel>> {
     return this.httpService.getTechRecords(param);
   }
 

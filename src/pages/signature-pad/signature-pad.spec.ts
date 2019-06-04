@@ -11,6 +11,10 @@ import { AppServiceMock } from "../../../test-config/services-mocks/app-service.
 import { SignaturePad } from "angular2-signaturepad/signature-pad";
 import { CallNumber } from "@ionic-native/call-number";
 import { Firebase } from "@ionic-native/firebase";
+import { AuthService } from "../../providers/global/auth.service";
+import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
+import { Store } from "@ngrx/store";
+import { TestStore } from "../../providers/interceptors/auth.interceptor.spec";
 
 describe('Component: SignaturePadPage', () => {
   let fixture: ComponentFixture<SignaturePadPage>;
@@ -56,6 +60,8 @@ describe('Component: SignaturePadPage', () => {
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
         {provide: Events, useFactory: () => EventsMock.instance()},
         {provide: SignaturePad, useValue: signaturePadSpy},
+        {provide: AuthService, useClass: AuthServiceMock},
+        {provide: Store, useClass: TestStore},
         {provide: CallNumber, useValue: callNumberSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

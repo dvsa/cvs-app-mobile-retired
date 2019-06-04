@@ -6,6 +6,13 @@ import { HTTPService } from "../global/http.service";
 import { Data } from "@angular/router";
 import { AuthService } from "../global/auth.service";
 import { of } from "rxjs/observable/of";
+import { Store } from "@ngrx/store";
+import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
+
+export class TestStore {
+  dispatch() {
+  }
+}
 
 describe(`AuthHttpInterceptor`, () => {
   let httpClient: HttpClient;
@@ -25,7 +32,8 @@ describe(`AuthHttpInterceptor`, () => {
       imports: [HttpClientTestingModule],
       providers: [
         HTTPService,
-        {provide: AuthService, useValue: authServiceSpy},
+        {provide: AuthService, useClass: AuthServiceMock},
+        {provide: Store, useClass: TestStore},
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthInterceptor,
