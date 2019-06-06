@@ -10,6 +10,7 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { APP_STRINGS, DEFICIENCY_CATEGORY, FIREBASE_DEFECTS } from "../../../../app/app.enums";
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+import { ProhibitionClearanceTestTypesData } from "../../../../assets/app-data/test-types-data/prohibition-clearance-test-types.data";
 
 @IonicPage()
 @Component({
@@ -29,6 +30,8 @@ export class DefectDetailsPage implements OnInit {
   notesChanged: boolean = false;
   showProhibition: boolean = false;
   prohibitionAsterisk: boolean = false;
+  prohibitionClearanceTestTypesIds: string[] = ProhibitionClearanceTestTypesData.ProhibitionClearanceTestTypesIds;
+  isProhibitionClearance: boolean;
   @ViewChild(Navbar) navBar: Navbar;
 
   constructor(public navCtrl: NavController,
@@ -55,6 +58,7 @@ export class DefectDetailsPage implements OnInit {
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.DEFECT_DESC);
+    this.isProhibitionClearance = this.prohibitionClearanceTestTypesIds.indexOf(this.vehicleTest.testTypeId) !== -1;
   }
 
   ionViewDidLoad() {
