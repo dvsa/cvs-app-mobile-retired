@@ -42,7 +42,8 @@ export class VehicleHistoryPage {
     this.navCtrl.push('VehicleHistoryDetailsPage', {
       testResultHistory: this.testResultHistory,
       testIndex: testIndex,
-      testTypeIndex: testTypeIndex
+      testTypeIndex: testTypeIndex,
+      vehicleType: this.vehicleData.techRecord.vehicleType
     });
   }
 
