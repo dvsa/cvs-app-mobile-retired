@@ -1,24 +1,24 @@
-import { Component } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
-import { TestModel } from '../../../../models/tests/test.model';
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { TestResultModel } from "../../../../models/tests/test-result.model";
-import { catchError, map, tap } from "rxjs/operators";
-import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { PAGE_NAMES, STORAGE, APP_STRINGS } from "../../../../app/app.enums";
-import { StorageService } from "../../../../providers/natives/storage.service";
-import { Observable } from "rxjs";
-import { AppConfig } from "../../../../../config/app.config";
-import { _throw } from "rxjs/observable/throw";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { CallNumber } from "@ionic-native/call-number";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { Firebase } from '@ionic-native/firebase';
-import { HttpResponse } from "@angular/common/http";
-import { Store } from "@ngrx/store";
-import { Log, LogsModel } from "../../../../modules/logs/logs.model";
-import { AuthService } from "../../../../providers/global/auth.service";
+import {Component} from '@angular/core';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {TestModel} from '../../../../models/tests/test.model';
+import {VehicleService} from "../../../../providers/vehicle/vehicle.service";
+import {VisitService} from "../../../../providers/visit/visit.service";
+import {TestResultModel} from "../../../../models/tests/test-result.model";
+import {map, tap} from "rxjs/operators";
+import {VehicleTechRecordModel} from "../../../../models/vehicle/tech-record.model";
+import {APP_STRINGS, PAGE_NAMES, STORAGE, VEHICLE_TYPE} from "../../../../app/app.enums";
+import {StorageService} from "../../../../providers/natives/storage.service";
+import {Observable} from "rxjs";
+import {AppConfig} from "../../../../../config/app.config";
+import {_throw} from "rxjs/observable/throw";
+import {OpenNativeSettings} from "@ionic-native/open-native-settings";
+import {CallNumber} from "@ionic-native/call-number";
+import {VehicleModel} from "../../../../models/vehicle/vehicle.model";
+import {Firebase} from '@ionic-native/firebase';
+import {HttpResponse} from "@angular/common/http";
+import {Store} from "@ngrx/store";
+import {Log, LogsModel} from "../../../../modules/logs/logs.model";
+import {AuthService} from "../../../../providers/global/auth.service";
 import * as logsActions from "../../../../modules/logs/logs.actions";
 
 @IonicPage()
@@ -30,6 +30,9 @@ export class VehicleLookupPage {
   testData: TestModel;
   searchVal: string = '';
   oid: string;
+  title: string = '';
+  searchPlaceholder = '';
+  moreThanOneVehicles: boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -48,7 +51,19 @@ export class VehicleLookupPage {
 
   ionViewWillEnter() {
     this.searchVal = '';
+    if (this.testData.vehicles.length) {
+      this.moreThanOneVehicles = true;
+    }
+    this.searchPlaceholder = this.moreThanOneVehicles && this.doesHgvExist() ? APP_STRINGS.TRAILER_ID_OR_VIN : APP_STRINGS.REG_NUMBER_TRAILER_ID_OR_VIN;
+    this.title = this.moreThanOneVehicles && this.doesHgvExist() ? APP_STRINGS.IDENTIFY_TRAILER : APP_STRINGS.IDENTIFY_VEHICLE;
   };
+
+  doesHgvExist() {
+    for (let vehicle of this.testData.vehicles) {
+      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) return true;
+    }
+    return false;
+  }
 
   searchVehicle(searchedValue: string): void {
     const LOADING = this.loadingCtrl.create({

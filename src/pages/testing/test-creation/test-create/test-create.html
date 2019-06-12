@@ -1,114 +1,120 @@
 <ion-header>
-    <ion-navbar hideBackButton="true">
-        <ion-title margin-left>
-            Test
-        </ion-title>
-        <ion-buttons end>
-            <button ion-button
-                    [ngClass]="{buttonOpacity: changeOpacity}"
-                    (click)="reviewTest()">
-                Review
-            </button>
-        </ion-buttons>
-    </ion-navbar>
+  <ion-navbar hideBackButton="true">
+    <ion-title margin-left>
+      Test
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button
+              [ngClass]="{buttonOpacity: changeOpacity}"
+              (click)="reviewTest()">
+        Review
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
-    <ion-list class="full-dividers-list">
-        <ion-card class="card" *ngFor="let vehicle of testData.vehicles; let i = index">
-            <button ion-item detail-none class="ion-item-title"
-                    (click)="onVehicleDetails(vehicle)">
-                <ion-img item-start class="vehicle-type-icon"
-                         src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="63" height="27"></ion-img>
-                <h2 text-uppercase>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
-                <p class="vehicle-vin">{{ vehicle.vin }}</p>
-                <h3 item-end class="vehicle-details">Details</h3>
-                <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
-            </button>
-            <button ion-item detail-none
-                    class="bottom-divider"
-                    (click)="onCountryOfRegistration(vehicle)">
-                <h3 class="odometer-reading">Country of registration</h3>
-                <h3 item-end text-nowrap class="vehicle-details">{{getCountryStringToBeDisplayed(vehicle)}}</h3>
-                <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
-            </button>
-            <button ion-item detail-none
-                    class="bottom-divider"
-                    (click)="onVehicleCategory(vehicle)">
-                <h3 class="odometer-reading">EU vehicle category</h3>
-                <h3 item-end class="vehicle-details" *ngIf="!vehicle.euVehicleCategory">Select</h3>
-                <h3 item-end text-nowrap class="vehicle-details"
-                    *ngIf="vehicle.euVehicleCategory">{{vehicle.euVehicleCategory.toUpperCase()}}</h3>
-                <ion-icon item-end
-                          [ngClass]="{'vehicle-category-icon-data': vehicle.euVehicleCategory,
+  <ion-list class="full-dividers-list">
+    <ion-card class="card" *ngFor="let vehicle of testData.vehicles; let i = index">
+      <button ion-item detail-none class="ion-item-title"
+              (click)="onVehicleDetails(vehicle)">
+        <ion-img item-start class="vehicle-type-icon"
+                 src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="63" height="27"></ion-img>
+        <h2 text-uppercase>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
+        <p class="vehicle-vin">{{ vehicle.vin }}</p>
+        <h3 item-end class="vehicle-details">Details</h3>
+        <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
+      </button>
+      <button ion-item detail-none
+              class="bottom-divider"
+              (click)="onCountryOfRegistration(vehicle)">
+        <h3 class="odometer-reading">Country of registration</h3>
+        <h3 item-end text-nowrap class="vehicle-details">{{getCountryStringToBeDisplayed(vehicle)}}</h3>
+        <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
+      </button>
+      <button ion-item detail-none
+              class="bottom-divider"
+              (click)="onVehicleCategory(vehicle)">
+        <h3 class="odometer-reading">EU vehicle category</h3>
+        <h3 item-end class="vehicle-details" *ngIf="!vehicle.euVehicleCategory">Select</h3>
+        <h3 item-end text-nowrap class="vehicle-details"
+            *ngIf="vehicle.euVehicleCategory">{{vehicle.euVehicleCategory.toUpperCase()}}</h3>
+        <ion-icon item-end
+                  [ngClass]="{'vehicle-category-icon-data': vehicle.euVehicleCategory,
                           'arrow-forward': !vehicle.euVehicleCategory}"
-                          [name]="vehicle.euVehicleCategory ? 'checkmark' : 'arrow-forward'"></ion-icon>
-            </button>
-            <button ion-item
-                    detail-none
-                    class="bottom-divider"
-                    (click)="onOdometer(i)">
-                <h3 class="odometer-reading">Odometer reading</h3>
-                <h3 item-end
-                    class="odometer-reading-status"
-                    [ngClass]="{'odometer-reading-start': !doesOdometerDataExist(i)}">
-                    {{getOdometerStringToBeDisplayed(i)}}
-                </h3>
-                <ion-icon item-end class="odometer-reading-icon"
-                          [ngClass]="{'odometer-reading-icon-data': doesOdometerDataExist(i), 'odometer-reading-icon-no-data': !doesOdometerDataExist(i)}"
-                          [name]="doesOdometerDataExist(i) ? 'checkmark' : 'arrow-forward'"></ion-icon>
-            </button>
-            <ion-list class="full-dividers-list">
-                <ion-item-sliding *ngFor="let vehicleTest of vehicle.testTypes"
-                                  #slidingItem>
-                    <button ion-item
-                            detail-none
-                            (click)="openTest(vehicle, vehicleTest)"
-                            class="bottom-divider">
-                        <h3 class="test-type">{{ vehicleTest.testTypeCategoryName }}</h3>
-                        <p item-end ion-text text-uppercase
-                           class="test-type-status test-result"
-                           [color]="commonFunctions.getTestResultColor(vehicleTest.testResult)"
-                           *ngIf="isTestAbandoned(vehicleTest)">Abandoned</p>
-                        <h3 item-end class="test-type-status"
-                            [ngClass]="{'test-type-inProgress': getTestTypeStatus(vehicleTest) !== commonFunctions.capitalizeString(testCompletionStatus.EDIT)}"
-                            *ngIf="!isTestAbandoned(vehicleTest)">{{getTestTypeStatus(vehicleTest)}}</h3>
-                        <ion-icon item-end class="odometer-reading-icon"
-                                  [ngClass]="{'odometer-reading-icon-data': getTestTypeStatus(vehicleTest) === commonFunctions.capitalizeString(testCompletionStatus.EDIT),
+                  [name]="vehicle.euVehicleCategory ? 'checkmark' : 'arrow-forward'"></ion-icon>
+      </button>
+      <button ion-item
+              detail-none
+              class="bottom-divider"
+              (click)="onOdometer(i)">
+        <h3 class="odometer-reading">Odometer reading</h3>
+        <h3 item-end
+            class="odometer-reading-status"
+            [ngClass]="{'odometer-reading-start': !doesOdometerDataExist(i)}">
+          {{getOdometerStringToBeDisplayed(i)}}
+        </h3>
+        <ion-icon item-end class="odometer-reading-icon"
+                  [ngClass]="{'odometer-reading-icon-data': doesOdometerDataExist(i), 'odometer-reading-icon-no-data': !doesOdometerDataExist(i)}"
+                  [name]="doesOdometerDataExist(i) ? 'checkmark' : 'arrow-forward'"></ion-icon>
+      </button>
+      <ion-list class="full-dividers-list">
+        <ion-item-sliding *ngFor="let vehicleTest of vehicle.testTypes"
+                          #slidingItem>
+          <button ion-item
+                  detail-none
+                  (click)="openTest(vehicle, vehicleTest)"
+                  class="bottom-divider">
+            <h3 class="test-type">{{ vehicleTest.testTypeCategoryName }}</h3>
+            <p item-end ion-text text-uppercase
+               class="test-type-status test-result"
+               [color]="commonFunctions.getTestResultColor(vehicleTest.testResult)"
+               *ngIf="isTestAbandoned(vehicleTest)">Abandoned</p>
+            <h3 item-end class="test-type-status"
+                [ngClass]="{'test-type-inProgress': getTestTypeStatus(vehicleTest) !== commonFunctions.capitalizeString(testCompletionStatus.EDIT)}"
+                *ngIf="!isTestAbandoned(vehicleTest)">{{getTestTypeStatus(vehicleTest)}}</h3>
+            <ion-icon item-end class="odometer-reading-icon"
+                      [ngClass]="{'odometer-reading-icon-data': getTestTypeStatus(vehicleTest) === commonFunctions.capitalizeString(testCompletionStatus.EDIT),
                                   'odometer-reading-icon-no-data': getTestTypeStatus(vehicleTest) !== commonFunctions.capitalizeString(testCompletionStatus.EDIT)}"
-                                  [name]="getTestTypeStatus(vehicleTest) === commonFunctions.capitalizeString(testCompletionStatus.EDIT) ? 'checkmark' : 'arrow-forward'"
-                                  *ngIf="!isTestAbandoned(vehicleTest)"></ion-icon>
-                    </button>
-                    <ion-item-options *ngIf="!isTestAbandoned(vehicleTest)">
-                        <button ion-button
-                                color="dark"
-                                (click)="onAbandonVehicleTest(vehicleTest)">Abandon
-                        </button>
-                        <button ion-button
-                                color="danger"
-                                (click)="onRemoveVehicleTest(vehicle, vehicleTest, slidingItem)">Remove
-                        </button>
-                    </ion-item-options>
-                </ion-item-sliding>
-            </ion-list>
-
-            <button class="btn-add-test" ion-item detail-none (click)="addVehicleTest(vehicle)"
-                    [ngClass]="{'bottom-divider': vehicle.testTypes.length == 0}">
-                <span *ngIf="vehicle.testTypes.length == 0">Add a test type</span>
-                <span *ngIf="vehicle.testTypes.length != 0">Add a linked test</span>
-                <ion-icon aria-hidden="true" name="ios-add-circle-outline" item-end></ion-icon>
+                      [name]="getTestTypeStatus(vehicleTest) === commonFunctions.capitalizeString(testCompletionStatus.EDIT) ? 'checkmark' : 'arrow-forward'"
+                      *ngIf="!isTestAbandoned(vehicleTest)"></ion-icon>
+          </button>
+          <ion-item-options *ngIf="!isTestAbandoned(vehicleTest)">
+            <button ion-button
+                    color="dark"
+                    (click)="onAbandonVehicleTest(vehicleTest)">Abandon
             </button>
-        </ion-card>
-    </ion-list>
+            <button ion-button
+                    color="danger"
+                    (click)="onRemoveVehicleTest(vehicle, vehicleTest, slidingItem)">Remove
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+
+      <button class="btn-add-test" ion-item detail-none (click)="addVehicleTest(vehicle)"
+              [ngClass]="{'bottom-divider': vehicle.testTypes.length == 0}">
+        <span *ngIf="vehicle.testTypes.length == 0">Add a test type</span>
+        <span *ngIf="vehicle.testTypes.length != 0">Add a linked test</span>
+        <ion-icon aria-hidden="true" name="ios-add-circle-outline" item-end></ion-icon>
+      </button>
+    </ion-card>
+
+    <ion-card class="card" *ngIf="displayAddVehicleButton">
+      <button class="btn-add-test" ion-item detail-none (click)="addTrailer(visitService.visit.tests)">
+        <span>Add a trailer</span>
+        <ion-icon aria-hidden="true" name="ios-add-circle-outline" item-end></ion-icon>
+      </button>
+    </ion-card>
+  </ion-list>
 </ion-content>
 
 <ion-footer>
-    <ion-toolbar class="gray-toolbar">
-        <ion-buttons start>
-        </ion-buttons>
-        <ion-buttons end>
-            <button ion-button color="danger" (click)="onCancel()">Cancel test</button>
-        </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar class="gray-toolbar">
+    <ion-buttons start>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button color="danger" (click)="onCancel()">Cancel test</button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-footer>

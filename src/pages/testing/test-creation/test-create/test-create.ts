@@ -20,7 +20,7 @@ import {
   ODOMETER_METRIC, PAGE_NAMES,
   TEST_COMPLETION_STATUS,
   TEST_TYPE_INPUTS,
-  TEST_TYPE_RESULTS
+  TEST_TYPE_RESULTS, VEHICLE_TYPE
 } from "../../../../app/app.enums";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
@@ -41,6 +41,7 @@ export class TestCreatePage implements OnInit {
   testCompletionStatus;
   completedFields = {};
   changeOpacity: boolean = false;
+  displayAddVehicleButton: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -65,6 +66,10 @@ export class TestCreatePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.displayAddVehicleButton = true;
+    for (let vehicle of this.testData.vehicles) {
+      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV) this.displayAddVehicleButton = false;
+    }
     this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
       this.completedFields = completedFields;
     });
@@ -221,6 +226,10 @@ export class TestCreatePage implements OnInit {
     this.navCtrl.push(PAGE_NAMES.TEST_CANCEL_PAGE, {
       test: this.testData
     });
+  }
+
+  addTrailer(tests) {
+    this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {test: tests[tests.length - 1]});
   }
 
   reviewTest(): void {

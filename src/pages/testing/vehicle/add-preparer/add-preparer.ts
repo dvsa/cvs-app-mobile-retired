@@ -81,16 +81,14 @@ export class AddPreparerPage implements OnInit {
   presentPreparerConfirm(preparer: PreparersReferenceDataModel, preparerFound = true, showSearchAgain = false) {
     let showThisTitle, showThisMessage;
 
-    if(!preparerFound && !showSearchAgain) {
+    if (!preparerFound && !showSearchAgain) {
       showThisTitle = APP_STRINGS.WITHOUT_PREPARER;
       showThisMessage = APP_STRINGS.WITHOUT_PREPARER_MSG;
-    }
-    else if (!preparerFound && showSearchAgain) {
+    } else if (!preparerFound && showSearchAgain) {
       showThisTitle = APP_STRINGS.PREPARER_NOT_FOUND;
       showThisMessage = APP_STRINGS.PREPARER_NOT_FOUND_MSG;
-    }
-    else {
-      showThisTitle = `${preparer.preparerName} (${preparer.preparerId})`;
+    } else {
+      showThisTitle = `${ preparer.preparerName } (${ preparer.preparerId })`;
       showThisMessage = APP_STRINGS.CONFIRM_PREPARER;
     }
 
@@ -106,7 +104,7 @@ export class AddPreparerPage implements OnInit {
         }, {
           text: !showSearchAgain ? APP_STRINGS.CONFIRM : APP_STRINGS.CONTINUE,
           handler: () => {
-            this.visitService.addTest(this.testData);
+            if (!this.visitService.visit.tests.length || this.visitService.getLatestTest().endTime) this.visitService.addTest(this.testData);
             this.testReportService.addVehicle(this.testData, this.vehicleData);
             this.selectPreparer(preparer);
             this.navCtrl.push('TestCreatePage', {

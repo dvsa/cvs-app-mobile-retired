@@ -140,6 +140,7 @@ export enum APP_STRINGS {
   DEFECT_DESC = 'Defect description',
   TEST = 'Test',
   IDENTIFY_VEHICLE = 'Identify vehicle',
+  IDENTIFY_TRAILER = 'Identify trailer',
   TEST_HISTORY = 'Test history',
   SUBMIT_TEST = 'Submit test',
   SUBMIT_TEST_MESSAGE = 'You will not be able to make changes to this test after it has been submitted.',
@@ -174,7 +175,9 @@ export enum APP_STRINGS {
   CACHING_ENABLED = 'Caching was enabled',
   UNAUTHORISED = 'Unable to authorise',
   UNAUTHORISED_MSG = "Your account isn't currently authorised to use this app. Close the app or call IT support.",
-  UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support."
+  UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support.",
+  TRAILER_ID_OR_VIN = 'Enter trailer ID or VIN',
+  REG_NUMBER_TRAILER_ID_OR_VIN = 'Enter registration number, trailer ID or VIN'
 }
 
 export enum ODOMETER_METRIC {
