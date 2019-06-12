@@ -6,20 +6,23 @@
       </button>
     </ion-buttons>
     <ion-title margin-left>
-      Identify vehicle
+      {{title}}
     </ion-title>
+    <ion-buttons end>
+      <button ion-button class="custom-search-button" (click)="searchVehicle(searchVal)">
+        Search
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <form action="#">
+<ion-content no-padding class="content-background-color-grey">
+  <ion-item>
     <ion-input margin-top text-uppercase
-              [ngModelOptions]="{standalone: true}"
-              class="custom-input shadow"
-              type="search" placeholder="Enter registration number or VIN"
-              [(ngModel)]="searchVal" value=""></ion-input>
-    <button margin-vertical ion-button block
-            color="primary" class="custom-button shadow"
-            (click)="searchVehicle(searchVal)">Search</button>
-  </form>
+               [ngModelOptions]="{standalone: true}"
+               class="custom-input shadow"
+               clearInput="true"
+               type="search" [placeholder]="searchPlaceholder"
+               [(ngModel)]="searchVal" value=""></ion-input>
+  </ion-item>
 </ion-content>

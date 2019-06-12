@@ -15,6 +15,7 @@ import { CallNumber } from "@ionic-native/call-number";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestDataModelMock } from "../../../../assets/data-mocks/data-model/test-data-model.mock";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { APP_STRINGS, VEHICLE_TYPE } from "../../../../app/app.enums";
 import { AuthService } from "../../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
 import { Store } from "@ngrx/store";
@@ -76,5 +77,16 @@ describe('Component: VehicleLookupPage', () => {
     spyOn(storageService, 'update');
     component.searchVehicle('BQ91YHQ');
     expect(storageService.update).toHaveBeenCalled();
+  });
+
+  it('should test ionViewWillEnter lifecycle hook', () => {
+    component.testData = TEST_DATA;
+    component.testData.vehicles.push(VEHICLE);
+    component.ionViewWillEnter();
+    expect(component.moreThanOneVehicles).toBeTruthy();
+    expect(component.searchPlaceholder).toEqual(APP_STRINGS.REG_NUMBER_TRAILER_ID_OR_VIN);
+    component.testData.vehicles[0].techRecord.vehicleType = VEHICLE_TYPE.HGV;
+    component.ionViewWillEnter();
+    expect(component.searchPlaceholder).toEqual(APP_STRINGS.TRAILER_ID_OR_VIN);
   });
 });
