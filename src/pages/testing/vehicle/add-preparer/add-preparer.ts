@@ -107,8 +107,7 @@ export class AddPreparerPage implements OnInit {
           text: !showSearchAgain ? APP_STRINGS.CONFIRM : APP_STRINGS.CONTINUE,
           handler: () => {
             this.logIntoFirebase();
-
-            this.visitService.addTest(this.testData);
+            if (!this.visitService.visit.tests.length || this.visitService.getLatestTest().endTime) this.visitService.addTest(this.testData);
             this.testReportService.addVehicle(this.testData, this.vehicleData);
             this.selectPreparer(preparer);
             this.navCtrl.push(PAGE_NAMES.TEST_CREATE_PAGE, {
