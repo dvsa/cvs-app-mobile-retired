@@ -32,6 +32,7 @@ describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
   let fixture: ComponentFixture<TestCreatePage>;
   let navCtrl: NavController;
+  let navCtrlSpy: any;
   let navParams: NavParams;
   let vehicleService: VehicleService;
   let visitService: VisitService;
@@ -112,6 +113,7 @@ describe('Component: TestCreatePage', () => {
     stateReformingService = null;
     firebaseLogsService = null;
     modalctrl = null;
+    navCtrl = null;
   });
 
   it('should create the component', () => {
@@ -225,5 +227,12 @@ describe('Component: TestCreatePage', () => {
     vehicle.odometerReading = '1233';
     component.logMissingFields(vehicle);
     expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+  });
+
+  it('should check if navCtrl.push was called', () => {
+    let tests = [];
+    tests.push(testService.createTest());
+    component.addTrailer(tests);
+    expect(navCtrl.push).toHaveBeenCalled();
   });
 });

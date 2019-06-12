@@ -43,6 +43,7 @@ export class AddPreparerPage implements OnInit {
 
   ngOnInit() {
     this.getPreparers();
+    this.autoPopulatePreparerInput(this.testData.vehicles);
   }
 
   ionViewCanEnter() {
@@ -73,10 +74,10 @@ export class AddPreparerPage implements OnInit {
       if (preparer) {
         this.presentPreparerConfirm(preparer);
       } else {
-        this.presentPreparerConfirm({preparerId: 'No preparer ID found', preparerName: ''}, false, true);
+        this.presentPreparerConfirm({preparerId: APP_STRINGS.NO_PREPARER_ID_FOUND, preparerName: ''}, false, true);
       }
     } else {
-      this.presentPreparerConfirm({preparerId: 'No preparer ID given', preparerName: ''}, false);
+      this.presentPreparerConfirm({preparerId: APP_STRINGS.NO_PREPARER_ID_GIVEN, preparerName: ''}, false);
     }
   }
 
@@ -156,5 +157,13 @@ export class AddPreparerPage implements OnInit {
 
     this.firebaseLogsService.confirm_preparer_time.confirm_preparer_time_taken = this.firebaseLogsService.differenceInHMS(this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time);
     this.firebaseLogsService.logEvent(FIREBASE.CONFIRM_PREPARER_TIME_TAKEN, FIREBASE.CONFIRM_PREPARER_START_TIME, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time.toString(), FIREBASE.CONFIRM_PREPARER_END_TIME, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time.toString(), FIREBASE.CONFIRM_PREPARER_TIME_TAKEN, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_time_taken);
+  }
+
+  autoPopulatePreparerInput(vehicles) {
+    if (vehicles.length > 0) {
+      if (vehicles[0].preparerId != APP_STRINGS.NO_PREPARER_ID_FOUND && vehicles[0].preparerId != APP_STRINGS.NO_PREPARER_ID_GIVEN) {
+        this.searchValue = vehicles[0].preparerId;
+      }
+    }
   }
 }
