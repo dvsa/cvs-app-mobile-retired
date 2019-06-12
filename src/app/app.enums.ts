@@ -176,6 +176,8 @@ export enum APP_STRINGS {
   UNAUTHORISED = 'Unable to authorise',
   UNAUTHORISED_MSG = "Your account isn't currently authorised to use this app. Close the app or call IT support.",
   UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support.",
+  NO_PREPARER_ID_FOUND = 'No preparer ID found',
+  NO_PREPARER_ID_GIVEN = 'No preparer ID given',
   TRAILER_ID_OR_VIN = 'Enter trailer ID or VIN',
   REG_NUMBER_TRAILER_ID_OR_VIN = 'Enter registration number, trailer ID or VIN'
 }
