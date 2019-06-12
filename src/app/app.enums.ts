@@ -185,6 +185,8 @@ export enum APP_STRINGS {
   PROHIBITION_TITLE = "Prohibition alert",
   PROHIBITION_MSG_NOTES = "Explain why you haven't issued a prohibition for this defect in the Notes section.",
   PROHIBITION_MSG_CONFIRM = "This defect requires you to issue a prohibition in Mobile Compliance. Confirm you’ve done this in the Prohibition section.",
+  NO_PREPARER_ID_FOUND = 'No preparer ID found',
+  NO_PREPARER_ID_GIVEN = 'No preparer ID given',
   TRAILER_ID_OR_VIN = 'Enter trailer ID or VIN',
   REG_NUMBER_TRAILER_ID_OR_VIN = 'Enter registration number, trailer ID or VIN'
 }
