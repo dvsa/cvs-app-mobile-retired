@@ -242,7 +242,7 @@
     </ng-template>
   </ion-list>
 
-  <ion-list class="list-margin">
+  <ion-list class="list-margin" *ngIf="vehicleType !== 'trl'">
     <ion-list-header text-uppercase padding-left>ODOMETER READING</ion-list-header>
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
@@ -262,7 +262,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-list class="list-margin" *ngIf="!doesNotHaveBelts">
+  <ion-list class="list-margin" *ngIf="!doesNotHaveBelts && vehicleType === 'psv'">
     <ion-list-header text-uppercase padding-left>SEATBELT INSTALLATION CHECK</ion-list-header>
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>

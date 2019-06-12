@@ -14,6 +14,7 @@ import {
   TestsWithoutDefects
 } from '../../../../assets/app-data/test-required-fields/test-required-fields.data';
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { TestResultModel } from "../../../../models/tests/test-result.model";
 
 @IonicPage()
 @Component({
@@ -24,10 +25,10 @@ export class VehicleHistoryDetailsPage {
   testResultHistory: any;
   testIndex: number;
   testTypeIndex: number;
-  selectedTestResult: string;
+  selectedTestResult: TestResultModel;
   selectedTestType: TestTypeModel;
-  testTypeResults: {};
-  defaultValues: {};
+  testTypeResults;
+  defaultValues;
   testsWithoutCertificate: any;
   testsWithoutSeatbelts: any;
   testsWithoutDefects: any;
@@ -40,7 +41,7 @@ export class VehicleHistoryDetailsPage {
   isTestResultFail: boolean;
   testResultColor: string;
   distanceType: string;
-
+  vehicleType: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -49,6 +50,7 @@ export class VehicleHistoryDetailsPage {
     this.testResultHistory = navParams.get('testResultHistory');
     this.testIndex = navParams.get('testIndex');
     this.testTypeIndex = navParams.get('testTypeIndex');
+    this.vehicleType = navParams.get('vehicleType');
   }
 
   ngOnInit() {
