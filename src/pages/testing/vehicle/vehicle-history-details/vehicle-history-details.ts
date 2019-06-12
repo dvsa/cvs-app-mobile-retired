@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { 
-  TEST_TYPE_RESULTS, 
-  DEFICIENCY_CATEGORY, 
-  DEFAULT_VALUES, 
-  APP_STRINGS, 
-  ODOMETER_METRIC 
+import {
+  TEST_TYPE_RESULTS,
+  DEFICIENCY_CATEGORY,
+  DEFAULT_VALUES,
+  APP_STRINGS,
+  ODOMETER_METRIC
 } from '../../../../app/app.enums';
 import {
   TestsWithoutCertificate,
@@ -14,6 +14,7 @@ import {
   TestsWithoutDefects
 } from '../../../../assets/app-data/test-required-fields/test-required-fields.data';
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { TestResultModel } from "../../../../models/tests/test-result.model";
 
 @IonicPage()
 @Component({
@@ -24,10 +25,10 @@ export class VehicleHistoryDetailsPage {
   testResultHistory: any;
   testIndex: number;
   testTypeIndex: number;
-  selectedTestResult: string;
+  selectedTestResult: TestResultModel;
   selectedTestType: TestTypeModel;
-  testTypeResults: {};
-  defaultValues: {};
+  testTypeResults: typeof TEST_TYPE_RESULTS;
+  defaultValues: typeof DEFAULT_VALUES;
   testsWithoutCertificate: any;
   testsWithoutSeatbelts: any;
   testsWithoutDefects: any;
@@ -40,7 +41,7 @@ export class VehicleHistoryDetailsPage {
   isTestResultFail: boolean;
   testResultColor: string;
   distanceType: string;
-
+  vehicleType: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -49,6 +50,7 @@ export class VehicleHistoryDetailsPage {
     this.testResultHistory = navParams.get('testResultHistory');
     this.testIndex = navParams.get('testIndex');
     this.testTypeIndex = navParams.get('testTypeIndex');
+    this.vehicleType = navParams.get('vehicleType');
   }
 
   ngOnInit() {
@@ -70,15 +72,15 @@ export class VehicleHistoryDetailsPage {
     this.viewCtrl.setBackButtonText(APP_STRINGS.TEST_HISTORY);
   }
 
-  setTestMetadata(){
+  setTestMetadata() {
     this.testsWithoutCertificate = TestsWithoutCertificate.TestsWithoutCertificate;
     this.testsWithoutSeatbelts = TestsWithoutSeatbelts.TestsWithoutSeatbelts;
     this.testsWithoutDefects = TestsWithoutDefects.TestsWithoutDefects;
     this.distanceType = this.commonFunc.getDistanceType(this.testResultHistory[this.testIndex].odometerReadingUnits);
   }
 
-  compareTestWithMetadata(){
-    if(this.selectedTestType.testTypeName) {
+  compareTestWithMetadata() {
+    if (this.selectedTestType.testTypeName) {
       this.doesNotHaveCert = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutCertificate);
       this.doesNotHaveDefects = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutDefects);
       this.doesNotHaveBelts = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutSeatbelts);
@@ -98,11 +100,10 @@ export class VehicleHistoryDetailsPage {
     }
   }
 
-  checkForDefects(defects: any) : boolean {
+  checkForDefects(defects: any): boolean {
     if (defects === null || !defects.length) {
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }
