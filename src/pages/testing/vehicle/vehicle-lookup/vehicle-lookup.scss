@@ -1,20 +1,34 @@
 page-vehicle-lookup {
+
+  ion-content[no-padding].content-background-color-grey ion-item {
+    margin-top: 40px;
+
+    .item-inner {
+      padding: 0;
+      border-bottom: none;
+
+      ion-input {
+        margin-top: 0;
+      }
+    }
+  }
+
   .custom-input {
     font-weight: 400;
     border: 1px solid $color-grey-2;
-    border-radius: 5px;
-    padding-left: 8px;
+    padding: 4px 0 4px 16px;
+    background-color: color($colors, light);
 
     ::placeholder {
       text-transform: none;
     }
   }
 
-  .custom-button {
-    font-weight: 600;
-  }
-
   .header-ios ion-navbar button {
     font-weight: $font-weight-normal;
   }
+}
+
+ion-navbar button[ion-button].custom-search-button {
+  font-weight: $font-weight-bold;
 }
