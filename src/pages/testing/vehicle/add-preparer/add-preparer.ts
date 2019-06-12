@@ -1,14 +1,14 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { PreparerService } from "../../../../providers/preparer/preparer.service";
-import { TestModel } from "../../../../models/tests/test.model";
-import { APP_STRINGS, TESTER_ROLES } from "../../../../app/app.enums";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { PreparersReferenceDataModel } from "../../../../models/reference-data-models/preparers.model";
-import { TestService } from '../../../../providers/test/test.service';
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { AuthService } from "../../../../providers/global/auth.service";
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AlertController, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {PreparerService} from "../../../../providers/preparer/preparer.service";
+import {TestModel} from "../../../../models/tests/test.model";
+import {APP_STRINGS, PAGE_NAMES, TESTER_ROLES} from "../../../../app/app.enums";
+import {VehicleService} from "../../../../providers/vehicle/vehicle.service";
+import {VehicleModel} from "../../../../models/vehicle/vehicle.model";
+import {PreparersReferenceDataModel} from "../../../../models/reference-data-models/preparers.model";
+import {TestService} from '../../../../providers/test/test.service';
+import {VisitService} from "../../../../providers/visit/visit.service";
+import {AuthService} from "../../../../providers/global/auth.service";
 
 
 @IonicPage()
@@ -41,6 +41,7 @@ export class AddPreparerPage implements OnInit {
 
   ngOnInit() {
     this.getPreparers();
+    this.autoPopulatePreparerInput(this.testData.vehicles);
   }
 
   ionViewCanEnter() {
@@ -71,10 +72,10 @@ export class AddPreparerPage implements OnInit {
       if (preparer) {
         this.presentPreparerConfirm(preparer);
       } else {
-        this.presentPreparerConfirm({preparerId: 'No preparer ID found', preparerName: ''}, false, true);
+        this.presentPreparerConfirm({preparerId: APP_STRINGS.NO_PREPARER_ID_FOUND, preparerName: ''}, false, true);
       }
     } else {
-      this.presentPreparerConfirm({preparerId: 'No preparer ID given', preparerName: ''}, false);
+      this.presentPreparerConfirm({preparerId: APP_STRINGS.NO_PREPARER_ID_GIVEN, preparerName: ''}, false);
     }
   }
 
@@ -88,7 +89,7 @@ export class AddPreparerPage implements OnInit {
       showThisTitle = APP_STRINGS.PREPARER_NOT_FOUND;
       showThisMessage = APP_STRINGS.PREPARER_NOT_FOUND_MSG;
     } else {
-      showThisTitle = `${ preparer.preparerName } (${ preparer.preparerId })`;
+      showThisTitle = `${preparer.preparerName} (${preparer.preparerId})`;
       showThisMessage = APP_STRINGS.CONFIRM_PREPARER;
     }
 
@@ -107,7 +108,7 @@ export class AddPreparerPage implements OnInit {
             if (!this.visitService.visit.tests.length || this.visitService.getLatestTest().endTime) this.visitService.addTest(this.testData);
             this.testReportService.addVehicle(this.testData, this.vehicleData);
             this.selectPreparer(preparer);
-            this.navCtrl.push('TestCreatePage', {
+            this.navCtrl.push(PAGE_NAMES.TEST_CREATE_PAGE, {
               test: this.testData
             });
           }
@@ -146,5 +147,13 @@ export class AddPreparerPage implements OnInit {
       }
     }
     return this.authService.hasRights(userRights, neededRights);
+  }
+
+  autoPopulatePreparerInput(vehicles) {
+    if (vehicles.length > 0) {
+      if (vehicles[0].preparerId != APP_STRINGS.NO_PREPARER_ID_FOUND && vehicles[0].preparerId != APP_STRINGS.NO_PREPARER_ID_GIVEN) {
+        this.searchValue = vehicles[0].preparerId;
+      }
+    }
   }
 }

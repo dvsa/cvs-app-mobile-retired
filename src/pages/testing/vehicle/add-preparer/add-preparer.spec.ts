@@ -18,7 +18,8 @@ import { AlertControllerMock } from "ionic-mocks";
 import { of } from "rxjs/observable/of";
 import { AuthService } from "../../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
-import { TESTER_ROLES } from "../../../../app/app.enums";
+import { APP_STRINGS, TESTER_ROLES } from "../../../../app/app.enums";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -160,5 +161,34 @@ describe('Component: AddPreparerPage', () => {
     neededRoles = [TESTER_ROLES.FULL_ACCESS];
     testerRoles = [TESTER_ROLES.HGV];
     expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, '')).toBeFalsy();
+  });
+
+  it('should check if searchValue is updated or not', () => {
+    let vehicles = [];
+    expect(comp.searchValue).toBeFalsy();
+    comp.autoPopulatePreparerInput(vehicles);
+    expect(comp.searchValue).toBeFalsy();
+
+    let vehicle = VehicleDataMock.VehicleData;
+    vehicle.preparerId = 'qwerty';
+    vehicles.push(vehicle);
+    expect(comp.searchValue).toBeFalsy();
+    comp.autoPopulatePreparerInput(vehicles);
+    expect(comp.searchValue).toEqual('qwerty');
+
+    comp.searchValue = '';
+    vehicles[0].preparerId = APP_STRINGS.NO_PREPARER_ID_GIVEN;
+    expect(comp.searchValue).toBeFalsy();
+    comp.autoPopulatePreparerInput(vehicles);
+    expect(comp.searchValue).toBeFalsy();
+  });
+
+  it('should test ngOnInit logic, autoPopulatePreparerInput method should be called', () => {
+    spyOn(comp, 'autoPopulatePreparerInput');
+    spyOn(comp, 'getPreparers');
+    comp.testData = VisitDataMock.VisitTestData;
+    comp.ngOnInit();
+    expect(comp.autoPopulatePreparerInput).toHaveBeenCalled();
+    expect(comp.getPreparers).toHaveBeenCalled();
   });
 });

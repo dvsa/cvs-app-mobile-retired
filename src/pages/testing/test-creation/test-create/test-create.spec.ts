@@ -31,6 +31,7 @@ describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
   let fixture: ComponentFixture<TestCreatePage>;
   let navCtrl: NavController;
+  let navCtrlSpy: any;
   let navParams: NavParams;
   let vehicleService: VehicleService;
   let visitService: VisitService;
@@ -54,13 +55,14 @@ describe('Component: TestCreatePage', () => {
 
   beforeEach(async(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callPhoneNumber']);
+    navCtrlSpy = jasmine.createSpyObj('NavController', ['push']);
 
     TestBed.configureTestingModule({
       declarations: [TestCreatePage],
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
         Firebase,
-        NavController,
+        {provide: NavController, useValue: navCtrlSpy},
         CommonFunctionsService,
         Events,
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
@@ -95,7 +97,7 @@ describe('Component: TestCreatePage', () => {
       };
       return params[param];
     })
-  })
+  });
 
   afterEach(() => {
     fixture.destroy();
@@ -104,6 +106,7 @@ describe('Component: TestCreatePage', () => {
     vehicleService = null;
     visitService = null;
     stateReformingService = null;
+    navCtrl = null;
   });
 
   it('should create the component', () => {
@@ -181,5 +184,12 @@ describe('Component: TestCreatePage', () => {
     component.testData = newTest;
 
     component.reviewTest();
+  });
+
+  it('should check if navCtrl.push was called', () => {
+    let tests = [];
+    tests.push(testService.createTest());
+    component.addTrailer(tests);
+    expect(navCtrl.push).toHaveBeenCalled();
   });
 });
