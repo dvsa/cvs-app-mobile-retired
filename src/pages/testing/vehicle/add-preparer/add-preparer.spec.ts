@@ -18,9 +18,10 @@ import { AlertControllerMock } from "ionic-mocks";
 import { of } from "rxjs/observable/of";
 import { AuthService } from "../../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
-import { TESTER_ROLES } from "../../../../app/app.enums";
+import { APP_STRINGS, TESTER_ROLES } from "../../../../app/app.enums";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -115,7 +116,10 @@ describe('Component: AddPreparerPage', () => {
     comp.preparers = PreparersDataMock.PreparersData;
     comp.searchValue = 'AK4434';
     comp.formatDataForConfirm();
-    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({preparerId: 'AK4434', preparerName: 'Durrell Vehicles Limited'})
+    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({
+      preparerId: 'AK4434',
+      preparerName: 'Durrell Vehicles Limited'
+    })
   });
 
   it('should format the data from confirm without a preparer selected', () => {
@@ -123,7 +127,10 @@ describe('Component: AddPreparerPage', () => {
     comp.preparers = PreparersDataMock.PreparersData;
     comp.searchValue = '';
     comp.formatDataForConfirm();
-    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({preparerId: 'No preparer ID given', preparerName: ''}, false)
+    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({
+      preparerId: 'No preparer ID given',
+      preparerName: ''
+    }, false)
   });
 
   it('should format the data from confirm with a preparer not found', () => {
@@ -131,14 +138,17 @@ describe('Component: AddPreparerPage', () => {
     comp.preparers = PreparersDataMock.PreparersData;
     comp.searchValue = 'xxx';
     comp.formatDataForConfirm();
-    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({preparerId: 'No preparer ID found', preparerName: ''}, false, true)
+    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({
+      preparerId: 'No preparer ID found',
+      preparerName: ''
+    }, false, true)
   });
 
   it('should get data from service', () => {
     expect(comp.preparers).toBeDefined();
   });
 
-  it( 'should check if user has rights to test selected vehicle', () => {
+  it('should check if user has rights to test selected vehicle', () => {
     let neededRoles = [TESTER_ROLES.FULL_ACCESS];
     let testerRoles = [TESTER_ROLES.HGV];
     expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'psv')).toBeFalsy();
@@ -172,5 +182,34 @@ describe('Component: AddPreparerPage', () => {
     spyOn(firebaseLogsService, 'logEvent');
     comp.logIntoFirebase();
     expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+  });
+
+  it('should check if searchValue is updated or not', () => {
+    let vehicles = [];
+    expect(comp.searchValue).toBeFalsy();
+    comp.autoPopulatePreparerInput(vehicles);
+    expect(comp.searchValue).toBeFalsy();
+
+    let vehicle = VehicleDataMock.VehicleData;
+    vehicle.preparerId = 'qwerty';
+    vehicles.push(vehicle);
+    expect(comp.searchValue).toBeFalsy();
+    comp.autoPopulatePreparerInput(vehicles);
+    expect(comp.searchValue).toEqual('qwerty');
+
+    comp.searchValue = '';
+    vehicles[0].preparerId = APP_STRINGS.NO_PREPARER_ID_GIVEN;
+    expect(comp.searchValue).toBeFalsy();
+    comp.autoPopulatePreparerInput(vehicles);
+    expect(comp.searchValue).toBeFalsy();
+  });
+
+  it('should test ngOnInit logic, autoPopulatePreparerInput method should be called', () => {
+    spyOn(comp, 'autoPopulatePreparerInput');
+    spyOn(comp, 'getPreparers');
+    comp.testData = VisitDataMock.VisitTestData;
+    comp.ngOnInit();
+    expect(comp.autoPopulatePreparerInput).toHaveBeenCalled();
+    expect(comp.getPreparers).toHaveBeenCalled();
   });
 });
