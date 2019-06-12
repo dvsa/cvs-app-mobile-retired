@@ -1,13 +1,13 @@
 import { TestCreatePage } from "./test-create";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams, AlertController, ModalController } from "ionic-angular";
+import { IonicModule, NavController, NavParams, AlertController, ModalController, Events } from "ionic-angular";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ODOMETER_METRIC } from "../../../../app/app.enums";
+import { ODOMETER_METRIC, VEHICLE_TYPE } from "../../../../app/app.enums";
 import { TestModel } from "../../../../models/tests/test.model";
 import { TestService } from "../../../../providers/test/test.service";
 import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
@@ -26,6 +26,7 @@ import { AlertControllerMock, ModalControllerMock, NavControllerMock } from "ion
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { TestDataModelMock } from "../../../../assets/data-mocks/data-model/test-data-model.mock";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -51,6 +52,8 @@ describe('Component: TestCreatePage', () => {
 
   const ADDED_VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
+  const TEST_DATA = TestDataModelMock.TestData;
+  const VEHICLE = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callPhoneNumber']);
@@ -61,6 +64,7 @@ describe('Component: TestCreatePage', () => {
       providers: [
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         CommonFunctionsService,
+        Events,
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
         {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
@@ -113,6 +117,16 @@ describe('Component: TestCreatePage', () => {
   it('should create the component', () => {
     expect(fixture).toBeTruthy();
     expect(component).toBeTruthy();
+  });
+
+  it('should test ionViewWillEnter lifecycle hook', () => {
+    component.testData = TEST_DATA;
+    component.testData.vehicles.push(VEHICLE);
+    component.ionViewWillEnter();
+    expect(component.displayAddVehicleButton).toBeFalsy();
+    component.testData.vehicles[0].techRecord.vehicleType = VEHICLE_TYPE.HGV;
+    component.ionViewWillEnter();
+    expect(component.displayAddVehicleButton).toBeTruthy();
   });
 
   it('should say either a test is abandoned or not', () => {
