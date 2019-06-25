@@ -1,6 +1,7 @@
 let fs = require('fs');
 
 module.exports = function () {
-  fs.copyFile('./resources/AppDelegate.m', './platforms/ios/Vehicle Testing/Classes/AppDelegate.m', () => {
+  fs.copyFile('./resources/AppDelegate.m', './platforms/ios/Vehicle Testing/Classes/AppDelegate.m', (error) => {
+    if (error) throw error;
   });
 };
