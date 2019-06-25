@@ -26,7 +26,7 @@ export class SignatureService {
   }
 
   saveSignature(): Observable<any> {
-    return this.httpService.saveSignature(this.authService.testerDetails.testerId, this.signatureString.slice(22, this.signatureString.length - 1));
+    return this.httpService.saveSignature(this.authService.testerDetails.testerId, this.signatureString.slice(22, this.signatureString.length));
   }
 
   saveToStorage(): Promise<any> {
