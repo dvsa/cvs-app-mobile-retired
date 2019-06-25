@@ -60,9 +60,10 @@ describe('SignatureService', () => {
   });
 
   it('should check if saveSignature haveBeenCalled', () => {
-    signatureService.signatureString = 'ojghhghasghwogjwrgohjrgohergoueqhgpieqhgeqpughouh234rh34oruh43pu3h45u4h5pio34h53uh53p4o5h34potuh3outh3poituh3tpu3htpiou3htp';
+    signatureService.signatureString = '22charsofgibberish////dGVzdA==';
     signatureService.saveSignature();
     expect(httpService.saveSignature).toHaveBeenCalled();
+    expect(httpService.saveSignature).toHaveBeenCalledWith(undefined, 'dGVzdA==')
   });
 
 
