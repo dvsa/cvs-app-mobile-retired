@@ -13,8 +13,9 @@ import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { By } from "@angular/platform-browser";
-import { FIREBASE_DEFECTS, APP_STRINGS } from "../../../../app/app.enums";
+import { TEST_TYPE_RESULTS, DEFICIENCY_CATEGORY, FIREBASE_DEFECTS, APP_STRINGS } from "../../../../app/app.enums";
 import { NavControllerMock } from "../../../../../test-config/ionic-mocks/nav-controller.mock";
+import { TestService } from "../../../../providers/test/test.service";
 
 describe('Component: DefectDetailsPage', () => {
   let comp: DefectDetailsPage;
@@ -196,11 +197,11 @@ describe('Component: DefectDetailsPage', () => {
     expect(comp.showPrs).toBeTruthy();
   });
 
-  it('should check if the PRS option is unavailable for dangerous defects', () => {
+  it('should check if the PRS option is available for dangerous defects', () => {
     defect.deficiencyCategory = 'dangerous';
     comp.checkForPrs(defect);
-    expect(comp.defect.prs).toBeNull();
-    expect(comp.showPrs).toBeFalsy();
+    expect(comp.defect.prs).toBeFalsy();
+    expect(comp.showPrs).toBeTruthy();
   });
 
   it('should check if the PRS option is unavailable for minor defects', () => {
@@ -280,5 +281,15 @@ describe('Component: DefectDetailsPage', () => {
     comp.checkProhibitionStatus();
     expect(comp.addDefect).not.toHaveBeenCalled();
     expect(comp.showProhibitionAlert).toHaveBeenCalledWith(APP_STRINGS.PROHIBITION_MSG_CONFIRM);
+  });
+
+  it('should set the PRS state on a test having a dangerous defect which has been rectivied on site', () => {
+    expect(vehicleTest.defects.length).toBe(2);
+    vehicleTest.defects[0].deficiencyCategory = DEFICIENCY_CATEGORY.DANGEROUS;
+    vehicleTest.defects.map(defect => {
+      defect.prs = true;
+    });
+    let testResult: (string | TEST_TYPE_RESULTS) = testTypeService.setTestResult(comp.vehicleTest, true);
+    expect(testResult).toBe(TEST_TYPE_RESULTS.PRS);
   });
 });

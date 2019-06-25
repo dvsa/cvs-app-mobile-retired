@@ -107,8 +107,7 @@ export class DefectDetailsPage implements OnInit {
   }
 
   checkForPrs(defect: any): void {
-    if (defect.deficiencyCategory === DEFICIENCY_CATEGORY.DANGEROUS ||
-      defect.deficiencyCategory === DEFICIENCY_CATEGORY.MINOR) {
+    if (defect.deficiencyCategory === DEFICIENCY_CATEGORY.MINOR) {
       this.showPrs = false;
       defect.prs = null;
     }
