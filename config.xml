@@ -84,6 +84,7 @@
         <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryAddUsageDescription">
             <string>The app needs photo library access in order to save photos</string>
         </edit-config>
+        <hook src="resources/AppDelegate.js" type="after_prepare" />
     </platform>
     <plugin name="cordova-plugin-advanced-http" spec="^1.9.0" />
     <plugin name="cordova-plugin-camera" spec="^4.0.1" />
