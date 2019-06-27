@@ -122,7 +122,7 @@ export class DefectDetailsPage implements OnInit {
   }
 
   checkProhibitionStatus(): void {
-    if (this.showProhibition) {
+    if (this.showProhibition && !this.isProhibitionClearance) {
       if (this.prohibitionAsterisk && !this.defect.prohibitionIssued && !this.defect.additionalInformation.notes) {
         this.showProhibitionAlert(APP_STRINGS.PROHIBITION_MSG_NOTES);
       } else if (!this.prohibitionAsterisk && !this.defect.prohibitionIssued) {
