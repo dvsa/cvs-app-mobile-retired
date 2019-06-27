@@ -1,14 +1,11 @@
-import {TestBed} from "@angular/core/testing";
-import {AuthService} from "./auth.service";
-import {LOCAL_STORAGE, TESTER_ROLES} from "../../app/app.enums";
-import {MSAdal} from "@ionic-native/ms-adal";
-import {Platform} from "ionic-angular";
-import {CommonFunctionsService} from "../utils/common-functions";
-import {NetworkStateProvider} from "../../modules/logs/network-state.service";
-import {NetworkStateProviderMock} from "../../modules/logs/network-state.service.mock";
-import {AuthServiceMock} from "../../../test-config/services-mocks/auth-service.mock";
-import {FirebaseLogsService} from "../firebase-logs/firebase-logs.service";
-import {Firebase} from "@ionic-native/firebase";
+import { TestBed } from "@angular/core/testing";
+import { AuthService } from "./auth.service";
+import { LOCAL_STORAGE, TESTER_ROLES } from "../../app/app.enums";
+import { MSAdal } from "@ionic-native/ms-adal";
+import { Platform } from "ionic-angular";
+import { CommonFunctionsService } from "../utils/common-functions";
+import { FirebaseLogsService } from "../firebase-logs/firebase-logs.service";
+import { Firebase } from "@ionic-native/firebase";
 
 describe(`AuthService`, () => {
   let authService: AuthService;
@@ -25,7 +22,6 @@ describe(`AuthService`, () => {
         CommonFunctionsService,
         Platform,
         MSAdal,
-        {provide: NetworkStateProvider, useClass: NetworkStateProviderMock},
         FirebaseLogsService,
         {provide: Firebase, useValue: jasmine.createSpyObj<Firebase>(['logEvent'])}
       ],

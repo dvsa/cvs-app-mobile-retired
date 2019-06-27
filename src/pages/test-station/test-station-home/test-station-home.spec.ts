@@ -14,6 +14,7 @@ import { AuthServiceMock } from "../../../../test-config/services-mocks/auth-ser
 import { AlertControllerMock } from "ionic-mocks";
 import { PAGE_NAMES } from "../../../app/app.enums";
 import { Store } from "@ngrx/store";
+import { NetworkStateProvider } from "../../../modules/logs/network-state.service";
 import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec";
 
 describe('Component: TestStationHomePage', () => {
@@ -31,6 +32,8 @@ describe('Component: TestStationHomePage', () => {
   let callNumber: CallNumber;
   let callNumberSpy: any;
   let navCtrlSpy: any;
+  let networkStateProvider: NetworkStateProvider;
+  let networkStateProviderSpy: any;
   let $store: any;
 
 
@@ -39,6 +42,7 @@ describe('Component: TestStationHomePage', () => {
     navCtrlSpy = jasmine.createSpyObj('NavController', ['push']);
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
+    networkStateProviderSpy = jasmine.createSpyObj('NetworkStateProvider', ['initialiseNetworkState']);
 
     TestBed.configureTestingModule({
       declarations: [TestStationHomePage],
@@ -54,7 +58,8 @@ describe('Component: TestStationHomePage', () => {
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: Store, useClass: TestStore},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
-        {provide: CallNumber, useValue: callNumberSpy}
+        {provide: CallNumber, useValue: callNumberSpy},
+        {provide: NetworkStateProvider, useValue: networkStateProviderSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -71,6 +76,7 @@ describe('Component: TestStationHomePage', () => {
     authService = TestBed.get(AuthService);
     alertCtrl = TestBed.get(AlertController);
     callNumber = TestBed.get(CallNumber);
+    networkStateProvider = TestBed.get(NetworkStateProvider);
     // $store = TestBed.get(Store);
   });
 
@@ -87,6 +93,7 @@ describe('Component: TestStationHomePage', () => {
     appServiceSpy = null;
     callNumberSpy = null;
     screenOrientationSpy = null;
+    networkStateProvider = null;
     // $store = null;
   });
 
@@ -103,6 +110,7 @@ describe('Component: TestStationHomePage', () => {
 
   it('should check the ngOnInit logic', () => {
     comp.ngOnInit();
+    expect(networkStateProvider.initialiseNetworkState).toHaveBeenCalled();
     expect(callNumber.callNumber).not.toHaveBeenCalled();
     expect(screenOrientation.lock).not.toHaveBeenCalled();
     expect(alertCtrl.create).toHaveBeenCalled();

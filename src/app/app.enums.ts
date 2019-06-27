@@ -300,7 +300,6 @@ export enum PAGE_NAMES {
   TEST_TYPES_LIST_PAGE = 'TestTypesListPage',
   REASONS_SELECTION_PAGE = 'ReasonsSelectionPage',
   TEST_CANCEL_PAGE = 'TestCancelPage',
-  TEST_CREATE_PAGE = 'TestCreatePage',
   TEST_REVIEW_PAGE = 'TestReviewPage',
   SIGNATURE_PAD_PAGE = 'SignaturePadPage',
   VISIT_TIMELINE_PAGE = 'VisitTimelinePage',
