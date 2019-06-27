@@ -1,16 +1,15 @@
-import {Injectable} from '@angular/core';
-import {AppConfig} from "../../../config/app.config";
-import {AuthenticationContext, AuthenticationResult, MSAdal} from "@ionic-native/ms-adal";
+import { Injectable } from '@angular/core';
+import { AppConfig } from "../../../config/app.config";
+import { AuthenticationContext, AuthenticationResult, MSAdal } from "@ionic-native/ms-adal";
 import * as jwt_decode from "jwt-decode";
-import {TesterDetailsModel} from "../../models/tester-details.model";
-import {AUTH, LOCAL_STORAGE, TESTER_ROLES, FIREBASE_AUTH} from "../../app/app.enums";
-import {Observable} from "rxjs";
-import {CommonRegExp} from "../utils/common-regExp";
-import {Platform} from "ionic-angular";
-import {CommonFunctionsService} from "../utils/common-functions";
-import {ErrorObservable} from "rxjs/observable/ErrorObservable";
-import {NetworkStateProvider} from "../../modules/logs/network-state.service";
-import {FirebaseLogsService} from '../firebase-logs/firebase-logs.service';
+import { TesterDetailsModel } from "../../models/tester-details.model";
+import { AUTH, LOCAL_STORAGE, TESTER_ROLES, FIREBASE_AUTH } from "../../app/app.enums";
+import { Observable } from "rxjs";
+import { CommonRegExp } from "../utils/common-regExp";
+import { Platform } from "ionic-angular";
+import { CommonFunctionsService } from "../utils/common-functions";
+import { ErrorObservable } from "rxjs/observable/ErrorObservable";
+import { FirebaseLogsService } from '../firebase-logs/firebase-logs.service';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +22,6 @@ export class AuthService {
   constructor(private msAdal: MSAdal,
               public platform: Platform,
               private commonFunc: CommonFunctionsService,
-              private networkStateProvider: NetworkStateProvider,
               private firebaseLogsService: FirebaseLogsService) {
     this.testerDetails = {} as TesterDetailsModel;
     this.jwtToken = localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
@@ -71,7 +69,6 @@ export class AuthService {
       (authResponse: AuthenticationResult) => {
         let authHeader = authResponse.createAuthorizationHeader();
         this.testerDetails = this.setTesterDetails(authResponse);
-        this.networkStateProvider.initialiseNetworkState();
         this.logFirebaseLoginSuccessful();
         return authHeader;
       }
