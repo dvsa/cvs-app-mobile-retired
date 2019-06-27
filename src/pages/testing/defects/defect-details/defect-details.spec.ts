@@ -254,14 +254,16 @@ describe('Component: DefectDetailsPage', () => {
     expect(comp.prohibitionAsterisk).toBeTruthy();
   });
 
-  it('should add a defect if showProhibition is false', () => {
+  it('should add a defect if showProhibition is false and isProhibitionClearance is true', () => {
     comp.showProhibition = false;
+    comp.isProhibitionClearance = true;
     comp.checkProhibitionStatus();
     expect(comp.addDefect).toHaveBeenCalled();
   });
 
-  it('should add a defect if showProhibition is true, prohibitionAsterisk is false and prohibitionIssued is true', () => {
+  it('should add a defect if showProhibition is true, isProhibitionClearance is false, prohibitionAsterisk is false and prohibitionIssued is true', () => {
     comp.showProhibition = true;
+    comp.isProhibitionClearance = false;
     comp.prohibitionAsterisk = false;
     comp.defect.prohibitionIssued = true;
     comp.checkProhibitionStatus();
@@ -270,6 +272,7 @@ describe('Component: DefectDetailsPage', () => {
 
   it('should show correct alert if showProhibition is true, prohibitionAsterisk is false and prohibitionIssued is false', () => {
     comp.showProhibition = true;
+    comp.isProhibitionClearance = false;
     comp.prohibitionAsterisk = false;
     comp.defect.prohibitionIssued = false;
     comp.checkProhibitionStatus();
@@ -279,6 +282,7 @@ describe('Component: DefectDetailsPage', () => {
 
   it('should show correct alert if showProhibition is true, prohibitionAsterisk is true, prohibitionIssued is false and notes is null', () => {
     comp.showProhibition = true;
+    comp.isProhibitionClearance = false;
     comp.prohibitionAsterisk = true;
     comp.defect.prohibitionIssued = false;
     comp.defect.additionalInformation.notes = null;
