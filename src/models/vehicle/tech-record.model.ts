@@ -50,6 +50,8 @@ export interface TechRecordModel {
   tyreUseCode?: string;
   roadFriendly?: boolean;
   drawbarCouplingFitted?: boolean;
+  dimensions?: Dimensions;
+  notes: string;
   /* -------- ONLY FOR HGV -------- */
   trainGbWeight?: number;
   trainDesignWeight?: number;
@@ -65,7 +67,6 @@ export interface TechRecordModel {
   maxLoadOnCoupling?: number;
   suspensionType?: string;
   couplingType?: string;
-  dimensions?: string | {};
   frontAxleToRearAxle?: number;
   rearAxleToRearTrl?: number;
   couplingCenterToRearAxleMin?: number;
@@ -75,6 +76,15 @@ export interface TechRecordModel {
 }
 
 
+export interface Dimensions {
+  length: number,
+  width: number,
+  /* -------- ONLY FOR TRL -------- */
+  axleSpacing: [{
+    axles: string,
+    value: number
+  }]
+}
 export interface VrmModel {
   vrm: string;
   isPrimary: boolean;
