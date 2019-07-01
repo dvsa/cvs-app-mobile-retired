@@ -73,7 +73,7 @@ export class VehicleLookupPage {
             }
           ),
           map((data) => {
-            this.storageService.update(STORAGE.TEST_HISTORY, data);
+            this.storageService.update(STORAGE.TEST_HISTORY, data.body);
             return data;
           }),
         ).subscribe(

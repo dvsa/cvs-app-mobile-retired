@@ -1,12 +1,14 @@
+import { TestResultModel } from "../../models/tests/test-result.model";
+
 export class TestResultsHistoryDataMock {
-  public static get TestResultHistoryData() {
+  public static get TestResultHistoryData(): TestResultModel[] {
     return [
       {
         "reasonForCancellation": null,
         "testerStaffId": "123",
         "testerName": "test",
         "euVehicleCategory": "m1",
-        "vehicleId": "BQ91YHQ",
+        "testResultId": "",
         "testStationName": "Abshire-Kub",
         "testStationPNumber": "09-4129632",
         "testEndTimestamp": "2019-04-18T12:32:41.662Z",
@@ -15,8 +17,8 @@ export class TestResultsHistoryDataMock {
         "vrm": "BQ91YHQ",
         "testerEmailAddress": "test",
         "vehicleClass": {
-            "description": "small psv (ie: less than or equal to 22 seats)",
-            "code": "s"
+          "description": "small psv (ie: less than or equal to 22 seats)",
+          "code": "s"
         },
         "odometerReadingUnits": "kilometres",
         "vehicleSize": "small",
@@ -32,16 +34,12 @@ export class TestResultsHistoryDataMock {
         "testStatus": "submitted",
         "testTypes": [{
           "prohibitionIssued": false,
-          "testCode": "aas",
-          "lastUpdatedAt": "2019-04-18T12:32:42.135Z",
           "testNumber": "123",
-          "testAnniversaryDate": "2020-02-18T12:32:49.931Z",
           "additionalCommentsForAbandon": null,
           "numberOfSeatbeltsFitted": null,
           "testTypeEndTimestamp": "2019-04-18T12:32:41.663Z",
           "reasonForAbandoning": null,
           "lastSeatbeltInstallationCheckDate": null,
-          "createdAt": "2019-04-18T12:32:42.135Z",
           "testExpiryDate": "2020-04-17T12:32:49.931Z",
           "testTypeId": "1",
           "testTypeStartTimestamp": "2019-04-18T12:32:33.365Z",
@@ -59,7 +57,7 @@ export class TestResultsHistoryDataMock {
         "testerStaffId": "123",
         "testerName": "test",
         "euVehicleCategory": "m1",
-        "vehicleId": "BQ91YHQ",
+        "testResultId": "",
         "testStationName": "Abshire-Kub",
         "testStationPNumber": "09-4129632",
         "testEndTimestamp": "2019-01-21T12:36:35.532Z",
@@ -68,8 +66,8 @@ export class TestResultsHistoryDataMock {
         "vrm": "BQ91YHQ",
         "testerEmailAddress": "test",
         "vehicleClass": {
-            "description": "small psv (ie: less than or equal to 22 seats)",
-            "code": "s"
+          "description": "small psv (ie: less than or equal to 22 seats)",
+          "code": "s"
         },
         "odometerReadingUnits": "kilometres",
         "vehicleSize": "small",
@@ -85,16 +83,12 @@ export class TestResultsHistoryDataMock {
         "testStatus": "submitted",
         "testTypes": [{
           "prohibitionIssued": false,
-          "testCode": "aas",
-          "lastUpdatedAt": "2019-04-18T12:36:36.340Z",
           "testNumber": "123",
-          "testAnniversaryDate": "2020-02-18T12:36:38.121Z",
           "additionalCommentsForAbandon": null,
           "numberOfSeatbeltsFitted": null,
           "testTypeEndTimestamp": "2019-04-18T12:36:35.533Z",
           "reasonForAbandoning": null,
           "lastSeatbeltInstallationCheckDate": null,
-          "createdAt": "2019-04-18T12:36:36.340Z",
           "testExpiryDate": "2020-04-17T12:36:38.121Z",
           "testTypeId": "1",
           "testTypeStartTimestamp": "2019-04-18T12:36:28.422Z",
