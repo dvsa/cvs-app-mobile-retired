@@ -5,7 +5,6 @@ import { TestResultModel } from "../tests/test-result.model";
 export interface VehicleModel {
   vrm: string;
   vin: string;
-  trailerId?: string;
   techRecord: TechRecordModel;
   testResultsHistory?: TestResultModel[];
   countryOfRegistration?: string;
@@ -15,4 +14,6 @@ export interface VehicleModel {
   preparerId?: string;
   preparerName?: string;
   testTypes?: TestTypeModel[];
+  /* -------- ONLY FOR TRL -------- */
+  trailerId?: string;
 }

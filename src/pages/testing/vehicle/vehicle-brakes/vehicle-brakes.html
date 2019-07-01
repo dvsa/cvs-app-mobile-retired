@@ -6,7 +6,7 @@
     </ion-navbar>
   </ion-header>
   
-<ion-content no-padding>
+<ion-content no-padding *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else showTrailerBrakesPage">
     <div text-uppercase 
          text-center 
          class="vehicle-header-vrm-number">
@@ -132,4 +132,68 @@
         </ion-item>
     </ion-list>
 </ion-content>
-  
+
+
+<ng-template #showTrailerBrakesPage><!-- Brakes page only for trailers -->
+    <ion-content no-padding>
+        <div text-uppercase text-center class="vehicle-header-vrm-number">
+            {{ vehicleData.trailerId }}
+        </div>
+
+        <ion-list class="vehicle-list" *ngFor="let axle of vehicleData.techRecord?.axles">
+            <ion-list-header padding-left padding-right text-wrap>AXLE {{ axle.axleNumber }}</ion-list-header>
+
+            <ion-item margin-left>
+                <ion-label>
+                    <h3>Brake actuator</h3>
+                </ion-label>
+                <div item-content padding-right>
+                    <p>{{ axle.axleBrakeProperties.brakeActuator }}</p>
+                </div>
+            </ion-item>
+
+            <ion-item margin-left>
+                <ion-label>
+                    <h3>Lever length</h3>
+                </ion-label>
+                <div item-content padding-right>
+                    <p>{{ axle.axleBrakeProperties.leverLenght }}</p>
+                </div>
+            </ion-item>
+
+            <ion-item margin-left>
+                <ion-label>
+                    <h3>Spring brake parking</h3>
+                </ion-label>
+                <div item-content padding-right>
+                    <p>{{ axle.axleBrakeProperties.springBrakeParking }}</p>
+                </div>
+            </ion-item>
+
+        </ion-list>
+
+        <ion-list class="vehicle-list">
+            <ion-list-header>
+            </ion-list-header>
+
+            <ion-item margin-left>
+                <ion-label>
+                    <h3>Load sensing valve</h3>
+                </ion-label>
+                <div item-content padding-right>
+                    <p>{{ vehicleData.techRecord.brakes.loadSensingValve }}</p>
+                </div>
+            </ion-item>
+
+            <ion-item margin-left>
+                <ion-label>
+                    <h3>Antilock braking system</h3>
+                </ion-label>
+                <div item-content padding-right>
+                    <p>{{ vehicleData.techRecord.brakes.antilockBrakingSystem }}</p>
+                </div>
+            </ion-item>
+
+        </ion-list>
+    </ion-content>
+</ng-template>

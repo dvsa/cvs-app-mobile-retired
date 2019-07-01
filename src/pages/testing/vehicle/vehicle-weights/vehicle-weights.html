@@ -10,12 +10,13 @@
     <div text-uppercase 
          text-center 
          class="vehicle-header-vrm-number">
-        {{ vehicleData.vrm | formatVrm }}
+        <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle">{{ vehicleData.trailerId }}</ng-container>
+        <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
     </div>
   
     <ion-list class="vehicle-list" *ngFor="let axle of vehicleData.techRecord.axles">
         <ion-list-header padding-left padding-right>AXLE {{ axle.axleNumber }}</ion-list-header>
-        <ion-item margin-left>
+        <ion-item margin-left *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
             <ion-label>
                 <h3>Kerb</h3>
             </ion-label>
@@ -23,7 +24,7 @@
                 <p>{{ axle.weights.kerbWeight }}</p>
             </div>
         </ion-item>
-        <ion-item margin-left padding-right>
+        <ion-item margin-left padding-right *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
             <ion-label>
                 <h3>Laden</h3>
             </ion-label>
@@ -51,7 +52,7 @@
 
     <ion-list class="vehicle-list">
         <ion-list-header padding-left padding-right>GROSS</ion-list-header>
-        <ion-item margin-left>
+        <ion-item margin-left *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
             <ion-label>
                 <h3>Kerb</h3>
             </ion-label>
@@ -59,7 +60,7 @@
                 <p>{{ vehicleData.techRecord.grossKerbWeight }}</p>
             </div>
         </ion-item>
-        <ion-item margin-left padding-right>
+        <ion-item margin-left padding-right *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
             <ion-label>
                 <h3>Laden</h3>
             </ion-label>
@@ -84,8 +85,66 @@
             </div>
         </ion-item>
     </ion-list>
+
+    <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.HGV)">
+        <ion-list-header padding-left padding-right>Train</ion-list-header>
+
+        <ion-item margin-left padding-right>
+            <ion-label>
+                <h3>GB</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicleData.techRecord.trainGbWeight }}</p>
+            </div>
+        </ion-item>
+
+        <ion-item margin-left padding-right>
+            <ion-label>
+                <h3>Design</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicleData.techRecord.trainDesignWeight }}</p>
+            </div>
+        </ion-item>
+
+    </ion-list>
+
+    <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.HGV)">
+        <ion-list-header padding-left padding-right>Max train</ion-list-header>
+
+        <ion-item margin-left padding-right>
+            <ion-label>
+                <h3>GB</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicleData.techRecord.maxTrainGbWeight }}</p>
+            </div>
+        </ion-item>
+
+        <ion-item margin-left padding-right>
+            <ion-label>
+                <h3>Design</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicleData.techRecord.maxTrainDesignWeight }}</p>
+            </div>
+        </ion-item>
+
+    </ion-list>
+
+    <ion-list margin-bottom class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)">
+        <ion-list-header></ion-list-header>
+        <ion-item margin-left padding-right>
+            <ion-label>
+                <h3>Max load on coupling</h3>
+            </ion-label>
+            <div item-content>
+                <p>{{ vehicleData.techRecord.maxLoadOnCoupling }}</p>
+            </div>
+        </ion-item>
+    </ion-list>
             
-    <ion-list margin-bottom class="vehicle-list">
+    <ion-list margin-bottom class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
         <ion-list-header padding-left padding-right>UNLADEN</ion-list-header>
         <ion-item margin-left padding-right>
             <ion-label>
