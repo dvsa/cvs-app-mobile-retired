@@ -6,6 +6,10 @@ import { CommonRegExp } from "../../src/providers/utils/common-regExp";
 import { TechRecordDataMock } from "../../src/assets/data-mocks/tech-record-data.mock";
 import { of } from "rxjs/observable/of";
 import { VehicleTechRecordModel } from "../../src/models/vehicle/tech-record.model";
+import { HttpEventType, HttpHeaders, HttpResponse } from "@angular/common/http";
+import { TestResultModel } from "../../src/models/tests/test-result.model";
+import { TestResultsDataMock } from "../../src/assets/data-mocks/test-results-data.mock";
+import { TestResultsHistoryDataMock } from "../../src/assets/data-mocks/test-results-history-data.mock";
 
 export class VehicleServiceMock {
 
@@ -42,8 +46,30 @@ export class VehicleServiceMock {
     vehicle.odometerMetric = odomMetric;
   }
 
-  getVehicleTechRecord(param): Observable<VehicleTechRecordModel> {
-    return of(TechRecordDataMock.VehicleTechRecordData);
+  getVehicleTechRecord(param): Observable<HttpResponse<VehicleTechRecordModel>> {
+    return of({
+      type: {} as HttpEventType.Response,
+      clone: {} as any,
+      headers: {} as HttpHeaders,
+      status: 200,
+      statusText: '',
+      url: '',
+      ok: true,
+      body: TechRecordDataMock.VehicleTechRecordData
+    });
+  }
+
+  getTestResultsHistory(): Observable<HttpResponse<TestResultModel[]>> {
+    return of({
+      type: {} as HttpEventType.Response,
+      clone: {} as any,
+      headers: {} as HttpHeaders,
+      status: 200,
+      statusText: '',
+      url: '',
+      ok: true,
+      body: TestResultsHistoryDataMock.TestResultHistoryData
+    });
   }
 
   getCurrentTechRecord(array) {
