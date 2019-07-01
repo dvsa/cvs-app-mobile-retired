@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { APP_STRINGS } from "../../../../app/app.enums";
+import { APP_STRINGS, VEHICLE_TYPE } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -10,6 +10,7 @@ import { APP_STRINGS } from "../../../../app/app.enums";
   templateUrl: 'vehicle-brakes.html',
 })
 export class VehicleBrakesPage {
+  VEHICLE_TYPE: typeof VEHICLE_TYPE=VEHICLE_TYPE;
   vehicleData: VehicleModel;
 
   constructor(public navCtrl: NavController,
