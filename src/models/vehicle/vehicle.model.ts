@@ -14,4 +14,6 @@ export interface VehicleModel {
   preparerId?: string;
   preparerName?: string;
   testTypes?: TestTypeModel[];
+  /* -------- ONLY FOR TRL -------- */
+  trailerId?: string;
 }

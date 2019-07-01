@@ -30,6 +30,7 @@ export class VehicleService {
     newVehicle.preparerId = null;
     newVehicle.preparerName = null;
     newVehicle.testTypes = [];
+    newVehicle.trailerId = vehicleTechRecord.trailerId;
     return newVehicle;
   }
 
