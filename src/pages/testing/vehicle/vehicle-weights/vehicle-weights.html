@@ -10,7 +10,8 @@
     <div text-uppercase 
          text-center 
          class="vehicle-header-vrm-number">
-        {{ vehicleData.vrm | formatVrm }}
+        <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle">{{ vehicleData.trailerId }}</ng-container>
+        <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
     </div>
   
     <ion-list class="vehicle-list" *ngFor="let axle of vehicleData.techRecord.axles">

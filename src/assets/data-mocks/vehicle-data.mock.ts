@@ -82,7 +82,10 @@ export class VehicleDataMock {
               "tyreCode": 0
             }
           }
-        ]
+        ],
+        "notes": "",
+        "euVehicleCategory": "",
+        "countryOfRegistration": ""
       },
       "testResultsHistory": [],
       "countryOfRegistration": "gb",

@@ -92,7 +92,10 @@ export class TechRecordDataMock {
                 "tyreCode": 0
               }
             }
-          ]
+          ],
+          "notes": "",
+          "euVehicleCategory": "",
+          "countryOfRegistration": ""
         }
       ]
     }

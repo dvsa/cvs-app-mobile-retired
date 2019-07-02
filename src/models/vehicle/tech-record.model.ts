@@ -23,6 +23,9 @@ export interface TechRecordModel {
   brakeCode: string;
   vehicleType: string;
   axles: AxelsModel[];
+  notes: string;
+  euVehicleCategory: string;
+  countryOfRegistration: string;
   /* -------- ONLY FOR PSV -------- */
   chassisMake?: string;
   chassisModel?: string;
