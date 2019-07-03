@@ -16,8 +16,9 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import {
   APP,
-  APP_STRINGS, FIREBASE,
-  ODOMETER_METRIC, PAGE_NAMES,
+  APP_STRINGS,
+  FIREBASE,
+  PAGE_NAMES,
   TEST_COMPLETION_STATUS,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS, VEHICLE_TYPE
@@ -42,6 +43,7 @@ export class TestCreatePage implements OnInit {
   completedFields = {};
   changeOpacity: boolean = false;
   displayAddVehicleButton: boolean;
+  doesHgvExist: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -67,8 +69,10 @@ export class TestCreatePage implements OnInit {
 
   ionViewWillEnter() {
     this.displayAddVehicleButton = true;
+    this.doesHgvExist = false;
     for (let vehicle of this.testData.vehicles) {
       if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV) this.displayAddVehicleButton = false;
+      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) this.doesHgvExist = true;
     }
     this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
       this.completedFields = completedFields;
