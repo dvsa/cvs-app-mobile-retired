@@ -16,6 +16,10 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestDataModelMock } from "../../../../assets/data-mocks/data-model/test-data-model.mock";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
 import { APP_STRINGS, VEHICLE_TYPE } from "../../../../app/app.enums";
+import { AuthService } from "../../../../providers/global/auth.service";
+import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
+import { Store } from "@ngrx/store";
+import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -43,7 +47,9 @@ describe('Component: VehicleLookupPage', () => {
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
         {provide: StorageService, useClass: StorageServiceMock},
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
-        {provide: VehicleService, useClass: VehicleServiceMock}
+        {provide: VehicleService, useClass: VehicleServiceMock},
+        {provide: AuthService, useClass: AuthServiceMock},
+        {provide: Store, useClass: TestStore}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

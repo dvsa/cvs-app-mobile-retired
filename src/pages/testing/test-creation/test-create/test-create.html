@@ -20,7 +20,9 @@
               (click)="onVehicleDetails(vehicle)">
         <ion-img item-start class="vehicle-type-icon"
                  src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="63" height="27"></ion-img>
-        <h2 text-uppercase>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
+        <h2 text-uppercase *ngIf="vehicle.techRecord.vehicleType !== 'trl'">{{ vehicle.vrm }}
+          ({{vehicle.techRecord.vehicleType}})</h2>
+        <h2 *ngIf="vehicle.techRecord.vehicleType === 'trl'">{{ vehicle.trailerId }} (Trailer)</h2>
         <p class="vehicle-vin">{{ vehicle.vin }}</p>
         <h3 item-end class="vehicle-details">Details</h3>
         <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
@@ -102,7 +104,7 @@
 
     <ion-card class="card" *ngIf="displayAddVehicleButton">
       <button class="btn-add-test" ion-item detail-none (click)="addTrailer(visitService.visit.tests)">
-        <span>Add a trailer</span>
+        <span>Add a <span *ngIf="!doesHgvExist">vehicle</span><span *ngIf="doesHgvExist">trailer</span></span>
         <ion-icon aria-hidden="true" name="ios-add-circle-outline" item-end></ion-icon>
       </button>
     </ion-card>
