@@ -9,6 +9,6 @@ export class FormatVrmPipe implements PipeTransform {
   }
 
   transform(vrm: string): string {
-    return (vrm.length > 4 ? `${vrm.slice(0, 4)} ${vrm.slice(4)}` : vrm);
+    return (vrm && vrm.length > 4 ? `${vrm.slice(0, 4)} ${vrm.slice(4)}` : vrm);
   }
 }
