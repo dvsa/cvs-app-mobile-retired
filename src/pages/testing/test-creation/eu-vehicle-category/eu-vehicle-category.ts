@@ -3,6 +3,7 @@ import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { EuVehicleCategoryData } from "../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VisitService } from "../../../../providers/visit/visit.service";
+import { VEHICLE_TYPE } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -11,6 +12,8 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 })
 export class CategoryReadingPage implements OnInit {
   vehicle: VehicleModel;
+  vehicleType: string;
+  categorySubtitle: string = '';
   categoriesArr = [];
 
   constructor(private navParams: NavParams,
@@ -20,7 +23,20 @@ export class CategoryReadingPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categoriesArr = EuVehicleCategoryData.EuCategoryData;
+    this.vehicleType = this.vehicle.techRecord.vehicleType;
+    switch (this.vehicleType) {
+      case VEHICLE_TYPE.PSV:
+        this.categorySubtitle = EuVehicleCategoryData.EuCategoryPsvSubtitleData;
+        this.categoriesArr = EuVehicleCategoryData.EuCategoryPsvData;
+        break;
+      case VEHICLE_TYPE.HGV:
+        this.categorySubtitle = EuVehicleCategoryData.EuCategoryHgvSubtitleData;
+        this.categoriesArr = EuVehicleCategoryData.EuCategoryHgvData;
+        break;
+      case VEHICLE_TYPE.TRL:
+        this.categorySubtitle = EuVehicleCategoryData.EuCategoryTrlSubtitleData;
+        this.categoriesArr = EuVehicleCategoryData.EuCategoryTrlData;
+    }
   }
 
   setVehicleCategory(category) {
