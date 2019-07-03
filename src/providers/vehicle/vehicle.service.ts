@@ -21,6 +21,7 @@ export class VehicleService {
     let newVehicle: VehicleModel = {} as VehicleModel;
     newVehicle.vrm = vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm;
     newVehicle.vin = vehicleTechRecord.vin;
+    if (vehicleTechRecord.trailerId) newVehicle.trailerId = vehicleTechRecord.trailerId;
     newVehicle.techRecord = this.getCurrentTechRecord(vehicleTechRecord);
     newVehicle.testResultsHistory = [];
     newVehicle.countryOfRegistration = CountryOfRegistrationData.DefaultCountryData.key;
