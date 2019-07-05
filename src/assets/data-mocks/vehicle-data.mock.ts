@@ -83,9 +83,7 @@ export class VehicleDataMock {
             }
           }
         ],
-        "notes": "",
-        "euVehicleCategory": "",
-        "countryOfRegistration": ""
+        "notes": ""
       },
       "testResultsHistory": [],
       "countryOfRegistration": "gb",

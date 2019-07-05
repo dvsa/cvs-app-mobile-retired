@@ -93,9 +93,7 @@ export class TechRecordDataMock {
               }
             }
           ],
-          "notes": "",
-          "euVehicleCategory": "",
-          "countryOfRegistration": ""
+          "notes": ""
         }
       ]
     }
