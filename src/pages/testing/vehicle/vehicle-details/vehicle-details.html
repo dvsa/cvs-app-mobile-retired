@@ -178,7 +178,9 @@
                 </h3>
             </ng-container>
         </button>
-        <button ion-item padding-left (click)="showMoreDetails('VehicleBrakesPage')">
+        <button ion-item padding-left 
+            *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.HGV)" 
+            (click)="showMoreDetails('VehicleBrakesPage')">
             <h3>Brakes</h3>
         </button>
         <button ion-item padding-left (click)="showMoreDetails('VehicleWeightsPage')">
