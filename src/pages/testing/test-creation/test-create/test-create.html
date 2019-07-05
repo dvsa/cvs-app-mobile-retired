@@ -104,7 +104,7 @@
 
     <ion-card class="card" *ngIf="displayAddVehicleButton">
       <button class="btn-add-test" ion-item detail-none (click)="addTrailer(visitService.visit.tests)">
-        <span>Add a <span *ngIf="!doesHgvExist">vehicle</span><span *ngIf="doesHgvExist">trailer</span></span>
+        <span>Add a {{doesHgvExist? "trailer" : "vehicle"}}</span>
         <ion-icon aria-hidden="true" name="ios-add-circle-outline" item-end></ion-icon>
       </button>
     </ion-card>
