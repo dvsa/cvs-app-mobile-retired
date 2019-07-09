@@ -1,7 +1,7 @@
-var webpackConfig = require('./webpack.test.js');
+const webpackConfig = require('./webpack.test.js');
 
-module.exports = function(config) {
-  var _config = {
+module.exports = function (config) {
+  config.set({
     basePath: '../',
 
     frameworks: ['jasmine'],
@@ -45,18 +45,16 @@ module.exports = function(config) {
     },
 
     coverageIstanbulReporter: {
-      reports: [ 'html', 'lcovonly' ],
+      reports: ['html', 'lcovonly'],
       fixWebpackSourcePaths: true
     },
 
-    reporters: config.coverage ? ['kjhtml', 'dots', 'coverage-istanbul'] : ['kjhtml', 'dots'],
+    reporters: config.coverage ? ['kjhtml', 'dots', 'coverage-istanbul', 'junit'] : ['kjhtml', 'dots'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['PhantomJS'],
     singleRun: true
-  };
-
-  config.set(_config);
+  });
 };
