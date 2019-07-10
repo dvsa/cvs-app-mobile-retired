@@ -6,6 +6,7 @@ export enum STORAGE {
   TECH_RECORDS = 'tech-records',
   STATE = 'state',
   VISIT = 'visit',
+  ACTIVITIES = 'activities',
   TEST_HISTORY = 'test-history',
   JWT_TOKEN = 'jwt-token',
   SIGNATURE = 'signature-image'
@@ -151,6 +152,8 @@ export enum APP_STRINGS {
   SETTINGS_BTN = 'Settings',
   TRY_AGAIN_BTN = 'Try again',
   CALL_SUPP_BTN = 'Call technical support',
+  END_VISIT_WAITING_TITLE = 'Enter reason',
+  END_VISIT_WAITING_MSG = 'Before ending your visit, enter details about your time spent not testing.',
   END_VISIT_TITLE = 'End visit',
   END_VISIT_MSG = "You will not be able to add any other tests after you end this visit. Today's activity report will be sent to DVSA and ",
   END_VISIT_LOADING = 'Submitting site visit',
@@ -174,7 +177,10 @@ export enum APP_STRINGS {
   CACHING_ENABLED = 'Caching was enabled',
   UNAUTHORISED = 'Unable to authorise',
   UNAUTHORISED_MSG = "Your account isn't currently authorised to use this app. Close the app or call IT support.",
-  UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support."
+  UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support.",
+  WAIT_REASONS_MSG_ISSUE = "You've selected 'Site issue', give more details in notes section.",
+  WAIT_REASONS_MSG_OTHER = "You've selected 'Other', give more details in notes section.",
+  WAIT_REASONS_TITLE = "Add notes"
 }
 
 export enum ODOMETER_METRIC {
@@ -282,7 +288,9 @@ export enum SIGNATURE_STATUS {
 }
 
 export enum VISIT {
-  ACTIVITY_TYPE = 'visit'
+  ACTIVITY_TYPE_VISIT = 'visit',
+  ACTIVITY_TYPE_WAIT = 'wait',
+  ACTIVITY_TYPE_UNACCOUNTABLE_TIME = 'unaccountable time'
 }
 
 
@@ -305,7 +313,16 @@ export enum PAGE_NAMES {
   VISIT_TIMELINE_PAGE = 'VisitTimelinePage',
   ADD_PREPARER_PAGE = 'AddPreparerPage',
   END_VISIT_CONFIRM_PAGE = 'EndVisitConfirmPage',
-  VEHICLE_LOOKUP_PAGE = 'VehicleLookupPage'
+  VEHICLE_LOOKUP_PAGE = 'VehicleLookupPage',
+  WAIT_TIME_REASONS_PAGE = 'WaitTimeReasonsPage'
+}
+
+export enum WAIT_TIME_REASONS {
+  WAITING_FOR_VEHICLE = 'Waiting for vehicle',
+  ADMIN = 'Admin',
+  BREAK = 'Break',
+  SITE_ISSUE = 'Site issue',
+  OTHER = 'Other'
 }
 
 export enum FIREBASE {
@@ -337,6 +354,12 @@ export enum FIREBASE {
   CONFIRM_VEHICLE_TIME_TAKEN = 'confirm_vehicle_time_taken',
   CONFIRM_VEHICLE_START_TIME = 'confirm_vehicle_start_time',
   CONFIRM_VEHICLE_END_TIME = 'confirm_vehicle_end_time',
+  ADD_TEST_TYPE_TIME_TAKEN = 'add_test_type_time_taken',
+  ADD_TEST_TYPE_START_TIME = 'add_test_type_start_time',
+  ADD_TEST_TYPE_END_TIME = 'add_test_type_end_time',
+  REMOVE_TEST_TYPE = 'remove_test_type',
+  ABANDON_TEST_TYPE = 'abandon_test_type',
+  TEST_TYPE_NAME = 'test_type_name'
 }
 
 export enum FIREBASE_AUTH {
@@ -351,4 +374,14 @@ export enum FIREBASE_AUTH {
   OID = 'OID',
   USER_ROLES = 'user_roles',
   ERROR_MESSAGE = 'error_message',
+}
+
+export enum FIREBASE_DEFECTS {
+    ADD_DEFECT = 'add_defect',
+    REMOVE_DEFECT = 'remove_defect',
+    DEFECT_NOTES_USAGE = 'defect_notes_usage',
+    ADD_DEFECT_TIME_TAKEN = 'add_defect_time_taken',
+    DEFICIENCY_REFERENCE ='deficiency_reference',
+    ADD_DEFECT_START_TIME ='add_defect_start_time', 
+    ADD_DEFECT_END_TIME ='add_defect_end_time'
 }

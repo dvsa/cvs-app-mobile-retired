@@ -1,6 +1,6 @@
 import { TestCreatePage } from "./test-create";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams, AlertController } from "ionic-angular";
+import { IonicModule, NavController, NavParams, AlertController, ModalController } from "ionic-angular";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
@@ -22,8 +22,10 @@ import { CommonFunctionsService } from "../../../../providers/utils/common-funct
 import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
 import { AppServiceMock } from "../../../../../test-config/services-mocks/app-service.mock";
-import { Firebase } from "@ionic-native/firebase";
-import { AlertControllerMock } from "ionic-mocks";
+import { AlertControllerMock, ModalControllerMock, NavControllerMock } from "ionic-mocks";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -36,6 +38,8 @@ describe('Component: TestCreatePage', () => {
   let testService: TestService;
   let stateReformingService: StateReformingService;
   let callNumberSpy: any;
+  let firebaseLogsService: FirebaseLogsService;
+  let modalctrl: ModalController;
 
   const testReport: TestModel = {
     startTime: null,
@@ -55,9 +59,10 @@ describe('Component: TestCreatePage', () => {
       declarations: [TestCreatePage],
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
-        Firebase,
-        NavController,
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         CommonFunctionsService,
+        {provide: NavController, useFactory: () => NavControllerMock.instance()},
+        {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: AppService, useClass: AppServiceMock},
         {provide: CallNumber, useValue: callNumberSpy},
@@ -79,6 +84,8 @@ describe('Component: TestCreatePage', () => {
     appService = TestBed.get(AppService);
     visitService = TestBed.get(VisitService);
     stateReformingService = TestBed.get(StateReformingService);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
+    modalctrl = TestBed.get(ModalController);
   }));
 
   beforeEach(() => {
@@ -90,7 +97,7 @@ describe('Component: TestCreatePage', () => {
       };
       return params[param];
     })
-  })
+  });
 
   afterEach(() => {
     fixture.destroy();
@@ -99,6 +106,8 @@ describe('Component: TestCreatePage', () => {
     vehicleService = null;
     visitService = null;
     stateReformingService = null;
+    firebaseLogsService = null;
+    modalctrl = null;
   });
 
   it('should create the component', () => {
@@ -166,5 +175,41 @@ describe('Component: TestCreatePage', () => {
     component.testData = newTest;
 
     component.reviewTest();
+  });
+
+  it('should test firebase logging when adding a test type', () => {
+    component.addVehicleTest(vehicleService.createVehicle(vehicle));
+    expect(firebaseLogsService.add_test_type_time.add_test_type_start_time).toBeTruthy();
+  });
+
+  it('should test firebase logging when removing a test type', () => {
+    spyOn(firebaseLogsService, 'logEvent');
+    component.completedFields = {};
+    component.removeVehicleTest(vehicleService.createVehicle(vehicle), ADDED_VEHICLE_TEST);
+    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+  });
+
+  it('should test onOdometer logic', () => {
+    let newTest = testService.createTest();
+    let newVehicle = vehicleService.createVehicle(vehicle);
+    newTest.vehicles.push(newVehicle);
+    component.testData = newTest;
+    component.onOdometer(0);
+    expect(modalctrl.create).toHaveBeenCalled();
+    expect(firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time).toBeTruthy();
+  });
+
+  it('should check if logEvent was called', () => {
+    spyOn(firebaseLogsService, 'logEvent');
+    let vehicle = VehicleDataMock.VehicleData;
+    vehicle.countryOfRegistration = '';
+    component.logMissingFields(vehicle);
+    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+
+    vehicle.countryOfRegistration = 'gb';
+    vehicle.euVehicleCategory = 'something';
+    vehicle.odometerReading = '1233';
+    component.logMissingFields(vehicle);
+    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
   });
 });

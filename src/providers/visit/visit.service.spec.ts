@@ -11,6 +11,8 @@ import { Events } from "ionic-angular";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
 import { AppService } from "../global/app.service";
 import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
+import { ActivityService } from "../activity/activity.service";
+import { ActivityServiceMock } from "../../../test-config/services-mocks/activity-service.mock";
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
@@ -20,6 +22,7 @@ describe('Provider: VisitService', () => {
   let storageServiceSpy: any;
   let httpService: HTTPService;
   let httpServiceSpy;
+  let activityService: ActivityService;
 
   const TEST_STATION: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
   const TEST: TestModel = TestDataModelMock.TestData;
@@ -32,6 +35,7 @@ describe('Provider: VisitService', () => {
       providers: [
         Events,
         VisitService,
+        {provide: ActivityService, useClass: ActivityServiceMock},
         {provide: AppService, useClass: AppServiceMock},
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: StorageService, useValue: storageServiceSpy},
@@ -43,12 +47,14 @@ describe('Provider: VisitService', () => {
     authService = TestBed.get(AuthService);
     storageService = TestBed.get(StorageService);
     httpService = TestBed.get(HTTPService);
+    activityService = TestBed.get(ActivityService);
     appService.caching = true;
   });
 
   afterEach(() => {
     visitService = null;
     authService = null;
+    activityService = null;
   });
 
   it('should start a new visit', () => {
@@ -93,6 +99,22 @@ describe('Provider: VisitService', () => {
     expect(visitService.visit.tests.length).toBe(0);
     visitService.addTest(TEST);
     expect(visitService.visit.tests.length).toBe(1);
+    activityService.activities = [{
+      "activityType": "wait",
+      "testStationName": "Abshire-Kub",
+      "testStationPNumber": "09-4129632",
+      "testStationEmail": "teststationname@dvsa.gov.uk",
+      "testStationType": "gvts",
+      "testerName": "gvminnbbl",
+      "testerStaffId": "9b4q4o87d",
+      "startTime": "2019-05-23T12:11:11.974Z",
+      "endTime": null,
+      "waitReason": ["Waiting for vehicle"],
+      "notes": "",
+      "parentId": "8e56af10-503c-494c-836b-b2f3aa3c56ac"
+    }];
+    visitService.addTest(TEST);
+    expect(visitService.visit.tests.length).toBe(2);
   });
 
   it('should remove the added test from the visit.tests array', () => {

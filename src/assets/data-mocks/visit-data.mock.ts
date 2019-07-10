@@ -26,13 +26,14 @@ export class VisitDataMock {
       "testStationName": "Abshire-Kub",
       "testStationPNumber": "09-4129632",
       "testStationType": "gvts",
+      "testStationEmail": "someEmail@mail.com",
       "testerId": "",
       "testerName": "",
       "testerEmail": "",
       "tests": [
         {
           "startTime": "2019-02-12T11:41:56.409Z",
-          "endTime": null,
+          "endTime": "2019-02-14T10:10:32.586Z",
           "status": null,
           "reasonForCancellation": "",
           "vehicles": [

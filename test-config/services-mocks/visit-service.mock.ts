@@ -25,9 +25,13 @@ export class VisitServiceMock {
     return this.isError ? Observable.throw({error: {error: ''}}) : of({body: {id: '123'}});
   }
 
-  public endVisit() {
+  public endVisit(isError) {
     this.visit.endTime = new Date().toISOString();
-    return Observable.throw({error: {error: ''}});
+    if (isError) {
+      return Observable.throw({error: {error: ''}})
+    } else {
+      return of(true)
+    }
   }
 
   public addTest(test: TestModel) {
@@ -54,5 +58,4 @@ export class VisitServiceMock {
   public updateVisit() {
     return new Promise((resolve) => (resolve(true)));
   }
-
 }

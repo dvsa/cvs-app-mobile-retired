@@ -29,6 +29,7 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { SignaturePopoverComponent } from "../components/signature-popover/signature-popover";
 import { SignatureService } from "../providers/signature/signature.service";
 import { AppService } from "../providers/global/app.service";
+import { ActivityService } from "../providers/activity/activity.service";
 import { Firebase } from '@ionic-native/firebase';
 import { LogsModule } from "../modules/logs/logs.module";
 import { DataStoreProvider } from "../modules/logs/data-store.service";
@@ -54,6 +55,7 @@ const CUSTOM_PROVIDERS = [
   AuthService,
   PreparerService,
   VisitService,
+  ActivityService,
   StateReformingService,
   CommonFunctionsService,
   SignatureService,

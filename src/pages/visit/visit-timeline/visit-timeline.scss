@@ -65,6 +65,10 @@ ion-app.ios page-visit-timeline {
           }
         }
 
+        .timeline-item-content-waitItem {
+          margin-left: 40px;
+        }
+
         .input-wrapper {
           .label-ios {
             margin: 0;
@@ -104,6 +108,16 @@ ion-app.ios page-visit-timeline {
         }
 
         .timeline-bar {
+          border-left-color: color($colors, tertiary);
+        }
+
+        .timeline-bar-waitItem {
+          border-left-style: dashed;
+          border-left-color: color($colors, danger);
+        }
+
+        .timeline-bar-waitItem-tertiary {
+          border-left-style: dashed;
           border-left-color: color($colors, tertiary);
         }
       }

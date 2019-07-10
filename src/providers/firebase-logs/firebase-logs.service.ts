@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Firebase } from "@ionic-native/firebase";
+import {Injectable} from "@angular/core";
+import {Firebase} from "@ionic-native/firebase";
 
 @Injectable()
 export class FirebaseLogsService {
@@ -27,14 +27,26 @@ export class FirebaseLogsService {
     add_odometer_reading_time_taken: ''
   };
 
+  add_defect_time_taken = {
+    add_defect_start_time: <number>null,
+    add_defect_end_time: <number>null,
+    add_defect_time_taken: <string>null
+  };
+
+  add_test_type_time = {
+    add_test_type_start_time: 0,
+    add_test_type_end_time: 0,
+    add_test_type_time_taken: ''
+  };
+
   constructor(private firebase: Firebase) {
   }
 
   logEvent(eventName: string,
-      paramName1?: string, paramValue1?: any,
-      paramName2?: string, paramValue2?: any,
-      paramName3?: string, paramValue3?: any,
-      paramName4?: string, paramValue4?: any): Promise<any> {
+           paramName1?: string, paramValue1?: any,
+           paramName2?: string, paramValue2?: any,
+           paramName3?: string, paramValue3?: any,
+           paramName4?: string, paramValue4?: any): Promise<any> {
     let data = {};
     if (paramName1) data[paramName1] = paramValue1 || '';
     if (paramName2) data[paramName2] = paramValue2;

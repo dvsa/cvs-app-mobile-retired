@@ -1,5 +1,3 @@
-import { DefectDetailsModel } from "../../models/defects/defect-details.model";
-
 export class TestResultsDataMock {
   public static get TestResultsData() {
     return [

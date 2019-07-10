@@ -12,10 +12,10 @@ import { DefectDetailsModel } from "../../../../models/defects/defect-details.mo
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import {
   APP,
-  DEFICIENCY_CATEGORY, PAGE_NAMES,
+  DEFICIENCY_CATEGORY, FIREBASE, PAGE_NAMES,
   REG_EX_PATTERNS,
   TEST_TYPE_FIELDS,
-  TEST_TYPE_INPUTS, TEST_TYPE_RESULTS
+  TEST_TYPE_INPUTS, TEST_TYPE_RESULTS, FIREBASE_DEFECTS
 } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
@@ -25,6 +25,7 @@ import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-
 import { TestTypeDetailsInputPage } from "../test-type-details-input/test-type-details-input";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -55,7 +56,8 @@ export class CompleteTestPage implements OnInit {
               private events: Events,
               private cdRef: ChangeDetectorRef,
               private vehicleService: VehicleService,
-              private viewCtrl: ViewController) {
+              private viewCtrl: ViewController,
+              private firebaseLogsService: FirebaseLogsService) {
     this.vehicle = navParams.get('vehicle');
     this.vehicleTest = navParams.get('vehicleTest');
     this.completedFields = navParams.get('completedFields');
@@ -233,6 +235,7 @@ export class CompleteTestPage implements OnInit {
       defects: this.defectsCategories,
       fromTestReview: this.fromTestReview
     });
+    this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN][FIREBASE_DEFECTS.ADD_DEFECT_START_TIME] = Date.now();
   }
 
   openDefect(defect: DefectDetailsModel): void {
@@ -304,6 +307,7 @@ export class CompleteTestPage implements OnInit {
   }
 
   removeTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
+    this.firebaseLogsService.logEvent(FIREBASE.REMOVE_TEST_TYPE, FIREBASE.TEST_TYPE_NAME, vehicleTest.testTypeName);
     this.vehicleService.removeSicFields(vehicle, this.completedFields);
     this.vehicleService.removeTestType(vehicle, vehicleTest);
     this.navCtrl.pop();

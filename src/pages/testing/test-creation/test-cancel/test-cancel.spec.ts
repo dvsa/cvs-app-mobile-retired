@@ -10,13 +10,17 @@ import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params
 import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
 import { TestResultService } from "../../../../providers/test-result/test-result.service";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { Firebase } from "@ionic-native/firebase";
 import { AlertControllerMock, LoadingControllerMock, NavControllerMock } from "ionic-mocks";
 import { AuthService } from "../../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
 import { Store } from "@ngrx/store";
 import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
 import { TestResultServiceMock } from "../../../../../test-config/services-mocks/test-result-service.mock";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { Firebase } from "@ionic-native/firebase";
+import { ActivityService } from "../../../../providers/activity/activity.service";
+import { ActivityServiceMock } from "../../../../../test-config/services-mocks/activity-service.mock";
 
 describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
@@ -25,6 +29,7 @@ describe('Component: TestCancelPage', () => {
   let testReportServiceSpy: any;
   let openNativeSettingsSpy: any;
   let visitService: VisitService;
+  let visitServiceMock: VisitServiceMock;
   let alertCtrl: AlertController;
 
   const testReport: TestModel = {
@@ -49,11 +54,13 @@ describe('Component: TestCancelPage', () => {
       providers: [
         Firebase,
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: VisitService, useClass: VisitServiceMock},
+        {provide: ActivityService, useClass: ActivityServiceMock},
         {provide: TestService, useValue: testReportServiceSpy},
         {provide: TestResultService, useClass: TestResultServiceMock},
         {provide: AuthService, useClass: AuthServiceMock},
@@ -68,6 +75,7 @@ describe('Component: TestCancelPage', () => {
     component = fixture.componentInstance;
     navCtrl = TestBed.get(NavController);
     visitService = TestBed.get(VisitService);
+    visitServiceMock = TestBed.get(VisitService);
     alertCtrl = TestBed.get(AlertController);
   });
 
@@ -80,12 +88,13 @@ describe('Component: TestCancelPage', () => {
       };
       return params[param];
     })
-  })
+  });
 
   afterEach(() => {
     fixture.destroy();
     component = null;
     visitService = null;
+    visitServiceMock = null;
     alertCtrl = null;
   });
 
@@ -108,6 +117,7 @@ describe('Component: TestCancelPage', () => {
   });
 
   it('should test submitting a test', () => {
+    visitServiceMock.visit = VisitDataMock.VisitData;
     component.submit(VisitDataMock.VisitTestData);
     expect(alertCtrl.create).toHaveBeenCalled();
   });

@@ -1,29 +1,31 @@
-import { TestTypesListPage } from "./test-types-list";
-import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { StorageService } from "../../../../providers/natives/storage.service";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { TestTypesReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/test-types.mock";
-import { TestTypesReferenceDataModel } from "../../../../models/reference-data-models/test-types.model";
-import { PipesModule } from "../../../../pipes/pipes.module";
-import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
-import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
-import { TEST_TYPE_RESULTS } from "../../../../app/app.enums";
+import {TestTypesListPage} from "./test-types-list";
+import {async, ComponentFixture, inject, TestBed} from "@angular/core/testing";
+import {IonicModule, NavController, NavParams, ViewController} from "ionic-angular";
+import {NavParamsMock} from "../../../../../test-config/ionic-mocks/nav-params.mock";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {StorageService} from "../../../../providers/natives/storage.service";
+import {TestTypeService} from "../../../../providers/test-type/test-type.service";
+import {TestTypesReferenceDataMock} from "../../../../assets/data-mocks/reference-data-mocks/test-types.mock";
+import {TestTypesReferenceDataModel} from "../../../../models/reference-data-models/test-types.model";
+import {PipesModule} from "../../../../pipes/pipes.module";
+import {TechRecordDataMock} from "../../../../assets/data-mocks/tech-record-data.mock";
+import {VehicleService} from "../../../../providers/vehicle/vehicle.service";
+import {TestTypeServiceMock} from "../../../../../test-config/services-mocks/test-type-service.mock";
+import {ViewControllerMock} from "../../../../../test-config/ionic-mocks/view-controller.mock";
+import {CommonFunctionsService} from "../../../../providers/utils/common-functions";
+import {VehicleTechRecordModel} from "../../../../models/vehicle/tech-record.model";
+import {VehicleModel} from "../../../../models/vehicle/vehicle.model";
+import {VehicleDataMock} from "../../../../assets/data-mocks/vehicle-data.mock";
+import {TEST_TYPE_RESULTS} from "../../../../app/app.enums";
+import {FirebaseLogsService} from "../../../../providers/firebase-logs/firebase-logs.service";
+import {FirebaseLogsServiceMock} from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import {NavControllerMock} from "ionic-mocks";
 
 describe('Component: TestTypesListPage', () => {
   let comp: TestTypesListPage;
   let fixture: ComponentFixture<TestTypesListPage>;
 
   let navCtrl: NavController;
-  let navCtrlSpy: any;
   let navParams: NavParams;
   let testTypeService: TestTypeService;
   let vehicleService: VehicleService;
@@ -31,6 +33,7 @@ describe('Component: TestTypesListPage', () => {
   let vehicleServiceSpy;
   let commonFunctionsService: CommonFunctionsService;
   let vehicleData: VehicleModel = VehicleDataMock.VehicleData;
+  let firebaseLogsService: FirebaseLogsService;
 
   const testTypes: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
   const vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
@@ -40,7 +43,6 @@ describe('Component: TestTypesListPage', () => {
       'read': new Promise(resolve => resolve(testTypes))
     });
     vehicleServiceSpy = jasmine.createSpyObj('VehicleService', ['createVehicle', 'addTestType', 'removeTestType']);
-    navCtrlSpy = jasmine.createSpyObj('NavController', ['push', 'pop', 'popTo', 'getViews', 'get', 'getPrevious']);
 
     TestBed.configureTestingModule({
       declarations: [TestTypesListPage],
@@ -49,8 +51,9 @@ describe('Component: TestTypesListPage', () => {
         IonicModule.forRoot(TestTypesListPage)
       ],
       providers: [
-        {provide: NavController, useValue: navCtrlSpy},
+        {provide: NavController, useFactory: () => NavControllerMock.instance()},
         CommonFunctionsService,
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: TestTypeService, useClass: TestTypeServiceMock},
         {provide: VehicleService, useValue: vehicleServiceSpy},
         {provide: NavParams, useClass: NavParamsMock},
@@ -68,6 +71,7 @@ describe('Component: TestTypesListPage', () => {
     testTypeService = TestBed.get(TestTypeService);
     vehicleService = TestBed.get(VehicleService);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   beforeEach(() => {
@@ -87,6 +91,7 @@ describe('Component: TestTypesListPage', () => {
     comp = null;
     testTypeService = null;
     commonFunctionsService = null;
+    firebaseLogsService = null;
   });
 
   it('should create the component', () => {
@@ -154,5 +159,11 @@ describe('Component: TestTypesListPage', () => {
   it('should check if navCtrl.pop was called', () => {
     comp.cancelTypes();
     expect(navCtrl.pop).toHaveBeenCalled();
+  });
+
+  it('should test firebase logging when adding a testType', () => {
+    spyOn(firebaseLogsService, 'logEvent');
+    comp.selectedItem(testTypes[0], vehicleData);
+    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
   });
 });

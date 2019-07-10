@@ -1,4 +1,4 @@
-import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, inject, TestBed, tick } from "@angular/core/testing";
 import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
 import { DefectDetailsPage } from "./defect-details";
 import { DefectsService } from "../../../../providers/defects/defects.service";
@@ -10,6 +10,11 @@ import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { By } from "@angular/platform-browser";
+import { FIREBASE_DEFECTS } from "../../../../app/app.enums";
+import { NavControllerMock } from "../../../../../test-config/ionic-mocks/nav-controller.mock";
 
 describe('Component: DefectDetailsPage', () => {
   let comp: DefectDetailsPage;
@@ -18,6 +23,7 @@ describe('Component: DefectDetailsPage', () => {
   let navParams: NavParams;
   let defectsService: DefectsService;
   let testTypeService: TestTypeService;
+  let firebaseLogsService: FirebaseLogsService;
 
   const vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const defect: DefectDetailsModel = {
@@ -115,11 +121,12 @@ describe('Component: DefectDetailsPage', () => {
       declarations: [DefectDetailsPage],
       imports: [IonicModule.forRoot(DefectDetailsPage)],
       providers: [
-        NavController,
-        {provide: TestTypeService, useClass: TestTypeServiceMock},
-        {provide: DefectsService, useValue: defectsServiceSpy},
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useClass: ViewControllerMock}
+        { provide: NavController, useFactory: () => NavControllerMock.instance()},
+        { provide: TestTypeService, useClass: TestTypeServiceMock },
+        { provide: DefectsService, useValue: defectsServiceSpy },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: ViewController, useClass: ViewControllerMock },
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -132,6 +139,7 @@ describe('Component: DefectDetailsPage', () => {
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
     testTypeService = TestBed.get(TestTypeService);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   beforeEach(() => {
@@ -159,6 +167,7 @@ describe('Component: DefectDetailsPage', () => {
     comp = null;
     defectsService = null;
     testTypeService = null;
+    firebaseLogsService = null;
   });
 
   it('should create component', (done) => {
@@ -198,4 +207,23 @@ describe('Component: DefectDetailsPage', () => {
     expect(comp.showPrs).toBeFalsy();
   });
 
+  it('should change the notesChanged after the textarea value changes', () => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(comp.notesChanged).toBeFalsy();
+      let textarea = fixture.debugElement.query(By.css('.textarea-height'));
+      textarea.nativeElement.value = 'new note';
+      textarea.nativeElement.dispatchEvent(new Event('input'));
+      expect(comp.notesChanged).toBeTruthy();
+    });
+  });
+
+  it('should contain the defect reference when a note is added', () => {
+    comp.fromTestReview=true;
+    comp.notesChanged=true;
+    spyOn(firebaseLogsService, 'logEvent').and.returnValue(Promise.resolve(true));
+    comp.addDefect();
+    expect(firebaseLogsService.logEvent).toHaveBeenCalledTimes(1);
+    expect(firebaseLogsService.logEvent).toHaveBeenCalledWith(FIREBASE_DEFECTS.DEFECT_NOTES_USAGE, FIREBASE_DEFECTS.DEFICIENCY_REFERENCE, defect.deficiencyRef);
+  });
 });
