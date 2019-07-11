@@ -1110,6 +1110,258 @@ export class TestTypesFieldsMetadata {
         ],
         hasDefects: false,
         hasNotes: true
+      },
+      {
+        testTypeId: '40',
+        testTypeName: 'Annual test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '41',
+        testTypeName: 'First test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '44',
+        testTypeName: 'Low Emissions Certificate (LEC) with annual test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '45',
+        testTypeName: 'Low Emissions Certificate (LEC)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '47',
+        testTypeName: 'Free notifiable alteration',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '48',
+        testTypeName: 'Paid notifiable alteration',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '49',
+        testTypeName: 'TIR test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '50',
+        testTypeName: 'ADR test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '53',
+        testTypeName: 'Paid annual test retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '54',
+        testTypeName: 'Part paid annual test retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '56',
+        testTypeName: 'Paid TIR retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '57',
+        testTypeName: 'Free TIR retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '59',
+        testTypeName: 'Paid ADR retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '60',
+        testTypeName: 'Free ADR retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '62',
+        testTypeName: 'Paid roadworthiness retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '63',
+        testTypeName: 'Part paid roadworthiness retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '65',
+        testTypeName: 'Paid first test retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '66',
+        testTypeName: 'Part paid first test retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '67',
+        testTypeName: 'Free first test retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '70',
+        testTypeName: 'Paid prohibition clearance (full inspection with certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '71',
+        testTypeName: 'Paid prohibition clearance (full inspection without certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '72',
+        testTypeName: 'Part paid prohibition clearance (full inspection without certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '73',
+        testTypeName: 'Part paid prohibition clearance (part inspection without certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '76',
+        testTypeName: 'Paid prohibition clearance (retest with certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '77',
+        testTypeName: 'Paid prohibition clearance (retest without certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '79',
+        testTypeName: 'Part paid prohibition clearance (retest with certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '80',
+        testTypeName: 'Part paid prohibition clearance (retest without certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '82',
+        testTypeName: 'Paid prohibition clearance on first test (full inspection with certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '83',
+        testTypeName: 'Paid retest prohibition clearance on first test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '85',
+        testTypeName: 'Voluntary brake test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '86',
+        testTypeName: 'Voluntary multi-check',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '87',
+        testTypeName: 'Voluntary Shaker plate check',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '88',
+        testTypeName: 'Voluntary Speed limiter check',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '89',
+        testTypeName: 'Voluntary smoke test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '90',
+        testTypeName: 'Voluntary headlamp aim test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '91',
+        testTypeName: 'Voluntary roadworthiness test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
       }
     ]
   }
