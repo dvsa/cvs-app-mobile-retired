@@ -32,12 +32,17 @@ import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-
 import { Store } from "@ngrx/store";
 import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
 import { TestResultServiceMock } from "../../../../../test-config/services-mocks/test-result-service.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
   let fixture: ComponentFixture<TestReviewPage>;
   let visitService: VisitService;
   let alertCtrl: AlertController;
+  let commonFuncService: CommonFunctionsService;
+
+  const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
 
@@ -72,6 +77,7 @@ describe('Component: TestReviewPage', () => {
     component = fixture.componentInstance;
     visitService = TestBed.get(VisitService);
     alertCtrl = TestBed.get(AlertController);
+    commonFuncService = TestBed.get(CommonFunctionsService);
   });
 
   beforeEach(() => {
@@ -84,6 +90,7 @@ describe('Component: TestReviewPage', () => {
     fixture.destroy();
     component = null;
     alertCtrl = null;
+    commonFuncService = null;
   });
 
   it('should create the component', () => {
@@ -99,5 +106,11 @@ describe('Component: TestReviewPage', () => {
   it('should test submitting a test', () => {
     component.submit(VisitDataMock.VisitTestData);
     expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should test getCountryStringToBeDisplayed', () => {
+    spyOn(commonFuncService, 'getCountryStringToBeDisplayed');
+    component.getCountryStringToBeDisplayed(VEHICLE);
+    expect(commonFuncService.getCountryStringToBeDisplayed).toHaveBeenCalled();
   });
 });

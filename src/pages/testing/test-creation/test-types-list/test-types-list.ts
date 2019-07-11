@@ -93,7 +93,7 @@ export class TestTypesListPage implements OnInit {
   }
 
   canDisplay(addedTestsIds: string[], testToDisplay: TestTypesReferenceDataModel | any): boolean {
-    return addedTestsIds.every(elem => testToDisplay.linkedIds.indexOf(elem) > -1);
+    return addedTestsIds.every(elem => testToDisplay.linkedIds ? testToDisplay.linkedIds.indexOf(elem) > -1 : true);
   }
 
   canDisplayCategory(testTypeCategory: TestTypesReferenceDataModel, addedTestTypesIds: string[]): boolean {

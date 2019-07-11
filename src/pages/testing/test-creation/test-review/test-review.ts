@@ -244,4 +244,11 @@ export class TestReviewPage implements OnInit {
 
   }
 
+  getCountryStringToBeDisplayed(vehicle: VehicleModel) {
+    return this.commonFunctions.getCountryStringToBeDisplayed(vehicle);
+  }
+
+  backToTestOverview() {
+    this.navCtrl.pop();
+  }
 }

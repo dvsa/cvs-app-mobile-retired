@@ -15,7 +15,17 @@
         <h2 text-uppercase padding-left>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
         <p padding-left>{{ vehicle.vin }}</p>
       </ion-item>
-      <ion-item padding-horizontal
+      <ion-item padding-horizontal class="bottom-divider height-60">
+        <h3 class="country-of-registration">Country of registration</h3>
+        <h3 item-end text-nowrap
+            class="country-of-registration-status cor-details">{{getCountryStringToBeDisplayed(vehicle)}}</h3>
+      </ion-item>
+      <ion-item margin-left class="bottom-divider height-60">
+        <h3 class="vehicle-category">EU vehicle category</h3>
+        <h3 item-end text-uppercase
+            class="vehicle-category-status">{{vehicle.euVehicleCategory}}</h3>
+      </ion-item>
+      <ion-item margin-left
                 class="bottom-divider height-60">
         <h3 class="odometer-reading">Odometer reading</h3>
         <h3 item-end
@@ -23,9 +33,13 @@
           {{getOdometerStringToBeDisplayed(vehicle)}}
         </h3>
       </ion-item>
+      <button ion-item
+              class="bottom-divider change-details-button"
+              *ngIf="!isTestSubmitted"
+              (click)="backToTestOverview()">
+        <h3>Change details</h3>
+      </button>
     </ion-card>
-
-    <div margin-vertical class="section-divider"></div>
 
     <div *ngFor="let testType of vehicle.testTypes">
       <ion-card no-padding>
@@ -52,7 +66,8 @@
                   *ngIf="testType.numberOfSeatbeltsFitted && testType.testResult !== testTypeResults.ABANDONED">
           <div margin-left class="test-field test-field-no-border-top">
             <h3>Seatbelt installation check</h3>
-            <h3 class="test-field-value">{{testType.seatbeltInstallationCheckDate ? appStrings.YES : appStrings.NO}}</h3>
+            <h3
+              class="test-field-value">{{testType.seatbeltInstallationCheckDate ? appStrings.YES : appStrings.NO}}</h3>
           </div>
           <div margin-left class="test-field">
             <h3>Number of seatbelts fitted</h3>
@@ -68,7 +83,8 @@
                   *ngIf="testType.certificateNumber && testType.testResult !== testTypeResults.ABANDONED">
           <div margin-left class="test-field test-field-no-border-top">
             <h3>Certificate number</h3>
-            <h3 class="test-field-value">{{(testType.testResult === testTypeResults.PASS ? 'LP' : 'LF') + testType.certificateNumber}}</h3>
+            <h3
+              class="test-field-value">{{(testType.testResult === testTypeResults.PASS ? 'LP' : 'LF') + testType.certificateNumber}}</h3>
           </div>
         </ion-item>
         <ion-item padding-left
@@ -108,7 +124,8 @@
                 <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
                 {{ defect.deficiencyText }}
               </h4>
-              <h4 padding-right class="additional-info parent-info-color-sm" *ngIf="defect.additionalInformation.location">
+              <h4 padding-right class="additional-info parent-info-color-sm"
+                  *ngIf="defect.additionalInformation.location">
                 <span *ngIf="defect.additionalInformation.location.vertical">
                   {{ defect.additionalInformation.location.vertical }}<span class="comma">,</span>
                 </span>
@@ -177,7 +194,6 @@
           <h3>Change details</h3>
         </button>
       </ion-card>
-      <div margin-vertical class="section-divider"></div>
     </div>
 
     <div margin-top class="footer-cta-section">

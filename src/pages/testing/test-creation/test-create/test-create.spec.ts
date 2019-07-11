@@ -26,6 +26,8 @@ import { Firebase } from "@ionic-native/firebase";
 import { AlertControllerMock } from "ionic-mocks";
 import { TestDataModelMock } from "../../../../assets/data-mocks/data-model/test-data-model.mock";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -39,6 +41,7 @@ describe('Component: TestCreatePage', () => {
   let testService: TestService;
   let stateReformingService: StateReformingService;
   let callNumberSpy: any;
+  let commonFuncService: CommonFunctionsService;
 
   const testReport: TestModel = {
     startTime: null,
@@ -62,9 +65,9 @@ describe('Component: TestCreatePage', () => {
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
         Firebase,
-        {provide: NavController, useValue: navCtrlSpy},
         CommonFunctionsService,
         Events,
+        {provide: NavController, useValue: navCtrlSpy},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: AppService, useClass: AppServiceMock},
         {provide: CallNumber, useValue: callNumberSpy},
@@ -72,7 +75,8 @@ describe('Component: TestCreatePage', () => {
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: TestService, useClass: TestServiceMock},
-        {provide: NavParams, useClass: NavParamsMock}
+        {provide: NavParams, useClass: NavParamsMock},
+        {provide: TestTypeService, useClass: TestTypeServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -86,6 +90,7 @@ describe('Component: TestCreatePage', () => {
     appService = TestBed.get(AppService);
     visitService = TestBed.get(VisitService);
     stateReformingService = TestBed.get(StateReformingService);
+    commonFuncService = TestBed.get(CommonFunctionsService);
   }));
 
   beforeEach(() => {
@@ -107,6 +112,7 @@ describe('Component: TestCreatePage', () => {
     visitService = null;
     stateReformingService = null;
     navCtrl = null;
+    commonFuncService = null;
   });
 
   it('should create the component', () => {
@@ -161,6 +167,9 @@ describe('Component: TestCreatePage', () => {
     ADDED_VEHICLE_TEST.seatbeltInstallationCheckDate = true;
     ADDED_VEHICLE_TEST.lastSeatbeltInstallationCheckDate = '19-01-2019';
     expect(component.getTestTypeStatus(ADDED_VEHICLE_TEST)).toEqual('Edit');
+    ADDED_VEHICLE_TEST.testTypeId = '40';
+    ADDED_VEHICLE_TEST.testResult = null;
+    expect(component.getTestTypeStatus(ADDED_VEHICLE_TEST)).toEqual('Edit');
   });
 
   it('should not allow to review a test because not all mandatory fields completed', () => {
@@ -184,6 +193,12 @@ describe('Component: TestCreatePage', () => {
     component.testData = newTest;
 
     component.reviewTest();
+  });
+
+  it('should test getCountryStringToBeDisplayed', () => {
+    spyOn(commonFuncService, 'getCountryStringToBeDisplayed');
+    component.getCountryStringToBeDisplayed(VEHICLE);
+    expect(commonFuncService.getCountryStringToBeDisplayed).toHaveBeenCalled();
   });
 
   it('should check if navCtrl.push was called', () => {

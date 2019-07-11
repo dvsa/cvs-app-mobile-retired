@@ -309,9 +309,10 @@ export class CompleteTestPage implements OnInit {
     this.navCtrl.pop();
   }
 
-  abandonTestType(vehicleTest: TestTypeModel) {
+  abandonTestType(vehicleType: string, vehicleTest: TestTypeModel) {
     this.navCtrl.push(PAGE_NAMES.REASONS_SELECTION_PAGE, {
       vehicleTest: vehicleTest,
+      vehicleType: vehicleType,
       altAbandon: true,
       fromTestReview: this.fromTestReview
     });

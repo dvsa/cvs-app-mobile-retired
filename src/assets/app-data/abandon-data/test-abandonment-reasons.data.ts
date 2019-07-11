@@ -1,5 +1,5 @@
 export class TestAbandonmentReasonsData {
-  public static get TestAbandonmentReasonsData() {
+  public static get TestAbandonmentReasonsPsvData() {
     return [
       'The vehicle was not submitted for test at the appointed time',
       'The relevant test fee has not been paid',
@@ -13,6 +13,28 @@ export class TestAbandonmentReasonsData {
       'The driver and/or presenter of the vehicle declined either to remain in the vehicle or in its vicinity throughout the examination or to drive it or to operate controls or doors or to remove or refit panels after being requested to do so',
       'The vehicle exhaust outlet has been modified in such a way as to prevent a metered smoke check being conducted',
       'A proper examination cannot be readily carried out as any door, engine cover, hatch or other access device designed to be opened is locked or otherwise cannot be opened'
+    ]
+  }
+
+  public static get TestAbandonmentReasonsHgvTrailerData() {
+    return [
+      'The vehicle was not submitted for test at the appointed time',
+      'The relevant test fee has not been paid',
+      'The trailer was not accompanied by a suitable motor vehicle',
+      'There is not permanently fixed to the chassis serial number as shown on the registration document (motor vehicle) or the identification mark issued by the Secretary of State (trailer)',
+      'A Ministry Plate has been issued and is not fitted to the vehicle or trailer',
+      'The particulars of the motor vehicle or trailer (e.g. number of axles / axle weights) do not match the VTG6 Ministry Plate fitted to the vehicle',
+      'The vehicle or motor vehicle by which it is accompanied emits substantial amounts of smoke so as to make it unreasonable for the test to be carried out',
+      'The vehicle or trailer (any part) was in such a dirty or dangerous condition as to make it unreasonable for the test to be carried out',
+      'No proof was given that the vehicle used for carrying dangerous/toxic/corrosive or inflammable goods had been cleaned or otherwise rendered safe for test',
+      'The vehicle did not have sufficient fuel and oil to allow the test to be carried out',
+      'The vehicle was not loaded as required',
+      'The test could not be completed due to a failure of a part of the vehicle, or trailer and accompanying motor vehicle which made movement impossible',
+      'The vehicle was presented for test carrying livestock or other unsuitable material',
+      'Current Health and Safety legislation cannot be met in testing the vehicle',
+      'The vehicle exhaust outlet has been modified preventing a metered smoke check',
+      'The examiner could not open the tachograph',
+      'The driver and/or presenter of the vehicle refused to or was unable to comply with the instructions of DVSA staff making it impractical or unsafe to continue the test'
     ]
   }
 }
