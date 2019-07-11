@@ -1,7 +1,8 @@
-import {NgModule} from '@angular/core';
-import {IonicPageModule} from 'ionic-angular';
-import {TestCreatePage} from "./test-create";
+import { NgModule } from '@angular/core';
+import { IonicPageModule } from 'ionic-angular';
+import { TestCreatePage } from "./test-create";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
     IonicPageModule.forChild(TestCreatePage),
   ],
   providers: [
-    VehicleService
+    VehicleService,
+    TestTypeService
   ]
 })
 export class TestCreateModule {

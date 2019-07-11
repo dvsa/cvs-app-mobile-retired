@@ -2,12 +2,9 @@ page-test-review {
   .content-ios {
     background-color: $color-grey-3;
 
-    .section-divider {
-      display: block;
-      border-top: 1px solid $list-ios-border-color;
-    }
-
     .card-ios {
+      margin-bottom: 32px;
+
       .ion-item-title {
         h2 {
           font-size: $font-size-medium;
@@ -97,13 +94,15 @@ page-test-review {
             margin-bottom: 16px;
           }
 
-          p{
+          p {
             font-size: $font-size-medium;
           }
         }
 
         .test-type,
-        .odometer-reading {
+        .odometer-reading,
+        .country-of-registration,
+        .vehicle-category {
           margin-top: 2px;
           font-size: $font-size-medium;
         }
@@ -130,7 +129,9 @@ page-test-review {
           font-size: $font-size-medium;
         }
 
-        [item-end].odometer-reading-status {
+        [item-end].odometer-reading-status,
+        [item-end].country-of-registration-status,
+        [item-end].vehicle-category-status {
           font-size: $font-size-medium;
           margin: 0;
         }
@@ -181,14 +182,14 @@ page-test-review {
 
   .change-details-button {
     padding: 8px 0 8px 16px;
-    
+
     h3 {
       color: color($colors, primary);
       font-size: $font-size-medium;
     }
   }
 
-  .footer-cta-section button{
+  .footer-cta-section button {
     font-weight: $font-weight-semi-bold;
   }
 
@@ -196,11 +197,11 @@ page-test-review {
     background: none;
   }
 
-  .height-60{
+  .height-60 {
     min-height: 60px;
   }
 
-  .item-ios.item-block .item-inner{
+  .item-ios.item-block .item-inner {
     padding-right: 0;
   }
 
@@ -214,4 +215,14 @@ page-test-review {
     }
   }
 
+  ion-item.item-ios[margin-left].bottom-divider.height-60 {
+    padding-right: 32px;
+  }
+
+  [item-end][text-nowrap].cor-details {
+    max-width: 110px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

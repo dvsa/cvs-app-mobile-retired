@@ -1,5 +1,7 @@
 import { TEST_TYPE_RESULTS, ODOMETER_METRIC } from "../../app/app.enums";
 import { TestTypeModel } from "../../models/tests/test-type.model";
+import { VehicleModel } from "../../models/vehicle/vehicle.model";
+import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
 
 export class CommonFunctionsService {
 
@@ -144,9 +146,18 @@ export class CommonFunctionsService {
 
   orderTestTypeArrayByDate(testTypeArray: TestTypeModel[]): void {
     if (testTypeArray.length) {
-      testTypeArray.sort((a,b) => {
+      testTypeArray.sort((a, b) => {
         return +new Date(b.testTypeStartTimestamp) - +new Date(a.testTypeStartTimestamp);
       });
+    }
+  }
+
+  getCountryStringToBeDisplayed(vehicle: VehicleModel) {
+    let corData = CountryOfRegistrationData.CountryData;
+    for (let elem of corData) {
+      if (vehicle.countryOfRegistration === elem.key) {
+        return elem.value.split(' -')[0];
+      }
     }
   }
 }
