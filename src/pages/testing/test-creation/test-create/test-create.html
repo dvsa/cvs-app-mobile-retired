@@ -84,7 +84,7 @@
           <ion-item-options *ngIf="!isTestAbandoned(vehicleTest)">
             <button ion-button
                     color="dark"
-                    (click)="onAbandonVehicleTest(vehicleTest)">Abandon
+                    (click)="onAbandonVehicleTest(vehicle.techRecord.vehicleType, vehicleTest)">Abandon
             </button>
             <button ion-button
                     color="danger"
@@ -104,7 +104,7 @@
 
     <ion-card class="card" *ngIf="displayAddVehicleButton">
       <button class="btn-add-test" ion-item detail-none (click)="addTrailer(visitService.visit.tests)">
-        <span>Add a {{doesHgvExist? "trailer" : "vehicle"}}</span>
+        <span>Add a {{doesHgvExist ? "trailer" : "vehicle"}}</span>
         <ion-icon aria-hidden="true" name="ios-add-circle-outline" item-end></ion-icon>
       </button>
     </ion-card>

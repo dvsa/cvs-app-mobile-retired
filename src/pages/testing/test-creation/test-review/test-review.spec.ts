@@ -36,12 +36,17 @@ import { FirebaseLogsServiceMock } from "../../../../../test-config/services-moc
 import { Firebase } from "@ionic-native/firebase";
 import { ActivityService } from "../../../../providers/activity/activity.service";
 import { ActivityServiceMock } from "../../../../../test-config/services-mocks/activity-service.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
   let fixture: ComponentFixture<TestReviewPage>;
   let visitService: VisitServiceMock;
   let alertCtrl: AlertController;
+  let commonFuncService: CommonFunctionsService;
+
+  const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
 
@@ -78,6 +83,7 @@ describe('Component: TestReviewPage', () => {
     component = fixture.componentInstance;
     visitService = TestBed.get(VisitService);
     alertCtrl = TestBed.get(AlertController);
+    commonFuncService = TestBed.get(CommonFunctionsService);
   });
 
   beforeEach(() => {
@@ -91,6 +97,7 @@ describe('Component: TestReviewPage', () => {
     component = null;
     alertCtrl = null;
     visitService = null;
+    commonFuncService = null;
   });
 
   it('should create the component', () => {
@@ -107,5 +114,11 @@ describe('Component: TestReviewPage', () => {
     visitService.visit = VisitDataMock.VisitData;
     component.submit(VisitDataMock.VisitTestData);
     expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should test getCountryStringToBeDisplayed', () => {
+    spyOn(commonFuncService, 'getCountryStringToBeDisplayed');
+    component.getCountryStringToBeDisplayed(VEHICLE);
+    expect(commonFuncService.getCountryStringToBeDisplayed).toHaveBeenCalled();
   });
 });
