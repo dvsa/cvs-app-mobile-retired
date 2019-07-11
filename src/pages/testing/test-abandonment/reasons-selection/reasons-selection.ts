@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 import { AbandonmentReasonItemModel } from "../../../../models/tests/abandonment-reason-item.model";
 import { TestAbandonmentReasonsData } from "../../../../assets/app-data/abandon-data/test-abandonment-reasons.data";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { APP_STRINGS } from "../../../../app/app.enums";
+import { APP_STRINGS, VEHICLE_TYPE } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -12,6 +12,7 @@ import { APP_STRINGS } from "../../../../app/app.enums";
 })
 export class ReasonsSelectionPage {
   vehicleTest: TestTypeModel;
+  vehicleType: string;
   selectedReasons: string[] = [];
   reasonsList: AbandonmentReasonItemModel[];
   altAbandon: boolean;
@@ -19,14 +20,13 @@ export class ReasonsSelectionPage {
 
   constructor(private navCtrl: NavController, private navParams: NavParams, private viewCtrl: ViewController) {
     this.vehicleTest = this.navParams.get('vehicleTest');
+    this.vehicleType = this.navParams.get('vehicleType');
     this.altAbandon = this.navParams.get('altAbandon');
     this.fromTestReview = this.navParams.get('fromTestReview');
-    this.reasonsList = TestAbandonmentReasonsData.TestAbandonmentReasonsData.map(reason => {
-      return {
-        text: reason,
-        isChecked: false
-      }
-    });
+  }
+
+  ionViewWillEnter() {
+    this.reasonsList = this.transformReasons(this.vehicleType);
   }
 
   ionViewDidLoad() {
@@ -48,4 +48,15 @@ export class ReasonsSelectionPage {
     reason.isChecked ? this.selectedReasons.push(reason.text) : this.selectedReasons.splice(this.selectedReasons.indexOf(reason.text), 1);
   }
 
+  transformReasons(vehicleType: string): { text: string, isChecked: boolean }[] {
+    let reasonsList: string[];
+    vehicleType === VEHICLE_TYPE.PSV ? reasonsList = [...TestAbandonmentReasonsData.TestAbandonmentReasonsPsvData] :
+      reasonsList = [...TestAbandonmentReasonsData.TestAbandonmentReasonsHgvTrailerData];
+    return reasonsList.map(reason => {
+      return {
+        text: reason,
+        isChecked: false
+      }
+    });
+  }
 }

@@ -36,6 +36,8 @@ import { FirebaseLogsServiceMock } from "../../../../../test-config/services-moc
 import { Firebase } from "@ionic-native/firebase";
 import { ActivityService } from "../../../../providers/activity/activity.service";
 import { ActivityServiceMock } from "../../../../../test-config/services-mocks/activity-service.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -44,6 +46,9 @@ describe('Component: TestReviewPage', () => {
   let alertCtrl: AlertController;
   let activityServiceMock: ActivityServiceMock;
   let store: Store<any>;
+  let commonFuncService: CommonFunctionsService;
+
+  const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
 
@@ -82,6 +87,7 @@ describe('Component: TestReviewPage', () => {
     alertCtrl = TestBed.get(AlertController);
     activityServiceMock = TestBed.get(ActivityService);
     store = TestBed.get(Store);
+    commonFuncService = TestBed.get(CommonFunctionsService);
   });
 
   beforeEach(() => {
@@ -97,6 +103,7 @@ describe('Component: TestReviewPage', () => {
     visitService = null;
     activityServiceMock = null;
     store = null;
+    commonFuncService = null;
   });
 
   it('should create the component', () => {
@@ -121,5 +128,11 @@ describe('Component: TestReviewPage', () => {
     activityServiceMock.isSubmitError = true;
     component.submit(VisitDataMock.VisitTestData);
     expect(store.dispatch).toHaveBeenCalled();
+  });
+
+  it('should test getCountryStringToBeDisplayed', () => {
+    spyOn(commonFuncService, 'getCountryStringToBeDisplayed');
+    component.getCountryStringToBeDisplayed(VEHICLE);
+    expect(commonFuncService.getCountryStringToBeDisplayed).toHaveBeenCalled();
   });
 });

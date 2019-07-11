@@ -4,6 +4,8 @@ import { IonicModule, NavController, NavParams, ViewController } from "ionic-ang
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
+import { VEHICLE_TYPE } from "../../../../app/app.enums";
+import { TestAbandonmentReasonsData } from "../../../../assets/app-data/abandon-data/test-abandonment-reasons.data";
 
 describe('Component: ReasonsSelectionPage', () => {
   let component: ReasonsSelectionPage;
@@ -49,4 +51,15 @@ describe('Component: ReasonsSelectionPage', () => {
     expect(component.selectedReasons.length).toEqual(0);
   });
 
+  it('should test ionViewWillEnter logic', () => {
+    component.reasonsList = [];
+    component.ionViewWillEnter();
+    expect(component.reasonsList.length).toBeGreaterThan(0);
+  });
+
+  it('should test transformReasons', () => {
+    const reasonList = component.transformReasons(VEHICLE_TYPE.HGV);
+    const reasonsData = TestAbandonmentReasonsData.TestAbandonmentReasonsHgvTrailerData;
+    expect(reasonList[reasonList.length - 1].text).toEqual(reasonsData[reasonsData.length - 1]);
+  });
 });

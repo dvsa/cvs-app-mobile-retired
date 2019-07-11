@@ -4,6 +4,7 @@ import { CommonFunctionsService } from "./common-functions";
 import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
 import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
 import { TestTypeArrayDataMock } from "../../assets/data-mocks/test-type-array-data.mock";
+import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
 
 describe('Provider: CommonFunctionsService', () => {
   let commonFunctionsService: CommonFunctionsService;
@@ -175,5 +176,10 @@ describe('Provider: CommonFunctionsService', () => {
     const testTypeArray = [];
     commonFunctionsService.orderTestTypeArrayByDate(testTypeArray);
     expect(testTypeArray.length).toBeFalsy();
+  });
+
+  it('should getCountryStringToBeDisplayed', () => {
+    const vehicle = VehicleDataMock.VehicleData;
+    expect(commonFunctionsService.getCountryStringToBeDisplayed(vehicle)).toEqual('Great Britain and Northern Ireland');
   });
 });
