@@ -19,7 +19,8 @@ import {
   TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
-  LOCAL_STORAGE, FIREBASE
+  LOCAL_STORAGE,
+  FIREBASE
 } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
@@ -255,5 +256,13 @@ export class TestReviewPage implements OnInit {
         }
       )
     }
+  }
+
+  getCountryStringToBeDisplayed(vehicle: VehicleModel) {
+    return this.commonFunctions.getCountryStringToBeDisplayed(vehicle);
+  }
+
+  backToTestOverview() {
+    this.navCtrl.pop();
   }
 }

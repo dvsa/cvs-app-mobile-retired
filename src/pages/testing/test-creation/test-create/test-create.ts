@@ -25,10 +25,10 @@ import {
 } from "../../../../app/app.enums";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
 import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 
 @IonicPage()
 @Component({
@@ -56,7 +56,8 @@ export class TestCreatePage implements OnInit {
               private events: Events,
               private commonFunctions: CommonFunctionsService,
               private modalCtrl: ModalController,
-              private firebaseLogsService: FirebaseLogsService) {
+              private firebaseLogsService: FirebaseLogsService,
+              private testTypeService: TestTypeService) {
     this.testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
   }
 
@@ -89,12 +90,7 @@ export class TestCreatePage implements OnInit {
   }
 
   getCountryStringToBeDisplayed(vehicle: VehicleModel) {
-    let corData = CountryOfRegistrationData.CountryData;
-    for (let elem of corData) {
-      if (vehicle.countryOfRegistration === elem.key) {
-        return elem.value.split(' -')[0];
-      }
-    }
+    return this.commonFunctions.getCountryStringToBeDisplayed(vehicle);
   }
 
   doesOdometerDataExist(index: number) {
@@ -139,6 +135,9 @@ export class TestCreatePage implements OnInit {
           }
         }
       } else if (testType.testTypeId === testTypeFieldMetadata.testTypeId && !testTypeFieldMetadata.sections.length) {
+        if (!testType.testResult) {
+          testType.testResult = this.testTypeService.setTestResult(testType, testTypeFieldMetadata.hasDefects);
+        }
         isInProgress = false;
         testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
       }
@@ -226,8 +225,8 @@ export class TestCreatePage implements OnInit {
     return vehicleTest.reasons.length > 0;
   }
 
-  onAbandonVehicleTest(vehicleTest) {
-    this.navCtrl.push(PAGE_NAMES.REASONS_SELECTION_PAGE, {vehicleTest: vehicleTest});
+  onAbandonVehicleTest(vehicleType, vehicleTest) {
+    this.navCtrl.push(PAGE_NAMES.REASONS_SELECTION_PAGE, {vehicleType: vehicleType, vehicleTest: vehicleTest});
   }
 
   onCancel() {
