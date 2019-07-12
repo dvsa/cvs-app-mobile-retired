@@ -16,6 +16,7 @@ page-vehicle-lookup {
   .custom-input {
     font-weight: 400;
     border: 1px solid $color-grey-2;
+    border-width: 1px 0 1px 0;
     padding: 4px 0 4px 16px;
     background-color: color($colors, light);
 
