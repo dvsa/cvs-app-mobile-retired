@@ -13,7 +13,7 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-body{
+body {
   letter-spacing: -0.25px;
 }
 
@@ -223,7 +223,7 @@ ion-item-group {
     color: $color-grey-1;
   }
 
-  .no-result-link{
+  .no-result-link {
     font-size: $font-size-medium;
     text-decoration: underline;
     color: color($colors, primary);
@@ -327,7 +327,7 @@ ion-list.vehicle-list {
 
   button.item-ios {
     height: 60px;
-  
+
     .item-inner {
       border-bottom: 0.5px solid $color-grey-2;
       height: 60px;
@@ -347,6 +347,14 @@ ion-list.vehicle-list {
 
 .danger-action-button {
   color: color($colors, danger) !important;
+}
+
+.bold-action-button {
+  font-weight: $font-weight-bold;
+}
+
+.not-bold-action-button {
+  font-weight: $font-weight-normal !important;
 }
 
 .buttonOpacity {

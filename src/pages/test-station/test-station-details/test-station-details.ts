@@ -110,6 +110,7 @@ export class TestStationDetailsPage implements OnInit {
       buttons: [
         {
           text: APP_STRINGS.CONFIRM,
+          cssClass: 'bold-action-button',
           handler: () => {
             this.confirmStartVisit();
           }
@@ -132,6 +133,7 @@ export class TestStationDetailsPage implements OnInit {
         },
         {
           text: APP_STRINGS.CANCEL,
+          cssClass: 'not-bold-action-button'
         }
       ]
     });

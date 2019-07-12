@@ -2,7 +2,7 @@
   <ion-navbar hideBackButton="true">
     <ion-buttons end>
       <button ion-button (click)="createNewTestReport()">
-        Create test
+        Start test
       </button>
     </ion-buttons>
     <ion-title margin-left>
@@ -13,7 +13,8 @@
 
 <ion-content no-padding>
   <ion-list class="full-dividers-list">
-    <ion-item-divider><span text-uppercase class="divider-color">{{ visit.startTime | date: 'd MMMM yyyy' }}</span></ion-item-divider>
+    <ion-item-divider><span text-uppercase class="divider-color">{{ visit.startTime | date: 'd MMMM yyyy' }}</span>
+    </ion-item-divider>
     <button ion-item detail-none class="timeline-checkin">
       <div class="timeline-bar"></div>
       <img src="assets/timeline-pin-with-line.svg" item-start>
@@ -26,10 +27,13 @@
         <p class="timeline-message">Started site visit</p>
       </div>
     </button>
-    <button ion-item *ngFor="let timelineItem of timeline" class="timeline-test" (click)="editWaitTime(timelineItem)">
-      <div class="timeline-bar timeline-bar-waitItem" *ngIf="timelineItem.activityType" [ngClass]="timelineItem.waitReason.length > 0 ? 'timeline-bar-waitItem-tertiary' : ''"></div>
+    <button ion-item *ngFor="let timelineItem of timeline" class="timeline-test"
+            [ngClass]="{'hide-chevron': !timelineItem.activityType}" (click)="editWaitTime(timelineItem)">
+      <div class="timeline-bar timeline-bar-waitItem" *ngIf="timelineItem.activityType"
+           [ngClass]="timelineItem.waitReason.length > 0 ? 'timeline-bar-waitItem-tertiary' : ''"></div>
       <div class="timeline-bar" *ngIf="!timelineItem.activityType"></div>
-      <img src="assets/timeline_warning_icon.svg" alt="warning" item-start *ngIf="timelineItem.activityType && timelineItem.waitReason.length === 0">
+      <img src="assets/timeline_warning_icon.svg" alt="warning" item-start
+           *ngIf="timelineItem.activityType && timelineItem.waitReason.length === 0">
       <img src="assets/timeline-oval.svg" alt="all good" item-start *ngIf="!timelineItem.activityType">
       <div class="timeline-item-content" *ngIf="timelineItem.activityType !== VISIT_TYPE.ACTIVITY_TYPE_WAIT">
         <p>{{ timelineItem.startTime | date: 'HH:mm' }} - {{ timelineItem.endTime | date: 'HH:mm' }}</p>
@@ -39,19 +43,24 @@
           <span *ngIf="timelineItem.status != TEST_REPORT_STATUS.CANCELLED">
                     <p class="timeline-message" *ngFor="let vehicleTest of vehicle.testTypes">
                       <span>{{ vehicleTest.testTypeCategoryName }} •</span>
-                      <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.PASS" class="pass" text-uppercase>{{ vehicleTest.testResult }}</span>
+                      <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.PASS" class="pass"
+                            text-uppercase>{{ vehicleTest.testResult }}</span>
                       <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.FAIL" class="fail"
                             text-uppercase>{{ vehicleTest.testResult }}</span>
-                      <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.ABANDONED" class="fail" text-uppercase>{{ vehicleTest.testResult }}</span>
-                      <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.PRS" class="prs" text-uppercase>{{ vehicleTest.testResult }}</span>
+                      <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.ABANDONED" class="fail"
+                            text-uppercase>{{ vehicleTest.testResult }}</span>
+                      <span *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.PRS" class="prs"
+                            text-uppercase>{{ vehicleTest.testResult }}</span>
                     </p>
           </span>
           <p><b *ngIf="timelineItem.status === TEST_REPORT_STATUS.CANCELLED" text-uppercase>cancelled</b></p>
         </span>
         </div>
       </div>
-      <div class="timeline-item-content" *ngIf="timelineItem.activityType === VISIT_TYPE.ACTIVITY_TYPE_WAIT" [ngClass]="timelineItem.waitReason.length > 0 ? 'timeline-item-content-waitItem' : ''">
-        <p>{{ timelineItem.startTime | date: 'HH:mm' }} <span *ngIf="timelineItem.endTime">-</span> {{ timelineItem.endTime | date: 'HH:mm' }}</p>
+      <div class="timeline-item-content" *ngIf="timelineItem.activityType === VISIT_TYPE.ACTIVITY_TYPE_WAIT"
+           [ngClass]="timelineItem.waitReason.length > 0 ? 'timeline-item-content-waitItem' : ''">
+        <p>{{ timelineItem.startTime | date: 'HH:mm' }} <span
+          *ngIf="timelineItem.endTime">-</span> {{ timelineItem.endTime | date: 'HH:mm' }}</p>
         <h2 *ngIf="timelineItem.waitReason.length === 0 else hasReasons">Time not testing</h2>
         <ng-template #hasReasons>
           <ng-container *ngFor="let reason of timelineItem.waitReason">
@@ -70,8 +79,8 @@
 <ion-footer>
   <ion-toolbar class="gray-toolbar">
     <ion-buttons class="button-centered">
-      <button ion-button 
-              (click)="endVisit()" 
+      <button ion-button
+              (click)="endVisit()"
               color="primary"
               [ngClass]="{buttonOpacity: changeOpacity}">
         End visit

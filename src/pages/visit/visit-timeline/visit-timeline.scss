@@ -36,7 +36,7 @@ ion-app.ios page-visit-timeline {
 
           h2 {
             font-size: $font-size-medium-2;
-            font-weight: $font-weight-semi-bold; 
+            font-weight: $font-weight-semi-bold;
           }
 
           p {
@@ -89,6 +89,10 @@ ion-app.ios page-visit-timeline {
           border-left-color: color($colors, tertiary);
           top: 40%;
         }
+      }
+
+      button.timeline-test.hide-chevron .item-inner {
+        background-image: none;
       }
 
       button.timeline-test.item-block {
