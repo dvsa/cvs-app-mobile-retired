@@ -121,7 +121,7 @@ export enum APP_STRINGS {
   TEST_STATION_SAFETY = 'Confirm ATF and safety',
   REPORT_TITLE = 'Report an ATF issue',
   SPEAK_TO_TTL = 'Speak to your Technical Team Leader (TTL) if the issue cannot be resolved on site.',
-  SEARCH_TEST_STATION = 'Search for an ATF',
+  SEARCH_TEST_STATION = 'Find an ATF',
   CALL = 'Call',
   TEST_TYPE = 'Test type',
   NO_SEATBELTS_ENTERED = 'No seatbelts entered',
