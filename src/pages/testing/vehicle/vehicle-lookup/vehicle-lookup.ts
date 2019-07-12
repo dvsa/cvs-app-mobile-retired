@@ -142,7 +142,7 @@ export class VehicleLookupPage {
   showAlert() {
     const alert = this.alertCtrl.create({
       title: 'Vehicle not found',
-      subTitle: 'You can find a vehicle by typing in its registration number or vehicle identification/chassis number',
+      subTitle: 'You can find a vehicle by typing in its registration number or vehicle identification / chassis number',
       enableBackdropDismiss: false,
       buttons: ['OK']
     });
