@@ -14,14 +14,17 @@
 </ion-header>
 
 <ion-content>
-    <ion-list>
-        <ion-item-group>
-            <ion-item-divider padding-left>You can select multiple reasons for abandoning this test</ion-item-divider>
-            <ion-item text-wrap padding-horizontal
-                      *ngFor="let reason of reasonsList">
-                <ion-label>{{reason.text}}</ion-label>
-                <ion-checkbox [(ngModel)]="reason.isChecked" (ionChange)="onCheck(reason)"></ion-checkbox>
-            </ion-item>
-        </ion-item-group>
-    </ion-list>
+        <ion-list class="checkbox-list">
+            <ion-item-group>
+
+                <ion-item-divider padding-left text-wrap>You can select multiple reasons for abandoning this test</ion-item-divider>
+                
+                <button ion-item padding-left detail-none *ngFor="let reason of reasonsList"
+                    (click)="reason.isChecked=!reason.isChecked;onCheck(reason)">
+                    <ion-label text-wrap>{{reason.text}}</ion-label>
+                    <ion-icon item-end class="selected" name="checkmark" *ngIf="reason.isChecked"></ion-icon>
+                </button>
+        
+            </ion-item-group>
+        </ion-list>
 </ion-content>
