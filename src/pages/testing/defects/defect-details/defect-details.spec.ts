@@ -162,7 +162,6 @@ describe('Component: DefectDetailsPage', () => {
     comp.defect = navParams.get('deficiency');
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.isEdit = navParams.get('isEdit');
-    spyOn(comp, 'addDefect');
     spyOn(comp, 'showProhibitionAlert');
   });
 
@@ -255,6 +254,7 @@ describe('Component: DefectDetailsPage', () => {
   });
 
   it('should add a defect if showProhibition is false and isProhibitionClearance is true', () => {
+    spyOn(comp, 'addDefect');
     comp.showProhibition = false;
     comp.isProhibitionClearance = true;
     comp.checkProhibitionStatus();
@@ -262,6 +262,7 @@ describe('Component: DefectDetailsPage', () => {
   });
 
   it('should add a defect if showProhibition is true, isProhibitionClearance is false, prohibitionAsterisk is false and prohibitionIssued is true', () => {
+    spyOn(comp, 'addDefect');
     comp.showProhibition = true;
     comp.isProhibitionClearance = false;
     comp.prohibitionAsterisk = false;
@@ -271,6 +272,7 @@ describe('Component: DefectDetailsPage', () => {
   });
 
   it('should show correct alert if showProhibition is true, prohibitionAsterisk is false and prohibitionIssued is false', () => {
+    spyOn(comp, 'addDefect');
     comp.showProhibition = true;
     comp.isProhibitionClearance = false;
     comp.prohibitionAsterisk = false;
@@ -281,6 +283,7 @@ describe('Component: DefectDetailsPage', () => {
   });
 
   it('should show correct alert if showProhibition is true, prohibitionAsterisk is true, prohibitionIssued is false and notes is null', () => {
+    spyOn(comp, 'addDefect');
     comp.showProhibition = true;
     comp.isProhibitionClearance = false;
     comp.prohibitionAsterisk = true;
