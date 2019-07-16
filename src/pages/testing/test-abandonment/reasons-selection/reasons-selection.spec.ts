@@ -43,9 +43,9 @@ describe('Component: ReasonsSelectionPage', () => {
 
   it('should add or remove a reason out of an array depending on a boolean var', () => {
     expect(component.selectedReasons.length).toEqual(0);
-    component.onCheck({text: 'Best reason', isChecked: true});
-    expect(component.selectedReasons.length).toEqual(1);
     component.onCheck({text: 'Best reason', isChecked: false});
+    expect(component.selectedReasons.length).toEqual(1);
+    component.onCheck({text: 'Best reason', isChecked: true});
     expect(component.selectedReasons.length).toEqual(0);
   });
 
