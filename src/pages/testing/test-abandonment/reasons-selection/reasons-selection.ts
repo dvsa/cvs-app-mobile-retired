@@ -44,6 +44,7 @@ export class ReasonsSelectionPage {
   }
 
   onCheck(reason: AbandonmentReasonItemModel) {
+    reason.isChecked=!reason.isChecked;
     reason.isChecked ? this.selectedReasons.push(reason.text) : this.selectedReasons.splice(this.selectedReasons.indexOf(reason.text), 1);
   }
 
