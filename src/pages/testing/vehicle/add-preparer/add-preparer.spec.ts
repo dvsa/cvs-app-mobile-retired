@@ -18,8 +18,10 @@ import { AlertControllerMock } from "ionic-mocks";
 import { of } from "rxjs/observable/of";
 import { AuthService } from "../../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
-import { APP_STRINGS, TESTER_ROLES } from "../../../../app/app.enums";
+import { APP_STRINGS, TESTER_ROLES, VEHICLE_TYPE } from "../../../../app/app.enums";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -32,6 +34,7 @@ describe('Component: AddPreparerPage', () => {
   let preparerServiceSpy: any;
 
   const TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
+  const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
     preparerServiceSpy = jasmine.createSpyObj(
@@ -48,6 +51,7 @@ describe('Component: AddPreparerPage', () => {
       providers: [
         NavController,
         TestService,
+        CommonFunctionsService,
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: NavParams, useClass: NavParamsMock},
@@ -105,12 +109,19 @@ describe('Component: AddPreparerPage', () => {
     })
   );
 
+  it('should test checkForMatch', () => {
+    expect(comp.checkForMatch(VEHICLE.techRecord.vehicleType, VEHICLE_TYPE.PSV)).toBeTruthy();
+  });
+
   it('should format the data from confirm with a preparer selected', () => {
     spyOn(comp, 'presentPreparerConfirm').and.callThrough();
     comp.preparers = PreparersDataMock.PreparersData;
     comp.searchValue = 'AK4434';
     comp.formatDataForConfirm();
-    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({preparerId: 'AK4434', preparerName: 'Durrell Vehicles Limited'})
+    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({
+      preparerId: 'AK4434',
+      preparerName: 'Durrell Vehicles Limited'
+    })
   });
 
   it('should format the data from confirm without a preparer selected', () => {
@@ -118,7 +129,10 @@ describe('Component: AddPreparerPage', () => {
     comp.preparers = PreparersDataMock.PreparersData;
     comp.searchValue = '';
     comp.formatDataForConfirm();
-    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({preparerId: 'No preparer ID given', preparerName: ''}, false)
+    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({
+      preparerId: 'No preparer ID given',
+      preparerName: ''
+    }, false)
   });
 
   it('should format the data from confirm with a preparer not found', () => {
@@ -126,14 +140,17 @@ describe('Component: AddPreparerPage', () => {
     comp.preparers = PreparersDataMock.PreparersData;
     comp.searchValue = 'xxx';
     comp.formatDataForConfirm();
-    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({preparerId: 'No preparer ID found', preparerName: ''}, false, true)
+    expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({
+      preparerId: 'No preparer ID found',
+      preparerName: ''
+    }, false, true)
   });
 
   it('should get data from service', () => {
     expect(comp.preparers).toBeDefined();
   });
 
-  it( 'should check if user has rights to test selected vehicle', () => {
+  it('should check if user has rights to test selected vehicle', () => {
     let neededRoles = [TESTER_ROLES.FULL_ACCESS];
     let testerRoles = [TESTER_ROLES.HGV];
     expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'psv')).toBeFalsy();

@@ -1,14 +1,15 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
-import {PreparerService} from "../../../../providers/preparer/preparer.service";
-import {TestModel} from "../../../../models/tests/test.model";
-import {APP_STRINGS, PAGE_NAMES, TESTER_ROLES} from "../../../../app/app.enums";
-import {VehicleService} from "../../../../providers/vehicle/vehicle.service";
-import {VehicleModel} from "../../../../models/vehicle/vehicle.model";
-import {PreparersReferenceDataModel} from "../../../../models/reference-data-models/preparers.model";
-import {TestService} from '../../../../providers/test/test.service';
-import {VisitService} from "../../../../providers/visit/visit.service";
-import {AuthService} from "../../../../providers/global/auth.service";
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AlertController, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { PreparerService } from "../../../../providers/preparer/preparer.service";
+import { TestModel } from "../../../../models/tests/test.model";
+import { APP_STRINGS, PAGE_NAMES, TESTER_ROLES, VEHICLE_TYPE } from "../../../../app/app.enums";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { PreparersReferenceDataModel } from "../../../../models/reference-data-models/preparers.model";
+import { TestService } from '../../../../providers/test/test.service';
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { AuthService } from "../../../../providers/global/auth.service";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 
 
 @IonicPage()
@@ -24,6 +25,7 @@ export class AddPreparerPage implements OnInit {
   testData: TestModel;
   activeIndex: number;
   preparerInfoText: string = APP_STRINGS.ADD_PREPARER_INFO_TEXT;
+  VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -34,7 +36,8 @@ export class AddPreparerPage implements OnInit {
               private cdRef: ChangeDetectorRef,
               private viewCtrl: ViewController,
               private testReportService: TestService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private commonFunc: CommonFunctionsService) {
     this.vehicleData = this.navParams.get('vehicle');
     this.testData = this.navParams.get('test');
   }
@@ -50,6 +53,10 @@ export class AddPreparerPage implements OnInit {
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.VEHICLE_DETAILS);
+  }
+
+  checkForMatch(inputValue: string, expectedValue: string): boolean {
+    return this.commonFunc.checkForMatch(inputValue, expectedValue);
   }
 
   getPreparers(): void {
