@@ -5,6 +5,7 @@ import { PipesModule } from "../../../../pipes/pipes.module";
 import { DirectivesModule } from "../../../../directives/directives.module";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { TestService } from "../../../../providers/test/test.service";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ import { TestService } from "../../../../providers/test/test.service";
   ],
   providers: [
     VehicleService,
-    TestService
+    TestService,
+    CommonFunctionsService
   ]
 })
-export class AddPreparerPageModule {}
+export class AddPreparerPageModule {
+}

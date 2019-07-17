@@ -18,10 +18,12 @@ import { AlertControllerMock } from "ionic-mocks";
 import { of } from "rxjs/observable/of";
 import { AuthService } from "../../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
-import { APP_STRINGS, TESTER_ROLES } from "../../../../app/app.enums";
+import { APP_STRINGS, TESTER_ROLES, VEHICLE_TYPE } from "../../../../app/app.enums";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -35,6 +37,7 @@ describe('Component: AddPreparerPage', () => {
   let firebaseLogsService: FirebaseLogsService;
 
   const TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
+  const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
     preparerServiceSpy = jasmine.createSpyObj(
@@ -51,6 +54,7 @@ describe('Component: AddPreparerPage', () => {
       providers: [
         NavController,
         TestService,
+        CommonFunctionsService,
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: AuthService, useClass: AuthServiceMock},
@@ -110,6 +114,10 @@ describe('Component: AddPreparerPage', () => {
       expect(injectService).toBe(vehicleService);
     })
   );
+
+  it('should test checkForMatch', () => {
+    expect(comp.checkForMatch(VEHICLE.techRecord.vehicleType, VEHICLE_TYPE.PSV)).toBeTruthy();
+  });
 
   it('should format the data from confirm with a preparer selected', () => {
     spyOn(comp, 'presentPreparerConfirm').and.callThrough();
