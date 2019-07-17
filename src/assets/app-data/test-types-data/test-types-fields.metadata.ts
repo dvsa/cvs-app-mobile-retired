@@ -1648,6 +1648,53 @@ export class TestTypesFieldsMetadata {
         hasNotes: true,
         hasRoadworthinessCertificate: true
       },
+      {
+        testTypeId: '93',
+        testTypeName: 'Prohibition clearance (retest without Class 6A seatbelt installation check)',
+        sections: [
+          {
+            sectionName: 'Seatbelt installation check',
+            inputs: [
+              {
+                testTypePropertyName: 'seatbeltInstallationCheckDate',
+                label: 'Carried out during this test',
+                type: 'ddl',
+                title: 'Was a seatbelt installation check carried out?',
+                values: [
+                  {
+                    text: 'Yes',
+                    value: true,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'No',
+                    value: false,
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Yes'
+              },
+              {
+                testTypePropertyName: 'numberOfSeatbeltsFitted',
+                label: 'Number of seatbelts fitted',
+                info: 'If there are no seatbelts fitted, enter zero (0).',
+                type: 'number',
+                defaultValue: 'Enter'
+              },
+              {
+                testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
+                label: 'Most recent installation check',
+                type: 'date',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+              }
+            ]
+          }
+        ],
+        category: 'A',
+        hasDefects: true,
+        hasNotes: true
+      },
       // ----- duplicated test types with different testTypeIds for TRLs with 1 axle -----
       {
         testTypeId: '94',
