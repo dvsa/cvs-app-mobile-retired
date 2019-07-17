@@ -1,10 +1,10 @@
 <ion-header>
   <ion-navbar>
-  <ion-buttons end>
-    <button ion-button (click)="formatDataForConfirm()">
-      <span>Start Test</span>
-    </button>
-  </ion-buttons>
+    <ion-buttons end>
+      <button ion-button (click)="formatDataForConfirm()">
+        <span>Start Test</span>
+      </button>
+    </ion-buttons>
     <ion-title margin-left>Enter preparer ID</ion-title>
   </ion-navbar>
 </ion-header>
@@ -17,13 +17,16 @@
         <div text-uppercase
              text-center
              class="vehicle-header-vrm-number">
-          {{ vehicleData.vrm | formatVrm }}
+          <ng-container
+            *ngIf="checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle">{{ vehicleData.trailerId }}</ng-container>
+          <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
         </div>
       </ion-col>
     </ion-row>
     <ion-row no-border>
       <ion-item padding-left class="srch-preparer-input">
-        <ion-input placeholder="Enter preparer ID if known" [(ngModel)]="searchValue" (ngModelChange)="valueInputChange($event)" clearInput="true"></ion-input>
+        <ion-input placeholder="Enter preparer ID if known" [(ngModel)]="searchValue"
+                   (ngModelChange)="valueInputChange($event)" clearInput="true"></ion-input>
       </ion-item>
     </ion-row>
     <ion-row padding-horizontal class="info-text">
