@@ -34,4 +34,11 @@ page-odometer-reading {
 
   }
 
+  ion-item.error-incomplete-item ::placeholder {
+    color: color($colors, danger) !important;
+  }
+
+  ion-item.error-incomplete-item.input-has-focus ::placeholder {
+    color: $color-grey-1 !important;
+  }
 }

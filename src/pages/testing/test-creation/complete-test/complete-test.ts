@@ -49,6 +49,7 @@ export class CompleteTestPage implements OnInit {
   isNotifiableAlteration: boolean;
   isNotifiableAlterationError: boolean;
   TEST_TYPE_RESULTS: typeof TEST_TYPE_RESULTS = TEST_TYPE_RESULTS;
+  errorIncomplete: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -67,6 +68,7 @@ export class CompleteTestPage implements OnInit {
     this.vehicleTest = navParams.get('vehicleTest');
     this.completedFields = navParams.get('completedFields');
     this.fromTestReview = navParams.get('fromTestReview');
+    this.errorIncomplete = navParams.get('errorIncomplete');
     this.patterns = REG_EX_PATTERNS;
     this.isCertificateNumberFocused = false;
   }
@@ -81,6 +83,7 @@ export class CompleteTestPage implements OnInit {
         this.defectsCategories = defects;
       }
     );
+    if (this.vehicleTest.numberOfSeatbeltsFitted && this.testTypeDetails.category === 'B') this.errorIncomplete = false;
   }
 
   ionViewWillEnter() {
@@ -202,22 +205,30 @@ export class CompleteTestPage implements OnInit {
     return true;
   }
 
+  openInputModalDismissHandler(input, data) {
+    if (data.inputValue) {
+      this.vehicleTest[input.testTypePropertyName] = data.inputValue;
+      this.completedFields[input.testTypePropertyName] = data.inputValue;
+    }
+    if (data.fromTestReview) {
+      this.fromTestReview = data.fromTestReview;
+    }
+    if (data.hasOwnProperty('errorIncomplete')) {
+      this.errorIncomplete = data.errorIncomplete;
+    }
+  }
+
   openInputPage(section, input) {
     const INPUT_MODAL = this.modalCtrl.create('TestTypeDetailsInputPage', {
       vehicleCategory: this.testTypeDetails.category,
       sectionName: section.sectionName,
       input: input,
       existentValue: this.completedFields[input.testTypePropertyName] || null,
-      fromTestReview: this.fromTestReview
+      fromTestReview: this.fromTestReview,
+      errorIncomplete: this.errorIncomplete
     });
     INPUT_MODAL.onDidDismiss(data => {
-      if (data.inputValue) {
-        this.vehicleTest[input.testTypePropertyName] = data.inputValue;
-        this.completedFields[input.testTypePropertyName] = data.inputValue;
-      }
-      if (data.fromTestReview) {
-        this.fromTestReview = data.fromTestReview;
-      }
+      this.openInputModalDismissHandler(input, data);
     });
     INPUT_MODAL.present();
   }

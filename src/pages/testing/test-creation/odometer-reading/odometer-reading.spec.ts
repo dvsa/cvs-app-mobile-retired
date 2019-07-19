@@ -73,6 +73,17 @@ describe('Component: OdometerReadingPage', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should test ngOnInit logic', () => {
+    component.vehicle.odometerReading = '32';
+    component.errorIncomplete = true;
+    component.ngOnInit();
+    expect(component.errorIncomplete).toBeFalsy();
+    component.vehicle.odometerReading = '';
+    component.errorIncomplete = true;
+    component.ngOnInit();
+    expect(component.errorIncomplete).toBeTruthy();
+  });
+
   it('should check if logEvent was triggered', () => {
     spyOn(firebaseLogsService, 'logEvent');
     component.onSave();

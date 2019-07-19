@@ -40,11 +40,14 @@ export class TestCreatePage implements OnInit {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   testData: TestModel;
   testTypesFieldsMetadata;
-  testCompletionStatus;
+  testCompletionStatus: typeof TEST_COMPLETION_STATUS;
   completedFields = {};
   changeOpacity: boolean = false;
   displayAddVehicleButton: boolean;
   doesHgvExist: boolean;
+  errorIncomplete: boolean = false;
+  allVehiclesCompletelyTested: boolean = false;
+  TEST_CREATE_ERROR_BANNER: typeof APP_STRINGS.TEST_CREATE_ERROR_BANNER = APP_STRINGS.TEST_CREATE_ERROR_BANNER;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -79,6 +82,7 @@ export class TestCreatePage implements OnInit {
     this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
       this.completedFields = completedFields;
     });
+    this.computeErrorIncomplete();
   }
 
   ionViewWillLeave() {
@@ -167,7 +171,8 @@ export class TestCreatePage implements OnInit {
       this.navCtrl.push(PAGE_NAMES.COMPLETE_TEST_PAGE, {
         vehicle: vehicle,
         vehicleTest: vehicleTest,
-        completedFields: this.completedFields
+        completedFields: this.completedFields,
+        errorIncomplete: this.errorIncomplete
       });
     } else {
       this.navCtrl.push(PAGE_NAMES.TEST_ABANDONING_PAGE, {
@@ -182,9 +187,13 @@ export class TestCreatePage implements OnInit {
     this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time = Date.now();
 
     const MODAL = this.modalCtrl.create(PAGE_NAMES.ODOMETER_READING_PAGE, {
-      vehicle: this.testData.vehicles[index]
+      vehicle: this.testData.vehicles[index],
+      errorIncomplete: this.errorIncomplete
     });
     MODAL.present();
+    MODAL.onDidDismiss(() => {
+      this.computeErrorIncomplete();
+    });
   }
 
   onCountryOfRegistration(vehicle: VehicleModel) {
@@ -192,13 +201,20 @@ export class TestCreatePage implements OnInit {
       vehicle: vehicle
     });
     MODAL.present();
+    MODAL.onDidDismiss(() => {
+      this.computeErrorIncomplete();
+    });
   }
 
   onVehicleCategory(vehicle: VehicleModel) {
     const MODAL = this.modalCtrl.create(PAGE_NAMES.CATEGORY_READING_PAGE, {
-      vehicle: vehicle
+      vehicle: vehicle,
+      errorIncomplete: this.errorIncomplete
     });
     MODAL.present();
+    MODAL.onDidDismiss(() => {
+      this.computeErrorIncomplete();
+    });
   }
 
   onRemoveVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel, slidingItem: ItemSliding) {
@@ -221,6 +237,9 @@ export class TestCreatePage implements OnInit {
     });
 
     alert.present();
+    alert.onDidDismiss(() => {
+      this.computeErrorIncomplete();
+    });
   }
 
   removeVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
@@ -247,6 +266,26 @@ export class TestCreatePage implements OnInit {
     this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {test: tests[tests.length - 1]});
   }
 
+  areAllTestTypesCompleted(vehicle: VehicleModel): boolean {
+    return vehicle.testTypes.every((test: TestTypeModel) => {
+      this.getTestTypeStatus(test);
+      return test.completionStatus != TEST_COMPLETION_STATUS.IN_PROGRESS || test.testResult === TEST_TYPE_RESULTS.ABANDONED;
+    });
+  }
+
+  areAllVehiclesCompletelyTested(test: TestModel): boolean {
+    return test.vehicles.every((vehicle: VehicleModel) => {
+      return vehicle.countryOfRegistration && vehicle.euVehicleCategory && vehicle.odometerReading && this.areAllTestTypesCompleted(vehicle);
+    });
+  }
+
+  computeErrorIncomplete() {
+    this.allVehiclesCompletelyTested = this.areAllVehiclesCompletelyTested(this.testData);
+    if (this.allVehiclesCompletelyTested) {
+      this.errorIncomplete = false;
+    }
+  }
+
   /**
    * Go to test review page with checks on the tests.
    * As this page is used to change the details during a test review also; if i'm already coming from a test review page (for a vehicle being tested), go back to that page.
@@ -261,25 +300,11 @@ export class TestCreatePage implements OnInit {
         this.logMissingFields(vehicle);
         requiredFieldsCompleted = false;
       }
-      finishedTest = finishedTest && vehicle.testTypes.every((test: TestTypeModel) => {
-        return test.completionStatus != TEST_COMPLETION_STATUS.IN_PROGRESS || test.testResult === TEST_TYPE_RESULTS.ABANDONED;
-      });
+      finishedTest = finishedTest && this.areAllTestTypesCompleted(vehicle);
       allVehiclesHaveTests = allVehiclesHaveTests && (vehicle.testTypes.length > 0);
     }
 
-    if (!finishedTest || !requiredFieldsCompleted) {
-      let alert = this.alertCtrl.create({
-        title: APP_STRINGS.TEST_NOT_COMPLETE,
-        subTitle: APP_STRINGS.COMPLETE_ALL_TESTS,
-        buttons: [APP_STRINGS.OK]
-      });
-      alert.present();
-      this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.NOT_ALL_TESTS_COMPLETED);
-      if (!finishedTest) {
-        this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.NOT_ALL_TESTS_COMPLETED);
-      }
-      alert.onDidDismiss(() => this.changeOpacity = false);
-    } else if (!allVehiclesHaveTests) {
+    if (!allVehiclesHaveTests) {
       let alert = this.alertCtrl.create({
         title: APP_STRINGS.NO_TESTS_ADDED,
         subTitle: APP_STRINGS.PLEASE_ADD_TEST,
@@ -289,11 +314,21 @@ export class TestCreatePage implements OnInit {
       this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.NO_TEST_ADDED);
       this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.MISSING_MADATORY_FIELD, FIREBASE.NO_TEST_ADDED);
       alert.onDidDismiss(() => this.changeOpacity = false);
+    } else if (!finishedTest || !requiredFieldsCompleted) {
+      this.changeOpacity = false;
+      this.errorIncomplete = true;
+      this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.NOT_ALL_TESTS_COMPLETED);
+      if (!finishedTest) {
+        this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.NOT_ALL_TESTS_COMPLETED);
+      }
     } else {
       this.changeOpacity = false;
-
-      if (this.navCtrl.getPrevious().name === PAGE_NAMES.TEST_REVIEW_PAGE) this.navCtrl.pop();
-      else this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE)
+      this.errorIncomplete = false;
+      if (this.navCtrl.getPrevious().name === PAGE_NAMES.TEST_REVIEW_PAGE) {
+        this.navCtrl.pop();
+      } else {
+        this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE, {visit: this.visitService.visit});
+      }
     }
   }
 

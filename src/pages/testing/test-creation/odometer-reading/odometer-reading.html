@@ -15,7 +15,8 @@
   <ion-list>
     <ion-item-group>
       <ion-item-divider padding-left>Reading</ion-item-divider>
-      <ion-item padding-left>
+      <ion-item padding-left
+                [ngClass]="{'error-incomplete-item': errorIncomplete && !odometerReading}">
         <ion-input placeholder="Enter value"
                    type="number"
                    [pattern]="patterns.NUMERIC"

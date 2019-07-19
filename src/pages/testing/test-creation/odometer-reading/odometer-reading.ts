@@ -15,6 +15,7 @@ export class OdometerReadingPage implements OnInit {
   odometerReading: string;
   odometerMetric: string;
   vehicle: VehicleModel;
+  errorIncomplete: boolean;
   patterns;
 
   @ViewChild('valueInput') valueInput: TextInput;
@@ -27,12 +28,14 @@ export class OdometerReadingPage implements OnInit {
               private cdRef: ChangeDetectorRef,
               private firebaseLogsService: FirebaseLogsService) {
     this.vehicle = this.navParams.get('vehicle');
+    this.errorIncomplete = this.navParams.get('errorIncomplete');
   }
 
   ngOnInit() {
     this.odometerReading = this.vehicle.odometerReading && this.vehicle.odometerReading.length ? this.vehicle.odometerReading : null;
     this.odometerMetric = this.vehicle.odometerMetric && this.vehicle.odometerMetric.length ? this.vehicle.odometerMetric : ODOMETER_METRIC.KILOMETRES;
     this.patterns = REG_EX_PATTERNS;
+    if (this.vehicle.odometerReading) this.errorIncomplete = false;
   }
 
   ionViewDidEnter() {

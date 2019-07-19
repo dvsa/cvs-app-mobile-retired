@@ -14,6 +14,8 @@ describe('Component: EuVehicleCategoryPage', () => {
   let component: CategoryReadingPage;
   let fixture: ComponentFixture<CategoryReadingPage>;
 
+  const VEHICLE_DATA: VehicleModel = VehicleDataMock.VehicleData;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CategoryReadingPage],
@@ -53,5 +55,22 @@ describe('Component: EuVehicleCategoryPage', () => {
     component.vehicle.techRecord.vehicleType = 'trl';
     component.ngOnInit();
     expect(component.categorySubtitle).toEqual(EuVehicleCategoryData.EuCategoryTrlSubtitleData);
+  });
+
+  it('should test errorIncomplete logic', () => {
+    component.errorIncomplete = true;
+    component.vehicle = VEHICLE_DATA;
+    component.vehicle.euVehicleCategory = '';
+    component.ngOnInit();
+    expect(component.errorIncomplete).toBeTruthy();
+    component.vehicle.euVehicleCategory = 'm1';
+    component.ngOnInit();
+    expect(component.errorIncomplete).toBeFalsy();
+  });
+
+  it('should test setVehicleCategory logic', () => {
+    component.vehicle = VEHICLE_DATA;
+    component.setVehicleCategory('m1');
+    expect(component.vehicle.euVehicleCategory).toEqual('m1');
   });
 });

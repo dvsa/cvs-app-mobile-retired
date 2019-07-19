@@ -22,7 +22,7 @@ import { CommonFunctionsService } from "../../../../providers/utils/common-funct
 import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
 import { AppServiceMock } from "../../../../../test-config/services-mocks/app-service.mock";
-import { AlertControllerMock, ModalControllerMock, NavControllerMock } from "ionic-mocks";
+import { AlertControllerMock, EventsMock, ModalControllerMock, NavControllerMock } from "ionic-mocks";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
@@ -30,6 +30,7 @@ import { TestDataModelMock } from "../../../../assets/data-mocks/data-model/test
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -70,7 +71,7 @@ describe('Component: TestCreatePage', () => {
       providers: [
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         CommonFunctionsService,
-        Events,
+        {provide: Events, useFactory: () => EventsMock.instance()},
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
         {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
@@ -130,9 +131,11 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should test ionViewWillEnter lifecycle hook', () => {
+    spyOn(component, 'computeErrorIncomplete');
     component.testData = TEST_DATA;
     component.testData.vehicles.push(VEHICLE);
     component.ionViewWillEnter();
+    expect(component.computeErrorIncomplete).toHaveBeenCalled();
     expect(component.displayAddVehicleButton).toBeFalsy();
     component.testData.vehicles[0].techRecord.vehicleType = VEHICLE_TYPE.HGV;
     component.ionViewWillEnter();
@@ -183,7 +186,7 @@ describe('Component: TestCreatePage', () => {
 
   it('should have "Edit" status if a Roadworthiness test has critical defects and the certificateNumber is not set', () => {
     let testTypeModel: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-    testTypeModel.testTypeId='91';
+    testTypeModel.testTypeId = '91';
     expect(component.getTestTypeStatus(testTypeModel)).toEqual('In progress');
     expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.IN_PROGRESS);
     let criticalDefect = Object.create(DEFECTS[0]);
@@ -194,13 +197,13 @@ describe('Component: TestCreatePage', () => {
 
   it('should have "In progress" status if a Roadworthiness test has minor defects and the certificateNumber is not set', () => {
     let testTypeModel: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-    testTypeModel.testTypeId='91';
+    testTypeModel.testTypeId = '91';
     let prsDefect = Object.create(DEFECTS[0]);
     prsDefect.prs = true;
     testTypeModel.defects.push(prsDefect);
     expect(component.getTestTypeStatus(testTypeModel)).toEqual('In progress');
     expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.IN_PROGRESS);
-    testTypeModel.certificateNumber='TESTCERT';
+    testTypeModel.certificateNumber = 'TESTCERT';
     expect(component.getTestTypeStatus(testTypeModel)).toEqual('Edit');
     expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.EDIT);
   });
@@ -250,6 +253,27 @@ describe('Component: TestCreatePage', () => {
     expect(firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time).toBeTruthy();
   });
 
+  it('should test onVehicleCategory logic', () => {
+    component.onCountryOfRegistration(VEHICLE);
+    expect(modalctrl.create).toHaveBeenCalled();
+  });
+
+  it('should test onCountryOfRegistration logic', () => {
+    component.onVehicleCategory(VEHICLE);
+    expect(modalctrl.create).toHaveBeenCalled();
+  });
+
+  it('should test computeErrorIncomplete logic', () => {
+    component.errorIncomplete = true;
+    component.testData = TEST_DATA;
+    component.testData.vehicles.push(VEHICLE);
+    component.testData.vehicles[0].odometerReading = '12';
+    component.testData.vehicles[0].euVehicleCategory = 'm1';
+    component.testData.vehicles[0].testTypes.push(ADDED_VEHICLE_TEST);
+    component.computeErrorIncomplete();
+    expect(component.errorIncomplete).toBeFalsy();
+  });
+
   it('should check if logEvent was called', () => {
     spyOn(firebaseLogsService, 'logEvent');
     let vehicle = VehicleDataMock.VehicleData;
@@ -288,5 +312,4 @@ describe('Component: TestCreatePage', () => {
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL)).toBeFalsy();
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
   });
-
 });
