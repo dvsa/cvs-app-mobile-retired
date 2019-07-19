@@ -281,16 +281,4 @@ describe('Component: DefectDetailsPage', () => {
     expect(comp.addDefect).not.toHaveBeenCalled();
     expect(comp.showProhibitionAlert).toHaveBeenCalledWith(APP_STRINGS.PROHIBITION_MSG_CONFIRM);
   });
-
-  it('should show correct alert if showProhibition is true, prohibitionAsterisk is true, prohibitionIssued is false and notes is null', () => {
-    spyOn(comp, 'addDefect');
-    comp.showProhibition = true;
-    comp.isProhibitionClearance = false;
-    comp.prohibitionAsterisk = true;
-    comp.defect.prohibitionIssued = false;
-    comp.defect.additionalInformation.notes = null;
-    comp.checkProhibitionStatus();
-    expect(comp.addDefect).not.toHaveBeenCalled();
-    expect(comp.showProhibitionAlert).toHaveBeenCalledWith(APP_STRINGS.PROHIBITION_MSG_NOTES);
-  });
 });
