@@ -14,6 +14,7 @@
 </ion-header>
 
 <ion-content padding>
+  <div class="error-banner" *ngIf="errorIncomplete && !allVehiclesCompletelyTested">{{TEST_CREATE_ERROR_BANNER}}</div>
   <ion-list class="full-dividers-list">
     <ion-card class="card" *ngFor="let vehicle of testData.vehicles; let i = index">
       <button ion-item detail-none class="ion-item-title"
@@ -35,6 +36,7 @@
       </button>
       <button ion-item detail-none
               class="bottom-divider"
+              [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicle.euVehicleCategory}"
               (click)="onVehicleCategory(vehicle)">
         <h3 class="odometer-reading">EU vehicle category</h3>
         <h3 item-end class="vehicle-details" *ngIf="!vehicle.euVehicleCategory">Select</h3>
@@ -48,6 +50,7 @@
       <button ion-item
               detail-none
               class="bottom-divider"
+              [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicle.odometerReading}"
               (click)="onOdometer(i)"
               *ngIf="!isVehicleOfType(vehicle,VEHICLE_TYPE.TRL)">
         <h3 class="odometer-reading">Odometer reading</h3>
@@ -66,7 +69,8 @@
           <button ion-item
                   detail-none
                   (click)="openTest(vehicle, vehicleTest)"
-                  class="bottom-divider">
+                  class="bottom-divider"
+                  [ngClass]="{'error-incomplete-item': errorIncomplete && getTestTypeStatus(vehicleTest) === commonFunctions.capitalizeString(testCompletionStatus.IN_PROGRESS)}">
             <h3 class="test-type">{{ vehicleTest.testTypeCategoryName }}</h3>
             <p item-end ion-text text-uppercase
                class="test-type-status test-result"

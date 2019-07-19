@@ -14,15 +14,18 @@ export class CategoryReadingPage implements OnInit {
   vehicle: VehicleModel;
   vehicleType: string;
   categorySubtitle: string = '';
+  errorIncomplete: boolean;
   categoriesArr = [];
 
   constructor(private navParams: NavParams,
               private visitService: VisitService,
               private viewCtrl: ViewController) {
     this.vehicle = this.navParams.get('vehicle');
+    this.errorIncomplete = this.navParams.get('errorIncomplete');
   }
 
   ngOnInit(): void {
+    if (this.vehicle.euVehicleCategory) this.errorIncomplete = false;
     this.vehicleType = this.vehicle.techRecord.vehicleType;
     switch (this.vehicleType) {
       case VEHICLE_TYPE.PSV:
@@ -42,6 +45,7 @@ export class CategoryReadingPage implements OnInit {
   setVehicleCategory(category) {
     this.vehicle.euVehicleCategory = category;
     this.visitService.updateVisit();
+    this.errorIncomplete = false;
   }
 
   onSave() {

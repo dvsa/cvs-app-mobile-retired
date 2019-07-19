@@ -17,6 +17,7 @@
   <p padding-horizontal class="subtitle">{{categorySubtitle}}</p>
   <ion-list class="eu-cat">
     <button ion-item padding-left detail-none
+            [ngClass]="{'error-incomplete-item': errorIncomplete}"
             *ngFor="let elem of categoriesArr"
             (click)="setVehicleCategory(elem.key)">
       <h3>{{elem.key.toUpperCase()}}</h3>

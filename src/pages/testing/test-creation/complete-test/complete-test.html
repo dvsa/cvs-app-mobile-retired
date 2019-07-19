@@ -45,6 +45,7 @@
         </button>
         <button ion-item
                 class="bottom-divider"
+                [ngClass]="{'error-incomplete-item': errorIncomplete && testTypeDetails.category === 'B'}"
                 (click)="openInputPage(section, input)"
                 *ngIf="input.type === testTypeFields.NUMBER && canDisplayInput(input)">
           <h3>{{input.label}}</h3>

@@ -1,6 +1,6 @@
 import { CompleteTestPage } from "./complete-test";
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
+import { AlertController, IonicModule, ModalController, NavController, NavParams, ViewController } from "ionic-angular";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
@@ -24,6 +24,7 @@ import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
+import { ModalControllerMock } from "ionic-mocks";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -36,6 +37,7 @@ describe('Component: CompleteTestPage', () => {
   let defectsServiceSpy: any;
   let visitService: VisitService;
   let vehicleService: VehicleService;
+  let modalCtrl: ModalController;
 
   const DEFECTS: DefectCategoryReferenceDataModel[] = DefectsReferenceDataMock.DefectsData
   const ADDED_DEFECT: DefectDetailsModel = {
@@ -87,6 +89,7 @@ describe('Component: CompleteTestPage', () => {
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: TestTypeService, useClass: TestTypeServiceMock},
         AlertController,
+        {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: DefectsService, useValue: defectsServiceSpy},
         {provide: ViewController, useClass: ViewControllerMock},
@@ -105,6 +108,7 @@ describe('Component: CompleteTestPage', () => {
     alertCtrl = TestBed.get(AlertController);
     visitService = TestBed.get(VisitService);
     vehicleService = TestBed.get(VehicleService);
+    modalCtrl = TestBed.get(ModalController);
   });
 
   beforeEach(() => {
@@ -124,6 +128,7 @@ describe('Component: CompleteTestPage', () => {
     comp = null;
     visitService = null;
     vehicleService = null;
+    modalCtrl = null;
   });
 
   it('should create the component', () => {
@@ -223,22 +228,36 @@ describe('Component: CompleteTestPage', () => {
 
   it('should display the roadworthinessCertificate input field if the testtype is a roadworthiness test and there are no critical defects', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
-    let prsDefect=DefectDetailsDataMock.DefectData;
+    let prsDefect = DefectDetailsDataMock.DefectData;
     prsDefect.prs = true;
     comp.vehicleTest.defects.push(prsDefect);
     comp.testTypeDetails = comp.getTestTypeDetails();
-    comp.testTypeDetails.hasRoadworthinessCertificate=true;
-    
+    comp.testTypeDetails.hasRoadworthinessCertificate = true;
+
     expect(comp.shouldDisplayRoadworthinessCertificate()).toBe(true);
   });
 
   it('should not display the roadworthinessCertificate input field if the testtype is a roadworthiness test and there are critical defects', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
-    let majorDefect=DefectDetailsDataMock.DefectData;
+    let majorDefect = DefectDetailsDataMock.DefectData;
     comp.vehicleTest.defects.push(majorDefect);
     comp.testTypeDetails = comp.getTestTypeDetails();
-    comp.testTypeDetails.hasRoadworthinessCertificate=true;
+    comp.testTypeDetails.hasRoadworthinessCertificate = true;
     expect(comp.shouldDisplayRoadworthinessCertificate()).toBe(false);
   });
 
+  it('should test openInputModalDismissHandler logic', () => {
+    comp.openInputModalDismissHandler(TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0], {
+      fromTestReview: false,
+      errorIncomplete: false
+    });
+    expect(comp.errorIncomplete).toBeFalsy();
+  });
+
+  it('should test openInputPage logic', () => {
+    comp.testTypeDetails = TestTypeMetadataMock.TestTypeMetadata;
+    comp.completedFields = {};
+    comp.openInputPage(TestTypeMetadataMock.TestTypeMetadata.sections[0], TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0]);
+    expect(modalCtrl.create).toHaveBeenCalled();
+  });
 });

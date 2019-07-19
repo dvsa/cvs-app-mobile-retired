@@ -84,9 +84,10 @@ body {
 
     ion-title {
       padding: 0;
-        .toolbar-title-ios {
-          text-align: left;
-          font-weight: $font-weight-normal;
+
+      .toolbar-title-ios {
+        text-align: left;
+        font-weight: $font-weight-normal;
       }
     }
   }
@@ -483,4 +484,11 @@ ion-item-divider.defect-heading {
 
 .error-incomplete-item {
   border-left: 5px solid color($colors, danger);
+
+  h3[item-end].vehicle-details,
+  h3[item-end].odometer-reading-status,
+  h3[item-end].test-type-status,
+  h3[item-end].current-value.no-data {
+    color: color($colors, danger) !important;
+  }
 }

@@ -39,7 +39,7 @@ page-eu-vehicle-category {
       font-size: $font-size-normal;
     }
 
-    ion-icon[item-end]{
+    ion-icon[item-end] {
       display: flex;
       align-items: center;
       margin: 0;
@@ -47,10 +47,9 @@ page-eu-vehicle-category {
       right: 16px;
       height: 100%;
 
-      &::before{
+      &::before {
         font-size: 34px;
       }
     }
   }
-
 }
