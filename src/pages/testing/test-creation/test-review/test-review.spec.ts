@@ -39,6 +39,9 @@ import { ActivityServiceMock } from "../../../../../test-config/services-mocks/a
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
 import { VEHICLE_TYPE } from "../../../../app/app.enums";
+import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
+import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
+import { By } from "../../../../../node_modules/@angular/platform-browser";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -48,6 +51,9 @@ describe('Component: TestReviewPage', () => {
   let activityServiceMock: ActivityServiceMock;
   let store: Store<any>;
   let commonFuncService: CommonFunctionsService;
+  let testService: TestService;
+  let vehicleService: VehicleService;
+  let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
@@ -89,6 +95,8 @@ describe('Component: TestReviewPage', () => {
     activityServiceMock = TestBed.get(ActivityService);
     store = TestBed.get(Store);
     commonFuncService = TestBed.get(CommonFunctionsService);
+    testService = TestBed.get(TestService);
+    vehicleService = TestBed.get(VehicleService);
   });
 
   beforeEach(() => {
@@ -105,6 +113,8 @@ describe('Component: TestReviewPage', () => {
     activityServiceMock = null;
     store = null;
     commonFuncService = null;
+    testService = null;
+    vehicleService = null;
   });
 
   it('should create the component', () => {
@@ -148,5 +158,32 @@ describe('Component: TestReviewPage', () => {
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL)).toBeFalsy();
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
   });
-  
+
+  it('display the submit button if the currently reviewed vehicle is the last one', () => {
+    let newTest = testService.createTest();
+    let firstVehicle = vehicleService.createVehicle(vehicle);
+    let secondVehicle = vehicleService.createVehicle(vehicle);
+    newTest.vehicles.push(firstVehicle);
+    newTest.vehicles.push(secondVehicle)
+    firstVehicle.testTypes = [];
+    firstVehicle.countryOfRegistration = 'United Kingdom';
+    firstVehicle.euVehicleCategory = 'm1';
+    firstVehicle.odometerReading = '122';
+
+    secondVehicle.testTypes = [];
+    secondVehicle.countryOfRegistration = 'United Kingdom';
+    secondVehicle.euVehicleCategory = 'm2';
+    secondVehicle.odometerReading = '123';
+
+    component.latestTest = newTest;
+    component.vehicleBeingReviewed = component.latestTest.vehicles.length - 1;
+
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      let submitButton = fixture.debugElement.query(By.css('.footer-cta-section>button'));
+      expect(component.nextButtonText).toBe("Submit tests");
+      submitButton.nativeElement.dispatchEvent(new Event('click'));
+      expect(component.submitTest).toHaveBeenCalled();
+    });
+  });
 });

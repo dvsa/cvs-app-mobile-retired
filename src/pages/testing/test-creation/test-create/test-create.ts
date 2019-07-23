@@ -73,7 +73,7 @@ export class TestCreatePage implements OnInit {
     this.displayAddVehicleButton = true;
     this.doesHgvExist = false;
     for (let vehicle of this.testData.vehicles) {
-      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV) this.displayAddVehicleButton = false;
+      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV || this.testData.vehicles.length >= 4) this.displayAddVehicleButton = false;
       if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) this.doesHgvExist = true;
     }
     this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
@@ -239,9 +239,12 @@ export class TestCreatePage implements OnInit {
   addTrailer(tests) {
     this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {test: tests[tests.length - 1]});
   }
-
+  /**
+   * Go to test review page with checks on the tests.
+   * As this page is used to change the details during a test review also; if i'm already coming from a test review page (for a vehicle being tested), go back to that page.
+   */
   reviewTest(): void {
-    let noTestAdded: boolean;
+    let allVehiclesHaveTests: boolean = true;
     this.changeOpacity = true;
     let finishedTest;
     let requiredFieldsCompleted = true;
@@ -253,8 +256,9 @@ export class TestCreatePage implements OnInit {
       finishedTest = vehicle.testTypes.every((test: TestTypeModel) => {
         return test.completionStatus != TEST_COMPLETION_STATUS.IN_PROGRESS || test.testResult === TEST_TYPE_RESULTS.ABANDONED;
       });
-      noTestAdded = vehicle.testTypes.length > 0;
+      allVehiclesHaveTests = allVehiclesHaveTests && (vehicle.testTypes.length > 0);
     }
+    
     if (!finishedTest || !requiredFieldsCompleted) {
       let alert = this.alertCtrl.create({
         title: APP_STRINGS.TEST_NOT_COMPLETE,
@@ -267,7 +271,7 @@ export class TestCreatePage implements OnInit {
         this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.NOT_ALL_TESTS_COMPLETED);
       }
       alert.onDidDismiss(() => this.changeOpacity = false);
-    } else if (!noTestAdded) {
+    } else if (!allVehiclesHaveTests) {
       let alert = this.alertCtrl.create({
         title: APP_STRINGS.NO_TESTS_ADDED,
         subTitle: APP_STRINGS.PLEASE_ADD_TEST,
@@ -279,7 +283,9 @@ export class TestCreatePage implements OnInit {
       alert.onDidDismiss(() => this.changeOpacity = false);
     } else {
       this.changeOpacity = false;
-      this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE, {visit: this.visitService.visit})
+
+      if(this.navCtrl.getPrevious().name === PAGE_NAMES.TEST_REVIEW_PAGE) this.navCtrl.pop();
+      else this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE)
     }
   }
 

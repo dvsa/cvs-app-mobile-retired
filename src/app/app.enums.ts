@@ -144,6 +144,8 @@ export enum APP_STRINGS {
   IDENTIFY_TRAILER = 'Identify trailer',
   TEST_HISTORY = 'Test history',
   SUBMIT_TEST = 'Submit test',
+  SUBMIT_TESTS = 'Submit tests',
+  NEXT_VEHICLE = 'Next vehicle',
   SUBMIT_TEST_MESSAGE = 'You will not be able to make changes to this test after it has been submitted.',
   SUBMIT_TEST_TOAST_MESSAGE = 'The test has been submitted and emailed.',
   UNABLE_TO_SUBMIT_TESTS_TITLE = 'Unable to submit test',

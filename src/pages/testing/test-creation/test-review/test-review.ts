@@ -63,6 +63,8 @@ export class TestReviewPage implements OnInit {
   submitInProgress: boolean = false;
   isTestSubmitted: string;
   oid: string;
+  vehicleBeingReviewed: number;
+  vehicle: VehicleModel;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -85,8 +87,12 @@ export class TestReviewPage implements OnInit {
               private store$: Store<LogsModel>,
               private firebaseLogsService: FirebaseLogsService,
               private activityService: ActivityService) {
-    this.visit = this.navParams.get('visit');
+
+    this.visit = this.visitService.visit;
     this.latestTest = this.visitService.getLatestTest();
+
+    this.vehicleBeingReviewed = this.navParams.get('vehicleBeingReviewed') || 0;
+    this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
   }
 
   ngOnInit(): void {
@@ -98,10 +104,8 @@ export class TestReviewPage implements OnInit {
       this.isTestSubmitted = localStorage.getItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
       this.isTestSubmitted ? this.viewCtrl.showBackButton(false) : this.viewCtrl.showBackButton(true);
     });
-  }
 
-  ionViewWillEnter() {
-    this.viewCtrl.setBackButtonText(APP_STRINGS.TEST);
+    this.viewCtrl.setBackButtonText(this.navParams.get('backButtonText') || APP_STRINGS.TEST);
   }
 
   getVehicleTypeIconToShow(vehicle: VehicleModel) {
@@ -134,6 +138,9 @@ export class TestReviewPage implements OnInit {
     }
   }
 
+  /**
+   * Opens a test overview page as a modal (sliding from bottom)
+   */
   openTestDetailsPage(vehicle, testType) {
     let initialTestType = this.commonFunctions.cloneObject(testType);
     this.completeFields(testType);
@@ -151,7 +158,27 @@ export class TestReviewPage implements OnInit {
     MODAL.present();
   }
 
-  submitTest(test: TestModel) {
+  /**
+   * Handler for the next button
+   * Go to next vehicle if there are vehicles left, otherwise submit test
+   */
+  goToNextPage() {
+    if (this.vehicleBeingReviewed < this.latestTest.vehicles.length - 1)
+      this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE, {
+        vehicleBeingReviewed: this.vehicleBeingReviewed + 1,
+        backButtonText: this.title
+      });
+    else this.submitTest();
+  }
+
+  goToTestCreatePage() {
+    this.navCtrl.push(PAGE_NAMES.TEST_CREATE_PAGE);
+  }
+
+  /**
+   * Handler for the submit button
+   */
+  submitTest() {
     if (!this.submitInProgress) {
       const ALERT = this.alertCtrl.create({
         title: APP_STRINGS.SUBMIT_TEST,
@@ -168,9 +195,9 @@ export class TestReviewPage implements OnInit {
             handler: () => {
               this.storageService.setItem(LOCAL_STORAGE.IS_TEST_SUBMITTED, 'true');
               this.submitInProgress = true;
-              test.status = TEST_REPORT_STATUSES.SUBMITTED;
-              this.testService.endTestReport(test);
-              this.submit(test);
+              this.latestTest.status = TEST_REPORT_STATUSES.SUBMITTED;
+              this.testService.endTestReport(this.latestTest);
+              this.submit(this.latestTest);
             }
           }
         ]
@@ -179,6 +206,9 @@ export class TestReviewPage implements OnInit {
     }
   }
 
+  /**
+   * Algorithm to submit a test containing multiple vehicles
+   */
   submit(test) {
     let stack: Observable<any>[] = [];
     this.oid = this.authService.getOid();
@@ -276,11 +306,22 @@ export class TestReviewPage implements OnInit {
     return this.commonFunctions.getCountryStringToBeDisplayed(vehicle);
   }
 
-  backToTestOverview() {
-    this.navCtrl.pop();
-  }
-
   isVehicleOfType(vehicle: VehicleModel, ...vehicleType: VEHICLE_TYPE[]) {
     return this.commonFunctions.checkForMatchInArray(vehicle.techRecord.vehicleType, vehicleType);
+  }
+
+  get nextButtonText(): string {
+    switch (this.latestTest.vehicles.length) {
+      case 1:
+        return APP_STRINGS.SUBMIT_TEST;
+      case this.vehicleBeingReviewed + 1:
+        return APP_STRINGS.SUBMIT_TESTS;
+      default:
+        return APP_STRINGS.NEXT_VEHICLE;
+    }
+  }
+
+  get title(): string {
+    return `Test review ${this.latestTest.vehicles.length > 1 ? ' (' + (this.vehicleBeingReviewed + 1) + ' of ' + this.latestTest.vehicles.length + ')' : ''}`;
   }
 }
