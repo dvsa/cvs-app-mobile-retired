@@ -88,6 +88,7 @@ export class TestTypesListPage implements OnInit {
           test.testTypeCategoryName = this.testTypeCategoryName;
           this.vehicleService.addTestType(vehicleData, test);
           this.navCtrl.popTo(views[i]);
+          break;
         }
       }
     }
