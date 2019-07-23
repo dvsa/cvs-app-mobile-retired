@@ -1,13 +1,14 @@
 <ion-header>
   <ion-navbar>
     <ion-title margin-left>
-      Test review
+      {{title}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ng-container *ngFor="let vehicle of latestTest.vehicles" no-padding>
+  <ng-container no-padding>
+
     <ion-card>
       <ion-item padding-vertical class="ion-item-title">
         <ion-img item-start class="vehicle-type-icon"
@@ -38,7 +39,7 @@
       <button ion-item
               class="bottom-divider change-details-button"
               *ngIf="!isTestSubmitted"
-              (click)="backToTestOverview()">
+              (click)="goToTestCreatePage()">
         <h3>Change details</h3>
       </button>
     </ion-card>
@@ -210,7 +211,7 @@
     </div>
 
     <div margin-top class="footer-cta-section">
-      <button ion-button block color="secondary" (click)="submitTest(latestTest)">Submit</button>
+      <button ion-button block color="secondary" (click)="goToNextPage()">{{nextButtonText}}</button>
     </div>
   </ng-container>
 
