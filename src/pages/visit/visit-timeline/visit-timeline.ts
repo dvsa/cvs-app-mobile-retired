@@ -11,7 +11,6 @@ import {
   ModalController
 } from 'ionic-angular';
 import { TestService } from "../../../providers/test/test.service";
-import { TestModel } from "../../../models/tests/test.model";
 import { VisitService } from "../../../providers/visit/visit.service";
 import { VisitModel } from "../../../models/visit/visit.model";
 import { StateReformingService } from "../../../providers/global/state-reforming.service";
@@ -24,8 +23,7 @@ import {
   AUTH,
   PAGE_NAMES,
   FIREBASE,
-  VISIT,
-  WAIT_TIME_REASONS
+  VISIT, LOG_TYPES
 } from "../../../app/app.enums";
 import { StorageService } from "../../../providers/natives/storage.service";
 import { AppService } from "../../../providers/global/app.service";
@@ -168,18 +166,36 @@ export class VisitTimelinePage implements OnInit {
         let activity: ActivityModel = this.activityService.createActivityBodyForCall(this.visitService.visit, null, this.timeline);
         this.activityService.submitActivity(activity).subscribe(
           (resp) => {
+            const log: Log = {
+              type: LOG_TYPES.INFO,
+              message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
+              timestamp: Date.now(),
+            };
+            this.store$.dispatch(new logsActions.SaveLog(log));
             if (this.timeline.length && this.timeline[this.timeline.length - 1].activityType) {
               this.activityService.activities[this.activityService.activities.length - 1].endTime = new Date().toISOString();
-              this.activityService.activities[this.activityService.activities.length - 1].id = resp.id;
+              this.activityService.activities[this.activityService.activities.length - 1].id = resp.body.id;
             }
             this.activityService.updateActivities();
             let updActivitiesARR = this.activityService.createActivitiesForUpdateCall(this.activityService.activities);
             if (updActivitiesARR.length) {
               this.activityService.updateActivityReasons(updActivitiesARR).subscribe(
-                () => {
+                (resp) => {
+                  const log: Log = {
+                    type: LOG_TYPES.INFO,
+                    message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
+                    timestamp: Date.now(),
+                  };
+                  this.store$.dispatch(new logsActions.SaveLog(log));
                   this.onUpdateActivityReasonsSuccess(LOADING);
                 },
-                () => {
+                (error) => {
+                  const log: Log = {
+                    type: LOG_TYPES.ERROR,
+                    message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+                    timestamp: Date.now(),
+                  };
+                  this.store$.dispatch(new logsActions.SaveLog(log));
                   LOADING.dismiss();
                 }
               )
@@ -187,7 +203,14 @@ export class VisitTimelinePage implements OnInit {
               this.onUpdateActivityReasonsSuccess(LOADING);
             }
           },
-          () => {
+          (error) => {
+            const log: Log = {
+              type: LOG_TYPES.ERROR,
+              message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+              timestamp: Date.now(),
+            };
+            this.store$.dispatch(new logsActions.SaveLog(log));
+            LOADING.dismiss();
             this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Wait activity submission failed"});
           }
         );

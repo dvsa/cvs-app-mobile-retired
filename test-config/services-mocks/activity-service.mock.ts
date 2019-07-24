@@ -2,13 +2,17 @@ import { ActivityModel } from "../../src/models/visit/activity.model";
 import { TestResultModel } from "../../src/models/tests/test-result.model";
 import { VisitModel } from "../../src/models/visit/visit.model";
 import { of } from "rxjs/observable/of";
+import { Observable } from "rxjs";
 
 export class ActivityServiceMock {
   activities: ActivityModel[] = [];
   waitTimeStarted: boolean = false;
+  isSubmitError: boolean;
+  isUpdateError: boolean;
 
   constructor() {
-
+    this.isSubmitError = false;
+    this.isUpdateError = false;
   }
 
   createActivity(visit: VisitModel, activityType?: string, pushToActivities?: boolean, updateActivities?: boolean): ActivityModel {
@@ -36,7 +40,7 @@ export class ActivityServiceMock {
   }
 
   submitActivity() {
-    return of(true);
+    return this.isSubmitError ? Observable.throw({error: {error: ''}}) : of({body: {id: '123'}});
   }
 
   getActivities(): ActivityModel[] {
@@ -48,7 +52,7 @@ export class ActivityServiceMock {
   }
 
   updateActivityReasons(activities) {
-    return of(true);
+    return this.isUpdateError ? Observable.throw({error: {error: ''}}) : of(true);
   }
 
   createActivityBodyForCall(visit, testResult?: TestResultModel, timeline?) {

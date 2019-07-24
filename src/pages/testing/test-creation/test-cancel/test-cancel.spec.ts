@@ -31,6 +31,8 @@ describe('Component: TestCancelPage', () => {
   let visitService: VisitService;
   let visitServiceMock: VisitServiceMock;
   let alertCtrl: AlertController;
+  let activityServiceMock: ActivityServiceMock;
+  let store: Store<any>;
 
   const testReport: TestModel = {
     startTime: null,
@@ -77,6 +79,8 @@ describe('Component: TestCancelPage', () => {
     visitService = TestBed.get(VisitService);
     visitServiceMock = TestBed.get(VisitService);
     alertCtrl = TestBed.get(AlertController);
+    activityServiceMock = TestBed.get(ActivityService);
+    store = TestBed.get(Store);
   });
 
   beforeEach(() => {
@@ -96,6 +100,8 @@ describe('Component: TestCancelPage', () => {
     visitService = null;
     visitServiceMock = null;
     alertCtrl = null;
+    activityServiceMock = null;
+    store = null;
   });
 
   it('should create the component', () => {
@@ -116,9 +122,17 @@ describe('Component: TestCancelPage', () => {
     expect(component.isValidReason()).toBeTruthy();
   });
 
-  it('should test submitting a test', () => {
+  it('should test submitting a test - success case', () => {
     visitServiceMock.visit = VisitDataMock.VisitData;
     component.submit(VisitDataMock.VisitTestData);
     expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should test submitting a test - error case on submitActivity', () => {
+    spyOn(store, 'dispatch');
+    visitServiceMock.visit = VisitDataMock.VisitData;
+    activityServiceMock.isSubmitError = true;
+    component.submit(VisitDataMock.VisitTestData);
+    expect(store.dispatch).toHaveBeenCalled();
   });
 });
