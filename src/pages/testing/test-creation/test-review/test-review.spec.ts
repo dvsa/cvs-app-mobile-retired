@@ -42,6 +42,8 @@ describe('Component: TestReviewPage', () => {
   let fixture: ComponentFixture<TestReviewPage>;
   let visitService: VisitServiceMock;
   let alertCtrl: AlertController;
+  let activityServiceMock: ActivityServiceMock;
+  let store: Store<any>;
 
   beforeEach(async(() => {
 
@@ -78,6 +80,8 @@ describe('Component: TestReviewPage', () => {
     component = fixture.componentInstance;
     visitService = TestBed.get(VisitService);
     alertCtrl = TestBed.get(AlertController);
+    activityServiceMock = TestBed.get(ActivityService);
+    store = TestBed.get(Store);
   });
 
   beforeEach(() => {
@@ -91,6 +95,8 @@ describe('Component: TestReviewPage', () => {
     component = null;
     alertCtrl = null;
     visitService = null;
+    activityServiceMock = null;
+    store = null;
   });
 
   it('should create the component', () => {
@@ -107,5 +113,13 @@ describe('Component: TestReviewPage', () => {
     visitService.visit = VisitDataMock.VisitData;
     component.submit(VisitDataMock.VisitTestData);
     expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should test submitting a test - error case on submitActivity', () => {
+    spyOn(store, 'dispatch');
+    visitService.visit = VisitDataMock.VisitData;
+    activityServiceMock.isSubmitError = true;
+    component.submit(VisitDataMock.VisitTestData);
+    expect(store.dispatch).toHaveBeenCalled();
   });
 });

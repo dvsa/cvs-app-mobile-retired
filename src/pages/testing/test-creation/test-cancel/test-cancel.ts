@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { TestModel } from "../../../../models/tests/test.model";
 import { TestService } from "../../../../providers/test/test.service";
-import { APP_STRINGS, FIREBASE, TEST_REPORT_STATUSES } from "../../../../app/app.enums";
+import { APP_STRINGS, FIREBASE, LOG_TYPES, TEST_REPORT_STATUSES } from "../../../../app/app.enums";
 import { TestResultService } from "../../../../providers/test-result/test-result.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { Observable } from "rxjs";
@@ -129,11 +129,23 @@ export class TestCancelPage {
           let activity = this.activityService.createActivityBodyForCall(this.visitService.visit, testResult, false);
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
+              const log: Log = {
+                type: LOG_TYPES.INFO,
+                message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
+                timestamp: Date.now(),
+              };
+              this.store$.dispatch(new logsActions.SaveLog(log));
               let activityIndex = this.activityService.activities.map((activity) => activity.endTime).indexOf(testResult.testStartTimestamp);
-              if (activityIndex > -1) this.activityService.activities[activityIndex].id = resp.id;
+              if (activityIndex > -1) this.activityService.activities[activityIndex].id = resp.body.id;
               this.activityService.updateActivities();
             },
-            () => {
+            (error) => {
+              const log: Log = {
+                type: LOG_TYPES.ERROR,
+                message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+                timestamp: Date.now(),
+              };
+              this.store$.dispatch(new logsActions.SaveLog(log));
               this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Wait activity submission failed"});
             }
           );

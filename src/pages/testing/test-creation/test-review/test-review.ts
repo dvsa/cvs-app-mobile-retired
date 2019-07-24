@@ -19,7 +19,7 @@ import {
   TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
-  LOCAL_STORAGE, FIREBASE
+  LOCAL_STORAGE, FIREBASE, LOG_TYPES
 } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
@@ -41,7 +41,6 @@ import { Log, LogsModel } from "../../../../modules/logs/logs.model";
 import * as logsActions from "../../../../modules/logs/logs.actions";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { ActivityService } from "../../../../providers/activity/activity.service";
-import { ActivityModel } from "../../../../models/visit/activity.model";
 import { Firebase } from "@ionic-native/firebase";
 
 @IonicPage()
@@ -230,11 +229,23 @@ export class TestReviewPage implements OnInit {
           let activity = this.activityService.createActivityBodyForCall(this.visitService.visit, testResult, false);
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
+              const log: Log = {
+                type: LOG_TYPES.INFO,
+                message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
+                timestamp: Date.now(),
+              };
+              this.store$.dispatch(new logsActions.SaveLog(log));
               let activityIndex = this.activityService.activities.map((activity) => activity.endTime).indexOf(testResult.testStartTimestamp);
-              if (activityIndex > -1) this.activityService.activities[activityIndex].id = resp.id;
+              if (activityIndex > -1) this.activityService.activities[activityIndex].id = resp.body.id;
               this.activityService.updateActivities();
             },
-            () => {
+            (error) => {
+              const log: Log = {
+                type: LOG_TYPES.ERROR,
+                message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+                timestamp: Date.now(),
+              };
+              this.store$.dispatch(new logsActions.SaveLog(log));
               this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Wait activity submission failed"});
             });
           this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);

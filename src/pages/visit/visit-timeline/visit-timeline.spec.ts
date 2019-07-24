@@ -60,9 +60,11 @@ describe('Component: VisitTimelinePage', () => {
   let navCtrl: NavController;
   let modalCtrl: ModalController;
   let activityService: ActivityService;
+  let activityServiceMock: ActivityServiceMock;
   let alertCtrl: AlertController;
   let storageService: StorageService;
   let storageServiceSpy: any;
+  let store: Store<any>;
 
   let waitActivity = ActivityDataMock.WaitActivityData;
   let testStation = TestStationDataMock.TestStationData[0];
@@ -112,6 +114,8 @@ describe('Component: VisitTimelinePage', () => {
     activityService = TestBed.get(ActivityService);
     alertCtrl = TestBed.get(AlertController);
     storageService = TestBed.get(StorageService);
+    store = TestBed.get(Store);
+    activityServiceMock = TestBed.get(ActivityService);
   });
 
   afterEach(() => {
@@ -124,6 +128,8 @@ describe('Component: VisitTimelinePage', () => {
     activityService = null;
     alertCtrl = null;
     storageService = null;
+    store = null;
+    activityServiceMock = null;
   });
 
   it('should create component', () => {
@@ -254,7 +260,7 @@ describe('Component: VisitTimelinePage', () => {
 
   it('it should display the confirmation page if the endVisit call fails with the Activity already ended error message', () => {
     spyOn(component, 'onUpdateActivityReasonsSuccess');
-    spyOn(visitService, 'endVisit').and.returnValue(Observable.throw({ error: { error: VISIT.ALREADY_ENDED } }));
+    spyOn(visitService, 'endVisit').and.returnValue(Observable.throw({error: {error: VISIT.ALREADY_ENDED}}));
     component.visit = visitService.createVisit(testStation);
     component.confirmEndVisit();
     expect(component.onUpdateActivityReasonsSuccess).toHaveBeenCalled();
@@ -262,7 +268,7 @@ describe('Component: VisitTimelinePage', () => {
 
   it('it should not display the confirmation page if the endVisit call fails', () => {
     spyOn(component, 'onUpdateActivityReasonsSuccess');
-    spyOn(visitService, 'endVisit').and.returnValue(Observable.throw({ error: 'Generic error' }));
+    spyOn(visitService, 'endVisit').and.returnValue(Observable.throw({error: 'Generic error'}));
     component.visit = visitService.createVisit(testStation);
     component.confirmEndVisit();
     expect(component.onUpdateActivityReasonsSuccess).not.toHaveBeenCalled();
@@ -275,4 +281,20 @@ describe('Component: VisitTimelinePage', () => {
     expect(component.isCreateTestEnabled).toBeFalsy();
   });
 
+  it('should test error case on submitActivity', () => {
+    spyOn(store, 'dispatch');
+    activityServiceMock.isSubmitError = true;
+    component.visit = visitService.createVisit(testStation);
+    component.confirmEndVisit();
+    expect(store.dispatch).toHaveBeenCalled();
+  });
+
+  it('should test error case on updateActivityReasons', () => {
+    spyOn(store, 'dispatch');
+    activityService.activities = ActivityDataMock.Activities;
+    activityServiceMock.isUpdateError = true;
+    component.visit = visitService.createVisit(testStation);
+    component.confirmEndVisit();
+    expect(store.dispatch).toHaveBeenCalled();
+  });
 });
