@@ -29,6 +29,7 @@ import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock
 import { TestDataModelMock } from "../../../../assets/data-mocks/data-model/test-data-model.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -250,4 +251,17 @@ describe('Component: TestCreatePage', () => {
     component.addTrailer(tests);
     expect(navCtrl.push).toHaveBeenCalled();
   });
+
+  it('should verify that the vehicle type is one of the specified types', () => {
+    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV)).toBeTruthy();
+    expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeTruthy();
+  });
+
+  it('should verify that the vehicle type is not one of specified types', () => {
+    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL)).toBeFalsy();
+    expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
+  });
+
 });
