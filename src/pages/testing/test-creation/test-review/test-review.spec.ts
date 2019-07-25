@@ -38,6 +38,7 @@ import { ActivityService } from "../../../../providers/activity/activity.service
 import { ActivityServiceMock } from "../../../../../test-config/services-mocks/activity-service.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { VEHICLE_TYPE } from "../../../../app/app.enums";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -135,4 +136,17 @@ describe('Component: TestReviewPage', () => {
     component.getCountryStringToBeDisplayed(VEHICLE);
     expect(commonFuncService.getCountryStringToBeDisplayed).toHaveBeenCalled();
   });
+
+  it('should verify that the vehicle type is one of the specified types', () => {
+    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV)).toBeTruthy();
+    expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeTruthy();
+  });
+
+  it('should verify that the vehicle type is not one of specified types', () => {
+    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL)).toBeFalsy();
+    expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
+  });
+  
 });
