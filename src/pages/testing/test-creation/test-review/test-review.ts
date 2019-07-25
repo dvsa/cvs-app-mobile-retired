@@ -20,7 +20,8 @@ import {
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
   LOCAL_STORAGE,
-  FIREBASE
+  FIREBASE,
+  VEHICLE_TYPE
 } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
@@ -51,6 +52,7 @@ import { Firebase } from "@ionic-native/firebase";
   templateUrl: 'test-review.html',
 })
 export class TestReviewPage implements OnInit {
+  VEHICLE_TYPE: typeof VEHICLE_TYPE=VEHICLE_TYPE;
   visit: VisitModel;
   latestTest: TestModel;
   completedFields = [];
@@ -264,5 +266,9 @@ export class TestReviewPage implements OnInit {
 
   backToTestOverview() {
     this.navCtrl.pop();
+  }
+
+  isVehicleOfType(vehicle: VehicleModel, ...vehicleType: VEHICLE_TYPE[]){
+    return this.commonFunctions.checkForMatchInArray(vehicle.techRecord.vehicleType,vehicleType);
   }
 }

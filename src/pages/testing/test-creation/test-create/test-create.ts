@@ -37,6 +37,7 @@ import { TestTypeService } from "../../../../providers/test-type/test-type.servi
 })
 export class TestCreatePage implements OnInit {
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
+  VEHICLE_TYPE: typeof VEHICLE_TYPE=VEHICLE_TYPE;
   testData: TestModel;
   testTypesFieldsMetadata;
   testCompletionStatus;
@@ -245,7 +246,7 @@ export class TestCreatePage implements OnInit {
     let finishedTest;
     let requiredFieldsCompleted = true;
     for (let vehicle of this.testData.vehicles) {
-      if (!vehicle.countryOfRegistration || !vehicle.euVehicleCategory || !vehicle.odometerReading) {
+      if (!vehicle.countryOfRegistration || !vehicle.euVehicleCategory || (vehicle.techRecord.vehicleType !== VEHICLE_TYPE.TRL && !vehicle.odometerReading)) {
         this.logMissingFields(vehicle);
         requiredFieldsCompleted = false;
       }
@@ -286,5 +287,9 @@ export class TestCreatePage implements OnInit {
     if (!vehicle.countryOfRegistration) this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.MISSING_MADATORY_FIELD, FIREBASE.COUNTRY_OF_REGISTRATION);
     if (!vehicle.euVehicleCategory) this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.MISSING_MADATORY_FIELD, FIREBASE.EU_VEHICLE_CATEGORY);
     if (!vehicle.odometerReading) this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.MISSING_MADATORY_FIELD, FIREBASE.ODOMETER_READING);
+  }
+
+  isVehicleOfType(vehicle: VehicleModel, ...vehicleType: VEHICLE_TYPE[]){
+    return this.commonFunctions.checkForMatchInArray(vehicle.techRecord.vehicleType,vehicleType)
   }
 }
