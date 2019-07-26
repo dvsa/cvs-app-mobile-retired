@@ -4,6 +4,7 @@ page-advisory-details {
       background-color: $color-grey-3;
     }
   }
+
   .advisory__item-status {
     font-weight: bold;
     font-size: $font-size-medium-2;
@@ -16,5 +17,10 @@ page-advisory-details {
   .badge-ios-light {
     border: 1px solid color($colors, dark);
     background-color: transparent;
+  }
+
+  .btn-remove-advisory {
+    font-size: 16px;
+    color: color($colors, danger);
   }
 }

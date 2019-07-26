@@ -29,10 +29,17 @@
       </ion-item>
       <ion-item-divider padding-left>NOTES</ion-item-divider>
       <ion-item no-lines padding-horizontal>
-        <ion-textarea maxlength="200" rows="5" [(ngModel)]="advisory.additionalInformation.notes" placeholder="Add Notes">
+        <ion-textarea maxlength="200" rows="5" [(ngModel)]="advisory.additionalInformation.notes"
+                      placeholder="Add Notes">
           Notes
         </ion-textarea>
       </ion-item>
+      <ion-item-group *ngIf="isEdit">
+        <ion-item-divider text-uppercase></ion-item-divider>
+        <button ion-item detail-none padding-left class="btn-remove-advisory" (click)="removeAdvisoryConfirm()">Remove
+          defect
+        </button>
+      </ion-item-group>
     </ion-list>
   </ion-grid>
 </ion-content>
