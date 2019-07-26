@@ -14,11 +14,14 @@ platform :ios do
     )
     zip(path: "./platforms/ios/build/device/Vehicle Testing.app.dSYM")
     sh("touch latest")
+    folder = ENV['BRANCH']
     aws_s3(
       access_key: ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
       bucket: 'dvsa-cvs-mobile-artefacts',
       path: 'v{CFBundleShortVersionString}/',
+      html_in_folder: 'v{CFBundleShortVersionString}/',
+      html_file_name: "#{folder}.html",
       region: 'eu-west-1',
       files: [
         './fastlane/latest',
