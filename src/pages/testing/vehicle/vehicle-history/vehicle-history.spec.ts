@@ -9,6 +9,7 @@ import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { TestResultsHistoryDataMock } from "../../../../assets/data-mocks/test-results-history-data.mock";
 import { TestTypeArrayDataMock } from "../../../../assets/data-mocks/test-type-array-data.mock";
+import { VEHICLE_TYPE } from "../../../../app/app.enums";
 
 describe('Component: VehicleHistoryPage', () => {
   let comp: VehicleHistoryPage;
@@ -180,4 +181,17 @@ describe('Component: VehicleHistoryPage', () => {
     testType.prohibitionIssued = true;
     expect(comp.haveProhibition(testType)).toBeTruthy();
   });
+
+  it('should verify that the vehicle type is one of the specified types', () => {
+    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV)).toBeTruthy();
+    expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeTruthy();
+  });
+
+  it('should verify that the vehicle type is not one of specified types', () => {
+    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL)).toBeFalsy();
+    expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
+  });
+
 });
