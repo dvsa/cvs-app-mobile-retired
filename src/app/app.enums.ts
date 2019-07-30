@@ -389,3 +389,8 @@ export enum FIREBASE_DEFECTS {
   ADD_DEFECT_START_TIME = 'add_defect_start_time',
   ADD_DEFECT_END_TIME = 'add_defect_end_time'
 }
+
+export enum LOG_TYPES {
+  INFO = 'info',
+  ERROR = 'error'
+}

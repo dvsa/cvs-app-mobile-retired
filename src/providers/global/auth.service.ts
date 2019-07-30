@@ -3,13 +3,16 @@ import { AppConfig } from "../../../config/app.config";
 import { AuthenticationContext, AuthenticationResult, MSAdal } from "@ionic-native/ms-adal";
 import * as jwt_decode from "jwt-decode";
 import { TesterDetailsModel } from "../../models/tester-details.model";
-import { AUTH, LOCAL_STORAGE, TESTER_ROLES, FIREBASE_AUTH } from "../../app/app.enums";
+import { AUTH, LOCAL_STORAGE, TESTER_ROLES, FIREBASE_AUTH, LOG_TYPES } from "../../app/app.enums";
 import { Observable } from "rxjs";
 import { CommonRegExp } from "../utils/common-regExp";
 import { Platform } from "ionic-angular";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { ErrorObservable } from "rxjs/observable/ErrorObservable";
 import { FirebaseLogsService } from '../firebase-logs/firebase-logs.service';
+import { Log, LogsModel } from "../../modules/logs/logs.model";
+import * as logsActions from "../../modules/logs/logs.actions";
+import { Store } from "@ngrx/store";
 
 @Injectable()
 export class AuthService {
@@ -22,7 +25,8 @@ export class AuthService {
   constructor(private msAdal: MSAdal,
               public platform: Platform,
               private commonFunc: CommonFunctionsService,
-              private firebaseLogsService: FirebaseLogsService) {
+              private firebaseLogsService: FirebaseLogsService,
+              private store$: Store<LogsModel>) {
     this.testerDetails = {} as TesterDetailsModel;
     this.jwtToken = localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
   }
@@ -81,29 +85,58 @@ export class AuthService {
     )
   }
 
-  private logFirebaseLoginAttempt(silentLoginAttempt: boolean) {
-    if (silentLoginAttempt) this.firebaseLogsService.logEvent(FIREBASE_AUTH.LOGIN_ATTEMPT,
-      FIREBASE_AUTH.CLIENT_ID, AppConfig.MSAL_CLIENT_ID,
-      FIREBASE_AUTH.RESOURCE_URL, AppConfig.MSAL_RESOURCE_URL);
-    else this.firebaseLogsService.logEvent(FIREBASE_AUTH.LOGIN_ATTEMPT,
-      FIREBASE_AUTH.CLIENT_ID, AppConfig.MSAL_CLIENT_ID,
-      FIREBASE_AUTH.REDIRECT_URL, AppConfig.MSAL_REDIRECT_URL,
-      FIREBASE_AUTH.RESOURCE_URL, AppConfig.MSAL_RESOURCE_URL);
-
+  logFirebaseLoginAttempt(silentLoginAttempt: boolean) {
+    let log: Log;
+    if (silentLoginAttempt) {
+      this.firebaseLogsService.logEvent(FIREBASE_AUTH.LOGIN_ATTEMPT,
+        FIREBASE_AUTH.CLIENT_ID, AppConfig.MSAL_CLIENT_ID,
+        FIREBASE_AUTH.RESOURCE_URL, AppConfig.MSAL_RESOURCE_URL);
+      log = {
+        type: LOG_TYPES.INFO,
+        message: `Silent login attempt, token present for client_id=${AppConfig.MSAL_CLIENT_ID}, resource_url=${AppConfig.MSAL_RESOURCE_URL}`,
+        timestamp: Date.now(),
+        unauthenticated: true
+      };
+    } else {
+      this.firebaseLogsService.logEvent(FIREBASE_AUTH.LOGIN_ATTEMPT,
+        FIREBASE_AUTH.CLIENT_ID, AppConfig.MSAL_CLIENT_ID,
+        FIREBASE_AUTH.REDIRECT_URL, AppConfig.MSAL_REDIRECT_URL,
+        FIREBASE_AUTH.RESOURCE_URL, AppConfig.MSAL_RESOURCE_URL);
+      log = {
+        type: LOG_TYPES.INFO,
+        message: `Login attempt, token not present for client_id=${AppConfig.MSAL_CLIENT_ID}, redirect_url=${AppConfig.MSAL_REDIRECT_URL}, resource_url=${AppConfig.MSAL_RESOURCE_URL}`,
+        timestamp: Date.now(),
+        unauthenticated: true
+      };
+    }
+    this.store$.dispatch(new logsActions.SaveLog(log));
   }
 
-  private logFirebaseLoginSuccessful() {
+  logFirebaseLoginSuccessful() {
     this.firebaseLogsService.logEvent(FIREBASE_AUTH.LOGIN_SUCCESSFUL,
       FIREBASE_AUTH.CLIENT_ID, AppConfig.MSAL_CLIENT_ID,
       FIREBASE_AUTH.TENANT_ID, this.tenantId,
       FIREBASE_AUTH.OID, this.testerDetails.testerId,
       FIREBASE_AUTH.USER_ROLES, this.userRoles.toString());
+    const log: Log = {
+      type: LOG_TYPES.INFO,
+      message: `${this.testerDetails.testerId} - Login successful for client_id=${AppConfig.MSAL_CLIENT_ID}, tenant_id=${this.tenantId} with the user roles=${this.userRoles.toString()}`,
+      timestamp: Date.now()
+    };
+    this.store$.dispatch(new logsActions.SaveLog(log));
   }
 
-  private logFirebaseLoginUnsuccessful(errorMessage: string) {
+  logFirebaseLoginUnsuccessful(errorMessage: string) {
     this.firebaseLogsService.logEvent(FIREBASE_AUTH.LOGIN_UNSUCCESSFUL,
       FIREBASE_AUTH.ERROR_MESSAGE, errorMessage,
       FIREBASE_AUTH.CLIENT_ID, AppConfig.MSAL_CLIENT_ID);
+    const log: Log = {
+      type: LOG_TYPES.ERROR,
+      message: `Login unsuccessful for client_id=${AppConfig.MSAL_CLIENT_ID} with the error message ${errorMessage}`,
+      timestamp: Date.now(),
+      unauthenticated: true
+    };
+    this.store$.dispatch(new logsActions.SaveLog(log));
   }
 
   setJWTToken(token): Promise<any> {

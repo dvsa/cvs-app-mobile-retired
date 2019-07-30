@@ -4,7 +4,7 @@ export type Log = {
   type: string,
   message: string,
   timestamp: number,
-  [propName: string]: any,
+  [propName: string]: any
 };
 
 export enum LogType {

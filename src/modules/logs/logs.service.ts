@@ -10,6 +10,18 @@ export class LogsProvider {
   }
 
   public sendLogs = (logs: Log[]): Observable<any> => {
-    return this.httpService.sendLogs(logs);
-  }
+    let authLogs: Log[] = [];
+    for (let log of logs) {
+      if (!log.unauthenticated) authLogs.push(log);
+    }
+    return this.httpService.sendAuthenticatedLogs(authLogs);
+  };
+
+  public sendUnauthLogs = (logs: Log[]): Observable<any> => {
+    let unauthLogs: Log[] = [];
+    for (let log of logs) {
+      if (log.unauthenticated) unauthLogs.push(log);
+    }
+    return this.httpService.sendUnauthenticatedLogs(unauthLogs);
+  };
 }
