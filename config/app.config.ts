@@ -76,6 +76,16 @@ export class AppConfig {
     return jsonData['BACKEND_URL_LOGS'];
   }
 
+  public static get BACKEND_URL_UNAUTH_LOGS() {
+    let jsonData = app;
+    return jsonData['BACKEND_URL_UNAUTH_LOGS'];
+  }
+
+  public static get UNAUTH_LOGS_API_KEY() {
+    let jsonData = app;
+    return jsonData['UNAUTH_LOGS_API_KEY'];
+  }
+
   public static get IS_PRODUCTION() {
     let jsonData = app;
     return jsonData['IS_PRODUCTION'];

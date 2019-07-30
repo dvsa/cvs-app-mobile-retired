@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpResponse } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AppConfig } from "../../../config/app.config";
 import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
@@ -66,7 +66,12 @@ export class HTTPService {
     return this.http.put(`${AppConfig.BACKEND_URL_SIGNATURE}${staffId}.base64`, signatureString, {observe: 'response'});
   }
 
-  sendLogs(logs: Log[]): Observable<HttpResponse<any>> {
+  sendAuthenticatedLogs(logs: Log[]): Observable<HttpResponse<any>> {
     return this.http.post(AppConfig.BACKEND_URL_LOGS, logs, {observe: 'response'});
+  }
+
+  sendUnauthenticatedLogs(logs: Log[]): Observable<HttpResponse<any>> {
+    let headers = new HttpHeaders().set('x-api-key', AppConfig.UNAUTH_LOGS_API_KEY);
+    return this.http.post(AppConfig.BACKEND_URL_UNAUTH_LOGS, logs, {headers, observe: 'response'});
   }
 }

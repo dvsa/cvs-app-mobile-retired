@@ -93,8 +93,7 @@ export class LogsEffects {
       if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
         return of();
       }
-      return this.logsProvider
-        .sendLogs(logs)
+      return Observable.forkJoin([this.logsProvider.sendLogs(logs), this.logsProvider.sendUnauthLogs(logs)])
         .pipe(
           map((response: any) => {
             const timestamps = logs.map(log => log.timestamp);
