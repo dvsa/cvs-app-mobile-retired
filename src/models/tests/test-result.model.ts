@@ -3,29 +3,34 @@ import { VehicleClassModel } from "../vehicle/tech-record.model";
 
 export class TestResultModel {
   testResultId: string;
-  vrm: string; // vehicle
-  vin: string; // vehicle
-  testStationName: string; // visit
-  testStationPNumber: string; // visit - old: testStationNumber
-  testStationType: string; // visit
-  testerName: string; // visit
-  testerStaffId: string; // visit - old: testerId
-  testerEmailAddress: string; // visit
-  testStartTimestamp: string; // test - old: testStartTime
-  testEndTimestamp: string; // test - old: testEndTime
-  testStatus: string; // test
-  vehicleClass: VehicleClassModel; // tech record
-  vehicleType: string; // tech record
-  numberOfSeats: number; // tech record (seatsLowerDeck + seatsUpperDeck)
-  vehicleConfiguration: string; // tech record
-  odometerReading: number | null; // vehicle
-  odometerReadingUnits: string | null; // vehicle - old: odometerMetric
-  preparerId: string; // vehicle
-  preparerName: string; // vehicle
-  euVehicleCategory: string | null; // vehicle
-  countryOfRegistration: string | null; // vehicle
-  vehicleSize: string; // tech record
-  noOfAxles: number; // tech record
-  reasonForCancellation: string | null; // test
+  /* VISIT */
+  testStationName: string;
+  testStationPNumber: string;
+  testStationType: string;
+  testerName: string;
+  testerStaffId: string;
+  testerEmailAddress: string;
+  /* TEST */
+  testStartTimestamp: string;
+  testEndTimestamp: string;
+  testStatus: string;
+  reasonForCancellation: string | null;
+  /* VEHICLE */
+  vrm?: string; // PSV + HGV
+  trailerId?: string; // TRL
+  vin: string;
+  vehicleClass: VehicleClassModel;
+  vehicleType: string;
+  vehicleConfiguration: string;
+  odometerReading?: number | null; // PSV + HGV
+  odometerReadingUnits?: string | null; // PSV + HGV
+  preparerId: string;
+  preparerName: string;
+  euVehicleCategory: string | null;
+  countryOfRegistration: string | null;
+  noOfAxles: number;
+  vehicleSize?: string; // PSV
+  numberOfSeats?: number; // PSV (seatsLowerDeck + seatsUpperDeck)
+  /* TEST TYPES */
   testTypes: TestTypeModel[];
 }

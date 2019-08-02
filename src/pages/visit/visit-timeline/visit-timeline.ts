@@ -7,16 +7,13 @@ import {
   Loading,
   NavController,
   NavParams,
-  ToastController,
   ModalController
 } from 'ionic-angular';
 import { TestService } from "../../../providers/test/test.service";
-import { TestModel } from "../../../models/tests/test.model";
 import { VisitService } from "../../../providers/visit/visit.service";
 import { VisitModel } from "../../../models/visit/visit.model";
 import { StateReformingService } from "../../../providers/global/state-reforming.service";
 import {
-  APP,
   APP_STRINGS,
   STORAGE,
   TEST_REPORT_STATUSES,
@@ -25,7 +22,6 @@ import {
   PAGE_NAMES,
   FIREBASE,
   VISIT,
-  WAIT_TIME_REASONS,
   VEHICLE_TYPE
 } from "../../../app/app.enums";
 import { StorageService } from "../../../providers/natives/storage.service";
@@ -69,7 +65,6 @@ export class VisitTimelinePage implements OnInit {
               private activityService: ActivityService,
               private alertCtrl: AlertController,
               private storageService: StorageService,
-              private toastCtrl: ToastController,
               private openNativeSettings: OpenNativeSettings,
               private firebase: Firebase,
               private authService: AuthService,
@@ -83,15 +78,6 @@ export class VisitTimelinePage implements OnInit {
   ngOnInit() {
     this.visit = Object.keys(this.visitService.visit).length ? this.visitService.visit : this.visitService.createVisit(this.navParams.get('testStation'));
     this.stateReformingService.saveNavStack(this.navCtrl);
-    this.events.subscribe(APP.TEST_SUBMITTED, () => {
-      const TOAST = this.toastCtrl.create({
-        message: APP_STRINGS.SUBMIT_TEST_TOAST_MESSAGE,
-        duration: 4000,
-        position: 'top',
-        cssClass: 'submit-toast'
-      });
-      TOAST.present();
-    });
   }
 
   ionViewWillEnter() {
@@ -150,7 +136,7 @@ export class VisitTimelinePage implements OnInit {
     this.visitService.visit = {} as VisitModel;
     this.activityService.activities = [];
     LOADING.dismiss();
-    this.navCtrl.push(PAGE_NAMES.END_VISIT_CONFIRM_PAGE, {testStationName: this.visit.testStationName});
+    this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {testStationName: this.visit.testStationName});
   }
 
   confirmEndVisit() {
@@ -291,7 +277,7 @@ export class VisitTimelinePage implements OnInit {
     }
   }
 
-  getVehicleIdentifier(vehicle: VehicleModel){
-    return (vehicle.techRecord.vehicleType === VEHICLE_TYPE.TRL?vehicle.trailerId:this.formatVrmPipe.transform(vehicle.vrm));
+  getVehicleIdentifier(vehicle: VehicleModel) {
+    return (vehicle.techRecord.vehicleType === VEHICLE_TYPE.TRL ? vehicle.trailerId : this.formatVrmPipe.transform(vehicle.vrm));
   }
 }

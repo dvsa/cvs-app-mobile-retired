@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
-  Events,
   IonicPage,
   ModalController,
   ViewController,
@@ -71,7 +70,6 @@ export class TestReviewPage implements OnInit {
               public visitService: VisitService,
               public commonFunctions: CommonFunctionsService,
               public viewCtrl: ViewController,
-              public events: Events,
               public defectsService: DefectsService,
               private vehicleService: VehicleService,
               private modalCtrl: ModalController,
@@ -248,10 +246,7 @@ export class TestReviewPage implements OnInit {
         this.store$.dispatch(new logsActions.SaveLog(log));
         return Observable.throw(error);
       })));
-      Observable.forkJoin(stack).pipe(
-        tap(
-          () => this.events.publish(APP.TEST_SUBMITTED))
-      ).subscribe(
+      Observable.forkJoin(stack).subscribe(
         (response: any) => {
           const log: Log = {
             type: 'info',
@@ -273,13 +268,7 @@ export class TestReviewPage implements OnInit {
           this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
           LOADING.dismiss();
           this.submitInProgress = false;
-          let views = this.navCtrl.getViews();
-          for (let i = views.length - 1; i >= 0; i--) {
-            if (views[i].component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-              this.stateReformingService.onTestReview();
-              this.navCtrl.popTo(views[i]);
-            }
-          }
+          this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {testerEmailAddress: this.visit.testerEmail});
         },
         (error) => {
           LOADING.dismiss();
