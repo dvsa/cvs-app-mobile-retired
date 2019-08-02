@@ -293,7 +293,8 @@ export enum SIGNATURE_STATUS {
 export enum VISIT {
   ACTIVITY_TYPE_VISIT = 'visit',
   ACTIVITY_TYPE_WAIT = 'wait',
-  ACTIVITY_TYPE_UNACCOUNTABLE_TIME = 'unaccountable time'
+  ACTIVITY_TYPE_UNACCOUNTABLE_TIME = 'unaccountable time',
+  ALREADY_ENDED = 'Activity already ended'
 }
 
 

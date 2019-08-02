@@ -53,6 +53,7 @@ export class VisitTimelinePage implements OnInit {
   changeOpacity: boolean = false;
   oid: string;
   timeout;
+  isCreateTestEnabled = true;
 
   constructor(public navCtrl: NavController,
               public stateReformingService: StateReformingService,
@@ -149,6 +150,7 @@ export class VisitTimelinePage implements OnInit {
   }
 
   confirmEndVisit() {
+    this.isCreateTestEnabled=false;
     const LOADING = this.loadingCtrl.create({
       content: APP_STRINGS.END_VISIT_LOADING
     });
@@ -216,6 +218,8 @@ export class VisitTimelinePage implements OnInit {
               }]
           });
           TRY_AGAIN_ALERT.present();
+        } else if(error && error.error.error === VISIT.ALREADY_ENDED){
+          this.onUpdateActivityReasonsSuccess(LOADING);
         }
       });
   }
