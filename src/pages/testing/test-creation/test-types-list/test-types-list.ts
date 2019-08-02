@@ -84,7 +84,7 @@ export class TestTypesListPage implements OnInit {
       for (let i = views.length - 1; i >= 0; i--) {
         if (views[i].component.name == PAGE_NAMES.TEST_CREATE_PAGE) {
           testType.name = this.testTypeCategoryName;
-          let test = this.testTypeService.createTestType(testType);
+          let test = this.testTypeService.createTestType(testType, this.vehicleData.techRecord.vehicleType);
           test.testTypeCategoryName = this.testTypeCategoryName;
           this.vehicleService.addTestType(vehicleData, test);
           this.navCtrl.popTo(views[i]);

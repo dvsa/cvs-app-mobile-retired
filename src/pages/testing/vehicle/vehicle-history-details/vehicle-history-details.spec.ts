@@ -6,6 +6,8 @@ import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { PipesModule } from "../../../../pipes/pipes.module";
+import { TestResultModel } from "../../../../models/tests/test-result.model";
+import { TestResultsHistoryDataMock } from "../../../../assets/data-mocks/test-results-history-data.mock";
 
 describe('Component: VehicleHistoryDetailsPage', () => {
   let comp: VehicleHistoryDetailsPage;
@@ -15,7 +17,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
   let defects: any;
 
   beforeEach(async(() => {
-  
+
     TestBed.configureTestingModule({
       declarations: [VehicleHistoryDetailsPage],
       imports: [
@@ -37,6 +39,8 @@ describe('Component: VehicleHistoryDetailsPage', () => {
     comp = fixture.componentInstance;
     navCtrl = TestBed.get(NavController);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
+    comp.testResultHistory = TestResultsHistoryDataMock.TestResultHistoryData;
+    comp.testIndex = 0;
   });
 
   afterEach(() => {
@@ -97,4 +101,10 @@ describe('Component: VehicleHistoryDetailsPage', () => {
     expect(comp.checkForDefects(defects)).toBeTruthy;
   });
 
+  it('should set the correct test metadata to variables', () => {
+    comp.selectedTestResult = {} as TestResultModel;
+    comp.selectedTestResult.countryOfRegistration = 'a';
+    comp.setTestMetadata();
+    expect(comp.countryOfRegistration).toEqual('Austria');
+  });
 });

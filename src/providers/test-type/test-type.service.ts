@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { StorageService } from "../natives/storage.service";
 import { from } from "rxjs/observable/from";
-import { DEFICIENCY_CATEGORY, STORAGE, TEST_TYPE_RESULTS, FIREBASE_DEFECTS } from "../../app/app.enums";
+import { DEFICIENCY_CATEGORY, STORAGE, TEST_TYPE_RESULTS, FIREBASE_DEFECTS, VEHICLE_TYPE } from "../../app/app.enums";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { DefectDetailsModel } from "../../models/defects/defect-details.model";
 import { VisitService } from "../visit/visit.service";
@@ -14,13 +14,13 @@ import { FirebaseLogsService } from '../firebase-logs/firebase-logs.service';
 export class TestTypeService {
 
   constructor(private storageService: StorageService,
-    public visitService: VisitService,
-    public commonFunctions: CommonFunctionsService,
-    private firebaseLogsService: FirebaseLogsService
+              public visitService: VisitService,
+              public commonFunctions: CommonFunctionsService,
+              private firebaseLogsService: FirebaseLogsService
   ) {
   }
 
-  createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
+  createTestType(testType: TestTypesReferenceDataModel, vehicleType: string): TestTypeModel {
     let newTestType = {} as TestTypeModel;
     newTestType.name = testType.name;
     newTestType.testTypeName = testType.testTypeName;
@@ -28,9 +28,11 @@ export class TestTypeService {
     newTestType.certificateNumber = null;
     newTestType.testTypeStartTimestamp = new Date().toISOString();
     newTestType.testTypeEndTimestamp = null;
-    newTestType.numberOfSeatbeltsFitted = null;
-    newTestType.lastSeatbeltInstallationCheckDate = null;
-    newTestType.seatbeltInstallationCheckDate = null;
+    if (vehicleType === VEHICLE_TYPE.PSV) {
+      newTestType.numberOfSeatbeltsFitted = null;
+      newTestType.lastSeatbeltInstallationCheckDate = null;
+      newTestType.seatbeltInstallationCheckDate = null;
+    }
     newTestType.testResult = null;
     newTestType.prohibitionIssued = false;
     newTestType.reasonForAbandoning = null;
@@ -59,7 +61,7 @@ export class TestTypeService {
 
     let parameters = this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN];
     parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME] = Date.now();
-    parameters[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN] = this.firebaseLogsService.differenceInHMS(parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME])
+    parameters[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN] = this.firebaseLogsService.differenceInHMS(parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME], parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME])
     this.firebaseLogsService.logEvent(FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN,
       FIREBASE_DEFECTS.ADD_DEFECT_START_TIME, parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],
       FIREBASE_DEFECTS.ADD_DEFECT_END_TIME, parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME],
@@ -76,7 +78,7 @@ export class TestTypeService {
   }
 
   private logFirebaseRemoveDefect(deficiencyRef: string) {
-  this.firebaseLogsService.logEvent(FIREBASE_DEFECTS.REMOVE_DEFECT, FIREBASE_DEFECTS.DEFICIENCY_REFERENCE, deficiencyRef);
+    this.firebaseLogsService.logEvent(FIREBASE_DEFECTS.REMOVE_DEFECT, FIREBASE_DEFECTS.DEFICIENCY_REFERENCE, deficiencyRef);
   }
 
   getTestTypesFromStorage(): Observable<any> {

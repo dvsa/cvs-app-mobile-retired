@@ -22,30 +22,34 @@ export class TestResultService {
     let newTestResult = {} as TestResultModel;
 
     newTestResult.testResultId = test.testResultId;
-    newTestResult.vrm = vehicle.vrm;
-    newTestResult.vin = vehicle.vin;
+    /* VISIT */
     newTestResult.testStationName = visit.testStationName;
     newTestResult.testStationPNumber = visit.testStationPNumber;
     newTestResult.testStationType = visit.testStationType;
     newTestResult.testerName = this.authService.testerDetails.testerName;
     newTestResult.testerStaffId = this.authService.testerDetails.testerId;
     newTestResult.testerEmailAddress = this.authService.testerDetails.testerEmail;
+    /* TEST */
     newTestResult.testStartTimestamp = test.startTime;
     newTestResult.testEndTimestamp = test.endTime;
     newTestResult.testStatus = test.status;
     newTestResult.reasonForCancellation = test.reasonForCancellation;
+    /* VEHICLE */
+    if (vehicle.vrm) newTestResult.vrm = vehicle.vrm;
+    if (vehicle.trailerId) newTestResult.trailerId = vehicle.trailerId;
+    newTestResult.vin = vehicle.vin;
     newTestResult.vehicleClass = vehicle.techRecord.vehicleClass;
     newTestResult.vehicleType = vehicle.techRecord.vehicleType;
-    newTestResult.numberOfSeats = vehicle.techRecord.seatsLowerDeck + vehicle.techRecord.seatsUpperDeck;
     newTestResult.vehicleConfiguration = vehicle.techRecord.vehicleConfiguration;
-    newTestResult.odometerReading = parseInt(vehicle.odometerReading); // to match backend implementation
-    newTestResult.odometerReadingUnits = vehicle.odometerMetric;
+    if (vehicle.odometerReading) newTestResult.odometerReading = parseInt(vehicle.odometerReading); // to match backend implementation
+    if (vehicle.odometerMetric) newTestResult.odometerReadingUnits = vehicle.odometerMetric;
     newTestResult.preparerId = vehicle.preparerId;
     newTestResult.preparerName = vehicle.preparerName;
     newTestResult.euVehicleCategory = vehicle.euVehicleCategory;
     newTestResult.countryOfRegistration = vehicle.countryOfRegistration;
-    newTestResult.vehicleSize = vehicle.techRecord.vehicleSize;
     newTestResult.noOfAxles = vehicle.techRecord.noOfAxles;
+    if (vehicle.techRecord.vehicleSize) newTestResult.vehicleSize = vehicle.techRecord.vehicleSize;
+    if (vehicle.techRecord.seatsLowerDeck && vehicle.techRecord.seatsUpperDeck) newTestResult.numberOfSeats = vehicle.techRecord.seatsLowerDeck + vehicle.techRecord.seatsUpperDeck;
     newTestResult.testTypes = vehicle.testTypes;
 
     return newTestResult;
@@ -91,6 +95,6 @@ export class TestResultService {
       }
     }
 
-    return this.httpService.postTestResult(newTestResult)
+    return this.httpService.postTestResult(newTestResult);
   }
 }

@@ -6,7 +6,6 @@ export interface VehicleTechRecordModel {
   trailerId?: string;
 }
 
-
 export interface TechRecordModel {
   bodyType: BodyTypeModel;
   manufactureYear: number;
@@ -23,14 +22,14 @@ export interface TechRecordModel {
   brakeCode: string;
   vehicleType: string;
   axles: AxelsModel[];
+  vehicleClass: VehicleClassModel;
+  vehicleConfiguration: string;
   /* -------- ONLY FOR PSV -------- */
   chassisMake?: string;
   chassisModel?: string;
   bodyMake?: string;
   bodyModel?: string;
-  vehicleClass?: VehicleClassModel;
   vehicleSize?: string;
-  vehicleConfiguration?: string;
   coifDate?: string;
   unladenWeight?: number;
   grossGbWeight?: number;
@@ -75,7 +74,6 @@ export interface TechRecordModel {
   couplingCenterToRearTrlMax?: number;
 }
 
-
 export interface Dimensions {
   length: number,
   width: number,
@@ -85,6 +83,7 @@ export interface Dimensions {
     value: number
   }]
 }
+
 export interface VrmModel {
   vrm: string;
   isPrimary: boolean;
