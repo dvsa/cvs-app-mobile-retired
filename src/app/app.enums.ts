@@ -190,7 +190,11 @@ export enum APP_STRINGS {
   NO_PREPARER_ID_FOUND = 'No preparer ID found',
   NO_PREPARER_ID_GIVEN = 'No preparer ID given',
   TRAILER_ID_OR_VIN = 'Enter trailer ID or VIN',
-  REG_NUMBER_TRAILER_ID_OR_VIN = 'Enter registration number, trailer ID or VIN'
+  REG_NUMBER_TRAILER_ID_OR_VIN = 'Enter registration number, trailer ID or VIN',
+  CONFIRMATION_MESSAGE_END_VISIT = 'Site visit has been submitted and sent to DVSA and ',
+  CONFIRMATION_MESSAGE_SUBMIT_TEST = 'The tests have been submitted and will be emailed to ',
+  CONFIRMATION_ADDITIONAL_MESSAGE_SUBMIT_TEST = 'If you do not receive the email, ',
+  CONFIRMATION_ADDITIONAL_MESSAGE_BUTTON_SUBMIT_TEST = 'call central support',
 }
 
 export enum ODOMETER_METRIC {
@@ -323,7 +327,7 @@ export enum PAGE_NAMES {
   SIGNATURE_PAD_PAGE = 'SignaturePadPage',
   VISIT_TIMELINE_PAGE = 'VisitTimelinePage',
   ADD_PREPARER_PAGE = 'AddPreparerPage',
-  END_VISIT_CONFIRM_PAGE = 'EndVisitConfirmPage',
+  CONFIRMATION_PAGE = 'ConfirmationPage',
   VEHICLE_LOOKUP_PAGE = 'VehicleLookupPage',
   WAIT_TIME_REASONS_PAGE = 'WaitTimeReasonsPage'
 }

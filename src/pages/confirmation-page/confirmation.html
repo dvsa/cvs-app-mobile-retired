@@ -10,7 +10,9 @@
     <img src="assets/tick-icon.svg">
   </div>
   <div class="msg-centered">
-    <h3>Site visit has been submitted and sent to DVSA and {{ testStationName }}</h3>
+    <h3>{{message}}</h3>
+    <h3 *ngIf="additionalMessage">{{additionalMessage}}<span (click)="callSupport()">{{additionalMessageButton}}</span>
+    </h3>
   </div>
 
 </ion-content>

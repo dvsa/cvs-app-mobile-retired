@@ -15,6 +15,7 @@ import {
 } from '../../../../assets/app-data/test-required-fields/test-required-fields.data';
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
+import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
 
 @IonicPage()
 @Component({
@@ -40,6 +41,7 @@ export class VehicleHistoryDetailsPage {
   isTestResultAbandon: boolean;
   isTestResultFail: boolean;
   testResultColor: string;
+  countryOfRegistration: string;
   distanceType: string;
   vehicleType: string;
 
@@ -76,6 +78,9 @@ export class VehicleHistoryDetailsPage {
     this.testsWithoutCertificate = TestsWithoutCertificate.TestsWithoutCertificate;
     this.testsWithoutSeatbelts = TestsWithoutSeatbelts.TestsWithoutSeatbelts;
     this.testsWithoutDefects = TestsWithoutDefects.TestsWithoutDefects;
+    this.countryOfRegistration = CountryOfRegistrationData.CountryData.find(country => {
+      return this.selectedTestResult.countryOfRegistration === country.key;
+    }).value.split(' -')[0];
     this.distanceType = this.commonFunc.getDistanceType(this.testResultHistory[this.testIndex].odometerReadingUnits);
   }
 
