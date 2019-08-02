@@ -9,7 +9,7 @@ import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-da
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { TEST_TYPE_RESULTS, FIREBASE_DEFECTS } from "../../app/app.enums";
+import { TEST_TYPE_RESULTS, FIREBASE_DEFECTS, VEHICLE_TYPE } from "../../app/app.enums";
 import { FirebaseLogsServiceMock } from "../../../test-config/services-mocks/firebaseLogsService.mock";
 import { FirebaseLogsService } from "../firebase-logs/firebase-logs.service";
 import { Firebase } from "@ionic-native/firebase";
@@ -59,7 +59,7 @@ describe('Provider: TestTypeService', () => {
 
   it('create a testType', () => {
     let testType: TestTypesReferenceDataModel = TEST_TYPES[0];
-    let newTestType = testTypeService.createTestType(testType);
+    let newTestType = testTypeService.createTestType(testType, VEHICLE_TYPE.PSV);
     expect(newTestType.testTypeName).toMatch('Annual test');
   });
 

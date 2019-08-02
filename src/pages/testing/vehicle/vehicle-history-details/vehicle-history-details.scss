@@ -43,4 +43,11 @@ page-vehicle-history-details {
       align-items: flex-end;
     }
   }
+
+  .country-of-registration {
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

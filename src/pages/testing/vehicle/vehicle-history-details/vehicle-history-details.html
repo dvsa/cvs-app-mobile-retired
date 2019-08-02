@@ -261,20 +261,46 @@
     </ng-template>
   </ion-list>
 
-  <ion-list class="list-margin" *ngIf="vehicleType !== 'trl'">
-    <ion-list-header text-uppercase padding-left>ODOMETER READING</ion-list-header>
+  <ion-list class="list-margin">
+    <ion-list-header text-uppercase padding-left>VEHICLE DETAILS</ion-list-header>
+    <ion-item ion-item detail-none padding-left>
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-8 text-start>
+            <span text-left>Country of registration</span>
+          </ion-col>
+          <ion-col col-4 text-end class="country-of-registration">
+            <span>
+              {{ countryOfRegistration }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
           <ion-col col-3 text-start>
-            <span text-left *ngIf="selectedTestResult.odometerReading; else noOdometerReading">
-              {{ (selectedTestResult.odometerReading | number) || defaultValues.NONE }} {{ distanceType }}
+            <span text-left>EU vehicle category</span>
+          </ion-col>
+          <ion-col col-9 text-end>
+            <span>
+              {{ selectedTestResult.euVehicleCategory | uppercase }}
             </span>
-            <ng-template #noOdometerReading>
-              <span text-left>
-                  {{ defaultValues.NOT_ENTERED }}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestResult.odometerReading">
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-3 text-start>
+            <span text-left>Odometer reading</span>
+          </ion-col>
+          <ion-col col-9 text-end>
+              <span>
+                {{selectedTestResult.odometerReading | number}} {{distanceType}}
               </span>
-            </ng-template>
           </ion-col>
         </ion-row>
       </ion-grid>

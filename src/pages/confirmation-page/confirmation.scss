@@ -1,14 +1,17 @@
-page-end-visit-confirm {
+page-confirmation {
   .msg-centered {
-    width: 90%;
     height: 45%;
-    margin: auto;
     text-align: center;
 
     h3 {
       font-size: $font-size-medium-2;
       font-family: $sf-pro-font-family;
       font-weight: $font-weight-semi-bold;
+
+      span {
+        color: color($colors, primary);
+        text-decoration: underline;
+      }
     }
   }
 
