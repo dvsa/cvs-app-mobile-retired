@@ -1128,29 +1128,155 @@ export class TestTypesFieldsMetadata {
       {
         testTypeId: '44',
         testTypeName: 'Low Emissions Certificate (LEC) with annual test',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
         testTypeId: '45',
         testTypeName: 'Low Emissions Certificate (LEC)',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
         testTypeId: '47',
         testTypeName: 'Free notifiable alteration',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
         testTypeId: '48',
         testTypeName: 'Paid notifiable alteration',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
@@ -1317,43 +1443,199 @@ export class TestTypesFieldsMetadata {
       {
         testTypeId: '85',
         testTypeName: 'Voluntary brake test',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
         testTypeId: '86',
         testTypeName: 'Voluntary multi-check',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
         testTypeId: '87',
         testTypeName: 'Voluntary Shaker plate check',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
         testTypeId: '88',
         testTypeName: 'Voluntary Speed limiter check',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
         testTypeId: '89',
         testTypeName: 'Voluntary smoke test',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
         testTypeId: '90',
         testTypeName: 'Voluntary headlamp aim test',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
