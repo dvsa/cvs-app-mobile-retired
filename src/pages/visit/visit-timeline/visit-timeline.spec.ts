@@ -258,7 +258,7 @@ describe('Component: VisitTimelinePage', () => {
 
   it('it should display the confirmation page if the endVisit call fails with the Activity already ended error message', () => {
     spyOn(component, 'onUpdateActivityReasonsSuccess');
-    spyOn(visitService, 'endVisit').and.returnValue(Observable.throw({ error: { error: VISIT.ALREADY_ENDED } }));
+    spyOn(visitService, 'endVisit').and.returnValue(Observable.throw({error: {error: VISIT.ALREADY_ENDED}}));
     component.visit = visitService.createVisit(testStation);
     component.confirmEndVisit();
     expect(component.onUpdateActivityReasonsSuccess).toHaveBeenCalled();
@@ -266,7 +266,7 @@ describe('Component: VisitTimelinePage', () => {
 
   it('it should not display the confirmation page if the endVisit call fails', () => {
     spyOn(component, 'onUpdateActivityReasonsSuccess');
-    spyOn(visitService, 'endVisit').and.returnValue(Observable.throw({ error: 'Generic error' }));
+    spyOn(visitService, 'endVisit').and.returnValue(Observable.throw({error: 'Generic error'}));
     component.visit = visitService.createVisit(testStation);
     component.confirmEndVisit();
     expect(component.onUpdateActivityReasonsSuccess).not.toHaveBeenCalled();
