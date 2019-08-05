@@ -44,9 +44,12 @@ import { ActivityServiceMock } from "../../../../test-config/services-mocks/acti
 import { ActivityDataMock } from "../../../assets/data-mocks/activity.data.mock";
 import { TestStationDataMock } from "../../../assets/data-mocks/reference-data-mocks/test-station-data.mock";
 import { TestModel } from "../../../models/tests/test.model";
-import { TEST_REPORT_STATUSES, VISIT } from "../../../app/app.enums"
+import { TEST_REPORT_STATUSES, VEHICLE_TYPE, VISIT } from "../../../app/app.enums"
 import { Firebase } from "@ionic-native/firebase";
 import { Observable } from "../../../../node_modules/rxjs";
+import { VehicleDataMock } from "../../../assets/data-mocks/vehicle-data.mock";
+import { VehicleModel } from "../../../models/vehicle/vehicle.model";
+import { FormatVrmPipe } from "../../../pipes/format-vrm/format-vrm.pipe";
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -97,7 +100,8 @@ describe('Component: VisitTimelinePage', () => {
         {provide: StorageService, useClass: StorageServiceMock},
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: Store, useClass: TestStore},
-        {provide: OpenNativeSettings, useValue: openNativeSettingsSpy}
+        {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
+        FormatVrmPipe
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -296,5 +300,19 @@ describe('Component: VisitTimelinePage', () => {
     component.visit = visitService.createVisit(testStation);
     component.confirmEndVisit();
     expect(store.dispatch).toHaveBeenCalled();
+  });
+
+  it('should return the VRM when the vehicle is a PSV', () => {
+    let vehicle: VehicleModel = Object.create(VehicleDataMock.VehicleData);
+    vehicle.techRecord.vehicleType = VEHICLE_TYPE.PSV;
+    vehicle.vrm = 'AB12CDE';
+    expect(component.getVehicleIdentifier(vehicle)).toBe('AB12 CDE');
+  });
+
+  it('should return the Trailer ID when the vehicle is a Trailer', () => {
+    let vehicle: VehicleModel = Object.create(VehicleDataMock.VehicleData);
+    vehicle.techRecord.vehicleType = VEHICLE_TYPE.TRL;
+    vehicle.trailerId = 'C000001';
+    expect(component.getVehicleIdentifier(vehicle)).toBe('C000001');
   });
 });
