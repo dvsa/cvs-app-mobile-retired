@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { VisitTimelinePage } from "./visit-timeline";
 import { TestService } from "../../../providers/test/test.service";
 import { PipesModule } from "../../../pipes/pipes.module";
+import { FormatVrmPipe } from '../../../pipes/format-vrm/format-vrm.pipe';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { PipesModule } from "../../../pipes/pipes.module";
     PipesModule
   ],
   providers: [
-    TestService
+    TestService,
+    FormatVrmPipe
   ]
 })
 export class VisitTimelineModule {
