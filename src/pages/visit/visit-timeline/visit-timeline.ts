@@ -23,7 +23,10 @@ import {
   AUTH,
   PAGE_NAMES,
   FIREBASE,
-  VISIT, LOG_TYPES
+  VISIT,
+  LOG_TYPES,
+  WAIT_TIME_REASONS,
+  VEHICLE_TYPE
 } from "../../../app/app.enums";
 import { StorageService } from "../../../providers/natives/storage.service";
 import { AppService } from "../../../providers/global/app.service";
@@ -36,6 +39,8 @@ import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-l
 import { Firebase } from '@ionic-native/firebase';
 import { ActivityModel } from "../../../models/visit/activity.model";
 import { ActivityService } from "../../../providers/activity/activity.service";
+import { FormatVrmPipe } from '../../../pipes/format-vrm/format-vrm.pipe';
+import { VehicleModel } from '../../../models/vehicle/vehicle.model';
 
 @IonicPage()
 @Component({
@@ -70,7 +75,8 @@ export class VisitTimelinePage implements OnInit {
               private authService: AuthService,
               private store$: Store<LogsModel>,
               private firebaseLogsService: FirebaseLogsService,
-              private modalCtrl: ModalController) {
+              private modalCtrl: ModalController,
+              private formatVrmPipe: FormatVrmPipe) {
     this.timeline = [];
   }
 
@@ -148,7 +154,7 @@ export class VisitTimelinePage implements OnInit {
   }
 
   confirmEndVisit() {
-    this.isCreateTestEnabled=false;
+    this.isCreateTestEnabled = false;
     const LOADING = this.loadingCtrl.create({
       content: APP_STRINGS.END_VISIT_LOADING
     });
@@ -241,7 +247,7 @@ export class VisitTimelinePage implements OnInit {
               }]
           });
           TRY_AGAIN_ALERT.present();
-        } else if(error && error.error.error === VISIT.ALREADY_ENDED){
+        } else if (error && error.error.error === VISIT.ALREADY_ENDED) {
           this.onUpdateActivityReasonsSuccess(LOADING);
         }
       });
@@ -308,5 +314,9 @@ export class VisitTimelinePage implements OnInit {
     } else {
       return !timeline[timeline.length - 1].activityType;
     }
+  }
+
+  getVehicleIdentifier(vehicle: VehicleModel) {
+    return (vehicle.techRecord.vehicleType === VEHICLE_TYPE.TRL ? vehicle.trailerId : this.formatVrmPipe.transform(vehicle.vrm));
   }
 }
