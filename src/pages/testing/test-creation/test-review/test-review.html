@@ -75,7 +75,7 @@
         </ion-item>
         <ion-item padding-left
                   class="bottom-divider"
-                  *ngIf="testType.testResult !== testTypeResults.ABANDONED && getTestTypeOptionalFieldsToDisplay(testType, 'defects')">
+                  *ngIf="getTestTypeOptionalFieldsToDisplay(testType, 'defects')">
           <div margin-top margin-bottom class="defects-section-title">
             Defects
           </div>
