@@ -44,8 +44,9 @@ import { ActivityServiceMock } from "../../../../test-config/services-mocks/acti
 import { ActivityDataMock } from "../../../assets/data-mocks/activity.data.mock";
 import { TestStationDataMock } from "../../../assets/data-mocks/reference-data-mocks/test-station-data.mock";
 import { TestModel } from "../../../models/tests/test.model";
-import { TEST_REPORT_STATUSES } from "../../../app/app.enums"
+import { TEST_REPORT_STATUSES, VISIT } from "../../../app/app.enums"
 import { Firebase } from "@ionic-native/firebase";
+import { Observable } from "../../../../node_modules/rxjs";
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -250,4 +251,28 @@ describe('Component: VisitTimelinePage', () => {
     component.onUpdateActivityReasonsSuccess(loading);
     expect(storageService.delete).toHaveBeenCalled();
   });
+
+  it('it should display the confirmation page if the endVisit call fails with the Activity already ended error message', () => {
+    spyOn(component, 'onUpdateActivityReasonsSuccess');
+    spyOn(visitService, 'endVisit').and.returnValue(Observable.throw({ error: { error: VISIT.ALREADY_ENDED } }));
+    component.visit = visitService.createVisit(testStation);
+    component.confirmEndVisit();
+    expect(component.onUpdateActivityReasonsSuccess).toHaveBeenCalled();
+  });
+
+  it('it should not display the confirmation page if the endVisit call fails', () => {
+    spyOn(component, 'onUpdateActivityReasonsSuccess');
+    spyOn(visitService, 'endVisit').and.returnValue(Observable.throw({ error: 'Generic error' }));
+    component.visit = visitService.createVisit(testStation);
+    component.confirmEndVisit();
+    expect(component.onUpdateActivityReasonsSuccess).not.toHaveBeenCalled();
+  });
+
+  it('should disable the Create Test button once confirmEndVisit is called', () => {
+    component.visit = visitService.createVisit(testStation);
+    expect(component.isCreateTestEnabled).toBeTruthy();
+    component.confirmEndVisit();
+    expect(component.isCreateTestEnabled).toBeFalsy();
+  });
+
 });
