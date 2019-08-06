@@ -89,24 +89,6 @@
                 <p>{{ vehicleData.techRecord.tachoExemptMrk ? appStrings.YES : appStrings.NO }}</p>
             </div>
         </ion-item>
-    </ion-list>
-            
-    <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
-        <ion-list-header padding-left padding-right>DISPENSATIONS</ion-list-header>
-        <ion-item margin-left padding-right>
-            <p text-wrap text-left>{{ vehicleData.techRecord.dispensations }}</p>
-        </ion-item>
-    </ion-list>
-
-    <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
-        <ion-list-header padding-left padding-right>REMARKS</ion-list-header>
-        <ion-item margin-left padding-right>
-            <p text-wrap text-left>{{ vehicleData.techRecord.remarks }}</p>
-        </ion-item>
-    </ion-list>
-
-    <ion-list class="vehicle-list" *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
-        <ion-list-header></ion-list-header>
 
         <ion-item margin-left *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
             <ion-label>
@@ -152,6 +134,21 @@
                 <p>{{ vehicleData.techRecord.couplingType }}</p>
             </div>
         </ion-item>
+
+    </ion-list>
+            
+    <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
+        <ion-list-header padding-left padding-right>DISPENSATIONS</ion-list-header>
+        <ion-item margin-left padding-right>
+            <p text-wrap text-left>{{ vehicleData.techRecord.dispensations }}</p>
+        </ion-item>
+    </ion-list>
+
+    <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
+        <ion-list-header padding-left padding-right>REMARKS</ion-list-header>
+        <ion-item margin-left padding-right>
+            <p text-wrap text-left>{{ vehicleData.techRecord.remarks }}</p>
+        </ion-item>
     </ion-list>
 
     <ion-list class="vehicle-list" *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
@@ -174,17 +171,6 @@
                 <p>{{ vehicleData.techRecord?.dimensions?.width }}</p>
             </div>
         </ion-item>
-
-        <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)">
-            <ion-item margin-left *ngFor="let spacing of vehicleData.techRecord?.dimensions?.axleSpacing">
-                <ion-label>
-                    <h3>{{ spacing.axles }}</h3>
-                </ion-label>
-                <div item-content padding-right>
-                    <p>{{ spacing.value }}</p>
-                </div>
-            </ion-item>
-        </ng-container>
 
     </ion-list>
 
@@ -236,6 +222,15 @@
 
     <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)">
         <ion-list-header></ion-list-header>
+
+        <ion-item margin-left *ngFor="let spacing of vehicleData.techRecord?.dimensions?.axleSpacing">
+            <ion-label>
+                <h3>{{ spacing.axles }}</h3>
+            </ion-label>
+            <div item-content padding-right>
+                <p>{{ spacing.value }}</p>
+            </div>
+        </ion-item>
 
         <ion-item margin-left>
             <ion-label>
@@ -303,7 +298,7 @@
 
     </ion-list>
 
-    <ion-list class="vehicle-list" *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
+    <ion-list class="vehicle-list">
         <ion-list-header text-uppercase padding-left>Notes</ion-list-header>
 
         <ion-item ion-item detail-none padding-left>
@@ -316,37 +311,6 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
-        </ion-item>
-    </ion-list>
-
-    <ion-list class="vehicle-list">
-        <ion-list-header></ion-list-header>
-
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Vehicle Type</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>{{ vehicleData.techRecord.vehicleType }}</p>
-            </div>
-        </ion-item>
-
-        <ion-item margin-left>
-            <ion-label>
-                <h3>EU Vehicle Category</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>{{ vehicleData.euVehicleCategory }}</p>
-            </div>
-        </ion-item>
-
-        <ion-item margin-left>
-            <ion-label>
-                <h3>Country of registration</h3>
-            </ion-label>
-            <div item-content padding-right>
-                <p>{{ vehicleData.countryOfRegistration }}</p>
-            </div>
         </ion-item>
     </ion-list>
         
