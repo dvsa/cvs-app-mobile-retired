@@ -225,14 +225,14 @@
 
         <ion-item margin-left *ngFor="let spacing of vehicleData.techRecord?.dimensions?.axleSpacing">
             <ion-label>
-                <h3>{{ spacing.axles }}</h3>
+                <h3>{{ 'Axle spacing '+spacing.axles }}</h3>
             </ion-label>
             <div item-content padding-right>
                 <p>{{ spacing.value }}</p>
             </div>
         </ion-item>
 
-        <ion-item margin-left>
+        <ion-item margin-left text-wrap>
             <ion-label>
                 <h3>Front axle centre to rear axle centre (Drawbars)</h3>
             </ion-label>
@@ -253,7 +253,7 @@
     </ion-list>
 
     <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)">
-        <ion-list-header padding-left padding-right>Coupling centre to the rear axle centre (mm)</ion-list-header>
+        <ion-list-header padding-left padding-right text-wrap class='list-header-double'>Coupling centre to the rear axle centre (mm)</ion-list-header>
 
         <ion-item margin-left>
             <ion-label>
@@ -276,7 +276,7 @@
     </ion-list>
 
     <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)">
-        <ion-list-header padding-left padding-right>Coupling centre to the rear of the trailer (mm)</ion-list-header>
+        <ion-list-header padding-left padding-right text-wrap class='list-header-double'>Coupling centre to the rear of the trailer (mm)</ion-list-header>
 
         <ion-item margin-left>
             <ion-label>
@@ -306,7 +306,7 @@
                 <ion-row justify-content-between>
                     <ion-col col-12 text-start text-wrap>
                         <div item-content padding-right>
-                            <p>{{ vehicleData.techRecord.notes }}</p>
+                            <p>{{ vehicleData.techRecord.notes || 'None'}}</p>
                         </div>
                     </ion-col>
                 </ion-row>
