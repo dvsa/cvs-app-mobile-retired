@@ -6,4 +6,10 @@ ion-app.ios page-vehicle-additional {
       background: $color-grey-3;
     }
   }
+
+  ion-list.vehicle-list{
+    ion-list-header.list-header-double{
+      height: $list-header-height-medium;
+    }
+  }
 }
