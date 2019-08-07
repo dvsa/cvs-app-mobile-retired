@@ -11,8 +11,7 @@
 
     <ion-card>
       <ion-item padding-vertical class="ion-item-title">
-        <ion-img item-start class="vehicle-type-icon"
-                 src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="65" height="27"></ion-img>
+        <img item-start class="vehicle-type-icon" src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg"/>
         <h2 text-uppercase padding-left>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
         <p padding-left>{{ vehicle.vin }}</p>
       </ion-item>
