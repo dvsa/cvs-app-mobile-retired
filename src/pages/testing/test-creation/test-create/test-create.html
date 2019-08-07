@@ -18,8 +18,7 @@
     <ion-card class="card" *ngFor="let vehicle of testData.vehicles; let i = index">
       <button ion-item detail-none class="ion-item-title"
               (click)="onVehicleDetails(vehicle)">
-        <ion-img item-start class="vehicle-type-icon"
-                 src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg" width="63" height="27"></ion-img>
+        <img item-start class="vehicle-type-icon" src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg"/>
         <h2 text-uppercase *ngIf="vehicle.techRecord.vehicleType !== 'trl'">{{ vehicle.vrm }}
           ({{vehicle.techRecord.vehicleType}})</h2>
         <h2 *ngIf="vehicle.techRecord.vehicleType === 'trl'">{{ vehicle.trailerId }} (Trailer)</h2>
