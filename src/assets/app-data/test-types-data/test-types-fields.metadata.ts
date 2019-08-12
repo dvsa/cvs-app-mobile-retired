@@ -1340,14 +1340,16 @@ export class TestTypesFieldsMetadata {
         testTypeName: 'Paid roadworthiness retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
+        hasRoadworthinessCertificate: true
       },
       {
         testTypeId: '63',
         testTypeName: 'Part paid roadworthiness retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
+        hasRoadworthinessCertificate: true
       },
       {
         testTypeId: '65',
@@ -1643,7 +1645,8 @@ export class TestTypesFieldsMetadata {
         testTypeName: 'Voluntary roadworthiness test',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
+        hasRoadworthinessCertificate: true
       }
     ]
   }

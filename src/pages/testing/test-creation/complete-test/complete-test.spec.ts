@@ -219,4 +219,15 @@ describe('Component: CompleteTestPage', () => {
     comp.onSave();
     expect(comp.isNotifiableAlterationError).toBeTruthy();
   });
+  
+  it('should reset the Roadworthiness certificateNumber if there are critical defects', () => {
+    comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest.defects.push(ADDED_DEFECT);
+    comp.testTypeDetails = comp.getTestTypeDetails();
+    comp.testTypeDetails.hasRoadworthinessCertificate=true;
+    comp.vehicleTest.certificateNumber='TESTCERT';
+
+    comp.hasRoadworthinessCertificate();
+    expect(comp.vehicleTest.certificateNumber).toBe(null);
+  });
 });

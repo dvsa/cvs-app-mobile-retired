@@ -130,6 +130,21 @@
       </button>
     </ion-item-group>
 
+    <ion-list *ngIf="hasRoadworthinessCertificate()" no-lines>
+      <ion-item-group>
+        <ion-item-divider text-uppercase>Certificate number</ion-item-divider>
+        <ion-item>
+          <ion-input placeholder="Enter" type="text"
+                     [ngModel]="vehicleTest.certificateNumber | uppercase"
+                     (ngModelChange)="vehicleTest.certificateNumber=$event"></ion-input>
+        </ion-item>
+        <ion-item-divider text-wrap padding-right class="divider-height-auto">After conducting the test, call central
+          support to obtain a certificate number and complete
+          the Roadworthiness Inspection Document.
+        </ion-item-divider>
+      </ion-item-group>
+    </ion-list>
+
     <ion-item-group *ngIf="testTypeDetails.hasNotes">
       <ion-item-divider>NOTES <span *ngIf="isNotifiableAlteration && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL">(REQUIRED)</span>
       </ion-item-divider>
