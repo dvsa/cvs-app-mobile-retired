@@ -7,7 +7,7 @@ import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ODOMETER_METRIC, VEHICLE_TYPE } from "../../../../app/app.enums";
+import { ODOMETER_METRIC, VEHICLE_TYPE, TEST_COMPLETION_STATUS } from "../../../../app/app.enums";
 import { TestModel } from "../../../../models/tests/test.model";
 import { TestService } from "../../../../providers/test/test.service";
 import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
@@ -29,7 +29,7 @@ import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock
 import { TestDataModelMock } from "../../../../assets/data-mocks/data-model/test-data-model.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -59,6 +59,7 @@ describe('Component: TestCreatePage', () => {
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const TEST_DATA = TestDataModelMock.TestData;
   const VEHICLE = VehicleDataMock.VehicleData;
+  const DEFECTS = DefectDetailsDataMock.DefectDetails;
 
   beforeEach(async(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callPhoneNumber']);
@@ -178,6 +179,30 @@ describe('Component: TestCreatePage', () => {
     ADDED_VEHICLE_TEST.testTypeId = '40';
     ADDED_VEHICLE_TEST.testResult = null;
     expect(component.getTestTypeStatus(ADDED_VEHICLE_TEST)).toEqual('Edit');
+  });
+
+  it('should have "Edit" status if a Roadworthiness test has critical defects and the certificateNumber is not set', () => {
+    let testTypeModel: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    testTypeModel.testTypeId='91';
+    expect(component.getTestTypeStatus(testTypeModel)).toEqual('In progress');
+    expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.IN_PROGRESS);
+    let criticalDefect = Object.create(DEFECTS[0]);
+    testTypeModel.defects.push(criticalDefect);
+    expect(component.getTestTypeStatus(testTypeModel)).toEqual('Edit');
+    expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.EDIT);
+  });
+
+  it('should have "In progress" status if a Roadworthiness test has minor defects and the certificateNumber is not set', () => {
+    let testTypeModel: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    testTypeModel.testTypeId='91';
+    let prsDefect = Object.create(DEFECTS[0]);
+    prsDefect.prs = true;
+    testTypeModel.defects.push(prsDefect);
+    expect(component.getTestTypeStatus(testTypeModel)).toEqual('In progress');
+    expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.IN_PROGRESS);
+    testTypeModel.certificateNumber='TESTCERT';
+    expect(component.getTestTypeStatus(testTypeModel)).toEqual('Edit');
+    expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.EDIT);
   });
 
   it('should not allow to review a test because not all mandatory fields completed', () => {
