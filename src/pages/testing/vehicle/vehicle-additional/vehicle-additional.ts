@@ -2,7 +2,7 @@ import { IonicPage, NavController, NavParams, ViewController } from "ionic-angul
 import { Component } from "@angular/core";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { DATE_FORMAT, APP_STRINGS, VEHICLE_TYPE } from "../../../../app/app.enums";
+import { DATE_FORMAT, APP_STRINGS, VEHICLE_TYPE, TECH_RECORD_STATUS } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -11,6 +11,7 @@ import { DATE_FORMAT, APP_STRINGS, VEHICLE_TYPE } from "../../../../app/app.enum
 })
 export class VehicleAdditionalPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE=VEHICLE_TYPE;
+  TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
   vehicleData: VehicleModel;
   dateFormat: string;
   appStrings: any;
