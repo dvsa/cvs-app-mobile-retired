@@ -4,6 +4,11 @@
             <span>Weights</span>
         </ion-title>
     </ion-navbar>
+
+    <ion-toolbar  color="tertiary" *ngIf="vehicleData.techRecord.statusCode===TECH_RECORD_STATUS.PROVISIONAL" >
+        <ion-title padding-left>This is a provisional record.</ion-title>
+    </ion-toolbar>
+
 </ion-header>
   
 <ion-content no-padding>
