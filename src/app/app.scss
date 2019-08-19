@@ -81,6 +81,14 @@ body {
         padding-left: 8px;
       }
     }
+
+    ion-title {
+      padding: 0;
+        .toolbar-title-ios {
+          text-align: left;
+          font-weight: $font-weight-normal;
+      }
+    }
   }
 }
 

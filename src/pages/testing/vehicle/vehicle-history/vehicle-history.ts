@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { APP_STRINGS, TEST_TYPE_RESULTS, TEST_REPORT_STATUSES } from '../../../../app/app.enums';
+import { APP_STRINGS, TEST_TYPE_RESULTS, TEST_REPORT_STATUSES, TECH_RECORD_STATUS } from '../../../../app/app.enums';
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 
@@ -13,6 +13,7 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 })
 
 export class VehicleHistoryPage {
+  TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
   vehicleData: VehicleModel;
   testResultHistory: TestResultModel[];
   testTypeResults = TEST_TYPE_RESULTS;

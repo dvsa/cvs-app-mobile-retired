@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController, AlertController } 
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { APP_STRINGS, DATE_FORMAT, FIREBASE, PAGE_NAMES, STORAGE } from "../../../../app/app.enums";
+import { APP_STRINGS, DATE_FORMAT, FIREBASE, PAGE_NAMES, STORAGE, TECH_RECORD_STATUS } from "../../../../app/app.enums";
 import { StorageService } from "../../../../providers/natives/storage.service";
 import { AppConfig } from "../../../../../config/app.config";
 import { CallNumber } from "@ionic-native/call-number";
@@ -15,6 +15,7 @@ import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebas
   templateUrl: 'vehicle-details.html'
 })
 export class VehicleDetailsPage {
+  TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
   vehicleData: VehicleModel;
   testData: TestModel;
   fromTestCreatePage: boolean;

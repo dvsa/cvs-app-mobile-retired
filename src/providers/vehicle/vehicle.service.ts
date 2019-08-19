@@ -21,7 +21,7 @@ export class VehicleService {
     let newVehicle: VehicleModel = {} as VehicleModel;
     newVehicle.vrm = vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm;
     newVehicle.vin = vehicleTechRecord.vin;
-    newVehicle.techRecord = this.getCurrentTechRecord(vehicleTechRecord);
+    newVehicle.techRecord = vehicleTechRecord.techRecord[0];
     newVehicle.testResultsHistory = [];
     newVehicle.countryOfRegistration = CountryOfRegistrationData.DefaultCountryData.key;
     newVehicle.euVehicleCategory = null;
@@ -63,14 +63,6 @@ export class VehicleService {
     vehicle.odometerMetric = odomMetric;
     this.visitService.updateVisit();
     return vehicle;
-  }
-
-  getCurrentTechRecord(vehicle: VehicleTechRecordModel): TechRecordModel {
-    let currentArray = vehicle.techRecord.find(
-      (techRec: TechRecordModel) => {
-        return techRec['statusCode'] == TECH_RECORD_STATUS.CURRENT
-      });
-    return currentArray;
   }
 
   hasOnlyOneTestTypeWithSic(vehicle: VehicleModel) {
