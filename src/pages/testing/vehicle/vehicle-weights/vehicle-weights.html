@@ -21,7 +21,7 @@
                 <h3>Kerb</h3>
             </ion-label>
             <div item-content padding-right>
-                <p>{{ axle.weights.kerbWeight }}</p>
+                <p>{{ axle?.weights?.kerbWeight }}</p>
             </div>
         </ion-item>
         <ion-item margin-left padding-right *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
@@ -29,7 +29,7 @@
                 <h3>Laden</h3>
             </ion-label>
             <div item-content>
-                <p>{{ axle.weights.ladenWeight }}</p>
+                <p>{{ axle?.weights?.ladenWeight }}</p>
             </div>
         </ion-item>
         <ion-item margin-left padding-right>
@@ -37,7 +37,7 @@
                 <h3>GB</h3>
             </ion-label>
             <div item-content>
-                <p>{{ axle.weights.gbWeight }}</p>
+                <p>{{ axle?.weights?.gbWeight }}</p>
             </div>
         </ion-item>
         <ion-item margin-left padding-right>
@@ -45,7 +45,7 @@
                 <h3>Design</h3>
             </ion-label>
             <div item-content>
-                <p>{{ axle.weights.designWeight }}</p>
+                <p>{{ axle?.weights?.designWeight }}</p>
             </div>
         </ion-item>
     </ion-list>
