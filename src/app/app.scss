@@ -472,3 +472,7 @@ ion-item-divider.defect-heading {
 .asterisk {
   margin-left: -5px;
 }
+
+.error-incomplete-item {
+  border-left: 5px solid color($colors, danger);
+}

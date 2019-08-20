@@ -13,6 +13,10 @@
 </ion-header>
 
 <ion-content class="content-background-color-grey">
+  <div class="error-banner"
+       *ngIf="isNotifiableAlterationError && !vehicleTest.additionalNotesRecorded && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL">
+    Before saving, give more details about the failure in the notes section.
+  </div>
   <ion-list class="full-dividers-list">
 
     <ion-item text-wrap><h2 class="test-type-name">{{vehicleTest.testTypeName}}</h2></ion-item>
@@ -127,8 +131,10 @@
     </ion-item-group>
 
     <ion-item-group *ngIf="testTypeDetails.hasNotes">
-      <ion-item-divider>NOTES</ion-item-divider>
-      <ion-item>
+      <ion-item-divider>NOTES <span *ngIf="isNotifiableAlteration && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL">(REQUIRED)</span>
+      </ion-item-divider>
+      <ion-item
+        [ngClass]="{'error-incomplete-item': isNotifiableAlterationError && !vehicleTest.additionalNotesRecorded && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL}">
         <ion-textarea placeholder="Add notes"
                       rows="5"
                       [(ngModel)]="vehicleTest.additionalNotesRecorded"></ion-textarea>
