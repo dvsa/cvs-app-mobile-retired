@@ -199,4 +199,24 @@ describe('Component: CompleteTestPage', () => {
     comp.createDDLButtonHandler(input, 0);
     expect(comp.vehicleTest.lastSeatbeltInstallationCheckDate).toBeDefined();
   });
+
+  it('should test ionViewWillEnter logic', () => {
+    comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest.testTypeId = '47';
+    comp.ionViewWillEnter();
+    expect(comp.isNotifiableAlteration).toBeTruthy();
+    comp.vehicleTest.testTypeId = '50';
+    comp.ionViewWillEnter();
+    expect(comp.isNotifiableAlteration).toBeFalsy();
+  });
+
+  it('should activate the notifiable alteration error if certain condition met', () => {
+    comp.isNotifiableAlterationError = false;
+    comp.isNotifiableAlteration = true;
+    comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest.testResult = TEST_TYPE_RESULTS.FAIL;
+    comp.vehicleTest.additionalNotesRecorded = null;
+    comp.onSave();
+    expect(comp.isNotifiableAlterationError).toBeTruthy();
+  });
 });

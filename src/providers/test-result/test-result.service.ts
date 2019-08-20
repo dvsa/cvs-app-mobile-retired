@@ -36,13 +36,16 @@ export class TestResultService {
     newTestResult.reasonForCancellation = test.reasonForCancellation;
     /* VEHICLE */
     if (vehicle.vrm) newTestResult.vrm = vehicle.vrm;
-    if (vehicle.trailerId) newTestResult.trailerId = vehicle.trailerId;
+    if (vehicle.trailerId) {
+      newTestResult.trailerId = vehicle.trailerId;
+    } else {
+      newTestResult.odometerReading = vehicle.odometerReading ? parseInt(vehicle.odometerReading) : null;
+      newTestResult.odometerReadingUnits = vehicle.odometerMetric ? vehicle.odometerMetric : null;
+    }
     newTestResult.vin = vehicle.vin;
     newTestResult.vehicleClass = vehicle.techRecord.vehicleClass;
     newTestResult.vehicleType = vehicle.techRecord.vehicleType;
     newTestResult.vehicleConfiguration = vehicle.techRecord.vehicleConfiguration;
-    if (vehicle.odometerReading) newTestResult.odometerReading = parseInt(vehicle.odometerReading); // to match backend implementation
-    if (vehicle.odometerMetric) newTestResult.odometerReadingUnits = vehicle.odometerMetric;
     newTestResult.preparerId = vehicle.preparerId;
     newTestResult.preparerName = vehicle.preparerName;
     newTestResult.euVehicleCategory = vehicle.euVehicleCategory;

@@ -26,6 +26,7 @@ import { TestTypeDetailsInputPage } from "../test-type-details-input/test-type-d
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { NotifiableAlterationTestTypesData } from "../../../../assets/app-data/test-types-data/notifiable-alteration-test-types.data";
 
 @IonicPage()
 @Component({
@@ -44,6 +45,10 @@ export class CompleteTestPage implements OnInit {
   today: string;
   patterns;
   changeBackground: boolean = false;
+  notifiableAlterationTestTypesDataIds: string[] = NotifiableAlterationTestTypesData.NotifiableAlterationTestTypesDataIds;
+  isNotifiableAlteration: boolean;
+  isNotifiableAlterationError: boolean;
+  TEST_TYPE_RESULTS: typeof TEST_TYPE_RESULTS = TEST_TYPE_RESULTS;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -76,6 +81,11 @@ export class CompleteTestPage implements OnInit {
         this.defectsCategories = defects;
       }
     );
+  }
+
+  ionViewWillEnter() {
+    this.isNotifiableAlterationError = false;
+    this.isNotifiableAlteration = this.notifiableAlterationTestTypesDataIds.indexOf(this.vehicleTest.testTypeId) !== -1;
   }
 
   ionViewDidEnter() {
@@ -218,6 +228,11 @@ export class CompleteTestPage implements OnInit {
   }
 
   onSave() {
+    this.isNotifiableAlterationError = false;
+    if (this.isNotifiableAlteration && this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL && !this.vehicleTest.additionalNotesRecorded) {
+      this.isNotifiableAlterationError = true;
+      return;
+    }
     this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest, this.testTypeDetails.hasDefects);
     this.visitService.updateVisit();
     this.events.publish(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, this.completedFields);
