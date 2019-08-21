@@ -10,7 +10,6 @@ import {
 import { VisitModel } from "../../../../models/visit/visit.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import {
-  APP,
   APP_STRINGS,
   DATE_FORMAT,
   DEFICIENCY_CATEGORY,
@@ -32,7 +31,7 @@ import { TestService } from "../../../../providers/test/test.service";
 import { Observable } from "rxjs";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { VisitService } from "../../../../providers/visit/visit.service";
-import { catchError, tap } from "rxjs/operators";
+import { catchError } from "rxjs/operators";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { DefectsService } from "../../../../providers/defects/defects.service";
@@ -42,8 +41,8 @@ import { Log, LogsModel } from "../../../../modules/logs/logs.model";
 import * as logsActions from "../../../../modules/logs/logs.actions";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { ActivityService } from "../../../../providers/activity/activity.service";
-import { ActivityModel } from "../../../../models/visit/activity.model";
 import { Firebase } from "@ionic-native/firebase";
+import { TestResultModel } from "../../../../models/tests/test-result.model";
 
 @IonicPage()
 @Component({
@@ -235,8 +234,11 @@ export class TestReviewPage implements OnInit {
     });
     LOADING.present();
 
+    let testResultsArr: TestResultModel[] = [];
+
     for (let vehicle of test.vehicles) {
       let testResult = this.testResultService.createTestResult(this.visit, test, vehicle);
+      testResultsArr.push(testResult);
       stack.push(this.testResultService.submitTestResult(testResult).pipe(catchError((error: any) => {
         const log: Log = {
           type: 'error',
@@ -246,16 +248,18 @@ export class TestReviewPage implements OnInit {
         this.store$.dispatch(new logsActions.SaveLog(log));
         return Observable.throw(error);
       })));
-      Observable.forkJoin(stack).subscribe(
-        (response: any) => {
-          const log: Log = {
-            type: 'info',
-            message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
-            timestamp: Date.now(),
-          };
-          this.store$.dispatch(new logsActions.SaveLog(log));
-          this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_TEST);
-          let activity = this.activityService.createActivityBodyForCall(this.visitService.visit, testResult, false);
+    }
+    Observable.forkJoin(stack).subscribe(
+      (response: any) => {
+        const log: Log = {
+          type: 'info',
+          message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
+          timestamp: Date.now(),
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
+        this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_TEST);
+        for (let testResult of testResultsArr) {
+          const activity = this.activityService.createActivityBodyForCall(this.visitService.visit, testResult, false);
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
               let activityIndex = this.activityService.activities.map((activity) => activity.endTime).indexOf(testResult.testStartTimestamp);
@@ -265,18 +269,18 @@ export class TestReviewPage implements OnInit {
             () => {
               this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Wait activity submission failed"});
             });
-          this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
-          LOADING.dismiss();
-          this.submitInProgress = false;
-          this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {testerEmailAddress: this.visit.testerEmail});
-        },
-        (error) => {
-          LOADING.dismiss();
-          TRY_AGAIN_ALERT.present();
-          this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.TEST_SUBMISSION_FAILED);
         }
-      )
-    }
+        this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
+        LOADING.dismiss();
+        this.submitInProgress = false;
+        this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {testerEmailAddress: this.visit.testerEmail});
+      },
+      (error) => {
+        LOADING.dismiss();
+        TRY_AGAIN_ALERT.present();
+        this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.TEST_SUBMISSION_FAILED);
+      }
+    )
   }
 
   getCountryStringToBeDisplayed(vehicle: VehicleModel) {
