@@ -2,11 +2,10 @@ import { TestResultModel } from "../../models/tests/test-result.model";
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { HTTPService } from "../global/http.service";
 import { Injectable } from "@angular/core";
-import { TEST_TYPE_RESULTS } from "../../app/app.enums";
+import { TEST_TYPE_RESULTS, VEHICLE_TYPE } from "../../app/app.enums";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeService } from "../test-type/test-type.service";
 import { AuthService } from "../global/auth.service";
-import { del } from "selenium-webdriver/http";
 
 @Injectable()
 export class TestResultService {
@@ -52,7 +51,7 @@ export class TestResultService {
     newTestResult.countryOfRegistration = vehicle.countryOfRegistration;
     newTestResult.noOfAxles = vehicle.techRecord.noOfAxles;
     if (vehicle.techRecord.vehicleSize) newTestResult.vehicleSize = vehicle.techRecord.vehicleSize;
-    if (vehicle.techRecord.seatsLowerDeck && vehicle.techRecord.seatsUpperDeck) newTestResult.numberOfSeats = vehicle.techRecord.seatsLowerDeck + vehicle.techRecord.seatsUpperDeck;
+    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV) newTestResult.numberOfSeats = vehicle.techRecord.seatsLowerDeck + vehicle.techRecord.seatsUpperDeck;
     newTestResult.testTypes = vehicle.testTypes;
 
     return newTestResult;
