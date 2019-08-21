@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { TestModel } from "../../../../models/tests/test.model";
 import { TestService } from "../../../../providers/test/test.service";
-import { APP_STRINGS, FIREBASE, LOG_TYPES, TEST_REPORT_STATUSES } from "../../../../app/app.enums";
+import { APP_STRINGS, FIREBASE, LOG_TYPES, PAGE_NAMES, TEST_REPORT_STATUSES } from "../../../../app/app.enums";
 import { TestResultService } from "../../../../providers/test-result/test-result.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { Observable } from "rxjs";
@@ -15,6 +15,7 @@ import { catchError } from "rxjs/operators";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { ActivityService } from "../../../../providers/activity/activity.service";
 import { Firebase } from "@ionic-native/firebase";
+import { TestResultModel } from "../../../../models/tests/test-result.model";
 
 @IonicPage()
 @Component({
@@ -106,8 +107,11 @@ export class TestCancelPage {
     });
     LOADING.present();
 
+    let testResultsArr: TestResultModel[] = [];
+
     for (let vehicle of test.vehicles) {
       let testResult = this.testResultService.createTestResult(this.visitService.visit, test, vehicle);
+      testResultsArr.push(testResult);
       stack.push(this.testResultService.submitTestResult(testResult).pipe(catchError((error: any) => {
         const log: Log = {
           type: 'error',
@@ -117,16 +121,18 @@ export class TestCancelPage {
         this.store$.dispatch(new logsActions.SaveLog(log));
         return Observable.throw(error);
       })));
-      Observable.forkJoin(stack).subscribe(
-        (response: any) => {
-          const log: Log = {
-            type: 'info',
-            message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
-            timestamp: Date.now(),
-          };
-          this.store$.dispatch(new logsActions.SaveLog(log));
-          this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
-          let activity = this.activityService.createActivityBodyForCall(this.visitService.visit, testResult, false);
+    }
+    Observable.forkJoin(stack).subscribe(
+      (response: any) => {
+        const log: Log = {
+          type: 'info',
+          message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
+          timestamp: Date.now(),
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
+        this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
+        for (let testResult of testResultsArr) {
+          const activity = this.activityService.createActivityBodyForCall(this.visitService.visit, testResult, false);
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
               const log: Log = {
@@ -149,27 +155,31 @@ export class TestCancelPage {
               this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Wait activity submission failed"});
             }
           );
-          LOADING.dismiss();
-          this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 6));
-        },
-        (error) => {
-          LOADING.dismiss();
-          TRY_AGAIN_ALERT.present();
-          this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.TEST_SUBMISSION_FAILED);
-          TRY_AGAIN_ALERT.onDidDismiss(() => {
-            if (!this.tryAgain) {
-              this.nextAlert = this.changeOpacity = false;
-            } else {
-              this.tryAgain = false;
-            }
-          });
         }
-      )
-    }
+        LOADING.dismiss();
+        let views = this.navCtrl.getViews();
+        for (let i = views.length - 1; i >= 0; i--) {
+          if (views[i].component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
+            this.navCtrl.popTo(views[i]);
+          }
+        }
+      },
+      (error) => {
+        LOADING.dismiss();
+        TRY_AGAIN_ALERT.present();
+        this.firebaseLogsService.logEvent(FIREBASE.TEST_ERROR, FIREBASE.ERROR, FIREBASE.TEST_SUBMISSION_FAILED);
+        TRY_AGAIN_ALERT.onDidDismiss(() => {
+          if (!this.tryAgain) {
+            this.nextAlert = this.changeOpacity = false;
+          } else {
+            this.tryAgain = false;
+          }
+        });
+      }
+    )
   }
 
   isValidReason() {
     return this.cancellationReason.trim().length > 0;
   }
-
 }
