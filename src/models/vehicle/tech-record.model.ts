@@ -116,7 +116,7 @@ export interface AxelsModel {
   weights?: WeightsModel;
   tyres: TyresModel;
   /* -------- ONLY FOR TRL -------- */
-  axleBrakeProperties?: AxleBrakePropertiesModel;
+  brakes?: AxleBrakePropertiesModel;
 }
 
 export interface WeightsModel {

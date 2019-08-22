@@ -148,7 +148,7 @@
                     <h3>Brake actuator</h3>
                 </ion-label>
                 <div item-content padding-right>
-                    <p>{{ axle?.axleBrakeProperties?.brakeActuator }}</p>
+                    <p>{{ axle?.brakes?.brakeActuator }}</p>
                 </div>
             </ion-item>
 
@@ -157,7 +157,7 @@
                     <h3>Lever length</h3>
                 </ion-label>
                 <div item-content padding-right>
-                    <p>{{ axle?.axleBrakeProperties?.leverLenght }}</p>
+                    <p>{{ axle?.brakes?.leverLenght }}</p>
                 </div>
             </ion-item>
 
@@ -166,7 +166,7 @@
                     <h3>Spring brake parking</h3>
                 </ion-label>
                 <div item-content padding-right>
-                    <p>{{ axle?.axleBrakeProperties?.springBrakeParking }}</p>
+                    <p>{{ axle?.brakes?.springBrakeParking ? APP_STRINGS.YES : APP_STRINGS.NO }}</p>
                 </div>
             </ion-item>
 
@@ -181,7 +181,7 @@
                     <h3>Load sensing valve</h3>
                 </ion-label>
                 <div item-content padding-right>
-                    <p>{{ vehicleData.techRecord?.brakes?.loadSensingValve }}</p>
+                    <p>{{ vehicleData.techRecord?.brakes?.loadSensingValve ? APP_STRINGS.YES : APP_STRINGS.NO }}</p>
                 </div>
             </ion-item>
 
@@ -190,7 +190,7 @@
                     <h3>Antilock braking system</h3>
                 </ion-label>
                 <div item-content padding-right>
-                    <p>{{ vehicleData.techRecord?.brakes?.antilockBrakingSystem }}</p>
+                    <p>{{ vehicleData.techRecord?.brakes?.antilockBrakingSystem ? APP_STRINGS.YES : APP_STRINGS.NO }}</p>
                 </div>
             </ion-item>
 
