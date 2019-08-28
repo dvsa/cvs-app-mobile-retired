@@ -44,7 +44,7 @@ import { ActivityService } from "../../../../providers/activity/activity.service
 import { ActivityServiceMock } from "../../../../../test-config/services-mocks/activity-service.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
-import { VEHICLE_TYPE } from "../../../../app/app.enums";
+import { TEST_TYPE_RESULTS, VEHICLE_TYPE } from "../../../../app/app.enums";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { By } from "../../../../../node_modules/@angular/platform-browser";
@@ -61,6 +61,7 @@ describe('Component: TestReviewPage', () => {
   let testService: TestService;
   let vehicleService: VehicleService;
   let modalCtrl: ModalController;
+  let navCtrl: NavController;
 
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
@@ -107,6 +108,7 @@ describe('Component: TestReviewPage', () => {
     testService = TestBed.get(TestService);
     vehicleService = TestBed.get(VehicleService);
     modalCtrl = TestBed.get(ModalController);
+    navCtrl = TestBed.get(NavController);
   });
 
   beforeEach(() => {
@@ -215,5 +217,58 @@ describe('Component: TestReviewPage', () => {
     let testType = TestTypeDataModelMock.TestTypeData;
     component.openTestDetailsPage(firstVehicle, testType);
     expect(modalCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should not pop to test overview if roadworthiness test result is fail', () => {
+    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
+    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+
+    initialTestType.testTypeId = '62';
+    changedTestType.testResult = TEST_TYPE_RESULTS.FAIL;
+    component.checkMissingTestTypeMandatoryFields(changedTestType, initialTestType);
+    expect(navCtrl.popTo).not.toHaveBeenCalled();
+  });
+
+  it('should pop to test overview if roadworthiness test result is pass and the certificate number does not exist', () => {
+    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
+    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+
+    initialTestType.testTypeId = '62';
+    changedTestType.testResult = TEST_TYPE_RESULTS.PASS;
+    changedTestType.certificateNumber = null;
+    component.checkMissingTestTypeMandatoryFields(changedTestType, initialTestType);
+    expect(navCtrl.popTo).toHaveBeenCalled();
+  });
+
+  it('should not pop to test overview if adr test result is fail', () => {
+    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
+    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+
+    initialTestType.testTypeId = '50';
+    changedTestType.testResult = TEST_TYPE_RESULTS.FAIL;
+    component.checkMissingTestTypeMandatoryFields(changedTestType, initialTestType);
+    expect(navCtrl.popTo).not.toHaveBeenCalled();
+  });
+
+  it('should pop to test overview if adr test result is pass and the certificate number or expiryDate do not exist', () => {
+    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
+    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+
+    initialTestType.testTypeId = '62';
+    changedTestType.testResult = TEST_TYPE_RESULTS.PASS;
+    changedTestType.certificateNumber = null;
+    changedTestType.testExpiryDate = null;
+    component.checkMissingTestTypeMandatoryFields(changedTestType, initialTestType);
+    expect(navCtrl.popTo).toHaveBeenCalled();
+  });
+
+  it('should pop to test overview if a test type initially had certificate number and after changing the details not', () => {
+    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
+    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+
+    initialTestType.certificateNumber = '44334554';
+    changedTestType.certificateNumber = null;
+    component.checkMissingTestTypeMandatoryFields(changedTestType, initialTestType);
+    expect(navCtrl.popTo).toHaveBeenCalled();
   });
 });

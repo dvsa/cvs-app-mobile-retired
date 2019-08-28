@@ -29,6 +29,7 @@ import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { AdrTestTypesData } from "../../../../assets/app-data/test-types-data/adr-test-types.data";
 
 @IonicPage()
 @Component({
@@ -117,23 +118,31 @@ export class TestCreatePage implements OnInit {
     return vehicle.techRecord.vehicleType.toLowerCase();
   }
 
-  getTestTypeStatus(testType: TestTypeModel) {
+  getTestTypeStatus(vehicle: VehicleModel, testType: TestTypeModel) {
     let isInProgress = true;
+    this.testTypeService.updateLinkedTestResults(vehicle, testType);
     for (let testTypeFieldMetadata of this.testTypesFieldsMetadata) {
       if (testType.testTypeId === testTypeFieldMetadata.testTypeId && testTypeFieldMetadata.sections.length) {
         isInProgress = false;
         testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
         for (let section of testTypeFieldMetadata.sections) {
           for (let input of section.inputs) {
-            if (!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false) {
-              if ((input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER
-                && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_LAST_DATE) || (testTypeFieldMetadata.category === 'B'
-                && (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER || input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE))) {
+            if ((!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false) || (AdrTestTypesData.AdrTestTypesDataIds.indexOf(testType.testTypeId) !== -1 && input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER)) {
+              if ((input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_LAST_DATE)
+                || (testTypeFieldMetadata.category === 'B' && (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER || input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE))) {
                 isInProgress = true;
                 testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
               }
+              if (AdrTestTypesData.AdrTestTypesDataIds.indexOf(testType.testTypeId) !== -1
+                && (testType.testResult === TEST_TYPE_RESULTS.FAIL || (input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER && testType.certificateNumber && testType.certificateNumber.length === 6))) {
+                isInProgress = false;
+                testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
+              }
             } else {
-              if (!this.completedFields.hasOwnProperty(input.testTypePropertyName) && input.testTypePropertyName !== 'testResult' && input.testTypePropertyName !== 'certificateNumber') {
+              if (!this.completedFields.hasOwnProperty(input.testTypePropertyName) &&
+                input.testTypePropertyName !== 'testResult' &&
+                input.testTypePropertyName !== 'certificateNumber' &&
+                input.testTypePropertyName !== 'testExpiryDate') {
                 this.completedFields[input.testTypePropertyName] = testType[input.testTypePropertyName];
               }
             }
@@ -154,6 +163,7 @@ export class TestCreatePage implements OnInit {
         }
       }
     }
+
     return isInProgress ? 'In progress' : 'Edit';
   }
 
@@ -268,14 +278,15 @@ export class TestCreatePage implements OnInit {
 
   areAllTestTypesCompleted(vehicle: VehicleModel): boolean {
     return vehicle.testTypes.every((test: TestTypeModel) => {
-      this.getTestTypeStatus(test);
+      this.getTestTypeStatus(vehicle, test);
       return test.completionStatus != TEST_COMPLETION_STATUS.IN_PROGRESS || test.testResult === TEST_TYPE_RESULTS.ABANDONED;
     });
   }
 
   areAllVehiclesCompletelyTested(test: TestModel): boolean {
     return test.vehicles.every((vehicle: VehicleModel) => {
-      return vehicle.countryOfRegistration && vehicle.euVehicleCategory && vehicle.odometerReading && this.areAllTestTypesCompleted(vehicle);
+      let isOdometerCaptured = vehicle.trailerId ? true : vehicle.odometerReading; // TRLs does not have odometer Reading
+      return vehicle.countryOfRegistration && vehicle.euVehicleCategory && isOdometerCaptured && this.areAllTestTypesCompleted(vehicle);
     });
   }
 

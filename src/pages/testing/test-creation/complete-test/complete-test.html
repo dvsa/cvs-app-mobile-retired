@@ -17,12 +17,15 @@
        *ngIf="isNotifiableAlterationError && !vehicleTest.additionalNotesRecorded && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL">
     Before saving, give more details about the failure in the notes section.
   </div>
-  <ion-list class="full-dividers-list">
 
+  <ion-list class="full-dividers-list">
     <ion-item text-wrap><h2 class="test-type-name">{{vehicleTest.testTypeName}}</h2></ion-item>
+
     <ion-item-group *ngFor="let section of testTypeDetails.sections">
+
       <ion-item-divider
         *ngIf="canDisplaySection(section)">{{section.sectionName.toUpperCase()}}</ion-item-divider>
+
       <div *ngFor="let input of section.inputs">
         <button ion-item
                 detail-none
@@ -43,6 +46,7 @@
           <ion-icon item-end class="arrow-forward" name="arrow-forward"
                     *ngIf="!input.hasOwnProperty('deactivateButtonOnSelection') || input.deactivateButtonOnSelection && !vehicleTest[input.testTypePropertyName]"></ion-icon>
         </button>
+
         <button ion-item
                 class="bottom-divider"
                 [ngClass]="{'error-incomplete-item': errorIncomplete && testTypeDetails.category === 'B'}"
@@ -52,6 +56,7 @@
           <h3 item-end class="current-value"
               [ngClass]="{'no-data': !completedFields[input.testTypePropertyName]}">{{completedFields[input.testTypePropertyName] || input.defaultValue}}</h3>
         </button>
+
         <button ion-item
                 class="bottom-divider"
                 *ngIf="input.type === testTypeFields.DATE && canDisplayInput(input)">
@@ -64,6 +69,36 @@
                         (ngModelChange)="onDatetimeChange($event, input.testTypePropertyName)"
                         [max]="today"></ion-datetime>
         </button>
+
+        <div
+          [ngClass]="{'error-incomplete-item': (errorIncomplete && !vehicleTest.certificateNumber) || (errorIncompleteCertificateNumber && vehicleTest.certificateNumber.length < 6)}"
+          *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER && canDisplaySection(section) && canDisplayInput(input)">
+          <ion-item>
+            <ion-input [placeholder]="input.placeholder"
+                       type="number"
+                       [pattern]="patterns.NUMERIC"
+                       [(ngModel)]="vehicleTest[input.testTypePropertyName]"
+                       (ngModelChange)="certificateNumberInputChange($event)"></ion-input>
+          </ion-item>
+        </div>
+        <p padding-left class="error-incomplete-certificate-number"
+           *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER && canDisplaySection(section) && canDisplayInput(input)
+           && errorIncompleteCertificateNumber && vehicleTest.certificateNumber.length < 6">Certificate number must be 6
+          digits.</p>
+
+        <div
+          [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest.testExpiryDate}"
+          *ngIf="input.type === testTypeFields.EXPIRY_DATE && canDisplaySection(section) && canDisplayInput(input)">
+          <button ion-item>
+            <ion-datetime class="expiry-date-datetime"
+                          [placeholder]="input.placeholder"
+                          displayFormat="D MMM YYYY"
+                          [(ngModel)]="vehicleTest[input.testTypePropertyName]"
+                          [min]="input.minDate"
+                          [max]="input.maxDate"></ion-datetime>
+          </button>
+        </div>
+
         <ion-grid class="certificateNumberCustom"
                   *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER_CUSTOM && canDisplaySection(section)">
           <ion-row>
@@ -155,7 +190,13 @@
                       rows="5"
                       [(ngModel)]="vehicleTest.additionalNotesRecorded"></ion-textarea>
       </ion-item>
+      <p padding-left
+         class="adr-notes-details"
+         *ngIf="adrTestTypesIds.indexOf(vehicleTest.testTypeId) !== -1 && vehicleTest.testResult === 'pass'">
+        Notes will be printed on the certificate.
+      </p>
     </ion-item-group>
+
     <ion-item-group *ngIf="!this.testTypeDetails.hasDefects">
       <ion-item-divider>PROHIBITION</ion-item-divider>
       <ion-item>
@@ -163,6 +204,7 @@
         <ion-toggle color="secondary" checked="false" [(ngModel)]="vehicleTest.prohibitionIssued"></ion-toggle>
       </ion-item>
     </ion-item-group>
+
     <ion-item-group>
       <ion-item-divider></ion-item-divider>
       <button ion-item

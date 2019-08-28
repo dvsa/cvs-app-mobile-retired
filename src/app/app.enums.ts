@@ -82,6 +82,8 @@ export enum TEST_TYPE_FIELDS {
   DDL = 'ddl',
   NUMBER = 'number',
   DATE = 'date',
+  EXPIRY_DATE = 'expiryDate',
+  CERTIFICATE_NUMBER = 'certificateNumber',
   CERTIFICATE_NUMBER_CUSTOM = 'certificateNumberCustom'
 }
 

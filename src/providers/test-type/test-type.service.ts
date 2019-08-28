@@ -9,6 +9,8 @@ import { VisitService } from "../visit/visit.service";
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { FirebaseLogsService } from '../firebase-logs/firebase-logs.service';
+import { VehicleModel } from "../../models/vehicle/vehicle.model";
+import { AdrTestTypesData } from "../../assets/app-data/test-types-data/adr-test-types.data";
 
 @Injectable()
 export class TestTypeService {
@@ -32,6 +34,9 @@ export class TestTypeService {
       newTestType.numberOfSeatbeltsFitted = null;
       newTestType.lastSeatbeltInstallationCheckDate = null;
       newTestType.seatbeltInstallationCheckDate = null;
+    }
+    if (vehicleType !== VEHICLE_TYPE.PSV) {
+      newTestType.testExpiryDate = null;
     }
     newTestType.testResult = null;
     newTestType.prohibitionIssued = false;
@@ -112,9 +117,22 @@ export class TestTypeService {
     return result;
   }
 
+  updateLinkedTestResults(vehicle: VehicleModel, testType: TestTypeModel): boolean {
+    let blockTestResultSelection = false;
+    if (AdrTestTypesData.AdrTestTypesDataIds.indexOf(testType.testTypeId) !== -1) { // between Annual test and ADR tests for HGVs and TRLs
+      for (let vehicleTestType of vehicle.testTypes) {
+        if ((vehicleTestType.testTypeId === '40' || vehicleTestType.testTypeId === '94') && vehicleTestType.testResult === TEST_TYPE_RESULTS.FAIL) {
+          testType.testResult = TEST_TYPE_RESULTS.FAIL;
+          testType.certificateNumber = null;
+          testType.testExpiryDate = null;
+          blockTestResultSelection = true;
+        }
+      }
+    }
+    return blockTestResultSelection;
+  }
+
   orderTestTypesArray(array, key, order?) {
     return array.sort(this.commonFunctions.orderByStringId(key, order));
   }
-
-
 }

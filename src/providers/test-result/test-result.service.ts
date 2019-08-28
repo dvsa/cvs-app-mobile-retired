@@ -8,7 +8,8 @@ import { TestTypeService } from "../test-type/test-type.service";
 import { AuthService } from "../global/auth.service";
 import { RoadworthinessTestTypesData } from "../../assets/app-data/test-types-data/roadworthiness-test-types.data";
 import { TestTypeModel } from "../../models/tests/test-type.model";
-import {FirstTestTypesData} from '../../assets/app-data/test-types-data/first-test-types.data';
+import { FirstTestTypesData } from '../../assets/app-data/test-types-data/first-test-types.data';
+import { AdrTestTypesData } from "../../assets/app-data/test-types-data/adr-test-types.data";
 
 @Injectable()
 export class TestResultService {
@@ -44,11 +45,10 @@ export class TestResultService {
       newTestResult.odometerReading = vehicle.odometerReading ? parseInt(vehicle.odometerReading) : null;
       newTestResult.odometerReadingUnits = vehicle.odometerMetric ? vehicle.odometerMetric : null;
     }
-    if(this.vehicleContainsFirstTests(vehicle)){
+    if (this.vehicleContainsFirstTests(vehicle)) {
       if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) newTestResult.regnDate = vehicle.techRecord.regnDate;
       else newTestResult.firstUseDate = vehicle.techRecord.firstUseDate;
     }
-
     newTestResult.vin = vehicle.vin;
     newTestResult.vehicleClass = vehicle.techRecord.vehicleClass;
     newTestResult.vehicleType = vehicle.techRecord.vehicleType;
@@ -86,7 +86,7 @@ export class TestResultService {
   }
 
   formatCertificateNumber(testType: TestTypeModel) {
-    if (testType.certificateNumber && RoadworthinessTestTypesData.RoadworthinessTestTypesIds.indexOf(testType.testTypeId) === -1) {
+    if (testType.certificateNumber && RoadworthinessTestTypesData.RoadworthinessTestTypesIds.indexOf(testType.testTypeId) === -1 && AdrTestTypesData.AdrTestTypesDataIds.indexOf(testType.testTypeId) === -1) {
       return testType.testResult === TEST_TYPE_RESULTS.PASS ? LEC_CERTIFICATE_NUMBER_PREFIXES.LP + testType.certificateNumber : LEC_CERTIFICATE_NUMBER_PREFIXES.LF + testType.certificateNumber;
     } else {
       return testType.certificateNumber;

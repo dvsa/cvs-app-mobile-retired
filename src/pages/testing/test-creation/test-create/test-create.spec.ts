@@ -174,24 +174,24 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should return the test type status to be displayed', () => {
-    expect(component.getTestTypeStatus(ADDED_VEHICLE_TEST)).toEqual('In progress');
+    expect(component.getTestTypeStatus(VEHICLE, ADDED_VEHICLE_TEST)).toEqual('In progress');
     ADDED_VEHICLE_TEST.numberOfSeatbeltsFitted = 2;
     ADDED_VEHICLE_TEST.seatbeltInstallationCheckDate = true;
     ADDED_VEHICLE_TEST.lastSeatbeltInstallationCheckDate = '19-01-2019';
-    expect(component.getTestTypeStatus(ADDED_VEHICLE_TEST)).toEqual('Edit');
+    expect(component.getTestTypeStatus(VEHICLE, ADDED_VEHICLE_TEST)).toEqual('Edit');
     ADDED_VEHICLE_TEST.testTypeId = '40';
     ADDED_VEHICLE_TEST.testResult = null;
-    expect(component.getTestTypeStatus(ADDED_VEHICLE_TEST)).toEqual('Edit');
+    expect(component.getTestTypeStatus(VEHICLE, ADDED_VEHICLE_TEST)).toEqual('Edit');
   });
 
   it('should have "Edit" status if a Roadworthiness test has critical defects and the certificateNumber is not set', () => {
     let testTypeModel: TestTypeModel = TestTypeDataModelMock.TestTypeData;
     testTypeModel.testTypeId = '91';
-    expect(component.getTestTypeStatus(testTypeModel)).toEqual('In progress');
+    expect(component.getTestTypeStatus(VEHICLE, testTypeModel)).toEqual('In progress');
     expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.IN_PROGRESS);
     let criticalDefect = Object.create(DEFECTS[0]);
     testTypeModel.defects.push(criticalDefect);
-    expect(component.getTestTypeStatus(testTypeModel)).toEqual('Edit');
+    expect(component.getTestTypeStatus(VEHICLE, testTypeModel)).toEqual('Edit');
     expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.EDIT);
   });
 
@@ -201,11 +201,22 @@ describe('Component: TestCreatePage', () => {
     let prsDefect = Object.create(DEFECTS[0]);
     prsDefect.prs = true;
     testTypeModel.defects.push(prsDefect);
-    expect(component.getTestTypeStatus(testTypeModel)).toEqual('In progress');
+    expect(component.getTestTypeStatus(VEHICLE, testTypeModel)).toEqual('In progress');
     expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.IN_PROGRESS);
     testTypeModel.certificateNumber = 'TESTCERT';
-    expect(component.getTestTypeStatus(testTypeModel)).toEqual('Edit');
+    expect(component.getTestTypeStatus(VEHICLE, testTypeModel)).toEqual('Edit');
     expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.EDIT);
+  });
+
+  it('should have "Edit" status if a ADR test has the certificateNumber exactly 6 digits long', () => {
+    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testTypeId = '50';
+    testType.testExpiryDate = new Date().toISOString();
+    testType.certificateNumber = '12345';
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
+    testType.certificateNumber = '123456';
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('Edit');
   });
 
   it('should not allow to review a test because not all mandatory fields completed', () => {
