@@ -15,12 +15,12 @@ export interface TestTypeModel {
   numberOfSeatbeltsFitted?: number | null; // PSV
   lastSeatbeltInstallationCheckDate?: string | null; // PSV
   seatbeltInstallationCheckDate?: boolean | null; // PSV
+  testExpiryDate?: string;
   defects: DefectDetailsModel[];
   /* -------- ONLY FOR FE -------- */
   completionStatus?: string;
   testTypeCategoryName?: string;
   reasons?: string[];
   testNumber?: string;
-  testExpiryDate?: string;
   linkedIds?: string[] | null;
 }

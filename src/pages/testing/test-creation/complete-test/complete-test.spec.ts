@@ -1,6 +1,14 @@
 import { CompleteTestPage } from "./complete-test";
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, ModalController, NavController, NavParams, ViewController } from "ionic-angular";
+import {
+  ActionSheetController,
+  AlertController,
+  IonicModule,
+  ModalController,
+  NavController,
+  NavParams,
+  ViewController
+} from "ionic-angular";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
@@ -23,7 +31,7 @@ import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.m
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
-import { ModalControllerMock, ViewControllerMock } from "ionic-mocks";
+import { ActionSheetControllerMock, ModalControllerMock, ViewControllerMock } from "ionic-mocks";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -34,6 +42,7 @@ describe('Component: CompleteTestPage', () => {
   let viewCtrl: ViewController;
   let defectsService: DefectsService;
   let alertCtrl: AlertController;
+  let actionSheetCtrl: ActionSheetController;
   let defectsServiceSpy: any;
   let visitService: VisitService;
   let vehicleService: VehicleService;
@@ -89,6 +98,7 @@ describe('Component: CompleteTestPage', () => {
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: TestTypeService, useClass: TestTypeServiceMock},
         AlertController,
+        {provide: ActionSheetController, useFactory: () => ActionSheetControllerMock.instance()},
         {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: DefectsService, useValue: defectsServiceSpy},
@@ -110,6 +120,7 @@ describe('Component: CompleteTestPage', () => {
     visitService = TestBed.get(VisitService);
     vehicleService = TestBed.get(VehicleService);
     modalCtrl = TestBed.get(ModalController);
+    actionSheetCtrl = TestBed.get(ActionSheetController);
   });
 
   beforeEach(() => {
@@ -137,12 +148,23 @@ describe('Component: CompleteTestPage', () => {
     expect(comp).toBeTruthy();
   });
 
-  it('should test ngOnInit logic', () => {
+  it('should check if an ADR test-type has a 6 digits certificateNumber, if not set error true', () => {
     spyOn(comp, 'updateTestType');
-    comp.vehicleTest = VEHICLE_TEST;
+    spyOn(comp, 'getTestTypeDetails');
+    comp.vehicleTest = {...VEHICLE_TEST};
+    comp.errorIncomplete = true;
+    comp.vehicleTest.testTypeId = '50';
+    comp.vehicleTest.certificateNumber = '1234';
     comp.completedFields = {};
+    expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
     comp.ngOnInit();
     expect(comp.updateTestType).toHaveBeenCalled();
+    expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
+    comp.errorIncomplete = false;
+    comp.vehicleTest.certificateNumber = '123456';
+    comp.errorIncompleteCertificateNumber = undefined;
+    comp.ngOnInit();
+    expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
   });
 
   it('should test ionViewDidEnter logic - viewCtrl.dismiss to be called', () => {
@@ -221,7 +243,7 @@ describe('Component: CompleteTestPage', () => {
   it('should create a handler for a DDL button', () => {
     comp.today = new Date().toISOString();
     comp.completedFields = {};
-    comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest = {...VEHICLE_TEST};
     comp.vehicleTest.lastSeatbeltInstallationCheckDate = '2019-01-14';
     let input = TestTypeMetadataMock.TestTypeMetadata.sections[2].inputs[0];
     comp.createDDLButtons(input);
@@ -229,6 +251,13 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.vehicleTest.lastSeatbeltInstallationCheckDate).toBeNull();
     comp.createDDLButtonHandler(input, 0);
     expect(comp.vehicleTest.lastSeatbeltInstallationCheckDate).toBeDefined();
+    input = TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0];
+    comp.vehicleTest.certificateNumber = '1234';
+    comp.vehicleTest.testExpiryDate = '2019-01-14';
+    comp.vehicleTest.testTypeId = '50';
+    comp.createDDLButtonHandler(input, 1);
+    expect(comp.vehicleTest.certificateNumber).toBe(null);
+    expect(comp.vehicleTest.testExpiryDate).toBe(null);
   });
 
   it('should test ionViewWillEnter logic', () => {
@@ -239,6 +268,7 @@ describe('Component: CompleteTestPage', () => {
     comp.vehicleTest.testTypeId = '50';
     comp.ionViewWillEnter();
     expect(comp.isNotifiableAlteration).toBeFalsy();
+    expect(comp.blockTestResultSelection).toBeFalsy();
   });
 
   it('should activate the notifiable alteration error if certain condition met', () => {
@@ -284,5 +314,30 @@ describe('Component: CompleteTestPage', () => {
     comp.completedFields = {};
     comp.openInputPage(TestTypeMetadataMock.TestTypeMetadata.sections[0], TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0]);
     expect(modalCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should take only the first 6 digits from a string and assign them to the certificate number', () => {
+    comp.vehicleTest = TestTypeDataModelMock.TestTypeData;
+    comp.testTypeDetails = comp.getTestTypeDetails();
+    comp.completedFields = {};
+    comp.vehicleTest.certificateNumber = null;
+    comp.certificateNumberInputChange('12345678');
+    expect(comp.vehicleTest.certificateNumber).toEqual('123456');
+  });
+
+  it('should open ddl when blockTestResultSelection is false', () => {
+    let input = {} as any;
+    input.testTypePropertyName = 'testResult';
+    comp.blockTestResultSelection = false;
+    comp.openDDL(input);
+    expect(actionSheetCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should not open ddl when blockTestResultSelection is true and input is testResult', () => {
+    let input = {} as any;
+    input.testTypePropertyName = 'testResult';
+    comp.blockTestResultSelection = true;
+    comp.openDDL(input);
+    expect(actionSheetCtrl.create).not.toHaveBeenCalled();
   });
 });

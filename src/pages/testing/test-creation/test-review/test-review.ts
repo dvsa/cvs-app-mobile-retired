@@ -46,6 +46,7 @@ import { ActivityService } from "../../../../providers/activity/activity.service
 import { Firebase } from "@ionic-native/firebase";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { RoadworthinessTestTypesData } from "../../../../assets/app-data/test-types-data/roadworthiness-test-types.data";
+import { AdrTestTypesData } from "../../../../assets/app-data/test-types-data/adr-test-types.data";
 
 @IonicPage()
 @Component({
@@ -68,6 +69,7 @@ export class TestReviewPage implements OnInit {
   vehicle: VehicleModel;
   lecCertificateNumberPrefixes: typeof LEC_CERTIFICATE_NUMBER_PREFIXES = LEC_CERTIFICATE_NUMBER_PREFIXES;
   roadworthinessTestTypesIds: string[] = RoadworthinessTestTypesData.RoadworthinessTestTypesIds;
+  adrTestTypesIds: string[] = AdrTestTypesData.AdrTestTypesDataIds;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -156,19 +158,28 @@ export class TestReviewPage implements OnInit {
     MODAL.present();
   }
 
+  popToTestCreatePage() {
+    this.navCtrl.popTo(this.navCtrl.getViews().find(view => view.id === 'TestCreatePage'));
+  }
+
   /**
    * Contains the mandatory fields logic used to pop to test-create page
    * @param changedTestType
    * @param initialTestType
    */
-  private checkMissingTestTypeMandatoryFields(changedTestType: TestTypeModel, initialTestType: TestTypeModel): void{
-    if(this.roadworthinessTestTypesIds.indexOf(initialTestType.testTypeId) === -1 ){
-      if (initialTestType.certificateNumber && !changedTestType.certificateNumber) {
-        this.navCtrl.popTo(this.navCtrl.getViews().find(view => view.id === 'TestCreatePage'));
+  checkMissingTestTypeMandatoryFields(changedTestType: TestTypeModel, initialTestType: TestTypeModel): void {
+    if (this.roadworthinessTestTypesIds.indexOf(initialTestType.testTypeId) !== -1) {
+      if (changedTestType.testResult !== TEST_TYPE_RESULTS.FAIL && !changedTestType.certificateNumber)
+        this.popToTestCreatePage();
+    } else if (this.adrTestTypesIds.indexOf(initialTestType.testTypeId) !== -1) {
+      if (changedTestType.testResult === TEST_TYPE_RESULTS.PASS &&
+        ((!changedTestType.certificateNumber || (changedTestType.certificateNumber && changedTestType.certificateNumber.length < 6)) || !changedTestType.testExpiryDate)) {
+        this.popToTestCreatePage();
       }
     } else {
-      if(changedTestType.testResult !== TEST_TYPE_RESULTS.FAIL && !changedTestType.certificateNumber)
-        this.navCtrl.popTo(this.navCtrl.getViews().find(view => view.id === 'TestCreatePage'));
+      if (initialTestType.certificateNumber && !changedTestType.certificateNumber) {
+        this.popToTestCreatePage();
+      }
     }
   }
 

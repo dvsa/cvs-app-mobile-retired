@@ -86,7 +86,7 @@
           <div margin-left class="test-field test-field-no-border-top">
             <h3>Certificate number</h3>
             <h3
-              class="test-field-value">{{(roadworthinessTestTypesIds.indexOf(testType.testTypeId) === -1 ?
+              class="test-field-value">{{((roadworthinessTestTypesIds.indexOf(testType.testTypeId) === -1 && adrTestTypesIds.indexOf(testType.testTypeId) === -1) ?
                 (testType.testResult === testTypeResults.PASS ? lecCertificateNumberPrefixes.LP : lecCertificateNumberPrefixes.LF) : '') + testType.certificateNumber}}</h3>
           </div>
         </ion-item>
