@@ -27,6 +27,7 @@ import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { NotifiableAlterationTestTypesData } from "../../../../assets/app-data/test-types-data/notifiable-alteration-test-types.data";
+import { AdrTestTypesData } from "../../../../assets/app-data/test-types-data/adr-test-types.data";
 
 @IonicPage()
 @Component({
@@ -37,7 +38,7 @@ export class CompleteTestPage implements OnInit {
   vehicle: VehicleModel;
   vehicleTest: TestTypeModel;
   testTypeDetails;
-  testTypeFields;
+  testTypeFields: typeof TEST_TYPE_FIELDS = TEST_TYPE_FIELDS;
   completedFields;
   fromTestReview;
   defectsCategories: DefectCategoryReferenceDataModel[];
@@ -46,10 +47,12 @@ export class CompleteTestPage implements OnInit {
   patterns;
   changeBackground: boolean = false;
   notifiableAlterationTestTypesDataIds: string[] = NotifiableAlterationTestTypesData.NotifiableAlterationTestTypesDataIds;
+  adrTestTypesIds: string[] = AdrTestTypesData.AdrTestTypesDataIds;
   isNotifiableAlteration: boolean;
   isNotifiableAlterationError: boolean;
   TEST_TYPE_RESULTS: typeof TEST_TYPE_RESULTS = TEST_TYPE_RESULTS;
   errorIncomplete: boolean;
+  errorIncompleteCertificateNumber: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -84,6 +87,7 @@ export class CompleteTestPage implements OnInit {
       }
     );
     if (this.vehicleTest.numberOfSeatbeltsFitted && this.testTypeDetails.category === 'B') this.errorIncomplete = false;
+    if (AdrTestTypesData.AdrTestTypesDataIds.indexOf(this.vehicleTest.testTypeId) !== -1 && this.vehicleTest.certificateNumber && this.vehicleTest.certificateNumber.length && this.vehicleTest.certificateNumber.length < 6 && this.errorIncomplete) this.errorIncompleteCertificateNumber = true;
   }
 
   ionViewWillEnter() {
@@ -137,7 +141,14 @@ export class CompleteTestPage implements OnInit {
         this.completedFields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = null;
       }
     }
-    if (input.testTypePropertyName !== 'testResult' && input.testTypePropertyName !== 'certificateNumber') {
+    if (this.adrTestTypesIds.indexOf(this.vehicleTest.testTypeId) !== -1 &&
+      input.values[index].value === TEST_TYPE_RESULTS.FAIL) {
+      this.vehicleTest.certificateNumber = null;
+      this.vehicleTest.testExpiryDate = null;
+    }
+    if (input.testTypePropertyName !== 'testResult' &&
+      input.testTypePropertyName !== 'certificateNumber' &&
+      input.testTypePropertyName !== 'testExpiryDate') {
       this.completedFields[input.testTypePropertyName] = input.values[index].value;
     }
   }
@@ -175,6 +186,15 @@ export class CompleteTestPage implements OnInit {
   }
 
   canDisplaySection(section) {
+    // for ADR test-types
+    // -----FROM HERE-----
+    if (this.adrTestTypesIds.indexOf(this.vehicleTest.testTypeId) !== -1 &&
+      this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL &&
+      (section.inputs[0].type === TEST_TYPE_FIELDS.CERTIFICATE_NUMBER ||
+        section.inputs[0].type === TEST_TYPE_FIELDS.EXPIRY_DATE)) {
+      return false;
+    }
+    // -----TO HERE-----
     if (section.dependentOn && section.dependentOn.length) {
       for (let index in section.dependentOn) {
         if (!this.vehicleTest[section.dependentOn[index]]) {
@@ -197,7 +217,7 @@ export class CompleteTestPage implements OnInit {
     }
     if (input.dependentOn && input.dependentOn.length) {
       for (let dep of input.dependentOn) {
-        if (this.completedFields[dep.testTypePropertyName] && this.completedFields[dep.testTypePropertyName] === dep.valueToBeDifferentFrom) {
+        if (this.vehicleTest[dep.testTypePropertyName] && this.vehicleTest[dep.testTypePropertyName] === dep.valueToBeDifferentFrom) {
           return false;
         }
       }
@@ -352,5 +372,10 @@ export class CompleteTestPage implements OnInit {
     if (this.testTypeDetails.hasRoadworthinessCertificate &&
       this.testTypeService.setTestResult(this.vehicleTest, this.testTypeDetails.hasDefects) !== TEST_TYPE_RESULTS.FAIL) return true;
     return false;
+  }
+
+  certificateNumberInputChange(value) {
+    this.cdRef.detectChanges();
+    this.vehicleTest.certificateNumber = value.length > 6 ? value.substring(0, 6) : value;
   }
 }

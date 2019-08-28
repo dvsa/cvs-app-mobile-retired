@@ -8,6 +8,7 @@ import { TestTypeService } from "../test-type/test-type.service";
 import { AuthService } from "../global/auth.service";
 import { RoadworthinessTestTypesData } from "../../assets/app-data/test-types-data/roadworthiness-test-types.data";
 import { TestTypeModel } from "../../models/tests/test-type.model";
+import { AdrTestTypesData } from "../../assets/app-data/test-types-data/adr-test-types.data";
 
 @Injectable()
 export class TestResultService {
@@ -72,7 +73,7 @@ export class TestResultService {
   }
 
   formatCertificateNumber(testType: TestTypeModel) {
-    if (testType.certificateNumber && RoadworthinessTestTypesData.RoadworthinessTestTypesIds.indexOf(testType.testTypeId) === -1) {
+    if (testType.certificateNumber && RoadworthinessTestTypesData.RoadworthinessTestTypesIds.indexOf(testType.testTypeId) === -1 && AdrTestTypesData.AdrTestTypesDataIds.indexOf(testType.testTypeId) === -1) {
       return testType.testResult === TEST_TYPE_RESULTS.PASS ? LEC_CERTIFICATE_NUMBER_PREFIXES.LP + testType.certificateNumber : LEC_CERTIFICATE_NUMBER_PREFIXES.LF + testType.certificateNumber;
     } else {
       return testType.certificateNumber;

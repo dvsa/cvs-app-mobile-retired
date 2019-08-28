@@ -12,6 +12,8 @@ import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-t
 import { TEST_TYPE_RESULTS, VEHICLE_TYPE } from "../../app/app.enums";
 import { FirebaseLogsServiceMock } from "../../../test-config/services-mocks/firebaseLogsService.mock";
 import { FirebaseLogsService } from "../firebase-logs/firebase-logs.service";
+import { Firebase } from "@ionic-native/firebase";
+import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
 
 describe('Provider: TestTypeService', () => {
   let testTypeService: TestTypeService;
@@ -157,5 +159,22 @@ describe('Provider: TestTypeService', () => {
         expect(data).toBe(<TestTypesReferenceDataModel[]>TEST_TYPES)
       }
     )
+  });
+
+  it('should update test types result when completing an adr and an annual test type at the same time', () => {
+    let adrTestType, annualTestType;
+    adrTestType = {...TestTypeDataModelMock.TestTypeData};
+    annualTestType = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle = VehicleDataMock.VehicleData;
+    adrTestType.testTypeId = '50';
+    adrTestType.testResult = TEST_TYPE_RESULTS.PASS;
+    adrTestType.certificateNumber = '6776322';
+    vehicle.testTypes.push(adrTestType);
+    annualTestType.testTypeId = '40'; // or 94
+    annualTestType.testResult = TEST_TYPE_RESULTS.FAIL;
+    vehicle.testTypes.push(annualTestType);
+    testTypeService.updateLinkedTestResults(vehicle, annualTestType);
+    expect(vehicle.testTypes[0].testResult).toEqual(TEST_TYPE_RESULTS.FAIL);
+    expect(vehicle.testTypes[0].certificateNumber).toEqual(null);
   });
 });

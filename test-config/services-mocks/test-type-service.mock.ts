@@ -5,6 +5,8 @@ import { DEFICIENCY_CATEGORY, TEST_TYPE_RESULTS } from "../../src/app/app.enums"
 import { of } from "rxjs/observable/of";
 import { TestTypesReferenceDataModel } from "../../src/models/reference-data-models/test-types.model";
 import { TestTypesReferenceDataMock } from "../../src/assets/data-mocks/reference-data-mocks/test-types.mock";
+import { VehicleModel } from "../../src/models/vehicle/vehicle.model";
+import { AdrTestTypesData } from "../../src/assets/app-data/test-types-data/adr-test-types.data";
 
 export class TestTypeServiceMock {
   createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
@@ -100,4 +102,15 @@ export class TestTypeServiceMock {
     };
   }
 
+  updateLinkedTestResults(vehicle: VehicleModel, testType: TestTypeModel) {
+    if (testType.testTypeId === '40' && testType.testResult === TEST_TYPE_RESULTS.FAIL) {
+      for (let vehicleTestType of vehicle.testTypes) {
+        if (AdrTestTypesData.AdrTestTypesDataIds.indexOf(vehicleTestType.testTypeId) !== -1 && vehicleTestType.testResult !== TEST_TYPE_RESULTS.FAIL) {
+          vehicleTestType.testResult = TEST_TYPE_RESULTS.FAIL;
+          vehicleTestType.certificateNumber = null;
+          vehicleTestType.testExpiryDate = null;
+        }
+      }
+    }
+  }
 }

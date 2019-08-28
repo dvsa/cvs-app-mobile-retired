@@ -137,12 +137,23 @@ describe('Component: CompleteTestPage', () => {
     expect(comp).toBeTruthy();
   });
 
-  it('should test ngOnInit logic', () => {
+  it('should check if an ADR test-type has a 6 digits certificateNumber, if not set error true', () => {
     spyOn(comp, 'updateTestType');
-    comp.vehicleTest = VEHICLE_TEST;
+    spyOn(comp, 'getTestTypeDetails');
+    comp.vehicleTest = {...VEHICLE_TEST};
+    comp.errorIncomplete = true;
+    comp.vehicleTest.testTypeId = '50';
+    comp.vehicleTest.certificateNumber = '1234';
     comp.completedFields = {};
+    expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
     comp.ngOnInit();
     expect(comp.updateTestType).toHaveBeenCalled();
+    expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
+    comp.errorIncomplete = false;
+    comp.vehicleTest.certificateNumber = '123456';
+    comp.errorIncompleteCertificateNumber = undefined;
+    comp.ngOnInit();
+    expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
   });
 
   it('should test ionViewDidEnter logic - viewCtrl.dismiss to be called', () => {
@@ -221,7 +232,7 @@ describe('Component: CompleteTestPage', () => {
   it('should create a handler for a DDL button', () => {
     comp.today = new Date().toISOString();
     comp.completedFields = {};
-    comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest = {...VEHICLE_TEST};
     comp.vehicleTest.lastSeatbeltInstallationCheckDate = '2019-01-14';
     let input = TestTypeMetadataMock.TestTypeMetadata.sections[2].inputs[0];
     comp.createDDLButtons(input);
@@ -229,6 +240,13 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.vehicleTest.lastSeatbeltInstallationCheckDate).toBeNull();
     comp.createDDLButtonHandler(input, 0);
     expect(comp.vehicleTest.lastSeatbeltInstallationCheckDate).toBeDefined();
+    input = TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0];
+    comp.vehicleTest.certificateNumber = '1234';
+    comp.vehicleTest.testExpiryDate = '2019-01-14';
+    comp.vehicleTest.testTypeId = '50';
+    comp.createDDLButtonHandler(input, 1);
+    expect(comp.vehicleTest.certificateNumber).toBe(null);
+    expect(comp.vehicleTest.testExpiryDate).toBe(null);
   });
 
   it('should test ionViewWillEnter logic', () => {
@@ -284,5 +302,14 @@ describe('Component: CompleteTestPage', () => {
     comp.completedFields = {};
     comp.openInputPage(TestTypeMetadataMock.TestTypeMetadata.sections[0], TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0]);
     expect(modalCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should take only the first 6 digits from a string and assign them to the certificate number', () => {
+    comp.vehicleTest = TestTypeDataModelMock.TestTypeData;
+    comp.testTypeDetails = comp.getTestTypeDetails();
+    comp.completedFields = {};
+    comp.vehicleTest.certificateNumber = null;
+    comp.certificateNumberInputChange('12345678');
+    expect(comp.vehicleTest.certificateNumber).toEqual('123456');
   });
 });

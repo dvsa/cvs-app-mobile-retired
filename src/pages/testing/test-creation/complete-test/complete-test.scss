@@ -148,4 +148,22 @@ ion-app.ios page-complete-test {
     color: color($colors, light);
     background-color: color($colors, danger);
   }
+
+  .error-incomplete-certificate-number {
+    color: color($colors, danger);
+  }
+
+  .adr-notes-details {
+    color: $color-grey-1;
+  }
+
+  .expiry-date-datetime .datetime-text.datetime-placeholder {
+    font-size: $font-size-medium;
+    color: $color-grey-1;
+  }
+
+  .list-ios .item-block .item-inner,
+  .item-ios.item-block .item-inner {
+    border-bottom: none;
+  }
 }

@@ -46,6 +46,7 @@ import { ActivityService } from "../../../../providers/activity/activity.service
 import { Firebase } from "@ionic-native/firebase";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { RoadworthinessTestTypesData } from "../../../../assets/app-data/test-types-data/roadworthiness-test-types.data";
+import { AdrTestTypesData } from "../../../../assets/app-data/test-types-data/adr-test-types.data";
 
 @IonicPage()
 @Component({
@@ -68,6 +69,7 @@ export class TestReviewPage implements OnInit {
   vehicle: VehicleModel;
   lecCertificateNumberPrefixes: typeof LEC_CERTIFICATE_NUMBER_PREFIXES = LEC_CERTIFICATE_NUMBER_PREFIXES;
   roadworthinessTestTypesIds: string[] = RoadworthinessTestTypesData.RoadworthinessTestTypesIds;
+  adrTestTypesIds: string[] = AdrTestTypesData.AdrTestTypesDataIds;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,

@@ -1289,8 +1289,60 @@ export class TestTypesFieldsMetadata {
       {
         testTypeId: '50',
         testTypeName: 'ADR test',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+          {
+            sectionName: 'Expiry date',
+            inputs: [
+              {
+                testTypePropertyName: 'testExpiryDate',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.EXPIRY_DATE,
+                minDate: new Date().toISOString(),
+                maxDate: new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString(),
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
@@ -1324,15 +1376,119 @@ export class TestTypesFieldsMetadata {
       {
         testTypeId: '59',
         testTypeName: 'Paid ADR retest',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+          {
+            sectionName: 'Expiry date',
+            inputs: [
+              {
+                testTypePropertyName: 'testExpiryDate',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.EXPIRY_DATE,
+                minDate: new Date().toISOString(),
+                maxDate: new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString(),
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
         testTypeId: '60',
         testTypeName: 'Free ADR retest',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+          {
+            sectionName: 'Expiry date',
+            inputs: [
+              {
+                testTypePropertyName: 'testExpiryDate',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.EXPIRY_DATE,
+                minDate: new Date().toISOString(),
+                maxDate: new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString(),
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
