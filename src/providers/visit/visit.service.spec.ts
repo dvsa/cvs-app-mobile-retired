@@ -25,7 +25,7 @@ describe('Provider: VisitService', () => {
   let activityService: ActivityService;
 
   const TEST_STATION: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
-  const TEST: TestModel = TestDataModelMock.TestData;
+  let TEST: TestModel = TestDataModelMock.TestData;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['update', 'delete']);
@@ -95,10 +95,6 @@ describe('Provider: VisitService', () => {
   });
 
   it('should add test to visit.tests array', () => {
-    visitService.createVisit(TEST_STATION);
-    expect(visitService.visit.tests.length).toBe(0);
-    visitService.addTest(TEST);
-    expect(visitService.visit.tests.length).toBe(1);
     activityService.activities = [{
       "activityType": "wait",
       "testStationName": "Abshire-Kub",
@@ -113,8 +109,15 @@ describe('Provider: VisitService', () => {
       "notes": "",
       "parentId": "8e56af10-503c-494c-836b-b2f3aa3c56ac"
     }];
+    visitService.createVisit(TEST_STATION);
+    expect(visitService.visit.tests.length).toBe(0);
+    TEST.startTime = '2019-05-23T14:11:11.974Z';
+    visitService.addTest(TEST);
+    expect(visitService.visit.tests.length).toBe(1);
+    TEST.startTime = '2019-05-23T15:11:11.974Z';
     visitService.addTest(TEST);
     expect(visitService.visit.tests.length).toBe(2);
+    expect(activityService.activities[0].endTime).toEqual('2019-05-23T14:11:11.974Z');
   });
 
   it('should remove the added test from the visit.tests array', () => {
