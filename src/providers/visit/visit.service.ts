@@ -63,9 +63,9 @@ export class VisitService {
 
   addTest(test: TestModel) {
     this.visit.tests.push(test);
-    let latestActivity = this.activityService.activities[this.activityService.activities.length -1];
-    if (latestActivity && latestActivity.activityType === VISIT.ACTIVITY_TYPE_WAIT) {
-      this.activityService.activities[this.activityService.activities.length -1].endTime = test.startTime;
+    let latestActivity = this.activityService.activities[this.activityService.activities.length - 1];
+    if (latestActivity && latestActivity.activityType === VISIT.ACTIVITY_TYPE_WAIT && !latestActivity.endTime) {
+      this.activityService.activities[this.activityService.activities.length - 1].endTime = test.startTime;
       this.activityService.updateActivities();
       this.activityService.waitTimeStarted = false;
     }
