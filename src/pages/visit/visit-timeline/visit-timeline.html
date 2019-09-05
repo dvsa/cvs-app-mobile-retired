@@ -39,7 +39,6 @@
         <p>{{ timelineItem.startTime | date: 'HH:mm' }} - {{ timelineItem.endTime | date: 'HH:mm' }}</p>
         <div *ngFor="let vehicle of timelineItem.vehicles">
           <h2>{{getVehicleIdentifier(vehicle)}}</h2>
-          <span *ngFor="let vehicle of timelineItem.vehicles">
           <span *ngIf="timelineItem.status != TEST_REPORT_STATUS.CANCELLED">
                     <p class="timeline-message" *ngFor="let vehicleTest of vehicle.testTypes">
                       <span>{{ vehicleTest.testTypeCategoryName }} •</span>
@@ -54,7 +53,6 @@
                     </p>
           </span>
           <p><b *ngIf="timelineItem.status === TEST_REPORT_STATUS.CANCELLED" text-uppercase>cancelled</b></p>
-        </span>
         </div>
       </div>
       <div class="timeline-item-content" *ngIf="timelineItem.activityType === VISIT_TYPE.ACTIVITY_TYPE_WAIT"
