@@ -25,7 +25,7 @@
         <h3 item-end text-uppercase
             class="vehicle-category-status">{{vehicle.euVehicleCategory}}</h3>
       </ion-item>
-      <ion-item 
+      <ion-item
         margin-left
         class="bottom-divider height-60"
         *ngIf="!isVehicleOfType(vehicle,VEHICLE_TYPE.TRL)">
@@ -86,7 +86,8 @@
           <div margin-left class="test-field test-field-no-border-top">
             <h3>Certificate number</h3>
             <h3
-              class="test-field-value">{{(testType.testResult === testTypeResults.PASS ? 'LP' : 'LF') + testType.certificateNumber}}</h3>
+              class="test-field-value">{{(roadworthinessTestTypesIds.indexOf(testType.testTypeId) === -1 ?
+                (testType.testResult === testTypeResults.PASS ? lecCertificateNumberPrefixes.LP : lecCertificateNumberPrefixes.LF) : '') + testType.certificateNumber}}</h3>
           </div>
         </ion-item>
         <ion-item padding-left
