@@ -400,3 +400,19 @@ export enum FIREBASE_DEFECTS {
   ADD_DEFECT_START_TIME = 'add_defect_start_time',
   ADD_DEFECT_END_TIME = 'add_defect_end_time'
 }
+
+export enum LEC_CERTIFICATE_NUMBER_PREFIXES {
+  LP = 'LP',
+  LF = 'LF'
+}
+
+export enum SPEC_VALUES {
+  CERTIFICATE_NUMBER = '67868977',
+  LEC_CERTIFICATE_NUMBER = 'LP67868977'
+}
+
+export enum ROADWORTHINESS_TEST_TYPES_IDS {
+  _62 = '62',
+  _63 = '63',
+  _91 = '91'
+}

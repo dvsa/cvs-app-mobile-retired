@@ -2,10 +2,12 @@ import { TestResultModel } from "../../models/tests/test-result.model";
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { HTTPService } from "../global/http.service";
 import { Injectable } from "@angular/core";
-import { TEST_TYPE_RESULTS, VEHICLE_TYPE } from "../../app/app.enums";
+import { LEC_CERTIFICATE_NUMBER_PREFIXES, TEST_TYPE_RESULTS, VEHICLE_TYPE } from "../../app/app.enums";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeService } from "../test-type/test-type.service";
 import { AuthService } from "../global/auth.service";
+import { RoadworthinessTestTypesData } from "../../assets/app-data/test-types-data/roadworthiness-test-types.data";
+import { TestTypeModel } from "../../models/tests/test-type.model";
 
 @Injectable()
 export class TestResultService {
@@ -69,6 +71,14 @@ export class TestResultService {
     return str;
   }
 
+  formatCertificateNumber(testType: TestTypeModel) {
+    if (testType.certificateNumber && RoadworthinessTestTypesData.RoadworthinessTestTypesIds.indexOf(testType.testTypeId) === -1) {
+      return testType.testResult === TEST_TYPE_RESULTS.PASS ? LEC_CERTIFICATE_NUMBER_PREFIXES.LP + testType.certificateNumber : LEC_CERTIFICATE_NUMBER_PREFIXES.LF + testType.certificateNumber;
+    } else {
+      return testType.certificateNumber;
+    }
+  }
+
   submitTestResult(testResult: TestResultModel) {
     let newTestResult = this.commFunc.cloneObject(testResult);
 
@@ -81,9 +91,7 @@ export class TestResultService {
           }
           delete testType.reasons;
         }
-        if (testType.certificateNumber) {
-          testType.certificateNumber = testType.testResult === TEST_TYPE_RESULTS.PASS ? 'LP' + testType.certificateNumber : 'LF' + testType.certificateNumber;
-        }
+        testType.certificateNumber = this.formatCertificateNumber(testType);
         delete testType.completionStatus;
         delete testType.testTypeCategoryName;
         if (testType.numberOfSeatbeltsFitted) testType.numberOfSeatbeltsFitted = parseInt(testType.numberOfSeatbeltsFitted);
