@@ -120,6 +120,7 @@ describe('Component: TestReviewPage', () => {
   it('should create the component', () => {
     expect(fixture).toBeTruthy();
     expect(component).toBeTruthy();
+    expect(component.roadworthinessTestTypesIds.length).toEqual(3);
   });
 
   it('should check the ngOnInit logic', () => {

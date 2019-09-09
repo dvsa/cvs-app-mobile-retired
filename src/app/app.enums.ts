@@ -405,3 +405,19 @@ export enum LOG_TYPES {
   INFO = 'info',
   ERROR = 'error'
 }
+
+export enum LEC_CERTIFICATE_NUMBER_PREFIXES {
+  LP = 'LP',
+  LF = 'LF'
+}
+
+export enum SPEC_VALUES {
+  CERTIFICATE_NUMBER = '67868977',
+  LEC_CERTIFICATE_NUMBER = 'LP67868977'
+}
+
+export enum ROADWORTHINESS_TEST_TYPES_IDS {
+  _62 = '62',
+  _63 = '63',
+  _91 = '91'
+}

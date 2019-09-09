@@ -20,7 +20,8 @@ import {
   LOCAL_STORAGE,
   FIREBASE,
   LOG_TYPES,
-  VEHICLE_TYPE
+  VEHICLE_TYPE,
+  LEC_CERTIFICATE_NUMBER_PREFIXES
 } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
@@ -44,6 +45,7 @@ import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebas
 import { ActivityService } from "../../../../providers/activity/activity.service";
 import { Firebase } from "@ionic-native/firebase";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
+import { RoadworthinessTestTypesData } from "../../../../assets/app-data/test-types-data/roadworthiness-test-types.data";
 
 @IonicPage()
 @Component({
@@ -64,6 +66,8 @@ export class TestReviewPage implements OnInit {
   oid: string;
   vehicleBeingReviewed: number;
   vehicle: VehicleModel;
+  lecCertificateNumberPrefixes: typeof LEC_CERTIFICATE_NUMBER_PREFIXES = LEC_CERTIFICATE_NUMBER_PREFIXES;
+  roadworthinessTestTypesIds: string[] = RoadworthinessTestTypesData.RoadworthinessTestTypesIds;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
