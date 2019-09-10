@@ -17,6 +17,7 @@ import { StorageService } from "../../../../providers/natives/storage.service";
 import { AppConfig } from "../../../../../config/app.config";
 import { CallNumber } from "@ionic-native/call-number";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import {AppService} from '../../../../providers/global/app.service';
 
 @IonicPage()
 @Component({
@@ -40,7 +41,8 @@ export class VehicleDetailsPage {
               public storageService: StorageService,
               public commonFunc: CommonFunctionsService,
               private callNumber: CallNumber,
-              private firebaseLogsService: FirebaseLogsService) {
+              private firebaseLogsService: FirebaseLogsService,
+              public appService: AppService) {
     this.vehicleData = navParams.get('vehicle');
     this.testData = navParams.get('test');
     this.fromTestCreatePage = navParams.get('fromTestCreatePage');

@@ -1,4 +1,9 @@
 page-confirmation {
+
+  .scroll-content{
+    -webkit-text-size-adjust: $disable-accessibility-text-scaling;
+  }
+
   .msg-centered {
     height: 45%;
     text-align: center;

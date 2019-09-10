@@ -160,7 +160,8 @@ export class MyApp {
       if (result !== ACCESSIBILITY_DEFAULT_VALUES.TEXT_SIZE) {
         this.firebaseLogsService.logEvent(FIREBASE.IOS_FONT_SIZE_USAGE);
       }
-    });
+      this.appService.setAccessibilityTextZoom(result);
+    }).catch(() => this.appService.setAccessibilityTextZoom(106));
     this.mobileAccessibility.isVoiceOverRunning().then(result => {
       if (result) {
         this.firebaseLogsService.logEvent(FIREBASE.IOS_VOICEOVER_USAGE);

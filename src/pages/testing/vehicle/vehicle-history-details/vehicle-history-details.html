@@ -13,7 +13,7 @@
     <ion-item ion-item detail-none padding-left class="test-type">
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-12 text-start text-wrap>
+          <ion-col col-auto text-start text-wrap>
             <span text-capitalize text-left>
               {{ selectedTestType.testTypeName || defaultValues.NONE }}
             </span>
@@ -28,10 +28,10 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Test date</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span text-capitalize>
               {{ (selectedTestType.testTypeStartTimestamp | date:'dd MMM yyyy') || defaultValues.NONE }}
             </span>
@@ -42,10 +42,10 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Test time</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span text-capitalize>
               {{ (selectedTestType.testTypeStartTimestamp | date:'HH:mm') || defaultValues.NONE }} -
               {{ (selectedTestType.testTypeEndTimestamp | date:'HH:mm') || defaultValues.NONE }}
@@ -57,8 +57,8 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start><span text-left>Test result</span></ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-start><span text-left>Test result</span></ion-col>
+          <ion-col col-auto text-end>
             <span text-uppercase ion-text class="test-result" [color]="testResultColor">
               {{ selectedTestType.testResult || defaultValues.NONE }}
             </span>
@@ -69,10 +69,10 @@
     <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.prohibitionIssued">
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Prohibition issued</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span text-capitalize>
               Yes
             </span>
@@ -86,10 +86,10 @@
               *ngIf="!doesNotHaveCert && !isTestResultAbandon && !isTestResultFail; else showTestNumber">
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Certificate number</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span text-capitalize>
               {{ selectedTestType.certificateNumber || defaultValues.NONE }}
             </span>
@@ -101,10 +101,10 @@
       <ion-item ion-item detail-none padding-left>
         <ion-grid no-padding>
           <ion-row justify-content-between>
-            <ion-col col-3 text-start>
+            <ion-col col-auto text-start>
               <span text-left>Test number</span>
             </ion-col>
-            <ion-col col-9 text-end>
+            <ion-col col-auto text-end>
               <span text-capitalize>
                 {{ selectedTestType.testNumber || defaultValues.NONE }}
               </span>
@@ -116,10 +116,10 @@
     <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.testExpiryDate">
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Test expiry</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span>
               {{ (selectedTestType.testExpiryDate | date:'dd MMM yyyy') || defaultValues.NONE }}
             </span>
@@ -161,7 +161,7 @@
           <ion-col col-3 text-start>
             <span text-left>Fuel type</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span text-capitalize>
               {{ selectedTestType.fuelType }}
             </span>
@@ -220,7 +220,7 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-12 text-start text-wrap>
+          <ion-col col-auto text-start text-wrap>
             <span>
               {{ selectedTestType.reasonForAbandoning || defaultValues.NONE }}
             </span>
@@ -235,7 +235,7 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-12 text-start text-wrap>
+          <ion-col col-auto text-start text-wrap>
             <span *ngIf="selectedTestType.additionalCommentsForAbandon; else noAbandonedComments">
               {{ selectedTestType.additionalCommentsForAbandon || defaultValues.NONE }}
             </span>
@@ -256,7 +256,7 @@
       <ion-item ion-item detail-none padding-left class="defect" *ngFor="let defect of selectedTestType.defects">
         <ion-grid no-padding>
           <ion-row justify-content-between>
-            <ion-col col-12 text-start text-wrap>
+            <ion-col col-auto text-start text-wrap>
               <span class="defect-ref">
                 <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
                 <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
@@ -271,24 +271,24 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col col-12 text-start text-wrap>
+            <ion-col col-auto text-start text-wrap>
               {{ defect.imNumber }}. {{ defect.imDescription }}
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col col-12 text-start text-wrap>
+            <ion-col col-auto text-start text-wrap>
               {{ defect.itemNumber }}. {{ defect.itemDescription }}
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col col-12 text-start text-wrap>
+            <ion-col col-auto text-start text-wrap>
               <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
               <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
               {{ defect.deficiencyText }}
             </ion-col>
           </ion-row>
           <ion-row *ngIf="defect.additionalInformation.location">
-            <ion-col col-12 text-start text-wrap class="additional-info">
+            <ion-col col-auto text-start text-wrap class="additional-info">
               <span *ngIf="defect.additionalInformation.location.vertical" text-capitalize>
                 <span class="forward-slash">/</span>
                 {{ defect.additionalInformation.location.vertical }}
@@ -320,12 +320,12 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col col-12 text-start text-wrap>
+            <ion-col col-auto text-start text-wrap>
               {{ defect.additionalInformation.notes || defaultValues.NONE }}
             </ion-col>
           </ion-row>
           <ion-row *ngIf="defect.prohibitionIssued">
-            <ion-col col-12 text-start text-wrap>
+            <ion-col col-auto text-start text-wrap>
               Prohibition issued - Yes
             </ion-col>
           </ion-row>
@@ -336,7 +336,7 @@
       <ion-item ion-item detail-none padding-left>
         <ion-grid no-padding>
           <ion-row justify-content-between>
-            <ion-col col-12 text-start text-wrap>
+            <ion-col col-auto text-start text-wrap>
               <span>
                 {{ defaultValues.NOT_ENTERED }}
               </span>
@@ -349,13 +349,15 @@
 
   <ion-list class="list-margin">
     <ion-list-header text-uppercase padding-left>VEHICLE DETAILS</ion-list-header>
+
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-8 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Country of registration</span>
           </ion-col>
-          <ion-col col-4 text-end class="country-of-registration">
+          <ion-col col-auto text-end class="wrap-ellipsis country-of-registration"
+                   [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}">
             <span>
               {{ countryOfRegistration }}
             </span>
@@ -363,13 +365,14 @@
         </ion-row>
       </ion-grid>
     </ion-item>
+
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>EU vehicle category</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span>
               {{ selectedTestResult.euVehicleCategory | uppercase }}
             </span>
@@ -380,10 +383,10 @@
     <ion-item ion-item detail-none padding-left *ngIf="selectedTestResult.odometerReading">
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Odometer reading</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
               <span>
                 {{selectedTestResult.odometerReading | number}} {{distanceType}}
               </span>
@@ -398,10 +401,10 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Carried out during inspection</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span>
               {{ (selectedTestType.seatbeltInstallationCheckDate | formatBoolean) || defaultValues.NONE }}
             </span>
@@ -412,10 +415,10 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Number of seatbelts</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span>
               {{ selectedTestType.numberOfSeatbeltsFitted || defaultValues.NOT_ENTERED }}
             </span>
@@ -426,10 +429,10 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Previous seatbelt installation check</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span>
               {{ (selectedTestType.lastSeatbeltInstallationCheckDate | date:'dd MMM yyyy') || defaultValues.NOT_ENTERED }}
             </span>
@@ -444,10 +447,10 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Name</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span text-capitalize>
               {{ selectedTestResult.testStationName || defaultValues.NONE }}
             </span>
@@ -458,10 +461,10 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>P-number</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span text-capitalize>{{ selectedTestResult.testStationPNumber || defaultValues.NONE }}</span>
           </ion-col>
         </ion-row>
@@ -474,10 +477,10 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Name</span>
           </ion-col>
-          <ion-col col-9 text-end>
+          <ion-col col-auto text-end>
             <span text-capitalize>
               {{ selectedTestResult.testerName || defaultValues.NONE }}
             </span>
@@ -488,11 +491,12 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-3 text-start>
+          <ion-col col-auto text-start>
             <span text-left>Staff ID</span>
           </ion-col>
-          <ion-col col-9 text-end>
-            <span text-capitalize>
+          <ion-col col-auto text-end class="staff-id"
+                   [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled(), 'wrap-ellipsis': !appService.isAccessibilityTextZoomEnabled()}">
+            <span>
               {{ selectedTestResult.testerStaffId || defaultValues.NONE }}
             </span>
           </ion-col>
@@ -506,7 +510,7 @@
     <ion-item ion-item detail-none padding-left>
       <ion-grid no-padding>
         <ion-row justify-content-between>
-          <ion-col col-12 text-start text-wrap>
+          <ion-col col-auto text-start text-wrap>
             <span text-left text-capitalize>
               {{ selectedTestType.additionalNotesRecorded || defaultValues.NONE }}
             </span>

@@ -20,4 +20,8 @@ export class AppServiceMock {
 
   enableCache() {
   }
+
+  isAccessibilityTextZoomEnabled() {
+    return false;
+  }
 }

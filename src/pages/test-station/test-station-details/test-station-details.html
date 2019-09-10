@@ -15,13 +15,15 @@
 </ion-header>
 
 <ion-content class="content-background-color-grey">
-    <ion-item-group>
-      <ion-item padding-left>
+    <ion-item-group text-wrap>
+      <ion-item padding-left
+                [ngClass]="{'accessibility-display-flex-column': appService.isAccessibilityTextZoomEnabled()}">
         <div text-left float-left class="label-custom-style">ATF name</div>
         <div text-right float-right class="value-custom-style">{{ testStation.testStationName }}</div>
       </ion-item>
-      <ion-item>
-        <div padding-left text-left float-left class="label-custom-style">P-number</div>
+      <ion-item padding-left
+                [ngClass]="{'accessibility-display-flex-column': appService.isAccessibilityTextZoomEnabled()}">
+        <div text-left float-left class="label-custom-style">P-number</div>
         <div float-right text-right class="value-custom-style">{{ testStation.testStationPNumber }}</div>
       </ion-item>
       <ion-item-divider text-uppercase padding-left>Address</ion-item-divider>

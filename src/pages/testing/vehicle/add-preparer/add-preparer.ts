@@ -18,6 +18,7 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { AuthService } from "../../../../providers/global/auth.service";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { AppService } from '../../../../providers/global/app.service';
 
 @IonicPage()
 @Component({
@@ -45,7 +46,8 @@ export class AddPreparerPage implements OnInit {
               private testReportService: TestService,
               private authService: AuthService,
               private firebaseLogsService: FirebaseLogsService,
-              private commonFunc: CommonFunctionsService) {
+              private commonFunc: CommonFunctionsService,
+              public appService: AppService) {
     this.vehicleData = this.navParams.get('vehicle');
     this.testData = this.navParams.get('test');
   }
@@ -89,16 +91,22 @@ export class AddPreparerPage implements OnInit {
       let preparer = this.preparers.find((elem) => elem.preparerId.toLowerCase() === searchVal);
 
       if (preparer) {
-        this.presentPreparerConfirm(preparer);
+        this.presentPreparerConfirm(preparer, this.appService.isAccessibilityTextZoomEnabled());
       } else {
-        this.presentPreparerConfirm({preparerId: APP_STRINGS.NO_PREPARER_ID_FOUND, preparerName: ''}, false, true);
+        this.presentPreparerConfirm({
+          preparerId: APP_STRINGS.NO_PREPARER_ID_FOUND,
+          preparerName: ''
+        }, this.appService.isAccessibilityTextZoomEnabled(), false, true);
       }
     } else {
-      this.presentPreparerConfirm({preparerId: APP_STRINGS.NO_PREPARER_ID_GIVEN, preparerName: ''}, false);
+      this.presentPreparerConfirm({
+        preparerId: APP_STRINGS.NO_PREPARER_ID_GIVEN,
+        preparerName: ''
+      }, this.appService.isAccessibilityTextZoomEnabled(), false);
     }
   }
 
-  presentPreparerConfirm(preparer: PreparersReferenceDataModel, preparerFound = true, showSearchAgain = false) {
+  presentPreparerConfirm(preparer: PreparersReferenceDataModel, isAccessibilityTextZoomEnabled, preparerFound = true, showSearchAgain = false) {
     let showThisTitle, showThisMessage;
 
     if (!preparerFound && !showSearchAgain) {
@@ -115,6 +123,7 @@ export class AddPreparerPage implements OnInit {
     const ALERT = this.alertCtrl.create({
       title: showThisTitle,
       message: showThisMessage,
+      cssClass: 'accessibility-minimize-content-max-width-' + isAccessibilityTextZoomEnabled,
       buttons: [
         {
           text: !showSearchAgain ? APP_STRINGS.CANCEL : APP_STRINGS.SEARCH_AGAIN,

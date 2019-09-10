@@ -74,7 +74,7 @@ export class TestTypeDetailsInputPage implements OnInit {
     if (this.vehicleCategory === 'B' && (this.inputValue && this.inputValue.charAt(0) === '0' || !this.inputValue)) {
       const ALERT = this.alertCtrl.create({
         title: APP_STRINGS.NO_SEATBELTS_ENTERED,
-        subTitle: APP_STRINGS.NO_SEATBELTS_ENTERED_SUBTITLE,
+        message: APP_STRINGS.NO_SEATBELTS_ENTERED_SUBTITLE,
         buttons: [APP_STRINGS.OK]
       });
       ALERT.present();

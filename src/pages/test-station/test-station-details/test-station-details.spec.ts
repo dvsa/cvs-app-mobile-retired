@@ -24,6 +24,8 @@ import { Store } from "@ngrx/store";
 import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec";
 import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { AppService } from '../../../providers/global/app.service';
+import { AppServiceMock } from '../../../../test-config/services-mocks/app-service.mock';
 
 describe('Component: TestStationDetailsPage', () => {
   let component: TestStationDetailsPage;
@@ -60,7 +62,8 @@ describe('Component: TestStationDetailsPage', () => {
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
         {provide: AuthService, useClass: AuthServiceMock},
-        {provide: Store, useClass: TestStore}
+        {provide: Store, useClass: TestStore},
+        {provide: AppService, useClass: AppServiceMock},
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

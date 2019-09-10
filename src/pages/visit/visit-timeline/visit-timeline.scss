@@ -87,7 +87,7 @@ ion-app.ios page-visit-timeline {
 
         .timeline-bar {
           border-left-color: color($colors, tertiary);
-          top: 40%;
+          top: calc(10px + 8px);//first timeline bar has to start top + margin-top lower
         }
       }
 
@@ -139,6 +139,7 @@ ion-app.ios page-visit-timeline {
   }
 
   .item-divider-ios {
+    -webkit-text-size-adjust: $disable-accessibility-text-scaling;
     margin-top: 1px;
     border-top: 1px solid $color-grey-2;
     border-bottom: 1px solid $color-grey-2;
@@ -155,9 +156,9 @@ ion-app.ios page-visit-timeline {
 
   .test-station-name {
     display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 70%;
+  }
+
+  ion-footer {
+    -webkit-text-size-adjust: $disable-accessibility-text-scaling;
   }
 }

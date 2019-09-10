@@ -26,7 +26,7 @@
 
 <ion-content no-padding class="content-background-color-grey">
 
-    <ion-list *ngIf="filteredCountries.length">
+    <ion-list *ngIf="filteredCountries.length" text-wrap>
         <button ion-item padding-left detail-none class="list-item-height no-border"
                 (click)="setVehicleRegCountry(topElem[0])">
             <h3>{{ topElem[0].value }}</h3>

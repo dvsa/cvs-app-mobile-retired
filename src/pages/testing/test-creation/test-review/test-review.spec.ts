@@ -1,3 +1,5 @@
+import { AppServiceMock } from './../../../../../test-config/services-mocks/app-service.mock';
+import { AppService } from './../../../../providers/global/app.service';
 import { TestReviewPage } from "./test-review";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import {
@@ -91,7 +93,8 @@ describe('Component: TestReviewPage', () => {
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: Store, useClass: TestStore},
         {provide: NavParams, useClass: NavParamsMock},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
+        {provide: AppService, useClass: AppServiceMock},
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

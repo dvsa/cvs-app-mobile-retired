@@ -1,3 +1,5 @@
+import { AppServiceMock } from './../../../../../test-config/services-mocks/app-service.mock';
+import { AppService } from './../../../../providers/global/app.service';
 import { AddPreparerPage } from "./add-preparer";
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
@@ -62,7 +64,8 @@ describe('Component: AddPreparerPage', () => {
         {provide: PreparerService, useValue: preparerServiceSpy},
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: ViewController, useClass: ViewControllerMock},
-        {provide: VisitService, useClass: VisitDataMock}
+        {provide: VisitService, useClass: VisitDataMock},
+        {provide: AppService, useClass: AppServiceMock},
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -133,7 +136,7 @@ describe('Component: AddPreparerPage', () => {
     expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({
       preparerId: 'AK4434',
       preparerName: 'Durrell Vehicles Limited'
-    })
+    }, false);
   });
 
   it('should format the data from confirm without a preparer selected', () => {
@@ -144,7 +147,7 @@ describe('Component: AddPreparerPage', () => {
     expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({
       preparerId: 'No preparer ID given',
       preparerName: ''
-    }, false)
+    }, false, false);
   });
 
   it('should format the data from confirm with a preparer not found', () => {
@@ -155,7 +158,7 @@ describe('Component: AddPreparerPage', () => {
     expect(comp.presentPreparerConfirm).toHaveBeenCalledWith({
       preparerId: 'No preparer ID found',
       preparerName: ''
-    }, false, true)
+    }, false, false, true);
   });
 
   it('should get data from service', () => {

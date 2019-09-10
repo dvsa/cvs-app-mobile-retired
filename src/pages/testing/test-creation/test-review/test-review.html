@@ -9,33 +9,42 @@
 <ion-content padding>
   <ng-container no-padding>
 
-    <ion-card>
+    <ion-card [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}">
       <ion-item padding-vertical class="ion-item-title">
         <img item-start class="vehicle-type-icon" src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg"/>
         <h2 text-uppercase padding-left>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
         <p padding-left>{{ vehicle.vin }}</p>
       </ion-item>
       <ion-item padding-horizontal class="bottom-divider height-60">
-        <h3 class="country-of-registration">Country of registration</h3>
-        <h3 item-end text-nowrap
-            class="country-of-registration-status cor-details">{{getCountryStringToBeDisplayed(vehicle)}}</h3>
+        <div class="flex-wrapper-container">
+          <h3 class="country-of-registration" text-wrap>Country of registration</h3>
+          <h3 item-end
+              text-nowrap
+              class="country-of-registration-status cor-details">{{getCountryStringToBeDisplayed(vehicle)}}</h3>
+        </div>
       </ion-item>
+
       <ion-item margin-left class="bottom-divider height-60">
-        <h3 class="vehicle-category">EU vehicle category</h3>
-        <h3 item-end text-uppercase
-            class="vehicle-category-status">{{vehicle.euVehicleCategory}}</h3>
+        <div class="flex-wrapper-container">
+          <h3 class="vehicle-category" text-wrap>EU vehicle category</h3>
+          <h3 item-end
+              text-uppercase
+              class="vehicle-category-status">{{vehicle.euVehicleCategory}}</h3>
+        </div>
       </ion-item>
       <ion-item
         margin-left
         class="bottom-divider height-60"
         *ngIf="!isVehicleOfType(vehicle,VEHICLE_TYPE.TRL)">
-        <h3 class="odometer-reading">Odometer reading</h3>
-        <h3 item-end
-            class="odometer-reading-status">
-          {{getOdometerStringToBeDisplayed(vehicle)}}
-        </h3>
+        <div class="flex-wrapper-container">
+          <h3 class="odometer-reading" text-wrap>Odometer reading</h3>
+          <h3 item-end
+              class="odometer-reading-status">
+            {{getOdometerStringToBeDisplayed(vehicle)}}
+          </h3>
+        </div>
       </ion-item>
-      <button ion-item
+      <button ion-item text-wrap
               class="bottom-divider change-details-button"
               *ngIf="!isTestSubmitted"
               (click)="goToTestCreatePage()">
@@ -47,15 +56,16 @@
       <ion-card no-padding>
         <ion-item class="height-60">
           <ion-grid no-padding>
-            <ion-row padding-horizontal align-items-center>
-              <ion-col col-8>
+            <ion-row padding-horizontal align-items-center justify-content-between>
+              <ion-col col-auto>
                 <p text-wrap padding-vertical
                    class="item-text-color">{{ testType.testTypeName }}</p>
               </ion-col>
-              <ion-col col-4 text-right>
+              <ion-col col-auto text-right>
                 <p text-uppercase
                    class="test-result"
                    ion-text
+                   text-wrap
                    [color]="commonFunctions.getTestResultColor(testType.testResult)">
                   {{ testType.testResult }}
                 </p>
@@ -66,25 +76,25 @@
         <ion-item no-padding
                   class="bottom-divider"
                   *ngIf="testType.numberOfSeatbeltsFitted && testType.testResult !== testTypeResults.ABANDONED">
-          <div margin-left class="test-field test-field-no-border-top">
-            <h3>Seatbelt installation check</h3>
+          <div margin-left class="test-field test-field-no-border-top flex-wrapper-container">
+            <h3 text-wrap>Seatbelt installation check</h3>
             <h3
               class="test-field-value">{{testType.seatbeltInstallationCheckDate ? appStrings.YES : appStrings.NO}}</h3>
           </div>
-          <div margin-left class="test-field">
-            <h3>Number of seatbelts fitted</h3>
+          <div margin-left class="test-field flex-wrapper-container">
+            <h3 text-wrap>Number of seatbelts fitted</h3>
             <h3 class="test-field-value">{{testType.numberOfSeatbeltsFitted}}</h3>
           </div>
-          <div margin-left class="test-field">
-            <h3>Most recent seatbelt check</h3>
+          <div margin-left class="test-field flex-wrapper-container">
+            <h3 text-wrap>Most recent seatbelt check</h3>
             <h3 class="test-field-value">{{testType.lastSeatbeltInstallationCheckDate | date: dateFormat.D_MMM_YY}}</h3>
           </div>
         </ion-item>
         <ion-item no-padding
                   class="bottom-divider"
                   *ngIf="testType.certificateNumber && testType.testResult !== testTypeResults.ABANDONED">
-          <div margin-left class="test-field test-field-no-border-top">
-            <h3>Certificate number</h3>
+          <div margin-left class="test-field test-field-no-border-top flex-wrapper-container">
+            <h3 text-wrap>Certificate number</h3>
             <h3
               class="test-field-value">{{testType.certificateNumber}}</h3>
           </div>
@@ -252,8 +262,8 @@
         <ion-item no-padding
                   class="bottom-divider"
                   *ngIf="testType.prohibitionIssued && testType.testResult !== testTypeResults.ABANDONED">
-          <div margin-left class="test-field test-field-no-border-top">
-            <h3>Prohibition Issued</h3>
+          <div margin-left class="test-field test-field-no-border-top flex-wrapper-container">
+            <h3 text-wrap>Prohibition Issued</h3>
             <h3
               class="test-field-value">Yes</h3>
           </div>
@@ -261,7 +271,7 @@
         <ion-item padding-left margin-bottom
                   class="bottom-divider"
                   *ngIf="testType.testResult === testTypeResults.ABANDONED">
-          <div margin-top class="notes-section-title">
+          <div margin-top class="notes-section-title" text-wrap>
             Reason(s) for abandoning
           </div>
           <h4 text-wrap class="parent-info-color"
@@ -276,7 +286,7 @@
           </div>
           <h4 text-wrap class="parent-info-color">{{testType.additionalCommentsForAbandon}}</h4>
         </ion-item>
-        <button ion-item
+        <button ion-item text-wrap
                 class="bottom-divider change-details-button"
                 *ngIf="!isTestSubmitted && testType.testResult !== testTypeResults.ABANDONED"
                 (click)="openTestDetailsPage(vehicle, testType)">

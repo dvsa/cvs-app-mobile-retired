@@ -33,3 +33,7 @@ page-vehicle-lookup {
 ion-navbar button[ion-button].custom-search-button {
   font-weight: $font-weight-bold;
 }
+
+.autosize textarea{
+  height: 5em;
+}

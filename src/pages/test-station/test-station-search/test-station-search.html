@@ -27,7 +27,7 @@
         <ion-item-divider padding-left *ngIf="i == 0">
           <b>{{ testStation.testStationName | slice:0:1 }}</b>
         </ion-item-divider>
-        <button ion-item (click)="openTestStation(testStation)" padding-left class="list-item-height">
+        <button ion-item (click)="openTestStation(testStation)" padding-left class="list-item-height" text-wrap>
           <h3>{{ testStation.testStationName }}</h3>
           <p *ngIf="testStation.searchProperty != 'testStationAddress'" [innerHTML]="boldSearchVal(testStation.testStationPNumber, searchVal)"></p>
           <p *ngIf="testStation.searchProperty == 'testStationAddress'" [innerHTML]="boldSearchVal(testStation.testStationAddress, searchVal)"></p>

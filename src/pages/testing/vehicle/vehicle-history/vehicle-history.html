@@ -20,11 +20,12 @@
 
       <button ion-item (click)="showTestDetails(testType.testIndex, testType.testTypeIndex)">
         <ion-grid>
-          <ion-row padding-left>
-            <ion-col col-8>
+          <ion-row justify-content-between padding-left>
+            <ion-col col-auto>
               <p text-wrap>{{ testType.name }}</p>
             </ion-col>
-            <ion-col col-4 text-right>
+
+            <ion-col col-auto text-right>
               <p *ngIf="!haveProhibition(testType)"
                  text-uppercase
                  class="test-result"
@@ -41,19 +42,20 @@
               </p>
             </ion-col>
           </ion-row>
-          <ion-row padding-left>
-            <ion-col col-3>
+
+          <ion-row justify-content-between padding-left>
+            <ion-col col-auto>
               <p>Test date</p>
             </ion-col>
-            <ion-col col-9 text-right>
+            <ion-col col-auto text-right>
               <p>{{ testType.testTypeStartTimestamp | date:'dd MMM yyyy' }}</p>
             </ion-col>
           </ion-row>
-          <ion-row padding-left *ngIf="testType.testExpiryDate">
-            <ion-col col-3>
+          <ion-row justify-content-between padding-left *ngIf="testType.testExpiryDate">
+            <ion-col col-auto>
               <p>Expiry date</p>
             </ion-col>
-            <ion-col col-9 text-right>
+            <ion-col col-auto text-right>
               <p>{{ testType.testExpiryDate | date:'dd MMM yyyy' }}</p>
             </ion-col>
           </ion-row>

@@ -16,7 +16,7 @@
   <ion-list>
     <ion-item-group>
       <ng-container *ngFor="let testType of testTypeReferenceData | filterTestTypeByVehicle: vehicleData">
-        <ion-item detail-none padding-left
+        <ion-item detail-none padding-left text-wrap
                   class="list-item-height"
                   *ngIf="vehicleData.testTypes.length === 0 || canDisplay(addedTestTypesIds(vehicleData), testType) && canDisplayCategory(testType, addedTestTypesIds(vehicleData))"
                   (click)="selectedItem(testType, vehicleData)">

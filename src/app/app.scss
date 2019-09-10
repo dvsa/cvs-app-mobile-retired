@@ -18,6 +18,7 @@ body {
 }
 
 .header-ios {
+  -webkit-text-size-adjust: $disable-accessibility-text-scaling;
 
   ion-navbar.toolbar {
     display: flex;
@@ -90,6 +91,20 @@ body {
         font-weight: $font-weight-normal;
       }
     }
+  }
+}
+
+.ion-item-title {
+  -webkit-text-size-adjust: $disable-accessibility-text-scaling;
+}
+
+ion-list .input-wrapper { //accessibility formatting for the lists
+  display: flex;
+  flex-wrap: wrap;
+
+  ion-label {
+    white-space: normal;
+    min-width: 45%;
   }
 }
 
@@ -196,7 +211,10 @@ span[text-left] {
 
 // Global CSS for item-dividers
 ion-item-divider {
+  white-space: normal !important;
+
   .label-ios {
+    white-space: normal;
     margin: 0 8px 0 0;
     font-size: $item-ios-divider-font-size;
   }
@@ -261,6 +279,7 @@ ion-item-group {
 
 // Registration plate
 .vehicle-header-vrm-number {
+  -webkit-text-size-adjust: $disable-accessibility-text-scaling;
   background: $color-reg-plate;
   width: 194px;
   height: 50px;
@@ -279,7 +298,7 @@ ion-list.vehicle-list {
   background: color($colors, light);
 
   ion-list-header.list-header {
-    height: $list-header-height-small;
+    min-height: $list-header-height-small;
     background: $color-grey-3;
     border-bottom: 0.5px solid $color-grey-2;
 
@@ -335,11 +354,10 @@ ion-list.vehicle-list {
   }
 
   button.item-ios {
-    height: 60px;
 
     .item-inner {
       border-bottom: 0.5px solid $color-grey-2;
-      height: 60px;
+      min-height: 60px;
     }
 
     &:last-child {
@@ -402,8 +420,12 @@ ion-list.vehicle-list {
   align-items: center;
 }
 
-.action-sheet-ios .action-sheet-button {
-  text-transform: capitalize;
+.action-sheet-ios .action-sheet-button span.button-inner {
+  display: inline-block;
+
+  &::first-letter {
+    text-transform: uppercase !important;
+  }
 }
 
 .color-grey-1 {
@@ -453,20 +475,6 @@ ion-item-divider.defect-heading {
   }
 }
 
-
-//signature popover component custom css class
-.signature-popover {
-  .popover-content {
-    position: static;
-    width: 320px;
-    background-color: $color-grey-3;
-  }
-
-  ion-backdrop {
-    opacity: 0.4 !important;
-  }
-}
-
 .sign-toast-css {
   .toast-message {
     border-radius: 0.65rem !important;
@@ -475,7 +483,9 @@ ion-item-divider.defect-heading {
 }
 
 .alert-ios .alert-button {
+  height: initial;
   padding: 8px;
+  min-height: 44px;
 }
 
 .asterisk {
@@ -491,4 +501,27 @@ ion-item-divider.defect-heading {
   h3[item-end].current-value.no-data {
     color: color($colors, danger) !important;
   }
+}
+
+.flex-wrapper-container {
+  display: -webkit-flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.picker-wrapper {
+  -webkit-text-size-adjust: $disable-accessibility-text-scaling; //Ionic datepicker does not scale with text
+}
+
+.wrap-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.accessibility-max-width,
+.accessibility-max-width h3.vehicle-details,
+.accessibility-max-width h3.cor-details {
+  width: initial !important;
+  max-width: 100% !important;
 }
