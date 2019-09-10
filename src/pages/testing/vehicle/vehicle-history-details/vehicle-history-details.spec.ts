@@ -10,6 +10,8 @@ import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { TestResultsHistoryDataMock } from "../../../../assets/data-mocks/test-results-history-data.mock";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { AppService } from '../../../../providers/global/app.service';
+import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
 
 describe('Component: VehicleHistoryDetailsPage', () => {
   let comp: VehicleHistoryDetailsPage;
@@ -32,7 +34,8 @@ describe('Component: VehicleHistoryDetailsPage', () => {
         CommonFunctionsService,
         {provide: NavParams, useClass: NavParamsMock},
         {provide: ViewController, useClass: ViewControllerMock},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
+        {provide: AppService, useClass: AppServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

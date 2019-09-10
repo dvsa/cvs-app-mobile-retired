@@ -15,10 +15,12 @@ import { TestTypeArrayDataMock } from "../../../../assets/data-mocks/test-type-a
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import {APP_STRINGS, TECH_RECORD_STATUS} from '../../../../app/app.enums';
-import {By} from '@angular/platform-browser';
-import {VehicleModel} from '../../../../models/vehicle/vehicle.model';
-import {VehicleDataMock} from '../../../../assets/data-mocks/vehicle-data.mock';
+import { APP_STRINGS, TECH_RECORD_STATUS } from '../../../../app/app.enums';
+import { By } from '@angular/platform-browser';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
+import { AppService } from '../../../../providers/global/app.service';
+import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -50,7 +52,8 @@ describe('Component: VehicleDetailsPage', () => {
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: StorageService, useClass: StorageServiceMock},
         {provide: CallNumber, useValue: callNumberSpy},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
+        {provide: AppService, useClass: AppServiceMock},
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

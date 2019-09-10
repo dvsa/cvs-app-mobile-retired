@@ -1,10 +1,11 @@
 page-add-preparer {
 
-  ion-content{
-    .scroll-content{
+  ion-content {
+    .scroll-content {
       background: $color-grey-3;
     }
   }
+
   .item__preparer-name {
     color: $color-grey-1;
   }
@@ -19,6 +20,7 @@ page-add-preparer {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
   .min-height {
     min-height: 55px;
   }
@@ -37,4 +39,8 @@ page-add-preparer {
   .item-ios.item-block .item-inner {
     border: 0;
   }
+}
+
+.accessibility-minimize-content-max-width-true.alert-ios .alert-message {
+  max-height: 135px;
 }

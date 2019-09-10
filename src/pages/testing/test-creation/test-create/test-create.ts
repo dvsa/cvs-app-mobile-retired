@@ -345,7 +345,7 @@ export class TestCreatePage implements OnInit {
     if (!allVehiclesHaveTests) {
       let alert = this.alertCtrl.create({
         title: APP_STRINGS.NO_TESTS_ADDED,
-        subTitle: APP_STRINGS.PLEASE_ADD_TEST,
+        message: APP_STRINGS.PLEASE_ADD_TEST,
         buttons: [APP_STRINGS.OK]
       });
       alert.present();

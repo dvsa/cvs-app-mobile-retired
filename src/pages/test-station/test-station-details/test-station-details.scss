@@ -20,5 +20,14 @@ ion-app.ios page-test-station-details {
   ion-item-divider {
     border-bottom: 0.55px solid $color-grey-2;
   }
+}
 
+.accessibility-limit-message-height .alert-message {
+  max-height: 115px;
+}
+
+ion-item.accessibility-display-flex-column ion-label {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }

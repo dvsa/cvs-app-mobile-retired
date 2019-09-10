@@ -13,6 +13,7 @@ import { Store } from "@ngrx/store";
 import { Log, LogsModel } from "../../../modules/logs/logs.model";
 import * as logsActions from "../../../modules/logs/logs.actions";
 import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
+import { AppService } from '../../../providers/global/app.service';
 
 @IonicPage()
 @Component({
@@ -38,7 +39,8 @@ export class TestStationDetailsPage {
               private loadingCtrl: LoadingController,
               private authService: AuthService,
               private store$: Store<LogsModel>,
-              private firebaseLogsService: FirebaseLogsService) {
+              private firebaseLogsService: FirebaseLogsService,
+              private appService: AppService) {
     this.testStation = navParams.get('testStation');
   }
 
@@ -108,7 +110,7 @@ export class TestStationDetailsPage {
     this.nextAlert = true;
     let alert = this.alertCtrl.create({
       title: APP_STRINGS.REPORT_TITLE,
-      subTitle: APP_STRINGS.SPEAK_TO_TTL,
+      message: APP_STRINGS.SPEAK_TO_TTL,
       buttons: [APP_STRINGS.OK]
     });
     alert.present();
@@ -121,7 +123,8 @@ export class TestStationDetailsPage {
     this.changeOpacity = true;
     let confirm = this.alertCtrl.create({
       title: APP_STRINGS.TEST_STATION_SAFETY,
-      subTitle: `Confirm that you are at ${this.testStation.testStationName} (${this.testStation.testStationPNumber}) and that it is suitable to begin testing before continuing.`,
+      message: `Confirm that you are at ${this.testStation.testStationName} (${this.testStation.testStationPNumber}) and that it is suitable to begin testing before continuing.`,
+      cssClass: this.appService.isAccessibilityTextZoomEnabled() ? 'accessibility-limit-message-height' : '',
       buttons: [
         {
           text: APP_STRINGS.CONFIRM,

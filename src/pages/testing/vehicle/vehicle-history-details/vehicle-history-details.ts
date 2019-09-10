@@ -18,6 +18,7 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { AppService } from '../../../../providers/global/app.service';
 
 @IonicPage()
 @Component({
@@ -51,7 +52,8 @@ export class VehicleHistoryDetailsPage {
               public navParams: NavParams,
               public viewCtrl: ViewController,
               public commonFunc: CommonFunctionsService,
-              private firebaseLogsService: FirebaseLogsService) {
+              private firebaseLogsService: FirebaseLogsService,
+              public appService: AppService) {
     this.testResultHistory = navParams.get('testResultHistory');
     this.testIndex = navParams.get('testIndex');
     this.testTypeIndex = navParams.get('testTypeIndex');

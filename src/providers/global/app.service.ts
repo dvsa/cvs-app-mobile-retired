@@ -16,6 +16,7 @@ export class AppService {
   public easterEgg: boolean;
   public caching: boolean;
   count: number = 0;
+  private accessibilityTextZoomEnabled: boolean;
 
   constructor(private platform: Platform,
               private toastController: ToastController,
@@ -106,5 +107,17 @@ export class AppService {
       duration: 2000
     });
     TOAST.present();
+  }
+
+  public setAccessibilityTextZoom(zoom: number): void {
+    this.accessibilityTextZoomEnabled= zoom>106;
+  }
+
+  /**
+   * Function used to add accessibility css classes to html templates.
+   * This value is set by setAccessibilityTextZoom on app initialisation/resume
+   */
+  public isAccessibilityTextZoomEnabled(): boolean {
+    return this.accessibilityTextZoomEnabled;
   }
 }

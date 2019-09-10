@@ -15,7 +15,8 @@
 
 <ion-content padding>
   <div class="error-banner" *ngIf="errorIncomplete && !allVehiclesCompletelyTested">{{TEST_CREATE_ERROR_BANNER}}</div>
-  <ion-list class="full-dividers-list">
+  <ion-list class="full-dividers-list"
+            [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}">
     <ion-card class="card" *ngFor="let vehicle of testData.vehicles; let i = index">
       <button ion-item detail-none class="ion-item-title"
               (click)="onVehicleDetails(vehicle)">
@@ -30,18 +31,27 @@
       <button ion-item detail-none
               class="bottom-divider"
               (click)="onCountryOfRegistration(vehicle)">
-        <h3 class="odometer-reading">Country of registration</h3>
-        <h3 item-end text-nowrap class="vehicle-details">{{getCountryStringToBeDisplayed(vehicle)}}</h3>
+        <div class="flex-wrapper-container">
+          <h3 class="odometer-reading" text-wrap>Country of registration</h3>
+          <h3 item-end text-nowrap
+              class="vehicle-details"
+              [ngClass]="{'accessibility-no-margin': appService.isAccessibilityTextZoomEnabled()}">{{getCountryStringToBeDisplayed(vehicle)}}</h3>
+        </div>
+
         <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
+
       </button>
       <button ion-item detail-none
               class="bottom-divider"
               [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicle.euVehicleCategory}"
               (click)="onVehicleCategory(vehicle)">
-        <h3 class="odometer-reading">EU vehicle category</h3>
-        <h3 item-end class="vehicle-details" *ngIf="!vehicle.euVehicleCategory">Select</h3>
-        <h3 item-end text-nowrap class="vehicle-details"
-            *ngIf="vehicle.euVehicleCategory">{{vehicle.euVehicleCategory.toUpperCase()}}</h3>
+        <div class="flex-wrapper-container">
+          <h3 class="odometer-reading" text-wrap>EU vehicle category</h3>
+          <h3 item-end class="vehicle-details" *ngIf="!vehicle.euVehicleCategory">Select</h3>
+          <h3 item-end text-nowrap class="vehicle-details"
+              *ngIf="vehicle.euVehicleCategory">{{vehicle.euVehicleCategory.toUpperCase()}}</h3>
+        </div>
+
         <ion-icon item-end
                   [ngClass]="{'vehicle-category-icon-data': vehicle.euVehicleCategory,
                           'arrow-forward': !vehicle.euVehicleCategory}"
@@ -53,12 +63,14 @@
               [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicle.odometerReading}"
               (click)="onOdometer(i)"
               *ngIf="!isVehicleOfType(vehicle,VEHICLE_TYPE.TRL)">
-        <h3 class="odometer-reading">Odometer reading</h3>
-        <h3 item-end
-            class="odometer-reading-status"
-            [ngClass]="{'odometer-reading-start': !doesOdometerDataExist(i)}">
-          {{getOdometerStringToBeDisplayed(i)}}
-        </h3>
+        <div class="flex-wrapper-container">
+          <h3 class="odometer-reading" text-wrap>Odometer reading</h3>
+          <h3 item-end
+              class="odometer-reading-status"
+              [ngClass]="{'odometer-reading-start': !doesOdometerDataExist(i)}">
+            {{getOdometerStringToBeDisplayed(i)}}
+          </h3>
+        </div>
         <ion-icon item-end class="odometer-reading-icon"
                   [ngClass]="{'odometer-reading-icon-data': doesOdometerDataExist(i), 'odometer-reading-icon-no-data': !doesOdometerDataExist(i)}"
                   [name]="doesOdometerDataExist(i) ? 'checkmark' : 'arrow-forward'"></ion-icon>
@@ -71,17 +83,20 @@
                   (click)="openTest(vehicle, vehicleTest)"
                   class="bottom-divider"
                   [ngClass]="{'error-incomplete-item': errorIncomplete && getTestTypeStatus(vehicle, vehicleTest) === commonFunctions.capitalizeString(testCompletionStatus.IN_PROGRESS)}">
-            <h3 class="test-type">{{ vehicleTest.testTypeCategoryName }}</h3>
-            <p item-end ion-text text-uppercase
-               class="test-type-status test-result"
-               [color]="commonFunctions.getTestResultColor(vehicleTest.testResult)"
-               *ngIf="isTestAbandoned(vehicleTest)">Abandoned</p>
-            <h3 item-end class="test-type-status"
-                [ngClass]="{'test-type-inProgress': getTestTypeStatus(vehicle, vehicleTest) !== commonFunctions.capitalizeString(testCompletionStatus.EDIT)}"
-                *ngIf="!isTestAbandoned(vehicleTest)">{{getTestTypeStatus(vehicle, vehicleTest)}}</h3>
+            <div class="flex-wrapper-container">
+              <h3 class="test-type" text-wrap>{{ vehicleTest.testTypeCategoryName }}</h3>
+              <p item-end ion-text text-uppercase
+                 class="test-type-status test-result"
+                 [color]="commonFunctions.getTestResultColor(vehicleTest.testResult)"
+                 *ngIf="isTestAbandoned(vehicleTest)">Abandoned</p>
+              <h3 item-end class="test-type-status"
+                  [ngClass]="{'test-type-inProgress': getTestTypeStatus(vehicle, vehicleTest) !== commonFunctions.capitalizeString(testCompletionStatus.EDIT)}"
+                  *ngIf="!isTestAbandoned(vehicleTest)">{{getTestTypeStatus(vehicle, vehicleTest)}}</h3>
+            </div>
             <ion-icon item-end class="odometer-reading-icon"
                       [ngClass]="{'odometer-reading-icon-data': getTestTypeStatus(vehicle, vehicleTest) === commonFunctions.capitalizeString(testCompletionStatus.EDIT),
-                                  'odometer-reading-icon-no-data': getTestTypeStatus(vehicle, vehicleTest) !== commonFunctions.capitalizeString(testCompletionStatus.EDIT)}"
+                                  'odometer-reading-icon-no-data': getTestTypeStatus(vehicle, vehicleTest) !== commonFunctions.capitalizeString(testCompletionStatus.EDIT),
+                                  'accessibility-no-margin-left': appService.isAccessibilityTextZoomEnabled()}"
                       [name]="getTestTypeStatus(vehicle, vehicleTest) === commonFunctions.capitalizeString(testCompletionStatus.EDIT) ? 'checkmark' : 'arrow-forward'"
                       *ngIf="!isTestAbandoned(vehicleTest)"></ion-icon>
           </button>

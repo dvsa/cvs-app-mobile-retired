@@ -22,6 +22,8 @@ import { Store } from "@ngrx/store";
 import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { AppService } from '../../../../providers/global/app.service';
+import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -54,7 +56,8 @@ describe('Component: VehicleLookupPage', () => {
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: AuthService, useClass: AuthServiceMock},
-        {provide: Store, useClass: TestStore}
+        {provide: Store, useClass: TestStore},
+        {provide: AppService, useClass: AppServiceMock},
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

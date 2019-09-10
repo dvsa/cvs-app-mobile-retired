@@ -50,6 +50,7 @@ import { Firebase } from "@ionic-native/firebase";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { RoadworthinessTestTypesData } from "../../../../assets/app-data/test-types-data/roadworthiness-test-types.data";
 import { AdrTestTypesData } from "../../../../assets/app-data/test-types-data/adr-test-types.data";
+import { AppService } from '../../../../providers/global/app.service';
 
 @IonicPage()
 @Component({
@@ -93,7 +94,8 @@ export class TestReviewPage implements OnInit {
               private authService: AuthService,
               private store$: Store<LogsModel>,
               private firebaseLogsService: FirebaseLogsService,
-              private activityService: ActivityService) {
+              private activityService: ActivityService,
+              public appService: AppService) {
 
     this.visit = this.visitService.visit;
     this.latestTest = this.visitService.getLatestTest();

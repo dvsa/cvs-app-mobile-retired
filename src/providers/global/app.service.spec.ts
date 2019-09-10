@@ -181,4 +181,25 @@ describe(`AppService: `, () => {
     expect(localStorage.setItem).toHaveBeenCalledWith(LOCAL_STORAGE.EASTER_EGG, 'true');
     expect(localStorage.setItem).toHaveBeenCalledWith(LOCAL_STORAGE.CACHING, 'true');
   });
+
+  it('should be false if mobileAccessibility font size is below or equal to iOS default 106%', () => {
+    appService = new AppService(platform, toast, storageService, authService);
+    
+    appService.setAccessibilityTextZoom(106);
+    expect(appService.isAccessibilityTextZoomEnabled()).toBeFalsy();
+
+    appService.setAccessibilityTextZoom(90);
+    expect(appService.isAccessibilityTextZoomEnabled()).toBeFalsy();
+  });
+
+  it('should be true if mobileAccessibility font size is higher than 106%', () => {
+    appService = new AppService(platform, toast, storageService, authService);
+
+    appService.setAccessibilityTextZoom(107);
+    expect(appService.isAccessibilityTextZoomEnabled()).toBeTruthy();
+
+    appService.setAccessibilityTextZoom(331);
+    expect(appService.isAccessibilityTextZoomEnabled()).toBeTruthy();
+  });
+
 });

@@ -18,11 +18,23 @@
 
 <ion-content no-padding class="content-background-color-grey">
   <ion-item>
-    <ion-input margin-top text-uppercase
+    <ion-input *ngIf="!appService.isAccessibilityTextZoomEnabled(); else accessibilityTextArea"
+               margin-top text-uppercase
                [ngModelOptions]="{standalone: true}"
                class="custom-input shadow"
                clearInput="true"
                type="search" [placeholder]="searchPlaceholder"
                [(ngModel)]="searchVal" value=""></ion-input>
+
+    <ng-template #accessibilityTextArea>
+      <ion-textarea text-uppercase text-wrap
+                    class="custom-input shadow autosize"
+                    [placeholder]="searchPlaceholder"
+                    clearInput="true"
+                    type="search"
+                    rows="1"
+                    [(ngModel)]="searchVal" value=""></ion-textarea>
+    </ng-template>
+
   </ion-item>
 </ion-content>

@@ -21,6 +21,7 @@ import { Log, LogsModel } from "../../../../modules/logs/logs.model";
 import { AuthService } from "../../../../providers/global/auth.service";
 import * as logsActions from "../../../../modules/logs/logs.actions";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { AppService } from '../../../../providers/global/app.service';
 
 @IonicPage()
 @Component({
@@ -47,7 +48,8 @@ export class VehicleLookupPage {
               private firebaseLogsService: FirebaseLogsService,
               private callNumber: CallNumber,
               private authService: AuthService,
-              private store$: Store<LogsModel>) {
+              private store$: Store<LogsModel>,
+              public appService: AppService) {
     this.testData = navParams.get('test');
   }
 
@@ -152,7 +154,7 @@ export class VehicleLookupPage {
   showAlert() {
     const alert = this.alertCtrl.create({
       title: 'Vehicle not found',
-      subTitle: 'You can find a vehicle by typing in its registration number or vehicle identification / chassis number',
+      message: 'You can find a vehicle by typing in its registration number or vehicle identification / chassis number',
       enableBackdropDismiss: false,
       buttons: ['OK']
     });

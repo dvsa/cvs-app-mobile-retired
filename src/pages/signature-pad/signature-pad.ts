@@ -127,14 +127,18 @@ export class SignaturePadPage implements OnInit {
     CONFIRM_ALERT.present();
   }
 
+  /**
+   * A popover that should look like an alert
+   * Alerts do not allow images
+   */
   presentPopover() {
-    const POPOVER = this.popoverCtrl.create(SignaturePopoverComponent, {}, {cssClass: 'signature-popover'});
     if (!this.signaturePad.isEmpty()) {
+      const POPOVER = this.popoverCtrl.create(SignaturePopoverComponent);
       POPOVER.present();
     } else {
       const EMPTY_SIGNATURE = this.alertCtrl.create({
         title: APP_STRINGS.SIGN_NOT_ENTERED,
-        subTitle: APP_STRINGS.SIGN_ENTER,
+        message: APP_STRINGS.SIGN_ENTER,
         buttons: [APP_STRINGS.OK]
       });
       EMPTY_SIGNATURE.present();

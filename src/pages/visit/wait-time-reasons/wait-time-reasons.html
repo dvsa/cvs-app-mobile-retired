@@ -14,7 +14,7 @@
 <ion-content class="content-background-color-grey">
   <ion-list>
     <ion-item-group>
-      <ion-item-divider padding-left text-uppercase class="divider-border">reason(s) for time not testing</ion-item-divider>
+      <ion-item-divider padding-left text-uppercase class="divider-border" text-wrap>reason(s) for time not testing</ion-item-divider>
       <ion-item text-wrap padding-left
                 *ngFor="let reason of reasonsList">
         <ion-label>{{reason.text}} {{reason.text === WAIT_REASONS.SITE_ISSUE || reason.text === WAIT_REASONS.OTHER ? '(notes required)' : ''}}</ion-label>

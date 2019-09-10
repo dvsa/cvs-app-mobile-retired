@@ -130,14 +130,6 @@ ion-app.ios page-complete-test {
     height: auto;
   }
 
-  ion-item-divider {
-    height: 40px;
-
-    ion-label {
-      margin-top: 11px;
-    }
-  }
-
   .test-type-name {
     font-weight: $font-weight-bold;
     font-size: $font-size-medium;
@@ -174,8 +166,4 @@ ion-app.ios page-complete-test {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-}
-
-.action-sheet-button.action-sheet-button-ios {
-  text-transform: none;
 }

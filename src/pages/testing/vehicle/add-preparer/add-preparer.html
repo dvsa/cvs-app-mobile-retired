@@ -24,10 +24,18 @@
       </ion-col>
     </ion-row>
     <ion-row no-border>
+
       <ion-item padding-left class="srch-preparer-input">
-        <ion-input placeholder="Enter preparer ID if known" [(ngModel)]="searchValue"
+        <ion-input *ngIf="!appService.isAccessibilityTextZoomEnabled(); else accessibilityTextArea"
+                   placeholder="Enter preparer ID if known" [(ngModel)]="searchValue"
                    (ngModelChange)="valueInputChange($event)" clearInput="true"></ion-input>
+
+        <ng-template #accessibilityTextArea>
+          <ion-textarea placeholder="Enter preparer ID if known" [(ngModel)]="searchValue"
+                        (ngModelChange)="valueInputChange($event)" clearInput="true"></ion-textarea>
+        </ng-template>
       </ion-item>
+
     </ion-row>
     <ion-row padding-horizontal class="info-text">
       <span>{{ preparerInfoText }}</span>
