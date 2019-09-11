@@ -72,15 +72,19 @@ export class VehicleLookupPage {
     LOADING.present();
     searchedValue = searchedValue.replace(/\s+/g, '');
     this.oid = this.authService.getOid();
-    this.vehicleService.getVehicleTechRecord(searchedValue.toUpperCase()).subscribe(
-      (vehicleTechRecord: HttpResponse<VehicleTechRecordModel>) => {
+    this.vehicleService.getVehicleTechRecord(searchedValue.toUpperCase())
+      .pipe(map((vehicleTechRecord: HttpResponse<VehicleTechRecordModel>) => {
+        const vehicleModel = this.vehicleService.createVehicle(vehicleTechRecord.body);
+        return {vehicleTechRecord, vehicleModel};
+      }))
+      .subscribe(
+      ({vehicleTechRecord, vehicleModel: vehicleData}) => {
         const log: Log = {
           type: 'info',
           message: `${this.oid} - ${vehicleTechRecord.status} ${vehicleTechRecord.statusText} for API call to ${vehicleTechRecord.url}`,
           timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
-        let vehicleData: VehicleModel = this.vehicleService.createVehicle(vehicleTechRecord.body);
         this.vehicleService.getTestResultsHistory(vehicleData.vin).pipe(
           tap(
             () => {
@@ -120,7 +124,7 @@ export class VehicleLookupPage {
       (error) => {
         const log: Log = {
           type: 'error',
-          message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
+          message: `${this.oid} - ${error.status} ${error.error || error.message} for API call to ${error.url}`,
           timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
