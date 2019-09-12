@@ -17,6 +17,7 @@ import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebas
 export class VehicleDetailsPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
+  APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
   vehicleData: VehicleModel;
   testData: TestModel;
   fromTestCreatePage: boolean;

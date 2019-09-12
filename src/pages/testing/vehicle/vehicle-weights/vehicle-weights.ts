@@ -12,6 +12,7 @@ import { APP_STRINGS, VEHICLE_TYPE, TECH_RECORD_STATUS } from '../../../../app/a
 export class VehicleWeightsPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE=VEHICLE_TYPE;
   TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
+  APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
   vehicleData: VehicleModel;
 
   constructor(public navCtrl: NavController,
