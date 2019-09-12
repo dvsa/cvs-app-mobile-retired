@@ -9,6 +9,9 @@ import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { TestResultsHistoryDataMock } from "../../../../assets/data-mocks/test-results-history-data.mock";
 import { TestTypeArrayDataMock } from "../../../../assets/data-mocks/test-type-array-data.mock";
+import {APP_STRINGS, TECH_RECORD_STATUS} from '../../../../app/app.enums';
+import {By} from '@angular/platform-browser';
+import {VehicleModel} from '../../../../models/vehicle/vehicle.model';
 
 describe('Component: VehicleHistoryPage', () => {
   let comp: VehicleHistoryPage;
@@ -18,7 +21,7 @@ describe('Component: VehicleHistoryPage', () => {
   let commonFunctionsService: any;
 
   let testResultsHistory: any = TestResultsHistoryDataMock.TestResultHistoryData;
-  let vehicleData: VehicleDataMock = VehicleDataMock;
+  let vehicleData: VehicleModel = VehicleDataMock.VehicleData;
   let testTypeArray = TestTypeArrayDataMock.TestTypeArrayData;
 
   beforeEach(async(() => {
@@ -180,4 +183,25 @@ describe('Component: VehicleHistoryPage', () => {
     testType.prohibitionIssued = true;
     expect(comp.haveProhibition(testType)).toBeTruthy();
   });
+
+  it('should not display the provisional label if the techRecord is current', () => {
+    comp.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.CURRENT;
+
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      let title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
+      expect(title).toBeNull();
+    });
+  });
+
+  it('should display the provisional label if the techRecord is provisional', () => {
+    comp.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.PROVISIONAL;
+
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      let title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
+      expect(title.nativeElement.innerText).toBe(APP_STRINGS.PROVISIONAL_LABEL_TEXT);
+    });
+  });
+
 });

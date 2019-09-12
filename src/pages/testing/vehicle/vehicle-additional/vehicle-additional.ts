@@ -11,6 +11,7 @@ import { DATE_FORMAT, APP_STRINGS, TECH_RECORD_STATUS } from "../../../../app/ap
 })
 export class VehicleAdditionalPage {
   TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
+  APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
   vehicleData: VehicleModel;
   dateFormat: string;
   appStrings: any;

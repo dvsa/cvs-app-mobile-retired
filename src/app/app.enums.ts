@@ -184,6 +184,7 @@ export enum APP_STRINGS {
   PROHIBITION_TITLE = "Prohibition alert",
   PROHIBITION_MSG_NOTES = "Explain why you haven't issued a prohibition for this defect in the Notes section.",
   PROHIBITION_MSG_CONFIRM = "This defect requires you to issue a prohibition in Mobile Compliance. Confirm you’ve done this in the Prohibition section.",
+  PROVISIONAL_LABEL_TEXT = "This is a provisional record.",
 }
 
 export enum ODOMETER_METRIC {

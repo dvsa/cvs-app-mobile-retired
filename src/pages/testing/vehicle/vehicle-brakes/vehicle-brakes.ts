@@ -11,6 +11,7 @@ import { APP_STRINGS, TECH_RECORD_STATUS } from "../../../../app/app.enums";
 })
 export class VehicleBrakesPage {
   TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
+  APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
   vehicleData: VehicleModel;
 
   constructor(public navCtrl: NavController,
