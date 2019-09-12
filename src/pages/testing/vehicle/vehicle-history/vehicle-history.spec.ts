@@ -194,13 +194,13 @@ describe('Component: VehicleHistoryPage', () => {
     });
   });
 
-  it('should display the provisional label if the techRecord is provisional', () => {
+  it('should not display the provisional label even if the techRecord is provisional', () => {
     comp.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.PROVISIONAL;
 
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       let title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
-      expect(title.nativeElement.innerText).toBe(APP_STRINGS.PROVISIONAL_LABEL_TEXT);
+      expect(title).toBeNull();
     });
   });
 
