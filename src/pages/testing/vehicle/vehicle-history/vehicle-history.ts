@@ -15,6 +15,7 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 export class VehicleHistoryPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE=VEHICLE_TYPE;
   TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
+  APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
   vehicleData: VehicleModel;
   testResultHistory: TestResultModel[];
   testTypeResults = TEST_TYPE_RESULTS;

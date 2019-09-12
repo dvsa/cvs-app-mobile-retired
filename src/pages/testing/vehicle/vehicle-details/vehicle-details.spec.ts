@@ -15,6 +15,10 @@ import { TestTypeArrayDataMock } from "../../../../assets/data-mocks/test-type-a
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import {APP_STRINGS, TECH_RECORD_STATUS} from '../../../../app/app.enums';
+import {By} from '@angular/platform-browser';
+import {VehicleModel} from '../../../../models/vehicle/vehicle.model';
+import {VehicleDataMock} from '../../../../assets/data-mocks/vehicle-data.mock';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -26,7 +30,7 @@ describe('Component: VehicleDetailsPage', () => {
   let alertCtrl: AlertController;
 
 
-  const VEHICLE: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
+  const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   let test = TestTypeArrayDataMock.TestTypeArrayData[0];
 
   beforeEach(() => {
@@ -53,17 +57,7 @@ describe('Component: VehicleDetailsPage', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VehicleDetailsPage);
-    component = fixture.componentInstance;
     navParams = TestBed.get(NavParams);
-    commonFunctionsService = TestBed.get(CommonFunctionsService);
-    alertCtrl = TestBed.get(AlertController);
-    firebaseLogsService = TestBed.get(FirebaseLogsService);
-  });
-
-  beforeEach(() => {
-    const navParams = fixture.debugElement.injector.get(NavParams);
-
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
         'vehicle': VEHICLE,
@@ -72,10 +66,12 @@ describe('Component: VehicleDetailsPage', () => {
       };
       return params[param];
     });
+    commonFunctionsService = TestBed.get(CommonFunctionsService);
+    alertCtrl = TestBed.get(AlertController);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
 
-    component.vehicleData = navParams.get('vehicle');
-    component.testData = navParams.get('test');
-    component.fromTestCreatePage = navParams.get('fromTestCreatePage');
+    fixture = TestBed.createComponent(VehicleDetailsPage);
+    component = fixture.componentInstance;
   });
 
   afterEach(() => {
@@ -108,4 +104,25 @@ describe('Component: VehicleDetailsPage', () => {
     component.loggingInAlertHandler();
     expect(firebaseLogsService.logEvent).toHaveBeenCalled();
   });
+
+  it('should not display the provisional label if the techRecord is current', () => {
+    component.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.CURRENT;
+
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      let title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
+      expect(title).toBeNull();
+    });
+  });
+
+  it('should display the provisional label if the techRecord is provisional', () => {
+    component.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.PROVISIONAL;
+
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      let title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
+      expect(title.nativeElement.innerText).toBe(APP_STRINGS.PROVISIONAL_LABEL_TEXT);
+    });
+  });
+
 });

@@ -195,6 +195,7 @@ export enum APP_STRINGS {
   CONFIRMATION_MESSAGE_SUBMIT_TEST = 'The tests have been submitted and will be emailed to ',
   CONFIRMATION_ADDITIONAL_MESSAGE_SUBMIT_TEST = 'If you do not receive the email, ',
   CONFIRMATION_ADDITIONAL_MESSAGE_BUTTON_SUBMIT_TEST = 'call central support',
+  PROVISIONAL_LABEL_TEXT = "This is a provisional record.",
 }
 
 export enum ODOMETER_METRIC {
