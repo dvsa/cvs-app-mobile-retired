@@ -1647,6 +1647,135 @@ export class TestTypesFieldsMetadata {
         hasDefects: true,
         hasNotes: true,
         hasRoadworthinessCertificate: true
+      },
+      // ----- duplicated test types with different testTypeIds for TRLs with 1 axle -----
+      {
+        testTypeId: '94',
+        testTypeName: 'Annual test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '95',
+        testTypeName: 'First test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '98',
+        testTypeName: 'Paid annual test retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '99',
+        testTypeName: 'Part paid annual test retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '101',
+        testTypeName: 'Paid roadworthiness retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true,
+        hasRoadworthinessCertificate: true
+      },
+      {
+        testTypeId: '103',
+        testTypeName: 'Paid first test retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '104',
+        testTypeName: 'Part paid first test retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '107',
+        testTypeName: 'Paid prohibition clearance (full inspection with certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '108',
+        testTypeName: 'Paid prohibition clearance (full inspection without certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '109',
+        testTypeName: 'Part paid prohibition clearance (full inspection without certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '110',
+        testTypeName: 'Part paid prohibition clearance (part inspection without certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '113',
+        testTypeName: 'Paid prohibition clearance (retest with certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '114',
+        testTypeName: 'Paid prohibition clearance (retest without certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '116',
+        testTypeName: 'Part paid prohibition clearance (retest with certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '117',
+        testTypeName: 'Part paid prohibition clearance (retest without certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '119',
+        testTypeName: 'Paid prohibition clearance on first test (full inspection with certification)',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '120',
+        testTypeName: 'Paid retest prohibition clearance on first test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '122',
+        testTypeName: 'Voluntary roadworthiness test',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true,
+        hasRoadworthinessCertificate: true
       }
     ]
   }
