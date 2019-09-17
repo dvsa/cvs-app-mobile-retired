@@ -411,8 +411,10 @@ export enum SPEC_VALUES {
   LEC_CERTIFICATE_NUMBER = 'LP67868977'
 }
 
-export enum ROADWORTHINESS_TEST_TYPES_IDS {
+export enum TEST_TYPES_IDS {
   _62 = '62',
   _63 = '63',
-  _91 = '91'
+  _91 = '91',
+  _101 = '101',
+  _122 = '122'
 }

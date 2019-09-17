@@ -37,7 +37,7 @@ import { TestTypeService } from "../../../../providers/test-type/test-type.servi
 })
 export class TestCreatePage implements OnInit {
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
-  VEHICLE_TYPE: typeof VEHICLE_TYPE=VEHICLE_TYPE;
+  VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   testData: TestModel;
   testTypesFieldsMetadata;
   testCompletionStatus;
@@ -246,6 +246,7 @@ export class TestCreatePage implements OnInit {
   addTrailer(tests) {
     this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {test: tests[tests.length - 1]});
   }
+
   /**
    * Go to test review page with checks on the tests.
    * As this page is used to change the details during a test review also; if i'm already coming from a test review page (for a vehicle being tested), go back to that page.
@@ -265,7 +266,7 @@ export class TestCreatePage implements OnInit {
       });
       allVehiclesHaveTests = allVehiclesHaveTests && (vehicle.testTypes.length > 0);
     }
-    
+
     if (!finishedTest || !requiredFieldsCompleted) {
       let alert = this.alertCtrl.create({
         title: APP_STRINGS.TEST_NOT_COMPLETE,
@@ -291,7 +292,7 @@ export class TestCreatePage implements OnInit {
     } else {
       this.changeOpacity = false;
 
-      if(this.navCtrl.getPrevious().name === PAGE_NAMES.TEST_REVIEW_PAGE) this.navCtrl.pop();
+      if (this.navCtrl.getPrevious().name === PAGE_NAMES.TEST_REVIEW_PAGE) this.navCtrl.pop();
       else this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE)
     }
   }
@@ -302,7 +303,7 @@ export class TestCreatePage implements OnInit {
     if (!vehicle.odometerReading) this.firebaseLogsService.logEvent(FIREBASE.TEST_REVIEW_UNSUCCESSFUL, FIREBASE.MISSING_MADATORY_FIELD, FIREBASE.ODOMETER_READING);
   }
 
-  isVehicleOfType(vehicle: VehicleModel, ...vehicleType: VEHICLE_TYPE[]){
-    return this.commonFunctions.checkForMatchInArray(vehicle.techRecord.vehicleType,vehicleType)
+  isVehicleOfType(vehicle: VehicleModel, ...vehicleType: VEHICLE_TYPE[]) {
+    return this.commonFunctions.checkForMatchInArray(vehicle.techRecord.vehicleType, vehicleType)
   }
 }

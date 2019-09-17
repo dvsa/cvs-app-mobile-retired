@@ -10,7 +10,7 @@ import { AuthService } from "../global/auth.service";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { DefectDetailsDataMock } from "../../assets/data-mocks/defect-details-data.mock";
-import { ROADWORTHINESS_TEST_TYPES_IDS, SPEC_VALUES } from "../../app/app.enums";
+import { TEST_TYPES_IDS, SPEC_VALUES } from "../../app/app.enums";
 
 describe('Provider: TestResultService', () => {
   let testResultService: TestResultService;
@@ -118,7 +118,7 @@ describe('Provider: TestResultService', () => {
     expect(testResultService.formatCertificateNumber(testType)).toEqual(null);
     testType.certificateNumber = SPEC_VALUES.CERTIFICATE_NUMBER;
     expect(testResultService.formatCertificateNumber(testType)).toEqual(SPEC_VALUES.LEC_CERTIFICATE_NUMBER);
-    testType.testTypeId = ROADWORTHINESS_TEST_TYPES_IDS._62;
+    testType.testTypeId = TEST_TYPES_IDS._62;
     expect(testResultService.formatCertificateNumber(testType)).toEqual(SPEC_VALUES.CERTIFICATE_NUMBER);
   });
 });
