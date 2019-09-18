@@ -9,7 +9,7 @@ import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-da
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { TEST_TYPE_RESULTS, FIREBASE_DEFECTS, VEHICLE_TYPE } from "../../app/app.enums";
+import { TEST_TYPE_RESULTS, FIREBASE_DEFECTS, VEHICLE_TYPE, TEST_TYPES_IDS, DEFICIENCY_CATEGORY } from "../../app/app.enums";
 import { FirebaseLogsServiceMock } from "../../../test-config/services-mocks/firebaseLogsService.mock";
 import { FirebaseLogsService } from "../firebase-logs/firebase-logs.service";
 import { Firebase } from "@ionic-native/firebase";
@@ -83,6 +83,45 @@ describe('Provider: TestTypeService', () => {
     spyOn(firebaseLogsService, 'logEvent').and.returnValue(Promise.resolve(true));
     testTypeService.addDefect(testType, DEFECT);
     expect(firebaseLogsService.logEvent).toHaveBeenCalledTimes(2);
+  });
+
+  it('it should reset the certificate number on a roadworthiness test if the defect to add is critical', () => {
+    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    testType.testTypeId = TEST_TYPES_IDS._62;
+    testType.certificateNumber = 'TESTCERTIFICATE';
+
+    let defect = DefectDetailsDataMock.DefectData;
+    defect.prs = false;
+    defect.deficiencyCategory = DEFICIENCY_CATEGORY.MAJOR;
+    testTypeService.addDefect(testType, defect);
+
+    expect(testType.certificateNumber).toBeNull();
+  });
+
+  it('it should not reset the certificate number on a roadworthiness test if the defect to be added is prs', () => {
+    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    testType.testTypeId = TEST_TYPES_IDS._63;
+    testType.certificateNumber = 'TESTCERTIFICATE';
+
+    let defect = DefectDetailsDataMock.DefectData;
+    defect.prs = true;
+    defect.deficiencyCategory = DEFICIENCY_CATEGORY.DANGEROUS;
+    testTypeService.addDefect(testType, defect);
+
+    expect(testType.certificateNumber).toBe('TESTCERTIFICATE');
+  });
+
+  it('it should not reset the certificate number on a roadworthiness test if the defect to be added is minor', () => {
+    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    testType.testTypeId = TEST_TYPES_IDS._91;
+    testType.certificateNumber = 'TESTCERTIFICATE';
+
+    let defect = DefectDetailsDataMock.DefectData;
+    defect.prs = false;
+    defect.deficiencyCategory = DEFICIENCY_CATEGORY.MINOR;
+    testTypeService.addDefect(testType, defect);
+
+    expect(testType.certificateNumber).toBe('TESTCERTIFICATE');
   });
 
   it('should remove a defect from test', () => {

@@ -337,13 +337,9 @@ export class CompleteTestPage implements OnInit {
     });
   }
 
-  hasRoadworthinessCertificate(): boolean {
-    if (this.testTypeDetails.hasRoadworthinessCertificate) {
-      if (this.testTypeService.setTestResult(this.vehicleTest, this.testTypeDetails.hasDefects) !== TEST_TYPE_RESULTS.FAIL) return true;
-      else {
-        this.vehicleTest.certificateNumber = null;
-        return false;
-      }
-    }
+  shouldDisplayRoadworthinessCertificate(): boolean {
+    if (this.testTypeDetails.hasRoadworthinessCertificate &&
+      this.testTypeService.setTestResult(this.vehicleTest, this.testTypeDetails.hasDefects) !== TEST_TYPE_RESULTS.FAIL) return true;
+    return false;
   }
 }
