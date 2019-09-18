@@ -23,6 +23,7 @@ import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.m
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -219,15 +220,25 @@ describe('Component: CompleteTestPage', () => {
     comp.onSave();
     expect(comp.isNotifiableAlterationError).toBeTruthy();
   });
-  
-  it('should reset the Roadworthiness certificateNumber if there are critical defects', () => {
+
+  it('should display the roadworthinessCertificate input field if the testtype is a roadworthiness test and there are no critical defects', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
-    comp.vehicleTest.defects.push(ADDED_DEFECT);
+    let prsDefect=DefectDetailsDataMock.DefectData;
+    prsDefect.prs = true;
+    comp.vehicleTest.defects.push(prsDefect);
     comp.testTypeDetails = comp.getTestTypeDetails();
     comp.testTypeDetails.hasRoadworthinessCertificate=true;
-    comp.vehicleTest.certificateNumber='TESTCERT';
-
-    comp.hasRoadworthinessCertificate();
-    expect(comp.vehicleTest.certificateNumber).toBe(null);
+    
+    expect(comp.shouldDisplayRoadworthinessCertificate()).toBe(true);
   });
+
+  it('should not display the roadworthinessCertificate input field if the testtype is a roadworthiness test and there are critical defects', () => {
+    comp.vehicleTest = navParams.get('vehicleTest');
+    let majorDefect=DefectDetailsDataMock.DefectData;
+    comp.vehicleTest.defects.push(majorDefect);
+    comp.testTypeDetails = comp.getTestTypeDetails();
+    comp.testTypeDetails.hasRoadworthinessCertificate=true;
+    expect(comp.shouldDisplayRoadworthinessCertificate()).toBe(false);
+  });
+
 });

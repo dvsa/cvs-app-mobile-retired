@@ -150,12 +150,24 @@ export class TestReviewPage implements OnInit {
       completedFields: this.completedFields,
       fromTestReview: true
     });
-    MODAL.onDidDismiss(data => {
-      if (initialTestType[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER] && !data[TEST_TYPE_INPUTS.CERTIFICATE_NUMBER]) {
-        this.navCtrl.pop();
-      }
-    });
+    MODAL.onDidDismiss((data) => this.checkMissingTestTypeMandatoryFields(data, initialTestType));
     MODAL.present();
+  }
+
+  /**
+   * Contains the mandatory fields logic used to pop to test-create page
+   * @param changedTestType
+   * @param initialTestType
+   */
+  private checkMissingTestTypeMandatoryFields(changedTestType: TestTypeModel, initialTestType: TestTypeModel): void{
+    if(this.roadworthinessTestTypesIds.indexOf(initialTestType.testTypeId) === -1 ){
+      if (initialTestType.certificateNumber && !changedTestType.certificateNumber) {
+        this.navCtrl.popTo(this.navCtrl.getViews().find(view => view.id === 'TestCreatePage'));
+      }
+    } else {
+      if(changedTestType.testResult !== TEST_TYPE_RESULTS.FAIL && !changedTestType.certificateNumber)
+        this.navCtrl.popTo(this.navCtrl.getViews().find(view => view.id === 'TestCreatePage'));
+    }
   }
 
   /**
