@@ -16,6 +16,13 @@ export interface TestTypeModel {
   lastSeatbeltInstallationCheckDate?: string | null; // PSV
   seatbeltInstallationCheckDate?: boolean | null; // PSV
   testExpiryDate?: string;
+  modType?: string | { code: string, description: string } | null;
+  emissionStandard?: string;
+  fuelType?: string;
+  modificationTypeUsed?: string;
+  smokeTestKLimitApplied?: string;
+  particulateTrapFitted?: string;
+  particulateTrapSerialNumber?: string;
   defects: DefectDetailsModel[];
   /* -------- ONLY FOR FE -------- */
   completionStatus?: string;

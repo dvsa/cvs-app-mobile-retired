@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonicPage, NavParams, TextInput, ViewController } from 'ionic-angular';
-import { APP_STRINGS, TEST_TYPE_FIELDS, REG_EX_PATTERNS } from "../../../../app/app.enums";
+import { APP_STRINGS, REG_EX_PATTERNS, TEST_TYPE_FIELDS, TEST_TYPE_INPUTS } from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -15,10 +15,12 @@ export class TestTypeDetailsInputPage implements OnInit {
   fromTestReview;
   inputValue: string;
   testTypeFields;
-  patterns;
+  testTypesInputs: typeof TEST_TYPE_INPUTS = TEST_TYPE_INPUTS;
+  patterns: typeof REG_EX_PATTERNS;
   errorIncomplete: boolean;
 
   @ViewChild('valueInput') valueInput: TextInput;
+  @ViewChild('customValueInput') customValueInput: TextInput;
 
   constructor(public navParams: NavParams,
               private viewCtrl: ViewController,
@@ -39,13 +41,28 @@ export class TestTypeDetailsInputPage implements OnInit {
 
   ionViewDidEnter() {
     setTimeout(() => {
-      this.valueInput.setFocus();
+      if (this.valueInput) this.valueInput.setFocus();
+      if (this.customValueInput) this.customValueInput.setFocus();
     }, 150);
   }
 
   valueInputChange(value) {
     this.cdRef.detectChanges();
-    this.inputValue = value.length > 3 ? value.substring(0, 3) : value;
+    switch (this.input.testTypePropertyName) {
+      case TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER:
+        this.inputValue = value.length > 3 ? value.substring(0, 3) : value;
+        break;
+      case TEST_TYPE_INPUTS.K_LIMIT:
+        this.inputValue = value.length > 10 ? value.substring(0, 10) : value;
+        break;
+      case TEST_TYPE_INPUTS.PT_SERIAL_NUMBER:
+        this.inputValue = value.length > 30 ? value.substring(0, 30) : value;
+        break;
+      case TEST_TYPE_INPUTS.PT_FITTED:
+      case TEST_TYPE_INPUTS.MOD_TYPE_USED:
+        this.inputValue = value.length > 40 ? value.substring(0, 40) : value;
+        break;
+    }
   }
 
   onCancel() {

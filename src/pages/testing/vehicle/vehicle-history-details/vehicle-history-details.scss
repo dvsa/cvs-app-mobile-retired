@@ -15,8 +15,13 @@ page-vehicle-history-details {
     }
   }
 
-  [text-end] {
+  [text-end],
+  div[text-left][text-wrap] {
     color: $color-grey-1;
+  }
+
+  div[text-left][text-wrap] {
+    margin-top: 5px;
   }
 
   .additional-info span:first-child .forward-slash {

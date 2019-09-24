@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
   IonicPage,
+  LoadingController,
   ModalController,
-  ViewController,
   NavController,
-  NavParams, LoadingController
+  NavParams,
+  ViewController
 } from 'ionic-angular';
 import { VisitModel } from "../../../../models/visit/visit.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
@@ -13,15 +14,16 @@ import {
   APP_STRINGS,
   DATE_FORMAT,
   DEFICIENCY_CATEGORY,
-  ODOMETER_METRIC, PAGE_NAMES,
+  FIREBASE,
+  LEC_CERTIFICATE_NUMBER_PREFIXES,
+  LOCAL_STORAGE,
+  LOG_TYPES,
+  ODOMETER_METRIC,
+  PAGE_NAMES,
   TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
-  LOCAL_STORAGE,
-  FIREBASE,
-  LOG_TYPES,
-  VEHICLE_TYPE,
-  LEC_CERTIFICATE_NUMBER_PREFIXES
+  VEHICLE_TYPE
 } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
@@ -60,7 +62,7 @@ export class TestReviewPage implements OnInit {
   completedFields = {};
   appStrings;
   dateFormat;
-  testTypeResults;
+  testTypeResults: typeof TEST_TYPE_RESULTS = TEST_TYPE_RESULTS;
   deficiencyCategory;
   submitInProgress: boolean = false;
   isTestSubmitted: string;

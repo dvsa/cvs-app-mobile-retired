@@ -80,20 +80,6 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.testExpiryDate">
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col col-3 text-start>
-            <span text-left>Test expiry</span>
-          </ion-col>
-          <ion-col col-9 text-end>
-            <span text-capitalize>
-              {{ (selectedTestType.testExpiryDate | date:'dd MMM yyyy') || defaultValues.NONE }}
-            </span>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
     <ion-item ion-item
               detail-none
               padding-left
@@ -127,6 +113,106 @@
         </ion-grid>
       </ion-item>
     </ng-template>
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.testExpiryDate">
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-3 text-start>
+            <span text-left>Test expiry</span>
+          </ion-col>
+          <ion-col col-9 text-end>
+            <span>
+              {{ (selectedTestType.testExpiryDate | date:'dd MMM yyyy') || defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.emissionStandard">
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-3 text-start>
+            <span text-left>Emission standard</span>
+          </ion-col>
+          <ion-col col-9 text-end>
+            <span>
+              {{ selectedTestType.emissionStandard }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.smokeTestKLimitApplied">
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-3 text-start>
+            <span text-left>Smoke test "K" limit applied</span>
+          </ion-col>
+          <ion-col col-9 text-end>
+            <span>
+              {{ selectedTestType.smokeTestKLimitApplied }}<span> (m<sup>-1</sup>)</span>
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.fuelType">
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-3 text-start>
+            <span text-left>Fuel type</span>
+          </ion-col>
+          <ion-col col-9 text-end>
+            <span text-capitalize>
+              {{ selectedTestType.fuelType }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.modType">
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-3 text-start>
+            <span text-left>Modification type</span>
+          </ion-col>
+          <ion-col col-9 text-end>
+            <span text-capitalize>
+              {{ selectedTestType.modType.code }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.particulateTrapFitted">
+      <ion-grid no-padding>
+        <ion-row>
+          <span text-left>Particulate trap fitted</span>
+        </ion-row>
+        <div text-left text-wrap>
+          {{ selectedTestType.particulateTrapFitted }}
+        </div>
+      </ion-grid>
+    </ion-item>
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.particulateTrapSerialNumber">
+      <ion-grid no-padding>
+        <ion-row>
+          <span text-left>Particulate trap serial number</span>
+        </ion-row>
+        <div text-left text-wrap>
+          {{ selectedTestType.particulateTrapSerialNumber }}
+        </div>
+      </ion-grid>
+    </ion-item>
+    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.modificationTypeUsed">
+      <ion-grid no-padding>
+        <ion-row>
+          <span text-left>Modification type used</span>
+        </ion-row>
+        <div text-left text-wrap>
+          {{ selectedTestType.modificationTypeUsed }}
+        </div>
+      </ion-grid>
+    </ion-item>
   </ion-list>
 
   <ion-list class="list-margin" *ngIf="isTestResultAbandon">
