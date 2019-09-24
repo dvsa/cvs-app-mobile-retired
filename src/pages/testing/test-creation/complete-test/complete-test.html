@@ -14,7 +14,7 @@
 
 <ion-content class="content-background-color-grey">
   <div class="error-banner"
-       *ngIf="isNotifiableAlterationError && !vehicleTest.additionalNotesRecorded && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL">
+       *ngIf="isNotesIncompleteError && !vehicleTest.additionalNotesRecorded && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL">
     Before saving, give more details about the failure in the notes section.
   </div>
 
@@ -30,12 +30,13 @@
         <button ion-item
                 detail-none
                 class="bottom-divider"
+                [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
                 (click)="openDDL(input)"
-                *ngIf="input.type === testTypeFields.DDL && canDisplayInput(input)">
+                *ngIf="input.type === testTypeFields.DDL && canDisplaySection(section) && canDisplayInput(input)">
           <h3>{{input.label}}</h3>
           <h3 item-end
               class="current-value"
-              [ngClass]="{'no-data': vehicleTest[input.testTypePropertyName] === null &&
+              [ngClass]="{'no-data': (!vehicleTest.hasOwnProperty(input.testTypePropertyName) || vehicleTest[input.testTypePropertyName] === null) &&
                         (!completedFields.hasOwnProperty(input.testTypePropertyName) || completedFields[input.testTypePropertyName] === null),
                         'data-successful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] === 'pass',
                         'data-unsuccessful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] && vehicleTest[input.testTypePropertyName] !== 'pass'}">
@@ -49,12 +50,17 @@
 
         <button ion-item
                 class="bottom-divider"
-                [ngClass]="{'error-incomplete-item': errorIncomplete && testTypeDetails.category === 'B'}"
+                [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
                 (click)="openInputPage(section, input)"
-                *ngIf="input.type === testTypeFields.NUMBER && canDisplayInput(input)">
+                *ngIf="input.type === testTypeFields.NUMBER && canDisplaySection(section) && canDisplayInput(input)">
           <h3>{{input.label}}</h3>
           <h3 item-end class="current-value"
-              [ngClass]="{'no-data': !completedFields[input.testTypePropertyName]}">{{completedFields[input.testTypePropertyName] || input.defaultValue}}</h3>
+              [ngClass]="{'no-data': !completedFields[input.testTypePropertyName] && !vehicleTest[input.testTypePropertyName],
+                          'overflow-hidden': vehicleTest[input.testTypePropertyName] && (input.testTypePropertyName === testTypeInputs.PT_FITTED ||
+                          input.testTypePropertyName === testTypeInputs.PT_SERIAL_NUMBER || input.testTypePropertyName === testTypeInputs.MOD_TYPE_USED)}">
+            {{completedFields[input.testTypePropertyName] || vehicleTest[input.testTypePropertyName] || input.defaultValue}}
+            <span *ngIf="input.testTypePropertyName === testTypeInputs.K_LIMIT && vehicleTest[testTypeInputs.K_LIMIT]"> (m<sup>-1</sup>)</span>
+          </h3>
         </button>
 
         <button ion-item
@@ -87,9 +93,9 @@
           digits.</p>
 
         <div
-          [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest.testExpiryDate}"
           *ngIf="input.type === testTypeFields.EXPIRY_DATE && canDisplaySection(section) && canDisplayInput(input)">
-          <button ion-item>
+          <button ion-item
+                  [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}">
             <ion-datetime class="expiry-date-datetime"
                           [placeholder]="input.placeholder"
                           displayFormat="D MMM YYYY"
@@ -182,10 +188,11 @@
     </ion-list>
 
     <ion-item-group *ngIf="testTypeDetails.hasNotes">
-      <ion-item-divider>NOTES <span *ngIf="isNotifiableAlteration && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL">(REQUIRED)</span>
+      <ion-item-divider>NOTES <span *ngIf="(isNotifiableAlteration || lecTestTypesDataIds.indexOf(vehicleTest.testTypeId) !== -1) &&
+      vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL">(REQUIRED)</span>
       </ion-item-divider>
       <ion-item
-        [ngClass]="{'error-incomplete-item': isNotifiableAlterationError && !vehicleTest.additionalNotesRecorded && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL}">
+        [ngClass]="{'error-incomplete-item': isNotesIncompleteError && !vehicleTest.additionalNotesRecorded && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL}">
         <ion-textarea placeholder="Add notes"
                       rows="5"
                       [(ngModel)]="vehicleTest.additionalNotesRecorded"></ion-textarea>

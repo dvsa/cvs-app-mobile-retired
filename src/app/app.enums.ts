@@ -87,11 +87,44 @@ export enum TEST_TYPE_FIELDS {
   CERTIFICATE_NUMBER_CUSTOM = 'certificateNumberCustom'
 }
 
+export enum TEST_TYPE_SECTIONS {
+  EXPIRY_DATE = 'Expiry date',
+  EMISSION_DETAILS = 'Emission details',
+  MODIFICATION = 'Modification'
+}
+
 export enum TEST_TYPE_INPUTS {
   SIC_CARRIED_OUT = 'seatbeltInstallationCheckDate',
   SIC_SEATBELTS_NUMBER = 'numberOfSeatbeltsFitted',
   SIC_LAST_DATE = 'lastSeatbeltInstallationCheckDate',
-  CERTIFICATE_NUMBER = 'certificateNumber'
+  CERTIFICATE_NUMBER = 'certificateNumber',
+  TEST_RESULT = 'testResult',
+  EXPIRY_DATE = 'expiryDate',
+  MOD_TYPE = 'modType',
+  EMISSION_STANDARD = 'emissionStandard',
+  FUEL_TYPE = 'fuelType',
+  K_LIMIT = 'smokeTestKLimitApplied',
+  PT_SERIAL_NUMBER = 'particulateTrapSerialNumber',
+  PT_FITTED = 'particulateTrapFitted',
+  MOD_TYPE_USED = 'modificationTypeUsed'
+}
+
+export enum MOD_TYPES {
+  P = 'P - Particulate trap',
+  M = 'M - Modification or change of engine',
+  G = 'G - Gas engine'
+}
+
+export enum EMISSION_STANDARD {
+  _016 = '0.16 g/kWh Euro 3 PM',
+  _008 = '0.08 g/kWh Euro 3 PM',
+  _003 = '0.03 g/kWh Euro 4 PM'
+}
+
+export enum FUEL_TYPE {
+  DIESEL = 'Diesel',
+  GAS = 'Gas',
+  PETROL = 'Petrol'
 }
 
 export enum APP_COLORS {
@@ -417,10 +450,14 @@ export enum LEC_CERTIFICATE_NUMBER_PREFIXES {
 
 export enum SPEC_VALUES {
   CERTIFICATE_NUMBER = '67868977',
-  LEC_CERTIFICATE_NUMBER = 'LP67868977'
+  LEC_CERTIFICATE_NUMBER = 'LP67868977',
+  EMISSION_STANDARD = '0.16 g/kWh Euro 3 PM'
 }
 
 export enum TEST_TYPES_IDS {
+  _39 = '39',
+  _44 = '44',
+  _45 = '45',
   _62 = '62',
   _63 = '63',
   _91 = '91',

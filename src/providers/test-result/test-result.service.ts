@@ -106,6 +106,12 @@ export class TestResultService {
           delete testType.reasons;
         }
         testType.certificateNumber = this.formatCertificateNumber(testType);
+        if (testType.modType) {
+          testType.modType = {
+            code: testType.modType.split(' - ')[0],
+            description: testType.modType.split(' - ')[1]
+          }
+        }
         delete testType.completionStatus;
         delete testType.testTypeCategoryName;
         if (testType.numberOfSeatbeltsFitted) testType.numberOfSeatbeltsFitted = parseInt(testType.numberOfSeatbeltsFitted);

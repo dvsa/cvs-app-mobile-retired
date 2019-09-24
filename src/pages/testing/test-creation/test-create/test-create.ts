@@ -18,10 +18,12 @@ import {
   APP,
   APP_STRINGS,
   FIREBASE,
+  MOD_TYPES,
   PAGE_NAMES,
   TEST_COMPLETION_STATUS,
   TEST_TYPE_INPUTS,
-  TEST_TYPE_RESULTS, VEHICLE_TYPE
+  TEST_TYPE_RESULTS,
+  VEHICLE_TYPE
 } from "../../../../app/app.enums";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
@@ -30,6 +32,7 @@ import { AppService } from "../../../../providers/global/app.service";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { AdrTestTypesData } from "../../../../assets/app-data/test-types-data/adr-test-types.data";
+import { LecTestTypesData } from "../../../../assets/app-data/test-types-data/lec-test-types.data";
 
 @IonicPage()
 @Component({
@@ -118,6 +121,19 @@ export class TestCreatePage implements OnInit {
     return vehicle.techRecord.vehicleType.toLowerCase();
   }
 
+  isLecTestTypeInProgress(testType: TestTypeModel): boolean {
+    if (testType && ((testType.testResult === TEST_TYPE_RESULTS.FAIL && testType.additionalNotesRecorded) ||
+      testType.testResult === TEST_TYPE_RESULTS.PASS && testType.testExpiryDate && testType.emissionStandard &&
+      testType.smokeTestKLimitApplied && testType.fuelType && testType.modType &&
+      ((testType.particulateTrapFitted && testType.particulateTrapSerialNumber) || testType.modificationTypeUsed))) {
+      testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
+      return false;
+    } else {
+      testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
+      return true;
+    }
+  }
+
   getTestTypeStatus(vehicle: VehicleModel, testType: TestTypeModel) {
     let isInProgress = true;
     this.testTypeService.updateLinkedTestResults(vehicle, testType);
@@ -140,14 +156,19 @@ export class TestCreatePage implements OnInit {
               }
             } else {
               if (!this.completedFields.hasOwnProperty(input.testTypePropertyName) &&
-                input.testTypePropertyName !== 'testResult' &&
-                input.testTypePropertyName !== 'certificateNumber' &&
-                input.testTypePropertyName !== 'testExpiryDate') {
+                (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT ||
+                  input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER ||
+                  input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE)) {
                 this.completedFields[input.testTypePropertyName] = testType[input.testTypePropertyName];
               }
             }
           }
         }
+
+        if (LecTestTypesData.LecTestTypesDataIds.indexOf(testType.testTypeId) !== -1) {
+          isInProgress = this.isLecTestTypeInProgress(testType);
+        }
+
       } else if (testType.testTypeId === testTypeFieldMetadata.testTypeId && !testTypeFieldMetadata.sections.length) {
         if (!testType.testResult) {
           testType.testResult = this.testTypeService.setTestResult(testType, testTypeFieldMetadata.hasDefects);

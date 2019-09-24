@@ -1,4 +1,4 @@
-import { TEST_TYPE_FIELDS, TEST_TYPE_RESULTS } from "../../../app/app.enums";
+import { MOD_TYPES, TEST_TYPE_FIELDS, TEST_TYPE_RESULTS } from "../../../app/app.enums";
 
 export class TestTypeMetadataMock {
   public static get TestTypeMetadata() {
@@ -78,6 +78,35 @@ export class TestTypeMetadataMock {
               dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
             }
           ]
+        },
+        {
+          sectionName: 'Modification',
+          inputs: [
+            {
+              testTypePropertyName: 'modType',
+              label: 'Mod type',
+              type: 'ddl',
+              title: 'Mod type',
+              values: [
+                {
+                  text: MOD_TYPES.P,
+                  value: MOD_TYPES.P.toLowerCase(),
+                  cssClass: ''
+                },
+                {
+                  text: MOD_TYPES.M,
+                  value: MOD_TYPES.M.toLowerCase(),
+                  cssClass: ''
+                },
+                {
+                  text: MOD_TYPES.G,
+                  value: MOD_TYPES.G.toLowerCase(),
+                  cssClass: ''
+                }
+              ],
+              defaultValue: 'Select',
+              dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+            }]
         }
       ],
       hasDefects: false,

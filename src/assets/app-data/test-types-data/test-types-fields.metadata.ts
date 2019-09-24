@@ -1,6 +1,19 @@
-import { TEST_TYPE_FIELDS, TEST_TYPE_RESULTS } from "../../../app/app.enums";
+import { EMISSION_STANDARD, FUEL_TYPE, MOD_TYPES, TEST_TYPE_FIELDS, TEST_TYPE_RESULTS } from "../../../app/app.enums";
 
 export class TestTypesFieldsMetadata {
+
+  public static get LecMinExpiryDate(): string {
+    let minDate = new Date();
+    minDate.setFullYear(new Date().getFullYear() + 1);
+    return minDate.toISOString();
+  }
+
+  public static get LecMaxExpiryDate(): string {
+    let maxDate = new Date();
+    maxDate.setFullYear(new Date().getFullYear() + 2, new Date().getMonth() - 1);
+    return maxDate.toISOString();
+  }
+
   public static get FieldsMetadata() {
     return [
       {
@@ -1054,12 +1067,142 @@ export class TestTypesFieldsMetadata {
             ]
           },
           {
-            sectionName: 'Certificate number',
+            sectionName: 'Expiry date',
             inputs: [
               {
-                testTypePropertyName: 'certificateNumber',
+                testTypePropertyName: 'testExpiryDate',
                 placeholder: 'Enter',
-                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+                type: TEST_TYPE_FIELDS.EXPIRY_DATE,
+                minDate: TestTypesFieldsMetadata.LecMinExpiryDate,
+                maxDate: TestTypesFieldsMetadata.LecMaxExpiryDate,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+          {
+            sectionName: 'Emission details',
+            inputs: [
+              {
+                testTypePropertyName: 'emissionStandard',
+                label: 'Emission standard',
+                type: 'ddl',
+                title: 'Emission standard',
+                values: [
+                  {
+                    text: EMISSION_STANDARD._016,
+                    value: EMISSION_STANDARD._016,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD._008,
+                    value: EMISSION_STANDARD._008,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD._003,
+                    value: EMISSION_STANDARD._003,
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Select',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              },
+              {
+                testTypePropertyName: 'smokeTestKLimitApplied',
+                title: 'Smoke test "K" limit applied',
+                label: 'Smoke test "K" limit applied',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              },
+              {
+                testTypePropertyName: 'fuelType',
+                label: 'Fuel type',
+                type: 'ddl',
+                title: 'Fuel type',
+                values: [
+                  {
+                    text: FUEL_TYPE.DIESEL,
+                    value: FUEL_TYPE.DIESEL.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.GAS,
+                    value: FUEL_TYPE.GAS.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.PETROL,
+                    value: FUEL_TYPE.PETROL.toLowerCase(),
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Select',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+          {
+            sectionName: 'Modification',
+            inputs: [
+              {
+                testTypePropertyName: 'modType',
+                label: 'Mod type',
+                type: 'ddl',
+                title: 'Mod type',
+                values: [
+                  {
+                    text: MOD_TYPES.P,
+                    value: MOD_TYPES.P.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: MOD_TYPES.M,
+                    value: MOD_TYPES.M.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: MOD_TYPES.G,
+                    value: MOD_TYPES.G.toLowerCase(),
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Select',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              },
+              {
+                testTypePropertyName: 'particulateTrapFitted',
+                title: 'Particulate trap fitted',
+                label: 'Particulate trap fitted',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+              },
+              {
+                testTypePropertyName: 'particulateTrapSerialNumber',
+                title: 'Particulate trap serial number',
+                label: 'Particulate trap serial number',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+              },
+              {
+                testTypePropertyName: 'modificationTypeUsed',
+                title: 'Modification type used',
+                label: 'Modification type used',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()}]
               }
             ],
             dependentOn: ['testResult']
@@ -1155,12 +1298,142 @@ export class TestTypesFieldsMetadata {
             ]
           },
           {
-            sectionName: 'Certificate number',
+            sectionName: 'Expiry date',
             inputs: [
               {
-                testTypePropertyName: 'certificateNumber',
+                testTypePropertyName: 'testExpiryDate',
                 placeholder: 'Enter',
-                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+                type: TEST_TYPE_FIELDS.EXPIRY_DATE,
+                minDate: TestTypesFieldsMetadata.LecMinExpiryDate,
+                maxDate: TestTypesFieldsMetadata.LecMaxExpiryDate,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+          {
+            sectionName: 'Emission details',
+            inputs: [
+              {
+                testTypePropertyName: 'emissionStandard',
+                label: 'Emission standard',
+                type: 'ddl',
+                title: 'Emission standard',
+                values: [
+                  {
+                    text: EMISSION_STANDARD._016,
+                    value: EMISSION_STANDARD._016,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD._008,
+                    value: EMISSION_STANDARD._008,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD._003,
+                    value: EMISSION_STANDARD._003,
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Select',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              },
+              {
+                testTypePropertyName: 'smokeTestKLimitApplied',
+                title: 'Smoke test "K" limit applied',
+                label: 'Smoke test "K" limit applied',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              },
+              {
+                testTypePropertyName: 'fuelType',
+                label: 'Fuel type',
+                type: 'ddl',
+                title: 'Fuel type',
+                values: [
+                  {
+                    text: FUEL_TYPE.DIESEL,
+                    value: FUEL_TYPE.DIESEL.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.GAS,
+                    value: FUEL_TYPE.GAS.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.PETROL,
+                    value: FUEL_TYPE.PETROL.toLowerCase(),
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Select',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+          {
+            sectionName: 'Modification',
+            inputs: [
+              {
+                testTypePropertyName: 'modType',
+                label: 'Mod type',
+                type: 'ddl',
+                title: 'Mod type',
+                values: [
+                  {
+                    text: MOD_TYPES.P,
+                    value: MOD_TYPES.P.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: MOD_TYPES.M,
+                    value: MOD_TYPES.M.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: MOD_TYPES.G,
+                    value: MOD_TYPES.G.toLowerCase(),
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Select',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              },
+              {
+                testTypePropertyName: 'particulateTrapFitted',
+                title: 'Particulate trap fitted',
+                label: 'Particulate trap fitted',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+              },
+              {
+                testTypePropertyName: 'particulateTrapSerialNumber',
+                title: 'Particulate trap serial number',
+                label: 'Particulate trap serial number',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+              },
+              {
+                testTypePropertyName: 'modificationTypeUsed',
+                title: 'Modification type used',
+                label: 'Modification type used',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()}]
               }
             ],
             dependentOn: ['testResult']
@@ -1199,12 +1472,142 @@ export class TestTypesFieldsMetadata {
             ]
           },
           {
-            sectionName: 'Certificate number',
+            sectionName: 'Expiry date',
             inputs: [
               {
-                testTypePropertyName: 'certificateNumber',
+                testTypePropertyName: 'testExpiryDate',
                 placeholder: 'Enter',
-                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+                type: TEST_TYPE_FIELDS.EXPIRY_DATE,
+                minDate: TestTypesFieldsMetadata.LecMinExpiryDate,
+                maxDate: TestTypesFieldsMetadata.LecMaxExpiryDate,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+          {
+            sectionName: 'Emission details',
+            inputs: [
+              {
+                testTypePropertyName: 'emissionStandard',
+                label: 'Emission standard',
+                type: 'ddl',
+                title: 'Emission standard',
+                values: [
+                  {
+                    text: EMISSION_STANDARD._016,
+                    value: EMISSION_STANDARD._016,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD._008,
+                    value: EMISSION_STANDARD._008,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD._003,
+                    value: EMISSION_STANDARD._003,
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Select',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              },
+              {
+                testTypePropertyName: 'smokeTestKLimitApplied',
+                title: 'Smoke test "K" limit applied',
+                label: 'Smoke test "K" limit applied',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              },
+              {
+                testTypePropertyName: 'fuelType',
+                label: 'Fuel type',
+                type: 'ddl',
+                title: 'Fuel type',
+                values: [
+                  {
+                    text: FUEL_TYPE.DIESEL,
+                    value: FUEL_TYPE.DIESEL.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.GAS,
+                    value: FUEL_TYPE.GAS.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.PETROL,
+                    value: FUEL_TYPE.PETROL.toLowerCase(),
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Select',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+          {
+            sectionName: 'Modification',
+            inputs: [
+              {
+                testTypePropertyName: 'modType',
+                label: 'Mod type',
+                type: 'ddl',
+                title: 'Mod type',
+                values: [
+                  {
+                    text: MOD_TYPES.P,
+                    value: MOD_TYPES.P.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: MOD_TYPES.M,
+                    value: MOD_TYPES.M.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: MOD_TYPES.G,
+                    value: MOD_TYPES.G.toLowerCase(),
+                    cssClass: ''
+                  }
+                ],
+                defaultValue: 'Select',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              },
+              {
+                testTypePropertyName: 'particulateTrapFitted',
+                title: 'Particulate trap fitted',
+                label: 'Particulate trap fitted',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+              },
+              {
+                testTypePropertyName: 'particulateTrapSerialNumber',
+                title: 'Particulate trap serial number',
+                label: 'Particulate trap serial number',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+              },
+              {
+                testTypePropertyName: 'modificationTypeUsed',
+                title: 'Modification type used',
+                label: 'Modification type used',
+                type: 'number',
+                defaultValue: 'Enter',
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
+                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()}]
               }
             ],
             dependentOn: ['testResult']

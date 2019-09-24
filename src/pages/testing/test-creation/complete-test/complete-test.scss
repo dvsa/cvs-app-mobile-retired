@@ -111,6 +111,7 @@ ion-app.ios page-complete-test {
   }
 
   .certificate-number-guidance {
+    margin-bottom: 0;
     color: $color-grey-1;
   }
 
@@ -165,5 +166,12 @@ ion-app.ios page-complete-test {
   .list-ios .item-block .item-inner,
   .item-ios.item-block .item-inner {
     border-bottom: none;
+  }
+
+  .overflow-hidden {
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

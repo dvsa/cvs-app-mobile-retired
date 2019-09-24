@@ -7,8 +7,13 @@ import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ODOMETER_METRIC, VEHICLE_TYPE, TEST_COMPLETION_STATUS } from "../../../../app/app.enums";
-import { TestModel } from "../../../../models/tests/test.model";
+import {
+  ODOMETER_METRIC,
+  VEHICLE_TYPE,
+  TEST_COMPLETION_STATUS,
+  TEST_TYPE_RESULTS,
+  MOD_TYPES
+} from "../../../../app/app.enums";
 import { TestService } from "../../../../providers/test/test.service";
 import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
 import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
@@ -36,7 +41,6 @@ describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
   let fixture: ComponentFixture<TestCreatePage>;
   let navCtrl: NavController;
-  let navCtrlSpy: any;
   let navParams: NavParams;
   let vehicleService: VehicleService;
   let visitService: VisitService;
@@ -47,14 +51,6 @@ describe('Component: TestCreatePage', () => {
   let firebaseLogsService: FirebaseLogsService;
   let modalctrl: ModalController;
   let commonFuncService: CommonFunctionsService;
-
-  const testReport: TestModel = {
-    startTime: null,
-    endTime: null,
-    status: null,
-    reasonForCancellation: '',
-    vehicles: [],
-  };
 
   const ADDED_VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
@@ -322,5 +318,32 @@ describe('Component: TestCreatePage', () => {
     let vehicle = Object.create(VehicleDataMock.VehicleData);
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL)).toBeFalsy();
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
+  });
+
+  it('should check if a lec test-type is in progress or not', () => {
+    let testType = {...ADDED_VEHICLE_TEST};
+    testType.testResult = TEST_TYPE_RESULTS.FAIL;
+    testType.additionalNotesRecorded = 'notes';
+    expect(component.isLecTestTypeInProgress(testType)).toBeFalsy();
+
+    testType = {...ADDED_VEHICLE_TEST};
+    testType.testResult = TEST_TYPE_RESULTS.PASS;
+    testType.testExpiryDate = '2019-10-31';
+    testType.emissionStandard = 'emission';
+    testType.smokeTestKLimitApplied = 'smoke';
+    testType.fuelType = 'petrol';
+    testType.modType = MOD_TYPES.P;
+    testType.particulateTrapFitted = 'trap';
+    testType.particulateTrapSerialNumber = 'number';
+    expect(component.isLecTestTypeInProgress(testType)).toBeFalsy();
+
+    testType.modType = MOD_TYPES.G;
+    testType.particulateTrapFitted = null;
+    testType.particulateTrapSerialNumber = null;
+    testType.modificationTypeUsed = 'mod';
+    expect(component.isLecTestTypeInProgress(testType)).toBeFalsy();
+
+    testType.modType = null;
+    expect(component.isLecTestTypeInProgress(testType)).toBeTruthy();
   });
 });
