@@ -24,7 +24,7 @@ export class AddDefectPage implements OnInit {
   fromTestReview: boolean;
   searchVal: string = '';
   focusOut: boolean = false;
-  appStrings: {} = APP_STRINGS;
+  appStrings: typeof APP_STRINGS = APP_STRINGS;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public defectsService: DefectsService, public events: Events, public commonFunc: CommonFunctionsService) {
     this.vehicleType = navParams.get('vehicleType');

@@ -10,11 +10,16 @@ import {
   ViewController
 } from "ionic-angular";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DefectsReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
-import { DEFICIENCY_CATEGORY, TEST_TYPE_RESULTS } from "../../../../app/app.enums";
+import {
+  DEFICIENCY_CATEGORY, MOD_TYPES,
+  SPEC_VALUES,
+  TEST_TYPE_RESULTS, TEST_TYPE_SECTIONS,
+  TEST_TYPES_IDS
+} from "../../../../app/app.enums";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
@@ -93,6 +98,7 @@ describe('Component: CompleteTestPage', () => {
       imports: [IonicModule.forRoot(CompleteTestPage)],
       providers: [
         NavController,
+        ChangeDetectorRef,
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: VisitService, useClass: VisitServiceMock},
@@ -212,13 +218,16 @@ describe('Component: CompleteTestPage', () => {
     comp.updateTestType();
     expect(comp.vehicleTest.numberOfSeatbeltsFitted).toEqual(3);
   });
-  ;
 
   it('should get the correct ddl value to be displayed', () => {
     comp.completedFields = {};
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.PASS;
     expect(comp.getDDLValueToDisplay(TEST_TYPES_METADATA.sections[0].inputs[0])).toEqual('Pass');
+
+    comp.vehicleTest = {...VEHICLE_TEST};
+    comp.vehicleTest.modType = MOD_TYPES.P.toLowerCase();
+    expect(comp.getDDLValueToDisplay(TEST_TYPES_METADATA.sections[3].inputs[0])).toEqual('P');
   });
 
   it('should tell if a section can be displayed', () => {
@@ -227,6 +236,11 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.canDisplaySection(TEST_TYPES_METADATA.sections[1])).toBeFalsy();
     comp.vehicleTest[TEST_TYPES_METADATA.sections[1].dependentOn[0]] = 'pass';
     expect(comp.canDisplaySection(TEST_TYPES_METADATA.sections[1])).toBeTruthy();
+    comp.vehicleTest.testTypeId = TEST_TYPES_IDS._44;
+    comp.vehicleTest.testResult = TEST_TYPE_RESULTS.FAIL;
+    let section = TestTypeMetadataMock.TestTypeMetadata.sections[0];
+    section.sectionName = TEST_TYPE_SECTIONS.EMISSION_DETAILS;
+    expect(comp.canDisplaySection(section)).toBeFalsy();
   });
 
   it('should tell if an input can be displayed', () => {
@@ -258,6 +272,24 @@ describe('Component: CompleteTestPage', () => {
     comp.createDDLButtonHandler(input, 1);
     expect(comp.vehicleTest.certificateNumber).toBe(null);
     expect(comp.vehicleTest.testExpiryDate).toBe(null);
+
+    comp.vehicleTest.testTypeId = TEST_TYPES_IDS._44;
+    comp.vehicleTest.testResult = TEST_TYPE_RESULTS.FAIL;
+    comp.vehicleTest.emissionStandard = SPEC_VALUES.EMISSION_STANDARD;
+    input = TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0];
+    comp.createDDLButtonHandler(input, 1);
+    expect(comp.vehicleTest.emissionStandard).toBeNull();
+
+    comp.vehicleTest.modificationTypeUsed = 'mod';
+    input = TestTypeMetadataMock.TestTypeMetadata.sections[3].inputs[0];
+    comp.createDDLButtonHandler(input, 0);
+    expect(comp.vehicleTest.modificationTypeUsed).toBeNull();
+
+    comp.vehicleTest.particulateTrapFitted = 'jhb56';
+    comp.vehicleTest.particulateTrapSerialNumber = 'serial';
+    comp.createDDLButtonHandler(input, 1);
+    expect(comp.vehicleTest.particulateTrapFitted).toBeNull();
+    expect(comp.vehicleTest.particulateTrapSerialNumber).toBeNull();
   });
 
   it('should test ionViewWillEnter logic', () => {
@@ -272,13 +304,13 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should activate the notifiable alteration error if certain condition met', () => {
-    comp.isNotifiableAlterationError = false;
+    comp.isNotesIncompleteError = false;
     comp.isNotifiableAlteration = true;
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.FAIL;
     comp.vehicleTest.additionalNotesRecorded = null;
     comp.onSave();
-    expect(comp.isNotifiableAlterationError).toBeTruthy();
+    expect(comp.isNotesIncompleteError).toBeTruthy();
   });
 
   it('should display the roadworthinessCertificate input field if the testtype is a roadworthiness test and there are no critical defects', () => {
@@ -302,6 +334,7 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should test openInputModalDismissHandler logic', () => {
+    comp.vehicleTest = navParams.get('vehicleTest');
     comp.openInputModalDismissHandler(TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0], {
       fromTestReview: false,
       errorIncomplete: false
@@ -310,6 +343,7 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should test openInputPage logic', () => {
+    comp.vehicleTest = navParams.get('vehicleTest');
     comp.testTypeDetails = TestTypeMetadataMock.TestTypeMetadata;
     comp.completedFields = {};
     comp.openInputPage(TestTypeMetadataMock.TestTypeMetadata.sections[0], TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0]);

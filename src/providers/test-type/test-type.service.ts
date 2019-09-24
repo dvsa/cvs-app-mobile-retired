@@ -18,8 +18,7 @@ export class TestTypeService {
   constructor(private storageService: StorageService,
               public visitService: VisitService,
               public commonFunctions: CommonFunctionsService,
-              private firebaseLogsService: FirebaseLogsService
-  ) {
+              private firebaseLogsService: FirebaseLogsService) {
   }
 
   createTestType(testType: TestTypesReferenceDataModel, vehicleType: string): TestTypeModel {
@@ -35,9 +34,16 @@ export class TestTypeService {
       newTestType.lastSeatbeltInstallationCheckDate = null;
       newTestType.seatbeltInstallationCheckDate = null;
     }
-    if (vehicleType !== VEHICLE_TYPE.PSV) {
-      newTestType.testExpiryDate = null;
+    if (vehicleType !== VEHICLE_TYPE.TRL) {
+      newTestType.modType = null;
+      newTestType.emissionStandard = null;
+      newTestType.fuelType = null;
+      newTestType.smokeTestKLimitApplied = null;
+      newTestType.particulateTrapFitted = null;
+      newTestType.particulateTrapSerialNumber = null;
+      newTestType.modificationTypeUsed = null;
     }
+    newTestType.testExpiryDate = null;
     newTestType.testResult = null;
     newTestType.prohibitionIssued = false;
     newTestType.reasonForAbandoning = null;
