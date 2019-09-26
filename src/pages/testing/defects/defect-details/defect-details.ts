@@ -8,9 +8,10 @@ import {
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { APP_STRINGS, DEFICIENCY_CATEGORY, FIREBASE_DEFECTS } from "../../../../app/app.enums";
+import {APP_STRINGS, DEFICIENCY_CATEGORY, FIREBASE_DEFECTS, TEST_TYPE_RESULTS} from '../../../../app/app.enums';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { ProhibitionClearanceTestTypesData } from "../../../../assets/app-data/test-types-data/prohibition-clearance-test-types.data";
+import {TestTypesFieldsMetadata} from '../../../../assets/app-data/test-types-data/test-types-fields.metadata';
 
 @IonicPage()
 @Component({
@@ -69,6 +70,14 @@ export class DefectDetailsPage implements OnInit {
     }
   }
 
+  /**
+   * Logic on how to go back to complete-test (Test type details) page and add the current defect.
+   * This is when you press Done on defect-details page (Defect details)(when adding a new defect OR when changing an existing defect)
+   * Note: you cannot close complete-test page without saving it so it's ok to add the defect to the test here.
+   *
+   * This adds a defect only is it's first time add defect.
+   * If the "Done" button is pressed on a changed defect, testTypeService.addDefect will not be called
+   */
   addDefect(): void {
     if (!this.fromTestReview) {
       let views = this.navCtrl.getViews();
@@ -82,7 +91,17 @@ export class DefectDetailsPage implements OnInit {
       if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
       this.navCtrl.popToRoot();
     }
+
+    if (this.getTestTypeDetailsFromFieldsMetadata(this.vehicleTest).hasRoadworthinessCertificate &&
+      this.testTypeService.setTestResult(this.vehicleTest, this.getTestTypeDetailsFromFieldsMetadata(this.vehicleTest).hasDefects) === TEST_TYPE_RESULTS.FAIL) {
+      this.vehicleTest.certificateNumber = null;
+    }
+
     if (this.notesChanged) this.logFirebaseNotesChanged();
+  }
+
+  private getTestTypeDetailsFromFieldsMetadata(testTypeModel: TestTypeModel) {
+    return TestTypesFieldsMetadata.FieldsMetadata.find((fieldsMetadata) => testTypeModel.testTypeId === fieldsMetadata.testTypeId);
   }
 
   checkForLocation(location: {}): boolean {

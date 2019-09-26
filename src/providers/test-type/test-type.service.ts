@@ -9,7 +9,6 @@ import { VisitService } from "../visit/visit.service";
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { FirebaseLogsService } from '../firebase-logs/firebase-logs.service';
-import {TestTypesFieldsMetadata} from '../../assets/app-data/test-types-data/test-types-fields.metadata';
 
 @Injectable()
 export class TestTypeService {
@@ -52,16 +51,8 @@ export class TestTypeService {
 
   addDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     testType.defects.push(defect);
-    if (this.getTestTypeDetailsFromFieldsMetadata(testType).hasRoadworthinessCertificate &&
-      this.setTestResult(testType, this.getTestTypeDetailsFromFieldsMetadata(testType).hasDefects) === TEST_TYPE_RESULTS.FAIL) {
-        testType.certificateNumber = null;
-    }
     this.visitService.updateVisit();
     this.logFirebaseAddDefect(defect.deficiencyRef);
-  }
-
-  private getTestTypeDetailsFromFieldsMetadata(testTypeModel: TestTypeModel) {
-    return TestTypesFieldsMetadata.FieldsMetadata.find((fieldsMetadata) => testTypeModel.testTypeId === fieldsMetadata.testTypeId);
   }
 
   private logFirebaseAddDefect(deficiencyRef: string) {
