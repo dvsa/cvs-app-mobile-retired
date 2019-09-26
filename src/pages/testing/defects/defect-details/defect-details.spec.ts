@@ -13,9 +13,15 @@ import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { By } from "@angular/platform-browser";
-import { TEST_TYPE_RESULTS, DEFICIENCY_CATEGORY, FIREBASE_DEFECTS, APP_STRINGS } from "../../../../app/app.enums";
+import {
+  TEST_TYPE_RESULTS,
+  DEFICIENCY_CATEGORY,
+  FIREBASE_DEFECTS,
+  APP_STRINGS,
+  TEST_TYPES_IDS
+} from '../../../../app/app.enums';
 import { NavControllerMock } from "../../../../../test-config/ionic-mocks/nav-controller.mock";
-import { TestService } from "../../../../providers/test/test.service";
+import {DefectDetailsDataMock} from '../../../../assets/data-mocks/defect-details-data.mock';
 
 describe('Component: DefectDetailsPage', () => {
   let comp: DefectDetailsPage;
@@ -283,7 +289,7 @@ describe('Component: DefectDetailsPage', () => {
     expect(comp.showProhibitionAlert).toHaveBeenCalledWith(APP_STRINGS.PROHIBITION_MSG_CONFIRM);
   });
 
-  it('should set the PRS state on a test having a dangerous defect which has been rectivied on site', () => {
+  it('should set the PRS state on a test having a dangerous defect which has been rectified on site', () => {
     expect(vehicleTest.defects.length).toBe(2);
     vehicleTest.defects[0].deficiencyCategory = DEFICIENCY_CATEGORY.DANGEROUS;
     vehicleTest.defects.map(defect => {
@@ -292,4 +298,50 @@ describe('Component: DefectDetailsPage', () => {
     let testResult: (string | TEST_TYPE_RESULTS) = testTypeService.setTestResult(comp.vehicleTest, true);
     expect(testResult).toBe(TEST_TYPE_RESULTS.PRS);
   });
+
+  it('it should reset the certificate number on a roadworthiness test if the defect to add is critical', () => {
+    comp.fromTestReview = true;
+
+    comp.vehicleTest = TestTypeDataModelMock.TestTypeData;
+    comp.vehicleTest.testTypeId = TEST_TYPES_IDS._62;
+    comp.vehicleTest.certificateNumber = 'TESTCERTIFICATE';
+
+    comp.defect = DefectDetailsDataMock.DefectData;
+    comp.defect.prs = false;
+    comp.defect.deficiencyCategory = DEFICIENCY_CATEGORY.MAJOR;
+
+    comp.checkProhibitionStatus();
+    expect(comp.vehicleTest.certificateNumber).toBeNull();
+  });
+
+  it('it should not reset the certificate number on a roadworthiness test if the defect to be added is prs', () => {
+    comp.fromTestReview = true;
+
+    comp.vehicleTest = TestTypeDataModelMock.TestTypeData;
+    comp.vehicleTest.testTypeId = TEST_TYPES_IDS._63;
+    comp.vehicleTest.certificateNumber = 'TESTCERTIFICATE';
+
+    comp.defect = DefectDetailsDataMock.DefectData;
+    comp.defect.prs = true;
+    comp.defect.deficiencyCategory = DEFICIENCY_CATEGORY.DANGEROUS;
+
+    comp.checkProhibitionStatus();
+    expect(comp.vehicleTest.certificateNumber).toBe('TESTCERTIFICATE');
+  });
+
+  it('it should not reset the certificate number on a roadworthiness test if the defect to be added is minor', () => {
+    comp.fromTestReview = true;
+
+    comp.vehicleTest = TestTypeDataModelMock.TestTypeData;
+    comp.vehicleTest.testTypeId = TEST_TYPES_IDS._91;
+    comp.vehicleTest.certificateNumber = 'TESTCERTIFICATE';
+
+    comp.defect = DefectDetailsDataMock.DefectData;
+    comp.defect.prs = false;
+    comp.defect.deficiencyCategory = DEFICIENCY_CATEGORY.MINOR;
+
+    comp.checkProhibitionStatus();
+    expect(comp.vehicleTest.certificateNumber).toBe('TESTCERTIFICATE');
+  });
+
 });
