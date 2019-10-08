@@ -8,6 +8,7 @@ import {APP_STRINGS, TECH_RECORD_STATUS} from '../../../../app/app.enums';
 import {FormatVrmPipe} from '../../../../pipes/format-vrm/format-vrm.pipe';
 import {VehicleDataMock} from '../../../../assets/data-mocks/vehicle-data.mock';
 import {VehicleBrakesPage} from './vehicle-brakes';
+import {FormatBooleanPipe} from '../../../../pipes/format-boolean/format-boolean.pipe';
 
 describe('Component: VehicleBrakesPage', () => {
   let component: VehicleBrakesPage;
@@ -16,7 +17,7 @@ describe('Component: VehicleBrakesPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [VehicleBrakesPage, FormatVrmPipe],
+      declarations: [VehicleBrakesPage, FormatVrmPipe, FormatBooleanPipe],
       imports: [IonicModule.forRoot(VehicleBrakesPage)],
       providers: [
         NavController,
