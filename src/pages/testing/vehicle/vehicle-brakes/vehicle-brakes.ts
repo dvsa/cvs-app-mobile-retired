@@ -11,7 +11,6 @@ import { APP_STRINGS, VEHICLE_TYPE } from "../../../../app/app.enums";
 })
 export class VehicleBrakesPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE=VEHICLE_TYPE;
-  APP_STRINGS: typeof APP_STRINGS=APP_STRINGS;
   vehicleData: VehicleModel;
 
   constructor(public navCtrl: NavController,
