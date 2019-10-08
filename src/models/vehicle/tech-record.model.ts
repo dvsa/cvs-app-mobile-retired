@@ -149,6 +149,6 @@ export interface VehicleClassModel {
 
 export interface AxleBrakePropertiesModel {
   brakeActuator: number;
-  leverLenght: number;
-  springBrakeParking: number;
+  leverLength: number;
+  springBrakeParking: boolean;
 }
