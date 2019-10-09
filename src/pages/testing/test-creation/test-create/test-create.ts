@@ -254,14 +254,14 @@ export class TestCreatePage implements OnInit {
   reviewTest(): void {
     let allVehiclesHaveTests: boolean = true;
     this.changeOpacity = true;
-    let finishedTest;
+    let finishedTest = true;
     let requiredFieldsCompleted = true;
     for (let vehicle of this.testData.vehicles) {
       if (!vehicle.countryOfRegistration || !vehicle.euVehicleCategory || (vehicle.techRecord.vehicleType !== VEHICLE_TYPE.TRL && !vehicle.odometerReading)) {
         this.logMissingFields(vehicle);
         requiredFieldsCompleted = false;
       }
-      finishedTest = vehicle.testTypes.every((test: TestTypeModel) => {
+      finishedTest = finishedTest && vehicle.testTypes.every((test: TestTypeModel) => {
         return test.completionStatus != TEST_COMPLETION_STATUS.IN_PROGRESS || test.testResult === TEST_TYPE_RESULTS.ABANDONED;
       });
       allVehiclesHaveTests = allVehiclesHaveTests && (vehicle.testTypes.length > 0);
