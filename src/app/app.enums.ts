@@ -386,11 +386,9 @@ export enum FIREBASE {
   NOT_ALL_TESTS_COMPLETED = 'Not all tests completed before review',
   NO_TEST_ADDED = 'No test added before review',
   SUBMIT_TEST = 'submit_test',
+  SUBMIT_VISIT = 'submit_visit',
   CANCEL_TEST = 'cancel_test',
   TEST_ERROR = 'test_error',
-  TEST_EVENT = 'test_event',
-  PAGE_VIEW = 'page_view',
-  OPEN_APP = 'open_app',
   ERROR = 'error',
   ENDING_ACTIVITY_FAILED = 'Ending activity failed',
   TEST_SUBMISSION_FAILED = 'Test submission failed',
@@ -411,7 +409,9 @@ export enum FIREBASE {
   ADD_TEST_TYPE_END_TIME = 'add_test_type_end_time',
   REMOVE_TEST_TYPE = 'remove_test_type',
   ABANDON_TEST_TYPE = 'abandon_test_type',
-  TEST_TYPE_NAME = 'test_type_name'
+  TEST_TYPE_NAME = 'test_type_name',
+  IOS_FONT_SIZE_USAGE = 'ios_font_size_usage',
+  IOS_VOICEOVER_USAGE = 'ios_voiceover_usage'
 }
 
 export enum FIREBASE_AUTH {
@@ -436,6 +436,26 @@ export enum FIREBASE_DEFECTS {
   DEFICIENCY_REFERENCE = 'deficiency_reference',
   ADD_DEFECT_START_TIME = 'add_defect_start_time',
   ADD_DEFECT_END_TIME = 'add_defect_end_time'
+}
+
+export enum FIREBASE_SCREEN_NAMES {
+  GET_STARTED = 'Get Started Screen',
+  TEST_STATION_SEARCH = 'Test Station Search Screen',
+  TEST_STATION_DETAILS = 'Test Station Details Screen',
+  VISIT_TIMELINE = 'Visit Timeline Screen',
+  VEHICLE_SEARCH = 'Vehicle Search Screen',
+  VEHICLE_DETAILS = 'Vehicle Details Screen',
+  VEHICLE_TEST_HISTORY = 'Vehicle Test History Screen',
+  VEHICLE_TEST_HISTORY_DETAILS = 'Vehicle Test History Details Screen',
+  ENTER_PREPARER = 'Enter Preparer Screen',
+  TEST_OVERVIEW = 'Test Overview Screen',
+  TEST_TYPE_DETAILS = 'Test Type Details Screen',
+  TEST_REVIEW = 'Test Review Screen',
+  TEST_CANCEL = 'Test Cancel Screen'
+}
+
+export enum ACCESSIBILITY_DEFAULT_VALUES {
+  TEXT_SIZE = 106
 }
 
 export enum LOG_TYPES {

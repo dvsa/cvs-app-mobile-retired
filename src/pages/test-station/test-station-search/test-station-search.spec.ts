@@ -5,12 +5,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestStationService } from "../../../providers/test-station/test-station.service";
 import { TestStationReferenceDataModel } from "../../../models/reference-data-models/test-station.model";
 import { NavControllerMock } from "ionic-mocks";
+import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: TestStationSearchPage', () => {
   let comp: TestStationSearchPage;
   let fixture: ComponentFixture<TestStationSearchPage>;
   let testStationService: TestStationService;
   let navCtrl: NavController;
+  let firebaseLogsService: FirebaseLogsService;
 
 
   beforeEach(async(() => {
@@ -23,7 +26,8 @@ describe('Component: TestStationSearchPage', () => {
       ],
       providers: [
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
-        {provide: TestStationService, useValue: testStationServiceSpy}
+        {provide: TestStationService, useValue: testStationServiceSpy},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -34,6 +38,7 @@ describe('Component: TestStationSearchPage', () => {
     comp = fixture.componentInstance;
     testStationService = TestBed.get(TestStationService);
     navCtrl = TestBed.get(NavController);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   afterEach(() => {
@@ -47,6 +52,12 @@ describe('Component: TestStationSearchPage', () => {
     expect(comp).toBeTruthy();
     expect(testStationService).toBeTruthy();
     done();
+  });
+
+  it('should test ionViewDidEnterLogic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    comp.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
   it('should TestStationService and TestStationSearchPage Component share the same instance',

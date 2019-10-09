@@ -1,6 +1,6 @@
-import {TestBed} from "@angular/core/testing";
-import {Firebase} from "@ionic-native/firebase";
-import {FirebaseLogsService} from "./firebase-logs.service";
+import { TestBed } from "@angular/core/testing";
+import { Firebase } from "@ionic-native/firebase";
+import { FirebaseLogsService } from "./firebase-logs.service";
 
 describe('Provider: FirebaseLogsService', () => {
   let firebaseLogsService: FirebaseLogsService;
@@ -11,7 +11,7 @@ describe('Provider: FirebaseLogsService', () => {
     TestBed.configureTestingModule({
       providers: [
         FirebaseLogsService,
-        {provide: Firebase, useValue: jasmine.createSpyObj<Firebase>(['logEvent'])}
+        {provide: Firebase, useValue: jasmine.createSpyObj<Firebase>(['logEvent', 'setScreenName'])}
       ]
     });
 
@@ -59,9 +59,14 @@ describe('Provider: FirebaseLogsService', () => {
     expect(firebase.logEvent).toHaveBeenCalled();
   });
 
-  it('should calculate date difference in HH:MM:SS', () => {
+  it('should calculate date difference in seconds', () => {
     let start = 1560410995134;
     let end = 1560411004732;
-    expect(firebaseLogsService.differenceInHMS(start, end)).toBe('0:0:9');
+    expect(firebaseLogsService.differenceInSeconds(start, end)).toBe(10);
+  });
+
+  it('should call setScreenName method ', () => {
+    firebaseLogsService.setScreenName('Screen Name');
+    expect(firebase.setScreenName).toHaveBeenCalledWith('Screen Name');
   });
 });

@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, LoadingController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
-import { APP_STRINGS, PAGE_NAMES, AUTH } from "../../../app/app.enums";
+import { APP_STRINGS, PAGE_NAMES, AUTH, FIREBASE_SCREEN_NAMES } from "../../../app/app.enums";
 import { VisitService } from "../../../providers/visit/visit.service";
 import { CallNumber } from "@ionic-native/call-number";
-import { AppConfig } from "../../../../config/app.config";
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { Firebase } from '@ionic-native/firebase';
 import { Subscription } from 'rxjs';
@@ -13,13 +12,14 @@ import { AuthService } from "../../../providers/global/auth.service";
 import { Store } from "@ngrx/store";
 import { Log, LogsModel } from "../../../modules/logs/logs.model";
 import * as logsActions from "../../../modules/logs/logs.actions";
+import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
   selector: 'page-test-station-details',
   templateUrl: 'test-station-details.html'
 })
-export class TestStationDetailsPage implements OnInit {
+export class TestStationDetailsPage {
   testStation: TestStationReferenceDataModel;
   changeOpacity: boolean = false;
   nextAlert: boolean = false;
@@ -37,11 +37,13 @@ export class TestStationDetailsPage implements OnInit {
               private firebase: Firebase,
               private loadingCtrl: LoadingController,
               private authService: AuthService,
-              private store$: Store<LogsModel>) {
+              private store$: Store<LogsModel>,
+              private firebaseLogsService: FirebaseLogsService) {
     this.testStation = navParams.get('testStation');
   }
 
-  ngOnInit() {
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_STATION_DETAILS);
   }
 
   ionViewDidLoad() {

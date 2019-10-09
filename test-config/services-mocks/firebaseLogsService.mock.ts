@@ -1,3 +1,5 @@
+import { FirebaseLogsService } from "../../src/providers/firebase-logs/firebase-logs.service";
+
 export class FirebaseLogsServiceMock {
   search_vehicle_time = {
     search_vehicle_start_time: 0,
@@ -36,18 +38,17 @@ export class FirebaseLogsServiceMock {
   };
 
   constructor() {
-
   }
 
   logEvent(eventName: string, paramName: string, paramValue: any): Promise<any> {
     return Promise.resolve(true);
   }
 
-  differenceInHMS(start, end): string {
-    let date = new Date(end - start);
-    let hour = date.getUTCHours();
-    let min = date.getUTCMinutes();
-    let sec = date.getUTCSeconds();
-    return `${hour}:${min}:${sec}`
+  setScreenName(screenName: string) {
+    return Promise.resolve(true);
+  }
+
+  differenceInSeconds(start, end): number {
+    return FirebaseLogsService.prototype.differenceInSeconds(start, end);
   }
 }

@@ -23,7 +23,8 @@ import {
   FIREBASE,
   VISIT,
   LOG_TYPES,
-  VEHICLE_TYPE
+  VEHICLE_TYPE,
+  FIREBASE_SCREEN_NAMES
 } from "../../../app/app.enums";
 import { StorageService } from "../../../providers/natives/storage.service";
 import { AppService } from "../../../providers/global/app.service";
@@ -86,6 +87,7 @@ export class VisitTimelinePage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VISIT_TIMELINE);
     if (!this.activityService.waitTimeStarted && this.canAddOtherWaitingTime(this.timeline)) {
       this.timeout = setTimeout(() => {
         let waitActivity: ActivityModel = this.activityService.createActivity(this.visit, VISIT.ACTIVITY_TYPE_WAIT, true, true);
@@ -155,6 +157,7 @@ export class VisitTimelinePage implements OnInit {
           timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
+        this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_VISIT);
         clearTimeout(this.timeout);
         let activity: ActivityModel = this.activityService.createActivityBodyForCall(this.visitService.visit, null, this.timeline);
         this.activityService.submitActivity(activity).subscribe(

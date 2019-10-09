@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController } from 'ionic-angular';
 import { StorageService } from "../../../providers/natives/storage.service";
 import { VisitService } from "../../../providers/visit/visit.service";
-import { APP_STRINGS, PAGE_NAMES, TESTER_ROLES } from "../../../app/app.enums";
+import { APP_STRINGS, FIREBASE_SCREEN_NAMES, PAGE_NAMES, TESTER_ROLES } from "../../../app/app.enums";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { AppService } from "../../../providers/global/app.service";
 import { AuthService } from "../../../providers/global/auth.service";
@@ -12,6 +12,7 @@ import { Log, LogsModel } from "../../../modules/logs/logs.model";
 import { Store } from "@ngrx/store";
 import { StartSendingLogs } from "../../../modules/logs/logs.actions";
 import { NetworkStateProvider } from "../../../modules/logs/network-state.service";
+import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -30,7 +31,8 @@ export class TestStationHomePage implements OnInit {
               private alertCtrl: AlertController,
               private callNumber: CallNumber,
               private store$: Store<LogsModel>,
-              private networkStateProvider: NetworkStateProvider) {
+              private networkStateProvider: NetworkStateProvider,
+              private firebaseLogsService: FirebaseLogsService) {
   }
 
   ngOnInit() {
@@ -58,6 +60,10 @@ export class TestStationHomePage implements OnInit {
       });
       alert.present();
     }
+  }
+
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.GET_STARTED);
   }
 
   getStarted(): void {

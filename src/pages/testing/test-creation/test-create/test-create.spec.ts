@@ -138,6 +138,12 @@ describe('Component: TestCreatePage', () => {
     expect(component.displayAddVehicleButton).toBeTruthy();
   });
 
+  it('should test ionViewDidEnterLogic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    component.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
+  });
+
   it('should say either a test is abandoned or not', () => {
     expect(component.isTestAbandoned(ADDED_VEHICLE_TEST)).toBeFalsy();
     ADDED_VEHICLE_TEST.reasons.push('Best reason');
@@ -236,6 +242,36 @@ describe('Component: TestCreatePage', () => {
     component.testData = newTest;
 
     component.reviewTest();
+  });
+
+  it('should not allow to review a combination test if at least one vehicle has an incomplete test', () => {
+    let newTest = testService.createTest();
+    let completeTest = TestTypeDataModelMock.TestTypeData;
+    completeTest.testTypeId = '90';
+    let incompleteTest = TestTypeDataModelMock.TestTypeData;
+    incompleteTest.testTypeId = '90';
+    incompleteTest.testResult = null;
+
+    let hgv = vehicleService.createVehicle(vehicle);
+    vehicleService.addTestType(hgv, incompleteTest);
+    hgv.techRecord.vehicleType=VEHICLE_TYPE.HGV;
+    hgv.countryOfRegistration = 'United Kingdom';
+    hgv.euVehicleCategory = 'n1';
+    hgv.odometerReading = '122';
+    newTest.vehicles.push(hgv);
+
+    let trailer = vehicleService.createVehicle(vehicle);
+    vehicleService.addTestType(trailer, completeTest);
+    trailer.techRecord.vehicleType=VEHICLE_TYPE.TRL;
+    trailer.countryOfRegistration = 'United Kingdom';
+    trailer.euVehicleCategory = 'o2';
+    newTest.vehicles.push(trailer);
+
+    component.testData = newTest;
+    component.reviewTest();
+    expect(component.errorIncomplete).toBe(true);
+    expect(navCtrl.pop).not.toHaveBeenCalled();
+    expect(navCtrl.push).not.toHaveBeenCalled();
   });
 
   it('should test firebase logging when adding a test type', () => {
