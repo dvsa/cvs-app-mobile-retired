@@ -51,6 +51,22 @@ export class TestStationDataMock {
         testStationEmails: [
           "teststationname@dvsa.gov.uk"
         ]
+      }, {
+        testStationId: '124112',
+        testStationName: 'ATF without testStationAddress',
+        testStationPNumber: '124112',
+        testStationContactNumber: '124112',
+        testStationAccessNotes: 'note2',
+        testStationGeneralNotes: 'gNote2',
+        testStationTown: 'town2',
+        testStationAddress: null,
+        testStationPostcode: '2222',
+        testStationLongitude: 5,
+        testStationLatitude: 6,
+        testStationType: 'atf',
+        testStationEmails: [
+          'teststationname@dvsa.gov.uk'
+        ]
       },
     ];
   }

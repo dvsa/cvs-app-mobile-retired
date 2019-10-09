@@ -39,7 +39,7 @@ export class TestStationService {
             for (let key in item) {
               let propIndex: number = properties.indexOf(key);
               if (propIndex != -1) {
-                if (item[key].toString().toLowerCase().includes(filter.toLowerCase())) {
+                if (item[key]!==null && item[key].toString().toLowerCase().includes(filter.toLowerCase())) {
                   item.searchProperty = properties[propIndex];
                   return item;
                 }
