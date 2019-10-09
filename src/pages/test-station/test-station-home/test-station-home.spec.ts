@@ -17,6 +17,8 @@ import { Store } from "@ngrx/store";
 import { NetworkStateProvider } from "../../../modules/logs/network-state.service";
 import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec";
 import { AppServiceMock } from "../../../../test-config/services-mocks/app-service.mock";
+import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: TestStationHomePage', () => {
   let comp: TestStationHomePage;
@@ -35,6 +37,7 @@ describe('Component: TestStationHomePage', () => {
   let networkStateProvider: NetworkStateProvider;
   let networkStateProviderSpy: any;
   let $store: any;
+  let firebaseLogsService: FirebaseLogsService;
 
 
   beforeEach(async(() => {
@@ -56,6 +59,7 @@ describe('Component: TestStationHomePage', () => {
         {provide: ScreenOrientation, useValue: screenOrientationSpy},
         {provide: AuthService, useClass: AuthServiceMock},
         {provide: Store, useClass: TestStore},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: CallNumber, useValue: callNumberSpy},
         {provide: NetworkStateProvider, useValue: networkStateProviderSpy}
@@ -77,6 +81,7 @@ describe('Component: TestStationHomePage', () => {
     callNumber = TestBed.get(CallNumber);
     networkStateProvider = TestBed.get(NetworkStateProvider);
     // $store = TestBed.get(Store);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   afterEach(() => {
@@ -113,6 +118,12 @@ describe('Component: TestStationHomePage', () => {
     expect(callNumber.callNumber).not.toHaveBeenCalled();
     expect(screenOrientation.lock).not.toHaveBeenCalled();
     expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should test ionViewDidEnter logic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    comp.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
   it('should test getStarted flow', () => {

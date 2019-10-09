@@ -15,6 +15,7 @@ import {
   DATE_FORMAT,
   DEFICIENCY_CATEGORY,
   FIREBASE,
+  FIREBASE_SCREEN_NAMES,
   LEC_CERTIFICATE_NUMBER_PREFIXES,
   LOCAL_STORAGE,
   LOG_TYPES,
@@ -112,6 +113,10 @@ export class TestReviewPage implements OnInit {
     });
 
     this.viewCtrl.setBackButtonText(this.navParams.get('backButtonText') || APP_STRINGS.TEST);
+  }
+
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_REVIEW);
   }
 
   getVehicleTypeIconToShow(vehicle: VehicleModel) {

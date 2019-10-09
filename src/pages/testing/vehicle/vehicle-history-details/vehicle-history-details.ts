@@ -6,7 +6,8 @@ import {
   DEFICIENCY_CATEGORY,
   DEFAULT_VALUES,
   APP_STRINGS,
-  ODOMETER_METRIC
+  ODOMETER_METRIC,
+  FIREBASE_SCREEN_NAMES
 } from '../../../../app/app.enums';
 import {
   TestsWithoutCertificate,
@@ -16,6 +17,7 @@ import {
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -48,7 +50,8 @@ export class VehicleHistoryDetailsPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public viewCtrl: ViewController,
-              public commonFunc: CommonFunctionsService) {
+              public commonFunc: CommonFunctionsService,
+              private firebaseLogsService: FirebaseLogsService) {
     this.testResultHistory = navParams.get('testResultHistory');
     this.testIndex = navParams.get('testIndex');
     this.testTypeIndex = navParams.get('testTypeIndex');
@@ -72,6 +75,10 @@ export class VehicleHistoryDetailsPage {
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.TEST_HISTORY);
+  }
+
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VEHICLE_TEST_HISTORY_DETAILS);
   }
 
   setTestMetadata() {

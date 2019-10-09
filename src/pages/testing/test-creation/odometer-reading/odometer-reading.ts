@@ -56,7 +56,7 @@ export class OdometerReadingPage implements OnInit {
   onSave() {
     this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_end_time = Date.now();
 
-    this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_time_taken = this.firebaseLogsService.differenceInHMS(this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time, this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_end_time);
+    this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_time_taken = this.firebaseLogsService.differenceInSeconds(this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time, this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_end_time);
     this.firebaseLogsService.logEvent(FIREBASE.ADD_ODOMETER_READING_TIME_TAKEN, FIREBASE.ADD_ODOMETER_READING_START_TIME, this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time.toString(), FIREBASE.ADD_ODOMETER_READING_END_TIME, this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_end_time.toString(), FIREBASE.ADD_ODOMETER_READING_TIME_TAKEN, this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_time_taken);
 
     this.vehicle = this.vehicleService.setOdometer(this.vehicle, this.odometerReading, this.odometerMetric);

@@ -1,25 +1,26 @@
-import {Component} from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
-import {TestModel} from '../../../../models/tests/test.model';
-import {VehicleService} from "../../../../providers/vehicle/vehicle.service";
-import {VisitService} from "../../../../providers/visit/visit.service";
-import {TestResultModel} from "../../../../models/tests/test-result.model";
-import {map, tap} from "rxjs/operators";
-import {VehicleTechRecordModel} from "../../../../models/vehicle/tech-record.model";
-import {APP_STRINGS, PAGE_NAMES, STORAGE, VEHICLE_TYPE} from "../../../../app/app.enums";
-import {StorageService} from "../../../../providers/natives/storage.service";
-import {Observable} from "rxjs";
-import {AppConfig} from "../../../../../config/app.config";
-import {_throw} from "rxjs/observable/throw";
-import {OpenNativeSettings} from "@ionic-native/open-native-settings";
-import {CallNumber} from "@ionic-native/call-number";
-import {VehicleModel} from "../../../../models/vehicle/vehicle.model";
-import {Firebase} from '@ionic-native/firebase';
-import {HttpResponse} from "@angular/common/http";
-import {Store} from "@ngrx/store";
-import {Log, LogsModel} from "../../../../modules/logs/logs.model";
-import {AuthService} from "../../../../providers/global/auth.service";
+import { Component } from '@angular/core';
+import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
+import { TestModel } from '../../../../models/tests/test.model';
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { VisitService } from "../../../../providers/visit/visit.service";
+import { TestResultModel } from "../../../../models/tests/test-result.model";
+import { map, tap, catchError } from "rxjs/operators";
+import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
+import { APP_STRINGS, PAGE_NAMES, STORAGE, VEHICLE_TYPE, FIREBASE_SCREEN_NAMES } from "../../../../app/app.enums";
+import { StorageService } from "../../../../providers/natives/storage.service";
+import { Observable } from "rxjs";
+import { AppConfig } from "../../../../../config/app.config";
+import { _throw } from "rxjs/observable/throw";
+import { OpenNativeSettings } from "@ionic-native/open-native-settings";
+import { CallNumber } from "@ionic-native/call-number";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { Firebase } from '@ionic-native/firebase';
+import { HttpResponse } from "@angular/common/http";
+import { Store } from "@ngrx/store";
+import { Log, LogsModel } from "../../../../modules/logs/logs.model";
+import { AuthService } from "../../../../providers/global/auth.service";
 import * as logsActions from "../../../../modules/logs/logs.actions";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -43,6 +44,7 @@ export class VehicleLookupPage {
               private openNativeSettings: OpenNativeSettings,
               private vehicleService: VehicleService,
               private firebase: Firebase,
+              private firebaseLogsService: FirebaseLogsService,
               private callNumber: CallNumber,
               private authService: AuthService,
               private store$: Store<LogsModel>) {
@@ -65,6 +67,10 @@ export class VehicleLookupPage {
     return false;
   }
 
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VEHICLE_SEARCH);
+  }
+
   searchVehicle(searchedValue: string): void {
     const LOADING = this.loadingCtrl.create({
       content: 'Loading...'
@@ -78,62 +84,62 @@ export class VehicleLookupPage {
         return {vehicleTechRecord, vehicleModel};
       }))
       .subscribe(
-      ({vehicleTechRecord, vehicleModel: vehicleData}) => {
-        const log: Log = {
-          type: 'info',
-          message: `${this.oid} - ${vehicleTechRecord.status} ${vehicleTechRecord.statusText} for API call to ${vehicleTechRecord.url}`,
-          timestamp: Date.now(),
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
-        this.vehicleService.getTestResultsHistory(vehicleData.vin).pipe(
-          tap(
-            () => {
+        ({vehicleTechRecord, vehicleModel: vehicleData}) => {
+          const log: Log = {
+            type: 'info',
+            message: `${this.oid} - ${vehicleTechRecord.status} ${vehicleTechRecord.statusText} for API call to ${vehicleTechRecord.url}`,
+            timestamp: Date.now(),
+          };
+          this.store$.dispatch(new logsActions.SaveLog(log));
+          this.vehicleService.getTestResultsHistory(vehicleData.vin).pipe(
+            tap(
+              () => {
+                LOADING.dismiss();
+              }
+            ),
+            map((data) => {
+              this.storageService.update(STORAGE.TEST_HISTORY, data.body);
+              return data;
+            }),
+          ).subscribe(
+            (testResultHistory: HttpResponse<TestResultModel[]>) => {
+              const log: Log = {
+                type: 'info',
+                message: `${this.oid} - ${testResultHistory.status} ${testResultHistory.statusText} for API call to ${testResultHistory.url}`,
+                timestamp: Date.now(),
+              };
+              this.store$.dispatch(new logsActions.SaveLog(log));
+              this.goToVehicleDetails(vehicleData, testResultHistory.body);
+            },
+            (error) => {
+              const log: Log = {
+                type: 'error',
+                message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
+                timestamp: Date.now(),
+              };
+              this.store$.dispatch(new logsActions.SaveLog(log));
+              this.storageService.update(STORAGE.TEST_HISTORY, []);
               LOADING.dismiss();
-            }
-          ),
-          map((data) => {
-            this.storageService.update(STORAGE.TEST_HISTORY, data.body);
-            return data;
-          }),
-        ).subscribe(
-          (testResultHistory: HttpResponse<TestResultModel[]>) => {
-            const log: Log = {
-              type: 'info',
-              message: `${this.oid} - ${testResultHistory.status} ${testResultHistory.statusText} for API call to ${testResultHistory.url}`,
-              timestamp: Date.now(),
-            };
-            this.store$.dispatch(new logsActions.SaveLog(log));
-            this.goToVehicleDetails(vehicleData, testResultHistory.body);
-          },
-          (error) => {
-            const log: Log = {
-              type: 'error',
-              message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-              timestamp: Date.now(),
-            };
-            this.store$.dispatch(new logsActions.SaveLog(log));
-            this.storageService.update(STORAGE.TEST_HISTORY, []);
-            LOADING.dismiss();
-            this.goToVehicleDetails(vehicleData);
-            this.firebase.logEvent('test_error', {
-              content_type: 'error',
-              item_id: "Failed retrieving the testResultsHistory"
-            });
-          })
-      },
-      (error) => {
-        const log: Log = {
-          type: 'error',
-          message: `${this.oid} - ${error.status} ${error.error || error.message} for API call to ${error.url}`,
-          timestamp: Date.now(),
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
-        this.searchVal = '';
-        LOADING.dismiss();
-        this.showAlert();
-        this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Failed retrieving the techRecord"});
-      }
-    );
+              this.goToVehicleDetails(vehicleData);
+              this.firebase.logEvent('test_error', {
+                content_type: 'error',
+                item_id: "Failed retrieving the testResultsHistory"
+              });
+            })
+        },
+        (error) => {
+          const log: Log = {
+            type: 'error',
+            message: `${this.oid} - ${error.status} ${error.error || error.message} for API call to ${error.url}`,
+            timestamp: Date.now(),
+          };
+          this.store$.dispatch(new logsActions.SaveLog(log));
+          this.searchVal = '';
+          LOADING.dismiss();
+          this.showAlert();
+          this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Failed retrieving the techRecord"});
+        }
+      );
   }
 
   close(): void {

@@ -10,8 +10,10 @@ import { PipesModule } from "../../../../pipes/pipes.module";
 import { TestResultsHistoryDataMock } from "../../../../assets/data-mocks/test-results-history-data.mock";
 import { TestTypeArrayDataMock } from "../../../../assets/data-mocks/test-type-array-data.mock";
 import { APP_STRINGS, TECH_RECORD_STATUS, VEHICLE_TYPE } from '../../../../app/app.enums';
-import {By} from '@angular/platform-browser';
-import {VehicleModel} from '../../../../models/vehicle/vehicle.model';
+import { By } from '@angular/platform-browser';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: VehicleHistoryPage', () => {
   let comp: VehicleHistoryPage;
@@ -19,6 +21,7 @@ describe('Component: VehicleHistoryPage', () => {
   let navCtrl: NavController;
   let navParams: NavParams;
   let commonFunctionsService: any;
+  let firebaseLogsService: FirebaseLogsService;
 
   let testResultsHistory: any = TestResultsHistoryDataMock.TestResultHistoryData;
   let vehicleData: VehicleModel = VehicleDataMock.VehicleData;
@@ -37,6 +40,7 @@ describe('Component: VehicleHistoryPage', () => {
         CommonFunctionsService,
         {provide: NavParams, useClass: NavParamsMock},
         {provide: ViewController, useClass: ViewControllerMock},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -48,6 +52,7 @@ describe('Component: VehicleHistoryPage', () => {
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   beforeEach(() => {
@@ -79,6 +84,12 @@ describe('Component: VehicleHistoryPage', () => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
     done();
+  });
+
+  it('should test ionViewDidEnterLogic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    comp.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
   it('should create an array called testTypeArray if testHistory exists', () => {
@@ -125,7 +136,15 @@ describe('Component: VehicleHistoryPage', () => {
         "deficiencyText": "missing.",
         "prs": false,
         "additionalInformation": {
-          "location": {"axleNumber": null, "horizontal": null, "vertical": "upper", "longitudinal": null, "rowNumber": 1, "lateral": "centre", "seatNumber": 2},
+          "location": {
+            "axleNumber": null,
+            "horizontal": null,
+            "vertical": "upper",
+            "longitudinal": null,
+            "rowNumber": 1,
+            "lateral": "centre",
+            "seatNumber": 2
+          },
           "notes": "seatbelt missing"
         },
         "itemNumber": 1,
@@ -142,7 +161,15 @@ describe('Component: VehicleHistoryPage', () => {
         "deficiencyText": "missing.",
         "prs": false,
         "additionalInformation": {
-          "location": {"axleNumber": null, "horizontal": null, "vertical": "upper", "longitudinal": null, "rowNumber": 1, "lateral": "centre", "seatNumber": 2},
+          "location": {
+            "axleNumber": null,
+            "horizontal": null,
+            "vertical": "upper",
+            "longitudinal": null,
+            "rowNumber": 1,
+            "lateral": "centre",
+            "seatNumber": 2
+          },
           "notes": "seatbelt missing"
         },
         "itemNumber": 1,
@@ -159,7 +186,15 @@ describe('Component: VehicleHistoryPage', () => {
         "deficiencyText": "missing.",
         "prs": false,
         "additionalInformation": {
-          "location": {"axleNumber": null, "horizontal": null, "vertical": "upper", "longitudinal": null, "rowNumber": 1, "lateral": "centre", "seatNumber": 2},
+          "location": {
+            "axleNumber": null,
+            "horizontal": null,
+            "vertical": "upper",
+            "longitudinal": null,
+            "rowNumber": 1,
+            "lateral": "centre",
+            "seatNumber": 2
+          },
           "notes": "seatbelt missing"
         },
         "itemNumber": 1,
@@ -195,7 +230,7 @@ describe('Component: VehicleHistoryPage', () => {
     expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL)).toBeFalsy();
     expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
   });
-  
+
   it('should not display the provisional label if the techRecord is current', () => {
     comp.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.CURRENT;
 

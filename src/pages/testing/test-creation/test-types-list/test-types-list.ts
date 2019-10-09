@@ -78,7 +78,7 @@ export class TestTypesListPage implements OnInit {
       });
     } else {
       this.firebaseLogsService.add_test_type_time.add_test_type_end_time = Date.now();
-      this.firebaseLogsService.add_test_type_time.add_test_type_time_taken = this.firebaseLogsService.differenceInHMS(this.firebaseLogsService.add_test_type_time.add_test_type_start_time, this.firebaseLogsService.add_test_type_time.add_test_type_end_time);
+      this.firebaseLogsService.add_test_type_time.add_test_type_time_taken = this.firebaseLogsService.differenceInSeconds(this.firebaseLogsService.add_test_type_time.add_test_type_start_time, this.firebaseLogsService.add_test_type_time.add_test_type_end_time);
       this.firebaseLogsService.logEvent(FIREBASE.ADD_TEST_TYPE_TIME_TAKEN, FIREBASE.ADD_TEST_TYPE_START_TIME, this.firebaseLogsService.add_test_type_time.add_test_type_start_time.toString(), FIREBASE.ADD_TEST_TYPE_END_TIME, this.firebaseLogsService.add_test_type_time.add_test_type_end_time.toString(), FIREBASE.ADD_TEST_TYPE_TIME_TAKEN, this.firebaseLogsService.add_test_type_time.add_test_type_time_taken);
       let views = this.navCtrl.getViews();
       for (let i = views.length - 1; i >= 0; i--) {

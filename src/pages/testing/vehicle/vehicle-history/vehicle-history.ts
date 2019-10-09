@@ -2,9 +2,16 @@ import { Component } from '@angular/core';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { APP_STRINGS, TEST_TYPE_RESULTS, TEST_REPORT_STATUSES, VEHICLE_TYPE } from '../../../../app/app.enums';
+import {
+  APP_STRINGS,
+  TEST_TYPE_RESULTS,
+  TEST_REPORT_STATUSES,
+  VEHICLE_TYPE,
+  FIREBASE_SCREEN_NAMES
+} from '../../../../app/app.enums';
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -13,7 +20,7 @@ import { TestTypeModel } from "../../../../models/tests/test-type.model";
 })
 
 export class VehicleHistoryPage {
-  VEHICLE_TYPE: typeof VEHICLE_TYPE=VEHICLE_TYPE;
+  VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   vehicleData: VehicleModel;
   testResultHistory: TestResultModel[];
   testTypeResults = TEST_TYPE_RESULTS;
@@ -24,7 +31,8 @@ export class VehicleHistoryPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public viewCtrl: ViewController,
-              public commonFunc: CommonFunctionsService) {
+              public commonFunc: CommonFunctionsService,
+              private firebaseLogsService: FirebaseLogsService) {
     this.vehicleData = navParams.get('vehicleData');
     this.testResultHistory = navParams.get('testResultsHistory');
   }
@@ -38,6 +46,10 @@ export class VehicleHistoryPage {
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.VEHICLE_DETAILS);
     this.noHistory = APP_STRINGS.NO_HISTORY;
+  }
+
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VEHICLE_TEST_HISTORY);
   }
 
   showTestDetails(testIndex: number, testTypeIndex: number): void {
@@ -80,7 +92,7 @@ export class VehicleHistoryPage {
     return resp;
   }
 
-  isVehicleOfType(vehicle: VehicleModel, ...vehicleType: VEHICLE_TYPE[]){
-    return this.commonFunc.checkForMatchInArray(vehicle.techRecord.vehicleType,vehicleType);
+  isVehicleOfType(vehicle: VehicleModel, ...vehicleType: VEHICLE_TYPE[]) {
+    return this.commonFunc.checkForMatchInArray(vehicle.techRecord.vehicleType, vehicleType);
   }
 }

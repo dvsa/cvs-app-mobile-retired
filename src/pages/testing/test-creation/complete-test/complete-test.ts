@@ -17,6 +17,7 @@ import {
   DEFICIENCY_CATEGORY,
   FIREBASE,
   FIREBASE_DEFECTS,
+  FIREBASE_SCREEN_NAMES,
   MOD_TYPES,
   PAGE_NAMES,
   REG_EX_PATTERNS,
@@ -109,6 +110,7 @@ export class CompleteTestPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_TYPE_DETAILS);
     if (this.fromTestReview && this.vehicleTest.testResult === TEST_TYPE_RESULTS.ABANDONED) {
       this.viewCtrl.dismiss(this.vehicleTest);
     }

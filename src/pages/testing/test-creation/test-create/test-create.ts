@@ -19,6 +19,8 @@ import {
   APP_STRINGS,
   FIREBASE,
   MOD_TYPES,
+  FIREBASE_SCREEN_NAMES,
+  ODOMETER_METRIC,
   PAGE_NAMES,
   TEST_COMPLETION_STATUS,
   TEST_TYPE_INPUTS,
@@ -87,6 +89,10 @@ export class TestCreatePage implements OnInit {
       this.completedFields = completedFields;
     });
     this.computeErrorIncomplete();
+  }
+
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_OVERVIEW);
   }
 
   ionViewWillLeave() {

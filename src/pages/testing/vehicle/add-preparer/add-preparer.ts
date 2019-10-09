@@ -2,7 +2,14 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { PreparerService } from "../../../../providers/preparer/preparer.service";
 import { TestModel } from "../../../../models/tests/test.model";
-import { APP_STRINGS, FIREBASE, PAGE_NAMES, TESTER_ROLES, VEHICLE_TYPE } from "../../../../app/app.enums";
+import {
+  APP_STRINGS,
+  FIREBASE,
+  FIREBASE_SCREEN_NAMES,
+  PAGE_NAMES,
+  TESTER_ROLES,
+  VEHICLE_TYPE
+} from "../../../../app/app.enums";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { PreparersReferenceDataModel } from "../../../../models/reference-data-models/preparers.model";
@@ -11,7 +18,6 @@ import { VisitService } from "../../../../providers/visit/visit.service";
 import { AuthService } from "../../../../providers/global/auth.service";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-
 
 @IonicPage()
 @Component({
@@ -55,6 +61,10 @@ export class AddPreparerPage implements OnInit {
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.VEHICLE_DETAILS);
+  }
+
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.ENTER_PREPARER);
   }
 
   checkForMatch(inputValue: string, expectedValue: string): boolean {
@@ -162,7 +172,7 @@ export class AddPreparerPage implements OnInit {
   logIntoFirebase() {
     this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time = Date.now();
 
-    this.firebaseLogsService.confirm_preparer_time.confirm_preparer_time_taken = this.firebaseLogsService.differenceInHMS(this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time);
+    this.firebaseLogsService.confirm_preparer_time.confirm_preparer_time_taken = this.firebaseLogsService.differenceInSeconds(this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time);
     this.firebaseLogsService.logEvent(FIREBASE.CONFIRM_PREPARER_TIME_TAKEN, FIREBASE.CONFIRM_PREPARER_START_TIME, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time.toString(), FIREBASE.CONFIRM_PREPARER_END_TIME, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time.toString(), FIREBASE.CONFIRM_PREPARER_TIME_TAKEN, this.firebaseLogsService.confirm_preparer_time.confirm_preparer_time_taken);
   }
 

@@ -8,6 +8,8 @@ import { CommonFunctionsService } from "../../../../providers/utils/common-funct
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { TestResultsHistoryDataMock } from "../../../../assets/data-mocks/test-results-history-data.mock";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: VehicleHistoryDetailsPage', () => {
   let comp: VehicleHistoryDetailsPage;
@@ -15,6 +17,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
   let navCtrl: NavController;
   let commonFunctionsService: any;
   let defects: any;
+  let firebaseLogsService: FirebaseLogsService;
 
   beforeEach(async(() => {
 
@@ -29,6 +32,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
         CommonFunctionsService,
         {provide: NavParams, useClass: NavParamsMock},
         {provide: ViewController, useClass: ViewControllerMock},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -39,6 +43,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
     comp = fixture.componentInstance;
     navCtrl = TestBed.get(NavController);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
     comp.testResultHistory = TestResultsHistoryDataMock.TestResultHistoryData;
     comp.testIndex = 0;
   });
@@ -51,6 +56,12 @@ describe('Component: VehicleHistoryDetailsPage', () => {
   it('should create the component', () => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
+  });
+
+  it('should test ionViewDidEnterLogic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    comp.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
   it('should return the correct color', () => {

@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Events, IonicPage, NavController } from 'ionic-angular';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
 import { TestStationService } from '../../../providers/test-station/test-station.service'
-import { APP } from "../../../app/app.enums";
+import { APP, FIREBASE_SCREEN_NAMES } from "../../../app/app.enums";
+import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
 
 @IonicPage()
 @Component({
@@ -16,12 +17,19 @@ export class TestStationSearchPage implements OnInit {
   searchVal: string = '';
   focusOut: boolean = false;
 
-  constructor(public navCtrl: NavController, public events: Events, private testStationService: TestStationService) {
+  constructor(public navCtrl: NavController,
+              public events: Events,
+              private testStationService: TestStationService,
+              private firebaseLogsService: FirebaseLogsService) {
   }
 
   ngOnInit() {
     this.getTestStations();
     document.querySelector('.back-button-icon').setAttribute('aria-hidden', 'true');
+  }
+
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_STATION_SEARCH);
   }
 
   getTestStations(): void {

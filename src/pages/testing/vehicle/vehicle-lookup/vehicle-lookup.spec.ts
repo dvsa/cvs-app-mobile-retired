@@ -20,12 +20,15 @@ import { AuthService } from "../../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
 import { Store } from "@ngrx/store";
 import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
   let fixture: ComponentFixture<VehicleLookupPage>;
   let openNativeSettingsSpy: any;
   let storageService: StorageServiceMock;
+  let firebaseLogsService: FirebaseLogsService;
 
   const TEST_DATA = TestDataModelMock.TestData;
   const VEHICLE = VehicleDataMock.VehicleData;
@@ -44,6 +47,7 @@ describe('Component: VehicleLookupPage', () => {
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
         {provide: NavParams, useClass: NavParamsMock},
         {provide: VisitService, useClass: VisitServiceMock},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
         {provide: StorageService, useClass: StorageServiceMock},
@@ -60,6 +64,7 @@ describe('Component: VehicleLookupPage', () => {
     fixture = TestBed.createComponent(VehicleLookupPage);
     component = fixture.componentInstance;
     storageService = TestBed.get(StorageService);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   afterEach(() => {
@@ -71,6 +76,12 @@ describe('Component: VehicleLookupPage', () => {
   it('should create the component', () => {
     expect(fixture).toBeTruthy();
     expect(component).toBeTruthy();
+  });
+
+  it('should test ionViewDidEnterLogic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    component.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
   it('should test if the storage gets updated with newest test results history', () => {
