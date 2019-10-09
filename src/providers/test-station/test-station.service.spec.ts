@@ -91,4 +91,11 @@ describe('Provider: TestStationService', () => {
     expect(filteredData.length).toEqual(0);
   });
 
+  it('should filter test stations that have set null as testStationAddress', () => {
+    filter = 'ATF without testStationAddress';
+    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
+
+    expect(filteredData.length).toEqual(1);
+    expect(filteredData[0][0].testStationName).toEqual(filter);
+  });
 });
