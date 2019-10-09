@@ -8,7 +8,14 @@ import { SyncService } from "../providers/global/sync.service";
 import { StorageService } from "../providers/natives/storage.service";
 import { VisitService } from "../providers/visit/visit.service";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
-import { FIREBASE, LOCAL_STORAGE, PAGE_NAMES, SIGNATURE_STATUS, STORAGE } from "./app.enums";
+import {
+  ACCESSIBILITY_DEFAULT_VALUES,
+  FIREBASE,
+  LOCAL_STORAGE,
+  PAGE_NAMES,
+  SIGNATURE_STATUS,
+  STORAGE
+} from "./app.enums";
 import { TesterDetailsModel } from "../models/tester-details.model";
 import { AppService } from "../providers/global/app.service";
 import { ActivityService } from "../providers/activity/activity.service";
@@ -39,7 +46,6 @@ export class MyApp {
     platform.ready().then(() => {
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
-      this.firebaseLogsService.logEvent(FIREBASE.TEST_EVENT, FIREBASE.PAGE_VIEW, FIREBASE.OPEN_APP);
 
       this.initApp();
 
@@ -149,6 +155,16 @@ export class MyApp {
 
   private accessibilityFeatures(): void {
     this.mobileAccessibility.updateTextZoom();
+    this.mobileAccessibility.getTextZoom().then(result => {
+      if (result !== ACCESSIBILITY_DEFAULT_VALUES.TEXT_SIZE) {
+        this.firebaseLogsService.logEvent(FIREBASE.IOS_FONT_SIZE_USAGE);
+      }
+    });
+    this.mobileAccessibility.isVoiceOverRunning().then(result => {
+      if (result) {
+        this.firebaseLogsService.logEvent(FIREBASE.IOS_VOICEOVER_USAGE);
+      }
+    });
     this.mobileAccessibility.isInvertColorsEnabled().then(
       (result) => {
         result ? this.renderer.setStyle(document.body, 'filter', 'invert(100%)') : this.renderer.removeStyle(document.body, 'filter');

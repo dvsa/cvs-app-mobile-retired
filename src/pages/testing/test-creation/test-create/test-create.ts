@@ -18,10 +18,13 @@ import {
   APP,
   APP_STRINGS,
   FIREBASE,
+  FIREBASE_SCREEN_NAMES,
+  ODOMETER_METRIC,
   PAGE_NAMES,
   TEST_COMPLETION_STATUS,
   TEST_TYPE_INPUTS,
-  TEST_TYPE_RESULTS, VEHICLE_TYPE
+  TEST_TYPE_RESULTS,
+  VEHICLE_TYPE
 } from "../../../../app/app.enums";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
@@ -83,6 +86,10 @@ export class TestCreatePage implements OnInit {
       this.completedFields = completedFields;
     });
     this.computeErrorIncomplete();
+  }
+
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_OVERVIEW);
   }
 
   ionViewWillLeave() {

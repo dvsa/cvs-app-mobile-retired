@@ -2,7 +2,14 @@ import { Component } from '@angular/core';
 import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { TestModel } from "../../../../models/tests/test.model";
 import { TestService } from "../../../../providers/test/test.service";
-import { APP_STRINGS, FIREBASE, LOG_TYPES, PAGE_NAMES, TEST_REPORT_STATUSES } from "../../../../app/app.enums";
+import {
+  APP_STRINGS,
+  FIREBASE,
+  FIREBASE_SCREEN_NAMES,
+  LOG_TYPES,
+  PAGE_NAMES,
+  TEST_REPORT_STATUSES
+} from "../../../../app/app.enums";
 import { TestResultService } from "../../../../providers/test-result/test-result.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { Observable } from "rxjs";
@@ -44,6 +51,10 @@ export class TestCancelPage {
               private firebaseLogsService: FirebaseLogsService,
               private activityService: ActivityService) {
     this.testData = this.navParams.get('test');
+  }
+
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_CANCEL);
   }
 
   onSubmit() {

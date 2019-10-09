@@ -142,6 +142,12 @@ describe('Component: TestCreatePage', () => {
     expect(component.displayAddVehicleButton).toBeTruthy();
   });
 
+  it('should test ionViewDidEnterLogic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    component.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
+  });
+
   it('should say either a test is abandoned or not', () => {
     expect(component.isTestAbandoned(ADDED_VEHICLE_TEST)).toBeFalsy();
     ADDED_VEHICLE_TEST.reasons.push('Best reason');

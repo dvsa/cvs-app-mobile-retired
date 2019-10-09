@@ -33,6 +33,7 @@ describe('Component: TestCancelPage', () => {
   let alertCtrl: AlertController;
   let activityServiceMock: ActivityServiceMock;
   let store: Store<any>;
+  let firebaseLogsService: FirebaseLogsService;
 
   const testReport: TestModel = {
     startTime: null,
@@ -81,6 +82,7 @@ describe('Component: TestCancelPage', () => {
     alertCtrl = TestBed.get(AlertController);
     activityServiceMock = TestBed.get(ActivityService);
     store = TestBed.get(Store);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   beforeEach(() => {
@@ -107,6 +109,12 @@ describe('Component: TestCancelPage', () => {
   it('should create the component', () => {
     expect(fixture).toBeTruthy();
     expect(component).toBeTruthy();
+  });
+
+  it('should test ionViewDidEnterLogic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    component.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
   it('should VisitService and TestCancelPage Component share the same instance',

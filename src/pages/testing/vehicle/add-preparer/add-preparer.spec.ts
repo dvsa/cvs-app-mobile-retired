@@ -109,6 +109,12 @@ describe('Component: AddPreparerPage', () => {
     expect(visitService).toBeTruthy();
   });
 
+  it('should test ionViewDidEnterLogic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    comp.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
+  });
+
   it('should VehicleService and TestCancelPage Component share the same instance',
     inject([VehicleService], (injectService: VehicleService) => {
       expect(injectService).toBe(vehicleService);

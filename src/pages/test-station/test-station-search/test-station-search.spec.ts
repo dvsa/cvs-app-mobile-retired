@@ -3,12 +3,15 @@ import { Events, IonicModule, NavController } from "ionic-angular";
 import { TestStationSearchPage } from "./test-station-search";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestStationService } from "../../../providers/test-station/test-station.service";
+import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: TestStationSearchPage', () => {
   let comp: TestStationSearchPage;
   let fixture: ComponentFixture<TestStationSearchPage>;
   let testStationService: TestStationService;
   let navCtrl: NavController;
+  let firebaseLogsService: FirebaseLogsService;
 
   beforeEach(async(() => {
     const testStationServiceSpy = jasmine.createSpyObj('TestStationService', ['getTestStations, getTestStationsFromStorage']);
@@ -20,7 +23,8 @@ describe('Component: TestStationSearchPage', () => {
       ],
       providers: [
         NavController,
-        {provide: TestStationService, useValue: testStationServiceSpy}
+        {provide: TestStationService, useValue: testStationServiceSpy},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -31,6 +35,7 @@ describe('Component: TestStationSearchPage', () => {
     comp = fixture.componentInstance;
     testStationService = TestBed.get(TestStationService);
     navCtrl = TestBed.get(NavController);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   afterEach(() => {
@@ -44,6 +49,12 @@ describe('Component: TestStationSearchPage', () => {
     expect(comp).toBeTruthy();
     expect(testStationService).toBeTruthy();
     done();
+  });
+
+  it('should test ionViewDidEnterLogic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    comp.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
   it('should TestStationService and TestStationSearchPage Component share the same instance',

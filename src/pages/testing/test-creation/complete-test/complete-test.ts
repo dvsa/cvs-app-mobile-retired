@@ -15,7 +15,7 @@ import {
   DEFICIENCY_CATEGORY, FIREBASE, PAGE_NAMES,
   REG_EX_PATTERNS,
   TEST_TYPE_FIELDS,
-  TEST_TYPE_INPUTS, TEST_TYPE_RESULTS, FIREBASE_DEFECTS
+  TEST_TYPE_INPUTS, TEST_TYPE_RESULTS, FIREBASE_DEFECTS, FIREBASE_SCREEN_NAMES
 } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
@@ -92,6 +92,7 @@ export class CompleteTestPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_TYPE_DETAILS);
     if (this.fromTestReview && this.vehicleTest.testResult === TEST_TYPE_RESULTS.ABANDONED) {
       this.viewCtrl.dismiss(this.vehicleTest);
     }

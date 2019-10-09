@@ -22,6 +22,8 @@ import { AuthService } from "../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../test-config/services-mocks/auth-service.mock";
 import { Store } from "@ngrx/store";
 import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec";
+import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../test-config/services-mocks/firebaseLogsService.mock";
 
 describe('Component: TestStationDetailsPage', () => {
   let component: TestStationDetailsPage;
@@ -34,6 +36,7 @@ describe('Component: TestStationDetailsPage', () => {
   let visitServiceMock: VisitServiceMock;
   let firebase: Firebase;
   let firebaseSpy: any;
+  let firebaseLogsService: FirebaseLogsService;
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
@@ -50,6 +53,7 @@ describe('Component: TestStationDetailsPage', () => {
         {provide: Firebase, useValue: firebaseSpy},
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
         {provide: NavParams, useClass: NavParamsMock},
+        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
@@ -69,6 +73,7 @@ describe('Component: TestStationDetailsPage', () => {
     navParams = TestBed.get(NavParams);
     visitServiceMock = TestBed.get(VisitService);
     firebase = TestBed.get(Firebase);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   beforeEach(() => {
@@ -96,6 +101,12 @@ describe('Component: TestStationDetailsPage', () => {
   it('should create component', () => {
     expect(fixture).toBeTruthy();
     expect(component).toBeTruthy();
+  });
+
+  it('should test ionViewDidEnterLogic', () => {
+    spyOn(firebaseLogsService, 'setScreenName');
+    component.ionViewDidEnter();
+    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
   it('should test confirmStartVisit', () => {

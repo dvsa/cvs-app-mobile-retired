@@ -13,12 +13,14 @@ import {
   APP_STRINGS,
   DATE_FORMAT,
   DEFICIENCY_CATEGORY,
-  ODOMETER_METRIC, PAGE_NAMES,
+  ODOMETER_METRIC,
+  PAGE_NAMES,
   TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
   LOCAL_STORAGE,
   FIREBASE,
+  FIREBASE_SCREEN_NAMES,
   LOG_TYPES,
   VEHICLE_TYPE,
   LEC_CERTIFICATE_NUMBER_PREFIXES
@@ -110,6 +112,10 @@ export class TestReviewPage implements OnInit {
     this.viewCtrl.setBackButtonText(this.navParams.get('backButtonText') || APP_STRINGS.TEST);
   }
 
+  ionViewDidEnter() {
+    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_REVIEW);
+  }
+
   getVehicleTypeIconToShow(vehicle: VehicleModel) {
     return vehicle.techRecord.vehicleType.toLowerCase();
   }
@@ -161,13 +167,13 @@ export class TestReviewPage implements OnInit {
    * @param changedTestType
    * @param initialTestType
    */
-  private checkMissingTestTypeMandatoryFields(changedTestType: TestTypeModel, initialTestType: TestTypeModel): void{
-    if(this.roadworthinessTestTypesIds.indexOf(initialTestType.testTypeId) === -1 ){
+  private checkMissingTestTypeMandatoryFields(changedTestType: TestTypeModel, initialTestType: TestTypeModel): void {
+    if (this.roadworthinessTestTypesIds.indexOf(initialTestType.testTypeId) === -1) {
       if (initialTestType.certificateNumber && !changedTestType.certificateNumber) {
         this.navCtrl.popTo(this.navCtrl.getViews().find(view => view.id === 'TestCreatePage'));
       }
     } else {
-      if(changedTestType.testResult !== TEST_TYPE_RESULTS.FAIL && !changedTestType.certificateNumber)
+      if (changedTestType.testResult !== TEST_TYPE_RESULTS.FAIL && !changedTestType.certificateNumber)
         this.navCtrl.popTo(this.navCtrl.getViews().find(view => view.id === 'TestCreatePage'));
     }
   }

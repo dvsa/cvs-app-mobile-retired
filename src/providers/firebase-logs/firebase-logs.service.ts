@@ -1,42 +1,42 @@
-import {Injectable} from "@angular/core";
-import {Firebase} from "@ionic-native/firebase";
+import { Injectable } from "@angular/core";
+import { Firebase } from "@ionic-native/firebase";
 
 @Injectable()
 export class FirebaseLogsService {
   search_vehicle_time = {
     search_vehicle_start_time: 0,
     search_vehicle_end_time: 0,
-    search_vehicle_time_taken: ''
+    search_vehicle_time_taken: 0
   };
 
   confirm_vehicle_time = {
     confirm_vehicle_start_time: 0,
     confirm_vehicle_end_time: 0,
-    confirm_vehicle_time_taken: ''
+    confirm_vehicle_time_taken: 0
   };
 
   confirm_preparer_time = {
     confirm_preparer_start_time: 0,
     confirm_preparer_end_time: 0,
-    confirm_preparer_time_taken: ''
+    confirm_preparer_time_taken: 0
   };
 
   add_odometer_reading_time = {
     add_odometer_reading_start_time: 0,
     add_odometer_reading_end_time: 0,
-    add_odometer_reading_time_taken: ''
+    add_odometer_reading_time_taken: 0
   };
 
   add_defect_time_taken = {
     add_defect_start_time: <number>null,
     add_defect_end_time: <number>null,
-    add_defect_time_taken: <string>null
+    add_defect_time_taken: <number>null
   };
 
   add_test_type_time = {
     add_test_type_start_time: 0,
     add_test_type_end_time: 0,
-    add_test_type_time_taken: ''
+    add_test_type_time_taken: 0
   };
 
   constructor(private firebase: Firebase) {
@@ -56,11 +56,11 @@ export class FirebaseLogsService {
     return data[paramName1] ? this.firebase.logEvent(eventName, data) : this.firebase.logEvent(eventName, {});
   }
 
-  differenceInHMS(start, end): string {
-    let date = new Date(end - start);
-    let hour = date.getUTCHours();
-    let min = date.getUTCMinutes();
-    let sec = date.getUTCSeconds();
-    return `${hour}:${min}:${sec}`
+  setScreenName(screenName: string) {
+    return this.firebase.setScreenName(screenName);
+  }
+
+  differenceInSeconds(start, end): number {
+    return Math.round((end - start) / 1000);
   }
 }
