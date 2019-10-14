@@ -1,29 +1,31 @@
 import { Observable } from "rxjs";
 import { NavController } from "ionic-angular";
 import { of } from "rxjs/observable/of";
-import { _throw } from "rxjs/observable/throw";
 
 export class SignatureServiceMock {
   signatureString: string;
-  result = {
-    noError: true,
-    error: false
-  };
+  isError: boolean;
 
   constructor() {
   }
 
-  saveSignature(isError: boolean): Observable<any> {
-    if (isError) return _throw(this.result.error);
-    return of(this.result.noError);
+  saveSignature(): Observable<any> {
+    if (this.isError) {
+      return Observable.throw({});
+    }
+    return of({});
   }
 
   goToRootPage(navCtrl: NavController): void {
-    return
+    return;
   }
 
-  saveToStorage(isError: boolean): Promise<any> {
-    if (isError) return Promise.reject();
+  saveToStorage(): Promise<any> {
+    if (this.isError) return Promise.reject();
     return Promise.resolve();
+  }
+
+  presentSuccessToast() {
+    return;
   }
 }

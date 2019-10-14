@@ -26,14 +26,13 @@ import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec
 describe('Component: TestStationDetailsPage', () => {
   let component: TestStationDetailsPage;
   let fixture: ComponentFixture<TestStationDetailsPage>;
-  let callNumber: CallNumber;
   let callNumberSpy: any;
-  let openNativeSettings: OpenNativeSettings;
   let openNativeSettingsSpy: any;
   let navParams: NavParams;
   let visitServiceMock: VisitServiceMock;
   let firebase: Firebase;
   let firebaseSpy: any;
+  let alertCtrl: AlertController;
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
@@ -69,6 +68,7 @@ describe('Component: TestStationDetailsPage', () => {
     navParams = TestBed.get(NavParams);
     visitServiceMock = TestBed.get(VisitService);
     firebase = TestBed.get(Firebase);
+    alertCtrl = TestBed.get(AlertController);
   });
 
   beforeEach(() => {
@@ -105,5 +105,15 @@ describe('Component: TestStationDetailsPage', () => {
     visitServiceMock.isError = false;
     component.confirmStartVisit();
     expect(component.isNextPageLoading).toBeFalsy();
+  });
+
+  it('should create reportIssue alert', () => {
+    component.reportIssueHandler();
+    expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should create alert for starting a visit', () => {
+    component.startVisit();
+    expect(alertCtrl.create).toHaveBeenCalled();
   });
 });

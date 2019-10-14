@@ -1,14 +1,13 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { Events, LoadingController, ViewController } from "ionic-angular";
 import { SignaturePopoverComponent } from "./signature-popover";
-import { EventsMock, LoadingControllerMock, ViewControllerMock } from "ionic-mocks";
+import { LoadingControllerMock, ViewControllerMock } from "ionic-mocks";
 import { SignatureService } from "../../providers/signature/signature.service";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { APP_STRINGS } from "../../app/app.enums";
 import { SignatureServiceMock } from "../../../test-config/services-mocks/signature-service.mock";
 import { AppService } from "../../providers/global/app.service";
 import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
-import { Firebase } from "@ionic-native/firebase";
 import { AuthService } from "../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
 import { Store } from "@ngrx/store";
@@ -17,12 +16,12 @@ import { TestStore } from "../../providers/interceptors/auth.interceptor.spec";
 describe('Component: SignaturePopoverComponent', () => {
   let fixture: ComponentFixture<SignaturePopoverComponent>;
   let comp: SignaturePopoverComponent;
-  let signatureService: SignatureService;
+  let signatureService: SignatureServiceMock;
   let viewCtrl: ViewController;
   let loadingCtrl: LoadingController;
   let events: Events;
   let appService: AppService;
-
+  let store: Store<any>;
 
   beforeEach(async(() => {
 
@@ -31,14 +30,13 @@ describe('Component: SignaturePopoverComponent', () => {
         SignaturePopoverComponent
       ],
       providers: [
-        Firebase,
-        {provide: Events, useFactory: () => EventsMock},
+        Events,
         {provide: SignatureService, useClass: SignatureServiceMock},
         {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
         {provide: AppService, useClass: AppServiceMock},
         {provide: AuthService, useClass: AuthServiceMock},
-        {provide: Store, useClass: TestStore},
+        {provide: Store, useClass: TestStore}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -52,6 +50,7 @@ describe('Component: SignaturePopoverComponent', () => {
     loadingCtrl = TestBed.get(LoadingController);
     events = TestBed.get(Events);
     appService = TestBed.get(AppService);
+    store = TestBed.get(Store);
   });
 
   it('should create', () => {
@@ -66,9 +65,18 @@ describe('Component: SignaturePopoverComponent', () => {
     expect(viewCtrl.dismiss).toHaveBeenCalled();
   });
 
-  it('check if loading.present and vieCtrl.dismiss have been called', () => {
-    let loading = loadingCtrl.create();
+  it('check confirmPop for successful case on saveSignature method', () => {
+    comp.ngOnInit();
+    signatureService.isError = false;
     comp.confirmPop();
-    expect(loading.present).toHaveBeenCalled();
+    expect(comp.loading.present).toHaveBeenCalled();
   });
+
+  it('check confirmPop for error case on saveSignature method', () => {
+    comp.ngOnInit();
+    signatureService.isError = true;
+    comp.confirmPop();
+    expect(comp.loading.present).toHaveBeenCalled();
+  });
+
 });

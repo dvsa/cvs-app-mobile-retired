@@ -56,7 +56,7 @@ export class TestReviewPage implements OnInit {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   visit: VisitModel;
   latestTest: TestModel;
-  completedFields = [];
+  completedFields = {};
   appStrings;
   dateFormat;
   testTypeResults;
