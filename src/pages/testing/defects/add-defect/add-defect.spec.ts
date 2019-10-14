@@ -10,9 +10,14 @@ import { DefectsReferenceDataMock } from "../../../../assets/data-mocks/referenc
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { DefectCategoryReferenceDataModel, DefectItemReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
+import {
+  DefectCategoryReferenceDataModel,
+  DefectItemReferenceDataModel
+} from "../../../../models/reference-data-models/defects.reference-model";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
+import { DefectsServiceMock } from "../../../../../test-config/services-mocks/defects-service.mock";
+import { NavControllerMock } from "ionic-mocks";
 
 describe('Component: AddDefectPage', () => {
   let comp: AddDefectPage;
@@ -22,7 +27,7 @@ describe('Component: AddDefectPage', () => {
   let navParams: NavParams;
   let defectsService: DefectsService;
   let commonFunctionsService: CommonFunctionsService;
-  let defectsServiceSpy: any;
+  let viewCtrl: ViewControllerMock;
   let commonFunctionsServiceSpy: any;
 
   const VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
@@ -32,9 +37,6 @@ describe('Component: AddDefectPage', () => {
 
 
   beforeEach(async(() => {
-    defectsServiceSpy = jasmine.createSpyObj('DefectsService', {
-      'getBadgeColor': 'danger'
-    });
 
     commonFunctionsServiceSpy = jasmine.createSpyObj('CommonFunctionsService', {
       'capitalizeString': 'Minor'
@@ -47,10 +49,10 @@ describe('Component: AddDefectPage', () => {
         IonicModule.forRoot(AddDefectPage)
       ],
       providers: [
-        NavController,
         AlertController,
+        {provide: NavController, useFactory: () => NavControllerMock.instance()},
         {provide: NavParams, useClass: NavParamsMock},
-        {provide: DefectsService, useValue: defectsServiceSpy},
+        {provide: DefectsService, useClass: DefectsServiceMock},
         {provide: CommonFunctionsService, useValue: commonFunctionsServiceSpy},
         {provide: ViewController, useClass: ViewControllerMock}
       ],
@@ -65,6 +67,7 @@ describe('Component: AddDefectPage', () => {
     navParams = TestBed.get(NavParams);
     defectsService = TestBed.get(DefectsService);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
+    viewCtrl = TestBed.get(ViewController);
   });
 
   beforeEach(() => {
@@ -109,7 +112,17 @@ describe('Component: AddDefectPage', () => {
 
   it('should return the CSS Class', () => {
     expect(comp.returnBadgeClass('Minor')).toBe('badge-text-black')
-  })
+  });
 
+  it('should test ionViewWillEnter logic', () => {
+    spyOn(viewCtrl, 'setBackButtonText');
+    comp.ionViewWillEnter();
+    expect(viewCtrl.setBackButtonText).toHaveBeenCalled();
+  });
 
+  it('should test selectedItem logic', () => {
+    comp.focusOut = true;
+    comp.selectDeficiency(DefectsReferenceDataMock.DefectDataDeficiency);
+    expect(comp.focusOut).toBeFalsy();
+  });
 });

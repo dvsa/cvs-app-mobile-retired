@@ -46,6 +46,14 @@ export class TestCancelPage {
     this.testData = this.navParams.get('test');
   }
 
+  submitHandler() {
+    this.testData.status = TEST_REPORT_STATUSES.CANCELLED;
+    this.testData.reasonForCancellation = this.cancellationReason;
+    this.testReportService.endTestReport(this.testData);
+    this.nextAlert = true;
+    this.submit(this.testData);
+  }
+
   onSubmit() {
     this.changeOpacity = true;
     let alert;
@@ -61,11 +69,7 @@ export class TestCancelPage {
             text: 'Submit',
             cssClass: 'danger-action-button',
             handler: () => {
-              this.testData.status = TEST_REPORT_STATUSES.CANCELLED;
-              this.testData.reasonForCancellation = this.cancellationReason;
-              this.testReportService.endTestReport(this.testData);
-              this.nextAlert = true;
-              this.submit(this.testData);
+              this.submitHandler();
             }
           }
         ]

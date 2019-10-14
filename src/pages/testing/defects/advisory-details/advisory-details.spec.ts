@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, NavController, NavParams } from "ionic-angular";
+import { AlertController, IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
-import { NavControllerMock } from "../../../../../test-config/ionic-mocks/nav-controller.mock";
+import { NavControllerMock } from "ionic-mocks";
 import { AlertControllerMock } from "ionic-mocks";
 import { AdvisoryDetailsPage } from "./advisory-details";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
@@ -16,6 +16,7 @@ describe('Component: AdvisoryDetailsPage', () => {
   let comp: AdvisoryDetailsPage;
   let fixture: ComponentFixture<AdvisoryDetailsPage>;
   let alertCtrl: AlertController;
+  let navCtrl: NavController;
 
   const TEST_TYPE: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const DEFECT: DefectDetailsModel = DefectDetailsDataMock.DefectData;
@@ -38,6 +39,7 @@ describe('Component: AdvisoryDetailsPage', () => {
     fixture = TestBed.createComponent(AdvisoryDetailsPage);
     comp = fixture.componentInstance;
     alertCtrl = TestBed.get(AlertController);
+    navCtrl = TestBed.get(NavController);
   });
 
   afterEach(() => {
@@ -63,5 +65,15 @@ describe('Component: AdvisoryDetailsPage', () => {
   it('should present a pop-up when removeAdvisoryConfirm is called', () => {
     comp.removeAdvisoryConfirm();
     expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should test submitAdvisory logic', () => {
+    comp.submitAdvisory();
+    expect(navCtrl.getViews).toHaveBeenCalled();
+  });
+
+  it('should test cancelAdvisory logic', () => {
+    comp.cancelAdvisory();
+    expect(navCtrl.pop).toHaveBeenCalled();
   });
 });

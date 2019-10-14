@@ -1,25 +1,24 @@
-import {TestTypesListPage} from "./test-types-list";
-import {async, ComponentFixture, inject, TestBed} from "@angular/core/testing";
-import {IonicModule, NavController, NavParams, ViewController} from "ionic-angular";
-import {NavParamsMock} from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
-import {StorageService} from "../../../../providers/natives/storage.service";
-import {TestTypeService} from "../../../../providers/test-type/test-type.service";
-import {TestTypesReferenceDataMock} from "../../../../assets/data-mocks/reference-data-mocks/test-types.mock";
-import {TestTypesReferenceDataModel} from "../../../../models/reference-data-models/test-types.model";
-import {PipesModule} from "../../../../pipes/pipes.module";
-import {TechRecordDataMock} from "../../../../assets/data-mocks/tech-record-data.mock";
-import {VehicleService} from "../../../../providers/vehicle/vehicle.service";
-import {TestTypeServiceMock} from "../../../../../test-config/services-mocks/test-type-service.mock";
-import {ViewControllerMock} from "../../../../../test-config/ionic-mocks/view-controller.mock";
-import {CommonFunctionsService} from "../../../../providers/utils/common-functions";
-import {VehicleTechRecordModel} from "../../../../models/vehicle/tech-record.model";
-import {VehicleModel} from "../../../../models/vehicle/vehicle.model";
-import {VehicleDataMock} from "../../../../assets/data-mocks/vehicle-data.mock";
-import {TEST_TYPE_RESULTS} from "../../../../app/app.enums";
-import {FirebaseLogsService} from "../../../../providers/firebase-logs/firebase-logs.service";
-import {FirebaseLogsServiceMock} from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import {NavControllerMock} from "ionic-mocks";
+import { TestTypesListPage } from "./test-types-list";
+import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
+import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
+import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { StorageService } from "../../../../providers/natives/storage.service";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { TestTypesReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/test-types.mock";
+import { TestTypesReferenceDataModel } from "../../../../models/reference-data-models/test-types.model";
+import { PipesModule } from "../../../../pipes/pipes.module";
+import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
+import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { APP_STRINGS, TEST_TYPE_RESULTS } from "../../../../app/app.enums";
+import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { NavControllerMock, ViewControllerMock } from "ionic-mocks";
 
 describe('Component: TestTypesListPage', () => {
   let comp: TestTypesListPage;
@@ -27,6 +26,7 @@ describe('Component: TestTypesListPage', () => {
 
   let navCtrl: NavController;
   let navParams: NavParams;
+  let viewCtrl: ViewController;
   let testTypeService: TestTypeService;
   let vehicleService: VehicleService;
   let storageServiceSpy: any;
@@ -57,7 +57,7 @@ describe('Component: TestTypesListPage', () => {
         {provide: TestTypeService, useClass: TestTypeServiceMock},
         {provide: VehicleService, useValue: vehicleServiceSpy},
         {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useClass: ViewControllerMock}
+        {provide: ViewController, useFactory: () => ViewControllerMock.instance()}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -68,6 +68,7 @@ describe('Component: TestTypesListPage', () => {
     comp = fixture.componentInstance;
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
+    viewCtrl = TestBed.get(ViewController);
     testTypeService = TestBed.get(TestTypeService);
     vehicleService = TestBed.get(VehicleService);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
@@ -99,6 +100,21 @@ describe('Component: TestTypesListPage', () => {
     expect(comp).toBeTruthy();
     expect(testTypeService).toBeTruthy();
     expect(vehicleService).toBeTruthy();
+  });
+
+  it('should test ngOnInit logic', () => {
+    comp.ngOnInit();
+    expect(navCtrl.getPrevious).toHaveBeenCalled();
+  });
+
+  it('should set the correct text to the back button', () => {
+    comp.firstPage = true;
+    comp.ionViewWillEnter();
+    expect(viewCtrl.setBackButtonText).toHaveBeenCalledWith(APP_STRINGS.TEST_TYPE);
+    comp.firstPage = false;
+    comp.backBtn = 'backBtn';
+    comp.ionViewWillEnter();
+    expect(viewCtrl.setBackButtonText).toHaveBeenCalledWith('BackBtn');
   });
 
   it('should TestTypeService and TestTypesListPage Component share the same instance',

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { APP_STRINGS, LOCAL_STORAGE, SIGNATURE_STATUS } from "../../app/app.enums";
-import { Events, LoadingController, ViewController } from "ionic-angular";
+import { Events, Loading, LoadingController, ViewController } from "ionic-angular";
 import { SignatureService } from "../../providers/signature/signature.service";
 import { AppService } from "../../providers/global/app.service";
-import { Firebase } from '@ionic-native/firebase';
 import { AuthService } from "../../providers/global/auth.service";
 import { Store } from "@ngrx/store";
 import { Log, LogsModel } from "../../modules/logs/logs.model";
@@ -18,16 +17,13 @@ export class SignaturePopoverComponent implements OnInit {
 
   title: string;
   msg: string;
-  loading = this.loadingCtrl.create({
-    content: 'Loading...'
-  });
+  loading: Loading;
 
   constructor(public viewCtrl: ViewController,
               public events: Events,
               public appService: AppService,
               public loadingCtrl: LoadingController,
               public signatureService: SignatureService,
-              private firebase: Firebase,
               private authService: AuthService,
               private store$: Store<LogsModel>) {
   }
@@ -35,6 +31,9 @@ export class SignaturePopoverComponent implements OnInit {
   ngOnInit(): void {
     this.title = APP_STRINGS.SIGN_CONF_TITLE;
     this.msg = APP_STRINGS.SIGN_CONF_MSG;
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading...'
+    });
   }
 
   closePop() {
@@ -72,7 +71,6 @@ export class SignaturePopoverComponent implements OnInit {
                 this.store$.dispatch(new logsActions.SaveLog(log));
                 this.loading.dismissAll();
                 this.events.publish(SIGNATURE_STATUS.ERROR);
-                this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Saving signature failed"});
               }
             );
           }

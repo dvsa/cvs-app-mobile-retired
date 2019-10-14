@@ -16,13 +16,13 @@ import { PAGE_NAMES } from "../../../app/app.enums";
 import { Store } from "@ngrx/store";
 import { NetworkStateProvider } from "../../../modules/logs/network-state.service";
 import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec";
+import { AppServiceMock } from "../../../../test-config/services-mocks/app-service.mock";
 
 describe('Component: TestStationHomePage', () => {
   let comp: TestStationHomePage;
   let fixture: ComponentFixture<TestStationHomePage>;
   let navCtrl: NavController;
-  let appService: AppService;
-  let appServiceSpy: any;
+  let appService: AppServiceMock;
   let storageService: StorageService;
   let visitService: VisitService;
   let screenOrientation: ScreenOrientation;
@@ -38,7 +38,6 @@ describe('Component: TestStationHomePage', () => {
 
 
   beforeEach(async(() => {
-    appServiceSpy = jasmine.createSpyObj('AppService', ['enableCache']);
     navCtrlSpy = jasmine.createSpyObj('NavController', ['push']);
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
@@ -51,7 +50,7 @@ describe('Component: TestStationHomePage', () => {
       ],
       providers: [
         {provide: NavController, useValue: navCtrlSpy},
-        {provide: AppService, useValue: appServiceSpy},
+        {provide: AppService, useClass: AppServiceMock},
         {provide: StorageService, useClass: StorageServiceMock},
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: ScreenOrientation, useValue: screenOrientationSpy},
@@ -90,7 +89,6 @@ describe('Component: TestStationHomePage', () => {
     authService = null;
     alertCtrl = null;
     callNumber = null;
-    appServiceSpy = null;
     callNumberSpy = null;
     screenOrientationSpy = null;
     networkStateProvider = null;
@@ -104,6 +102,7 @@ describe('Component: TestStationHomePage', () => {
   });
 
   it('should check if appService.enableCache has been called', () => {
+    spyOn(appService, 'enableCache');
     comp.enableCache();
     expect(appService.enableCache).toHaveBeenCalled();
   });
@@ -117,6 +116,11 @@ describe('Component: TestStationHomePage', () => {
   });
 
   it('should test getStarted flow', () => {
+    comp.getStarted();
+    expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
+    appService.isCordova = true;
+    appService.isJwtTokenStored = true;
+    appService.isSignatureRegistered = true;
     comp.getStarted();
     expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
   });

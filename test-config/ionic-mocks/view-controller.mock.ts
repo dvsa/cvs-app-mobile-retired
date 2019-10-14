@@ -33,4 +33,8 @@ export class ViewControllerMock {
   public _setNavbar(): any {
     return {}
   };
+
+  public setBackButtonText() {
+    Promise.resolve();
+  }
 }

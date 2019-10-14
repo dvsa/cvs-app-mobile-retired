@@ -1,6 +1,6 @@
 export class AppServiceMock {
-  public readonly isProduction: boolean;
-  public readonly isCordova: boolean;
+  public isProduction: boolean;
+  public isCordova: boolean;
   public isInitSyncDone: boolean;
   public isSignatureRegistered: boolean;
   public isJwtTokenStored: boolean;
@@ -16,5 +16,8 @@ export class AppServiceMock {
     this.easterEgg = true;
     this.isInitSyncDone = false;
     this.isJwtTokenStored = false;
+  }
+
+  enableCache() {
   }
 }

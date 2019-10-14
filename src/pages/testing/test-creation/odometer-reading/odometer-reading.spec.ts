@@ -4,14 +4,15 @@ import { ViewControllerMock } from "ionic-mocks";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { OdometerReadingPage } from "./odometer-reading";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
+import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { of } from "rxjs/observable/of";
 
 describe('Component: OdometerReadingPage', () => {
   let component: OdometerReadingPage;
@@ -20,7 +21,7 @@ describe('Component: OdometerReadingPage', () => {
   let firebaseLogsService: FirebaseLogsService;
   let navParams: NavParams;
 
-  const VEHICLE: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
+  let VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(() => {
 
@@ -59,7 +60,6 @@ describe('Component: OdometerReadingPage', () => {
     component.vehicle = navParams.get('vehicle');
   });
 
-
   afterEach(() => {
     fixture.destroy();
     component = null;
@@ -88,5 +88,19 @@ describe('Component: OdometerReadingPage', () => {
     spyOn(firebaseLogsService, 'logEvent');
     component.onSave();
     expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+  });
+
+  it('should test ngOnInit logic', () => {
+    VEHICLE.odometerReading = '';
+    component.vehicle = VEHICLE;
+    expect(component.vehicle.odometerReading.length).toEqual(0);
+    VEHICLE.odometerReading = '7676';
+    component.ngOnInit();
+    expect(component.vehicle.odometerReading.length).toEqual(4);
+  });
+
+  it('should display the odometer metric capitalised', () => {
+    component.odometerMetric = 'kilometres';
+    expect(component.displayOdometerMetricCapitalized()).toEqual('Kilometres');
   });
 });

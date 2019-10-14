@@ -6,10 +6,16 @@ import {
   NavParams,
   ViewController,
   AlertController,
-  LoadingController
+  LoadingController, ModalController
 } from "ionic-angular";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { NavControllerMock, ViewControllerMock, AlertControllerMock, LoadingControllerMock } from "ionic-mocks";
+import {
+  NavControllerMock,
+  ViewControllerMock,
+  AlertControllerMock,
+  LoadingControllerMock,
+  ModalControllerMock
+} from "ionic-mocks";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
@@ -42,6 +48,7 @@ import { VEHICLE_TYPE } from "../../../../app/app.enums";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { By } from "../../../../../node_modules/@angular/platform-browser";
+import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -53,8 +60,9 @@ describe('Component: TestReviewPage', () => {
   let commonFuncService: CommonFunctionsService;
   let testService: TestService;
   let vehicleService: VehicleService;
-  let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
+  let modalCtrl: ModalController;
 
+  let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
@@ -75,6 +83,7 @@ describe('Component: TestReviewPage', () => {
         {provide: StorageService, useClass: StorageServiceMock},
         {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
         {provide: NavController, useFactory: () => NavControllerMock.instance()},
+        {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: StateReformingService, useClass: StateReformingServiceMock},
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: VisitService, useClass: VisitServiceMock},
@@ -97,6 +106,7 @@ describe('Component: TestReviewPage', () => {
     commonFuncService = TestBed.get(CommonFunctionsService);
     testService = TestBed.get(TestService);
     vehicleService = TestBed.get(VehicleService);
+    modalCtrl = TestBed.get(ModalController);
   });
 
   beforeEach(() => {
@@ -165,7 +175,7 @@ describe('Component: TestReviewPage', () => {
     let firstVehicle = vehicleService.createVehicle(vehicle);
     let secondVehicle = vehicleService.createVehicle(vehicle);
     newTest.vehicles.push(firstVehicle);
-    newTest.vehicles.push(secondVehicle)
+    newTest.vehicles.push(secondVehicle);
     firstVehicle.testTypes = [];
     firstVehicle.countryOfRegistration = 'United Kingdom';
     firstVehicle.euVehicleCategory = 'm1';
@@ -186,5 +196,24 @@ describe('Component: TestReviewPage', () => {
       submitButton.nativeElement.dispatchEvent(new Event('click'));
       expect(component.submitTest).toHaveBeenCalled();
     });
+  });
+
+  it('should update completeFields with the values on the current testType', () => {
+    let testType = TestTypeDataModelMock.TestTypeData;
+    component.completeFields(testType);
+    expect(Object.keys(component.completedFields).length).toBe(0);
+
+    testType.seatbeltInstallationCheckDate = true;
+    testType.lastSeatbeltInstallationCheckDate = new Date().toISOString();
+    testType.numberOfSeatbeltsFitted = 3;
+    component.completeFields(testType);
+    expect(Object.keys(component.completedFields).length).toBe(3);
+  });
+
+  it('should open the testDetailsModal', () => {
+    let firstVehicle = vehicleService.createVehicle(vehicle);
+    let testType = TestTypeDataModelMock.TestTypeData;
+    component.openTestDetailsPage(firstVehicle, testType);
+    expect(modalCtrl.create).toHaveBeenCalled();
   });
 });

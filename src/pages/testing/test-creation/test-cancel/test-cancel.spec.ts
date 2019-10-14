@@ -26,6 +26,7 @@ describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
   let fixture: ComponentFixture<TestCancelPage>;
   let navCtrl: NavController;
+  let testReportService: TestService;
   let testReportServiceSpy: any;
   let openNativeSettingsSpy: any;
   let visitService: VisitService;
@@ -34,7 +35,7 @@ describe('Component: TestCancelPage', () => {
   let activityServiceMock: ActivityServiceMock;
   let store: Store<any>;
 
-  const testReport: TestModel = {
+  let testReport: TestModel = {
     startTime: null,
     endTime: null,
     status: null,
@@ -43,7 +44,7 @@ describe('Component: TestCancelPage', () => {
   };
 
   beforeEach(async(() => {
-    testReportServiceSpy = jasmine.createSpyObj('testReportService', {'getTestReport': testReport});
+    testReportServiceSpy = jasmine.createSpyObj('testReportService', [{'getTestReport': testReport}, 'endTestReport']);
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', [{
       'open': new Promise(() => {
         return true
@@ -80,6 +81,7 @@ describe('Component: TestCancelPage', () => {
     visitServiceMock = TestBed.get(VisitService);
     alertCtrl = TestBed.get(AlertController);
     activityServiceMock = TestBed.get(ActivityService);
+    testReportService = TestBed.get(TestService);
     store = TestBed.get(Store);
   });
 
@@ -134,5 +136,20 @@ describe('Component: TestCancelPage', () => {
     activityServiceMock.isSubmitError = true;
     component.submit(VisitDataMock.VisitTestData);
     expect(store.dispatch).toHaveBeenCalled();
+  });
+
+  it('should present onSubmit alert depending on cancellationReason', () => {
+    component.cancellationReason = '   ';
+    component.onSubmit();
+    expect(component.cancellationReason).toEqual('');
+    expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should test the submit.s handler', () => {
+    spyOn(component, 'submit');
+    component.testData = testReport;
+    component.submitHandler();
+    expect(testReportService.endTestReport).toHaveBeenCalled();
+    expect(component.submit).toHaveBeenCalled();
   });
 });

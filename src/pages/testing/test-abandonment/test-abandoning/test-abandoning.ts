@@ -39,6 +39,15 @@ export class TestAbandoningPage implements OnInit {
     }
   }
 
+  onDoneHandler() {
+    this.updateVehicleTestModel();
+    if (!this.fromTestReview) {
+      this.altAbandon ? this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 4)) : this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 3));
+    } else {
+      this.navCtrl.popToRoot();
+    }
+  }
+
   onDone() {
     this.changeOpacity = true;
     const alert = this.alertCtrl.create({
@@ -53,12 +62,7 @@ export class TestAbandoningPage implements OnInit {
           text: 'Abandon',
           cssClass: 'danger-action-button',
           handler: () => {
-            this.updateVehicleTestModel();
-            if (!this.fromTestReview) {
-              this.altAbandon ? this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 4)) : this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 3));
-            } else {
-              this.navCtrl.popToRoot();
-            }
+            this.onDoneHandler();
           }
         }
       ]

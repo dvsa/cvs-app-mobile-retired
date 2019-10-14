@@ -11,6 +11,7 @@ import { TestTypeService } from "../../../../providers/test-type/test-type.servi
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { AlertControllerMock, NavControllerMock } from "ionic-mocks";
 
 describe('Component: TestAbandoningPage', () => {
   let component: TestAbandoningPage;
@@ -29,8 +30,8 @@ describe('Component: TestAbandoningPage', () => {
       declarations: [TestAbandoningPage],
       imports: [IonicModule.forRoot(TestAbandoningPage)],
       providers: [
-        NavController,
-        AlertController,
+        {provide: NavController, useFactory: () => NavControllerMock.instance()},
+        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: TestTypeService, useClass: TestTypeServiceMock},
@@ -47,6 +48,7 @@ describe('Component: TestAbandoningPage', () => {
     navParams = TestBed.get(NavParams);
     alertCtrl = TestBed.get(AlertController);
     visitService = TestBed.get(VisitService);
+    component.additionalComment = null;
   });
 
   beforeEach(() => {
@@ -71,8 +73,44 @@ describe('Component: TestAbandoningPage', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should test ngOnInit logic', () => {
+    component.vehicleTest = vehicleTest;
+    component.vehicleTest.additionalCommentsForAbandon = 'abandon comments';
+    component.editMode = undefined;
+    component.ngOnInit();
+    expect(component.additionalComment).toEqual('abandon comments');
+    component.editMode = 'edit';
+    component.vehicleTest.additionalCommentsForAbandon = '';
+    component.ngOnInit();
+    expect(component.additionalComment).toEqual('abandon comments');
+  });
+
+  it('should create and present alert when pressing onDone', () => {
+    component.onDone();
+    expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should test onDone handler logic - popToRoot to have been called', () => {
+    spyOn(component, "updateVehicleTestModel");
+    component.vehicleTest = vehicleTest;
+    component.fromTestReview = true;
+    component.onDoneHandler();
+    expect(component.updateVehicleTestModel).toHaveBeenCalled();
+    expect(navCtrl.popToRoot).toHaveBeenCalled();
+  });
+
+  it('should test onDone handler logic - popToRoot not to have been called', () => {
+    spyOn(component, "updateVehicleTestModel");
+    component.vehicleTest = vehicleTest;
+    component.fromTestReview = false;
+    component.onDoneHandler();
+    expect(component.updateVehicleTestModel).toHaveBeenCalled();
+    expect(navCtrl.popToRoot).not.toHaveBeenCalled();
+  });
+
   it('should update the vehicleTestModel with abandonment object', () => {
-    component.vehicleTest = navParams.get('vehicleTest');
+    component.vehicleTest = vehicleTest;
+    component.vehicleTest.additionalCommentsForAbandon = null;
     component.selectedReasons = navParams.get('selectedReasons');
     expect(component.vehicleTest.reasons.length).toEqual(0);
     expect(component.vehicleTest.additionalCommentsForAbandon).toEqual(null);

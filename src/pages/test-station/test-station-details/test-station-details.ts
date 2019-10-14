@@ -102,6 +102,19 @@ export class TestStationDetailsPage implements OnInit {
       });
   }
 
+  reportIssueHandler() {
+    this.nextAlert = true;
+    let alert = this.alertCtrl.create({
+      title: APP_STRINGS.REPORT_TITLE,
+      subTitle: APP_STRINGS.SPEAK_TO_TTL,
+      buttons: [APP_STRINGS.OK]
+    });
+    alert.present();
+    alert.onDidDismiss(() => {
+      this.nextAlert = this.changeOpacity = false;
+    });
+  }
+
   startVisit(): void {
     this.changeOpacity = true;
     let confirm = this.alertCtrl.create({
@@ -119,16 +132,7 @@ export class TestStationDetailsPage implements OnInit {
           text: APP_STRINGS.REPORT_ISSUE,
           cssClass: 'danger-action-button',
           handler: () => {
-            this.nextAlert = true;
-            let alert = this.alertCtrl.create({
-              title: APP_STRINGS.REPORT_TITLE,
-              subTitle: APP_STRINGS.SPEAK_TO_TTL,
-              buttons: [APP_STRINGS.OK]
-            });
-            alert.present();
-            alert.onDidDismiss(() => {
-              this.nextAlert = this.changeOpacity = false;
-            })
+            this.reportIssueHandler();
           }
         },
         {

@@ -20,11 +20,10 @@ import { of } from "rxjs/observable/of";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
-import { ModalControllerMock } from "ionic-mocks";
+import { ModalControllerMock, ViewControllerMock } from "ionic-mocks";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -32,6 +31,7 @@ describe('Component: CompleteTestPage', () => {
 
   let navCtrl: NavController;
   let navParams: NavParams;
+  let viewCtrl: ViewController;
   let defectsService: DefectsService;
   let alertCtrl: AlertController;
   let defectsServiceSpy: any;
@@ -92,7 +92,7 @@ describe('Component: CompleteTestPage', () => {
         {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: DefectsService, useValue: defectsServiceSpy},
-        {provide: ViewController, useClass: ViewControllerMock},
+        {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -104,6 +104,7 @@ describe('Component: CompleteTestPage', () => {
     comp = fixture.componentInstance;
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
+    viewCtrl = TestBed.get(ViewController);
     defectsService = TestBed.get(DefectsService);
     alertCtrl = TestBed.get(AlertController);
     visitService = TestBed.get(VisitService);
@@ -134,6 +135,30 @@ describe('Component: CompleteTestPage', () => {
   it('should create the component', () => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
+  });
+
+  it('should test ngOnInit logic', () => {
+    spyOn(comp, 'updateTestType');
+    comp.vehicleTest = VEHICLE_TEST;
+    comp.completedFields = {};
+    comp.ngOnInit();
+    expect(comp.updateTestType).toHaveBeenCalled();
+  });
+
+  it('should test ionViewDidEnter logic - viewCtrl.dismiss to be called', () => {
+    comp.fromTestReview = true;
+    comp.vehicleTest = VEHICLE_TEST;
+    comp.vehicleTest.testResult = TEST_TYPE_RESULTS.ABANDONED;
+    comp.ionViewDidEnter();
+    expect(viewCtrl.dismiss).toHaveBeenCalled();
+  });
+
+  it('should test ionViewDidEnter logic - viewCtrl.dismiss not to be called', () => {
+    comp.vehicleTest = VEHICLE_TEST;
+    comp.fromTestReview = false;
+    comp.vehicleTest.testResult = TEST_TYPE_RESULTS.PASS;
+    comp.ionViewDidEnter();
+    expect(viewCtrl.dismiss).not.toHaveBeenCalled();
   });
 
   it('should VisitService and Root Component share the same instance',

@@ -3,6 +3,8 @@ import { Events, IonicModule, NavController } from "ionic-angular";
 import { TestStationSearchPage } from "./test-station-search";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestStationService } from "../../../providers/test-station/test-station.service";
+import { TestStationReferenceDataModel } from "../../../models/reference-data-models/test-station.model";
+import { NavControllerMock } from "ionic-mocks";
 
 describe('Component: TestStationSearchPage', () => {
   let comp: TestStationSearchPage;
@@ -10,8 +12,9 @@ describe('Component: TestStationSearchPage', () => {
   let testStationService: TestStationService;
   let navCtrl: NavController;
 
+
   beforeEach(async(() => {
-    const testStationServiceSpy = jasmine.createSpyObj('TestStationService', ['getTestStations, getTestStationsFromStorage']);
+    const testStationServiceSpy = jasmine.createSpyObj('TestStationService', ['getTestStations, getTestStationsFromStorage', 'sortAndSearchTestStation']);
 
     TestBed.configureTestingModule({
       declarations: [TestStationSearchPage],
@@ -19,7 +22,7 @@ describe('Component: TestStationSearchPage', () => {
         IonicModule.forRoot(TestStationSearchPage)
       ],
       providers: [
-        NavController,
+        {provide: NavController, useFactory: () => NavControllerMock.instance()},
         {provide: TestStationService, useValue: testStationServiceSpy}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -58,5 +61,21 @@ describe('Component: TestStationSearchPage', () => {
     expect(comp.focusOut).toBeTruthy();
     comp.keepCancelOn('ev', true);
     expect(comp.focusOut).toBeFalsy();
+  });
+
+  it('should push TestStationDetailsPage', () => {
+    comp.openTestStation({} as TestStationReferenceDataModel);
+    expect(navCtrl.push).toHaveBeenCalled();
+  });
+
+  it('should test searchList logic', () => {
+    comp.searchList({target: {value: 'searchValue'}});
+    expect(comp.searchVal).toEqual('searchValue');
+  });
+
+  it('should clear search', () => {
+    comp.searchVal = 'searchVal';
+    comp.clearSearch();
+    expect(comp.searchVal).toEqual('');
   });
 });
