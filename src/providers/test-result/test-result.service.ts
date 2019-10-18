@@ -44,7 +44,7 @@ export class TestResultService {
       newTestResult.odometerReading = vehicle.odometerReading ? parseInt(vehicle.odometerReading) : null;
       newTestResult.odometerReadingUnits = vehicle.odometerMetric ? vehicle.odometerMetric : null;
     }
-    if(vehicle.testTypes.filter(testType => FirstTestTypesData.FirstTestTypesDataIds.some(id => id === testType.testTypeId)).length){
+    if(this.vehicleContainsFirstTests(vehicle)){
       if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) newTestResult.regnDate = vehicle.techRecord.regnDate;
       else newTestResult.firstUseDate = vehicle.techRecord.firstUseDate;
     }
@@ -63,6 +63,14 @@ export class TestResultService {
     newTestResult.testTypes = vehicle.testTypes;
 
     return newTestResult;
+  }
+
+  private vehicleContainsFirstTests(vehicle: VehicleModel): boolean {
+    return vehicle.testTypes.filter(this.isFirstTest).length > 0;
+  }
+
+  private isFirstTest(testType: TestTypeModel): boolean {
+    return FirstTestTypesData.FirstTestTypesDataIds.some(id => id === testType.testTypeId);
   }
 
   concatenateReasonsArray(reasons: string[]) {
