@@ -31,6 +31,8 @@ export class TestResultModel {
   noOfAxles: number;
   vehicleSize?: string; // PSV
   numberOfSeats?: number; // PSV (seatsLowerDeck + seatsUpperDeck)
+  regnDate?: string;// HGV
+  firstUseDate?: string;// TRL
   /* TEST TYPES */
   testTypes: TestTypeModel[];
 }

@@ -10,7 +10,7 @@ import { AuthService } from "../global/auth.service";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { DefectDetailsDataMock } from "../../assets/data-mocks/defect-details-data.mock";
-import { TEST_TYPES_IDS, SPEC_VALUES } from "../../app/app.enums";
+import {TEST_TYPES_IDS, SPEC_VALUES, VEHICLE_TYPE} from '../../app/app.enums';
 
 describe('Provider: TestResultService', () => {
   let testResultService: TestResultService;
@@ -121,4 +121,53 @@ describe('Provider: TestResultService', () => {
     testType.testTypeId = TEST_TYPES_IDS._62;
     expect(testResultService.formatCertificateNumber(testType)).toEqual(SPEC_VALUES.CERTIFICATE_NUMBER);
   });
+
+  it('should create a test result containing the correct firstUseDate if the test contains a trailer with a first test', () => {
+    let trailer = VehicleDataMock.VehicleData;
+    trailer.techRecord.vehicleType = VEHICLE_TYPE.TRL;
+    trailer.techRecord.firstUseDate = '2019-06-24';
+    let firstTest = TestTypeDataModelMock.TestTypeData;
+    firstTest.testTypeId = '95';
+    trailer.testTypes.push(firstTest);
+    let testResult = testResultService.createTestResult(VISIT, TEST, trailer);
+
+    expect(testResult.firstUseDate).toBeTruthy();
+    expect(testResult.firstUseDate).toBe(trailer.techRecord.firstUseDate);
+  });
+
+  it('should create a test result not containing firstUseDate if the test has a trailer with without a first test', () => {
+    let trailer = VehicleDataMock.VehicleData;
+    trailer.techRecord.vehicleType = VEHICLE_TYPE.TRL;
+    trailer.techRecord.firstUseDate = '2019-06-24';
+    let test = TestTypeDataModelMock.TestTypeData;
+    trailer.testTypes.push(test);
+    let testResult = testResultService.createTestResult(VISIT, TEST, trailer);
+
+    expect(testResult.firstUseDate).toBeFalsy();
+  });
+
+  it('should create a test result containing the correct regnDate if the test contains an HGV with a first test', () => {
+    let hgv = VehicleDataMock.VehicleData;
+    hgv.techRecord.vehicleType = VEHICLE_TYPE.HGV;
+    hgv.techRecord.regnDate = '2019-06-24';
+    let firstTest = TestTypeDataModelMock.TestTypeData;
+    firstTest.testTypeId = '65';
+    hgv.testTypes.push(firstTest);
+    let testResult = testResultService.createTestResult(VISIT, TEST, hgv);
+
+    expect(testResult.regnDate).toBeTruthy();
+    expect(testResult.regnDate).toBe(hgv.techRecord.regnDate);
+  });
+
+  it('should create a test result not containing regnDate if the test has an HGV with without a first test', () => {
+    let hgv = VehicleDataMock.VehicleData;
+    hgv.techRecord.vehicleType = VEHICLE_TYPE.HGV;
+    hgv.techRecord.regnDate = '2019-06-24';
+    let test = TestTypeDataModelMock.TestTypeData;
+    hgv.testTypes.push(test);
+    let testResult = testResultService.createTestResult(VISIT, TEST, hgv);
+
+    expect(testResult.regnDate).toBeFalsy();
+  });
+
 });
