@@ -8,6 +8,7 @@ import { TestTypeService } from "../test-type/test-type.service";
 import { AuthService } from "../global/auth.service";
 import { RoadworthinessTestTypesData } from "../../assets/app-data/test-types-data/roadworthiness-test-types.data";
 import { TestTypeModel } from "../../models/tests/test-type.model";
+import {FirstTestTypesData} from '../../assets/app-data/test-types-data/first-test-types.data';
 
 @Injectable()
 export class TestResultService {
@@ -43,6 +44,11 @@ export class TestResultService {
       newTestResult.odometerReading = vehicle.odometerReading ? parseInt(vehicle.odometerReading) : null;
       newTestResult.odometerReadingUnits = vehicle.odometerMetric ? vehicle.odometerMetric : null;
     }
+    if(vehicle.testTypes.filter(testType => FirstTestTypesData.FirstTestTypesDataIds.some(id => id === testType.testTypeId)).length){
+      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) newTestResult.regnDate = vehicle.techRecord.regnDate;
+      else newTestResult.firstUseDate = vehicle.techRecord.firstUseDate;
+    }
+
     newTestResult.vin = vehicle.vin;
     newTestResult.vehicleClass = vehicle.techRecord.vehicleClass;
     newTestResult.vehicleType = vehicle.techRecord.vehicleType;
