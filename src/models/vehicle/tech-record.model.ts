@@ -51,6 +51,7 @@ export interface TechRecordModel {
   drawbarCouplingFitted?: boolean;
   dimensions?: Dimensions;
   notes: string;
+  adrDetails?: AdrDetails;
   /* -------- ONLY FOR HGV -------- */
   trainGbWeight?: number;
   trainDesignWeight?: number;
@@ -152,4 +153,56 @@ export interface AxleBrakePropertiesModel {
   brakeActuator: number;
   leverLength: number;
   springBrakeParking: boolean;
+}
+
+export interface AdrDetails {
+  vehicleDetails: VehicleDetails;
+  permittedDangerousGoods: string[];
+  additionalExaminerNotes: string;
+  applicantDetails: ApplicantDetails;
+  memosApply: string[];
+  additionalNotes: AdditionalNotes;
+  tank: Tank;
+}
+
+export interface VehicleDetails {
+  type: string;
+  approvalDate: string;
+}
+
+export interface ApplicantDetails {
+  name: string;
+  street: string;
+  town: string;
+  city: string;
+  postcode: string;
+}
+
+export interface AdditionalNotes {
+  number: number;
+  guidanceNotes: string[];
+}
+
+export interface Tank {
+  tankDetails: TankDetails;
+  tankStatement: TankStatement;
+}
+
+export interface TankDetails {
+  tankManufacturer: string;
+  tc2IntermediateApprovalNo: string;
+  tc2IntermediateExpiryDate: string;
+  tc3PeriodicNumber: string;
+  tc3PeriodicExpiryDate: string;
+  yearOfManufacture: string;
+  tankCode: string;
+  specialProvisions: string;
+  tankManufacturerSerialNo: string;
+  tankTypeAppNo: string;
+}
+
+export interface TankStatement {
+  substancesPermitted: string;
+  statement: string;
+  productList: string;
 }

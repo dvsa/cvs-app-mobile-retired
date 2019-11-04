@@ -319,6 +319,11 @@ export enum PROHIBITION_ISSUED {
   NO = 'no'
 }
 
+export enum ADR_DETAILS {
+  SUBSTANCES_PERMITTED = 'Substances permitted under the tank code and any special provisions specified in 9 may be carried',
+  SUBSTANCES_CLASS_UN = 'Substances (class UN number and if necessary packing group and proper shipping name) may be carried'
+}
+
 export enum TECH_RECORD_STATUS {
   ARCHIVED = 'archived',
   CURRENT = 'current',
