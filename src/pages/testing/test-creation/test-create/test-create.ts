@@ -120,6 +120,7 @@ export class TestCreatePage implements OnInit {
 
   getTestTypeStatus(vehicle: VehicleModel, testType: TestTypeModel) {
     let isInProgress = true;
+    this.testTypeService.updateLinkedTestResults(vehicle, testType);
     for (let testTypeFieldMetadata of this.testTypesFieldsMetadata) {
       if (testType.testTypeId === testTypeFieldMetadata.testTypeId && testTypeFieldMetadata.sections.length) {
         isInProgress = false;
@@ -162,7 +163,7 @@ export class TestCreatePage implements OnInit {
         }
       }
     }
-    this.testTypeService.updateLinkedTestResults(vehicle, testType);
+
     return isInProgress ? 'In progress' : 'Edit';
   }
 

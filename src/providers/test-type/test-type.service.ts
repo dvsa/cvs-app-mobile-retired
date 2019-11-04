@@ -117,16 +117,19 @@ export class TestTypeService {
     return result;
   }
 
-  updateLinkedTestResults(vehicle: VehicleModel, testType: TestTypeModel) {
-    if ((testType.testTypeId === '40' || testType.testTypeId === '94') && testType.testResult === TEST_TYPE_RESULTS.FAIL) { // Annual test and ADR tests for HGVs and TRLs
+  updateLinkedTestResults(vehicle: VehicleModel, testType: TestTypeModel): boolean {
+    let blockTestResultSelection = false;
+    if (AdrTestTypesData.AdrTestTypesDataIds.indexOf(testType.testTypeId) !== -1) { // between Annual test and ADR tests for HGVs and TRLs
       for (let vehicleTestType of vehicle.testTypes) {
-        if (AdrTestTypesData.AdrTestTypesDataIds.indexOf(vehicleTestType.testTypeId) !== -1 && vehicleTestType.testResult !== TEST_TYPE_RESULTS.FAIL) {
-          vehicleTestType.testResult = TEST_TYPE_RESULTS.FAIL;
-          vehicleTestType.certificateNumber = null;
-          vehicleTestType.testExpiryDate = null;
+        if ((vehicleTestType.testTypeId === '40' || vehicleTestType.testTypeId === '94') && vehicleTestType.testResult === TEST_TYPE_RESULTS.FAIL) {
+          testType.testResult = TEST_TYPE_RESULTS.FAIL;
+          testType.certificateNumber = null;
+          testType.testExpiryDate = null;
+          blockTestResultSelection = true;
         }
       }
     }
+    return blockTestResultSelection;
   }
 
   orderTestTypesArray(array, key, order?) {

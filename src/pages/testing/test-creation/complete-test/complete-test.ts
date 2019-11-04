@@ -53,6 +53,7 @@ export class CompleteTestPage implements OnInit {
   TEST_TYPE_RESULTS: typeof TEST_TYPE_RESULTS = TEST_TYPE_RESULTS;
   errorIncomplete: boolean;
   errorIncompleteCertificateNumber: boolean;
+  blockTestResultSelection: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -93,6 +94,7 @@ export class CompleteTestPage implements OnInit {
   ionViewWillEnter() {
     this.isNotifiableAlterationError = false;
     this.isNotifiableAlteration = this.notifiableAlterationTestTypesDataIds.indexOf(this.vehicleTest.testTypeId) !== -1;
+    this.blockTestResultSelection = this.testTypeService.updateLinkedTestResults(this.vehicle, this.vehicleTest);
   }
 
   ionViewDidEnter() {
@@ -170,6 +172,9 @@ export class CompleteTestPage implements OnInit {
   }
 
   openDDL(input) {
+    if (input.testTypePropertyName === 'testResult' && this.blockTestResultSelection) {
+      return;
+    }
     const ACTION_SHEET = this.actionSheetCtrl.create({
       title: input.title,
       buttons: this.createDDLButtons(input)

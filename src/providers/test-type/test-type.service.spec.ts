@@ -12,7 +12,6 @@ import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-t
 import { TEST_TYPE_RESULTS, VEHICLE_TYPE } from "../../app/app.enums";
 import { FirebaseLogsServiceMock } from "../../../test-config/services-mocks/firebaseLogsService.mock";
 import { FirebaseLogsService } from "../firebase-logs/firebase-logs.service";
-import { Firebase } from "@ionic-native/firebase";
 import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
 
 describe('Provider: TestTypeService', () => {
@@ -173,8 +172,10 @@ describe('Provider: TestTypeService', () => {
     annualTestType.testTypeId = '40'; // or 94
     annualTestType.testResult = TEST_TYPE_RESULTS.FAIL;
     vehicle.testTypes.push(annualTestType);
-    testTypeService.updateLinkedTestResults(vehicle, annualTestType);
+    expect(testTypeService.updateLinkedTestResults(vehicle, adrTestType)).toBeTruthy();
     expect(vehicle.testTypes[0].testResult).toEqual(TEST_TYPE_RESULTS.FAIL);
     expect(vehicle.testTypes[0].certificateNumber).toEqual(null);
+
+    expect(testTypeService.updateLinkedTestResults(vehicle, annualTestType)).toBeFalsy();
   });
 });

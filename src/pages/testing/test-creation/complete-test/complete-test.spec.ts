@@ -1,6 +1,14 @@
 import { CompleteTestPage } from "./complete-test";
 import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, ModalController, NavController, NavParams, ViewController } from "ionic-angular";
+import {
+  ActionSheetController,
+  AlertController,
+  IonicModule,
+  ModalController,
+  NavController,
+  NavParams,
+  ViewController
+} from "ionic-angular";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
@@ -23,7 +31,7 @@ import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.m
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
-import { ModalControllerMock, ViewControllerMock } from "ionic-mocks";
+import { ActionSheetControllerMock, ModalControllerMock, ViewControllerMock } from "ionic-mocks";
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -34,6 +42,7 @@ describe('Component: CompleteTestPage', () => {
   let viewCtrl: ViewController;
   let defectsService: DefectsService;
   let alertCtrl: AlertController;
+  let actionSheetCtrl: ActionSheetController;
   let defectsServiceSpy: any;
   let visitService: VisitService;
   let vehicleService: VehicleService;
@@ -89,6 +98,7 @@ describe('Component: CompleteTestPage', () => {
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: TestTypeService, useClass: TestTypeServiceMock},
         AlertController,
+        {provide: ActionSheetController, useFactory: () => ActionSheetControllerMock.instance()},
         {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: VehicleService, useClass: VehicleServiceMock},
         {provide: DefectsService, useValue: defectsServiceSpy},
@@ -110,6 +120,7 @@ describe('Component: CompleteTestPage', () => {
     visitService = TestBed.get(VisitService);
     vehicleService = TestBed.get(VehicleService);
     modalCtrl = TestBed.get(ModalController);
+    actionSheetCtrl = TestBed.get(ActionSheetController);
   });
 
   beforeEach(() => {
@@ -257,6 +268,7 @@ describe('Component: CompleteTestPage', () => {
     comp.vehicleTest.testTypeId = '50';
     comp.ionViewWillEnter();
     expect(comp.isNotifiableAlteration).toBeFalsy();
+    expect(comp.blockTestResultSelection).toBeFalsy();
   });
 
   it('should activate the notifiable alteration error if certain condition met', () => {
@@ -311,5 +323,21 @@ describe('Component: CompleteTestPage', () => {
     comp.vehicleTest.certificateNumber = null;
     comp.certificateNumberInputChange('12345678');
     expect(comp.vehicleTest.certificateNumber).toEqual('123456');
+  });
+
+  it('should open ddl when blockTestResultSelection is false', () => {
+    let input = {} as any;
+    input.testTypePropertyName = 'testResult';
+    comp.blockTestResultSelection = false;
+    comp.openDDL(input);
+    expect(actionSheetCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should not open ddl when blockTestResultSelection is true and input is testResult', () => {
+    let input = {} as any;
+    input.testTypePropertyName = 'testResult';
+    comp.blockTestResultSelection = true;
+    comp.openDDL(input);
+    expect(actionSheetCtrl.create).not.toHaveBeenCalled();
   });
 });
