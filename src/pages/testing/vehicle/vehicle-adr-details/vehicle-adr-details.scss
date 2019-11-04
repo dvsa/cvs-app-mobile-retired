@@ -1,0 +1,17 @@
+page-vehicle-adr-details {
+
+  ion-content {
+    .scroll-content {
+      background: $color-grey-3;
+    }
+
+    ion-list.vehicle-list ion-list-header[text-wrap].text-wrap-custom-spacing {
+      height: auto;
+    }
+
+    ion-list.vehicle-list ion-list-header[text-wrap].text-wrap-custom-spacing ion-label {
+      margin-top: 20px;
+      margin-bottom: 5px;
+    }
+  }
+}

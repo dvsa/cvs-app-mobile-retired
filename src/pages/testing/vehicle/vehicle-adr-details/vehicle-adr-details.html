@@ -1,0 +1,271 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>ADR details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+  <div text-uppercase
+       text-center
+       class="vehicle-header-vrm-number">
+    <ng-container
+      *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle">{{ vehicleData.trailerId }}</ng-container>
+    <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
+  </div>
+
+  <ion-list class="vehicle-list">
+    <ion-list-header padding-left padding-right>Vehicle details</ion-list-header>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.vehicleDetails.type">
+      <ion-label>
+        <h3>Vehicle type</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.vehicleDetails.type }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left>
+      <ion-label>
+        <h3>Approval date</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.vehicleDetails.approvalDate | date: 'dd MMM yyyy'}}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="vehicle-list" *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails">
+    <ion-list-header padding-left padding-right>Tank details</ion-list-header>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails.tankManufacturer">
+      <ion-label>
+        <h3>Tank Manufacturer</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankDetails.tankManufacturer }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails.tc2IntermediateApprovalNo">
+      <ion-label>
+        <h3>TC2/Intermediate Approval No</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankDetails.tc2IntermediateApprovalNo}}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails.tc2IntermediateExpiryDate">
+      <ion-label>
+        <h3>TC2/Intermediate Expiry Date</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankDetails.tc2IntermediateExpiryDate | date: 'dd MMM yyyy'}}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails.tc3PeriodicNumber">
+      <ion-label>
+        <h3>TC3/Periodic Number</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankDetails.tc3PeriodicNumber }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails.tc3PeriodicExpiryDate">
+      <ion-label>
+        <h3>TC3/Periodic Expiry Date</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankDetails.tc3PeriodicExpiryDate | date: 'dd MMM yyyy'}}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails.yearOfManufacture">
+      <ion-label>
+        <h3>Year of Manufacture</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankDetails.yearOfManufacture }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails.tankCode">
+      <ion-label>
+        <h3>Tank Code</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankDetails.tankCode }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails.specialProvisions">
+      <ion-label>
+        <h3>Special Provisions</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankDetails.specialProvisions }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails.tankManufacturerSerialNo">
+      <ion-label>
+        <h3>Tank Manufacturer Serial Number</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankDetails.tankManufacturerSerialNo }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankDetails.tankTypeAppNo">
+      <ion-label>
+        <h3>Tank Type Approval Number</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankDetails.tankTypeAppNo }}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="vehicle-list" *ngIf="vehicleData.techRecord.adrDetails.tank.tankStatement">
+    <ion-list-header padding-left
+                     padding-right
+                     text-wrap
+                     class="text-wrap-custom-spacing">{{vehicleData.techRecord.adrDetails.tank.tankStatement.substancesPermitted === ADR_DETAILS.SUBSTANCES_PERMITTED ?
+        ADR_DETAILS.SUBSTANCES_PERMITTED : ADR_DETAILS.SUBSTANCES_CLASS_UN}}</ion-list-header>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankStatement.statement">
+      <ion-label>
+        <h3>Statement Number</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankStatement.statement }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.tank.tankStatement.productList">
+      <ion-label>
+        <h3>Product List</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.tank.tankStatement.productList }}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="vehicle-list">
+    <ion-list-header padding-left
+                     padding-right>Permitted dangerous goods
+    </ion-list-header>
+
+    <ion-item margin-left
+              *ngFor="let permittedDangerousGood of vehicleData.techRecord.adrDetails.permittedDangerousGoods">
+      <ion-label>
+        <h3>{{permittedDangerousGood}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="vehicle-list">
+    <ion-list-header padding-left
+                     padding-right>Additional examiner notes
+    </ion-list-header>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.additionalExaminerNotes">
+      <ion-label>
+        <h3>Notes</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.additionalExaminerNotes }}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="vehicle-list">
+    <ion-list-header padding-left
+                     padding-right>Applicant details
+    </ion-list-header>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.applicantDetails.name">
+      <ion-label>
+        <h3>Name</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.applicantDetails.name }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.applicantDetails.street">
+      <ion-label>
+        <h3>Street</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.applicantDetails.street }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.applicantDetails.town">
+      <ion-label>
+        <h3>Town</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.applicantDetails.town }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.applicantDetails.city">
+      <ion-label>
+        <h3>City</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.applicantDetails.city }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.applicantDetails.postcode">
+      <ion-label>
+        <h3>Postcode</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.applicantDetails.postcode }}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="vehicle-list">
+    <ion-list-header padding-left
+                     padding-right>Memos that apply
+    </ion-list-header>
+
+    <ion-item margin-left
+              *ngFor="let memo of vehicleData.techRecord.adrDetails.memosApply">
+      <ion-label>
+        <h3>{{memo}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="vehicle-list">
+    <ion-list-header padding-left
+                     padding-right>Additional details
+    </ion-list-header>
+
+    <ion-item margin-left *ngIf="vehicleData.techRecord.adrDetails.additionalNotes.number">
+      <ion-label>
+        <h3>Guidance notes Number</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ vehicleData.techRecord.adrDetails.additionalNotes.number }}</p>
+      </div>
+    </ion-item>
+
+    <ion-item margin-left
+              *ngFor="let guidanceNote of vehicleData.techRecord.adrDetails.additionalNotes.guidanceNotes">
+      <ion-label>
+        <h3>{{guidanceNote}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
