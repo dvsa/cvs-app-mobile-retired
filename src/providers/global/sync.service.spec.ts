@@ -1,4 +1,4 @@
-import { TestBed } from "@angular/core/testing";
+import {async, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import { SyncService } from "./sync.service";
 import { AlertController, Events, LoadingController } from "ionic-angular";
 import { StorageService } from "../natives/storage.service";
@@ -19,6 +19,7 @@ import { AuthService } from "./auth.service";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
 import { Store } from "@ngrx/store";
 import { TestStore } from "../interceptors/auth.interceptor.spec";
+import { AppVersion } from "@ionic-native/app-version";
 
 
 describe('Provider: SyncService', () => {
@@ -31,10 +32,16 @@ describe('Provider: SyncService', () => {
   let alertCtrl: AlertController;
   let loadingCtrl: LoadingController;
   let appService: AppService;
+  let appVersion: AppVersion;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['read']);
-    httpServiceSpy = jasmine.createSpyObj('HTTPService', ['get', 'getAtfs', 'getDefects', 'getTestTypes', 'getPreparers']);
+    httpServiceSpy = jasmine.createSpyObj('HTTPService', ['get', 'getAtfs', 'getDefects', 'getTestTypes', 'getPreparers','getApplicationVersion']);
+    let latestAppVersion ={body: {"mobile-app": {
+          "version": "v2.0.0",
+          "breaking": "true"
+        }}};
+    httpServiceSpy.getApplicationVersion = jasmine.createSpy().and.returnValue(Promise.resolve(latestAppVersion));
 
     TestBed.configureTestingModule({
       providers: [
@@ -49,7 +56,8 @@ describe('Provider: SyncService', () => {
         {provide: Store, useClass: TestStore},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
-        {provide: Events, useFactory: () => EventsMock.instance()}
+        {provide: Events, useFactory: () => EventsMock.instance()},
+        AppVersion
       ]
     });
 
@@ -60,6 +68,7 @@ describe('Provider: SyncService', () => {
     alertCtrl = TestBed.get(AlertController);
     loadingCtrl = TestBed.get(LoadingController);
     appService = TestBed.get(AppService);
+    appVersion = TestBed.get(AppVersion);
   });
 
   afterEach(() => {
@@ -86,5 +95,31 @@ describe('Provider: SyncService', () => {
 
     syncService.handleData(myArray);
     expect(events.publish).toHaveBeenCalled();
+  });
+
+  it('should show the update popup if the app version is not the latest and there is no current visit', () => {
+    spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
+
+
+    return syncService.isUpdateNeeded().then(()=>{
+      expect(alertCtrl.create).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should not show the update popup if the app is updated', () => {
+    spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v2.0.0'));
+
+    return syncService.isUpdateNeeded().then(()=>{
+      expect(alertCtrl.create).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  it('should not show the update popup if there is a newer breaking version of the app but there is an active visit', () => {
+    spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
+    storageService.read =  jasmine.createSpy().and.returnValue(Promise.resolve({}));
+
+    return syncService.isUpdateNeeded().then(()=>{
+      expect(alertCtrl.create).toHaveBeenCalledTimes(0);
+    });
   });
 });
