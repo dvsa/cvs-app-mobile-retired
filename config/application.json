@@ -17,5 +17,6 @@
   "BACKEND_URL_TEST_RESULTS": "http://localhost:3006/test-results",
   "BACKEND_URL_VISIT": "http://localhost:3007/activities",
   "BACKEND_URL_LOGS": "http://localhost:3000/logs",
-  "BACKEND_URL_UNAUTH_LOGS": "http://localhost:3000/unauth-logs"
+  "BACKEND_URL_UNAUTH_LOGS": "http://localhost:3000/unauth-logs",
+  "URL_LATEST_VERSION": ""
 }

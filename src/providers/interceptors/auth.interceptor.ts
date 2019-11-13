@@ -8,6 +8,7 @@ import { AUTH, STATUS_CODE } from "../../app/app.enums";
 import { Log, LogsModel } from "../../modules/logs/logs.model";
 import * as logsActions from "../../modules/logs/logs.actions";
 import { Store } from "@ngrx/store";
+import {AppConfig} from '../../../config/app.config';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -75,9 +76,9 @@ export class AuthInterceptor implements HttpInterceptor {
     }
   }
 
-  addAuthHeader(request, token) {
+  addAuthHeader(request: HttpRequest<any>, token) {
     const AUTH_HEADER = token;
-    if (AUTH_HEADER) {
+    if (AUTH_HEADER && request.url !== AppConfig.URL_LATEST_VERSION) {
       return request.clone({
         setHeaders: {
           "Authorization": `${AUTH_HEADER}`
