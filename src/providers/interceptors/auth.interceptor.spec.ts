@@ -57,12 +57,13 @@ describe(`AuthHttpInterceptor`, () => {
 
   it('should add an Authentication header', () => {
     const testData: Data = {name: 'Test Data'};
-    httpClient.get<Data>(TEST_URL).subscribe(
+    return httpClient.get<Data>(TEST_URL).subscribe(
       data => {
-        expect(data).toEqual(testData)
+        expect(data).toEqual(testData);
+        const httpRequest = httpMock.expectOne(TEST_URL);
+        expect(httpRequest.request.headers.has("Authorization")).toBeTruthy();
       });
-    const httpRequest = httpMock.expectOne(TEST_URL);
-    expect(httpRequest.request.headers.has("Authorization")).toBeTruthy();
+
   });
 
 });
