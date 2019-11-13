@@ -108,6 +108,7 @@ export interface BrakeModel {
   /* -------- ONLY FOR TRL -------- */
   loadSensingValve?: boolean;
   antilockBrakingSystem?: boolean;
+  dtpNumber?: string;
 }
 
 export interface AxelsModel {

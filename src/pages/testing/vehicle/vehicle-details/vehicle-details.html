@@ -160,7 +160,7 @@
                         </h3>
                     </ion-label>
                     <div item-content padding-right>
-                        <p>{{ vehicleData.techRecord.brakeCode }}</p>
+                        <p>{{ commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV) ? vehicleData.techRecord.brakeCode : vehicleData.techRecord.brakes.dtpNumber}}</p>
                     </div>
                 </ion-item>
             </ng-container>
