@@ -52,7 +52,7 @@ export class MyApp {
       // Resuming app from background Mobile Accessibility
       this.platform.resume.subscribe(() => {
         this.accessibilityFeatures();
-        this.syncService.isUpdateNeeded();
+        this.syncService.checkForUpdate();
       });
     });
   }

@@ -101,7 +101,7 @@ describe('Provider: SyncService', () => {
     spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
 
 
-    return syncService.isUpdateNeeded().then(()=>{
+    return syncService.checkForUpdate().then(()=>{
       expect(alertCtrl.create).toHaveBeenCalledTimes(1);
     });
   });
@@ -109,7 +109,7 @@ describe('Provider: SyncService', () => {
   it('should not show the update popup if the app is updated', () => {
     spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v2.0.0'));
 
-    return syncService.isUpdateNeeded().then(()=>{
+    return syncService.checkForUpdate().then(()=>{
       expect(alertCtrl.create).toHaveBeenCalledTimes(0);
     });
   });
@@ -118,7 +118,7 @@ describe('Provider: SyncService', () => {
     spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
     storageService.read =  jasmine.createSpy().and.returnValue(Promise.resolve({}));
 
-    return syncService.isUpdateNeeded().then(()=>{
+    return syncService.checkForUpdate().then(()=>{
       expect(alertCtrl.create).toHaveBeenCalledTimes(0);
     });
   });
@@ -127,7 +127,7 @@ describe('Provider: SyncService', () => {
     spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
     latestAppVersion.body['mobile-app'].breaking = 'false';
 
-    return syncService.isUpdateNeeded().then(()=>{
+    return syncService.checkForUpdate().then(()=>{
       expect(alertCtrl.create).toHaveBeenCalledTimes(1);
     });
   });
