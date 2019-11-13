@@ -46,7 +46,7 @@ export class SyncService {
               private appVersion: AppVersion) {
   }
   startSync(): void {
-    this.isUpdateNeeded();
+    this.checkForUpdate();
 
     if (!this.appService.isInitSyncDone) {
       this.loading.present();
@@ -63,7 +63,7 @@ export class SyncService {
     this.getAllData();
   }
 
-  public async isUpdateNeeded(){
+  public async checkForUpdate(){
     let promises = [];
     promises.push(this.appVersion.getVersionNumber());
     promises.push(this.httpService.getApplicationVersion());
