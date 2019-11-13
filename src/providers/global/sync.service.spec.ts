@@ -33,14 +33,14 @@ describe('Provider: SyncService', () => {
   let loadingCtrl: LoadingController;
   let appService: AppService;
   let appVersion: AppVersion;
+  let latestAppVersion ={body: {"mobile-app": {
+        "version": "v2.0.0",
+        "breaking": "true"
+      }}};
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['read']);
     httpServiceSpy = jasmine.createSpyObj('HTTPService', ['get', 'getAtfs', 'getDefects', 'getTestTypes', 'getPreparers','getApplicationVersion']);
-    let latestAppVersion ={body: {"mobile-app": {
-          "version": "v2.0.0",
-          "breaking": "true"
-        }}};
     httpServiceSpy.getApplicationVersion = jasmine.createSpy().and.returnValue(Promise.resolve(latestAppVersion));
 
     TestBed.configureTestingModule({
@@ -114,12 +114,21 @@ describe('Provider: SyncService', () => {
     });
   });
 
-  it('should not show the update popup if there is a newer breaking version of the app but there is an active visit', () => {
+  it('should not show the update popup if there is a newer version of the app but there is an active visit', () => {
     spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
     storageService.read =  jasmine.createSpy().and.returnValue(Promise.resolve({}));
 
     return syncService.isUpdateNeeded().then(()=>{
       expect(alertCtrl.create).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  it('should show the update popup if there is a newer version, without considering the breaking flag', () => {
+    spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
+    latestAppVersion.body['mobile-app'].breaking = 'false';
+
+    return syncService.isUpdateNeeded().then(()=>{
+      expect(alertCtrl.create).toHaveBeenCalledTimes(1);
     });
   });
 });

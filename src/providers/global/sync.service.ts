@@ -63,7 +63,7 @@ export class SyncService {
     this.getAllData();
   }
 
-  public async isUpdateNeeded(): Promise<boolean>{
+  public async isUpdateNeeded(){
     let promises = [];
     promises.push(this.appVersion.getVersionNumber());
     promises.push(this.httpService.getApplicationVersion());
@@ -74,12 +74,11 @@ export class SyncService {
       const currentAppVersion = results[0];
       const latestAppVersionModel: AppVersionModel = results[1].body['mobile-app'];
       const visit = results[2];
-      if(currentAppVersion !== latestAppVersionModel.version && latestAppVersionModel.breaking === 'true' && !visit){
+      if(currentAppVersion !== latestAppVersionModel.version && !visit){
         this.createUpdatePopup().present();
-        return Promise.resolve(true);
       }
     } catch (error) {
-      return Promise.resolve(false);
+      console.log('Cannot perform check if app update is required');
     }
   }
 
