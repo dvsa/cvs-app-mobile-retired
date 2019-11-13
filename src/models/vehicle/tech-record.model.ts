@@ -105,10 +105,10 @@ export interface BrakeModel {
   brakeCodeOriginal?: string;
   brakeForceWheelsNotLocked?: BrakeForceWheelModel;
   brakeForceWheelsUpToHalfLocked?: BrakeForceWheelModel;
+  dtpNumber?: string;
   /* -------- ONLY FOR TRL -------- */
   loadSensingValve?: boolean;
   antilockBrakingSystem?: boolean;
-  dtpNumber?: string;
 }
 
 export interface AxelsModel {
