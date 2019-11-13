@@ -106,5 +106,7 @@
     <plugin name="cordova-plugin-firebase" spec="2.0.5" />
     <plugin name="cordova-plugin-network-information" spec="git+https://github.com/apache/cordova-plugin-network-information.git" />
     <plugin name="cordova-plugin-secure-storage" spec="^3.0.2" />
+    <plugin name="cordova-plugin-app-version" spec="0.1.9" />
+    <plugin name="cordova-plugin-exit" spec="1.0.3" />
     <engine name="ios" spec="5.0.1" />
 </widget>

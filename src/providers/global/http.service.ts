@@ -11,6 +11,7 @@ import { DefectItemReferenceDataModel } from "../../models/reference-data-models
 import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { ActivityModel } from "../../models/visit/activity.model";
 import { Log } from "../../modules/logs/logs.model";
+import { LatestVersionModel } from '../../models/latest-version.model';
 
 @Injectable()
 export class HTTPService {
@@ -73,5 +74,9 @@ export class HTTPService {
   sendUnauthenticatedLogs(logs: Log[]): Observable<HttpResponse<any>> {
     let headers = new HttpHeaders().set('x-api-key', AppConfig.UNAUTH_LOGS_API_KEY);
     return this.http.post(AppConfig.BACKEND_URL_UNAUTH_LOGS, logs, {headers, observe: 'response'});
+  }
+
+  getApplicationVersion(): Promise<HttpResponse<LatestVersionModel>> {
+    return this.http.get<LatestVersionModel>(AppConfig.URL_LATEST_VERSION, { observe: 'response' }).toPromise();
   }
 }

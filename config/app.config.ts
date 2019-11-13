@@ -90,4 +90,8 @@ export class AppConfig {
     let jsonData = app;
     return jsonData['IS_PRODUCTION'];
   }
+
+  public static get URL_LATEST_VERSION() {
+    return app['URL_LATEST_VERSION'];
+  }
 }

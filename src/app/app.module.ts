@@ -40,6 +40,7 @@ import { SecureStorage } from "@ionic-native/secure-storage";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { FirebaseLogsService } from "../providers/firebase-logs/firebase-logs.service";
+import {AppVersion} from '@ionic-native/app-version';
 
 const IONIC_PROVIDERS = [
   StatusBar,
@@ -70,6 +71,7 @@ const IONIC_NATIVE_PROVIDERS = [
   OpenNativeSettings,
   WheelSelector,
   MobileAccessibility,
+  AppVersion,
   Keyboard,
   MSAdal,
   ScreenOrientation,

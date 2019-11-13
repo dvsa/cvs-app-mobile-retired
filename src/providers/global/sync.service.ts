@@ -3,7 +3,7 @@ import { HTTPService } from "./http.service";
 import { catchError, map, retryWhen } from "rxjs/operators";
 import { genericRetryStrategy } from "../utils/rxjs.utils";
 import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
-import { APP, APP_STRINGS, STORAGE } from "../../app/app.enums";
+import {APP, APP_STRINGS, APP_UPDATE, STORAGE} from "../../app/app.enums";
 import { StorageService } from "../natives/storage.service";
 import { AlertController, Events, LoadingController } from "ionic-angular";
 import { _throw } from "rxjs/observable/throw";
@@ -18,6 +18,10 @@ import { Log, LogsModel } from "../../modules/logs/logs.model";
 import * as logsActions from "../../modules/logs/logs.actions";
 import { AuthService } from "./auth.service";
 import { Store } from "@ngrx/store";
+import { AppVersion } from '@ionic-native/app-version';
+import { AppVersionModel } from '../../models/latest-version.model';
+
+declare let cordova: any;
 
 @Injectable()
 export class SyncService {
@@ -38,10 +42,12 @@ export class SyncService {
               private callNumber: CallNumber,
               private firebase: Firebase,
               public authService: AuthService,
-              private store$: Store<LogsModel>) {
+              private store$: Store<LogsModel>,
+              private appVersion: AppVersion) {
   }
-
   startSync(): void {
+    this.isUpdateNeeded();
+
     if (!this.appService.isInitSyncDone) {
       this.loading.present();
       this.events.subscribe('initSyncDone', () => {
@@ -55,6 +61,42 @@ export class SyncService {
       this.loadOrder.push(this.getDataFromMicroservice(elem));
     });
     this.getAllData();
+  }
+
+  public async isUpdateNeeded(): Promise<boolean>{
+    let promises = [];
+    promises.push(this.appVersion.getVersionNumber());
+    promises.push(this.httpService.getApplicationVersion());
+    promises.push(this.storageService.read(STORAGE.VISIT));
+
+    try{
+      let results = await Promise.all(promises);
+      const currentAppVersion = results[0];
+      const latestAppVersionModel: AppVersionModel = results[1].body['mobile-app'];
+      const visit = results[2];
+      if(currentAppVersion !== latestAppVersionModel.version && latestAppVersionModel.breaking === 'true' && !visit){
+        this.createUpdatePopup().present();
+        return Promise.resolve(true);
+      }
+    } catch (error) {
+      return Promise.resolve(false);
+    }
+  }
+
+  private createUpdatePopup() {
+    return this.alertCtrl.create({
+      title: APP_UPDATE.TITLE,
+      message: APP_UPDATE.MESSAGE,
+      buttons: [
+        {
+          text: APP_UPDATE.BUTTON,
+          handler: () => {
+            cordova.plugins.exit();
+          }
+        }
+      ],
+      enableBackdropDismiss: false
+    });
   }
 
 
