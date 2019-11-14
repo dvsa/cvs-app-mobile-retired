@@ -86,9 +86,84 @@
           <div margin-left class="test-field test-field-no-border-top">
             <h3>Certificate number</h3>
             <h3
-              class="test-field-value">{{((roadworthinessTestTypesIds.indexOf(testType.testTypeId) === -1 && adrTestTypesIds.indexOf(testType.testTypeId) === -1) ?
-                (testType.testResult === testTypeResults.PASS ? lecCertificateNumberPrefixes.LP : lecCertificateNumberPrefixes.LF) : '') + testType.certificateNumber}}</h3>
+              class="test-field-value">{{testType.certificateNumber}}</h3>
           </div>
+        </ion-item>
+        <ion-item no-padding
+                  class="bottom-divider"
+                  *ngIf="testType.testExpiryDate && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-left class="test-field test-field-no-border-top">
+            <h3>Expiry date</h3>
+            <h3
+              class="test-field-value">{{testType.testExpiryDate | date:'dd MMM yyyy'}}</h3>
+          </div>
+        </ion-item>
+        <ion-item no-padding
+                  class="bottom-divider"
+                  *ngIf="testType.emissionStandard && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-left class="test-field test-field-no-border-top">
+            <h3>Emission standard</h3>
+            <h3
+              class="test-field-value">{{testType.emissionStandard}}</h3>
+          </div>
+        </ion-item>
+        <ion-item padding-left margin-bottom
+                  class="bottom-divider"
+                  *ngIf="testType.smokeTestKLimitApplied && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-top class="lec-section-title">
+            Smoke test "K" limit applied
+          </div>
+          <h3 text-wrap
+              padding-right
+              class="parent-info-color">{{testType.smokeTestKLimitApplied}}<span> (m<sup>-1</sup>)</span></h3>
+        </ion-item>
+        <ion-item no-padding
+                  class="bottom-divider"
+                  *ngIf="testType.fuelType && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-left class="test-field test-field-no-border-top">
+            <h3>Fuel type</h3>
+            <h3
+              class="test-field-value" text-capitalize>{{testType.fuelType}}</h3>
+          </div>
+        </ion-item>
+        <ion-item no-padding
+                  class="bottom-divider"
+                  *ngIf="testType.modType && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-left class="test-field test-field-no-border-top">
+            <h3>Mod type</h3>
+            <h3
+              class="test-field-value" text-capitalize>{{testType.modType.split(' - ')[0]}}</h3>
+          </div>
+        </ion-item>
+        <ion-item padding-left margin-bottom
+                  class="bottom-divider"
+                  *ngIf="testType.particulateTrapFitted && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-top class="lec-section-title">
+            Particulate trap fitted
+          </div>
+          <h3 text-wrap
+              padding-right
+              class="parent-info-color">{{testType.particulateTrapFitted}}</h3>
+        </ion-item>
+        <ion-item padding-left margin-bottom
+                  class="bottom-divider"
+                  *ngIf="testType.particulateTrapSerialNumber && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-top class="lec-section-title">
+            Particulate trap serial number
+          </div>
+          <h3 text-wrap
+              padding-right
+              class="parent-info-color">{{testType.particulateTrapSerialNumber}}</h3>
+        </ion-item>
+        <ion-item padding-left margin-bottom
+                  class="bottom-divider"
+                  *ngIf="testType.modificationTypeUsed && testType.testResult !== testTypeResults.ABANDONED">
+          <div margin-top class="lec-section-title">
+            Modification type used
+          </div>
+          <h3 text-wrap
+              padding-right
+              class="parent-info-color">{{testType.modificationTypeUsed}}</h3>
         </ion-item>
         <ion-item padding-left
                   class="bottom-divider"
