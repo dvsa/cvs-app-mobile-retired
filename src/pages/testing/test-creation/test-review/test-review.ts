@@ -223,6 +223,7 @@ export class TestReviewPage implements OnInit {
               this.latestTest.status = TEST_REPORT_STATUSES.SUBMITTED;
               this.testService.endTestReport(this.latestTest);
               this.submit(this.latestTest);
+              this.visitService.updateVisit();
             }
           }
         ]
