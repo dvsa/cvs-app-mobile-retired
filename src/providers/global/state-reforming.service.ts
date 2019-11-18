@@ -23,6 +23,7 @@ export class StateReformingService {
         if (view.name == PAGE_NAMES.COMPLETE_TEST_PAGE) continue;
         if (view.name == PAGE_NAMES.TEST_REVIEW_PAGE) continue;
         if (view.name == PAGE_NAMES.SIGNATURE_PAD_PAGE) continue;
+        if (view.name == PAGE_NAMES.TEST_CANCEL_PAGE) continue;
         stateHistory.push({
           page: view.name,
           params: view.data

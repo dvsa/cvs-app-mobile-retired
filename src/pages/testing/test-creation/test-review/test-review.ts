@@ -223,7 +223,6 @@ export class TestReviewPage implements OnInit {
               this.latestTest.status = TEST_REPORT_STATUSES.SUBMITTED;
               this.testService.endTestReport(this.latestTest);
               this.submit(this.latestTest);
-              this.visitService.updateVisit();
             }
           }
         ]
@@ -300,6 +299,7 @@ export class TestReviewPage implements OnInit {
               let activityIndex = this.activityService.activities.map((activity) => activity.endTime).indexOf(testResult.testStartTimestamp);
               if (activityIndex > -1) this.activityService.activities[activityIndex].id = resp.body.id;
               this.activityService.updateActivities();
+              this.visitService.updateVisit();
             },
             (error) => {
               const log: Log = {
