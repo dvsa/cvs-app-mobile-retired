@@ -148,6 +148,7 @@ export class TestCancelPage {
               let activityIndex = this.activityService.activities.map((activity) => activity.endTime).indexOf(testResult.testStartTimestamp);
               if (activityIndex > -1) this.activityService.activities[activityIndex].id = resp.body.id;
               this.activityService.updateActivities();
+              this.visitService.updateVisit();
             },
             (error) => {
               const log: Log = {
