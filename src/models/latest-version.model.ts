@@ -4,5 +4,5 @@ export interface LatestVersionModel {
 
 export interface AppVersionModel {
   version: string,
-  breaking: string
+  version_checking: string
 }

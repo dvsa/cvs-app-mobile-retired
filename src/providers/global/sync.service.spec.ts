@@ -33,9 +33,9 @@ describe('Provider: SyncService', () => {
   let loadingCtrl: LoadingController;
   let appService: AppService;
   let appVersion: AppVersion;
-  let latestAppVersion ={body: {"mobile-app": {
+  let latestAppVersion = {body: {"mobile-app": {
         "version": "v2.0.0",
-        "breaking": "true"
+        "version_checking": "true"
       }}};
 
   beforeEach(() => {
@@ -97,9 +97,9 @@ describe('Provider: SyncService', () => {
     expect(events.publish).toHaveBeenCalled();
   });
 
-  it('should show the update popup if the app version is not the latest and there is no current visit', () => {
+  it('should show the update popup if the version_checking flag is true, the app version is not the latest, and there is no current visit', () => {
     spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
-
+    latestAppVersion.body['mobile-app'].version_checking = 'true';
 
     return syncService.checkForUpdate().then(()=>{
       expect(alertCtrl.create).toHaveBeenCalledTimes(1);
@@ -123,12 +123,12 @@ describe('Provider: SyncService', () => {
     });
   });
 
-  it('should show the update popup if there is a newer version, without considering the breaking flag', () => {
+  it('should not show the update popup if there is a newer version, no current visit, but the version_checking is set to false', () => {
     spyOn(appVersion,'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
-    latestAppVersion.body['mobile-app'].breaking = 'false';
+    latestAppVersion.body['mobile-app'].version_checking = 'false';
 
     return syncService.checkForUpdate().then(()=>{
-      expect(alertCtrl.create).toHaveBeenCalledTimes(1);
+      expect(alertCtrl.create).toHaveBeenCalledTimes(0);
     });
   });
 });

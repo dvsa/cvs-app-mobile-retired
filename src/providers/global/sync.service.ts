@@ -74,7 +74,7 @@ export class SyncService {
       const currentAppVersion = results[0];
       const latestAppVersionModel: AppVersionModel = results[1].body['mobile-app'];
       const visit = results[2];
-      if(currentAppVersion !== latestAppVersionModel.version && !visit){
+      if(latestAppVersionModel.version_checking === 'true' && currentAppVersion !== latestAppVersionModel.version && !visit){
         this.createUpdatePopup().present();
       }
     } catch (error) {
