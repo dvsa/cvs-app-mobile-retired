@@ -319,9 +319,22 @@ export enum PROHIBITION_ISSUED {
   NO = 'no'
 }
 
+export enum ADR_VEHICLE_TYPE {
+  SEMI_TRAILER_BATTERY = 'semi trailer battery',
+  RIGID_BATTERY_TANK = 'rigid battery tank'
+}
+
 export enum ADR_DETAILS {
   SUBSTANCES_PERMITTED = 'Substances permitted under the tank code and any special provisions specified in 9 may be carried',
   SUBSTANCES_CLASS_UN = 'Substances (class UN number and if necessary packing group and proper shipping name) may be carried'
+}
+
+export enum GUIDANCE_NOTES {
+  NEW_CERTIFICATE_REQUESTED = 'New certificate requested'
+}
+
+export enum MEMOS_APPLY {
+  _07_09 = '07/09 3mth leak ext'
 }
 
 export enum TECH_RECORD_STATUS {
