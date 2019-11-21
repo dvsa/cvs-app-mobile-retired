@@ -13,5 +13,28 @@ page-vehicle-adr-details {
       margin-top: 20px;
       margin-bottom: 5px;
     }
+
+    ion-item.multiple-values-field .item-inner .input-wrapper {
+      align-items: flex-start;
+    }
+
+    ion-item.multiple-values-field div[item-content][padding-right] {
+      margin: 11px 0;
+      text-align: right;
+    }
+
+    ion-item.display-column {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      ion-label.display-column-label {
+        margin-bottom: 0;
+      }
+
+      div.display-column-content {
+        margin-bottom: 11px;
+      }
+    }
   }
 }

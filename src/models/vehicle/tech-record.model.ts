@@ -156,53 +156,69 @@ export interface AxleBrakePropertiesModel {
 }
 
 export interface AdrDetails {
-  vehicleDetails: VehicleDetails;
-  permittedDangerousGoods: string[];
-  additionalExaminerNotes: string;
-  applicantDetails: ApplicantDetails;
-  memosApply: string[];
-  additionalNotes: AdditionalNotes;
-  tank: Tank;
+  vehicleDetails?: VehicleDetails;
+  listStatementApplicable?: boolean;
+  batteryListNumber?: string;
+  permittedDangerousGoods?: string[];
+  additionalExaminerNotes?: string;
+  applicantDetails?: ApplicantDetails;
+  memosApply?: string[];
+  additionalNotes?: AdditionalNotes;
+  adrTypeApprovalNo?: string;
+  compatibilityGroupJ?: boolean;
+  tank?: Tank;
 }
 
 export interface VehicleDetails {
-  type: string;
-  approvalDate: string;
+  type?: string;
+  approvalDate?: string;
 }
 
 export interface ApplicantDetails {
-  name: string;
-  street: string;
-  town: string;
-  city: string;
-  postcode: string;
+  name?: string;
+  street?: string;
+  town?: string;
+  city?: string;
+  postcode?: string;
 }
 
 export interface AdditionalNotes {
-  number: number;
-  guidanceNotes: string[];
+  number?: string[];
+  guidanceNotes?: string[];
 }
 
 export interface Tank {
-  tankDetails: TankDetails;
-  tankStatement: TankStatement;
+  tankDetails?: TankDetails;
+  tankStatement?: TankStatement;
 }
 
 export interface TankDetails {
-  tankManufacturer: string;
-  tc2IntermediateApprovalNo: string;
-  tc2IntermediateExpiryDate: string;
-  tc3PeriodicNumber: string;
-  tc3PeriodicExpiryDate: string;
-  yearOfManufacture: string;
-  tankCode: string;
-  specialProvisions: string;
-  tankManufacturerSerialNo: string;
-  tankTypeAppNo: string;
+  tankManufacturer?: string;
+  tc2Details?: TC2Details;
+  tc3Details?: TC3Details[];
+  yearOfManufacture?: string;
+  tankCode?: string;
+  specialProvisions?: string;
+  tankManufacturerSerialNo?: string;
+  tankTypeAppNo?: string;
 }
 
 export interface TankStatement {
-  substancesPermitted: string;
-  statement: string;
-  productList: string;
+  substancesPermitted?: string;
+  statement?: string;
+  productList?: string;
+  productListRefNo?: string;
+  productListUnNo?: string[];
+}
+
+export interface TC2Details {
+  tc2Type?: string;
+  tc2IntermediateApprovalNo?: string;
+  tc2IntermediateExpiryDate?: string;
+}
+
+export interface TC3Details {
+  tc3Type?: string;
+  tc3PeriodicNumber?: string;
+  tc3PeriodicExpiryDate?: string;
 }
