@@ -10,14 +10,14 @@
     </ion-toolbar>
 
   </ion-header>
-  
+
 <ion-content no-padding *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else showTrailerBrakesPage">
-    <div text-uppercase 
-         text-center 
+    <div text-uppercase
+         text-center
          class="vehicle-header-vrm-number">
         {{ vehicleData.vrm | formatVrm }}
     </div>
-   
+
     <ion-list class="vehicle-list">
         <ion-list-header>
         </ion-list-header>
@@ -37,7 +37,8 @@
                 <p>{{ vehicleData.techRecord.brakes.dataTrBrakeOne }}</p>
             </div>
         </ion-item>
-        <ion-item margin-left>
+        <ion-item margin-left
+                  [ngClass]="{'flex-direction-column': vehicleData.techRecord.brakes.dataTrBrakeTwo && vehicleData.techRecord.brakes.dataTrBrakeTwo.length > 35}">
             <ion-label>
                 <h3>Secondary</h3>
             </ion-label>
@@ -61,7 +62,7 @@
                 <p>{{ vehicleData.techRecord.brakes.retarderBrakeOne }}</p>
             </div>
         </ion-item>
-        <ion-item margin-left> 
+        <ion-item margin-left>
             <ion-label>
                 <h3>Retarder 2</h3>
             </ion-label>
@@ -72,9 +73,9 @@
     </ion-list>
 
     <ion-list class="vehicle-list">
-        <ion-list-header padding-left 
-                            padding-right 
-                            text-wrap 
+        <ion-list-header padding-left
+                            padding-right
+                            text-wrap
                             class="list-header-double">
                             BRAKE FORCE<br> NO WHEELS LOCKED
         </ion-list-header>
@@ -105,9 +106,9 @@
     </ion-list>
 
     <ion-list class="vehicle-list">
-        <ion-list-header padding-left 
-                            padding-right 
-                            text-wrap  
+        <ion-list-header padding-left
+                            padding-right
+                            text-wrap
                             class="list-header-double">
                             BRAKE FORCE<br> UP TO AND INCLUDING HALF WHEELS LOCKED
         </ion-list-header>
