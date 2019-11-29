@@ -407,12 +407,6 @@ export class CompleteTestPage implements OnInit {
     });
   }
 
-  shouldDisplayRoadworthinessCertificate(): boolean {
-    if (this.testTypeDetails.hasRoadworthinessCertificate &&
-      this.testTypeService.setTestResult(this.vehicleTest, this.testTypeDetails.hasDefects) !== TEST_TYPE_RESULTS.FAIL) return true;
-    return false;
-  }
-
   certificateNumberInputChange(value) {
     this.cdRef.detectChanges();
     if (this.testTypeService.isTirTestType(this.vehicleTest.testTypeId)) {

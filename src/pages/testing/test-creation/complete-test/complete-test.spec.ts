@@ -342,26 +342,6 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.isNotesIncompleteError).toBeTruthy();
   });
 
-  it('should display the roadworthinessCertificate input field if the testtype is a roadworthiness test and there are no critical defects', () => {
-    comp.vehicleTest = navParams.get('vehicleTest');
-    let prsDefect = DefectDetailsDataMock.DefectData;
-    prsDefect.prs = true;
-    comp.vehicleTest.defects.push(prsDefect);
-    comp.testTypeDetails = comp.getTestTypeDetails();
-    comp.testTypeDetails.hasRoadworthinessCertificate = true;
-
-    expect(comp.shouldDisplayRoadworthinessCertificate()).toBe(true);
-  });
-
-  it('should not display the roadworthinessCertificate input field if the testtype is a roadworthiness test and there are critical defects', () => {
-    comp.vehicleTest = navParams.get('vehicleTest');
-    let majorDefect = DefectDetailsDataMock.DefectData;
-    comp.vehicleTest.defects.push(majorDefect);
-    comp.testTypeDetails = comp.getTestTypeDetails();
-    comp.testTypeDetails.hasRoadworthinessCertificate = true;
-    expect(comp.shouldDisplayRoadworthinessCertificate()).toBe(false);
-  });
-
   it('should test openInputModalDismissHandler logic', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.openInputModalDismissHandler(TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0], {

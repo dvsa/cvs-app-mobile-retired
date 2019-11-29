@@ -158,10 +158,7 @@ export class TestReviewPage implements OnInit {
    * @param initialTestType
    */
   checkMissingTestTypeMandatoryFields(changedTestType: TestTypeModel, initialTestType: TestTypeModel): void {
-    if (this.roadworthinessTestTypesIds.indexOf(initialTestType.testTypeId) !== -1) {
-      if (changedTestType.testResult !== TEST_TYPE_RESULTS.FAIL && !changedTestType.certificateNumber)
-        this.popToTestCreatePage();
-    } else if (this.adrTestTypesIds.indexOf(initialTestType.testTypeId) !== -1) {
+    if (this.adrTestTypesIds.indexOf(initialTestType.testTypeId) !== -1) {
       if (changedTestType.testResult === TEST_TYPE_RESULTS.PASS &&
         ((!changedTestType.certificateNumber || (changedTestType.certificateNumber && changedTestType.certificateNumber.length < 6)) || !changedTestType.testExpiryDate)) {
         this.popToTestCreatePage();

@@ -166,13 +166,6 @@ export class TestCreatePage implements OnInit {
         }
         isInProgress = false;
         testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
-
-        if (testTypeFieldMetadata.hasRoadworthinessCertificate
-          && this.testTypeService.setTestResult(testType, testTypeFieldMetadata.hasDefects) !== TEST_TYPE_RESULTS.FAIL
-          && !testType.certificateNumber) {
-          testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
-          isInProgress = true;
-        }
       }
     }
 
