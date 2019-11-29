@@ -2013,16 +2013,14 @@ export class TestTypesFieldsMetadata {
         testTypeName: 'Paid roadworthiness retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true,
-        hasRoadworthinessCertificate: true
+        hasNotes: true
       },
       {
         testTypeId: '63',
         testTypeName: 'Part paid roadworthiness retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true,
-        hasRoadworthinessCertificate: true
+        hasNotes: true
       },
       {
         testTypeId: '65',
@@ -2318,8 +2316,7 @@ export class TestTypesFieldsMetadata {
         testTypeName: 'Voluntary roadworthiness test',
         sections: [],
         hasDefects: true,
-        hasNotes: true,
-        hasRoadworthinessCertificate: true
+        hasNotes: true
       },
       // ----- duplicated test types with different testTypeIds for TRLs with 1 axle -----
       {
@@ -2355,8 +2352,7 @@ export class TestTypesFieldsMetadata {
         testTypeName: 'Paid roadworthiness retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true,
-        hasRoadworthinessCertificate: true
+        hasNotes: true
       },
       {
         testTypeId: '103',
@@ -2447,8 +2443,7 @@ export class TestTypesFieldsMetadata {
         testTypeName: 'Voluntary roadworthiness test',
         sections: [],
         hasDefects: true,
-        hasNotes: true,
-        hasRoadworthinessCertificate: true
+        hasNotes: true
       }
     ]
   }

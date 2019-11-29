@@ -91,12 +91,6 @@ export class DefectDetailsPage implements OnInit {
       if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
       this.navCtrl.popToRoot();
     }
-
-    if (this.getTestTypeDetailsFromFieldsMetadata(this.vehicleTest).hasRoadworthinessCertificate &&
-      this.testTypeService.setTestResult(this.vehicleTest, this.getTestTypeDetailsFromFieldsMetadata(this.vehicleTest).hasDefects) === TEST_TYPE_RESULTS.FAIL) {
-      this.vehicleTest.certificateNumber = null;
-    }
-
     if (this.notesChanged) this.logFirebaseNotesChanged();
   }
 

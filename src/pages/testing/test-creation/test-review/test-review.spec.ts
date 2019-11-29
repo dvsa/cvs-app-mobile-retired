@@ -235,17 +235,6 @@ describe('Component: TestReviewPage', () => {
     expect(navCtrl.popTo).not.toHaveBeenCalled();
   });
 
-  it('should pop to test overview if roadworthiness test result is pass and the certificate number does not exist', () => {
-    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
-    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
-
-    initialTestType.testTypeId = '62';
-    changedTestType.testResult = TEST_TYPE_RESULTS.PASS;
-    changedTestType.certificateNumber = null;
-    component.checkMissingTestTypeMandatoryFields(changedTestType, initialTestType);
-    expect(navCtrl.popTo).toHaveBeenCalled();
-  });
-
   it('should not pop to test overview if adr test result is fail', () => {
     let initialTestType = {...TestTypeDataModelMock.TestTypeData};
     let changedTestType = {...TestTypeDataModelMock.TestTypeData};
@@ -260,7 +249,7 @@ describe('Component: TestReviewPage', () => {
     let initialTestType = {...TestTypeDataModelMock.TestTypeData};
     let changedTestType = {...TestTypeDataModelMock.TestTypeData};
 
-    initialTestType.testTypeId = '62';
+    initialTestType.testTypeId = '50';
     changedTestType.testResult = TEST_TYPE_RESULTS.PASS;
     changedTestType.certificateNumber = null;
     changedTestType.testExpiryDate = null;
