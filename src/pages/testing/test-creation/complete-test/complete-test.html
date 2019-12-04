@@ -42,7 +42,7 @@
                         'data-unsuccessful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] && vehicleTest[input.testTypePropertyName] !== 'pass'}">
             {{vehicleTest[input.testTypePropertyName] || vehicleTest[input.testTypePropertyName] === false ||
           (input.testTypePropertyName !== 'testResult' && (completedFields[input.testTypePropertyName] || completedFields[input.testTypePropertyName] === false))
-              ? getDDLValueToDisplay(input) : input.defaultValue}}
+            ? getDDLValueToDisplay(input) : input.defaultValue}}
           </h3>
           <ion-icon item-end class="arrow-forward" name="arrow-forward"
                     *ngIf="!input.hasOwnProperty('deactivateButtonOnSelection') || input.deactivateButtonOnSelection && !vehicleTest[input.testTypePropertyName]"></ion-icon>
@@ -106,24 +106,24 @@
         </div>
 
         <ion-grid class="certificateNumberCustom"
-                  *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER_CUSTOM && canDisplaySection(section)">
+                  [ngClass]="{'error-incomplete-item': (errorIncomplete && !vehicleTest.certificateNumber) || (errorIncompleteCertificateNumber && vehicleTest.certificateNumber.length < 5)}"
+                  *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER_CUSTOM && canDisplaySection(section) && canDisplayInput(input)">
           <ion-row>
             <ion-col col-2
-                     class="certificateNumberCustom-label">{{vehicleTest[section.dependentOn[0]] === 'pass' ? 'LP' : 'LF'}}</ion-col>
+                     class="certificateNumberCustom-label">{{vehicle.techRecord.vehicleType === vehicleTypes.HGV ? tirCertificateNumberPrefixes.GB_V : tirCertificateNumberPrefixes.GB_T}}</ion-col>
             <ion-col col-10 class="certificateNumberCustom-input">
               <ion-input [placeholder]="input.placeholder"
                          type="number"
                          [pattern]="patterns.NUMERIC"
-                         (focus)="isCertificateNumberFocused = true"
-                         (blur)="isCertificateNumberFocused = false"
-                         [(ngModel)]="vehicleTest[input.testTypePropertyName]"></ion-input>
+                         [(ngModel)]="vehicleTest[input.testTypePropertyName]"
+                         (ngModelChange)="certificateNumberInputChange($event)"></ion-input>
             </ion-col>
           </ion-row>
         </ion-grid>
-        <p padding-left class="certificate-number-guidance"
-           *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER_CUSTOM && canDisplaySection(section)">After
-          conducting the test, complete the Low Emissions Certificate and enter the certificate
-          number.</p>
+        <p padding-left class="error-incomplete-certificate-number"
+           *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER_CUSTOM && canDisplaySection(section) && canDisplayInput(input)
+           && errorIncompleteCertificateNumber && vehicleTest.certificateNumber.length < 5">Certificate number must be 5
+          digits.</p>
       </div>
     </ion-item-group>
 
@@ -188,7 +188,7 @@
     </ion-list>
 
     <ion-item-group *ngIf="testTypeDetails.hasNotes">
-      <ion-item-divider>NOTES <span *ngIf="(isNotifiableAlteration || lecTestTypesDataIds.indexOf(vehicleTest.testTypeId) !== -1) &&
+      <ion-item-divider>NOTES <span *ngIf="(isNotifiableAlteration || testTypeService.isLecTestType(vehicleTest.testTypeId)) &&
       vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL">(REQUIRED)</span>
       </ion-item-divider>
       <ion-item
@@ -199,7 +199,7 @@
       </ion-item>
       <p padding-left
          class="adr-notes-details"
-         *ngIf="adrTestTypesIds.indexOf(vehicleTest.testTypeId) !== -1 && vehicleTest.testResult === 'pass'">
+         *ngIf="testTypeService.isAdrTestType(vehicleTest.testTypeId) && vehicleTest.testResult === 'pass'">
         Notes will be printed on the certificate.
       </p>
     </ion-item-group>

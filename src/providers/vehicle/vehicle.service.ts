@@ -19,7 +19,7 @@ export class VehicleService {
 
   createVehicle(vehicleTechRecord: VehicleTechRecordModel): VehicleModel {
     let newVehicle: VehicleModel = {} as VehicleModel;
-    newVehicle.vrm = vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm;
+    newVehicle.vrm = vehicleTechRecord.vrms.length ? vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm : null;
     newVehicle.vin = vehicleTechRecord.vin;
     if (vehicleTechRecord.trailerId) newVehicle.trailerId = vehicleTechRecord.trailerId;
     newVehicle.techRecord = vehicleTechRecord.techRecord[0];

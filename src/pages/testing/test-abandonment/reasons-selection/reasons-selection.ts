@@ -4,6 +4,7 @@ import { AbandonmentReasonItemModel } from "../../../../models/tests/abandonment
 import { TestAbandonmentReasonsData } from "../../../../assets/app-data/abandon-data/test-abandonment-reasons.data";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
 import { APP_STRINGS, VEHICLE_TYPE } from "../../../../app/app.enums";
+import { TirTestTypesData } from "../../../../assets/app-data/test-types-data/tir-test-types.data";
 
 @IonicPage()
 @Component({
@@ -44,14 +45,14 @@ export class ReasonsSelectionPage {
   }
 
   onCheck(reason: AbandonmentReasonItemModel) {
-    reason.isChecked=!reason.isChecked;
+    reason.isChecked = !reason.isChecked;
     reason.isChecked ? this.selectedReasons.push(reason.text) : this.selectedReasons.splice(this.selectedReasons.indexOf(reason.text), 1);
   }
 
   transformReasons(vehicleType: string): { text: string, isChecked: boolean }[] {
     let reasonsList: string[];
     vehicleType === VEHICLE_TYPE.PSV ? reasonsList = [...TestAbandonmentReasonsData.TestAbandonmentReasonsPsvData] :
-      reasonsList = [...TestAbandonmentReasonsData.TestAbandonmentReasonsHgvTrailerData];
+      (TirTestTypesData.TirTestTypesDataIds.indexOf(this.vehicleTest.testTypeId) !== -1 ? reasonsList = [...TestAbandonmentReasonsData.TestAbandonmentReasonsTirTestTypesData] : reasonsList = [...TestAbandonmentReasonsData.TestAbandonmentReasonsHgvTrailerData]);
     return reasonsList.map(reason => {
       return {
         text: reason,

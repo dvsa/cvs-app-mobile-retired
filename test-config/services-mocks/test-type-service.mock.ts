@@ -7,6 +7,8 @@ import { TestTypesReferenceDataModel } from "../../src/models/reference-data-mod
 import { TestTypesReferenceDataMock } from "../../src/assets/data-mocks/reference-data-mocks/test-types.mock";
 import { VehicleModel } from "../../src/models/vehicle/vehicle.model";
 import { AdrTestTypesData } from "../../src/assets/app-data/test-types-data/adr-test-types.data";
+import { LecTestTypesData } from "../../src/assets/app-data/test-types-data/lec-test-types.data";
+import { TirTestTypesData } from "../../src/assets/app-data/test-types-data/tir-test-types.data";
 
 export class TestTypeServiceMock {
   createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
@@ -112,5 +114,17 @@ export class TestTypeServiceMock {
         }
       }
     }
+  }
+
+  isAdrTestType(testTypeId: string): boolean {
+    return AdrTestTypesData.AdrTestTypesDataIds.indexOf(testTypeId) !== -1;
+  }
+
+  isLecTestType(testTypeId: string): boolean {
+    return LecTestTypesData.LecTestTypesDataIds.indexOf(testTypeId) !== -1;
+  }
+
+  isTirTestType(testTypeId: string): boolean {
+    return TirTestTypesData.TirTestTypesDataIds.indexOf(testTypeId) !== -1;
   }
 }

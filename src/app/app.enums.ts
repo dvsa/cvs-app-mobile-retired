@@ -486,9 +486,14 @@ export enum LEC_CERTIFICATE_NUMBER_PREFIXES {
   LF = 'LF'
 }
 
+export enum TIR_CERTIFICATE_NUMBER_PREFIXES {
+  GB_V = 'GB/V',
+  GB_T = 'GB/T'
+}
+
 export enum SPEC_VALUES {
   CERTIFICATE_NUMBER = '67868977',
-  LEC_CERTIFICATE_NUMBER = 'LP67868977',
+  TIR_CERTIFICATE_NUMBER = 'GB/V67868977',
   EMISSION_STANDARD = '0.16 g/kWh Euro 3 PM'
 }
 
@@ -496,6 +501,9 @@ export enum TEST_TYPES_IDS {
   _39 = '39',
   _44 = '44',
   _45 = '45',
+  _49 = '49',
+  _56 = '56',
+  _57 = '57',
   _62 = '62',
   _63 = '63',
   _91 = '91',

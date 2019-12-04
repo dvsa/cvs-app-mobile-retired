@@ -51,6 +51,8 @@ import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.m
 import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
 import { By } from "../../../../../node_modules/@angular/platform-browser";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -83,6 +85,7 @@ describe('Component: TestReviewPage', () => {
         {provide: ActivityService, useClass: ActivityServiceMock},
         {provide: TestResultService, useClass: TestResultServiceMock},
         {provide: TestService, useClass: TestServiceMock},
+        {provide: TestTypeService, useClass: TestTypeServiceMock},
         {provide: StorageService, useClass: StorageServiceMock},
         {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
         {provide: NavController, useFactory: () => NavControllerMock.instance()},

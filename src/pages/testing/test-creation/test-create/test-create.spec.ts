@@ -187,7 +187,7 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "Edit" status if a Roadworthiness test has critical defects and the certificateNumber is not set', () => {
-    let testTypeModel: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    let testTypeModel: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
     testTypeModel.testTypeId = '91';
     expect(component.getTestTypeStatus(VEHICLE, testTypeModel)).toEqual('In progress');
     expect(testTypeModel.completionStatus).toBe(TEST_COMPLETION_STATUS.IN_PROGRESS);
@@ -198,7 +198,7 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "In progress" status if a Roadworthiness test has minor defects and the certificateNumber is not set', () => {
-    let testTypeModel: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    let testTypeModel: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
     testTypeModel.testTypeId = '91';
     let prsDefect = Object.create(DEFECTS[0]);
     prsDefect.prs = true;
@@ -211,13 +211,23 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "Edit" status if a ADR test has the certificateNumber exactly 6 digits long', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
     let vehicle: VehicleModel = {...VEHICLE};
     testType.testTypeId = '50';
     testType.testExpiryDate = new Date().toISOString();
     testType.certificateNumber = '12345';
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
     testType.certificateNumber = '123456';
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('Edit');
+  });
+
+  it('should have "Edit" status if a TIR test has the certificateNumber exactly 5 digits long', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testTypeId = '49';
+    testType.certificateNumber = '1234';
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
+    testType.certificateNumber = '12345';
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('Edit');
   });
 
@@ -254,7 +264,7 @@ describe('Component: TestCreatePage', () => {
 
     let hgv = vehicleService.createVehicle(vehicle);
     vehicleService.addTestType(hgv, incompleteTest);
-    hgv.techRecord.vehicleType=VEHICLE_TYPE.HGV;
+    hgv.techRecord.vehicleType = VEHICLE_TYPE.HGV;
     hgv.countryOfRegistration = 'United Kingdom';
     hgv.euVehicleCategory = 'n1';
     hgv.odometerReading = '122';
@@ -262,7 +272,7 @@ describe('Component: TestCreatePage', () => {
 
     let trailer = vehicleService.createVehicle(vehicle);
     vehicleService.addTestType(trailer, completeTest);
-    trailer.techRecord.vehicleType=VEHICLE_TYPE.TRL;
+    trailer.techRecord.vehicleType = VEHICLE_TYPE.TRL;
     trailer.countryOfRegistration = 'United Kingdom';
     trailer.euVehicleCategory = 'o2';
     newTest.vehicles.push(trailer);

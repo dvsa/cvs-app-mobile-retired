@@ -96,7 +96,7 @@ export class VehicleHistoryDetailsPage {
   compareTestWithMetadata() {
     if (this.selectedTestType.testTypeName) {
       this.doesNotHaveCert = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutCertificate);
-      this.doesNotHaveDefects = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutDefects);
+      this.doesNotHaveDefects = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeId, this.testsWithoutDefects);
       this.doesNotHaveBelts = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutSeatbelts);
     }
   }

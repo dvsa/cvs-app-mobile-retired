@@ -12,7 +12,9 @@
     <ion-card [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}">
       <ion-item padding-vertical class="ion-item-title">
         <img item-start class="vehicle-type-icon" src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg"/>
-        <h2 text-uppercase padding-left>{{ vehicle.vrm }} ({{vehicle.techRecord.vehicleType}})</h2>
+        <h2 text-uppercase padding-left *ngIf="vehicle.techRecord.vehicleType !== 'trl'">{{ vehicle.vrm }}
+          ({{vehicle.techRecord.vehicleType}})</h2>
+        <h2 padding-left *ngIf="vehicle.techRecord.vehicleType === 'trl'">{{ vehicle.trailerId }} (Trailer)</h2>
         <p padding-left>{{ vehicle.vin }}</p>
       </ion-item>
       <ion-item padding-horizontal class="bottom-divider height-60">
@@ -96,7 +98,8 @@
           <div margin-left class="test-field test-field-no-border-top flex-wrapper-container">
             <h3 text-wrap>Certificate number</h3>
             <h3
-              class="test-field-value">{{testType.certificateNumber}}</h3>
+              class="test-field-value">{{(tirTestTypesIds.indexOf(testType.testTypeId) !== -1 ?
+              (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV ? TIR_CERTIFICATE_NUMBER_PREFIXES.GB_V : TIR_CERTIFICATE_NUMBER_PREFIXES.GB_T) : '') + testType.certificateNumber}}</h3>
           </div>
         </ion-item>
         <ion-item no-padding

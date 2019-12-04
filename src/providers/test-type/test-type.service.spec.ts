@@ -178,4 +178,28 @@ describe('Provider: TestTypeService', () => {
 
     expect(testTypeService.updateLinkedTestResults(vehicle, annualTestType)).toBeFalsy();
   });
+
+  it('should check if testType is ADR or not', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '50';
+    expect(testTypeService.isAdrTestType(testType.testTypeId)).toBeTruthy();
+    testType.testTypeId = '1';
+    expect(testTypeService.isAdrTestType(testType.testTypeId)).toBeFalsy();
+  });
+
+  it('should check if testType is LEC or not', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '39';
+    expect(testTypeService.isLecTestType(testType.testTypeId)).toBeTruthy();
+    testType.testTypeId = '1';
+    expect(testTypeService.isLecTestType(testType.testTypeId)).toBeFalsy();
+  });
+
+  it('should check if testType is TIR or not', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '49';
+    expect(testTypeService.isTirTestType(testType.testTypeId)).toBeTruthy();
+    testType.testTypeId = '1';
+    expect(testTypeService.isTirTestType(testType.testTypeId)).toBeFalsy();
+  });
 });

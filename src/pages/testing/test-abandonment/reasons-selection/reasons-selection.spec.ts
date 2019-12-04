@@ -6,6 +6,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
 import { VEHICLE_TYPE } from "../../../../app/app.enums";
 import { TestAbandonmentReasonsData } from "../../../../assets/app-data/abandon-data/test-abandonment-reasons.data";
+import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 
 describe('Component: ReasonsSelectionPage', () => {
   let component: ReasonsSelectionPage;
@@ -53,13 +54,23 @@ describe('Component: ReasonsSelectionPage', () => {
 
   it('should test ionViewWillEnter logic', () => {
     component.reasonsList = [];
+    component.vehicleTest = {...TestTypeDataModelMock.TestTypeData};
     component.ionViewWillEnter();
     expect(component.reasonsList.length).toBeGreaterThan(0);
   });
 
   it('should test transformReasons', () => {
-    const reasonList = component.transformReasons(VEHICLE_TYPE.HGV);
-    const reasonsData = TestAbandonmentReasonsData.TestAbandonmentReasonsHgvTrailerData;
+    component.vehicleTest = {...TestTypeDataModelMock.TestTypeData};
+    let reasonList = component.transformReasons(VEHICLE_TYPE.PSV);
+    let reasonsData = TestAbandonmentReasonsData.TestAbandonmentReasonsPsvData;
     expect(reasonList[reasonList.length - 1].text).toEqual(reasonsData[reasonsData.length - 1]);
+    component.vehicleTest.testTypeId = '49'; // TIR test type
+    reasonList = component.transformReasons(VEHICLE_TYPE.HGV);
+    reasonsData = TestAbandonmentReasonsData.TestAbandonmentReasonsTirTestTypesData;
+    expect(reasonList[reasonList.length - 3].text).toEqual(reasonsData[reasonsData.length - 3]);
+    component.vehicleTest.testTypeId = '50';
+    reasonList = component.transformReasons(VEHICLE_TYPE.HGV);
+    reasonsData = TestAbandonmentReasonsData.TestAbandonmentReasonsHgvTrailerData;
+    expect(reasonList[reasonList.length - 4].text).toEqual(reasonsData[reasonsData.length - 4]);
   });
 });

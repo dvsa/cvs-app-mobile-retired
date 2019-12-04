@@ -16,7 +16,7 @@ import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DefectsReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
 import {
   DEFICIENCY_CATEGORY, MOD_TYPES,
-  SPEC_VALUES,
+  SPEC_VALUES, TEST_TYPE_FIELDS, TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS, TEST_TYPE_SECTIONS,
   TEST_TYPES_IDS
 } from "../../../../app/app.enums";
@@ -173,6 +173,25 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
   });
 
+  it('should check if a TIR test-type has a 5 digits certificateNumber, if not set error true', () => {
+    spyOn(comp, 'updateTestType');
+    spyOn(comp, 'getTestTypeDetails');
+    comp.vehicleTest = {...VEHICLE_TEST};
+    comp.errorIncomplete = true;
+    comp.vehicleTest.testTypeId = '49';
+    comp.vehicleTest.certificateNumber = '1234';
+    comp.completedFields = {};
+    expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
+    comp.ngOnInit();
+    expect(comp.updateTestType).toHaveBeenCalled();
+    expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
+    comp.errorIncomplete = false;
+    comp.vehicleTest.certificateNumber = '12345';
+    comp.errorIncompleteCertificateNumber = undefined;
+    comp.ngOnInit();
+    expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
+  });
+
   it('should test ionViewDidEnter logic - viewCtrl.dismiss to be called', () => {
     comp.fromTestReview = true;
     comp.vehicleTest = VEHICLE_TEST;
@@ -236,10 +255,15 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.canDisplaySection(TEST_TYPES_METADATA.sections[1])).toBeFalsy();
     comp.vehicleTest[TEST_TYPES_METADATA.sections[1].dependentOn[0]] = 'pass';
     expect(comp.canDisplaySection(TEST_TYPES_METADATA.sections[1])).toBeTruthy();
+
     comp.vehicleTest.testTypeId = TEST_TYPES_IDS._44;
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.FAIL;
     let section = TestTypeMetadataMock.TestTypeMetadata.sections[0];
     section.sectionName = TEST_TYPE_SECTIONS.EMISSION_DETAILS;
+    expect(comp.canDisplaySection(section)).toBeFalsy();
+
+    comp.vehicleTest.testTypeId = TEST_TYPES_IDS._49;
+    section.inputs[0].type = TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM;
     expect(comp.canDisplaySection(section)).toBeFalsy();
   });
 
@@ -272,6 +296,11 @@ describe('Component: CompleteTestPage', () => {
     comp.createDDLButtonHandler(input, 1);
     expect(comp.vehicleTest.certificateNumber).toBe(null);
     expect(comp.vehicleTest.testExpiryDate).toBe(null);
+
+    comp.vehicleTest.testTypeId = TEST_TYPES_IDS._49;
+    comp.vehicleTest.certificateNumber = '76322';
+    comp.createDDLButtonHandler(input, 1);
+    expect(comp.vehicleTest.certificateNumber).toBeNull();
 
     comp.vehicleTest.testTypeId = TEST_TYPES_IDS._44;
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.FAIL;
@@ -350,13 +379,17 @@ describe('Component: CompleteTestPage', () => {
     expect(modalCtrl.create).toHaveBeenCalled();
   });
 
-  it('should take only the first 6 digits from a string and assign them to the certificate number', () => {
+  it('should take only the first 6 digits from a string and assign them to the certificate number and only the first 5 for TIR tests', () => {
     comp.vehicleTest = TestTypeDataModelMock.TestTypeData;
     comp.testTypeDetails = comp.getTestTypeDetails();
     comp.completedFields = {};
     comp.vehicleTest.certificateNumber = null;
     comp.certificateNumberInputChange('12345678');
     expect(comp.vehicleTest.certificateNumber).toEqual('123456');
+
+    comp.vehicleTest.testTypeId = '49';
+    comp.certificateNumberInputChange('123456');
+    expect(comp.vehicleTest.certificateNumber).toEqual('12345');
   });
 
   it('should open ddl when blockTestResultSelection is false', () => {
