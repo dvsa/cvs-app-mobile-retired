@@ -1685,8 +1685,46 @@ export class TestTypesFieldsMetadata {
       {
         testTypeId: '49',
         testTypeName: 'TIR test',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
@@ -1765,15 +1803,91 @@ export class TestTypesFieldsMetadata {
       {
         testTypeId: '56',
         testTypeName: 'Paid TIR retest',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
         testTypeId: '57',
         testTypeName: 'Free TIR retest',
-        sections: [],
-        hasDefects: true,
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {

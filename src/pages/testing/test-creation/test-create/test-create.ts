@@ -1,40 +1,18 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import {
-  AlertController,
-  Events,
-  IonicPage,
-  ItemSliding,
-  ModalController,
-  NavController,
-  NavParams
-} from 'ionic-angular';
+import { AlertController, Events, IonicPage, ItemSliding, ModalController, NavController, NavParams } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { StateReformingService } from "../../../../providers/global/state-reforming.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import {
-  APP,
-  APP_STRINGS,
-  FIREBASE,
-  MOD_TYPES,
-  FIREBASE_SCREEN_NAMES,
-  ODOMETER_METRIC,
-  PAGE_NAMES,
-  TEST_COMPLETION_STATUS,
-  TEST_TYPE_INPUTS,
-  TEST_TYPE_RESULTS,
-  VEHICLE_TYPE
-} from "../../../../app/app.enums";
+import { APP, APP_STRINGS, FIREBASE, FIREBASE_SCREEN_NAMES, PAGE_NAMES, TEST_COMPLETION_STATUS, TEST_TYPE_INPUTS, TEST_TYPE_RESULTS, VEHICLE_TYPE } from "../../../../app/app.enums";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
 import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { AdrTestTypesData } from "../../../../assets/app-data/test-types-data/adr-test-types.data";
-import { LecTestTypesData } from "../../../../assets/app-data/test-types-data/lec-test-types.data";
 
 @IonicPage()
 @Component({
@@ -149,14 +127,21 @@ export class TestCreatePage implements OnInit {
         testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
         for (let section of testTypeFieldMetadata.sections) {
           for (let input of section.inputs) {
-            if ((!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false) || (AdrTestTypesData.AdrTestTypesDataIds.indexOf(testType.testTypeId) !== -1 && input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER)) {
+            if ((!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false) ||
+              (this.testTypeService.isAdrTestType(testType.testTypeId) && input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER) ||
+              (this.testTypeService.isTirTestType(testType.testTypeId) && input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER)) {
               if ((input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_LAST_DATE)
                 || (testTypeFieldMetadata.category === 'B' && (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER || input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE))) {
                 isInProgress = true;
                 testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
               }
-              if (AdrTestTypesData.AdrTestTypesDataIds.indexOf(testType.testTypeId) !== -1
-                && (testType.testResult === TEST_TYPE_RESULTS.FAIL || (input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER && testType.certificateNumber && testType.certificateNumber.length === 6))) {
+              if (this.testTypeService.isAdrTestType(testType.testTypeId) &&
+                (testType.testResult === TEST_TYPE_RESULTS.FAIL || (input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER && testType.certificateNumber && testType.certificateNumber.length === 6))) {
+                isInProgress = false;
+                testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
+              }
+              if (this.testTypeService.isTirTestType(testType.testTypeId) &&
+                (testType.testResult === TEST_TYPE_RESULTS.FAIL || (input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER && testType.certificateNumber && testType.certificateNumber.length === 5))) {
                 isInProgress = false;
                 testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
               }
@@ -171,7 +156,7 @@ export class TestCreatePage implements OnInit {
           }
         }
 
-        if (LecTestTypesData.LecTestTypesDataIds.indexOf(testType.testTypeId) !== -1) {
+        if (this.testTypeService.isLecTestType(testType.testTypeId)) {
           isInProgress = this.isLecTestTypeInProgress(testType);
         }
 

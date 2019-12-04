@@ -2,7 +2,7 @@ import { TestResultModel } from "../../models/tests/test-result.model";
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { HTTPService } from "../global/http.service";
 import { Injectable } from "@angular/core";
-import { LEC_CERTIFICATE_NUMBER_PREFIXES, TEST_TYPE_RESULTS, VEHICLE_TYPE } from "../../app/app.enums";
+import { LEC_CERTIFICATE_NUMBER_PREFIXES, TEST_TYPE_RESULTS, TIR_CERTIFICATE_NUMBER_PREFIXES, VEHICLE_TYPE } from "../../app/app.enums";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeService } from "../test-type/test-type.service";
 import { AuthService } from "../global/auth.service";
@@ -10,6 +10,7 @@ import { RoadworthinessTestTypesData } from "../../assets/app-data/test-types-da
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { FirstTestTypesData } from '../../assets/app-data/test-types-data/first-test-types.data';
 import { AdrTestTypesData } from "../../assets/app-data/test-types-data/adr-test-types.data";
+import { TirTestTypesData } from "../../assets/app-data/test-types-data/tir-test-types.data";
 
 @Injectable()
 export class TestResultService {
@@ -85,12 +86,12 @@ export class TestResultService {
     return str;
   }
 
-  formatCertificateNumber(testType: TestTypeModel) {
-    if (testType.certificateNumber && RoadworthinessTestTypesData.RoadworthinessTestTypesIds.indexOf(testType.testTypeId) === -1 && AdrTestTypesData.AdrTestTypesDataIds.indexOf(testType.testTypeId) === -1) {
-      return testType.testResult === TEST_TYPE_RESULTS.PASS ? LEC_CERTIFICATE_NUMBER_PREFIXES.LP + testType.certificateNumber : LEC_CERTIFICATE_NUMBER_PREFIXES.LF + testType.certificateNumber;
-    } else {
-      return testType.certificateNumber;
+  formatCertificateNumber(testType: TestTypeModel, vehicleType: string) {
+    if (testType.certificateNumber) {
+      return (TirTestTypesData.TirTestTypesDataIds.indexOf(testType.testTypeId) !== -1 ?
+        (vehicleType === VEHICLE_TYPE.HGV ? TIR_CERTIFICATE_NUMBER_PREFIXES.GB_V : TIR_CERTIFICATE_NUMBER_PREFIXES.GB_T) : '') + testType.certificateNumber;
     }
+    return null;
   }
 
   submitTestResult(testResult: TestResultModel) {
@@ -105,7 +106,7 @@ export class TestResultService {
           }
           delete testType.reasons;
         }
-        testType.certificateNumber = this.formatCertificateNumber(testType);
+        testType.certificateNumber = this.formatCertificateNumber(testType, testResult.vehicleType);
         if (testType.modType) {
           testType.modType = {
             code: testType.modType.split(' - ')[0],

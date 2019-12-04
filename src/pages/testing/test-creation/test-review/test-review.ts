@@ -1,31 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AlertController,
-  IonicPage,
-  LoadingController,
-  ModalController,
-  NavController,
-  NavParams,
-  ViewController
-} from 'ionic-angular';
+import { AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
 import { VisitModel } from "../../../../models/visit/visit.model";
 import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import {
-  APP_STRINGS,
-  DATE_FORMAT,
-  DEFICIENCY_CATEGORY,
-  FIREBASE,
-  FIREBASE_SCREEN_NAMES,
-  LEC_CERTIFICATE_NUMBER_PREFIXES,
-  LOCAL_STORAGE,
-  LOG_TYPES,
-  ODOMETER_METRIC,
-  PAGE_NAMES,
-  TEST_REPORT_STATUSES,
-  TEST_TYPE_INPUTS,
-  TEST_TYPE_RESULTS,
-  VEHICLE_TYPE
-} from "../../../../app/app.enums";
+import { APP_STRINGS, DATE_FORMAT, DEFICIENCY_CATEGORY, FIREBASE, FIREBASE_SCREEN_NAMES, LOCAL_STORAGE, LOG_TYPES, ODOMETER_METRIC, PAGE_NAMES, TEST_REPORT_STATUSES, TEST_TYPE_INPUTS, TEST_TYPE_RESULTS, TIR_CERTIFICATE_NUMBER_PREFIXES, VEHICLE_TYPE } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
@@ -51,6 +28,8 @@ import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { RoadworthinessTestTypesData } from "../../../../assets/app-data/test-types-data/roadworthiness-test-types.data";
 import { AdrTestTypesData } from "../../../../assets/app-data/test-types-data/adr-test-types.data";
 import { AppService } from '../../../../providers/global/app.service';
+import { TirTestTypesData } from "../../../../assets/app-data/test-types-data/tir-test-types.data";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 
 @IonicPage()
 @Component({
@@ -71,9 +50,10 @@ export class TestReviewPage implements OnInit {
   oid: string;
   vehicleBeingReviewed: number;
   vehicle: VehicleModel;
-  lecCertificateNumberPrefixes: typeof LEC_CERTIFICATE_NUMBER_PREFIXES = LEC_CERTIFICATE_NUMBER_PREFIXES;
   roadworthinessTestTypesIds: string[] = RoadworthinessTestTypesData.RoadworthinessTestTypesIds;
   adrTestTypesIds: string[] = AdrTestTypesData.AdrTestTypesDataIds;
+  tirTestTypesIds: string[] = TirTestTypesData.TirTestTypesDataIds;
+  TIR_CERTIFICATE_NUMBER_PREFIXES: typeof TIR_CERTIFICATE_NUMBER_PREFIXES = TIR_CERTIFICATE_NUMBER_PREFIXES;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -95,7 +75,8 @@ export class TestReviewPage implements OnInit {
               private store$: Store<LogsModel>,
               private firebaseLogsService: FirebaseLogsService,
               private activityService: ActivityService,
-              public appService: AppService) {
+              public appService: AppService,
+              private testTypeService: TestTypeService) {
 
     this.visit = this.visitService.visit;
     this.latestTest = this.visitService.getLatestTest();
@@ -183,6 +164,11 @@ export class TestReviewPage implements OnInit {
     } else if (this.adrTestTypesIds.indexOf(initialTestType.testTypeId) !== -1) {
       if (changedTestType.testResult === TEST_TYPE_RESULTS.PASS &&
         ((!changedTestType.certificateNumber || (changedTestType.certificateNumber && changedTestType.certificateNumber.length < 6)) || !changedTestType.testExpiryDate)) {
+        this.popToTestCreatePage();
+      }
+    } else if (this.testTypeService.isTirTestType(initialTestType.testTypeId)) {
+      if (changedTestType.testResult === TEST_TYPE_RESULTS.PASS &&
+        (!changedTestType.certificateNumber || (changedTestType.certificateNumber && changedTestType.certificateNumber.length < 5))) {
         this.popToTestCreatePage();
       }
     } else {

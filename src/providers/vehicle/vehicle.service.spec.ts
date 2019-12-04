@@ -52,6 +52,17 @@ describe('Provider: VehicleService', () => {
     expect(newVehicle).toBeUndefined();
     newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.techRecord).toBeDefined();
+    expect(newVehicle.vrm).toEqual('BQ91YHQ');
+  });
+
+  it('should create a vehicle with null VRM if vrms array is empty', () => {
+    let newVehicle;
+    expect(newVehicle).toBeUndefined();
+    let vehicleTechRecord = {...VEHICLE_TECH_RECORD};
+    vehicleTechRecord.vrms = [];
+    newVehicle = vehicleService.createVehicle(vehicleTechRecord);
+    expect(newVehicle.techRecord).toBeDefined();
+    expect(newVehicle.vrm).toBeNull();
   });
 
   it('should add a test-type to vehicle.testTypes array', () => {

@@ -10,7 +10,7 @@ import { AuthService } from "../global/auth.service";
 import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { DefectDetailsDataMock } from "../../assets/data-mocks/defect-details-data.mock";
-import {TEST_TYPES_IDS, SPEC_VALUES, VEHICLE_TYPE} from '../../app/app.enums';
+import { TEST_TYPES_IDS, SPEC_VALUES, VEHICLE_TYPE } from '../../app/app.enums';
 
 describe('Provider: TestResultService', () => {
   let testResultService: TestResultService;
@@ -113,13 +113,13 @@ describe('Provider: TestResultService', () => {
     expect(httpService.postTestResult).toHaveBeenCalled();
   });
 
-  it('should return the correct format of the certificateNumber depending on whether it is lec or not', () => {
+  it('should return the correct format of the certificateNumber depending on whether it is tir or not', () => {
     let testType = TestTypeDataModelMock.TestTypeData;
-    expect(testResultService.formatCertificateNumber(testType)).toEqual(null);
+    expect(testResultService.formatCertificateNumber(testType, 'psv')).toEqual(null);
     testType.certificateNumber = SPEC_VALUES.CERTIFICATE_NUMBER;
-    expect(testResultService.formatCertificateNumber(testType)).toEqual(SPEC_VALUES.LEC_CERTIFICATE_NUMBER);
-    testType.testTypeId = TEST_TYPES_IDS._62;
-    expect(testResultService.formatCertificateNumber(testType)).toEqual(SPEC_VALUES.CERTIFICATE_NUMBER);
+    expect(testResultService.formatCertificateNumber(testType, 'psv')).toEqual(SPEC_VALUES.CERTIFICATE_NUMBER);
+    testType.testTypeId = TEST_TYPES_IDS._49;
+    expect(testResultService.formatCertificateNumber(testType, 'hgv')).toEqual(SPEC_VALUES.TIR_CERTIFICATE_NUMBER);
   });
 
   it('should create a test result containing the correct firstUseDate if the test contains a trailer with a first test', () => {

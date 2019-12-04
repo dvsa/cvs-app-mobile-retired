@@ -11,6 +11,8 @@ import { CommonFunctionsService } from "../utils/common-functions";
 import { FirebaseLogsService } from '../firebase-logs/firebase-logs.service';
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { AdrTestTypesData } from "../../assets/app-data/test-types-data/adr-test-types.data";
+import { TirTestTypesData } from "../../assets/app-data/test-types-data/tir-test-types.data";
+import { LecTestTypesData } from "../../assets/app-data/test-types-data/lec-test-types.data";
 
 @Injectable()
 export class TestTypeService {
@@ -140,5 +142,17 @@ export class TestTypeService {
 
   orderTestTypesArray(array, key, order?) {
     return array.sort(this.commonFunctions.orderByStringId(key, order));
+  }
+
+  isAdrTestType(testTypeId: string): boolean {
+    return AdrTestTypesData.AdrTestTypesDataIds.indexOf(testTypeId) !== -1;
+  }
+
+  isLecTestType(testTypeId: string): boolean {
+    return LecTestTypesData.LecTestTypesDataIds.indexOf(testTypeId) !== -1;
+  }
+
+  isTirTestType(testTypeId: string): boolean {
+    return TirTestTypesData.TirTestTypesDataIds.indexOf(testTypeId) !== -1;
   }
 }
