@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { TestResultModel } from "../../../../models/tests/test-result.model";
-import { map, tap, catchError } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 import { APP_STRINGS, PAGE_NAMES, STORAGE, VEHICLE_TYPE, FIREBASE_SCREEN_NAMES } from "../../../../app/app.enums";
 import { StorageService } from "../../../../providers/natives/storage.service";
@@ -22,6 +22,7 @@ import { AuthService } from "../../../../providers/global/auth.service";
 import * as logsActions from "../../../../modules/logs/logs.actions";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { AppService } from '../../../../providers/global/app.service';
+import { VehicleLookupSearchCriteriaData } from "../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data";
 
 @IonicPage()
 @Component({
@@ -35,6 +36,7 @@ export class VehicleLookupPage {
   title: string = '';
   searchPlaceholder = '';
   moreThanOneVehicles: boolean = false;
+  selectedSearchCriteria: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -49,7 +51,8 @@ export class VehicleLookupPage {
               private callNumber: CallNumber,
               private authService: AuthService,
               private store$: Store<LogsModel>,
-              public appService: AppService) {
+              public appService: AppService,
+              private modalCtrl: ModalController) {
     this.testData = navParams.get('test');
   }
 
@@ -58,8 +61,9 @@ export class VehicleLookupPage {
     if (this.testData.vehicles.length) {
       this.moreThanOneVehicles = true;
     }
-    this.searchPlaceholder = this.moreThanOneVehicles && this.doesHgvExist() ? APP_STRINGS.TRAILER_ID_OR_VIN : APP_STRINGS.REG_NUMBER_TRAILER_ID_OR_VIN;
-    this.title = this.moreThanOneVehicles && this.doesHgvExist() ? APP_STRINGS.IDENTIFY_TRAILER : APP_STRINGS.IDENTIFY_VEHICLE;
+    this.selectedSearchCriteria = this.canSearchOnlyTrailers() ? VehicleLookupSearchCriteriaData.DefaultVehicleLookupSearchCriteriaTrailersOnly : VehicleLookupSearchCriteriaData.DefaultVehicleLookupSearchCriteria;
+    this.searchPlaceholder = this.getSearchFieldPlaceholder();
+    this.title = this.canSearchOnlyTrailers() ? APP_STRINGS.IDENTIFY_TRAILER : APP_STRINGS.IDENTIFY_VEHICLE;
   };
 
   doesHgvExist() {
@@ -67,6 +71,10 @@ export class VehicleLookupPage {
       if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) return true;
     }
     return false;
+  }
+
+  canSearchOnlyTrailers() {
+    return this.moreThanOneVehicles && this.doesHgvExist();
   }
 
   ionViewDidEnter() {
@@ -79,8 +87,9 @@ export class VehicleLookupPage {
     });
     LOADING.present();
     searchedValue = searchedValue.replace(/\s+/g, '');
+    let searchCriteriaQueryParam = this.getTechRecordQueryParam().queryParam;
     this.oid = this.authService.getOid();
-    this.vehicleService.getVehicleTechRecord(searchedValue.toUpperCase())
+    this.vehicleService.getVehicleTechRecord(searchedValue.toUpperCase(), searchCriteriaQueryParam)
       .pipe(map((vehicleTechRecord: HttpResponse<VehicleTechRecordModel>) => {
         const vehicleModel = this.vehicleService.createVehicle(vehicleTechRecord.body);
         return {vehicleTechRecord, vehicleModel};
@@ -153,8 +162,8 @@ export class VehicleLookupPage {
 
   showAlert() {
     const alert = this.alertCtrl.create({
-      title: 'Vehicle not found',
-      message: 'You can find a vehicle by typing in its registration number or vehicle identification / chassis number',
+      title: APP_STRINGS.VEHICLE_NOT_FOUND,
+      message: APP_STRINGS.VEHICLE_NOT_FOUND_MESSAGE,
       enableBackdropDismiss: false,
       buttons: ['OK']
     });
@@ -205,4 +214,25 @@ export class VehicleLookupPage {
     );
   }
 
+  getSearchFieldPlaceholder() {
+    return APP_STRINGS.ENTER + ' ' + this.selectedSearchCriteria.charAt(0).toLowerCase() + this.selectedSearchCriteria.slice(1);
+  }
+
+  onChangeSearchCriteria() {
+    const MODAL = this.modalCtrl.create(PAGE_NAMES.VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION, {
+      selectedSearchCriteria: this.selectedSearchCriteria,
+      trailersOnly: this.canSearchOnlyTrailers()
+    });
+    MODAL.present();
+    MODAL.onDidDismiss(data => {
+      this.selectedSearchCriteria = data.selectedSearchCriteria;
+      this.searchPlaceholder = this.getSearchFieldPlaceholder();
+    });
+  }
+
+  getTechRecordQueryParam() {
+    return VehicleLookupSearchCriteriaData.VehicleLookupQueryParameters.find(queryParamItem => {
+      return queryParamItem.text === this.selectedSearchCriteria;
+    })
+  }
 }

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { VehicleLookupPage } from "./vehicle-lookup";
-import { AlertController, IonicModule, LoadingController, NavController, NavParams } from "ionic-angular";
-import { AlertControllerMock, LoadingControllerMock, NavControllerMock } from "ionic-mocks";
+import { AlertController, IonicModule, LoadingController, ModalController, NavController, NavParams } from "ionic-angular";
+import { AlertControllerMock, LoadingControllerMock, ModalControllerMock, NavControllerMock } from "ionic-mocks";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { VisitService } from "../../../../providers/visit/visit.service";
 import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
@@ -24,6 +24,7 @@ import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebas
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { AppService } from '../../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
+import { VehicleLookupSearchCriteriaData } from "../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data";
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -31,6 +32,7 @@ describe('Component: VehicleLookupPage', () => {
   let openNativeSettingsSpy: any;
   let storageService: StorageServiceMock;
   let firebaseLogsService: FirebaseLogsService;
+  let modalCtrl: ModalController;
 
   const TEST_DATA = TestDataModelMock.TestData;
   const VEHICLE = VehicleDataMock.VehicleData;
@@ -52,6 +54,7 @@ describe('Component: VehicleLookupPage', () => {
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
         {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
+        {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: StorageService, useClass: StorageServiceMock},
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
         {provide: VehicleService, useClass: VehicleServiceMock},
@@ -68,6 +71,7 @@ describe('Component: VehicleLookupPage', () => {
     component = fixture.componentInstance;
     storageService = TestBed.get(StorageService);
     firebaseLogsService = TestBed.get(FirebaseLogsService);
+    modalCtrl = TestBed.get(ModalController);
   });
 
   afterEach(() => {
@@ -89,6 +93,7 @@ describe('Component: VehicleLookupPage', () => {
 
   it('should test if the storage gets updated with newest test results history', () => {
     spyOn(storageService, 'update');
+    component.selectedSearchCriteria = 'Registration number, VIN or trailer ID';
     component.searchVehicle('BQ91YHQ');
     expect(storageService.update).toHaveBeenCalled();
   });
@@ -102,5 +107,20 @@ describe('Component: VehicleLookupPage', () => {
     component.testData.vehicles[0].techRecord.vehicleType = VEHICLE_TYPE.HGV;
     component.ionViewWillEnter();
     expect(component.searchPlaceholder).toEqual(APP_STRINGS.TRAILER_ID_OR_VIN);
+  });
+
+  it('should get the formatted search field placeholder', () => {
+    component.selectedSearchCriteria = VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria[2];
+    expect(component.getSearchFieldPlaceholder()).toEqual('Enter full VIN');
+  });
+
+  it('should call modal.create when pressing on changeSearchCriteria', () => {
+    component.onChangeSearchCriteria();
+    expect(modalCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should get the right queryParam for techRecords call based on selected search criteria', () => {
+    component.selectedSearchCriteria = VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria[4];
+    expect(component.getTechRecordQueryParam().queryParam).toEqual('trailerId');
   });
 });

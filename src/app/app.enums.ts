@@ -137,6 +137,8 @@ export enum APP_COLORS {
 
 export enum APP_STRINGS {
   VEHICLE_DETAILS = 'Vehicle details',
+  VEHICLE_NOT_FOUND = 'Vehicle not found',
+  VEHICLE_NOT_FOUND_MESSAGE = 'Check you have entered the correct value or change the search criteria to identify a vehicle',
   WITHOUT_PREPARER = 'Continue without preparer ID',
   CONFIRM_PREPARER = 'You are about to add this preparer to the test.',
   ADD_PREPARER_INFO_TEXT = 'If you are shown a preparer ID, add this to the test now',
@@ -152,6 +154,7 @@ export enum APP_STRINGS {
   YES = 'Yes',
   NO = 'No',
   SAVE = 'Save',
+  ENTER = 'Enter',
   REPORT_ISSUE = 'Report issue',
   TEST_STATION_SAFETY = 'Confirm ATF and safety',
   REPORT_TITLE = 'Report an ATF issue',
@@ -225,7 +228,7 @@ export enum APP_STRINGS {
   NO_PREPARER_ID_FOUND = 'No preparer ID found',
   NO_PREPARER_ID_GIVEN = 'No preparer ID given',
   TRAILER_ID_OR_VIN = 'Enter trailer ID or VIN',
-  REG_NUMBER_TRAILER_ID_OR_VIN = 'Enter registration number, trailer ID or VIN',
+  REG_NUMBER_TRAILER_ID_OR_VIN = 'Enter registration number, VIN or trailer ID',
   CONFIRMATION_MESSAGE_END_VISIT = 'Site visit has been submitted and sent to DVSA and ',
   CONFIRMATION_MESSAGE_SUBMIT_TEST = 'The tests have been submitted and will be emailed to ',
   CONFIRMATION_ADDITIONAL_MESSAGE_SUBMIT_TEST = 'If you do not receive the email, ',
@@ -384,6 +387,7 @@ export enum PAGE_NAMES {
   ADD_PREPARER_PAGE = 'AddPreparerPage',
   CONFIRMATION_PAGE = 'ConfirmationPage',
   VEHICLE_LOOKUP_PAGE = 'VehicleLookupPage',
+  VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION = 'VehicleLookupSearchCriteriaSelectionPage',
   WAIT_TIME_REASONS_PAGE = 'WaitTimeReasonsPage'
 }
 

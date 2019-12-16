@@ -107,7 +107,7 @@ describe('Provider: VehicleService', () => {
   });
 
   it('should check if httpService.getTechRecords was called', () => {
-    vehicleService.getVehicleTechRecord('BQ91YHQ');
+    vehicleService.getVehicleTechRecord('BQ91YHQ', 'all');
     expect(httpService.getTechRecords).toHaveBeenCalled();
   });
 
