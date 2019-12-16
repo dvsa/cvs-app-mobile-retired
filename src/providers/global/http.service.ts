@@ -35,8 +35,8 @@ export class HTTPService {
     return this.http.get<PreparersReferenceDataModel[]>(AppConfig.BACKEND_URL_PREPARERS, {observe: 'response'});
   }
 
-  getTechRecords(param): Observable<HttpResponse<VehicleTechRecordModel>> {
-    return this.http.get<VehicleTechRecordModel>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/?status=provisional_over_current`, {observe: 'response'});
+  getTechRecords(param, searchCriteria): Observable<HttpResponse<VehicleTechRecordModel>> {
+    return this.http.get<VehicleTechRecordModel>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/?status=provisional_over_current&searchCriteria=${searchCriteria}`, {observe: 'response'});
   }
 
   getTestResultsHistory(vin: string): Observable<HttpResponse<TestResultModel[]>> {
@@ -77,6 +77,6 @@ export class HTTPService {
   }
 
   getApplicationVersion(): Promise<HttpResponse<LatestVersionModel>> {
-    return this.http.get<LatestVersionModel>(AppConfig.URL_LATEST_VERSION, { observe: 'response' }).toPromise();
+    return this.http.get<LatestVersionModel>(AppConfig.URL_LATEST_VERSION, {observe: 'response'}).toPromise();
   }
 }

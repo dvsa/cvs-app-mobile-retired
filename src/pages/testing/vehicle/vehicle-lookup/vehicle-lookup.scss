@@ -28,12 +28,45 @@ page-vehicle-lookup {
   .header-ios ion-navbar button {
     font-weight: $font-weight-normal;
   }
+
+  ion-list-header.list-header-ios {
+    border-bottom: none;
+    font-size: $font-size-small;
+    font-weight: $font-weight-normal;
+
+    ion-label {
+      margin-bottom: 0;
+    }
+  }
+
+  div[item-end] {
+    color: $color-grey-1;
+  }
+
+  [item-end].arrow-forward {
+    color: $color-grey-1;
+    font-size: $font-size-medium-2;
+    display: flex;
+    align-items: center;
+  }
+
+  button[ion-item][padding-left] {
+    border: 1px solid $color-grey-2;
+
+    .item-inner {
+      border: none;
+
+      .input-wrapper {
+        margin: 11px 0;
+      }
+    }
+  }
 }
 
 ion-navbar button[ion-button].custom-search-button {
   font-weight: $font-weight-bold;
 }
 
-.autosize textarea{
+.autosize textarea {
   height: 5em;
 }

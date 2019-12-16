@@ -52,8 +52,8 @@ export class VehicleService {
     this.visitService.updateVisit();
   }
 
-  getVehicleTechRecord(param): Observable<HttpResponse<VehicleTechRecordModel>> {
-    return this.httpService.getTechRecords(param);
+  getVehicleTechRecord(param, searchCriteria): Observable<HttpResponse<VehicleTechRecordModel>> {
+    return this.httpService.getTechRecords(param, searchCriteria);
   }
 
   getTestResultsHistory(vin: string): Observable<any> {

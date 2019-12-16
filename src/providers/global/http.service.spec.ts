@@ -78,7 +78,7 @@ describe(`Provider: HttpService`, () => {
   it('test getTechRecords', () => {
     let data;
     expect(data).toBeUndefined();
-    data = httpService.getTechRecords('bq91yhq');
+    data = httpService.getTechRecords('bq91yhq', 'all');
     expect(data).toBeTruthy();
   });
 

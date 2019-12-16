@@ -37,4 +37,12 @@
     </ng-template>
 
   </ion-item>
+
+  <ion-list-header padding-left padding-right text-uppercase>SEARCH CRITERIA</ion-list-header>
+  <button ion-item detail-none padding-left
+          (click)="onChangeSearchCriteria()">
+    <ion-label>{{selectedSearchCriteria}}</ion-label>
+    <div item-end>Change</div>
+    <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
+  </button>
 </ion-content>
