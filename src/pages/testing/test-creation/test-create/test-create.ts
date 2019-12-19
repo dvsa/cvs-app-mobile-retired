@@ -295,10 +295,16 @@ export class TestCreatePage implements OnInit {
     });
   }
 
+  doesVehicleHaveOnlyAbandonedTestTypes(vehicle: VehicleModel): boolean {
+    return vehicle.testTypes.every((test: TestTypeModel) => {
+      return test.testResult === TEST_TYPE_RESULTS.ABANDONED;
+    });
+  }
+
   areAllVehiclesCompletelyTested(test: TestModel): boolean {
     return test.vehicles.every((vehicle: VehicleModel) => {
       let isOdometerCaptured = vehicle.trailerId ? true : vehicle.odometerReading; // TRLs does not have odometer Reading
-      return vehicle.countryOfRegistration && vehicle.euVehicleCategory && isOdometerCaptured && this.areAllTestTypesCompleted(vehicle);
+      return (vehicle.countryOfRegistration && vehicle.euVehicleCategory && isOdometerCaptured && this.areAllTestTypesCompleted(vehicle)) || this.doesVehicleHaveOnlyAbandonedTestTypes(vehicle);
     });
   }
 
@@ -319,7 +325,7 @@ export class TestCreatePage implements OnInit {
     let finishedTest = true;
     let requiredFieldsCompleted = true;
     for (let vehicle of this.testData.vehicles) {
-      if (!vehicle.countryOfRegistration || !vehicle.euVehicleCategory || (vehicle.techRecord.vehicleType !== VEHICLE_TYPE.TRL && !vehicle.odometerReading)) {
+      if ((!vehicle.countryOfRegistration || !vehicle.euVehicleCategory || (vehicle.techRecord.vehicleType !== VEHICLE_TYPE.TRL && !vehicle.odometerReading)) && !this.doesVehicleHaveOnlyAbandonedTestTypes(vehicle)) {
         this.logMissingFields(vehicle);
         requiredFieldsCompleted = false;
       }
