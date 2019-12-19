@@ -277,4 +277,13 @@ describe('Component: TestReviewPage', () => {
     component.checkMissingTestTypeMandatoryFields(changedTestType, initialTestType);
     expect(navCtrl.popTo).toHaveBeenCalled();
   });
+
+  it('should get the formatted string to be displayed for odometer reading', () => {
+    let vehicle = {...VEHICLE};
+    vehicle.odometerReading = null;
+    expect(component.getOdometerStringToBeDisplayed(vehicle)).toEqual('');
+
+    vehicle.odometerReading = '123';
+    expect(component.getOdometerStringToBeDisplayed(vehicle)).toEqual('123 mi');
+  });
 });

@@ -392,4 +392,18 @@ describe('Component: TestCreatePage', () => {
     testType.modType = null;
     expect(component.isLecTestTypeInProgress(testType)).toBeTruthy();
   });
+
+  it('should check if a vehicle has only abandoned test types', () => {
+    let testType = {...ADDED_VEHICLE_TEST};
+    let testType2 = {...ADDED_VEHICLE_TEST};
+    let vehicle = {...VEHICLE};
+
+    testType.testResult = TEST_TYPE_RESULTS.ABANDONED;
+    vehicle.testTypes.push(testType);
+    expect(component.doesVehicleHaveOnlyAbandonedTestTypes(vehicle)).toBeTruthy();
+
+    testType2.testResult = TEST_TYPE_RESULTS.PASS;
+    vehicle.testTypes.push(testType2);
+    expect(component.doesVehicleHaveOnlyAbandonedTestTypes(vehicle)).toBeFalsy();
+  });
 });

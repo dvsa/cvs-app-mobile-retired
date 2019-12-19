@@ -108,7 +108,7 @@ export class TestReviewPage implements OnInit {
 
   getOdometerStringToBeDisplayed(vehicle) {
     let unit = vehicle.odometerMetric === ODOMETER_METRIC.KILOMETRES ? 'km' : 'mi';
-    return this.vehicleService.formatOdometerReadingValue(vehicle.odometerReading) + ' ' + unit;
+    return vehicle.odometerReading ? (this.vehicleService.formatOdometerReadingValue(vehicle.odometerReading) + ' ' + unit) : '';
   }
 
   completeFields(testType) {

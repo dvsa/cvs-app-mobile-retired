@@ -104,6 +104,9 @@ describe('Provider: VehicleService', () => {
   it('should format odometer reading value', () => {
     let number = '1000';
     expect(vehicleService.formatOdometerReadingValue(number)).toBe('1,000');
+
+    number = null;
+    expect(vehicleService.formatOdometerReadingValue(null)).toBeNull();
   });
 
   it('should check if httpService.getTechRecords was called', () => {

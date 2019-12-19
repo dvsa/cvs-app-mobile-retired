@@ -86,7 +86,7 @@ export class VehicleService {
   }
 
   formatOdometerReadingValue(string: string): string {
-    return string.replace(CommonRegExp.ODOMETER_VALUE, ",");
+    return string ? string.replace(CommonRegExp.ODOMETER_VALUE, ",") : null;
   }
 
 }
