@@ -2395,6 +2395,39 @@ export class TestTypesFieldsMetadata {
         hasNotes: true
       },
       {
+        testTypeId: '100',
+        testTypeName: "Vitesse 100 Replacement",
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasDefects: false,
+        hasNotes: true
+      },
+      {
         testTypeId: '101',
         testTypeName: 'Paid roadworthiness retest',
         sections: [],
@@ -2483,6 +2516,39 @@ export class TestTypesFieldsMetadata {
         testTypeName: 'Paid retest prohibition clearance on first test',
         sections: [],
         hasDefects: true,
+        hasNotes: true
+      },
+      {
+        testTypeId: '121',
+        testTypeName: "Vitesse 100 Application",
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasDefects: false,
         hasNotes: true
       },
       {
