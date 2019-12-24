@@ -1,8 +1,8 @@
-import {TestBed} from "@angular/core/testing";
-import {StorageService} from "../natives/storage.service";
-import {TestStationService} from "./test-station.service";
-import {TestStationReferenceDataModel} from "../../models/reference-data-models/test-station.model";
-import {TestStationDataMock} from "../../assets/data-mocks/reference-data-mocks/test-station-data.mock";
+import { TestBed } from "@angular/core/testing";
+import { StorageService } from "../natives/storage.service";
+import { TestStationService } from "./test-station.service";
+import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
+import { TestStationDataMock } from "../../assets/data-mocks/reference-data-mocks/test-station-data.mock";
 
 describe('Provider: TestStationService', () => {
   let testStationService: TestStationService;
@@ -97,5 +97,12 @@ describe('Provider: TestStationService', () => {
 
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0][0].testStationName).toEqual(filter);
+  });
+
+  it('should also order the atfs starting with digits', function () {
+    let customTestStationData = [...TestStationDataMock.TestStationData];
+    customTestStationData[0].testStationName = '923 GJK';
+    let groupedData = testStationService.groupByLetter(customTestStationData, 'testStationName');
+    expect(groupedData[0][0].testStationName.charAt(0)).toEqual('9');
   });
 });
