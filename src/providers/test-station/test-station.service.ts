@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {StorageService} from "../natives/storage.service";
-import {Observable} from "rxjs";
-import {TestStationReferenceDataModel} from "../../models/reference-data-models/test-station.model";
-import {from} from "rxjs/observable/from";
-import {STORAGE} from "../../app/app.enums";
+import { Injectable } from "@angular/core";
+import { StorageService } from "../natives/storage.service";
+import { Observable } from "rxjs";
+import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
+import { from } from "rxjs/observable/from";
+import { STORAGE, TEST_STATIONS_SEARCH } from "../../app/app.enums";
 
 @Injectable()
 export class TestStationService {
@@ -39,7 +39,7 @@ export class TestStationService {
             for (let key in item) {
               let propIndex: number = properties.indexOf(key);
               if (propIndex != -1) {
-                if (item[key]!==null && item[key].toString().toLowerCase().includes(filter.toLowerCase())) {
+                if (item[key] !== null && item[key].toString().toLowerCase().includes(filter.toLowerCase())) {
                   item.searchProperty = properties[propIndex];
                   return item;
                 }
@@ -48,14 +48,14 @@ export class TestStationService {
               }
             }
           }
-        )
+        );
         if (arrGroup.length) filteredArray.push(arrGroup);
       }
-    )
+    );
     return filteredArray;
   }
 
-  boldSearchVal(str: string, find: string):string {
+  boldSearchVal(str: string, find: string): string {
     if (!find) return str;
     if (!str.toLowerCase().includes(find.toLowerCase())) return str;
 
@@ -70,11 +70,11 @@ export class TestStationService {
   }
 
   groupByLetter(array: any[], groupBy: string): any[] {
-    let alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    let sectionsArr = TEST_STATIONS_SEARCH.SECTIONS.split('');
     let newArr = [], arrGroup = [];
-    for (let i = 0; i < alphabet.length; i++) {
+    for (let i = 0; i < sectionsArr.length; i++) {
       for (let j = 0; j < array.length; j++) {
-        if (array[j][groupBy].charAt(0).toLowerCase() == alphabet[i]) {
+        if (array[j][groupBy].charAt(0).toLowerCase() == sectionsArr[i]) {
           arrGroup.push(array[j])
         }
       }

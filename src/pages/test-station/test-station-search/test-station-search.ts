@@ -13,7 +13,7 @@ import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-l
 export class TestStationSearchPage implements OnInit {
   @ViewChild('searchBar') searchBar;
   testStations: TestStationReferenceDataModel[] = [];
-  filteredTestStations: TestStationReferenceDataModel[] = [];
+  filteredTestStations: any[] = [];
   searchVal: string = '';
   focusOut: boolean = false;
 

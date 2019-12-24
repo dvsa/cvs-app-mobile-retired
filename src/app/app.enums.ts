@@ -279,6 +279,10 @@ export enum TEST_STATION_TYPE {
   OTHER = 'other'
 }
 
+export enum TEST_STATIONS_SEARCH {
+  SECTIONS = '0123456789abcdefghijklmnopqrstuvwxyz'
+}
+
 export enum TEST_REPORT_STATUS {
   SUBMITTED = 'submitted',
   CANCELLED = 'cancelled'
