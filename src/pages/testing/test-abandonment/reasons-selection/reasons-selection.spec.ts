@@ -7,6 +7,8 @@ import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-
 import { VEHICLE_TYPE } from "../../../../app/app.enums";
 import { TestAbandonmentReasonsData } from "../../../../assets/app-data/abandon-data/test-abandonment-reasons.data";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 
 describe('Component: ReasonsSelectionPage', () => {
   let component: ReasonsSelectionPage;
@@ -21,7 +23,8 @@ describe('Component: ReasonsSelectionPage', () => {
       providers: [
         NavController,
         {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useClass: ViewControllerMock}
+        {provide: ViewController, useClass: ViewControllerMock},
+        {provide: TestTypeService, useClass: TestTypeServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -72,5 +75,9 @@ describe('Component: ReasonsSelectionPage', () => {
     reasonList = component.transformReasons(VEHICLE_TYPE.HGV);
     reasonsData = TestAbandonmentReasonsData.TestAbandonmentReasonsHgvTrailerData;
     expect(reasonList[reasonList.length - 4].text).toEqual(reasonsData[reasonsData.length - 4]);
+    component.vehicleTest.testTypeId = '150';
+    reasonList = component.transformReasons(VEHICLE_TYPE.HGV);
+    reasonsData = TestAbandonmentReasonsData.TestAbandonmentReasonsSpecialistTestTypesData;
+    expect(reasonList[reasonList.length - 2].text).toEqual(reasonsData[reasonsData.length - 2]);
   });
 });

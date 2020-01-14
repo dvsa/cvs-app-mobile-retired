@@ -20,10 +20,12 @@ export interface TechRecordModel {
   grossKerbWeight: number;
   grossLadenWeight: number;
   noOfAxles: number;
+  numberOfWheelsDriven: number;
   brakeCode: string;
   vehicleType: string;
   axles: AxelsModel[];
   vehicleClass: VehicleClassModel;
+  vehicleSubclass: string[];
   vehicleConfiguration: string;
   recordCompleteness?: string;
   /* -------- ONLY FOR PSV -------- */
