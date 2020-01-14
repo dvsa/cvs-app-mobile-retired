@@ -13,6 +13,7 @@ import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { AdrTestTypesData } from "../../assets/app-data/test-types-data/adr-test-types.data";
 import { TirTestTypesData } from "../../assets/app-data/test-types-data/tir-test-types.data";
 import { LecTestTypesData } from "../../assets/app-data/test-types-data/lec-test-types.data";
+import { SpecialistTestTypesData } from "../../assets/app-data/test-types-data/specialist-test-types.data";
 
 @Injectable()
 export class TestTypeService {
@@ -154,5 +155,9 @@ export class TestTypeService {
 
   isTirTestType(testTypeId: string): boolean {
     return TirTestTypesData.TirTestTypesDataIds.indexOf(testTypeId) !== -1;
+  }
+
+  isSpecialistTestType(testTypeId: string): boolean {
+    return SpecialistTestTypesData.SpecialistTestTypesIds.indexOf(testTypeId) !== -1;
   }
 }

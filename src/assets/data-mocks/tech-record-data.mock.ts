@@ -46,6 +46,8 @@ export class TechRecordDataMock {
           "grossDesignWeight": 0,
           "grossUnladenWeight": 0,
           "noOfAxles": 0,
+          "numberOfWheelsDriven": 0,
+          "vehicleSubclass": null,
           "brakeCode": "string",
           "vehicleClass": {
             "code": "s",
