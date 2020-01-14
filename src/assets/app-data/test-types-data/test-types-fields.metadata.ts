@@ -2677,6 +2677,277 @@ export class TestTypesFieldsMetadata {
         sections: [],
         hasDefects: true,
         hasNotes: true
+      },
+      // ----- specialist tests -----
+      {
+        testTypeId: '125',
+        testTypeName: 'Basic IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '126',
+        testTypeName: 'Normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '186',
+        testTypeName: 'Normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '187',
+        testTypeName: 'Normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '128',
+        testTypeName: 'Appeal on a normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '188',
+        testTypeName: 'Appeal on a normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '189',
+        testTypeName: 'Appeal on a normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '129',
+        testTypeName: 'Appeal on a basic IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '130',
+        testTypeName: 'IVA mutual recognition/ end of series & inspection',
+        sections: []
+      },
+      {
+        testTypeId: '133',
+        testTypeName: 'Full MSVA moped vehicle inspection',
+        sections: []
+      },
+      {
+        testTypeId: '134',
+        testTypeName: 'Full MSVA unbodied vehicle inspection',
+        sections: []
+      },
+      {
+        testTypeId: '135',
+        testTypeName: 'Full MSVA bodied vehicle inspection',
+        sections: []
+      },
+      {
+        testTypeId: '136',
+        testTypeName: 'Part MSVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '138',
+        testTypeName: 'Appeal on a MSVA moped vehicle inspection',
+        sections: []
+      },
+      {
+        testTypeId: '139',
+        testTypeName: 'Appeal on a MSVA unbodied vehicle inspection',
+        sections: []
+      },
+      {
+        testTypeId: '140',
+        testTypeName: 'Appeal on a MSVA bodied vehicle inspection',
+        sections: []
+      },
+      {
+        testTypeId: '142',
+        testTypeName: 'COIF with annual test',
+        sections: []
+      },
+      {
+        testTypeId: '143',
+        testTypeName: 'COIF without annual test',
+        sections: []
+      },
+      {
+        testTypeId: '144',
+        testTypeName: 'Type approved to bus directive COIF',
+        sections: []
+      },
+      {
+        testTypeId: '146',
+        testTypeName: 'Seatbelt installation check COIF with annual test',
+        sections: []
+      },
+      {
+        testTypeId: '147',
+        testTypeName: 'Seatbelt installation check COIF without annual test',
+        sections: []
+      },
+      {
+        testTypeId: '148',
+        testTypeName: 'Annex 7 COIF',
+        sections: []
+      },
+      {
+        testTypeId: '150',
+        testTypeName: 'DDA Schedule 1, 2 or 3',
+        sections: []
+      },
+      {
+        testTypeId: '151',
+        testTypeName: 'DDA Schedule 1 + 2 or 3',
+        sections: []
+      },
+      {
+        testTypeId: '153',
+        testTypeName: 'Normal voluntary IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '190',
+        testTypeName: 'Normal voluntary IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '191',
+        testTypeName: 'Normal voluntary IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '154',
+        testTypeName: 'Basic voluntary IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '158',
+        testTypeName: 'Paid basic IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '159',
+        testTypeName: 'Free basic IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '161',
+        testTypeName: 'Paid normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '192',
+        testTypeName: 'Paid normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '193',
+        testTypeName: 'Paid normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '162',
+        testTypeName: 'Free normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '194',
+        testTypeName: 'Free normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '195',
+        testTypeName: 'Free normal IVA inspection',
+        sections: []
+      },
+      {
+        testTypeId: '163',
+        testTypeName: 'Mutual recognition/ end of series IVA retest',
+        sections: []
+      },
+      {
+        testTypeId: '166',
+        testTypeName: 'Paid MSVA moped vehicle retest',
+        sections: []
+      },
+      {
+        testTypeId: '167',
+        testTypeName: 'Free MSVA moped vehicle retest',
+        sections: []
+      },
+      {
+        testTypeId: '169',
+        testTypeName: 'Paid MSVA unbodied vehicle retest',
+        sections: []
+      },
+      {
+        testTypeId: '170',
+        testTypeName: 'Free MSVA unbodied vehicle retest',
+        sections: []
+      },
+      {
+        testTypeId: '172',
+        testTypeName: 'Paid MSVA bodied vehicle retest',
+        sections: []
+      },
+      {
+        testTypeId: '173',
+        testTypeName: 'Free MSVA bodied vehicle retest',
+        sections: []
+      },
+      {
+        testTypeId: '175',
+        testTypeName: 'COIF retest with annual test',
+        sections: []
+      },
+      {
+        testTypeId: '176',
+        testTypeName: 'COIF retest without annual test',
+        sections: []
+      },
+      {
+        testTypeId: '177',
+        testTypeName: 'Seatbelt installation check COIF retest with annual test',
+        sections: []
+      },
+      {
+        testTypeId: '178',
+        testTypeName: 'Annex 7 COIF retest',
+        sections: []
+      },
+      {
+        testTypeId: '179',
+        testTypeName: 'TILT COIF retest',
+        sections: []
+      },
+      {
+        testTypeId: '181',
+        testTypeName: 'DDA Schedule 1, 2 or 3 retest',
+        sections: []
+      },
+      {
+        testTypeId: '182',
+        testTypeName: 'DDA Schedule 1 + 2 or 3 retest',
+        sections: []
+      },
+      {
+        testTypeId: '184',
+        testTypeName: 'Normal voluntary IVA inspection retest',
+        sections: []
+      },
+      {
+        testTypeId: '196',
+        testTypeName: 'Normal voluntary IVA inspection retest',
+        sections: []
+      },
+      {
+        testTypeId: '197',
+        testTypeName: 'Normal voluntary IVA inspection retest',
+        sections: []
+      },
+      {
+        testTypeId: '185',
+        testTypeName: 'Basic voluntary IVA inspection retest',
+        sections: []
       }
     ]
   }

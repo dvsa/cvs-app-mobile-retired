@@ -53,4 +53,20 @@ export class TestAbandonmentReasonsData {
       'The driver and/or presenter of the vehicle refused to or was unable to comply with the instructions of DVSA staff making it impractical or unsafe to continue the test'
     ]
   }
+
+  public static get TestAbandonmentReasonsSpecialistTestTypesData() {
+    return [
+      'The vehicle/trailer is not eligible to the scheme',
+      'The vehicle/trailer was not presented for examination at the appointed time or place',
+      'The vehicle (for whatever reason) cannot be driven or the engine run to the extent necessary to complete the examination',
+      'The vehicle/trailer was presented at an incorrect test location (see conditions specified on IVA 30)',
+      'The vehicle/trailer is in such a dirty or dangerous condition that it is unreasonable for the examination to be carried out',
+      'Items on the vehicle/trailer have not been removed or secured as required by the examiner',
+      'A door, tailgate, boot lid, engine cover, fuel cap or other device capable of being opened was locked or fixed such that a proper examination could not be carried out',
+      'The vehicle/trailer condition is such that a proper examination would involve a danger of injury to any person; or damage to the vehicle or any other property',
+      'The identification number is not: permanently fixed to the vehicle/trailer; easy to read and in an accessible position; adequate for the purpose of identifying the vehicle',
+      'The driver at the time of the examination did not remain with the vehicle and operate the controls, or did not comply with a reasonable request of the examiner in the course of his duties, or did not remove and refit panels as requested',
+      'The vehicle was not presented with the fuel tank(s) full'
+    ]
+  }
 }
