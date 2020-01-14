@@ -24,6 +24,10 @@ export class FilterTestTypeByVehiclePipe implements PipeTransform {
     if (elem.forVehicleSize && elem.forVehicleSize.indexOf(techRecord.vehicleSize.toLowerCase()) == -1) return false;
     if (elem.forVehicleConfiguration && elem.forVehicleConfiguration.indexOf(techRecord.vehicleConfiguration.toLowerCase()) == -1) return false;
     if (elem.forVehicleAxles && elem.forVehicleAxles.indexOf(techRecord.noOfAxles) == -1) return false;
+    if (elem.forEuVehicleCategory && vehicle.euVehicleCategory && elem.forEuVehicleCategory.indexOf(vehicle.euVehicleCategory.toLowerCase()) == -1) return false;
+    if (elem.forVehicleClass && elem.forVehicleClass.indexOf(techRecord.vehicleClass.code.toLowerCase()) == -1) return false;
+    if (elem.forVehicleSubclass && elem.forVehicleSubclass.indexOf(techRecord.vehicleSubclass[0].toLowerCase()) == -1) return false;
+    if (elem.forVehicleWheels && elem.forVehicleWheels.indexOf(techRecord.numberOfWheelsDriven) == -1) return false;
     return elem;
   }
 }

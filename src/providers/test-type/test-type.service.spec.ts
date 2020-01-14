@@ -202,4 +202,12 @@ describe('Provider: TestTypeService', () => {
     testType.testTypeId = '1';
     expect(testTypeService.isTirTestType(testType.testTypeId)).toBeFalsy();
   });
+
+  it('should check if testType is specialist test or not', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '150';
+    expect(testTypeService.isSpecialistTestType(testType.testTypeId)).toBeTruthy();
+    testType.testTypeId = '1';
+    expect(testTypeService.isSpecialistTestType(testType.testTypeId)).toBeFalsy();
+  });
 });
