@@ -13,6 +13,7 @@ import { CallNumber } from "@ionic-native/call-number";
 import { AppService } from "../../../../providers/global/app.service";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { EuVehicleCategoryData } from "../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category";
 
 @IonicPage()
 @Component({
@@ -28,7 +29,7 @@ export class TestCreatePage implements OnInit {
   completedFields = {};
   changeOpacity: boolean = false;
   displayAddVehicleButton: boolean;
-  doesHgvExist: boolean;
+  doesHgvLgvExist: boolean;
   errorIncomplete: boolean = false;
   allVehiclesCompletelyTested: boolean = false;
   TEST_CREATE_ERROR_BANNER: typeof APP_STRINGS.TEST_CREATE_ERROR_BANNER = APP_STRINGS.TEST_CREATE_ERROR_BANNER;
@@ -58,10 +59,13 @@ export class TestCreatePage implements OnInit {
 
   ionViewWillEnter() {
     this.displayAddVehicleButton = true;
-    this.doesHgvExist = false;
+    this.doesHgvLgvExist = false;
     for (let vehicle of this.testData.vehicles) {
-      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV || this.testData.vehicles.length >= 4) this.displayAddVehicleButton = false;
-      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) this.doesHgvExist = true;
+      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV || vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR ||
+        vehicle.techRecord.vehicleType === VEHICLE_TYPE.MOTORCYCLE || this.testData.vehicles.length >= 4) this.displayAddVehicleButton = false;
+      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV || vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV) this.doesHgvLgvExist = true;
+
+      this.autoAssignVehicleCategoryOnlyWhenOneCategoryAvailable(vehicle);
     }
     this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
       this.completedFields = completedFields;
@@ -362,5 +366,18 @@ export class TestCreatePage implements OnInit {
 
   isVehicleOfType(vehicle: VehicleModel, ...vehicleType: VEHICLE_TYPE[]) {
     return this.commonFunctions.checkForMatchInArray(vehicle.techRecord.vehicleType, vehicleType)
+  }
+
+  displayVehicleCategoryKey(key: string): string {
+    return this.vehicleService.displayVehicleCategoryKey(key);
+  }
+
+  autoAssignVehicleCategoryOnlyWhenOneCategoryAvailable(vehicle: VehicleModel): void {
+    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR) {
+      vehicle.euVehicleCategory = EuVehicleCategoryData.EuCategoryCarData[0].key;
+    }
+    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV) {
+      vehicle.euVehicleCategory = EuVehicleCategoryData.EuCategoryLgvData[0].key;
+    }
   }
 }

@@ -20,7 +20,7 @@
             [ngClass]="{'error-incomplete-item': errorIncomplete}"
             *ngFor="let elem of categoriesArr"
             (click)="setVehicleCategory(elem.key)">
-      <h3>{{elem.key.toUpperCase()}}</h3>
+      <h3 text-capitalize>{{displayVehicleCategoryKey(elem.key)}}</h3>
       <p text-wrap>{{elem.value}}</p>
       <ion-icon item-end class="selected"
                 name="checkmark"
