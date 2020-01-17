@@ -55,6 +55,15 @@ describe('Provider: VehicleService', () => {
     expect(newVehicle.vrm).toEqual('BQ91YHQ');
   });
 
+  it('should create a new vehicle with vehicle categorry included', () => {
+    let vehicleWithCategory = {...VEHICLE_TECH_RECORD};
+    vehicleWithCategory.techRecord[0].euVehicleCategory = 'n1';
+    let createdVehicle;
+    expect(createdVehicle).toBeUndefined();
+    createdVehicle = vehicleService.createVehicle(vehicleWithCategory);
+    expect(createdVehicle.techRecord.euVehicleCategory).toEqual('n1');
+  });
+
   it('should create a vehicle with null VRM if vrms array is empty', () => {
     let newVehicle;
     expect(newVehicle).toBeUndefined();
@@ -142,5 +151,10 @@ describe('Provider: VehicleService', () => {
     });
     let onlyOne = vehicleService.hasOnlyOneTestTypeWithSic(vehicle);
     expect(onlyOne).toBeTruthy();
+  });
+
+  it('should test displayCategoryVehicleKey', () => {
+    expect(vehicleService.displayVehicleCategoryKey('n1')).toEqual('n1');
+    expect(vehicleService.displayVehicleCategoryKey('l1e-a')).toEqual('l1e-A');
   });
 });

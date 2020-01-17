@@ -44,6 +44,7 @@ export class VehicleDataMock {
           "description": "single decker"
         },
         "vehicleType": "psv",
+        "euVehicleCategory": "m1",
         "vehicleSize": "large",
         "vehicleConfiguration": "articulated",
         "brakes": {
