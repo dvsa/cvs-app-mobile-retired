@@ -38,7 +38,7 @@ export class VehicleService {
     newVehicle.techRecord = vehicleTechRecord.techRecord[0];
     newVehicle.testResultsHistory = [];
     newVehicle.countryOfRegistration = CountryOfRegistrationData.DefaultCountryData.key;
-    newVehicle.euVehicleCategory = null;
+    newVehicle.euVehicleCategory = vehicleTechRecord.techRecord[0].euVehicleCategory || null;
     newVehicle.odometerReading = null;
     newVehicle.odometerMetric = null;
     newVehicle.preparerId = null;
@@ -148,5 +148,9 @@ export class VehicleService {
     const first = vehicle1.techRecord.chassisMake || vehicle1.techRecord.make;
     const second = vehicle2.techRecord.chassisMake || vehicle2.techRecord.make;
     return first.localeCompare(second);
+  }
+
+  displayVehicleCategoryKey(key: string): string {
+    return key === 'l1e-a' ? 'l1e-A' : key;
   }
 }
