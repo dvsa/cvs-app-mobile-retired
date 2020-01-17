@@ -23,6 +23,7 @@ export interface TechRecordModel {
   numberOfWheelsDriven: number;
   brakeCode: string;
   vehicleType: string;
+  euVehicleCategory: string;
   axles: AxelsModel[];
   vehicleClass: VehicleClassModel;
   vehicleSubclass: string[];

@@ -66,15 +66,15 @@ export class VehicleLookupPage {
     this.title = this.canSearchOnlyTrailers() ? APP_STRINGS.IDENTIFY_TRAILER : APP_STRINGS.IDENTIFY_VEHICLE;
   };
 
-  doesHgvExist() {
+  doesHgvLgvExist() {
     for (let vehicle of this.testData.vehicles) {
-      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) return true;
+      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV || vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV) return true;
     }
     return false;
   }
 
   canSearchOnlyTrailers() {
-    return this.isCombinationTest && this.doesHgvExist();
+    return this.isCombinationTest && this.doesHgvLgvExist();
   }
 
   ionViewDidEnter() {

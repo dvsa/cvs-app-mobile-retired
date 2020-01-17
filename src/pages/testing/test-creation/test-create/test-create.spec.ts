@@ -36,6 +36,7 @@ import { TestTypeService } from "../../../../providers/test-type/test-type.servi
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { EuVehicleCategoryData } from "../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -381,5 +382,17 @@ describe('Component: TestCreatePage', () => {
     testType2.testResult = TEST_TYPE_RESULTS.PASS;
     vehicle.testTypes.push(testType2);
     expect(component.doesVehicleHaveOnlyAbandonedTestTypes(vehicle)).toBeFalsy();
+  });
+
+  it('should autocomplete the vehicle category when there is only one category available', () => {
+    let vehicle = {...VEHICLE};
+    vehicle.euVehicleCategory = null;
+    vehicle.techRecord.vehicleType = VEHICLE_TYPE.CAR;
+    component.autoAssignVehicleCategoryOnlyWhenOneCategoryAvailable(vehicle);
+    expect(vehicle.euVehicleCategory).toEqual(EuVehicleCategoryData.EuCategoryCarData[0].key);
+    vehicle.euVehicleCategory = null;
+    vehicle.techRecord.vehicleType = VEHICLE_TYPE.LGV;
+    component.autoAssignVehicleCategoryOnlyWhenOneCategoryAvailable(vehicle);
+    expect(vehicle.euVehicleCategory).toEqual(EuVehicleCategoryData.EuCategoryLgvData[0].key);
   });
 });

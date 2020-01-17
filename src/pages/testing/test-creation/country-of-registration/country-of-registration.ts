@@ -16,6 +16,7 @@ export class RegionReadingPage implements OnInit {
   searchVal: string = '';
   topElem = [];
   botElem = [];
+  notApplicableElem = [];
   countriesArr = [];
   filteredCountries = [];
   groupedCountries = [];
@@ -33,7 +34,8 @@ export class RegionReadingPage implements OnInit {
   ngOnInit(): void {
     this.countriesArr = CountryOfRegistrationData.CountryData;
     this.topElem = this.countriesArr.splice(0, 1);
-    this.botElem = this.countriesArr.splice(this.countriesArr.length - 2, 2);
+    this.botElem = this.countriesArr.splice(this.countriesArr.length - 3, 2);
+    this.notApplicableElem = this.countriesArr.splice(this.countriesArr.length - 1, 1);
     this.resetFilteredCountries();
   }
 
