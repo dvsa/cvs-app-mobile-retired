@@ -48,8 +48,8 @@
         <div class="flex-wrapper-container">
           <h3 class="odometer-reading" text-wrap>EU vehicle category</h3>
           <h3 item-end class="vehicle-details" *ngIf="!vehicle.euVehicleCategory">Select</h3>
-          <h3 item-end text-nowrap class="vehicle-details"
-              *ngIf="vehicle.euVehicleCategory">{{vehicle.euVehicleCategory.toUpperCase()}}</h3>
+          <h3 item-end text-nowrap text-capitalize class="vehicle-details"
+              *ngIf="vehicle.euVehicleCategory">{{displayVehicleCategoryKey(vehicle.euVehicleCategory)}}</h3>
         </div>
 
         <ion-icon item-end
@@ -123,7 +123,7 @@
 
     <ion-card class="card" *ngIf="displayAddVehicleButton">
       <button class="btn-add-test" ion-item detail-none (click)="addTrailer(visitService.visit.tests)">
-        <span>Add a {{doesHgvExist ? "trailer" : "vehicle"}}</span>
+        <span>Add a {{doesHgvLgvExist ? "trailer" : "vehicle"}}</span>
         <ion-icon aria-hidden="true" name="ios-add-circle-outline" item-end></ion-icon>
       </button>
     </ion-card>

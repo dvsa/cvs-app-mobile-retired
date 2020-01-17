@@ -25,7 +25,7 @@ export class VehicleService {
     newVehicle.techRecord = vehicleTechRecord.techRecord[0];
     newVehicle.testResultsHistory = [];
     newVehicle.countryOfRegistration = CountryOfRegistrationData.DefaultCountryData.key;
-    newVehicle.euVehicleCategory = null;
+    newVehicle.euVehicleCategory = vehicleTechRecord.techRecord[0].euVehicleCategory || null;
     newVehicle.odometerReading = null;
     newVehicle.odometerMetric = null;
     newVehicle.preparerId = null;
@@ -89,4 +89,7 @@ export class VehicleService {
     return string ? string.replace(CommonRegExp.ODOMETER_VALUE, ",") : null;
   }
 
+  displayVehicleCategoryKey(key: string): string {
+    return key === 'l1e-a' ? 'l1e-A' : key;
+  }
 }

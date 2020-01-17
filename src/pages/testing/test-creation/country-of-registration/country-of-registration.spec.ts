@@ -48,5 +48,6 @@ describe('Component: RegionReadingPage', () => {
     expect(comp.countriesArr.length).toEqual(0);
     comp.ngOnInit();
     expect(comp.countriesArr.length).toEqual(35);
+    expect(comp.notApplicableElem[0].key).toEqual('not-applicable');
   });
 });

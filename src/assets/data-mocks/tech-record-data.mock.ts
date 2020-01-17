@@ -54,6 +54,7 @@ export class TechRecordDataMock {
             "description": "single decker"
           },
           "vehicleType": "psv",
+          "euVehicleCategory": "m2",
           "vehicleSize": "large",
           "vehicleConfiguration": "articulated",
           "brakes": {

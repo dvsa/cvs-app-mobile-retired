@@ -9,6 +9,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { EuVehicleCategoryData } from "../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
+import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
 
 describe('Component: EuVehicleCategoryPage', () => {
   let component: CategoryReadingPage;
@@ -23,7 +25,8 @@ describe('Component: EuVehicleCategoryPage', () => {
       providers: [
         {provide: NavParams, useClass: NavParamsMock},
         {provide: VisitService, useClass: VisitServiceMock},
-        {provide: ViewController, useClass: ViewControllerMock}
+        {provide: ViewController, useClass: ViewControllerMock},
+        {provide: VehicleService, useClass: VehicleServiceMock}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
