@@ -58,7 +58,7 @@
     "angular2-signaturepad": "^2.8.0",
     "audit-filter": "^0.5.0",
     "call-number": "^1.0.1",
-    "cordova-ios": "^5.0.1",
+    "cordova-ios": "5.1.1",
     "cordova-open-native-settings": "^1.5.2",
     "cordova-plugin-advanced-http": "^1.11.1",
     "cordova-plugin-app-version": "^0.1.9",
