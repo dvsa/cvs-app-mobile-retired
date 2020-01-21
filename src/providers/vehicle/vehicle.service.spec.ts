@@ -135,6 +135,7 @@ describe('Provider: VehicleService', () => {
       testTypeName: 'Annual test',
       testTypeId: '1',
       certificateNumber: null,
+      secondaryCertificateNumber: null,
       testTypeStartTimestamp: '2018-12-19T00:00:00.000Z',
       testTypeEndTimestamp: null,
       numberOfSeatbeltsFitted: null,

@@ -15,7 +15,7 @@ import { DefectDetailsModel } from "../../../../models/defects/defect-details.mo
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { DefectsReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
 import {
-  DEFICIENCY_CATEGORY, MOD_TYPES,
+  DEFICIENCY_CATEGORY, MOD_TYPES, REG_EX_PATTERNS,
   SPEC_VALUES, TEST_TYPE_FIELDS, TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS, TEST_TYPE_SECTIONS,
   TEST_TYPES_IDS
@@ -265,6 +265,16 @@ describe('Component: CompleteTestPage', () => {
     comp.vehicleTest.testTypeId = TEST_TYPES_IDS._49;
     section.inputs[0].type = TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM;
     expect(comp.canDisplaySection(section)).toBeFalsy();
+
+    comp.vehicleTest.testTypeId = '125';
+    section.inputs[0].type = TEST_TYPE_FIELDS.CERTIFICATE_NUMBER;
+    expect(comp.canDisplaySection(section)).toBeFalsy();
+
+    comp.vehicleTest.testTypeId = '142';
+    expect(comp.canDisplaySection(section)).toBeFalsy();
+
+    comp.vehicleTest.testTypeId = '38';
+    expect(comp.canDisplaySection(section)).toBeFalsy();
   });
 
   it('should tell if an input can be displayed', () => {
@@ -359,7 +369,7 @@ describe('Component: CompleteTestPage', () => {
     expect(modalCtrl.create).toHaveBeenCalled();
   });
 
-  it('should take only the first 6 digits from a string and assign them to the certificate number and only the first 5 for TIR tests', () => {
+  it('should take only the first 6 digits from a string and assign them to the certificate number and only the first 5 for TIR tests and only the first 20 for specialist tests', () => {
     comp.vehicleTest = TestTypeDataModelMock.TestTypeData;
     comp.testTypeDetails = comp.getTestTypeDetails();
     comp.completedFields = {};
@@ -370,6 +380,18 @@ describe('Component: CompleteTestPage', () => {
     comp.vehicleTest.testTypeId = '49';
     comp.certificateNumberInputChange('123456');
     expect(comp.vehicleTest.certificateNumber).toEqual('12345');
+
+    comp.vehicleTest.testTypeId = '125';
+    comp.certificateNumberInputChange('123456789123456789123');
+    expect(comp.vehicleTest.certificateNumber).toEqual('12345678912345678912');
+
+    comp.vehicleTest.testTypeId = '142';
+    comp.certificateNumberInputChange('123456789123456789123');
+    expect(comp.vehicleTest.certificateNumber).toEqual('12345678912345678912');
+
+    comp.vehicleTest.testTypeId = '38';
+    comp.certificateNumberInputChange('123456789123456789123');
+    expect(comp.vehicleTest.certificateNumber).toEqual('12345678912345678912');
   });
 
   it('should open ddl when blockTestResultSelection is false', () => {
@@ -386,5 +408,40 @@ describe('Component: CompleteTestPage', () => {
     comp.blockTestResultSelection = true;
     comp.openDDL(input);
     expect(actionSheetCtrl.create).not.toHaveBeenCalled();
+  });
+
+  it('should return the correct type of the certificate number field', () => {
+    comp.vehicleTest = {...TestTypeDataModelMock.TestTypeData};
+    comp.vehicleTest.testTypeId = '125';
+    expect(comp.getTypeForCertificateNumberField()).toEqual('text');
+
+    comp.vehicleTest.testTypeId = '142';
+    expect(comp.getTypeForCertificateNumberField()).toEqual('text');
+
+    comp.vehicleTest.testTypeId = '38';
+    expect(comp.getTypeForCertificateNumberField()).toEqual('text');
+
+    comp.vehicleTest.testTypeId = '1';
+    expect(comp.getTypeForCertificateNumberField()).toEqual('number');
+  });
+
+  it('should return the correct pattern of the certificate number field', () => {
+    comp.vehicleTest = {...TestTypeDataModelMock.TestTypeData};
+    comp.vehicleTest.testTypeId = '125';
+    expect(comp.getPatternForCertificateNumberField()).toEqual('');
+
+    comp.vehicleTest.testTypeId = '142';
+    expect(comp.getPatternForCertificateNumberField()).toEqual('');
+
+    comp.vehicleTest.testTypeId = '38';
+    expect(comp.getPatternForCertificateNumberField()).toEqual('');
+
+    comp.vehicleTest.testTypeId = '1';
+    expect(comp.getPatternForCertificateNumberField()).toEqual(REG_EX_PATTERNS.NUMERIC);
+  });
+
+  it('should open the modal for specialist defects details page', () => {
+    comp.toSpecialistDefectDetailsPage(false);
+    expect(modalCtrl.create).toHaveBeenCalled();
   });
 });

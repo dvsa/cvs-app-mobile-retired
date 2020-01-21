@@ -1,5 +1,5 @@
 import { TestTypeModel } from "../../src/models/tests/test-type.model";
-import { DefectDetailsModel } from "../../src/models/defects/defect-details.model";
+import { DefectDetailsModel, SpecialistCustomDefectModel } from "../../src/models/defects/defect-details.model";
 import { Observable } from "rxjs";
 import { DEFICIENCY_CATEGORY, TEST_TYPE_RESULTS } from "../../src/app/app.enums";
 import { of } from "rxjs/observable/of";
@@ -10,6 +10,7 @@ import { AdrTestTypesData } from "../../src/assets/app-data/test-types-data/adr-
 import { LecTestTypesData } from "../../src/assets/app-data/test-types-data/lec-test-types.data";
 import { TirTestTypesData } from "../../src/assets/app-data/test-types-data/tir-test-types.data";
 import { SpecialistTestTypesData } from "../../src/assets/app-data/test-types-data/specialist-test-types.data";
+import { NotifiableAlterationTestTypesData } from "../../src/assets/app-data/test-types-data/notifiable-alteration-test-types.data";
 
 export class TestTypeServiceMock {
   createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
@@ -48,8 +49,18 @@ export class TestTypeServiceMock {
     testType.defects.splice(defIdx, 1);
   }
 
+  removeSpecialistCustomDefect(testType: TestTypeModel, index: number) {
+    testType.customDefects.splice(index, 1);
+  }
+
   getTestTypesFromStorage(): Observable<TestTypesReferenceDataModel[]> {
     return of(TestTypesReferenceDataMock.TestTypesData)
+  }
+
+  areSpecialistCustomDefectsCompleted(testType: TestTypeModel): boolean {
+    return testType.customDefects.every((defect: SpecialistCustomDefectModel) => {
+      return defect.hasAllMandatoryFields;
+    })
   }
 
   setTestResult(testType: TestTypeModel): TEST_TYPE_RESULTS {
@@ -131,5 +142,21 @@ export class TestTypeServiceMock {
 
   isSpecialistTestType(testTypeId: string): boolean {
     return SpecialistTestTypesData.SpecialistTestTypesIds.indexOf(testTypeId) !== -1;
+  }
+
+  isSpecialistIvaTestAndRetestTestType(testTypeId: string): boolean {
+    return SpecialistTestTypesData.SpecialistIvaTestAndRetestTestTypeIds.indexOf(testTypeId) !== -1;
+  }
+
+  isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(testTypeId: string): boolean {
+    return SpecialistTestTypesData.SpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetestIds.indexOf(testTypeId) !== -1;
+  }
+
+  isSpecialistPartOfCoifTestTypes(testTypeId: string): boolean {
+    return SpecialistTestTypesData.SpecialistPartOfCoifTestTypesIds.indexOf(testTypeId) !== -1;
+  }
+
+  isPsvNotifiableAlterationTestType(testTypeId: string): boolean {
+    return NotifiableAlterationTestTypesData.PsvNotifiableAlterationTestTypeDataIds.indexOf(testTypeId) !== -1;
   }
 }

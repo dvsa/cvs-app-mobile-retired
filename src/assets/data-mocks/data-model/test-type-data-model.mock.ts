@@ -8,6 +8,7 @@ export class TestTypeDataModelMock {
       testTypeName: 'Annual test',
       testTypeId: '1',
       certificateNumber: null,
+      secondaryCertificateNumber: null,
       testTypeStartTimestamp: '2018-12-19T00:00:00.000Z',
       testTypeEndTimestamp: null,
       numberOfSeatbeltsFitted: null,
@@ -19,6 +20,7 @@ export class TestTypeDataModelMock {
       reasonForAbandoning: null,
       additionalCommentsForAbandon: null,
       defects: [],
+      customDefects: [],
       reasons: [],
       linkedIds: ['38', '39']
     }

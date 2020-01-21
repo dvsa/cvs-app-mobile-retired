@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActionSheetController, AlertController, Events, IonicPage, ItemSliding, ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
-import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
+import { DefectDetailsModel, SpecialistCustomDefectModel } from "../../../../models/defects/defect-details.model";
 import { DefectsService } from "../../../../providers/defects/defects.service";
 import { APP, DEFICIENCY_CATEGORY, FIREBASE, FIREBASE_DEFECTS, FIREBASE_SCREEN_NAMES, MOD_TYPES, PAGE_NAMES, REG_EX_PATTERNS, TEST_TYPE_FIELDS, TEST_TYPE_INPUTS, TEST_TYPE_RESULTS, TEST_TYPE_SECTIONS, TIR_CERTIFICATE_NUMBER_PREFIXES, VEHICLE_TYPE } from "../../../../app/app.enums";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
@@ -233,6 +233,15 @@ export class CompleteTestPage implements OnInit {
       return false;
     }
     // -----TO HERE-----
+    // for Specialist test-types with certificate number and Notifiable Alteration for PSVs
+    // -----FROM HERE-----
+    if ((this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(this.vehicleTest.testTypeId) ||
+      this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
+      this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)) &&
+      this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL && section.inputs[0].type === TEST_TYPE_FIELDS.CERTIFICATE_NUMBER) {
+      return false;
+    }
+    // -----TO HERE-----
     if (section.dependentOn && section.dependentOn.length) {
       for (let index in section.dependentOn) {
         if (!this.vehicleTest[section.dependentOn[index]]) {
@@ -344,7 +353,7 @@ export class CompleteTestPage implements OnInit {
     return +event;
   }
 
-  showAlert(item: ItemSliding, defect) {
+  showAlert(item: ItemSliding, defect, specialistCustomDefectIndex?: number) {
     const confirm = this.alertCtrl.create({
       title: 'Remove defect',
       message: 'This action will remove this defect.',
@@ -358,7 +367,7 @@ export class CompleteTestPage implements OnInit {
         {
           text: 'Remove',
           handler: () => {
-            this.removeDefect(defect);
+            this.testTypeService.isSpecialistTestType(this.vehicleTest.testTypeId) ? this.removeSpecialistCustomDefect(specialistCustomDefectIndex) : this.removeDefect(defect);
           }
         }
       ]
@@ -391,6 +400,10 @@ export class CompleteTestPage implements OnInit {
     this.testTypeService.removeDefect(this.vehicleTest, defect);
   }
 
+  removeSpecialistCustomDefect(index: number) {
+    this.testTypeService.removeSpecialistCustomDefect(this.vehicleTest, index);
+  }
+
   removeTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
     this.firebaseLogsService.logEvent(FIREBASE.REMOVE_TEST_TYPE, FIREBASE.TEST_TYPE_NAME, vehicleTest.testTypeName);
     this.vehicleService.removeSicFields(vehicle, this.completedFields);
@@ -411,8 +424,35 @@ export class CompleteTestPage implements OnInit {
     this.cdRef.detectChanges();
     if (this.testTypeService.isTirTestType(this.vehicleTest.testTypeId)) {
       this.vehicleTest.certificateNumber = value.length > 5 ? value.substring(0, 5) : value;
+    } else if (this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(this.vehicleTest.testTypeId) ||
+      this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
+      this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)) {
+      this.vehicleTest.certificateNumber = value.length > 20 ? value.substring(0, 20) : value;
     } else {
       this.vehicleTest.certificateNumber = value.length > 6 ? value.substring(0, 6) : value;
     }
+  }
+
+  getTypeForCertificateNumberField(): string {
+    return this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(this.vehicleTest.testTypeId) ||
+    this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
+    this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId) ? 'text' : 'number';
+  }
+
+  getPatternForCertificateNumberField(): string {
+    return this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(this.vehicleTest.testTypeId) ||
+    this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
+    this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId) ? '' : this.patterns.NUMERIC;
+  }
+
+  toSpecialistDefectDetailsPage(isEditMode: boolean, defectIndex?: number, defect?: SpecialistCustomDefectModel): void {
+    const MODAL = this.modalCtrl.create(PAGE_NAMES.DEFECT_DETAILS_SPECIALIST_TESTING, {
+      isEdit: isEditMode,
+      defectIndex: isEditMode ? defectIndex : null,
+      defect: isEditMode ? defect : {} as SpecialistCustomDefectModel,
+      testType: this.vehicleTest,
+      errorIncomplete: this.errorIncomplete
+    });
+    MODAL.present();
   }
 }

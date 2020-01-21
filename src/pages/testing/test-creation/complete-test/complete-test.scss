@@ -60,6 +60,13 @@ ion-app.ios page-complete-test {
     color: color($colors, danger);
   }
 
+  h3[item-end].current-value.coif-prs {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    color: color($colors, primary);
+  }
+
   .defect-details {
     h3 {
       white-space: normal;
@@ -165,5 +172,9 @@ ion-app.ios page-complete-test {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .custom-defects-divider {
+    border-bottom: 0.8px solid $color-grey-3;
   }
 }
