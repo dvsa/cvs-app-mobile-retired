@@ -4,7 +4,7 @@ import { StorageService } from "../natives/storage.service";
 import { from } from "rxjs/observable/from";
 import { DEFICIENCY_CATEGORY, STORAGE, TEST_TYPE_RESULTS, FIREBASE_DEFECTS, VEHICLE_TYPE } from "../../app/app.enums";
 import { TestTypeModel } from "../../models/tests/test-type.model";
-import { DefectDetailsModel } from "../../models/defects/defect-details.model";
+import { DefectDetailsModel, SpecialistCustomDefectModel } from "../../models/defects/defect-details.model";
 import { VisitService } from "../visit/visit.service";
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { CommonFunctionsService } from "../utils/common-functions";
@@ -14,6 +14,7 @@ import { AdrTestTypesData } from "../../assets/app-data/test-types-data/adr-test
 import { TirTestTypesData } from "../../assets/app-data/test-types-data/tir-test-types.data";
 import { LecTestTypesData } from "../../assets/app-data/test-types-data/lec-test-types.data";
 import { SpecialistTestTypesData } from "../../assets/app-data/test-types-data/specialist-test-types.data";
+import { NotifiableAlterationTestTypesData } from "../../assets/app-data/test-types-data/notifiable-alteration-test-types.data";
 
 @Injectable()
 export class TestTypeService {
@@ -30,6 +31,7 @@ export class TestTypeService {
     newTestType.testTypeName = testType.testTypeName;
     newTestType.testTypeId = testType.id;
     newTestType.certificateNumber = null;
+    newTestType.secondaryCertificateNumber = null;
     newTestType.testTypeStartTimestamp = new Date().toISOString();
     newTestType.testTypeEndTimestamp = null;
     if (vehicleType === VEHICLE_TYPE.PSV) {
@@ -54,6 +56,7 @@ export class TestTypeService {
     newTestType.additionalCommentsForAbandon = null;
     newTestType.additionalNotesRecorded = null;
     newTestType.defects = [];
+    this.isSpecialistTestType(newTestType.testTypeId) ? newTestType.customDefects = [] : newTestType.customDefects = null;
     newTestType.linkedIds = testType.linkedIds;
     this.visitService.updateVisit();
     return newTestType
@@ -88,6 +91,12 @@ export class TestTypeService {
     testType.defects.splice(defIdx, 1);
     this.visitService.updateVisit();
     this.logFirebaseRemoveDefect(defect.deficiencyRef);
+  }
+
+  removeSpecialistCustomDefect(testType: TestTypeModel, index: number) {
+    testType.customDefects.splice(index, 1);
+    this.visitService.updateVisit();
+    this.logFirebaseRemoveDefect(testType.customDefects[index] ? testType.customDefects[index].referenceNumber : null);
   }
 
   private logFirebaseRemoveDefect(deficiencyRef: string) {
@@ -141,6 +150,12 @@ export class TestTypeService {
     return blockTestResultSelection;
   }
 
+  areSpecialistCustomDefectsCompleted(testType: TestTypeModel): boolean {
+    return testType.customDefects.every((defect: SpecialistCustomDefectModel) => {
+      return defect.hasAllMandatoryFields;
+    })
+  }
+
   orderTestTypesArray(array, key, order?) {
     return array.sort(this.commonFunctions.orderByStringId(key, order));
   }
@@ -159,5 +174,21 @@ export class TestTypeService {
 
   isSpecialistTestType(testTypeId: string): boolean {
     return SpecialistTestTypesData.SpecialistTestTypesIds.indexOf(testTypeId) !== -1;
+  }
+
+  isSpecialistIvaTestAndRetestTestType(testTypeId: string): boolean {
+    return SpecialistTestTypesData.SpecialistIvaTestAndRetestTestTypeIds.indexOf(testTypeId) !== -1;
+  }
+
+  isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(testTypeId: string): boolean {
+    return SpecialistTestTypesData.SpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetestIds.indexOf(testTypeId) !== -1;
+  }
+
+  isSpecialistPartOfCoifTestTypes(testTypeId: string): boolean {
+    return SpecialistTestTypesData.SpecialistPartOfCoifTestTypesIds.indexOf(testTypeId) !== -1;
+  }
+
+  isPsvNotifiableAlterationTestType(testTypeId: string): boolean {
+    return NotifiableAlterationTestTypesData.PsvNotifiableAlterationTestTypeDataIds.indexOf(testTypeId) !== -1;
   }
 }

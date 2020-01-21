@@ -39,7 +39,8 @@
               [ngClass]="{'no-data': (!vehicleTest.hasOwnProperty(input.testTypePropertyName) || vehicleTest[input.testTypePropertyName] === null) &&
                         (!completedFields.hasOwnProperty(input.testTypePropertyName) || completedFields[input.testTypePropertyName] === null),
                         'data-successful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] === 'pass',
-                        'data-unsuccessful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] && vehicleTest[input.testTypePropertyName] !== 'pass'}">
+                        'data-unsuccessful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] && vehicleTest[input.testTypePropertyName] === 'fail',
+                        'coif-prs': input.deactivateButtonOnSelection && testTypeService.isSpecialistIvaTestAndRetestTestType(vehicleTest.testTypeId) && vehicleTest[input.testTypePropertyName] === 'prs'}">
             {{vehicleTest[input.testTypePropertyName] || vehicleTest[input.testTypePropertyName] === false ||
           (input.testTypePropertyName !== 'testResult' && (completedFields[input.testTypePropertyName] || completedFields[input.testTypePropertyName] === false))
             ? getDDLValueToDisplay(input) : input.defaultValue}}
@@ -81,8 +82,8 @@
           *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER && canDisplaySection(section) && canDisplayInput(input)">
           <ion-item>
             <ion-input [placeholder]="input.placeholder"
-                       type="number"
-                       [pattern]="patterns.NUMERIC"
+                       [type]="getTypeForCertificateNumberField()"
+                       [pattern]="getPatternForCertificateNumberField()"
                        [(ngModel)]="vehicleTest[input.testTypePropertyName]"
                        (ngModelChange)="certificateNumberInputChange($event)"></ion-input>
           </ion-item>
@@ -167,6 +168,28 @@
         </ion-item-options>
       </ion-item-sliding>
       <button ion-item detail-none class="btn-add-test" (click)="addDefect()">
+        <ion-icon aria-hidden="true" name="add-circle-outline" item-end></ion-icon>
+        Add defect
+      </button>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="testTypeDetails.hasSpecialistDefects">
+      <ion-item-divider text-uppercase>
+        <span>DEFECTS</span>
+      </ion-item-divider>
+      <ion-item-sliding #item *ngFor="let defect of vehicleTest.customDefects; let index = index">
+        <button ion-item class="defect-details custom-defects-divider"
+                [ngClass]="{'error-incomplete-item': errorIncomplete && !defect.hasAllMandatoryFields}"
+                (click)="toSpecialistDefectDetailsPage(true, index, defect)">
+          <h3 class="defect-name">{{defect.referenceNumber}}</h3>
+          <h4 class="parent-info-color">{{defect.defectName}}</h4>
+          <h4 class="parent-info-color">{{defect.defectNotes}}</h4>
+        </button>
+        <ion-item-options>
+          <button ion-button color="danger" (click)="showAlert(item, defect, index)">Remove</button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <button ion-item detail-none class="btn-add-test" (click)="toSpecialistDefectDetailsPage(false)">
         <ion-icon aria-hidden="true" name="add-circle-outline" item-end></ion-icon>
         Add defect
       </button>
