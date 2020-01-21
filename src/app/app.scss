@@ -376,6 +376,11 @@ ion-list.vehicle-list {
   color: color($colors, danger) !important;
 }
 
+.prs-action-button {
+  text-transform: uppercase;
+  color: color($colors, primary) !important;
+}
+
 .bold-action-button {
   font-weight: $font-weight-bold;
 }

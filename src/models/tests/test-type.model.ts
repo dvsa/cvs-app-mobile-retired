@@ -1,10 +1,11 @@
-import { DefectDetailsModel } from "../defects/defect-details.model";
+import { DefectDetailsModel, SpecialistCustomDefectModel } from "../defects/defect-details.model";
 
 export interface TestTypeModel {
   testTypeName: string;
   name: string;
   testTypeId: string;
   certificateNumber: string | null;
+  secondaryCertificateNumber: string | null;
   testTypeStartTimestamp: string;
   testTypeEndTimestamp: string | null;
   testResult: string | null;
@@ -24,6 +25,7 @@ export interface TestTypeModel {
   particulateTrapFitted?: string;
   particulateTrapSerialNumber?: string;
   defects: DefectDetailsModel[];
+  customDefects?: SpecialistCustomDefectModel[];
   /* -------- ONLY FOR FE -------- */
   completionStatus?: string;
   testTypeCategoryName?: string;

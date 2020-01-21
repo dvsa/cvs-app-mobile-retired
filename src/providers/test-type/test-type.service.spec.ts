@@ -3,7 +3,7 @@ import { StorageService } from "../natives/storage.service";
 import { TestTypeService } from "./test-type.service";
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { VisitService } from "../visit/visit.service";
-import { DefectDetailsModel } from "../../models/defects/defect-details.model";
+import { DefectDetailsModel, SpecialistCustomDefectModel } from "../../models/defects/defect-details.model";
 import { DefectDetailsDataMock } from "../../assets/data-mocks/defect-details-data.mock";
 import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
 import { CommonFunctionsService } from "../utils/common-functions";
@@ -209,5 +209,47 @@ describe('Provider: TestTypeService', () => {
     expect(testTypeService.isSpecialistTestType(testType.testTypeId)).toBeTruthy();
     testType.testTypeId = '1';
     expect(testTypeService.isSpecialistTestType(testType.testTypeId)).toBeFalsy();
+  });
+
+  it('should remove a specific specialist custom defect', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.customDefects.push({} as SpecialistCustomDefectModel);
+    expect(testType.customDefects.length).toEqual(1);
+
+    testTypeService.removeSpecialistCustomDefect(testType, 0);
+    expect(testType.customDefects.length).toEqual(0);
+  });
+
+  it('should check if custom defects are completely captured', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.customDefects.push({} as SpecialistCustomDefectModel);
+    expect(testTypeService.areSpecialistCustomDefectsCompleted(testType)).toBeFalsy();
+
+    testType.customDefects[0].hasAllMandatoryFields = true;
+    expect(testTypeService.areSpecialistCustomDefectsCompleted(testType)).toBeTruthy();
+  });
+
+  it('should check if test type is IVA test or retest', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '125';
+    expect(testTypeService.isSpecialistIvaTestAndRetestTestType(testType.testTypeId)).toBeTruthy();
+  });
+
+  it('should check if test type is Specialist test except for CoifAndVoluntaryIvaTestAndRetest', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '125';
+    expect(testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(testType.testTypeId)).toBeTruthy();
+  });
+
+  it('should check if test type is Specialist test part of Coif', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '142';
+    expect(testTypeService.isSpecialistPartOfCoifTestTypes(testType.testTypeId)).toBeTruthy();
+  });
+
+  it('should check if test type is PSV Notifiable Alteration test', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '38';
+    expect(testTypeService.isPsvNotifiableAlterationTestType(testType.testTypeId)).toBeTruthy();
   });
 });

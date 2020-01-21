@@ -37,6 +37,7 @@ import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/t
 import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
 import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
 import { EuVehicleCategoryData } from "../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category";
+import { SpecialistCustomDefectModel } from "../../../../models/defects/defect-details.model";
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -205,6 +206,39 @@ describe('Component: TestCreatePage', () => {
     testType.certificateNumber = '1234';
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
     testType.certificateNumber = '12345';
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('Edit');
+  });
+
+  it('should have "Edit" status if a Specialist test has a certificateNumber captured', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testTypeId = '125';
+    testType.certificateNumber = null;
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
+    testType.certificateNumber = '12345';
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('Edit');
+  });
+
+  it('should have "Edit" status if a PSV Notifiable Alteration test has a testResult captured', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testTypeId = '38';
+    testType.testResult = null;
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
+    testType.testResult = 'pass';
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('Edit');
+  });
+
+  it('should have "in progress" status if a Specialist test has the custom defects incompletely captured', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testTypeId = '125';
+    testType.certificateNumber = '12345';
+    testType.customDefects.push({} as SpecialistCustomDefectModel);
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
+    testType.customDefects[0].referenceNumber = '12345';
+    testType.customDefects[0].defectName = 'customDefect';
+    testType.customDefects[0].hasAllMandatoryFields = true;
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('Edit');
   });
 
