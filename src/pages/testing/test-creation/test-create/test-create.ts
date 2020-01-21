@@ -132,8 +132,12 @@ export class TestCreatePage implements OnInit {
         for (let section of testTypeFieldMetadata.sections) {
           for (let input of section.inputs) {
             if ((!testType[input.testTypePropertyName] && testType[input.testTypePropertyName] !== false) ||
-              (this.testTypeService.isAdrTestType(testType.testTypeId) && input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER) ||
-              (this.testTypeService.isTirTestType(testType.testTypeId) && input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER)) {
+              ((this.testTypeService.isAdrTestType(testType.testTypeId) ||
+                this.testTypeService.isTirTestType(testType.testTypeId) ||
+                this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(testType.testTypeId) ||
+                this.testTypeService.isSpecialistPartOfCoifTestTypes(testType.testTypeId) ||
+                this.testTypeService.isPsvNotifiableAlterationTestType(testType.testTypeId)) &&
+                input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER)) {
               if ((input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER && input.testTypePropertyName !== TEST_TYPE_INPUTS.SIC_LAST_DATE)
                 || (testTypeFieldMetadata.category === 'B' && (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER || input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE))) {
                 isInProgress = true;
@@ -146,6 +150,15 @@ export class TestCreatePage implements OnInit {
               }
               if (this.testTypeService.isTirTestType(testType.testTypeId) &&
                 (testType.testResult === TEST_TYPE_RESULTS.FAIL || (input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER && testType.certificateNumber && testType.certificateNumber.length === 5))) {
+                isInProgress = false;
+                testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
+              }
+              if ((this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(testType.testTypeId) || this.testTypeService.isSpecialistPartOfCoifTestTypes(testType.testTypeId)) &&
+                (testType.testResult === TEST_TYPE_RESULTS.FAIL || input.testTypePropertyName === TEST_TYPE_INPUTS.CERTIFICATE_NUMBER && testType.certificateNumber)) {
+                isInProgress = false;
+                testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
+              }
+              if (this.testTypeService.isPsvNotifiableAlterationTestType(testType.testTypeId) && testType.testResult) {
                 isInProgress = false;
                 testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
               }
@@ -162,6 +175,11 @@ export class TestCreatePage implements OnInit {
 
         if (this.testTypeService.isLecTestType(testType.testTypeId)) {
           isInProgress = this.isLecTestTypeInProgress(testType);
+        }
+
+        if (this.testTypeService.isSpecialistTestType(testType.testTypeId) && !this.testTypeService.areSpecialistCustomDefectsCompleted(testType)) {
+          isInProgress = true;
+          testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
         }
 
       } else if (testType.testTypeId === testTypeFieldMetadata.testTypeId && !testTypeFieldMetadata.sections.length) {

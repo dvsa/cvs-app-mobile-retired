@@ -53,6 +53,7 @@ import { By } from "../../../../../node_modules/@angular/platform-browser";
 import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
+import { SpecialistCustomDefectModel } from "../../../../models/defects/defect-details.model";
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -274,5 +275,21 @@ describe('Component: TestReviewPage', () => {
 
     vehicle.odometerReading = '123';
     expect(component.getOdometerStringToBeDisplayed(vehicle)).toEqual('123 mi');
+  });
+
+  it('should check whether a Specialist test is completed or not', () => {
+    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
+    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+    initialTestType.testTypeId = '146';
+    changedTestType.customDefects.push({hasAllMandatoryFields: false} as SpecialistCustomDefectModel);
+    expect(component.isSpecialistTestTypeCompleted(changedTestType, initialTestType)).toBeFalsy();
+
+    initialTestType.testTypeId = '125';
+    changedTestType.certificateNumber = '';
+    expect(component.isSpecialistTestTypeCompleted(changedTestType, initialTestType)).toBeFalsy();
+
+    changedTestType.certificateNumber = '123';
+    changedTestType.customDefects[0].hasAllMandatoryFields = true;
+    expect(component.isSpecialistTestTypeCompleted(changedTestType, initialTestType)).toBeTruthy();
   });
 });

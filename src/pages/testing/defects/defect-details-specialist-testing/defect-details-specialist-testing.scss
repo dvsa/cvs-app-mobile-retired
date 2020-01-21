@@ -1,0 +1,16 @@
+page-defect-details-specialist-testing {
+  .item-divider-ios {
+    font-size: $font-size-small;
+    text-transform: uppercase;
+  }
+
+  button.cancel {
+    font-weight: $font-weight-normal;
+    color: color($colors, light);
+  }
+
+  .btn-remove-defect {
+    font-size: 16px;
+    color: color($colors, danger);
+  }
+}

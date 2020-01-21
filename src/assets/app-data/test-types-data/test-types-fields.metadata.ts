@@ -1032,6 +1032,18 @@ export class TestTypesFieldsMetadata {
                 deactivateButtonOnSelection: true
               }
             ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
           }
         ],
         hasDefects: false,
@@ -2682,272 +2694,2366 @@ export class TestTypesFieldsMetadata {
       {
         testTypeId: '125',
         testTypeName: 'Basic IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '126',
         testTypeName: 'Normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '186',
         testTypeName: 'Normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '187',
         testTypeName: 'Normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '128',
         testTypeName: 'Appeal on a normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '188',
         testTypeName: 'Appeal on a normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '189',
         testTypeName: 'Appeal on a normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '129',
         testTypeName: 'Appeal on a basic IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '130',
         testTypeName: 'IVA mutual recognition/ end of series & inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '133',
         testTypeName: 'Full MSVA moped vehicle inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '134',
         testTypeName: 'Full MSVA unbodied vehicle inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '135',
         testTypeName: 'Full MSVA bodied vehicle inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '136',
         testTypeName: 'Part MSVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '138',
         testTypeName: 'Appeal on a MSVA moped vehicle inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '139',
         testTypeName: 'Appeal on a MSVA unbodied vehicle inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '140',
         testTypeName: 'Appeal on a MSVA bodied vehicle inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '142',
         testTypeName: 'COIF with annual test',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '143',
         testTypeName: 'COIF without annual test',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '144',
         testTypeName: 'Type approved to bus directive COIF',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '146',
         testTypeName: 'Seatbelt installation check COIF with annual test',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '147',
         testTypeName: 'Seatbelt installation check COIF without annual test',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '148',
         testTypeName: 'Annex 7 COIF',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '150',
         testTypeName: 'DDA Schedule 1, 2 or 3',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '151',
         testTypeName: 'DDA Schedule 1 + 2 or 3',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '153',
         testTypeName: 'Normal voluntary IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '190',
         testTypeName: 'Normal voluntary IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '191',
         testTypeName: 'Normal voluntary IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '154',
         testTypeName: 'Basic voluntary IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '158',
         testTypeName: 'Paid basic IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '159',
         testTypeName: 'Free basic IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '161',
         testTypeName: 'Paid normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '192',
         testTypeName: 'Paid normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '193',
         testTypeName: 'Paid normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '162',
         testTypeName: 'Free normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '194',
         testTypeName: 'Free normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '195',
         testTypeName: 'Free normal IVA inspection',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '163',
         testTypeName: 'Mutual recognition/ end of series IVA retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '166',
         testTypeName: 'Paid MSVA moped vehicle retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '167',
         testTypeName: 'Free MSVA moped vehicle retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '169',
         testTypeName: 'Paid MSVA unbodied vehicle retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '170',
         testTypeName: 'Free MSVA unbodied vehicle retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '172',
         testTypeName: 'Paid MSVA bodied vehicle retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '173',
         testTypeName: 'Free MSVA bodied vehicle retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '175',
         testTypeName: 'COIF retest with annual test',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '176',
         testTypeName: 'COIF retest without annual test',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '177',
         testTypeName: 'Seatbelt installation check COIF retest with annual test',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '178',
         testTypeName: 'Annex 7 COIF retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '179',
         testTypeName: 'TILT COIF retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '181',
         testTypeName: 'DDA Schedule 1, 2 or 3 retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '182',
         testTypeName: 'DDA Schedule 1 + 2 or 3 retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '184',
         testTypeName: 'Normal voluntary IVA inspection retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '196',
         testTypeName: 'Normal voluntary IVA inspection retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '197',
         testTypeName: 'Normal voluntary IVA inspection retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       },
       {
         testTypeId: '185',
         testTypeName: 'Basic voluntary IVA inspection retest',
-        sections: []
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          }
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
       }
     ]
   }

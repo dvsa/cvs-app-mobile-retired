@@ -44,4 +44,10 @@ export interface DefectLocationModel {
   axleNumber?: number | null;
 }
 
-
+export interface SpecialistCustomDefectModel {
+  referenceNumber: string;
+  defectName: string;
+  defectNotes: string;
+  /* -------- ONLY FOR FE -------- */
+  hasAllMandatoryFields: boolean;
+}
