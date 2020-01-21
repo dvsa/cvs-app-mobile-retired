@@ -152,6 +152,23 @@ export class TestReviewPage implements OnInit {
     this.navCtrl.popTo(this.navCtrl.getViews().find(view => view.id === 'TestCreatePage'));
   }
 
+  isSpecialistTestTypeCompleted(changedTestType: TestTypeModel, initialTestType: TestTypeModel): boolean {
+    // specialist test-types WITHOUT certificate number with custom defects incomplete
+    if (this.testTypeService.isSpecialistTestType(initialTestType.testTypeId) &&
+      !(this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(initialTestType.testTypeId) ||
+        this.testTypeService.isSpecialistPartOfCoifTestTypes(initialTestType.testTypeId)) &&
+      !this.testTypeService.areSpecialistCustomDefectsCompleted(changedTestType)) {
+      return false;
+    }
+    // specialist test-types WITH certificate number with certificate number missing or custom defects incomplete
+    if ((this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(initialTestType.testTypeId) ||
+      this.testTypeService.isSpecialistPartOfCoifTestTypes(initialTestType.testTypeId)) &&
+      (!changedTestType.certificateNumber || !this.testTypeService.areSpecialistCustomDefectsCompleted(changedTestType))) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Contains the mandatory fields logic used to pop to test-create page
    * @param changedTestType
@@ -168,6 +185,8 @@ export class TestReviewPage implements OnInit {
         (!changedTestType.certificateNumber || (changedTestType.certificateNumber && changedTestType.certificateNumber.length < 5))) {
         this.popToTestCreatePage();
       }
+    } else if (!this.isSpecialistTestTypeCompleted(changedTestType, initialTestType)) {
+      this.popToTestCreatePage();
     } else {
       if (initialTestType.certificateNumber && !changedTestType.certificateNumber) {
         this.popToTestCreatePage();
