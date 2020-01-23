@@ -73,6 +73,8 @@ export interface TechRecordModel {
   couplingCenterToRearAxleMax?: number;
   couplingCenterToRearTrlMin?: number;
   couplingCenterToRearTrlMax?: number;
+  /* --- ONLY FOR SPECIAL VEHICLES --- */
+  numberOfWheelsDriven?: number;
 }
 
 export interface Dimensions {

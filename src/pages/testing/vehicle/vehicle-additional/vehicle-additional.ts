@@ -1,8 +1,8 @@
-import { IonicPage, NavController, NavParams, ViewController } from "ionic-angular";
-import { Component } from "@angular/core";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { DATE_FORMAT, APP_STRINGS, VEHICLE_TYPE, TECH_RECORD_STATUS } from "../../../../app/app.enums";
+import {IonicPage, NavController, NavParams, ViewController} from "ionic-angular";
+import {Component} from "@angular/core";
+import {VehicleModel} from "../../../../models/vehicle/vehicle.model";
+import {CommonFunctionsService} from "../../../../providers/utils/common-functions";
+import {APP_STRINGS, DATE_FORMAT, TECH_RECORD_STATUS, VEHICLE_TYPE} from "../../../../app/app.enums";
 
 @IonicPage()
 @Component({
@@ -11,6 +11,7 @@ import { DATE_FORMAT, APP_STRINGS, VEHICLE_TYPE, TECH_RECORD_STATUS } from "../.
 })
 export class VehicleAdditionalPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE=VEHICLE_TYPE;
+  SPECIAL_VEHICLE_TYPES: VEHICLE_TYPE[] = [VEHICLE_TYPE.CAR, VEHICLE_TYPE.LGV, VEHICLE_TYPE.MOTORCYCLE];
   TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
   APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
   vehicleData: VehicleModel;
