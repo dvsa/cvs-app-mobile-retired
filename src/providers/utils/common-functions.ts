@@ -13,8 +13,8 @@ export class CommonFunctionsService {
     return inputValue.toLowerCase() === expectedValue.toLowerCase();
   }
 
-  public checkForMatchInArray(inputValue: string, expectedArray: any[]): boolean {
-    return expectedArray.indexOf(inputValue.toLowerCase()) != -1;
+  public checkForMatchInArray(inputValue: string, expectedArray: string[]): boolean {
+    return expectedArray.map(x => x.toLowerCase()).includes(inputValue.toLowerCase());
   }
 
   public searchFor(array: any[], filter: string, properties: string[]) {

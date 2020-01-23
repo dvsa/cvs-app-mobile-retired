@@ -261,7 +261,10 @@ export enum REG_EX_PATTERNS {
 export enum VEHICLE_TYPE {
   PSV = 'psv',
   HGV = 'hgv',
-  TRL = 'trl'
+  TRL = 'trl',
+  CAR = 'car',
+  LGV = 'lgv',
+  MOTORCYCLE = 'motorcycle'
 }
 
 export enum VEHICLE_SIZE {

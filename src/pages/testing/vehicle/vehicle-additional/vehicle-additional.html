@@ -10,16 +10,16 @@
     </ion-toolbar>
 
 </ion-header>
-  
+
 <ion-content no-padding>
-    <div text-uppercase 
-         text-center 
+    <div text-uppercase
+         text-center
          class="vehicle-header-vrm-number">
         <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle">{{ vehicleData.trailerId }}</ng-container>
         <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
     </div>
-         
-    <ion-list class="vehicle-list">
+
+    <ion-list class="vehicle-list" *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,SPECIAL_VEHICLE_TYPES)">
         <ion-list-header>
         </ion-list-header>
         <ion-item margin-left *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
@@ -141,7 +141,7 @@
         </ion-item>
 
     </ion-list>
-            
+
     <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
         <ion-list-header padding-left padding-right>DISPENSATIONS</ion-list-header>
         <ion-item margin-left padding-right>
@@ -156,7 +156,7 @@
         </ion-item>
     </ion-list>
 
-    <ion-list class="vehicle-list" *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
+    <ion-list class="vehicle-list" *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.HGV, VEHICLE_TYPE.TRL])">
         <ion-list-header padding-left padding-right>Dimensions</ion-list-header>
 
         <ion-item margin-left>
@@ -311,12 +311,12 @@
                 <ion-row justify-content-between>
                     <ion-col col-12 text-start text-wrap>
                         <div item-content padding-right>
-                            <p>{{ vehicleData.techRecord.notes || 'None'}}</p>
+                            <p>{{ vehicleData.techRecord.notes || 'Not entered'}}</p>
                         </div>
                     </ion-col>
                 </ion-row>
             </ion-grid>
         </ion-item>
     </ion-list>
-        
+
 </ion-content>

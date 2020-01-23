@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
-import { TestModel } from '../../../../models/tests/test.model';
-import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import {Component} from '@angular/core';
+import {AlertController, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {TestModel} from '../../../../models/tests/test.model';
+import {VehicleModel} from '../../../../models/vehicle/vehicle.model';
+import {CommonFunctionsService} from "../../../../providers/utils/common-functions";
 import {
   APP_STRINGS,
   DATE_FORMAT,
@@ -10,13 +10,13 @@ import {
   FIREBASE_SCREEN_NAMES,
   PAGE_NAMES,
   STORAGE,
-  VEHICLE_TYPE,
-  TECH_RECORD_STATUS
+  TECH_RECORD_STATUS,
+  VEHICLE_TYPE
 } from "../../../../app/app.enums";
-import { StorageService } from "../../../../providers/natives/storage.service";
-import { AppConfig } from "../../../../../config/app.config";
-import { CallNumber } from "@ionic-native/call-number";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import {StorageService} from "../../../../providers/natives/storage.service";
+import {AppConfig} from "../../../../../config/app.config";
+import {CallNumber} from "@ionic-native/call-number";
+import {FirebaseLogsService} from "../../../../providers/firebase-logs/firebase-logs.service";
 import {AppService} from '../../../../providers/global/app.service';
 
 @IonicPage()
@@ -26,6 +26,7 @@ import {AppService} from '../../../../providers/global/app.service';
 })
 export class VehicleDetailsPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
+  SPECIAL_VEHICLE_TYPES: VEHICLE_TYPE[] = [VEHICLE_TYPE.MOTORCYCLE, VEHICLE_TYPE.CAR, VEHICLE_TYPE.LGV];
   TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
   APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
   vehicleData: VehicleModel;
