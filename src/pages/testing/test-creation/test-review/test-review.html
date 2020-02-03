@@ -250,6 +250,25 @@
               *ngIf="!testType.defects.length">None
           </h3>
         </ion-item>
+        <ion-item padding-left
+                  class="bottom-divider"
+                  *ngIf="getTestTypeOptionalFieldsToDisplay(testType, 'specialistDefects')">
+          <div margin-top margin-bottom class="defects-section-title">
+            Defects
+          </div>
+          <div *ngIf="testType.customDefects.length">
+            <div margin-bottom class="defect-details"
+                 [ngClass]="{'border': i !== testType.customDefects.length - 1}"
+                 *ngFor="let defect of testType.customDefects; let i = index">
+              <h3 class="defect-name" padding-right>{{defect.referenceNumber}}</h3>
+              <h4 padding-right text-wrap class="parent-info-color-sm">{{defect.defectName}}</h4>
+              <h4 padding-right text-wrap class="parent-info-color-sm">{{defect.defectNotes}}</h4>
+            </div>
+          </div>
+          <h3 margin-bottom class="parent-info-color"
+              *ngIf="!testType.customDefects.length">None
+          </h3>
+        </ion-item>
         <ion-item padding-left margin-bottom
                   class="bottom-divider"
                   *ngIf="testType.testResult !== testTypeResults.ABANDONED && getTestTypeOptionalFieldsToDisplay(testType, 'notes')">
