@@ -156,6 +156,10 @@ export class TestTypeServiceMock {
     return SpecialistTestTypesData.SpecialistPartOfCoifTestTypesIds.indexOf(testTypeId) !== -1;
   }
 
+  isSpecialistCoifWithAnnualTest(testTypeId: string): boolean {
+    return SpecialistTestTypesData.SpecialistCoifWithAnnualTestIds.indexOf(testTypeId) !== -1;
+  }
+
   isPsvNotifiableAlterationTestType(testTypeId: string): boolean {
     return NotifiableAlterationTestTypesData.PsvNotifiableAlterationTestTypeDataIds.indexOf(testTypeId) !== -1;
   }

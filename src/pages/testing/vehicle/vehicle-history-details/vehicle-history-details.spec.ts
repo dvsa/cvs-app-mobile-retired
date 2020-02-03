@@ -12,6 +12,8 @@ import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebas
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
 import { AppService } from '../../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
 
 describe('Component: VehicleHistoryDetailsPage', () => {
   let comp: VehicleHistoryDetailsPage;
@@ -34,6 +36,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
         CommonFunctionsService,
         {provide: NavParams, useClass: NavParamsMock},
         {provide: ViewController, useClass: ViewControllerMock},
+        {provide: TestTypeService, useClass: TestTypeServiceMock},
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: AppService, useClass: AppServiceMock}
       ],

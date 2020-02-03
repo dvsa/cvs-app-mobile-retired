@@ -49,5 +49,5 @@ export interface SpecialistCustomDefectModel {
   defectName: string;
   defectNotes: string;
   /* -------- ONLY FOR FE -------- */
-  hasAllMandatoryFields: boolean;
+  hasAllMandatoryFields?: boolean;
 }
