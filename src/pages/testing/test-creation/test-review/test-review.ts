@@ -127,7 +127,7 @@ export class TestReviewPage implements OnInit {
     let testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
     for (let testTypeFieldMetadata of testTypesFieldsMetadata) {
       if (testType.testTypeId === testTypeFieldMetadata.testTypeId) {
-        return field === 'defects' ? testTypeFieldMetadata.hasDefects : testTypeFieldMetadata.hasNotes;
+        return field === 'defects' ? testTypeFieldMetadata.hasDefects : field === 'specialistDefects' ? testTypeFieldMetadata.hasSpecialistDefects : testTypeFieldMetadata.hasNotes;
       }
     }
   }

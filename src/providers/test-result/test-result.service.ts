@@ -52,6 +52,7 @@ export class TestResultService {
     }
     newTestResult.vin = vehicle.vin;
     newTestResult.vehicleClass = vehicle.techRecord.vehicleClass;
+    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR || vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV) newTestResult.vehicleSubclass = vehicle.techRecord.vehicleSubclass;
     newTestResult.vehicleType = vehicle.techRecord.vehicleType;
     newTestResult.vehicleConfiguration = vehicle.techRecord.vehicleConfiguration;
     newTestResult.preparerId = vehicle.preparerId;
@@ -59,6 +60,7 @@ export class TestResultService {
     newTestResult.euVehicleCategory = vehicle.euVehicleCategory;
     newTestResult.countryOfRegistration = vehicle.countryOfRegistration;
     newTestResult.noOfAxles = vehicle.techRecord.noOfAxles;
+    newTestResult.numberOfWheelsDriven = vehicle.techRecord.vehicleType === VEHICLE_TYPE.MOTORCYCLE ? vehicle.techRecord.numberOfWheelsDriven : null;
     if (vehicle.techRecord.vehicleSize) newTestResult.vehicleSize = vehicle.techRecord.vehicleSize;
     if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV) newTestResult.numberOfSeats = vehicle.techRecord.seatsLowerDeck + vehicle.techRecord.seatsUpperDeck;
     newTestResult.testTypes = vehicle.testTypes;
@@ -94,6 +96,22 @@ export class TestResultService {
     return null;
   }
 
+  moveCoifCertificateNumbersToSecondaryCertificateNumberField(testType: TestTypeModel) {
+    if (this.testTypeService.isSpecialistCoifWithAnnualTest(testType.testTypeId)) {
+      testType.secondaryCertificateNumber = testType.certificateNumber;
+      testType.certificateNumber = null;
+    }
+  }
+
+  formatCustomDefects(testType: TestTypeModel) {
+    if (testType.customDefects) {
+      for (let customDefect of testType.customDefects) {
+        if (!customDefect.hasOwnProperty('defectNotes')) customDefect.defectNotes = null;
+        if (customDefect.hasOwnProperty('hasAllMandatoryFields')) delete customDefect.hasAllMandatoryFields;
+      }
+    }
+  }
+
   submitTestResult(testResult: TestResultModel) {
     let newTestResult = this.commFunc.cloneObject(testResult);
 
@@ -106,6 +124,7 @@ export class TestResultService {
           }
           delete testType.reasons;
         }
+        this.moveCoifCertificateNumbersToSecondaryCertificateNumberField(testType);
         testType.certificateNumber = this.formatCertificateNumber(testType, testResult.vehicleType);
         if (testType.modType) {
           testType.modType = {
@@ -123,6 +142,7 @@ export class TestResultService {
             if (defect.hasOwnProperty('metadata')) delete defect.metadata;
           }
         }
+        this.formatCustomDefects(testType);
       }
     }
 
