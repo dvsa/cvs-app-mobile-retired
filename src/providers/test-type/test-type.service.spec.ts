@@ -252,4 +252,10 @@ describe('Provider: TestTypeService', () => {
     testType.testTypeId = '38';
     expect(testTypeService.isPsvNotifiableAlterationTestType(testType.testTypeId)).toBeTruthy();
   });
+
+  it('should check if test type Coif with annual test', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '175';
+    expect(testTypeService.isSpecialistCoifWithAnnualTest(testType.testTypeId)).toBeTruthy();
+  });
 });

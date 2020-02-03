@@ -19,6 +19,7 @@ import { TestResultModel } from "../../../../models/tests/test-result.model";
 import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { AppService } from '../../../../providers/global/app.service';
+import { TestTypeService } from "../../../../providers/test-type/test-type.service";
 
 @IonicPage()
 @Component({
@@ -53,7 +54,8 @@ export class VehicleHistoryDetailsPage {
               public viewCtrl: ViewController,
               public commonFunc: CommonFunctionsService,
               private firebaseLogsService: FirebaseLogsService,
-              public appService: AppService) {
+              public appService: AppService,
+              public testTypeService: TestTypeService) {
     this.testResultHistory = navParams.get('testResultHistory');
     this.testIndex = navParams.get('testIndex');
     this.testTypeIndex = navParams.get('testTypeIndex');
@@ -115,11 +117,7 @@ export class VehicleHistoryDetailsPage {
   }
 
   checkForDefects(defects: any): boolean {
-    if (defects === null || !defects.length) {
-      return false;
-    } else {
-      return true;
-    }
+    return !(defects === null || !defects.length);
   }
 
 }

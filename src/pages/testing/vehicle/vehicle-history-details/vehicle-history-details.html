@@ -87,7 +87,8 @@
       <ion-grid no-padding>
         <ion-row justify-content-between>
           <ion-col col-auto text-start>
-            <span text-left>Certificate number</span>
+            <span text-left>Certificate number<span
+              *ngIf="testTypeService.isSpecialistCoifWithAnnualTest(selectedTestType.testTypeId)"> (Annual test)</span></span>
           </ion-col>
           <ion-col col-auto text-end>
             <span text-capitalize>
@@ -113,6 +114,23 @@
         </ion-grid>
       </ion-item>
     </ng-template>
+    <ion-item ion-item
+              detail-none
+              padding-left
+              *ngIf="testTypeService.isSpecialistCoifWithAnnualTest(selectedTestType.testTypeId) && selectedTestType.secondaryCertificateNumber">
+      <ion-grid no-padding>
+        <ion-row justify-content-between>
+          <ion-col col-auto text-start>
+            <span text-left>Certificate number (COIF)</span>
+          </ion-col>
+          <ion-col col-auto text-end>
+            <span text-capitalize>
+              {{ selectedTestType.secondaryCertificateNumber }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
     <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.testExpiryDate">
       <ion-grid no-padding>
         <ion-row justify-content-between>
@@ -252,7 +270,7 @@
 
   <ion-list class="list-margin" *ngIf="!doesNotHaveDefects">
     <ion-list-header text-uppercase padding-left>DEFECTS</ion-list-header>
-    <ng-container *ngIf="doDefectsExist; else noDefects">
+    <ng-container *ngIf="doDefectsExist">
       <ion-item ion-item detail-none padding-left class="defect" *ngFor="let defect of selectedTestType.defects">
         <ion-grid no-padding>
           <ion-row justify-content-between>
@@ -332,7 +350,32 @@
         </ion-grid>
       </ion-item>
     </ng-container>
-    <ng-template #noDefects>
+    <ng-container *ngIf="checkForDefects(selectedTestType.customDefects)">
+      <ion-item ion-item detail-none padding-left class="defect"
+                *ngFor="let customDefect of selectedTestType.customDefects">
+        <ion-grid no-padding>
+          <ion-row justify-content-between>
+            <ion-col col-auto text-start text-wrap>
+              <span class="defect-ref">
+                <span>{{customDefect.referenceNumber}}</span>
+              </span>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-auto text-start text-wrap>
+              {{ customDefect.defectName }}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-auto text-start text-wrap>
+              {{ customDefect.defectNotes || defaultValues.NONE }}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ng-container>
+    <ng-container
+      *ngIf="!checkForDefects(selectedTestType.defects) && !checkForDefects(selectedTestType.customDefects)">
       <ion-item ion-item detail-none padding-left>
         <ion-grid no-padding>
           <ion-row justify-content-between>
@@ -344,7 +387,7 @@
           </ion-row>
         </ion-grid>
       </ion-item>
-    </ng-template>
+    </ng-container>
   </ion-list>
 
   <ion-list class="list-margin">

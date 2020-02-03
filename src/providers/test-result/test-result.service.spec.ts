@@ -11,6 +11,7 @@ import { AuthServiceMock } from "../../../test-config/services-mocks/auth-servic
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
 import { DefectDetailsDataMock } from "../../assets/data-mocks/defect-details-data.mock";
 import { TEST_TYPES_IDS, SPEC_VALUES, VEHICLE_TYPE } from '../../app/app.enums';
+import { SpecialistCustomDefectModel } from "../../models/defects/defect-details.model";
 
 describe('Provider: TestResultService', () => {
   let testResultService: TestResultService;
@@ -170,4 +171,39 @@ describe('Provider: TestResultService', () => {
     expect(testResult.regnDate).toBeFalsy();
   });
 
+  it('should create a test result not containing vehicle subclass if the vehicle is a car or a lgv', () => {
+    let testResult;
+    let psv = {...VehicleDataMock.VehicleData};
+    psv.techRecord.vehicleType = VEHICLE_TYPE.PSV;
+    testResult = testResultService.createTestResult(VISIT, TEST, psv);
+    expect(testResult.vehicleSubclass).toBe(undefined);
+
+    let car = {...VehicleDataMock.VehicleData};
+    car.techRecord.vehicleType = VEHICLE_TYPE.CAR;
+    testResult = testResultService.createTestResult(VISIT, TEST, car);
+    expect(testResult.vehicleSubclass).not.toBe(undefined);
+  });
+
+  it('should move Coif Certificate Numbers To Secondary Certificate Number Field', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '142';
+    testType.certificateNumber = 'certNo';
+    expect(testType.secondaryCertificateNumber).toBe(null);
+    testResultService.moveCoifCertificateNumbersToSecondaryCertificateNumberField(testType);
+    expect(testType.secondaryCertificateNumber).toEqual('certNo');
+    expect(testType.certificateNumber).toBe(null);
+  });
+
+  it('should format the custom defects before submitting the testResult', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '125';
+    testType.customDefects.push({} as SpecialistCustomDefectModel);
+    testType.customDefects[0].referenceNumber = 'fs34';
+    testType.customDefects[0].defectName = 'name';
+    testType.customDefects[0].hasAllMandatoryFields = true;
+    expect(testType.customDefects[0].defectNotes).toBe(undefined);
+    testResultService.formatCustomDefects(testType);
+    expect(testType.customDefects[0].defectNotes).toBe(null);
+    expect(testType.customDefects[0].hasAllMandatoryFields).toBe(undefined);
+  });
 });
