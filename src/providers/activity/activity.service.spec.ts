@@ -82,6 +82,7 @@ describe('Provider: ActivityService', () => {
     "countryOfRegistration": "gb",
     "vehicleSize": "small",
     "noOfAxles": 2,
+    "numberOfWheelsDriven": null,
     "testTypes": []
   };
 

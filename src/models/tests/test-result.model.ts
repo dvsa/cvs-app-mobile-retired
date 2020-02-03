@@ -20,6 +20,7 @@ export class TestResultModel {
   trailerId?: string; // TRL
   vin: string;
   vehicleClass: VehicleClassModel;
+  vehicleSubclass?: string[]; // Car + LGV
   vehicleType: string;
   vehicleConfiguration: string;
   odometerReading?: number | null; // PSV + HGV
@@ -29,6 +30,7 @@ export class TestResultModel {
   euVehicleCategory: string | null;
   countryOfRegistration: string | null;
   noOfAxles: number;
+  numberOfWheelsDriven: number; // Motorcycle
   vehicleSize?: string; // PSV
   numberOfSeats?: number; // PSV (seatsLowerDeck + seatsUpperDeck)
   regnDate?: string;// HGV
