@@ -3,6 +3,7 @@ import { TechRecordModel } from "./tech-record.model";
 import { TestResultModel } from "../tests/test-result.model";
 
 export interface VehicleModel {
+  systemNumber: string;
   vrm: string;
   vin: string;
   techRecord: TechRecordModel;

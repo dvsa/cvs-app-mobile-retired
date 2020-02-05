@@ -3,6 +3,7 @@ import { VehicleModel } from "../../models/vehicle/vehicle.model";
 export class VehicleDataMock {
   public static get VehicleData(): VehicleModel {
     return {
+      "systemNumber": "10000000",
       "vrm": "BQ91YHQ",
       "vin": "1B7GG36N12S678410",
       "techRecord": {

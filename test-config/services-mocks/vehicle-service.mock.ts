@@ -47,30 +47,12 @@ export class VehicleServiceMock {
     vehicle.odometerMetric = odomMetric;
   }
 
-  getVehicleTechRecord(param): Observable<HttpResponse<VehicleTechRecordModel>> {
-    return of({
-      type: {} as HttpEventType.Response,
-      clone: {} as any,
-      headers: {} as HttpHeaders,
-      status: 200,
-      statusText: '',
-      url: '',
-      ok: true,
-      body: TechRecordDataMock.VehicleTechRecordData
-    });
+  getVehicleTechRecords(param): Observable<VehicleModel[]> {
+    return of([]);
   }
 
-  getTestResultsHistory(): Observable<HttpResponse<TestResultModel[]>> {
-    return of({
-      type: {} as HttpEventType.Response,
-      clone: {} as any,
-      headers: {} as HttpHeaders,
-      status: 200,
-      statusText: '',
-      url: '',
-      ok: true,
-      body: TestResultsHistoryDataMock.TestResultHistoryData
-    });
+  getTestResultsHistory(): Observable<TestResultModel[]> {
+    return of([]);
   }
 
   getCurrentTechRecord(array) {
