@@ -3,6 +3,7 @@ import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 export class TechRecordDataMock {
   public static get VehicleTechRecordData(): VehicleTechRecordModel {
     return {
+      "systemNumber": "10000000",
       "vrms": [
         {
           "vrm": "BQ91YHQ",

@@ -35,12 +35,12 @@ export class HTTPService {
     return this.http.get<PreparersReferenceDataModel[]>(AppConfig.BACKEND_URL_PREPARERS, {observe: 'response'});
   }
 
-  getTechRecords(param, searchCriteria): Observable<HttpResponse<VehicleTechRecordModel>> {
-    return this.http.get<VehicleTechRecordModel>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/?status=provisional_over_current&searchCriteria=${searchCriteria}`, {observe: 'response'});
+  getTechRecords(param: string, searchCriteria: string): Observable<HttpResponse<VehicleTechRecordModel[]>> {
+    return this.http.get<VehicleTechRecordModel[]>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/?status=provisional_over_current&searchCriteria=${searchCriteria}`, {observe: 'response'});
   }
 
-  getTestResultsHistory(vin: string): Observable<HttpResponse<TestResultModel[]>> {
-    return this.http.get<TestResultModel[]>(`${AppConfig.BACKEND_URL_TEST_RESULTS}/${vin}`, {observe: 'response'});
+  getTestResultsHistory(systemNumber: string): Observable<HttpResponse<TestResultModel[]>> {
+    return this.http.get<TestResultModel[]>(`${AppConfig.BACKEND_URL_TEST_RESULTS}/${systemNumber}`, {observe: 'response'});
   }
 
   postTestResult(body): Observable<HttpResponse<any>> {

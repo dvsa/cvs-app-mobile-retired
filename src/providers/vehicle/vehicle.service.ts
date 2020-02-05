@@ -8,17 +8,30 @@ import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TechRecordModel, VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
-import { TECH_RECORD_STATUS, TEST_TYPE_INPUTS } from "../../app/app.enums";
+import { STORAGE, TECH_RECORD_STATUS, TEST_TYPE_INPUTS } from "../../app/app.enums";
 import { HttpResponse } from "@angular/common/http";
+import { TestResultModel } from "../../models/tests/test-result.model";
+import { map } from "rxjs/operators";
+import { Log, LogsModel } from "../../modules/logs/logs.model";
+import * as logsActions from "../../modules/logs/logs.actions";
+import { Store } from "@ngrx/store";
+import { StorageService } from "../natives/storage.service";
+import { AuthService } from "../global/auth.service";
 
 @Injectable()
 export class VehicleService {
 
-  constructor(private httpService: HTTPService, public visitService: VisitService) {
+  constructor(private httpService: HTTPService,
+              public visitService: VisitService,
+              private store$: Store<LogsModel>,
+              public storageService: StorageService,
+              private authService: AuthService) {
   }
 
   createVehicle(vehicleTechRecord: VehicleTechRecordModel): VehicleModel {
     let newVehicle: VehicleModel = {} as VehicleModel;
+
+    newVehicle.systemNumber = vehicleTechRecord.systemNumber;
     newVehicle.vrm = vehicleTechRecord.vrms.length ? vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm : null;
     newVehicle.vin = vehicleTechRecord.vin;
     if (vehicleTechRecord.trailerId) newVehicle.trailerId = vehicleTechRecord.trailerId;
@@ -52,12 +65,43 @@ export class VehicleService {
     this.visitService.updateVisit();
   }
 
-  getVehicleTechRecord(param, searchCriteria): Observable<HttpResponse<VehicleTechRecordModel>> {
-    return this.httpService.getTechRecords(param, searchCriteria);
+  getVehicleTechRecords(searchedValue: string, searchCriteriaQueryParam: string): Observable<VehicleModel[]> {
+    searchedValue = searchedValue.replace(/\s+/g, '');
+    return this.httpService.getTechRecords(searchedValue.toUpperCase(), searchCriteriaQueryParam)
+      .pipe(
+        map((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => {
+          const log: Log = {
+            type: 'info',
+            message: `${this.authService.getOid()} - ${techRecordsResponse.status} ${techRecordsResponse.statusText} for API call to ${techRecordsResponse.url}`,
+            timestamp: Date.now(),
+          };
+          this.store$.dispatch(new logsActions.SaveLog(log));
+          return techRecordsResponse.body.map(this.createVehicle);
+        }),
+        map((techRecords: VehicleModel[]) => {
+          return techRecords.sort((a, b) => {
+            //chassisMake attribute for PSVs and make attribute for HGVs and TRLs
+            const first = a.techRecord.chassisMake || a.techRecord.make;
+            const second = b.techRecord.chassisMake || b.techRecord.make;
+            return first.localeCompare(second);
+          });
+        }
+      ))
   }
 
-  getTestResultsHistory(vin: string): Observable<any> {
-    return this.httpService.getTestResultsHistory(vin);
+  getTestResultsHistory(systemNumber: string): Observable<TestResultModel[]>  {
+    return this.httpService.getTestResultsHistory(systemNumber).pipe(
+      map((data) => {
+        const log: Log = {
+          type: 'info',
+          message: `${this.authService.getOid()} - ${data.status} ${data.statusText} for API call to ${data.url}`,
+          timestamp: Date.now(),
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
+        this.storageService.update(STORAGE.TEST_HISTORY, data.body);
+        return data.body;
+      })
+    );
   }
 
   setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string): VehicleModel {

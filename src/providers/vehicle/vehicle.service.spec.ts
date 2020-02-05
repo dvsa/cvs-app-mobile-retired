@@ -10,12 +10,21 @@ import { PreparersReferenceDataModel } from "../../models/reference-data-models/
 import { ODOMETER_METRIC, TEST_TYPE_RESULTS } from "../../app/app.enums";
 import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
+import { Store } from "@ngrx/store";
+import { TestStore } from "../interceptors/auth.interceptor.spec";
+import { StorageService } from "../natives/storage.service";
+import { StorageServiceMock } from "../../../test-config/services-mocks/storage-service.mock";
+import { AuthService } from "../global/auth.service";
+import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
+import { of } from "rxjs/observable/of";
+import { HttpEventType, HttpHeaders } from "@angular/common/http";
+import { TestResultsHistoryDataMock } from "../../assets/data-mocks/test-results-history-data.mock";
 
 describe('Provider: VehicleService', () => {
   let vehicleService: VehicleService;
   let visitService: VisitService;
   let httpService: HTTPService;
-  let httpServiceSpy: any;
+  let storageService: StorageService;
   let vehicle = VehicleDataMock.VehicleData;
 
   const VEHICLE_TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
@@ -27,18 +36,33 @@ describe('Provider: VehicleService', () => {
 
 
   beforeEach(() => {
-    httpServiceSpy = jasmine.createSpyObj('HTTPService', ['getTechRecords', 'getTestResultsHistory']);
-
+    const httpServiceSpy = {
+      getTechRecords: jasmine.createSpy('getTechRecords').and.callFake(() => of(null)),
+      getTestResultsHistory: jasmine.createSpy('getTestResultsHistory').and.callFake(() => of({
+        type: {} as HttpEventType.Response,
+        clone: {} as any,
+        headers: {} as HttpHeaders,
+        status: 200,
+        statusText: '',
+        url: '',
+        ok: true,
+        body: TestResultsHistoryDataMock.TestResultHistoryData
+      })),
+    };
     TestBed.configureTestingModule({
       providers: [
         VehicleService,
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: HTTPService, useValue: httpServiceSpy},
+        {provide: Store, useClass: TestStore},
+        {provide: StorageService, useClass: StorageServiceMock},
+        {provide: AuthService, useClass: AuthServiceMock},
       ]
     });
     vehicleService = TestBed.get(VehicleService);
     visitService = TestBed.get(VisitService);
     httpService = TestBed.get(HTTPService);
+    storageService = TestBed.get(StorageService);
   });
 
   afterEach(() => {
@@ -110,7 +134,7 @@ describe('Provider: VehicleService', () => {
   });
 
   it('should check if httpService.getTechRecords was called', () => {
-    vehicleService.getVehicleTechRecord('BQ91YHQ', 'all');
+    vehicleService.getVehicleTechRecords('BQ91YHQ', 'all');
     expect(httpService.getTechRecords).toHaveBeenCalled();
   });
 
@@ -142,5 +166,11 @@ describe('Provider: VehicleService', () => {
     });
     let onlyOne = vehicleService.hasOnlyOneTestTypeWithSic(vehicle);
     expect(onlyOne).toBeTruthy();
+  });
+
+  it('should test if the storage gets updated with newest test results history', () => {
+    spyOn(storageService, 'update');
+    vehicleService.getTestResultsHistory('10000000').subscribe();
+    expect(storageService.update).toHaveBeenCalledTimes(1);
   });
 });

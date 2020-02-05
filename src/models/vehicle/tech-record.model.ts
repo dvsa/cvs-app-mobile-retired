@@ -1,4 +1,5 @@
 export interface VehicleTechRecordModel {
+  systemNumber: string;
   vrms: VrmModel[];
   vin: string;
   techRecord: TechRecordModel[];
