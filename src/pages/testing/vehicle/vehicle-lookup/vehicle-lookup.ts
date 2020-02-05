@@ -8,7 +8,7 @@ import { map, tap } from "rxjs/operators";
 import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
 import { APP_STRINGS, PAGE_NAMES, STORAGE, VEHICLE_TYPE, FIREBASE_SCREEN_NAMES } from "../../../../app/app.enums";
 import { StorageService } from "../../../../providers/natives/storage.service";
-import { Observable } from "rxjs";
+import { Observable, Observer } from "rxjs";
 import { AppConfig } from "../../../../../config/app.config";
 import { _throw } from "rxjs/observable/throw";
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
@@ -23,6 +23,7 @@ import * as logsActions from "../../../../modules/logs/logs.actions";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { AppService } from '../../../../providers/global/app.service';
 import { VehicleLookupSearchCriteriaData } from "../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data";
+import {MultipleTechRecordsSelectionPage} from './multiple-tech-records-selection/multiple-tech-records-selection';
 
 @IonicPage()
 @Component({
@@ -30,12 +31,12 @@ import { VehicleLookupSearchCriteriaData } from "../../../../assets/app-data/veh
   templateUrl: 'vehicle-lookup.html'
 })
 export class VehicleLookupPage {
-  testData: TestModel;
+  combinationTestData: TestModel;
   searchVal: string = '';
   oid: string;
   title: string = '';
   searchPlaceholder = '';
-  moreThanOneVehicles: boolean = false;
+  isCombinationTest: boolean = false;
   selectedSearchCriteria: string;
 
   constructor(public navCtrl: NavController,
@@ -53,13 +54,13 @@ export class VehicleLookupPage {
               private store$: Store<LogsModel>,
               public appService: AppService,
               private modalCtrl: ModalController) {
-    this.testData = navParams.get('test');
+    this.combinationTestData = navParams.get('test');
   }
 
   ionViewWillEnter() {
     this.searchVal = '';
-    if (this.testData.vehicles.length) {
-      this.moreThanOneVehicles = true;
+    if (this.combinationTestData.vehicles.length) {
+      this.isCombinationTest = true;
     }
     this.selectedSearchCriteria = this.canSearchOnlyTrailers() ? VehicleLookupSearchCriteriaData.DefaultVehicleLookupSearchCriteriaTrailersOnly : VehicleLookupSearchCriteriaData.DefaultVehicleLookupSearchCriteria;
     this.searchPlaceholder = this.getSearchFieldPlaceholder();
@@ -67,14 +68,14 @@ export class VehicleLookupPage {
   };
 
   doesHgvExist() {
-    for (let vehicle of this.testData.vehicles) {
+    for (let vehicle of this.combinationTestData.vehicles) {
       if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) return true;
     }
     return false;
   }
 
   canSearchOnlyTrailers() {
-    return this.moreThanOneVehicles && this.doesHgvExist();
+    return this.isCombinationTest && this.doesHgvExist();
   }
 
   ionViewDidEnter() {
@@ -86,57 +87,37 @@ export class VehicleLookupPage {
       content: 'Loading...'
     });
     LOADING.present();
-    searchedValue = searchedValue.replace(/\s+/g, '');
-    let searchCriteriaQueryParam = this.getTechRecordQueryParam().queryParam;
     this.oid = this.authService.getOid();
-    this.vehicleService.getVehicleTechRecord(searchedValue.toUpperCase(), searchCriteriaQueryParam)
-      .pipe(map((vehicleTechRecord: HttpResponse<VehicleTechRecordModel>) => {
-        const vehicleModel = this.vehicleService.createVehicle(vehicleTechRecord.body);
-        return {vehicleTechRecord, vehicleModel};
-      }))
-      .subscribe(
-        ({vehicleTechRecord, vehicleModel: vehicleData}) => {
-          const log: Log = {
-            type: 'info',
-            message: `${this.oid} - ${vehicleTechRecord.status} ${vehicleTechRecord.statusText} for API call to ${vehicleTechRecord.url}`,
-            timestamp: Date.now(),
-          };
-          this.store$.dispatch(new logsActions.SaveLog(log));
-          this.vehicleService.getTestResultsHistory(vehicleData.vin).pipe(
-            tap(
-              () => {
-                LOADING.dismiss();
-              }
-            ),
-            map((data) => {
-              this.storageService.update(STORAGE.TEST_HISTORY, data.body);
-              return data;
-            }),
-          ).subscribe(
-            (testResultHistory: HttpResponse<TestResultModel[]>) => {
-              const log: Log = {
-                type: 'info',
-                message: `${this.oid} - ${testResultHistory.status} ${testResultHistory.statusText} for API call to ${testResultHistory.url}`,
-                timestamp: Date.now(),
-              };
-              this.store$.dispatch(new logsActions.SaveLog(log));
-              this.goToVehicleDetails(vehicleData, testResultHistory.body);
+
+    this.vehicleService.getVehicleTechRecords(searchedValue.toUpperCase(), this.getTechRecordQueryParam().queryParam)
+      .subscribe((vehicleData) => {
+          const testHistoryResponseObserver: Observer<TestResultModel[]> = {
+            next: () => {
+              this.goToVehicleDetails(vehicleData[0]);
             },
-            (error) => {
+            error: (error) => {
               const log: Log = {
                 type: 'error',
                 message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
                 timestamp: Date.now(),
               };
               this.store$.dispatch(new logsActions.SaveLog(log));
-              this.storageService.update(STORAGE.TEST_HISTORY, []);
-              LOADING.dismiss();
-              this.goToVehicleDetails(vehicleData);
               this.firebase.logEvent('test_error', {
                 content_type: 'error',
                 item_id: "Failed retrieving the testResultsHistory"
               });
-            })
+              this.storageService.update(STORAGE.TEST_HISTORY, []);
+              this.goToVehicleDetails(vehicleData[0]);
+            },
+            complete: function () {}
+          };
+
+          if(vehicleData.length === 1) this.vehicleService.getTestResultsHistory(vehicleData[0].systemNumber).subscribe(testHistoryResponseObserver).add(()=>{
+            LOADING.dismiss();
+          });
+          else this.goToMultipleTechRecordsSelection(vehicleData).then(()=>{
+            LOADING.dismiss();
+          });
         },
         (error) => {
           const log: Log = {
@@ -155,7 +136,7 @@ export class VehicleLookupPage {
 
   close(): void {
     if (this.navCtrl.getPrevious().component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-      this.visitService.removeTest(this.testData);
+      this.visitService.removeTest(this.combinationTestData);
     }
     this.navCtrl.pop();
   }
@@ -171,10 +152,17 @@ export class VehicleLookupPage {
     this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Vehicle not found"});
   }
 
-  goToVehicleDetails(vehicleData, testResultHistory?: TestResultModel[]) {
+  goToVehicleDetails(vehicleData: VehicleModel) {
     this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
-      test: this.testData,
+      test: this.combinationTestData,
       vehicle: vehicleData
+    });
+  }
+
+  goToMultipleTechRecordsSelection(multipleVehicleData: VehicleModel[]) {
+    return this.navCtrl.push(PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION, {
+      test: this.combinationTestData,
+      vehicles: multipleVehicleData
     });
   }
 

@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title margin-left>
+      Select Vehicle
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content no-padding class="content-background-color-grey">
+  <ion-list text-wrap>
+    <ion-item-divider padding-left>
+      <h3>Multiple vehicles found matching this search</h3>
+    </ion-item-divider>
+    <button ion-item no-lines class="full-border"
+            *ngFor="let vehicle of vehicles"
+              (click)="openVehicleDetails(vehicle)">
+      <img item-start class="vehicle-type-icon" margin-right
+           src="./assets/imgs/{{vehicle.techRecord.vehicleType.toLowerCase()}}-icon.svg"/>
+      <h2>{{ vehicle.techRecord.make || vehicle.techRecord.chassisMake}}</h2>
+      <p>{{ vehicle.techRecord.manufactureYear }}, {{ vehicle.techRecord.model || vehicle.techRecord.chassisModel }}</p>
+    </button>
+  </ion-list>
+</ion-content>

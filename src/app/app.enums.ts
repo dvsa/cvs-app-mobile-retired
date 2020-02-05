@@ -395,7 +395,8 @@ export enum PAGE_NAMES {
   CONFIRMATION_PAGE = 'ConfirmationPage',
   VEHICLE_LOOKUP_PAGE = 'VehicleLookupPage',
   VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION = 'VehicleLookupSearchCriteriaSelectionPage',
-  WAIT_TIME_REASONS_PAGE = 'WaitTimeReasonsPage'
+  WAIT_TIME_REASONS_PAGE = 'WaitTimeReasonsPage',
+  MULTIPLE_TECH_RECORDS_SELECTION = 'MultipleTechRecordsSelectionPage',
 }
 
 export enum WAIT_TIME_REASONS {

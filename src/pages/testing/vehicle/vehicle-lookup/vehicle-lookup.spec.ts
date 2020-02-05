@@ -91,20 +91,13 @@ describe('Component: VehicleLookupPage', () => {
     expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
-  it('should test if the storage gets updated with newest test results history', () => {
-    spyOn(storageService, 'update');
-    component.selectedSearchCriteria = 'Registration number, VIN or trailer ID';
-    component.searchVehicle('BQ91YHQ');
-    expect(storageService.update).toHaveBeenCalled();
-  });
-
   it('should test ionViewWillEnter lifecycle hook', () => {
-    component.testData = TEST_DATA;
-    component.testData.vehicles.push(VEHICLE);
+    component.combinationTestData = TEST_DATA;
+    component.combinationTestData.vehicles.push(VEHICLE);
     component.ionViewWillEnter();
-    expect(component.moreThanOneVehicles).toBeTruthy();
+    expect(component.isCombinationTest).toBeTruthy();
     expect(component.searchPlaceholder).toEqual(APP_STRINGS.REG_NUMBER_TRAILER_ID_OR_VIN);
-    component.testData.vehicles[0].techRecord.vehicleType = VEHICLE_TYPE.HGV;
+    component.combinationTestData.vehicles[0].techRecord.vehicleType = VEHICLE_TYPE.HGV;
     component.ionViewWillEnter();
     expect(component.searchPlaceholder).toEqual(APP_STRINGS.TRAILER_ID_OR_VIN);
   });
