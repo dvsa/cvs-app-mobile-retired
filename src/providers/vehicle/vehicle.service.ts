@@ -68,30 +68,28 @@ export class VehicleService {
   getVehicleTechRecords(searchedValue: string, searchCriteriaQueryParam: string): Observable<VehicleModel[]> {
     searchedValue = searchedValue.replace(/\s+/g, '');
     return this.httpService.getTechRecords(searchedValue.toUpperCase(), searchCriteriaQueryParam)
-      .pipe(
-        map((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => {
-          const log: Log = {
-            type: 'info',
-            message: `${this.authService.getOid()} - ${techRecordsResponse.status} ${techRecordsResponse.statusText} for API call to ${techRecordsResponse.url}`,
-            timestamp: Date.now(),
-          };
-          this.store$.dispatch(new logsActions.SaveLog(log));
-          return techRecordsResponse.body.map(this.createVehicle);
-        }),
-        map((techRecords: VehicleModel[]) => {
-          return techRecords.sort((a, b) => {
-            //chassisMake attribute for PSVs and make attribute for HGVs and TRLs
-            const first = a.techRecord.chassisMake || a.techRecord.make;
-            const second = b.techRecord.chassisMake || b.techRecord.make;
-            return first.localeCompare(second);
-          });
-        }
-      ))
+      .map((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => {
+        const log: Log = {
+          type: 'info',
+          message: `${this.authService.getOid()} - ${techRecordsResponse.status} ${techRecordsResponse.statusText} for API call to ${techRecordsResponse.url}`,
+          timestamp: Date.now(),
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
+        return techRecordsResponse.body.map(this.createVehicle);
+      })
+      .map((techRecords: VehicleModel[]) => {
+        return techRecords.sort((a, b) => {
+          //chassisMake attribute for PSVs and make attribute for HGVs and TRLs
+          const first = a.techRecord.chassisMake || a.techRecord.make;
+          const second = b.techRecord.chassisMake || b.techRecord.make;
+          return first.localeCompare(second);
+        });
+      });
   }
 
-  getTestResultsHistory(systemNumber: string): Observable<TestResultModel[]>  {
-    return this.httpService.getTestResultsHistory(systemNumber).pipe(
-      map((data) => {
+  getTestResultsHistory(systemNumber: string): Observable<TestResultModel[]> {
+    return this.httpService.getTestResultsHistory(systemNumber)
+      .map((data) => {
         const log: Log = {
           type: 'info',
           message: `${this.authService.getOid()} - ${data.status} ${data.statusText} for API call to ${data.url}`,
@@ -100,8 +98,7 @@ export class VehicleService {
         this.store$.dispatch(new logsActions.SaveLog(log));
         this.storageService.update(STORAGE.TEST_HISTORY, data.body);
         return data.body;
-      })
-    );
+      });
   }
 
   setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string): VehicleModel {
