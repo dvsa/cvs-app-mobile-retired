@@ -31,7 +31,7 @@ import {MultipleTechRecordsSelectionPage} from './multiple-tech-records-selectio
   templateUrl: 'vehicle-lookup.html'
 })
 export class VehicleLookupPage {
-  combinationTestData: TestModel;
+  testData: TestModel;
   searchVal: string = '';
   oid: string;
   title: string = '';
@@ -54,12 +54,12 @@ export class VehicleLookupPage {
               private store$: Store<LogsModel>,
               public appService: AppService,
               private modalCtrl: ModalController) {
-    this.combinationTestData = navParams.get('test');
+    this.testData = navParams.get('test');
   }
 
   ionViewWillEnter() {
     this.searchVal = '';
-    if (this.combinationTestData.vehicles.length) {
+    if (this.testData.vehicles.length) {
       this.isCombinationTest = true;
     }
     this.selectedSearchCriteria = this.canSearchOnlyTrailers() ? VehicleLookupSearchCriteriaData.DefaultVehicleLookupSearchCriteriaTrailersOnly : VehicleLookupSearchCriteriaData.DefaultVehicleLookupSearchCriteria;
@@ -68,7 +68,7 @@ export class VehicleLookupPage {
   };
 
   doesHgvExist() {
-    for (let vehicle of this.combinationTestData.vehicles) {
+    for (let vehicle of this.testData.vehicles) {
       if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) return true;
     }
     return false;
@@ -136,7 +136,7 @@ export class VehicleLookupPage {
 
   close(): void {
     if (this.navCtrl.getPrevious().component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-      this.visitService.removeTest(this.combinationTestData);
+      this.visitService.removeTest(this.testData);
     }
     this.navCtrl.pop();
   }
@@ -154,14 +154,14 @@ export class VehicleLookupPage {
 
   goToVehicleDetails(vehicleData: VehicleModel) {
     this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
-      test: this.combinationTestData,
+      test: this.testData,
       vehicle: vehicleData
     });
   }
 
   goToMultipleTechRecordsSelection(multipleVehicleData: VehicleModel[]) {
     return this.navCtrl.push(PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION, {
-      test: this.combinationTestData,
+      test: this.testData,
       vehicles: multipleVehicleData
     });
   }
