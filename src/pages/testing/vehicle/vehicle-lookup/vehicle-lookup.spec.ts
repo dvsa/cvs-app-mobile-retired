@@ -92,12 +92,12 @@ describe('Component: VehicleLookupPage', () => {
   });
 
   it('should test ionViewWillEnter lifecycle hook', () => {
-    component.combinationTestData = TEST_DATA;
-    component.combinationTestData.vehicles.push(VEHICLE);
+    component.testData = TEST_DATA;
+    component.testData.vehicles.push(VEHICLE);
     component.ionViewWillEnter();
     expect(component.isCombinationTest).toBeTruthy();
     expect(component.searchPlaceholder).toEqual(APP_STRINGS.REG_NUMBER_TRAILER_ID_OR_VIN);
-    component.combinationTestData.vehicles[0].techRecord.vehicleType = VEHICLE_TYPE.HGV;
+    component.testData.vehicles[0].techRecord.vehicleType = VEHICLE_TYPE.HGV;
     component.ionViewWillEnter();
     expect(component.searchPlaceholder).toEqual(APP_STRINGS.TRAILER_ID_OR_VIN);
   });
