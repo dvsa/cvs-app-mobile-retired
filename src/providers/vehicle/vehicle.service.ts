@@ -56,8 +56,8 @@ export class VehicleService {
     return this.httpService.getTechRecords(param, searchCriteria);
   }
 
-  getTestResultsHistory(vin: string): Observable<any> {
-    return this.httpService.getTestResultsHistory(vin);
+  getTestResultsHistory(systemNumber: string): Observable<any> {
+    return this.httpService.getTestResultsHistory(systemNumber);
   }
 
   setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string): VehicleModel {

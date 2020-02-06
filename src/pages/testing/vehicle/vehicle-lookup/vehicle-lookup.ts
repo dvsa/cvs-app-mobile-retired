@@ -102,7 +102,7 @@ export class VehicleLookupPage {
             timestamp: Date.now(),
           };
           this.store$.dispatch(new logsActions.SaveLog(log));
-          this.vehicleService.getTestResultsHistory(vehicleData.vin).pipe(
+          this.vehicleService.getTestResultsHistory(vehicleData.systemNumber).pipe(
             tap(
               () => {
                 LOADING.dismiss();
@@ -202,7 +202,7 @@ export class VehicleLookupPage {
           }, {
             text: 'Try again',
             handler: () => {
-              this.vehicleService.getTestResultsHistory(vehicleData.vin);
+              this.vehicleService.getTestResultsHistory(vehicleData.systemNumber);
             }
           }
         ]
