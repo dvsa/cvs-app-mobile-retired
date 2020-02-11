@@ -38,10 +38,10 @@
   <ion-list class="vehicle-list">
     <ion-list-header padding-left padding-right>
       <ng-container>
-                <span *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, 'trl');
-                             else showVehicleSummaryTitle">
-                    TRAILER SUMMARY
-                </span>
+        <span *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, 'trl');
+                     else showVehicleSummaryTitle">
+          TRAILER SUMMARY
+        </span>
         <ng-template #showVehicleSummaryTitle>
           VEHICLE SUMMARY
         </ng-template>
@@ -73,7 +73,7 @@
             <p>{{ vehicleData.techRecord.chassisModel }}</p>
           </div>
         </ion-item>
-        <ion-item margin-left *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
+        <ion-item margin-left *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV])">
           <ion-label>
             <h3>Make</h3>
           </ion-label>
@@ -81,7 +81,7 @@
             <p>{{ vehicleData.techRecord.make }}</p>
           </div>
         </ion-item>
-        <ion-item margin-left *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
+        <ion-item margin-left *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV])">
           <ion-label>
             <h3>Model</h3>
           </ion-label>
@@ -184,7 +184,7 @@
     <button ion-item padding-left (click)="goToVehicleTestResultsHistory()">
       <ng-container>
         <h3>
-          <span *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, 'trl');
+          <span *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, VEHICLE_TYPE.TRL);
                       else showVehicleTestHistoryTitle">
               Trailer
           </span>
@@ -214,7 +214,7 @@
       <h3>Additional vehicle details</h3>
     </button>
     <button ion-item padding-left
-            *ngIf="vehicleData.techRecord.adrDetails"
+            *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES) && vehicleData.techRecord.adrDetails"
             (click)="showMoreDetails('VehicleAdrDetailsPage')">
       <h3>ADR details</h3>
     </button>
