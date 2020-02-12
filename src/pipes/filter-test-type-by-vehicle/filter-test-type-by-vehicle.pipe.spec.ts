@@ -40,4 +40,19 @@ describe('FilterTestTypeByVehiclePipe', () => {
     delete partialVehicle.techRecord.vehicleSubclass;
     expect((pipe.transform(modifiedTestData, partialVehicle)).length).toBe(1);
   });
+
+  describe("getField function", () => {
+    it("correctly extracts a field from a present input", () => {
+      let testInput = {thing: "aValue"};
+      expect(pipe.getField(testInput, "thing")).toEqual("aValue");
+    });
+
+    it("returns empty string if input is not object", () => {
+      expect(pipe.getField("notAnObject","anything")).toEqual("");
+    });
+
+    it("returns undefined if the field is not  present on the input object", () => {
+      expect(pipe.getField({thing: "value"}, "notAField")).toEqual(undefined);
+    });
+  });
 });
