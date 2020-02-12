@@ -126,7 +126,7 @@
             <h3>Year of manufacture</h3>
           </ion-label>
           <div item-content padding-right>
-            <p>{{ vehicleData.techRecord.manufactureYear }}</p>
+            <p>{{ vehicleData.techRecord.manufactureYear | date: dateFormat }}</p>
           </div>
         </ion-item>
         <ion-item margin-left *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL) && vehicleData.techRecord.firstUseDate">
