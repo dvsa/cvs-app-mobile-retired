@@ -42,7 +42,7 @@ export class FilterTestTypeByVehiclePipe implements PipeTransform {
   }
 
   getField(input: any, field: string): any {
-    if (typeof input === "object") return input["field"];
+    if (typeof input === "object") return input[field];
     return "";
   }
 }
