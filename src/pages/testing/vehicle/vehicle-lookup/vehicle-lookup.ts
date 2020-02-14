@@ -106,7 +106,7 @@ export class VehicleLookupPage {
                 content_type: 'error',
                 item_id: "Failed retrieving the testResultsHistory"
               });
-              this.storageService.update(STORAGE.TEST_HISTORY, []);
+              this.storageService.update(STORAGE.TEST_HISTORY+vehicleData[0].systemNumber, []);
               this.goToVehicleDetails(vehicleData[0]);
             },
             complete: function () {}
