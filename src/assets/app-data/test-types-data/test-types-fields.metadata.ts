@@ -3043,6 +3043,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -3088,6 +3093,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -3133,6 +3143,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -3178,6 +3193,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -3223,6 +3243,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -3268,6 +3293,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -3313,6 +3343,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -3682,6 +3717,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -3715,6 +3755,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -3748,6 +3793,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -3781,6 +3831,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -4264,6 +4319,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -4309,6 +4369,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -4354,6 +4419,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -4399,6 +4469,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -4444,6 +4519,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -4489,6 +4569,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -4825,6 +4910,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -4858,6 +4948,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -4891,6 +4986,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
@@ -4924,6 +5024,11 @@ export class TestTypesFieldsMetadata {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
                     cssClass: 'danger-action-button'
+                  },
+                  {
+                    text: 'Prs',
+                    value: TEST_TYPE_RESULTS.PRS,
+                    cssClass: 'prs-action-button'
                   }
                 ],
                 defaultValue: 'Select',
