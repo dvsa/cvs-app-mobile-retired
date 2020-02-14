@@ -16,6 +16,7 @@ export class TestResultModel {
   testStatus: string;
   reasonForCancellation: string | null;
   /* VEHICLE */
+  systemNumber: string;
   vrm?: string; // PSV + HGV
   trailerId?: string; // TRL
   vin: string;

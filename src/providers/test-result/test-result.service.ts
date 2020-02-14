@@ -50,6 +50,7 @@ export class TestResultService {
       if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) newTestResult.regnDate = vehicle.techRecord.regnDate;
       else newTestResult.firstUseDate = vehicle.techRecord.firstUseDate;
     }
+    newTestResult.systemNumber = vehicle.systemNumber;
     newTestResult.vin = vehicle.vin;
     newTestResult.vehicleClass = vehicle.techRecord.vehicleClass;
     newTestResult.vehicleType = vehicle.techRecord.vehicleType;

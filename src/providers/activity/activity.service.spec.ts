@@ -57,6 +57,7 @@ describe('Provider: ActivityService', () => {
   };
 
   let testResult: TestResultModel = {
+    "systemNumber": "1000000",
     "testResultId": "b1972f03-4a1d-482a-a812-7bdd82b1aae9",
     "vrm": "BQ91YHQ",
     "vin": "1B7GG36N12S678410",
