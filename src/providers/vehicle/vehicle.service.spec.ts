@@ -1,4 +1,4 @@
-import { TestBed } from "@angular/core/testing";
+import {async, TestBed} from "@angular/core/testing";
 import { TechRecordDataMock } from "../../assets/data-mocks/tech-record-data.mock";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
@@ -7,7 +7,7 @@ import { VisitServiceMock } from "../../../test-config/services-mocks/visit-serv
 import { HTTPService } from "../global/http.service";
 import { VehicleService } from "./vehicle.service";
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
-import { ODOMETER_METRIC, TEST_TYPE_RESULTS } from "../../app/app.enums";
+import {ODOMETER_METRIC, STORAGE, TEST_TYPE_RESULTS} from "../../app/app.enums";
 import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
 import { Store } from "@ngrx/store";
@@ -168,9 +168,12 @@ describe('Provider: VehicleService', () => {
     expect(onlyOne).toBeTruthy();
   });
 
-  it('should test if the storage gets updated with newest test results history', () => {
+  it('should update ionic storage when retrieving test results history', async(() => {
+    const systemNumber = '10000000';
     spyOn(storageService, 'update');
-    vehicleService.getTestResultsHistory('10000000').subscribe();
-    expect(storageService.update).toHaveBeenCalledTimes(1);
-  });
+    vehicleService.getTestResultsHistory(systemNumber).subscribe(() => {
+      expect(storageService.update).toHaveBeenCalledTimes(1);
+      expect(storageService.update).toHaveBeenCalledWith(STORAGE.TEST_HISTORY+systemNumber, TestResultsHistoryDataMock.TestResultHistoryData);
+    });
+  }));
 });

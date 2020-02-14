@@ -120,7 +120,7 @@ export class VehicleDetailsPage {
   }
 
   goToVehicleTestResultsHistory() {
-    this.storageService.read(STORAGE.TEST_HISTORY).then(
+    this.storageService.read(STORAGE.TEST_HISTORY+this.vehicleData.systemNumber).then(
       data => {
         this.navCtrl.push(PAGE_NAMES.VEHICLE_HISTORY_PAGE, {
           vehicleData: this.vehicleData,
