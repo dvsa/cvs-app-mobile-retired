@@ -12,7 +12,7 @@ export class SpecialistTestTypesData {
   }
 
   public static get SpecialistPartOfCoifTestTypesIds(): string[] {
-    return ['142', '143', '144', '175', '176', '179'];
+    return ['142', '143', '144', '146', '147', '148', '175', '176', '177', '178', '179'];
   }
 
   public static get SpecialistCoifWithAnnualTestIds(): string[] {

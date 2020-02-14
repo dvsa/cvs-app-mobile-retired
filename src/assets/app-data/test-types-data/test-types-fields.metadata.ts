@@ -3499,6 +3499,18 @@ export class TestTypesFieldsMetadata {
                 deactivateButtonOnSelection: true
               }
             ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
           }
         ],
         hasSpecialistDefects: true,
@@ -3532,6 +3544,18 @@ export class TestTypesFieldsMetadata {
                 deactivateButtonOnSelection: true
               }
             ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
           }
         ],
         hasSpecialistDefects: true,
@@ -3565,6 +3589,18 @@ export class TestTypesFieldsMetadata {
                 deactivateButtonOnSelection: true
               }
             ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
           }
         ],
         hasSpecialistDefects: true,
@@ -4630,6 +4666,18 @@ export class TestTypesFieldsMetadata {
                 deactivateButtonOnSelection: true
               }
             ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
           }
         ],
         hasSpecialistDefects: true,
@@ -4663,6 +4711,18 @@ export class TestTypesFieldsMetadata {
                 deactivateButtonOnSelection: true
               }
             ]
+          },
+          {
+            sectionName: 'Certificate number (COIF)',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
           }
         ],
         hasSpecialistDefects: true,
