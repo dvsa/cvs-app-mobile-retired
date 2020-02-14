@@ -65,7 +65,7 @@ export class MultipleTechRecordsSelectionPage implements OnInit {
           content_type: 'error',
           item_id: "Failed retrieving the testResultsHistory"
         });
-        this.storageService.update(STORAGE.TEST_HISTORY, []);
+        this.storageService.update(STORAGE.TEST_HISTORY+selectedVehicle.systemNumber, []);
         this.goToVehicleDetails(selectedVehicle);
       },
       complete: function () {}
