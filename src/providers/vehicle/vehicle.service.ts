@@ -96,7 +96,7 @@ export class VehicleService {
           timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
-        this.storageService.update(STORAGE.TEST_HISTORY, data.body);
+        this.storageService.update(STORAGE.TEST_HISTORY+systemNumber, data.body);
         return data.body;
       });
   }
