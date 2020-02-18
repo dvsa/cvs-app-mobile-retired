@@ -30,9 +30,9 @@ export class VehicleDetailsPage {
   APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
   vehicleData: VehicleModel;
   testData: TestModel;
-  fromTestCreatePage: boolean;
   dateFormat: string = DATE_FORMAT.DD_MM_YYYY;
   changeOpacity: boolean = false;
+  previousPageName: string;
 
   constructor(public navCtrl: NavController,
               private navParams: NavParams,
@@ -45,11 +45,11 @@ export class VehicleDetailsPage {
               public appService: AppService) {
     this.vehicleData = navParams.get('vehicle');
     this.testData = navParams.get('test');
-    this.fromTestCreatePage = navParams.get('fromTestCreatePage');
+    this.previousPageName = this.navCtrl.last().name;
   }
 
   ionViewWillEnter() {
-    this.viewCtrl.setBackButtonText(this.fromTestCreatePage ? APP_STRINGS.TEST : APP_STRINGS.IDENTIFY_VEHICLE);
+    this.viewCtrl.setBackButtonText(this.getBackButtonText());
   }
 
   ionViewDidEnter() {
@@ -136,5 +136,23 @@ export class VehicleDetailsPage {
     this.firebaseLogsService.logEvent(FIREBASE.CONFIRM_VEHICLE_TIME_TAKEN, FIREBASE.CONFIRM_VEHICLE_START_TIME, this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_start_time.toString(), FIREBASE.CONFIRM_VEHICLE_END_TIME, this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_end_time.toString(), FIREBASE.CONFIRM_VEHICLE_TIME_TAKEN, this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_time_taken);
 
     this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time = Date.now();
+  }
+
+  private getBackButtonText(): string{
+    let backButtonText;
+    switch(this.previousPageName) {
+      case PAGE_NAMES.TEST_CREATE_PAGE:
+        backButtonText = APP_STRINGS.TEST;
+        break;
+      case PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION:
+        backButtonText = APP_STRINGS.SELECT_VEHICLE;
+        break;
+      case PAGE_NAMES.VEHICLE_LOOKUP_PAGE:
+        backButtonText = APP_STRINGS.IDENTIFY_VEHICLE;
+        break;
+      default:
+        backButtonText = 'Back';
+    }
+    return backButtonText;
   }
 }

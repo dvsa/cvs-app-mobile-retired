@@ -178,7 +178,7 @@ export class TestCreatePage implements OnInit {
   }
 
   onVehicleDetails(vehicle: VehicleModel) {
-    this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {vehicle: vehicle, fromTestCreatePage: true});
+    this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {vehicle: vehicle});
   }
 
   openTest(vehicle: VehicleModel, vehicleTest: TestTypeModel): void {
