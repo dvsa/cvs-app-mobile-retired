@@ -1,7 +1,7 @@
 <ion-header transforming-searchBar [searchBarElemRef]="searchBar">
   <ion-navbar>
     <ion-title margin-left>
-      Find an ATF
+      Find test facility
     </ion-title>
   </ion-navbar>
   <ion-toolbar>
@@ -12,7 +12,7 @@
                    [ngClass]="{'keep-cancel-on': focusOut}"
                    [showCancelButton]="true"
                    [cancelButtonText]="'Cancel'"
-                   placeholder="Search for ATF name, address or P-number"
+                   placeholder="Search by test facility number, name or address"
                    #searchBar
                    id="stay-cancel">
     </ion-searchbar>
@@ -29,8 +29,10 @@
         </ion-item-divider>
         <button ion-item (click)="openTestStation(testStation)" padding-left class="list-item-height" text-wrap>
           <h3>{{ testStation.testStationName }}</h3>
-          <p *ngIf="testStation.searchProperty != 'testStationAddress'" [innerHTML]="boldSearchVal(testStation.testStationPNumber, searchVal)"></p>
-          <p *ngIf="testStation.searchProperty == 'testStationAddress'" [innerHTML]="boldSearchVal(testStation.testStationAddress, searchVal)"></p>
+          <p *ngIf="testStation.searchProperty != 'testStationAddress'"
+             [innerHTML]="boldSearchVal(testStation.testStationPNumber, searchVal)"></p>
+          <p *ngIf="testStation.searchProperty == 'testStationAddress'"
+             [innerHTML]="boldSearchVal(testStation.testStationAddress, searchVal)"></p>
         </button>
       </div>
     </ion-item-group>
@@ -38,8 +40,8 @@
 
   <div *ngIf="filteredTestStations.length == 0" class="no-result">
     <h3>No results found</h3>
-    <span>You can search for an ATF by typing in</span>
-    <span>it's name, address or P-number</span>
+    <span>You can search by test facility number,</span>
+    <span>name or address</span>
   </div>
 
 </ion-content>
