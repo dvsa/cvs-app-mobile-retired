@@ -11,7 +11,7 @@
         </ng-template>
       </ng-container>
     </ion-title>
-    <ion-buttons end *ngIf="testData && !fromTestCreatePage">
+    <ion-buttons end *ngIf="testData">
       <button ion-button
               (click)="goToPreparerPage()"
               [ngClass]="{buttonOpacity: changeOpacity}">
