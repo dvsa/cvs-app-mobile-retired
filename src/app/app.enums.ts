@@ -180,6 +180,7 @@ export enum APP_STRINGS {
   TEST = 'Test',
   IDENTIFY_VEHICLE = 'Identify vehicle',
   IDENTIFY_TRAILER = 'Identify trailer',
+  SELECT_VEHICLE = 'Select vehicle',
   TEST_HISTORY = 'Test history',
   SUBMIT_TEST = 'Submit test',
   SUBMIT_TESTS = 'Submit tests',

@@ -14,7 +14,8 @@ export class NavControllerMock {
       'ionViewWillLeave',
       'ionViewWillUnload',
       'ionViewCanEnter',
-      'ionViewCanLeave'
+      'ionViewCanLeave',
+      'last'
     ]);
 
     instance.push.and.returnValue(Promise.resolve());
@@ -23,7 +24,7 @@ export class NavControllerMock {
     instance.popToRoot.and.returnValue(Promise.resolve());
     instance.ionViewCanEnter.and.returnValue(true);
     instance.ionViewCanLeave.and.returnValue(true);
-
+    instance.last.and.returnValue({name: 'Last page name'});
     return instance;
   }
 }
