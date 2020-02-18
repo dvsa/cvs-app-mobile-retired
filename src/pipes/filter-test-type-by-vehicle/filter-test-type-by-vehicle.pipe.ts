@@ -20,14 +20,29 @@ export class FilterTestTypeByVehiclePipe implements PipeTransform {
 
   filterByVehicle(elem: TestTypesReferenceDataModel, vehicle: VehicleModel): TestTypesReferenceDataModel | boolean {
     let techRecord = vehicle.techRecord;
-    if (elem.forVehicleType && elem.forVehicleType.indexOf(techRecord.vehicleType.toLowerCase()) == -1) return false;
-    if (elem.forVehicleSize && elem.forVehicleSize.indexOf(techRecord.vehicleSize.toLowerCase()) == -1) return false;
-    if (elem.forVehicleConfiguration && elem.forVehicleConfiguration.indexOf(techRecord.vehicleConfiguration.toLowerCase()) == -1) return false;
+    if (elem.forVehicleType && elem.forVehicleType.indexOf(this.toLowerCase(techRecord.vehicleType)) == -1) return false;
+    if (elem.forVehicleSize && elem.forVehicleSize.indexOf(this.toLowerCase(techRecord.vehicleSize)) == -1) return false;
+    if (elem.forVehicleConfiguration && elem.forVehicleConfiguration.indexOf(this.toLowerCase(techRecord.vehicleConfiguration)) == -1) return false;
     if (elem.forVehicleAxles && elem.forVehicleAxles.indexOf(techRecord.noOfAxles) == -1) return false;
-    if (elem.forEuVehicleCategory && vehicle.euVehicleCategory && elem.forEuVehicleCategory.indexOf(vehicle.euVehicleCategory.toLowerCase()) == -1) return false;
-    if (elem.forVehicleClass && elem.forVehicleClass.indexOf(techRecord.vehicleClass.code.toLowerCase()) == -1) return false;
-    if (elem.forVehicleSubclass && elem.forVehicleSubclass.indexOf(techRecord.vehicleSubclass[0].toLowerCase()) == -1) return false;
+    if (elem.forEuVehicleCategory && vehicle.euVehicleCategory && elem.forEuVehicleCategory.indexOf(this.toLowerCase(vehicle.euVehicleCategory)) == -1) return false;
+    if (elem.forVehicleClass && elem.forVehicleClass.indexOf(this.toLowerCase(this.getField(techRecord.vehicleClass,"code"))) == -1) return false;
+    if (elem.forVehicleSubclass && elem.forVehicleSubclass.indexOf(this.toLowerCase(this.getFirstElem(techRecord.vehicleSubclass))) == -1) return false;
     if (elem.forVehicleWheels && elem.forVehicleWheels.indexOf(techRecord.numberOfWheelsDriven) == -1) return false;
     return elem;
+  }
+
+  toLowerCase(input: string): string {
+    if (typeof input === "string") return input.toLowerCase();
+    return "";
+  }
+
+  getFirstElem(input: any): string {
+    if (Array.isArray(input)) return input[0];
+    return "";
+  }
+
+  getField(input: any, field: string): any {
+    if (typeof input === "object") return input[field];
+    return "";
   }
 }
