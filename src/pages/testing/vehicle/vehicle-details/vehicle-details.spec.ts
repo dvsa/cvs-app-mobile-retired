@@ -15,7 +15,7 @@ import { TestTypeArrayDataMock } from "../../../../assets/data-mocks/test-type-a
 import { PipesModule } from "../../../../pipes/pipes.module";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import { APP_STRINGS, TECH_RECORD_STATUS } from '../../../../app/app.enums';
+import {APP_STRINGS, PAGE_NAMES, TECH_RECORD_STATUS} from '../../../../app/app.enums';
 import { By } from '@angular/platform-browser';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
@@ -30,6 +30,7 @@ describe('Component: VehicleDetailsPage', () => {
   let callNumberSpy: any;
   let firebaseLogsService: FirebaseLogsService;
   let alertCtrl: AlertController;
+  let viewController: ViewController;
 
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
@@ -64,14 +65,14 @@ describe('Component: VehicleDetailsPage', () => {
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
         'vehicle': VEHICLE,
-        'test': test,
-        'fromTestCreatePage': true
+        'test': test
       };
       return params[param];
     });
     commonFunctionsService = TestBed.get(CommonFunctionsService);
     alertCtrl = TestBed.get(AlertController);
     firebaseLogsService = TestBed.get(FirebaseLogsService);
+    viewController = TestBed.get(ViewController);
 
     fixture = TestBed.createComponent(VehicleDetailsPage);
     component = fixture.componentInstance;
@@ -125,6 +126,29 @@ describe('Component: VehicleDetailsPage', () => {
     fixture.whenStable().then(() => {
       let title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
       expect(title.nativeElement.innerText).toBe(APP_STRINGS.PROVISIONAL_LABEL_TEXT);
+    });
+  });
+
+  describe('when accessing the vehicle details page', () => {
+    it('should set the back button text to "Test" when accessing from Test Create page', () => {
+      component.previousPageName = PAGE_NAMES.TEST_CREATE_PAGE;
+      component.ionViewWillEnter();
+      expect(viewController.setBackButtonText).toHaveBeenCalledWith(APP_STRINGS.TEST);
+    });
+    it('should set the back button text to "Select Vehicle" when accessing from Multiple Tech records selection page', () => {
+      component.previousPageName = PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION;
+      component.ionViewWillEnter();
+      expect(viewController.setBackButtonText).toHaveBeenCalledWith(APP_STRINGS.SELECT_VEHICLE);
+    });
+    it('should set the back button text to "Identify Vehicle" when accessing from the Vehicle Lookup page', () => {
+      component.previousPageName = PAGE_NAMES.VEHICLE_LOOKUP_PAGE;
+      component.ionViewWillEnter();
+      expect(viewController.setBackButtonText).toHaveBeenCalledWith(APP_STRINGS.IDENTIFY_VEHICLE);
+    });
+    it('should set the back button text to Back if accessing from any other page', () => {
+      component.previousPageName = 'Random page name';
+      component.ionViewWillEnter();
+      expect(viewController.setBackButtonText).toHaveBeenCalledWith('Back');
     });
   });
 
