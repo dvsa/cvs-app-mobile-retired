@@ -19,7 +19,6 @@ export interface TechRecordModel {
   grossKerbWeight: number;
   grossLadenWeight: number;
   noOfAxles: number;
-  numberOfWheelsDriven: number;
   brakeCode: string;
   vehicleType: string;
   euVehicleCategory: string;
