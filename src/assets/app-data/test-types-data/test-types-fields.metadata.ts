@@ -3322,6 +3322,51 @@ export class TestTypesFieldsMetadata {
         hasNotes: true
       },
       {
+        testTypeId: '198',
+        testTypeName: 'Part MSVA inspection',
+        sections: [
+          {
+            sectionName: 'Result',
+            inputs: [
+              {
+                testTypePropertyName: 'testResult',
+                label: 'Test result',
+                type: 'ddl',
+                title: 'Test result',
+                values: [
+                  {
+                    text: 'Pass',
+                    value: TEST_TYPE_RESULTS.PASS,
+                    cssClass: ''
+                  },
+                  {
+                    text: 'Fail',
+                    value: TEST_TYPE_RESULTS.FAIL,
+                    cssClass: 'danger-action-button'
+                  }
+                ],
+                defaultValue: 'Select',
+                deactivateButtonOnSelection: true
+              }
+            ]
+          },
+          {
+            sectionName: 'Certificate number',
+            inputs: [
+              {
+                testTypePropertyName: 'certificateNumber',
+                placeholder: 'Enter',
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+              }
+            ],
+            dependentOn: ['testResult']
+          },
+        ],
+        hasSpecialistDefects: true,
+        hasNotes: true
+      },
+      {
         testTypeId: '138',
         testTypeName: 'Appeal on a MSVA moped vehicle inspection',
         sections: [
