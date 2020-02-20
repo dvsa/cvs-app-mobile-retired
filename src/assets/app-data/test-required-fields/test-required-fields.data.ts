@@ -17,9 +17,8 @@ export class TestsWithoutCertificate {
       'Voluntary multi check (headlamp aim, smoke and brake test)',
       'Voluntary speed limiter check',
       'Voluntary Vitesse 100',
-      'Voluntary Tempo 100',
-      'Notifiable alteration check'
-     ]
+      'Voluntary Tempo 100'
+    ]
   }
 }
 
