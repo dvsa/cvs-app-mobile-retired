@@ -140,20 +140,15 @@ export class VehicleDetailsPage {
   }
 
   private getBackButtonText(): string{
-    let backButtonText;
     switch(this.previousPageName) {
       case PAGE_NAMES.TEST_CREATE_PAGE:
-        backButtonText = APP_STRINGS.TEST;
-        break;
+        return APP_STRINGS.TEST;
       case PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION:
-        backButtonText = APP_STRINGS.SELECT_VEHICLE;
-        break;
+        return APP_STRINGS.SELECT_VEHICLE;
       case PAGE_NAMES.VEHICLE_LOOKUP_PAGE:
-        backButtonText = APP_STRINGS.IDENTIFY_VEHICLE;
-        break;
+        return APP_STRINGS.IDENTIFY_VEHICLE;
       default:
-        backButtonText = 'Back';
+        return 'Back';
     }
-    return backButtonText;
   }
 }
