@@ -4,7 +4,7 @@ export class SpecialistTestTypesData {
   }
 
   public static get SpecialistIvaTestAndRetestTestTypeIds(): string[] {
-    return ['125', '126', '186', '187', '128', '188', '189', '129', '130', '158', '159', '161', '192', '193', '162', '194', '195', '163'];
+    return ['125', '126', '186', '187', '128', '188', '189', '129', '130', '158', '159', '161', '192', '193', '162', '194', '195', '163', '153', '190', '191', '154', '184', '196', '197', '185'];
   }
 
   public static get SpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetestIds(): string[] {
