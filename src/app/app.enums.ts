@@ -235,7 +235,12 @@ export enum APP_STRINGS {
   CONFIRMATION_ADDITIONAL_MESSAGE_SUBMIT_TEST = 'If you do not receive the email, ',
   CONFIRMATION_ADDITIONAL_MESSAGE_BUTTON_SUBMIT_TEST = 'call central support',
   PROVISIONAL_LABEL_TEXT = "This is a provisional record.",
-  TEST_CREATE_ERROR_BANNER = 'You must complete all vehicle and test type details before reviewing.'
+  TEST_CREATE_ERROR_BANNER = 'You must complete all vehicle and test type details before reviewing.',
+  SKELETON = 'skeleton',
+  SKELETON_ALERT_TITLE = 'Incomplete vehicle record',
+  SKELETON_ALERT_MESSAGE = 'This vehicle does not have enough data to be tested. Call Technical Support to correct this record and use SAR to test this vehicle.',
+  SKELETON_INFO = 'Requires more data to be tested',
+  SKELETON_BANNER = 'Some vehicles matching this search do not have enough data to be tested. Call Technical Support to correct these records and use SAR to test this vehicle.'
 }
 
 export enum ODOMETER_METRIC {

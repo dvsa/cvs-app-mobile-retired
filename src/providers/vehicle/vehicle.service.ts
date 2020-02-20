@@ -5,18 +5,18 @@ import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { VisitService } from "../visit/visit.service";
 import { TestTypeModel } from "../../models/tests/test-type.model";
-import { TechRecordModel, VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
+import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
 import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
-import { STORAGE, TECH_RECORD_STATUS, TEST_TYPE_INPUTS } from "../../app/app.enums";
+import { APP_STRINGS, STORAGE, TEST_TYPE_INPUTS } from "../../app/app.enums";
 import { HttpResponse } from "@angular/common/http";
 import { TestResultModel } from "../../models/tests/test-result.model";
-import { map } from "rxjs/operators";
 import { Log, LogsModel } from "../../modules/logs/logs.model";
 import * as logsActions from "../../modules/logs/logs.actions";
 import { Store } from "@ngrx/store";
 import { StorageService } from "../natives/storage.service";
 import { AuthService } from "../global/auth.service";
+import { AlertController } from "ionic-angular";
 
 @Injectable()
 export class VehicleService {
@@ -96,7 +96,7 @@ export class VehicleService {
           timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
-        this.storageService.update(STORAGE.TEST_HISTORY+systemNumber, data.body);
+        this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
         return data.body;
       });
   }
@@ -130,4 +130,16 @@ export class VehicleService {
     return string ? string.replace(CommonRegExp.ODOMETER_VALUE, ",") : null;
   }
 
+  createSkeletonAlert(alertCtrl: AlertController) {
+    const ALERT = alertCtrl.create({
+      title: APP_STRINGS.SKELETON_ALERT_TITLE,
+      message: APP_STRINGS.SKELETON_ALERT_MESSAGE,
+      buttons: [APP_STRINGS.OK]
+    });
+    ALERT.present();
+  }
+
+  isVehicleSkeleton(vehicle: VehicleModel) {
+    return vehicle.techRecord.recordCompleteness === APP_STRINGS.SKELETON;
+  }
 }

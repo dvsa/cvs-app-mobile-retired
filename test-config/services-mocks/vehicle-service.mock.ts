@@ -1,18 +1,18 @@
-import {VehicleModel} from "../../src/models/vehicle/vehicle.model";
-import {TestTypeModel} from "../../src/models/tests/test-type.model";
-import {PreparersReferenceDataModel} from "../../src/models/reference-data-models/preparers.model";
-import {Observable} from "rxjs";
-import {CommonRegExp} from "../../src/providers/utils/common-regExp";
-import {TechRecordDataMock} from "../../src/assets/data-mocks/tech-record-data.mock";
-import {of} from "rxjs/observable/of";
-import {VehicleTechRecordModel} from "../../src/models/vehicle/tech-record.model";
-import {HttpEventType, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {TestResultModel} from "../../src/models/tests/test-result.model";
-import {TestResultsDataMock} from "../../src/assets/data-mocks/test-results-data.mock";
-import {TestResultsHistoryDataMock} from "../../src/assets/data-mocks/test-results-history-data.mock";
-import {TEST_TYPE_INPUTS} from "../../src/app/app.enums";
+import { VehicleModel } from "../../src/models/vehicle/vehicle.model";
+import { TestTypeModel } from "../../src/models/tests/test-type.model";
+import { PreparersReferenceDataModel } from "../../src/models/reference-data-models/preparers.model";
+import { Observable } from "rxjs";
+import { CommonRegExp } from "../../src/providers/utils/common-regExp";
+import { of } from "rxjs/observable/of";
+import { VehicleTechRecordModel } from "../../src/models/vehicle/tech-record.model";
+import { TestResultModel } from "../../src/models/tests/test-result.model";
+import { APP_STRINGS, TEST_TYPE_INPUTS } from "../../src/app/app.enums";
+import { AlertController } from "ionic-angular";
+import { VehicleService } from "../../src/providers/vehicle/vehicle.service";
 
 export class VehicleServiceMock {
+
+  private vehicleService: VehicleService = new VehicleService(null, null, null, null, null);
 
   createVehicle(vehicleTechRecord: VehicleTechRecordModel): VehicleModel {
     let newVehicle: VehicleModel = {} as VehicleModel;
@@ -86,5 +86,18 @@ export class VehicleServiceMock {
       if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER)) delete fields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER];
       if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_LAST_DATE)) delete fields[TEST_TYPE_INPUTS.SIC_LAST_DATE];
     }
+  }
+
+  createSkeletonAlert(alertCtrl: AlertController) {
+    const ALERT = alertCtrl.create({
+      title: APP_STRINGS.SKELETON_ALERT_TITLE,
+      message: APP_STRINGS.SKELETON_ALERT_MESSAGE,
+      buttons: [APP_STRINGS.OK]
+    });
+    ALERT.present();
+  }
+
+  isVehicleSkeleton(vehicle: VehicleModel) {
+    return this.vehicleService.isVehicleSkeleton(vehicle);
   }
 }

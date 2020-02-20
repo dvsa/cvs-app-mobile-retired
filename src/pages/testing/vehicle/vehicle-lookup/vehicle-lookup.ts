@@ -23,7 +23,7 @@ import * as logsActions from "../../../../modules/logs/logs.actions";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { AppService } from '../../../../providers/global/app.service';
 import { VehicleLookupSearchCriteriaData } from "../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data";
-import {MultipleTechRecordsSelectionPage} from './multiple-tech-records-selection/multiple-tech-records-selection';
+import { MultipleTechRecordsSelectionPage } from './multiple-tech-records-selection/multiple-tech-records-selection';
 
 @IonicPage()
 @Component({
@@ -106,18 +106,24 @@ export class VehicleLookupPage {
                 content_type: 'error',
                 item_id: "Failed retrieving the testResultsHistory"
               });
-              this.storageService.update(STORAGE.TEST_HISTORY+vehicleData[0].systemNumber, []);
+              this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
               this.goToVehicleDetails(vehicleData[0]);
             },
-            complete: function () {}
+            complete: function () {
+            }
           };
 
-          if(vehicleData.length === 1) this.vehicleService.getTestResultsHistory(vehicleData[0].systemNumber).subscribe(testHistoryResponseObserver).add(()=>{
-            LOADING.dismiss();
-          });
-          else this.goToMultipleTechRecordsSelection(vehicleData).then(()=>{
-            LOADING.dismiss();
-          });
+          if (vehicleData.length > 1) {
+            this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
+              LOADING.dismiss();
+            });
+          } else if (vehicleData.length === 1 && this.vehicleService.isVehicleSkeleton(vehicleData[0])) {
+            this.vehicleService.createSkeletonAlert(this.alertCtrl);
+          } else {
+            this.vehicleService.getTestResultsHistory(vehicleData[0].systemNumber).subscribe(testHistoryResponseObserver).add(() => {
+              LOADING.dismiss();
+            });
+          }
         },
         (error) => {
           const log: Log = {
