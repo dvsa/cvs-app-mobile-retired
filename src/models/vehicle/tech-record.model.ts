@@ -25,6 +25,7 @@ export interface TechRecordModel {
   axles: AxelsModel[];
   vehicleClass: VehicleClassModel;
   vehicleConfiguration: string;
+  recordCompleteness?: string;
   /* -------- ONLY FOR PSV -------- */
   chassisMake?: string;
   chassisModel?: string;

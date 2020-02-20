@@ -1,4 +1,4 @@
-import {async, TestBed} from "@angular/core/testing";
+import { async, TestBed } from "@angular/core/testing";
 import { TechRecordDataMock } from "../../assets/data-mocks/tech-record-data.mock";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
@@ -7,7 +7,7 @@ import { VisitServiceMock } from "../../../test-config/services-mocks/visit-serv
 import { HTTPService } from "../global/http.service";
 import { VehicleService } from "./vehicle.service";
 import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
-import {ODOMETER_METRIC, STORAGE, TEST_TYPE_RESULTS} from "../../app/app.enums";
+import { ODOMETER_METRIC, STORAGE, TEST_TYPE_RESULTS } from "../../app/app.enums";
 import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
 import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
 import { Store } from "@ngrx/store";
@@ -19,6 +19,7 @@ import { AuthServiceMock } from "../../../test-config/services-mocks/auth-servic
 import { of } from "rxjs/observable/of";
 import { HttpEventType, HttpHeaders } from "@angular/common/http";
 import { TestResultsHistoryDataMock } from "../../assets/data-mocks/test-results-history-data.mock";
+import { AlertController } from "ionic-angular";
 
 describe('Provider: VehicleService', () => {
   let vehicleService: VehicleService;
@@ -26,6 +27,7 @@ describe('Provider: VehicleService', () => {
   let httpService: HTTPService;
   let storageService: StorageService;
   let vehicle = VehicleDataMock.VehicleData;
+  let alertCtrl: AlertController;
 
   const VEHICLE_TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const TEST_TYPE: TestTypeModel = TestTypeDataModelMock.TestTypeData;
@@ -173,7 +175,14 @@ describe('Provider: VehicleService', () => {
     spyOn(storageService, 'update');
     vehicleService.getTestResultsHistory(systemNumber).subscribe(() => {
       expect(storageService.update).toHaveBeenCalledTimes(1);
-      expect(storageService.update).toHaveBeenCalledWith(STORAGE.TEST_HISTORY+systemNumber, TestResultsHistoryDataMock.TestResultHistoryData);
+      expect(storageService.update).toHaveBeenCalledWith(STORAGE.TEST_HISTORY + systemNumber, TestResultsHistoryDataMock.TestResultHistoryData);
     });
   }));
+
+  it('should check if a specific vehicle is a skeleton record or not', () => {
+    let vehicle = {...VehicleDataMock.VehicleData};
+    expect(vehicleService.isVehicleSkeleton(vehicle)).toBeFalsy();
+    vehicle.techRecord.recordCompleteness = 'skeleton';
+    expect(vehicleService.isVehicleSkeleton(vehicle)).toBeTruthy();
+  });
 });
