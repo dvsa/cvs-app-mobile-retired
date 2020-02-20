@@ -15,7 +15,7 @@ import { CallNumber } from "@ionic-native/call-number";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { TestDataModelMock } from "../../../../assets/data-mocks/data-model/test-data-model.mock";
 import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
-import {APP_STRINGS, STORAGE, VEHICLE_TYPE} from '../../../../app/app.enums';
+import { APP_STRINGS, STORAGE, VEHICLE_TYPE } from '../../../../app/app.enums';
 import { AuthService } from "../../../../providers/global/auth.service";
 import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
 import { Store } from "@ngrx/store";
@@ -25,8 +25,8 @@ import { FirebaseLogsServiceMock } from "../../../../../test-config/services-moc
 import { AppService } from '../../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
 import { VehicleLookupSearchCriteriaData } from "../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data";
-import {_throw} from 'rxjs/observable/throw';
-import {of} from 'rxjs/observable/of';
+import { _throw } from 'rxjs/observable/throw';
+import { of } from 'rxjs/observable/of';
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -124,12 +124,12 @@ describe('Component: VehicleLookupPage', () => {
     expect(component.getTechRecordQueryParam().queryParam).toEqual('trailerId');
   });
 
-  it('should empty ionic storage if the test history cannot be retrieved', ()=> {
+  it('should empty ionic storage if the test history cannot be retrieved', () => {
     spyOn(storageService, 'update');
     vehicleService.getVehicleTechRecords = jasmine.createSpy().and.callFake(() => of([VEHICLE]));
     vehicleService.getTestResultsHistory = jasmine.createSpy().and.callFake(() => _throw('Error'));
     component.searchVehicle('TESTVIN');
     expect(storageService.update).toHaveBeenCalledTimes(1);
-    expect(storageService.update).toHaveBeenCalledWith(STORAGE.TEST_HISTORY+VEHICLE.systemNumber, []);
+    expect(storageService.update).toHaveBeenCalledWith(STORAGE.TEST_HISTORY + VEHICLE.systemNumber, []);
   });
 });

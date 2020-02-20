@@ -23,4 +23,15 @@ multiple-tech-records-selection {
     border-bottom: 0.5px solid $color-grey-2;
     border-top: 0.5px solid $color-grey-2;
   }
+
+  .skeleton-banner {
+    padding: 16px;
+    font-size: $font-size-medium;
+    color: color($colors, light);
+    background-color: color($colors, tertiary);
+  }
+
+  .skeleton-button {
+    padding-left: 16px;
+  }
 }

@@ -1,46 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import {IonicPage, LoadingController, NavController, NavParams, ViewController} from 'ionic-angular';
-import {VehicleModel} from '../../../../../models/vehicle/vehicle.model';
-import {Observer} from 'rxjs';
-import {TestResultModel} from '../../../../../models/tests/test-result.model';
-import {Log, LogsModel} from '../../../../../modules/logs/logs.model';
+import { Component } from '@angular/core';
+import { AlertController, IonicPage, LoadingController, NavController, NavParams, ViewController } from 'ionic-angular';
+import { VehicleModel } from '../../../../../models/vehicle/vehicle.model';
+import { Observer } from 'rxjs';
+import { TestResultModel } from '../../../../../models/tests/test-result.model';
+import { Log, LogsModel } from '../../../../../modules/logs/logs.model';
 import * as logsActions from '../../../../../modules/logs/logs.actions';
-import {APP_STRINGS, PAGE_NAMES, STORAGE} from '../../../../../app/app.enums';
-import {AuthService} from '../../../../../providers/global/auth.service';
-import {VehicleService} from '../../../../../providers/vehicle/vehicle.service';
-import {StorageService} from '../../../../../providers/natives/storage.service';
-import {Firebase} from '@ionic-native/firebase';
-import {Store} from '@ngrx/store';
-import {TestModel} from '../../../../../models/tests/test.model';
+import { APP_STRINGS, PAGE_NAMES, STORAGE } from '../../../../../app/app.enums';
+import { AuthService } from '../../../../../providers/global/auth.service';
+import { VehicleService } from '../../../../../providers/vehicle/vehicle.service';
+import { StorageService } from '../../../../../providers/natives/storage.service';
+import { Firebase } from '@ionic-native/firebase';
+import { Store } from '@ngrx/store';
+import { TestModel } from '../../../../../models/tests/test.model';
 
 @IonicPage()
 @Component({
   selector: 'multiple-tech-records-selection',
   templateUrl: 'multiple-tech-records-selection.html',
 })
-export class MultipleTechRecordsSelectionPage implements OnInit {
+export class MultipleTechRecordsSelectionPage {
   combinationTestData: TestModel;
   vehicles: VehicleModel[];
   oid: string;
+  APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
+  isAtLeastOneSkeleton: boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private viewCtrl: ViewController,
               public loadingCtrl: LoadingController,
               private authService: AuthService,
-              private vehicleService: VehicleService,
+              public vehicleService: VehicleService,
               public storageService: StorageService,
               private firebase: Firebase,
-              private store$: Store<LogsModel>,) {
+              private store$: Store<LogsModel>,
+              private alertCtrl: AlertController) {
     this.vehicles = this.navParams.get('vehicles');
     this.combinationTestData = navParams.get('test');
   }
 
-  ngOnInit(): void {
-  }
-
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.IDENTIFY_VEHICLE);
+    this.isAtLeastOneSkeleton = this.vehicles.some(vehicle => {
+      return this.vehicleService.isVehicleSkeleton(vehicle);
+    });
   }
 
   openVehicleDetails(selectedVehicle: VehicleModel): void {
@@ -65,15 +68,21 @@ export class MultipleTechRecordsSelectionPage implements OnInit {
           content_type: 'error',
           item_id: "Failed retrieving the testResultsHistory"
         });
-        this.storageService.update(STORAGE.TEST_HISTORY+selectedVehicle.systemNumber, []);
+        this.storageService.update(STORAGE.TEST_HISTORY + selectedVehicle.systemNumber, []);
         this.goToVehicleDetails(selectedVehicle);
       },
-      complete: function () {}
+      complete: function () {
+      }
     };
 
-    this.vehicleService.getTestResultsHistory(selectedVehicle.systemNumber).subscribe(testHistoryResponseObserver).add(()=>{
+    if (this.vehicleService.isVehicleSkeleton(selectedVehicle)) {
       LOADING.dismiss();
-    });
+      this.vehicleService.createSkeletonAlert(this.alertCtrl);
+    } else {
+      this.vehicleService.getTestResultsHistory(selectedVehicle.systemNumber).subscribe(testHistoryResponseObserver).add(() => {
+        LOADING.dismiss();
+      });
+    }
   }
 
   goToVehicleDetails(selectedVehicle: VehicleModel) {
