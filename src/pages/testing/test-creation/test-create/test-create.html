@@ -21,9 +21,17 @@
       <button ion-item detail-none class="ion-item-title"
               (click)="onVehicleDetails(vehicle)">
         <img item-start class="vehicle-type-icon" src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg"/>
-        <h2 text-uppercase *ngIf="vehicle.techRecord.vehicleType !== 'trl'">{{ vehicle.vrm }}
-          ({{vehicle.techRecord.vehicleType}})</h2>
-        <h2 *ngIf="vehicle.techRecord.vehicleType === 'trl'">{{ vehicle.trailerId }} (Trailer)</h2>
+        <h2 *ngIf="vehicle.techRecord.vehicleType !== VEHICLE_TYPE.TRL"><span text-uppercase>{{ vehicle.vrm }}</span>
+          <span text-uppercase
+                *ngIf="vehicle.techRecord.vehicleType !== VEHICLE_TYPE.CAR &&
+                       vehicle.techRecord.vehicleType !== VEHICLE_TYPE.MOTORCYCLE">({{vehicle.techRecord.vehicleType}})
+          </span>
+          <span text-capitalize
+                *ngIf="vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR ||
+                       vehicle.techRecord.vehicleType === VEHICLE_TYPE.MOTORCYCLE">({{vehicle.techRecord.vehicleType}})
+          </span>
+        </h2>
+        <h2 *ngIf="vehicle.techRecord.vehicleType === VEHICLE_TYPE.TRL">{{ vehicle.trailerId }} (Trailer)</h2>
         <p class="vehicle-vin">{{ vehicle.vin }}</p>
         <h3 item-end class="vehicle-details">Details</h3>
         <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
