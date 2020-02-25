@@ -1090,18 +1090,38 @@ export class TestTypesFieldsMetadata {
                 title: 'Emission standard',
                 values: [
                   {
-                    text: EMISSION_STANDARD._016,
-                    value: EMISSION_STANDARD._016,
-                    cssClass: ''
-                  },
-                  {
-                    text: EMISSION_STANDARD._008,
-                    value: EMISSION_STANDARD._008,
+                    text: EMISSION_STANDARD._010,
+                    value: EMISSION_STANDARD._010,
                     cssClass: ''
                   },
                   {
                     text: EMISSION_STANDARD._003,
                     value: EMISSION_STANDARD._003,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_3,
+                    value: EMISSION_STANDARD.EURO_3,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_4,
+                    value: EMISSION_STANDARD.EURO_4,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_6,
+                    value: EMISSION_STANDARD.EURO_6,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_VI,
+                    value: EMISSION_STANDARD.EURO_VI,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.FULL_ELECTRIC,
+                    value: EMISSION_STANDARD.FULL_ELECTRIC,
                     cssClass: ''
                   }
                 ],
@@ -1128,13 +1148,33 @@ export class TestTypesFieldsMetadata {
                     cssClass: ''
                   },
                   {
-                    text: FUEL_TYPE.GAS,
-                    value: FUEL_TYPE.GAS.toLowerCase(),
+                    text: FUEL_TYPE.GAS_CNG,
+                    value: FUEL_TYPE.GAS_CNG.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.GAS_LNG,
+                    value: FUEL_TYPE.GAS_LNG.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.GAS_LPG,
+                    value: FUEL_TYPE.GAS_LPG.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.FUEL_CELL,
+                    value: FUEL_TYPE.FUEL_CELL.toLowerCase(),
                     cssClass: ''
                   },
                   {
                     text: FUEL_TYPE.PETROL,
                     value: FUEL_TYPE.PETROL.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.FULL_ELECTRIC,
+                    value: FUEL_TYPE.FULL_ELECTRIC.toLowerCase(),
                     cssClass: ''
                   }
                 ],
@@ -1321,18 +1361,38 @@ export class TestTypesFieldsMetadata {
                 title: 'Emission standard',
                 values: [
                   {
-                    text: EMISSION_STANDARD._016,
-                    value: EMISSION_STANDARD._016,
-                    cssClass: ''
-                  },
-                  {
-                    text: EMISSION_STANDARD._008,
-                    value: EMISSION_STANDARD._008,
+                    text: EMISSION_STANDARD._010,
+                    value: EMISSION_STANDARD._010,
                     cssClass: ''
                   },
                   {
                     text: EMISSION_STANDARD._003,
                     value: EMISSION_STANDARD._003,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_3,
+                    value: EMISSION_STANDARD.EURO_3,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_4,
+                    value: EMISSION_STANDARD.EURO_4,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_6,
+                    value: EMISSION_STANDARD.EURO_6,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_VI,
+                    value: EMISSION_STANDARD.EURO_VI,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.FULL_ELECTRIC,
+                    value: EMISSION_STANDARD.FULL_ELECTRIC,
                     cssClass: ''
                   }
                 ],
@@ -1359,13 +1419,33 @@ export class TestTypesFieldsMetadata {
                     cssClass: ''
                   },
                   {
-                    text: FUEL_TYPE.GAS,
-                    value: FUEL_TYPE.GAS.toLowerCase(),
+                    text: FUEL_TYPE.GAS_CNG,
+                    value: FUEL_TYPE.GAS_CNG.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.GAS_LNG,
+                    value: FUEL_TYPE.GAS_LNG.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.GAS_LPG,
+                    value: FUEL_TYPE.GAS_LPG.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.FUEL_CELL,
+                    value: FUEL_TYPE.FUEL_CELL.toLowerCase(),
                     cssClass: ''
                   },
                   {
                     text: FUEL_TYPE.PETROL,
                     value: FUEL_TYPE.PETROL.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.FULL_ELECTRIC,
+                    value: FUEL_TYPE.FULL_ELECTRIC.toLowerCase(),
                     cssClass: ''
                   }
                 ],
@@ -1495,18 +1575,38 @@ export class TestTypesFieldsMetadata {
                 title: 'Emission standard',
                 values: [
                   {
-                    text: EMISSION_STANDARD._016,
-                    value: EMISSION_STANDARD._016,
-                    cssClass: ''
-                  },
-                  {
-                    text: EMISSION_STANDARD._008,
-                    value: EMISSION_STANDARD._008,
+                    text: EMISSION_STANDARD._010,
+                    value: EMISSION_STANDARD._010,
                     cssClass: ''
                   },
                   {
                     text: EMISSION_STANDARD._003,
                     value: EMISSION_STANDARD._003,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_3,
+                    value: EMISSION_STANDARD.EURO_3,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_4,
+                    value: EMISSION_STANDARD.EURO_4,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_6,
+                    value: EMISSION_STANDARD.EURO_6,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.EURO_VI,
+                    value: EMISSION_STANDARD.EURO_VI,
+                    cssClass: ''
+                  },
+                  {
+                    text: EMISSION_STANDARD.FULL_ELECTRIC,
+                    value: EMISSION_STANDARD.FULL_ELECTRIC,
                     cssClass: ''
                   }
                 ],
@@ -1533,13 +1633,33 @@ export class TestTypesFieldsMetadata {
                     cssClass: ''
                   },
                   {
-                    text: FUEL_TYPE.GAS,
-                    value: FUEL_TYPE.GAS.toLowerCase(),
+                    text: FUEL_TYPE.GAS_CNG,
+                    value: FUEL_TYPE.GAS_CNG.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.GAS_LNG,
+                    value: FUEL_TYPE.GAS_LNG.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.GAS_LPG,
+                    value: FUEL_TYPE.GAS_LPG.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.FUEL_CELL,
+                    value: FUEL_TYPE.FUEL_CELL.toLowerCase(),
                     cssClass: ''
                   },
                   {
                     text: FUEL_TYPE.PETROL,
                     value: FUEL_TYPE.PETROL.toLowerCase(),
+                    cssClass: ''
+                  },
+                  {
+                    text: FUEL_TYPE.FULL_ELECTRIC,
+                    value: FUEL_TYPE.FULL_ELECTRIC.toLowerCase(),
                     cssClass: ''
                   }
                 ],

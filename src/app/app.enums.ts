@@ -116,15 +116,23 @@ export enum MOD_TYPES {
 }
 
 export enum EMISSION_STANDARD {
-  _016 = '0.16 g/kWh Euro 3 PM',
-  _008 = '0.08 g/kWh Euro 3 PM',
-  _003 = '0.03 g/kWh Euro 4 PM'
+  _010 = '0.10 g/kWh Euro 3 PM',
+  _003 = '0.03 g/kWh Euro IV PM',
+  EURO_3 = 'Euro 3',
+  EURO_4 = 'Euro 4',
+  EURO_6 = 'Euro 6',
+  EURO_VI = 'Euro VI',
+  FULL_ELECTRIC = 'Full Electric'
 }
 
 export enum FUEL_TYPE {
   DIESEL = 'Diesel',
-  GAS = 'Gas',
-  PETROL = 'Petrol'
+  GAS_CNG = 'Gas-CNG',
+  GAS_LNG = 'Gas-LNG',
+  GAS_LPG = 'Gas-LPG',
+  FUEL_CELL = 'Fuel Cell',
+  PETROL = 'Petrol',
+  FULL_ELECTRIC = 'Full Electric'
 }
 
 export enum APP_COLORS {
