@@ -89,9 +89,9 @@ export class VehicleHistoryDetailsPage {
     this.testsWithoutCertificate = TestsWithoutCertificate.TestsWithoutCertificate;
     this.testsWithoutSeatbelts = TestsWithoutSeatbelts.TestsWithoutSeatbelts;
     this.testsWithoutDefects = TestsWithoutDefects.TestsWithoutDefects;
-    this.countryOfRegistration = CountryOfRegistrationData.CountryData.find(country => {
+    this.countryOfRegistration = this.selectedTestResult.countryOfRegistration ? CountryOfRegistrationData.CountryData.find(country => {
       return this.selectedTestResult.countryOfRegistration === country.key;
-    }).value.split(' -')[0];
+    }).value.split(' -')[0] : '';
     this.distanceType = this.commonFunc.getDistanceType(this.testResultHistory[this.testIndex].odometerReadingUnits);
   }
 
@@ -116,8 +116,8 @@ export class VehicleHistoryDetailsPage {
     }
   }
 
-  checkForDefects(defects: any): boolean {
-    return !(defects === null || !defects.length);
+  checkForDefects(defects: any[]): boolean {
+    return defects && defects.length > 0;
   }
 
 }
