@@ -81,7 +81,7 @@ export class VehicleHistoryPage {
     if (testType.prohibitionIssued) {
       resp = true;
     } else {
-      if (testType.defects.length) {
+      if (testType.defects && testType.defects.length) {
         testType.defects.forEach((defect) => {
           if (defect.prohibitionIssued) resp = true;
         });
