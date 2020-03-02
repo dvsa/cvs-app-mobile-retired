@@ -36,7 +36,14 @@ export class HTTPService {
   }
 
   getTechRecords(param: string, searchCriteria: string): Observable<HttpResponse<VehicleTechRecordModel[]>> {
-    return this.http.get<VehicleTechRecordModel[]>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${param}/${PATHS.TECH_RECORDS}/?status=provisional_over_current&searchCriteria=${searchCriteria}`, {observe: 'response'});
+
+    return this.http.get<VehicleTechRecordModel[]>(`${AppConfig.BACKEND_URL_TECHRECORDS}/${encodeURIComponent(param)}/${PATHS.TECH_RECORDS}`, {
+      observe: 'response',
+      params: {
+        status: 'provisional_over_current',
+        searchCriteria
+      }
+    });
   }
 
   getTestResultsHistory(systemNumber: string): Observable<HttpResponse<TestResultModel[]>> {
