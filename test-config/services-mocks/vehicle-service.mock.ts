@@ -100,4 +100,8 @@ export class VehicleServiceMock {
   isVehicleSkeleton(vehicle: VehicleModel) {
     return this.vehicleService.isVehicleSkeleton(vehicle);
   }
+
+  displayVehicleCategoryKey(key: string) {
+    return this.vehicleService.displayVehicleCategoryKey(key);
+  }
 }
