@@ -2,10 +2,11 @@ import { FilterTestTypeByVehiclePipe } from "./filter-test-type-by-vehicle.pipe"
 import { TestTypesReferenceDataModel } from "../../models/reference-data-models/test-types.model";
 import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
 import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
-import {cloneDeep} from "lodash";
+import { cloneDeep } from "lodash";
+import { AuthService } from "../../providers/global/auth.service";
 
 describe('FilterTestTypeByVehiclePipe', () => {
-  let pipe = new FilterTestTypeByVehiclePipe();
+  let pipe = new FilterTestTypeByVehiclePipe(new AuthService(null, null, null, null));
   let testTypeData: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
   let vehicle = VehicleDataMock.VehicleData;
 
@@ -48,7 +49,7 @@ describe('FilterTestTypeByVehiclePipe', () => {
     });
 
     it("returns empty string if input is not object", () => {
-      expect(pipe.getField("notAnObject","anything")).toEqual("");
+      expect(pipe.getField("notAnObject", "anything")).toEqual("");
     });
 
     it("returns undefined if the field is not  present on the input object", () => {

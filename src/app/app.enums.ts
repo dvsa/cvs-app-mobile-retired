@@ -527,7 +527,8 @@ export enum TEST_TYPES_IDS {
   _63 = '63',
   _91 = '91',
   _101 = '101',
-  _122 = '122'
+  _122 = '122',
+  _123 = '123' // specialist tests category
 }
 
 export enum APP_UPDATE {
