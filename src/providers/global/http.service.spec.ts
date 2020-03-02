@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Data } from "@angular/router";
@@ -141,4 +141,12 @@ describe(`Provider: HttpService`, () => {
     httpMock.verify();
   });
 
+  it('should encode the search identifier', async(() => {
+    const searchIdentifier = "YV31ME00000 1/\\*-1";
+    httpService.getTechRecords(searchIdentifier, 'all').subscribe();
+
+    const testRequest = httpMock.expectOne('http://localhost:3005/vehicles/'+encodeURIComponent(searchIdentifier)+'/tech-records?status=provisional_over_current&searchCriteria=all');
+    expect(testRequest.request.method).toEqual('GET');
+    testRequest.flush(null, { status: 200, statusText:'Ok' });
+  }));
 });
