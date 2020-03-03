@@ -258,4 +258,10 @@ describe('Provider: TestTypeService', () => {
     testType.testTypeId = '175';
     expect(testTypeService.isSpecialistCoifWithAnnualTest(testType.testTypeId)).toBeTruthy();
   });
+
+  it('should check if test type Coif with annual test', () => {
+    let testType = {...TestTypeDataModelMock.TestTypeData};
+    testType.testTypeId = '153';
+    expect(testTypeService.isSpecialistWithoutCertificateNumberCapturedIds(testType.testTypeId)).toBeTruthy();
+  });
 });

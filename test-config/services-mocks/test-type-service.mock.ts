@@ -163,4 +163,8 @@ export class TestTypeServiceMock {
   isPsvNotifiableAlterationTestType(testTypeId: string): boolean {
     return NotifiableAlterationTestTypesData.PsvNotifiableAlterationTestTypeDataIds.indexOf(testTypeId) !== -1;
   }
+
+  isSpecialistWithoutCertificateNumberCapturedIds(testTypeId: string): boolean {
+    return SpecialistTestTypesData.SpecialistWithoutCertificateNumberCapturedIds.indexOf(testTypeId) !== -1;
+  }
 }
