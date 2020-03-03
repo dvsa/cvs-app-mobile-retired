@@ -78,12 +78,7 @@ export class VehicleService {
         return techRecordsResponse.body.map(this.createVehicle);
       })
       .map((techRecords: VehicleModel[]) => {
-        return techRecords.sort((a, b) => {
-          //chassisMake attribute for PSVs and make attribute for HGVs and TRLs
-          const first = a.techRecord.chassisMake || a.techRecord.make;
-          const second = b.techRecord.chassisMake || b.techRecord.make;
-          return first.localeCompare(second);
-        });
+        return techRecords.sort((a, b) => this.compareVehicles(a, b));
       });
   }
 
@@ -141,5 +136,17 @@ export class VehicleService {
 
   isVehicleSkeleton(vehicle: VehicleModel) {
     return vehicle.techRecord.recordCompleteness === APP_STRINGS.SKELETON;
+  }
+
+  compareVehicles(vehicle1: VehicleModel, vehicle2: VehicleModel): number {
+    if (!this.isVehicleSkeleton(vehicle1) && this.isVehicleSkeleton(vehicle2)) {
+      return -1;
+    }
+    if (this.isVehicleSkeleton(vehicle1) && !this.isVehicleSkeleton(vehicle2)) {
+      return 1;
+    }
+    const first = vehicle1.techRecord.chassisMake || vehicle1.techRecord.make;
+    const second = vehicle2.techRecord.chassisMake || vehicle2.techRecord.make;
+    return first.localeCompare(second);
   }
 }
