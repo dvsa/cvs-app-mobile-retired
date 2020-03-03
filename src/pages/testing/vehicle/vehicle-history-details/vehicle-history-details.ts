@@ -96,6 +96,7 @@ export class VehicleHistoryDetailsPage {
   }
 
   compareTestWithMetadata() {
+    // this implementation based on test type's name has to be changed! use test type's id instead!
     if (this.selectedTestType.testTypeName) {
       this.doesNotHaveCert = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutCertificate);
       this.doesNotHaveDefects = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeId, this.testsWithoutDefects);
