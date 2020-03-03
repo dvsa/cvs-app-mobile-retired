@@ -185,4 +185,28 @@ describe('Provider: VehicleService', () => {
     vehicle.techRecord.recordCompleteness = 'skeleton';
     expect(vehicleService.isVehicleSkeleton(vehicle)).toBeTruthy();
   });
+
+  it('should compare two techRecords and return -1 if the first vehicle is not a skeleton but the second is', () => {
+    let vehicle1 = {...VehicleDataMock.VehicleData};
+    let vehicle2 = {...VehicleDataMock.VehicleData};
+    vehicle1.techRecord.recordCompleteness = 'complete';
+    vehicle2.techRecord.recordCompleteness = 'skeleton';
+    expect(vehicleService.compareVehicles(vehicle1, vehicle2)).toEqual(-1);
+  });
+
+  it('should compare two techRecords and return 1 if the first vehicle is a skeleton but the second is not', () => {
+    let vehicle1 = {...VehicleDataMock.VehicleData};
+    let vehicle2 = {...VehicleDataMock.VehicleData};
+    vehicle1.techRecord.recordCompleteness = 'skeleton';
+    vehicle2.techRecord.recordCompleteness = 'complete';
+    expect(vehicleService.compareVehicles(vehicle1, vehicle2)).toEqual(1);
+  });
+
+  it('should compare two techRecords and return -1 if the first vehicle should alphabetically be before the second one', () => {
+    let vehicle1 = {...VehicleDataMock.VehicleData};
+    let vehicle2 = {...VehicleDataMock.VehicleData};
+    vehicle1.techRecord.chassisMake = 'T';
+    vehicle2.techRecord.chassisMake = 'W';
+    expect(vehicleService.compareVehicles(vehicle1, vehicle2)).toEqual(-1);
+  });
 });
