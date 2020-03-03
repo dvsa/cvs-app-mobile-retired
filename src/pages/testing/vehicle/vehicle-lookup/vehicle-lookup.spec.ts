@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { VehicleLookupPage } from "./vehicle-lookup";
-import { AlertController, IonicModule, LoadingController, ModalController, NavController, NavParams } from "ionic-angular";
+import { AlertController, IonicModule, LoadingController, ModalController, NavController, NavParams, Loading } from "ionic-angular";
 import { AlertControllerMock, LoadingControllerMock, ModalControllerMock, NavControllerMock } from "ionic-mocks";
 import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
 import { VisitService } from "../../../../providers/visit/visit.service";
@@ -27,6 +27,7 @@ import { AppServiceMock } from '../../../../../test-config/services-mocks/app-se
 import { VehicleLookupSearchCriteriaData } from "../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data";
 import { _throw } from 'rxjs/observable/throw';
 import { of } from 'rxjs/observable/of';
+import { deepCopy } from 'ionic-angular/util/util';
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -39,9 +40,11 @@ describe('Component: VehicleLookupPage', () => {
 
   const TEST_DATA = TestDataModelMock.TestData;
   const VEHICLE = VehicleDataMock.VehicleData;
+  let loading: Loading;
 
   beforeEach(async(() => {
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', ['open']);
+    loading = jasmine.createSpyObj("Loading",["dismiss","present"]);
 
     TestBed.configureTestingModule({
       declarations: [VehicleLookupPage],
@@ -56,7 +59,7 @@ describe('Component: VehicleLookupPage', () => {
         {provide: VisitService, useClass: VisitServiceMock},
         {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
         {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
-        {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
+        {provide: LoadingController, useFactory: () => LoadingControllerMock.instance(loading)},
         {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
         {provide: StorageService, useClass: StorageServiceMock},
         {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
@@ -132,4 +135,16 @@ describe('Component: VehicleLookupPage', () => {
     expect(storageService.update).toHaveBeenCalledTimes(1);
     expect(storageService.update).toHaveBeenCalledWith(STORAGE.TEST_HISTORY + VEHICLE.systemNumber, []);
   });
+
+  it('should dismiss the loading when the skeleton alert is displayed', async(() => {
+    const skeletonVehicle = deepCopy(VEHICLE);
+    skeletonVehicle.techRecord.recordCompleteness = 'skeleton';
+    vehicleService.getVehicleTechRecords = jasmine.createSpy().and.callFake(() => of([skeletonVehicle]));
+    vehicleService.getTestResultsHistory = jasmine.createSpy().and.callFake(() => _throw('Error'));
+    vehicleService.createSkeletonAlert = jasmine.createSpy();
+    component.searchVehicle('TESTVIN');
+
+    expect(vehicleService.createSkeletonAlert).toHaveBeenCalledTimes(1);
+    expect(loading.dismiss).toHaveBeenCalledTimes(1);
+  }));
 });

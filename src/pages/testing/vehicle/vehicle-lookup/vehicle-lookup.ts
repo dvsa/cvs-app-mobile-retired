@@ -23,7 +23,6 @@ import * as logsActions from "../../../../modules/logs/logs.actions";
 import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
 import { AppService } from '../../../../providers/global/app.service';
 import { VehicleLookupSearchCriteriaData } from "../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data";
-import { MultipleTechRecordsSelectionPage } from './multiple-tech-records-selection/multiple-tech-records-selection';
 
 @IonicPage()
 @Component({
@@ -119,6 +118,7 @@ export class VehicleLookupPage {
             });
           } else if (vehicleData.length === 1 && this.vehicleService.isVehicleSkeleton(vehicleData[0])) {
             this.vehicleService.createSkeletonAlert(this.alertCtrl);
+            LOADING.dismiss();
           } else {
             this.vehicleService.getTestResultsHistory(vehicleData[0].systemNumber).subscribe(testHistoryResponseObserver).add(() => {
               LOADING.dismiss();
