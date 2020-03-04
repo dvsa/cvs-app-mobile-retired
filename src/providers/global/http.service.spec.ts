@@ -6,6 +6,7 @@ import { HTTPService } from "./http.service";
 import { ActivityModel } from "../../models/visit/activity.model";
 import { ActivityDataModelMock } from "../../assets/data-mocks/data-model/activity-data-model.mock";
 import { ActivityDataMock } from "../../assets/data-mocks/activity.data.mock";
+import { AppConfig } from "../../../config/app.config";
 
 describe(`Provider: HttpService`, () => {
   let httpClient: HttpClient;
@@ -145,7 +146,7 @@ describe(`Provider: HttpService`, () => {
     const searchIdentifier = "YV31ME00000 1/\\*-1";
     httpService.getTechRecords(searchIdentifier, 'all').subscribe();
 
-    const testRequest = httpMock.expectOne('http://localhost:3005/vehicles/'+encodeURIComponent(searchIdentifier)+'/tech-records?status=provisional_over_current&searchCriteria=all');
+    const testRequest = httpMock.expectOne(`${AppConfig.BACKEND_URL_TECHRECORDS}/${encodeURIComponent(searchIdentifier)}/tech-records?status=provisional_over_current&searchCriteria=all`);
     expect(testRequest.request.method).toEqual('GET');
     testRequest.flush(null, { status: 200, statusText:'Ok' });
   }));

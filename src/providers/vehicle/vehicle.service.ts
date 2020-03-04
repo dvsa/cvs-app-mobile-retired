@@ -66,7 +66,6 @@ export class VehicleService {
   }
 
   getVehicleTechRecords(searchedValue: string, searchCriteriaQueryParam: string): Observable<VehicleModel[]> {
-    searchedValue = searchedValue.replace(/\s+/g, '');
     return this.httpService.getTechRecords(searchedValue.toUpperCase(), searchCriteriaQueryParam)
       .map((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => {
         const log: Log = {
