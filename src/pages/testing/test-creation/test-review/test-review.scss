@@ -139,7 +139,7 @@ page-test-review {
         [item-end].country-of-registration-status,
         [item-end].vehicle-category-status {
           font-size: $font-size-medium;
-          margin: 0;
+          margin: 2px;
         }
 
         [item-end].test-type-status.test-type-pass {
