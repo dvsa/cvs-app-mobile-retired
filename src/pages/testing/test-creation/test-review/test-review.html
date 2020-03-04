@@ -30,8 +30,8 @@
         <div class="flex-wrapper-container">
           <h3 class="vehicle-category" text-wrap>EU vehicle category</h3>
           <h3 item-end
-              text-uppercase
-              class="vehicle-category-status">{{vehicle.euVehicleCategory}}</h3>
+              text-capitalize
+              class="vehicle-category-status">{{this.vehicleService.displayVehicleCategoryKey(vehicle.euVehicleCategory)}}</h3>
         </div>
       </ion-item>
       <ion-item
