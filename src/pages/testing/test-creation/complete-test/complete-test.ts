@@ -427,7 +427,8 @@ export class CompleteTestPage implements OnInit {
     } else if (this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(this.vehicleTest.testTypeId) ||
       this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
       this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)) {
-      this.vehicleTest.certificateNumber = value.length > 20 ? value.substring(0, 20) : value;
+      let formattedValue = value.replace(/[^a-zA-Z0-9]/gi, '');
+      this.vehicleTest.certificateNumber = formattedValue.length > 20 ? formattedValue.substring(0, 20) : formattedValue;
     } else {
       this.vehicleTest.certificateNumber = value.length > 6 ? value.substring(0, 6) : value;
     }
