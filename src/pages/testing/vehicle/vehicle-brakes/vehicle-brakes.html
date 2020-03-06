@@ -85,7 +85,7 @@
         <h3>Service</h3>
       </ion-label>
       <div item-content padding-right>
-        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked.serviceBrakeForceA }}</p>
+        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked?.serviceBrakeForceA }}</p>
       </div>
     </ion-item>
     <ion-item margin-left>
@@ -93,7 +93,7 @@
         <h3>Secondary</h3>
       </ion-label>
       <div item-content padding-right>
-        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked.secondaryBrakeForceA }}</p>
+        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked?.secondaryBrakeForceA }}</p>
       </div>
     </ion-item>
     <ion-item margin-left>
@@ -101,7 +101,7 @@
         <h3>Parking</h3>
       </ion-label>
       <div item-content padding-right>
-        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked.parkingBrakeForceA }}</p>
+        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked?.parkingBrakeForceA }}</p>
       </div>
     </ion-item>
   </ion-list>
@@ -118,7 +118,7 @@
         <h3>Service</h3>
       </ion-label>
       <div item-content padding-right>
-        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked.serviceBrakeForceB }}</p>
+        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked?.serviceBrakeForceB }}</p>
       </div>
     </ion-item>
     <ion-item margin-left>
@@ -126,7 +126,7 @@
         <h3>Secondary</h3>
       </ion-label>
       <div item-content padding-right>
-        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked.secondaryBrakeForceB }}</p>
+        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked?.secondaryBrakeForceB }}</p>
       </div>
     </ion-item>
     <ion-item margin-left>
@@ -134,7 +134,7 @@
         <h3>Parking</h3>
       </ion-label>
       <div item-content padding-right>
-        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked.parkingBrakeForceB }}</p>
+        <p>{{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked?.parkingBrakeForceB }}</p>
       </div>
     </ion-item>
   </ion-list>
@@ -148,7 +148,7 @@
     </div>
 
     <ion-list class="vehicle-list" *ngFor="let axle of vehicleData.techRecord?.axles">
-      <ion-list-header padding-left padding-right text-wrap>AXLE {{ axle.axleNumber }}</ion-list-header>
+      <ion-list-header padding-left padding-right text-wrap>AXLE {{ axle?.axleNumber }}</ion-list-header>
 
       <ion-item margin-left>
         <ion-label>
