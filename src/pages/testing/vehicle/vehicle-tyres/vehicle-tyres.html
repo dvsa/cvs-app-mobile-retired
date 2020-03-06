@@ -10,23 +10,23 @@
     </ion-toolbar>
 
 </ion-header>
-  
+
 <ion-content no-padding>
-    <div text-uppercase 
-         text-center 
+    <div text-uppercase
+         text-center
          class="vehicle-header-vrm-number">
         <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle">{{ vehicleData.trailerId }}</ng-container>
         <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
     </div>
-       
+
     <ion-list class="vehicle-list" *ngFor="let axle of vehicleData.techRecord.axles">
-        <ion-list-header padding-left padding-right>AXLE {{ axle.axleNumber }}</ion-list-header>
+        <ion-list-header padding-left padding-right>AXLE {{ axle?.axleNumber }}</ion-list-header>
         <ion-item margin-left>
             <ion-label>
                 <h3>Tyre size</h3>
             </ion-label>
             <div item-content padding-right>
-                <p>{{ axle.tyres.tyreSize }}</p>
+                <p>{{ axle?.tyres?.tyreSize }}</p>
             </div>
         </ion-item>
         <ion-item margin-left>
@@ -34,7 +34,7 @@
                 <h3>Ply</h3>
             </ion-label>
             <div item-content padding-right>
-                <p>{{ axle.tyres.plyRating }}</p>
+                <p>{{ axle?.tyres?.plyRating }}</p>
             </div>
         </ion-item>
         <ion-item margin-left>
@@ -42,7 +42,7 @@
                 <h3>Fitment</h3>
             </ion-label>
             <div item-content padding-right>
-                <p>{{ axle.tyres.fitmentCode }}</p>
+                <p>{{ axle?.tyres?.fitmentCode }}</p>
             </div>
         </ion-item>
         <ion-item margin-left>
@@ -50,7 +50,7 @@
                 <h3>S/D index</h3>
             </ion-label>
             <div item-content padding-right>
-                <p>{{ axle.tyres.dataTrAxles }}</p>
+                <p>{{ axle?.tyres?.dataTrAxles }}</p>
             </div>
         </ion-item>
         <ion-item margin-left *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
@@ -58,15 +58,15 @@
                 <h3>Speed cat</h3>
             </ion-label>
             <div item-content padding-right>
-                <p>{{ axle.tyres.speedCategorySymbol }}</p>
+                <p>{{ axle?.tyres?.speedCategorySymbol }}</p>
             </div>
         </ion-item>
-        <ion-item margin-left> 
+        <ion-item margin-left>
             <ion-label>
                 <h3>Tyre code</h3>
             </ion-label>
             <div item-content padding-right>
-                <p>{{ axle.tyres.tyreCode }}</p>
+                <p>{{ axle?.tyres?.tyreCode }}</p>
             </div>
         </ion-item>
     </ion-list>
@@ -83,4 +83,4 @@
         </ion-item>
     </ion-list>
 </ion-content>
-  
+
