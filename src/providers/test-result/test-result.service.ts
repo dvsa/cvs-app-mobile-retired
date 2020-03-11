@@ -9,6 +9,7 @@ import { AuthService } from "../global/auth.service";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { FirstTestTypesData } from '../../assets/app-data/test-types-data/first-test-types.data';
 import { TirTestTypesData } from "../../assets/app-data/test-types-data/tir-test-types.data";
+import { AnnualTestTypesHgvTrlData } from "../../assets/app-data/test-types-data/annual-test-types-hgv-trl.data";
 import { PsvAnnualTestsThatGenerateCertificateData } from "../../assets/app-data/test-types-data/psv-annual-tests-that-generate-certificate.data";
 
 @Injectable()
@@ -45,7 +46,7 @@ export class TestResultService {
       newTestResult.odometerReading = vehicle.odometerReading ? parseInt(vehicle.odometerReading) : null;
       newTestResult.odometerReadingUnits = vehicle.odometerMetric ? vehicle.odometerMetric : null;
     }
-    if (this.vehicleContainsFirstTests(vehicle)) {
+    if (this.vehicleContainsFirstTestsOrAnnualTests(vehicle)) {
       if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) newTestResult.regnDate = vehicle.techRecord.regnDate;
       else newTestResult.firstUseDate = vehicle.techRecord.firstUseDate;
     }
@@ -71,12 +72,13 @@ export class TestResultService {
     return newTestResult;
   }
 
-  private vehicleContainsFirstTests(vehicle: VehicleModel): boolean {
-    return vehicle.testTypes.filter(this.isFirstTest).length > 0;
+  private vehicleContainsFirstTestsOrAnnualTests(vehicle: VehicleModel): boolean {
+    return vehicle.testTypes.filter(this.isFirstTestOrAnnualTest).length > 0;
   }
 
-  private isFirstTest(testType: TestTypeModel): boolean {
-    return FirstTestTypesData.FirstTestTypesDataIds.some(id => id === testType.testTypeId);
+  private isFirstTestOrAnnualTest(testType: TestTypeModel): boolean {
+    const concatenatedArray = FirstTestTypesData.FirstTestTypesDataIds.concat(AnnualTestTypesHgvTrlData.AnnualTestTypesHgvTrlDataIds);
+    return concatenatedArray.some(id => id === testType.testTypeId);
   }
 
   private vehicleContainsPsvAnnualTestsThatGenerateCertificate(vehicleType: VehicleModel): boolean {

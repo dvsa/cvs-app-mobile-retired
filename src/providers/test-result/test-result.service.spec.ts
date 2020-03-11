@@ -123,7 +123,7 @@ describe('Provider: TestResultService', () => {
     expect(testResultService.formatCertificateNumber(testType, 'hgv')).toEqual(SPEC_VALUES.TIR_CERTIFICATE_NUMBER);
   });
 
-  it('should create a test result containing the correct firstUseDate if the test contains a trailer with a first test', () => {
+  it('should create a test result containing the correct firstUseDate if the test contains a trailer with a first test or annual test', () => {
     let trailer = VehicleDataMock.VehicleData;
     trailer.techRecord.vehicleType = VEHICLE_TYPE.TRL;
     trailer.techRecord.firstUseDate = '2019-06-24';
@@ -134,9 +134,18 @@ describe('Provider: TestResultService', () => {
 
     expect(testResult.firstUseDate).toBeTruthy();
     expect(testResult.firstUseDate).toBe(trailer.techRecord.firstUseDate);
+
+    let annualTest = TestTypeDataModelMock.TestTypeData;
+    annualTest.testTypeId = '94';
+    trailer.testTypes = [];
+    trailer.testTypes.push(annualTest);
+    testResult = testResultService.createTestResult(VISIT, TEST, trailer);
+
+    expect(testResult.firstUseDate).toBeTruthy();
+    expect(testResult.firstUseDate).toBe(trailer.techRecord.firstUseDate);
   });
 
-  it('should create a test result not containing firstUseDate if the test has a trailer with without a first test', () => {
+  it('should create a test result not containing firstUseDate if the test has a trailer with without a first test or annual test', () => {
     let trailer = VehicleDataMock.VehicleData;
     trailer.techRecord.vehicleType = VEHICLE_TYPE.TRL;
     trailer.techRecord.firstUseDate = '2019-06-24';
@@ -147,7 +156,7 @@ describe('Provider: TestResultService', () => {
     expect(testResult.firstUseDate).toBeFalsy();
   });
 
-  it('should create a test result containing the correct regnDate if the test contains an HGV with a first test', () => {
+  it('should create a test result containing the correct regnDate if the test contains an HGV with a first test or annual test', () => {
     let hgv = VehicleDataMock.VehicleData;
     hgv.techRecord.vehicleType = VEHICLE_TYPE.HGV;
     hgv.techRecord.regnDate = '2019-06-24';
@@ -158,9 +167,18 @@ describe('Provider: TestResultService', () => {
 
     expect(testResult.regnDate).toBeTruthy();
     expect(testResult.regnDate).toBe(hgv.techRecord.regnDate);
+
+    let annualTest = TestTypeDataModelMock.TestTypeData;
+    annualTest.testTypeId = '40';
+    hgv.testTypes = [];
+    hgv.testTypes.push(annualTest);
+    testResult = testResultService.createTestResult(VISIT, TEST, hgv);
+
+    expect(testResult.regnDate).toBeTruthy();
+    expect(testResult.regnDate).toBe(hgv.techRecord.regnDate);
   });
 
-  it('should create a test result not containing regnDate if the test has an HGV with without a first test', () => {
+  it('should create a test result not containing regnDate if the test has an HGV with without a first test or annual test', () => {
     let hgv = VehicleDataMock.VehicleData;
     hgv.techRecord.vehicleType = VEHICLE_TYPE.HGV;
     hgv.techRecord.regnDate = '2019-06-24';
