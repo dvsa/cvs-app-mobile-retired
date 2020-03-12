@@ -14,7 +14,7 @@ end
 
 def build_app
   ionic(platform: 'ios', type: 'enterprise', team_id: 'K84TL26V3P',
-        provisioning_profile: '150f386a-cfe7-4db1-8d3b-707514ca131b',
+        provisioning_profile: '2b73282a-ccaf-4464-b1fa-eb63a3efe1ee',
         build_flag: ['-UseModernBuildSystem=0'])
   zip(path: './platforms/ios/build/device/Vehicle Testing.app.dSYM')
 end
