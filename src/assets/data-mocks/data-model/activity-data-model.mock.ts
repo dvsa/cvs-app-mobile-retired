@@ -9,7 +9,8 @@ export class ActivityDataModelMock {
       testStationEmail: '12345Station@mail.com',
       testStationType: 'atf',
       testerName: 'Hercules',
-      testerStaffId: 'hercules1'
+      testerStaffId: 'hercules1',
+      testerEmail: 'tester@mail.com'
     }
   }
 }

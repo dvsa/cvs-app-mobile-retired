@@ -5,7 +5,8 @@ export interface ActivityModel {
   testStationEmail: string;
   testStationType: string;
   testerName: string;
-  testerStaffId: string
+  testerStaffId: string;
+  testerEmail?: string;
   startTime?: string;
   endTime?: string;
   parentId?: string;

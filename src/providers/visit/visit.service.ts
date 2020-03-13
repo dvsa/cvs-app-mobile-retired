@@ -48,7 +48,8 @@ export class VisitService {
       testStationEmail: testStation.testStationEmails[0],
       testStationType: testStation.testStationType,
       testerName: this.authService.testerDetails.testerName,
-      testerStaffId: this.authService.testerDetails.testerId
+      testerStaffId: this.authService.testerDetails.testerId,
+      testerEmail: this.authService.testerDetails.testerEmail,
     };
     return this.httpService.startVisit(activities);
   }
