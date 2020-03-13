@@ -145,6 +145,15 @@ describe('Provider: VisitService', () => {
     expect(httpService.startVisit).toHaveBeenCalled();
   });
 
+  it('should call the activities service with the correct tester email set', () => {
+    const emailExample = 'test@dvsa.gov.uk';
+    authService.testerDetails.testerEmail = emailExample;
+    visitService.startVisit(TEST_STATION);
+
+    expect(httpService.startVisit).toHaveBeenCalledTimes(1);
+    expect(httpServiceSpy.startVisit.calls.mostRecent().args[0].testerEmail).toBe(emailExample);
+  });
+
   it('should update the storage', () => {
     visitService.updateVisit();
     expect(storageService.update).toHaveBeenCalled();
