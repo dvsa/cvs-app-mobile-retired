@@ -1,5 +1,5 @@
 import { Component, Renderer2, ViewChild } from '@angular/core';
-import { Platform, AlertController, Nav, Events, NavController } from 'ionic-angular';
+import {Platform, AlertController, Nav, Events} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from "../providers/global/auth.service";
@@ -20,6 +20,7 @@ import { TesterDetailsModel } from "../models/tester-details.model";
 import { AppService } from "../providers/global/app.service";
 import { ActivityService } from "../providers/activity/activity.service";
 import { FirebaseLogsService } from "../providers/firebase-logs/firebase-logs.service";
+import {VisitModel} from "../models/visit/visit.model";
 
 @Component({
   templateUrl: 'app.html'
@@ -109,13 +110,27 @@ export class MyApp {
       (resp) => {
         let stateResp = resp;
         if (stateResp) {
+          //Is there an existing visit?
           this.storageService.read(STORAGE.VISIT).then(
             (resp) => {
-              if (resp) this.visitService.visit = resp;
-              let parsedArr = JSON.parse(stateResp);
-              this.navElem.setPages(parsedArr).then(
-                () => this.splashScreen.hide()
-              );
+              if (resp) {
+                // Is that visit still open on the backend?
+                this.activityService.isVisitStillOpen().subscribe(async (visitStillOpenResponse) => {
+                  const visitStillOpen = visitStillOpenResponse.body;
+                  if (visitStillOpen) {
+                    this.visitService.visit = resp;
+                    let parsedArr = JSON.parse(stateResp);
+                    this.navElem.setPages(parsedArr).then(
+                      () => this.splashScreen.hide()
+                    );
+                  } else {
+                    await this.clearExpiredVisitData();
+                    this.navElem.setRoot(this.rootPage).then(
+                      () => this.splashScreen.hide()
+                    );
+                  }
+                })
+              }
             }
           );
           this.storageService.read(STORAGE.ACTIVITIES).then(
@@ -130,6 +145,16 @@ export class MyApp {
         }
       }
     )
+  }
+
+
+  clearExpiredVisitData() {
+    this.storageService.delete(STORAGE.ACTIVITIES);
+    this.storageService.delete(STORAGE.VISIT);
+    this.storageService.delete(STORAGE.STATE);
+    this.activityService.waitTimeStarted = false;
+    this.visitService.visit = {} as VisitModel;
+    this.activityService.activities = [];
   }
 
 

@@ -70,6 +70,10 @@ export class HTTPService {
     return this.http.put(`${AppConfig.BACKEND_URL_VISIT}/update`, activities, {observe: 'response'});
   }
 
+  getOpenVisitCheck(testerStaffId): Observable<HttpResponse<any>> {
+    return this.http.get(`${AppConfig.BACKEND_URL_VISIT}/open?testerStaffId=${testerStaffId}`, {observe: 'response'});
+  }
+
   saveSignature(staffId: string, signatureString: string): Observable<HttpResponse<any>> {
     return this.http.put(`${AppConfig.BACKEND_URL_SIGNATURE}${staffId}.base64`, signatureString, {observe: 'response'});
   }

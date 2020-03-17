@@ -48,6 +48,10 @@ export class ActivityService {
     this.activities.push(activity)
   }
 
+  isVisitStillOpen() {
+    return this.httpService.getOpenVisitCheck(this.authService.testerDetails.testerId);
+  }
+
   updateActivities() {
     if (this.appService.caching) this.storageService.update(STORAGE.ACTIVITIES, this.activities);
   }
