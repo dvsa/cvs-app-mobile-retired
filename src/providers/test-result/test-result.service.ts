@@ -2,15 +2,14 @@ import { TestResultModel } from "../../models/tests/test-result.model";
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
 import { HTTPService } from "../global/http.service";
 import { Injectable } from "@angular/core";
-import { LEC_CERTIFICATE_NUMBER_PREFIXES, TEST_TYPE_RESULTS, TIR_CERTIFICATE_NUMBER_PREFIXES, VEHICLE_TYPE } from "../../app/app.enums";
+import { TIR_CERTIFICATE_NUMBER_PREFIXES, VEHICLE_TYPE } from "../../app/app.enums";
 import { CommonFunctionsService } from "../utils/common-functions";
 import { TestTypeService } from "../test-type/test-type.service";
 import { AuthService } from "../global/auth.service";
-import { RoadworthinessTestTypesData } from "../../assets/app-data/test-types-data/roadworthiness-test-types.data";
 import { TestTypeModel } from "../../models/tests/test-type.model";
 import { FirstTestTypesData } from '../../assets/app-data/test-types-data/first-test-types.data';
-import { AdrTestTypesData } from "../../assets/app-data/test-types-data/adr-test-types.data";
 import { TirTestTypesData } from "../../assets/app-data/test-types-data/tir-test-types.data";
+import { PsvAnnualTestsThatGenerateCertificateData } from "../../assets/app-data/test-types-data/psv-annual-tests-that-generate-certificate.data";
 
 @Injectable()
 export class TestResultService {
@@ -50,6 +49,9 @@ export class TestResultService {
       if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) newTestResult.regnDate = vehicle.techRecord.regnDate;
       else newTestResult.firstUseDate = vehicle.techRecord.firstUseDate;
     }
+    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV && this.vehicleContainsPsvAnnualTestsThatGenerateCertificate(vehicle)) {
+      newTestResult.regnDate = vehicle.techRecord.regnDate;
+    }
     newTestResult.systemNumber = vehicle.systemNumber;
     newTestResult.vin = vehicle.vin;
     newTestResult.vehicleClass = vehicle.techRecord.vehicleClass;
@@ -75,6 +77,14 @@ export class TestResultService {
 
   private isFirstTest(testType: TestTypeModel): boolean {
     return FirstTestTypesData.FirstTestTypesDataIds.some(id => id === testType.testTypeId);
+  }
+
+  private vehicleContainsPsvAnnualTestsThatGenerateCertificate(vehicleType: VehicleModel): boolean {
+    return vehicleType.testTypes.filter(this.isPsvAnnualTestsThatGenerateCertificate).length > 0;
+  }
+
+  private isPsvAnnualTestsThatGenerateCertificate(testType: TestTypeModel): boolean {
+    return PsvAnnualTestsThatGenerateCertificateData.PsvAnnualTestsThatGenerateCertificateIds.some(id => id === testType.testTypeId);
   }
 
   concatenateReasonsArray(reasons: string[]) {
