@@ -1,27 +1,10 @@
 import { VisitTimelinePage } from "./visit-timeline";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import {
-  IonicModule,
-  NavController,
-  LoadingController,
-  Events,
-  AlertController,
-  NavParams,
-  ToastController,
-  ModalController
-} from "ionic-angular";
+import { IonicModule, NavController, LoadingController, Events, AlertController, NavParams, ToastController, ModalController, Platform } from "ionic-angular";
 import { PipesModule } from "../../../pipes/pipes.module";
 import { StateReformingService } from "../../../providers/global/state-reforming.service";
 import { StateReformingServiceMock } from "../../../../test-config/services-mocks/state-reforming-service.mock";
-import {
-  LoadingControllerMock,
-  EventsMock,
-  NavControllerMock,
-  AlertControllerMock,
-  NavParamsMock,
-  ToastControllerMock,
-  ModalControllerMock
-} from "ionic-mocks";
+import { LoadingControllerMock, EventsMock, NavControllerMock, AlertControllerMock, NavParamsMock, ToastControllerMock, ModalControllerMock } from "ionic-mocks";
 import { AppService } from "../../../providers/global/app.service";
 import { AppServiceMock } from "../../../../test-config/services-mocks/app-service.mock";
 import { TestService } from "../../../providers/test/test.service";
@@ -46,10 +29,11 @@ import { TestStationDataMock } from "../../../assets/data-mocks/reference-data-m
 import { TestModel } from "../../../models/tests/test.model";
 import { TEST_REPORT_STATUSES, VEHICLE_TYPE, VISIT } from "../../../app/app.enums"
 import { Firebase } from "@ionic-native/firebase";
-import { Observable } from "../../../../node_modules/rxjs";
+import { Observable, Subscription } from "rxjs";
 import { VehicleDataMock } from "../../../assets/data-mocks/vehicle-data.mock";
 import { VehicleModel } from "../../../models/vehicle/vehicle.model";
 import { FormatVrmPipe } from "../../../pipes/format-vrm/format-vrm.pipe";
+import { VisitModel } from "../../../models/visit/visit.model";
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -141,6 +125,12 @@ describe('Component: VisitTimelinePage', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should delete platformSubscription if it exists', () => {
+    component.platformSubscription = new Subscription();
+    component.ngOnDestroy();
+    expect(component.platformSubscription.closed).toBeTruthy();
+  });
+
   it('should test confirmEndVisit', () => {
     spyOn(firebaseLogsService, 'logEvent');
     visitServiceMock.isError = true;
@@ -159,10 +149,19 @@ describe('Component: VisitTimelinePage', () => {
   });
 
   it('should check ionViewDidEnter logic', () => {
-    component.ionViewDidEnter();
-    component.createNewTestReport();
-    expect(component.timeline.length > 0).toBeFalsy();
+    component.visit = {...VisitDataMock.VisitData};
+    component.timeline = [];
 
+    visitService.createVisit(testStation);
+    let customTest: TestModel = {} as TestModel;
+    customTest.startTime = "2019-05-23T14:52:04.208Z";
+    customTest.endTime = "2019-05-23T14:52:24.773Z";
+    customTest.status = TEST_REPORT_STATUSES.CANCELLED;
+    visitService.addTest(customTest);
+
+    component.createTimeline();
+    component.ionViewDidEnter();
+    expect(component.timeline.length).toEqual(component.visit.tests.length + 1);
   });
 
   it('should check ionViewDidEnter logic when timeline already has an wait activity', () => {
@@ -171,6 +170,26 @@ describe('Component: VisitTimelinePage', () => {
     component.ionViewDidEnter();
     component.createNewTestReport();
     expect(component.timeline.length > 0).toBeTruthy();
+  });
+
+  it('should test if have5MinutesPassedSinceLastActivity', () => {
+    component.visit = {} as VisitModel;
+    component.visit.startTime = '2020-03-19T03:07:44.669Z';
+    component.visit.tests = [];
+    expect(component.have5MinutesPassedSinceLastActivity()).toBeTruthy();
+    component.visit = {...VisitDataMock.VisitData};
+    expect(component.have5MinutesPassedSinceLastActivity()).toBeTruthy();
+  });
+
+  it('should creat a wait time activity with correct start time', () => {
+    component.timeline = [];
+    component.visit = {} as VisitModel;
+    component.visit.startTime = '2020-03-19T03:07:44.669Z';
+    component.createWaitTime();
+    expect(component.timeline[0].startTime).toEqual(component.visit.startTime);
+    component.timeline[0].endTime = '2020-03-19T10:07:44.669Z';
+    component.createWaitTime();
+    expect(component.timeline[1].startTime).toEqual(component.timeline[0].endTime);
   });
 
   it('should create timeline', () => {

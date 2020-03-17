@@ -1,31 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  AlertController,
-  Events,
-  IonicPage,
-  LoadingController,
-  Loading,
-  NavController,
-  NavParams,
-  ModalController
-} from 'ionic-angular';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AlertController, Events, IonicPage, LoadingController, Loading, NavController, NavParams, ModalController, Platform } from 'ionic-angular';
 import { TestService } from "../../../providers/test/test.service";
 import { VisitService } from "../../../providers/visit/visit.service";
 import { VisitModel } from "../../../models/visit/visit.model";
 import { StateReformingService } from "../../../providers/global/state-reforming.service";
-import {
-  APP_STRINGS,
-  STORAGE,
-  TEST_REPORT_STATUSES,
-  TEST_TYPE_RESULTS,
-  AUTH,
-  PAGE_NAMES,
-  FIREBASE,
-  VISIT,
-  LOG_TYPES,
-  VEHICLE_TYPE,
-  FIREBASE_SCREEN_NAMES
-} from "../../../app/app.enums";
+import { APP_STRINGS, STORAGE, TEST_REPORT_STATUSES, TEST_TYPE_RESULTS, AUTH, PAGE_NAMES, FIREBASE, VISIT, LOG_TYPES, VEHICLE_TYPE, FIREBASE_SCREEN_NAMES } from "../../../app/app.enums";
 import { StorageService } from "../../../providers/natives/storage.service";
 import { AppService } from "../../../providers/global/app.service";
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
@@ -39,13 +18,14 @@ import { ActivityModel } from "../../../models/visit/activity.model";
 import { ActivityService } from "../../../providers/activity/activity.service";
 import { FormatVrmPipe } from '../../../pipes/format-vrm/format-vrm.pipe';
 import { VehicleModel } from '../../../models/vehicle/vehicle.model';
+import { Subscription } from "rxjs";
 
 @IonicPage()
 @Component({
   selector: 'page-visit-timeline',
   templateUrl: 'visit-timeline.html'
 })
-export class VisitTimelinePage implements OnInit {
+export class VisitTimelinePage implements OnInit, OnDestroy {
   visit: VisitModel;
   timeline: any[];
   TEST_REPORT_STATUS = TEST_REPORT_STATUSES;
@@ -55,6 +35,7 @@ export class VisitTimelinePage implements OnInit {
   oid: string;
   timeout;
   isCreateTestEnabled = true;
+  platformSubscription: Subscription;
 
   constructor(public navCtrl: NavController,
               public stateReformingService: StateReformingService,
@@ -73,13 +54,25 @@ export class VisitTimelinePage implements OnInit {
               private store$: Store<LogsModel>,
               private firebaseLogsService: FirebaseLogsService,
               private modalCtrl: ModalController,
-              private formatVrmPipe: FormatVrmPipe) {
+              private formatVrmPipe: FormatVrmPipe,
+              private platform: Platform) {
     this.timeline = [];
+    this.platform.ready().then(() => {
+      this.platformSubscription = this.platform.resume.subscribe(() => {
+        this.waitTimeHandler();
+      })
+    });
   }
 
   ngOnInit() {
     this.visit = Object.keys(this.visitService.visit).length ? this.visitService.visit : this.visitService.createVisit(this.navParams.get('testStation'));
     this.stateReformingService.saveNavStack(this.navCtrl);
+  }
+
+  ngOnDestroy(): void {
+    if (this.platformSubscription) {
+      this.platformSubscription.unsubscribe();
+    }
   }
 
   ionViewWillEnter() {
@@ -88,17 +81,46 @@ export class VisitTimelinePage implements OnInit {
 
   ionViewDidEnter() {
     this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VISIT_TIMELINE);
-    if (!this.activityService.waitTimeStarted && this.canAddOtherWaitingTime(this.timeline)) {
-      this.activityService.waitTimer = setTimeout(() => {
-        let waitActivity: ActivityModel = this.activityService.createActivity(this.visit, VISIT.ACTIVITY_TYPE_WAIT, true, true);
-        this.activityService.waitTimeStarted = true;
-        if (this.timeline.length === 0) {
-          waitActivity.startTime = this.visit.startTime;
-        } else {
-          waitActivity.startTime = this.timeline[this.timeline.length - 1]["endTime"]
+    this.waitTimeHandler();
+  }
+
+  have5MinutesPassedSinceLastActivity(): boolean {
+    if (!this.visit.tests.length) {
+      return ((Date.now() - Date.parse(this.visit.startTime)) / (1000 * 60)) > 5;
+    }
+    if (this.visit.tests.length) {
+      return ((Date.now() - Date.parse(this.visit.tests[this.visit.tests.length - 1].endTime)) / (1000 * 60)) > 5;
+    }
+  }
+
+  createWaitTime(): void {
+    let waitActivity: ActivityModel = this.activityService.createActivity(this.visit, VISIT.ACTIVITY_TYPE_WAIT, true, true);
+    this.activityService.waitTimeStarted = true;
+    if (this.timeline.length === 0) {
+      waitActivity.startTime = this.visit.startTime;
+    } else {
+      waitActivity.startTime = this.timeline[this.timeline.length - 1]["endTime"]
+    }
+    this.timeline.push(waitActivity);
+  }
+
+  waitTimeHandler(): void {
+    if (this.canAddOtherWaitingTime(this.timeline)) {
+      if (this.have5MinutesPassedSinceLastActivity()) {
+        this.createWaitTime();
+      } else if (!this.activityService.waitTimeStarted) {
+        let counterTime: number;
+        if (!this.visit.tests.length) {
+          counterTime = this.activityService.counterTime - (Date.now() - Date.parse(this.visit.startTime)) / (1000 * 60);
         }
-        this.timeline.push(waitActivity);
-      }, this.activityService.counterTime * 1000 * 60);
+        if (this.visit.tests.length) {
+          counterTime = this.activityService.counterTime - (Date.now() - Date.parse(this.visit.tests[this.visit.tests.length - 1].endTime)) / (1000 * 60);
+        }
+        clearTimeout(this.activityService.waitTimer);
+        this.activityService.waitTimer = setTimeout(() => {
+          this.createWaitTime();
+        }, counterTime * 1000 * 60);
+      }
     }
   }
 
@@ -301,9 +323,8 @@ export class VisitTimelinePage implements OnInit {
   canAddOtherWaitingTime(timeline): boolean {
     if (timeline.length == 0) {
       return true;
-    } else {
-      return !timeline[timeline.length - 1].activityType;
     }
+    return !timeline[timeline.length - 1].activityType;
   }
 
   getVehicleIdentifier(vehicle: VehicleModel) {
