@@ -60,6 +60,8 @@ export class MyApp {
       this.platform.resume.subscribe(() => {
         this.accessibilityFeatures();
         this.syncService.checkForUpdate();
+        this.splashScreen.show();
+        this.manageAppState();
       });
     });
   }
