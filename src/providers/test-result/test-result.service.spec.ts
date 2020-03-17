@@ -171,6 +171,31 @@ describe('Provider: TestResultService', () => {
     expect(testResult.regnDate).toBeFalsy();
   });
 
+  it('should create a test result containing the correct regnDate if the test contains an PSV with an annual test that generates certificate', () => {
+    let psv = {...VehicleDataMock.VehicleData};
+    psv.techRecord.vehicleType = VEHICLE_TYPE.PSV;
+    psv.techRecord.regnDate = '2019-06-24';
+    let annualTest = {...TestTypeDataModelMock.TestTypeData};
+    annualTest.testTypeId = '28';
+    psv.testTypes.push(annualTest);
+    let testResult = testResultService.createTestResult(VISIT, TEST, psv);
+
+    expect(testResult.regnDate).toBeTruthy();
+    expect(testResult.regnDate).toBe(psv.techRecord.regnDate);
+  });
+
+  it('should create a test result not containing regnDate if the test has an PSV without an annual test that generates certificate', () => {
+    let psv = {...VehicleDataMock.VehicleData};
+    psv.techRecord.vehicleType = VEHICLE_TYPE.PSV;
+    psv.techRecord.regnDate = '2019-06-24';
+    let test = {...TestTypeDataModelMock.TestTypeData};
+    test.testTypeId = '56';
+    psv.testTypes.push(test);
+    let testResult = testResultService.createTestResult(VISIT, TEST, psv);
+
+    expect(testResult.regnDate).toBeFalsy();
+  });
+
   it('should create a test result not containing vehicle subclass if the vehicle is a car or a lgv', () => {
     let testResult;
     let psv = {...VehicleDataMock.VehicleData};
