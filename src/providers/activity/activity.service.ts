@@ -7,11 +7,13 @@ import { ActivityModel } from "../../models/visit/activity.model";
 import { AuthService } from "../global/auth.service";
 import { HTTPService } from "../global/http.service";
 import { TestResultModel } from "../../models/tests/test-result.model";
+import Timer = NodeJS.Timer;
 
 @Injectable()
 export class ActivityService {
   activities: ActivityModel[] = [];
   waitTimeStarted: boolean = false;
+  waitTimer: Timer;
   counterTime: number = 5;
 
   constructor(private storageService: StorageService,
