@@ -13,7 +13,7 @@ import Timer = NodeJS.Timer;
 export class ActivityService {
   activities: ActivityModel[] = [];
   waitTimeStarted: boolean = false;
-  waitTimer: Timer;
+  waitTimer: number;
   counterTime: number = 5;
 
   constructor(private storageService: StorageService,

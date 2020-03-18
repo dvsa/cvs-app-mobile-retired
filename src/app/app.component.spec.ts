@@ -23,8 +23,8 @@ import { FirebaseLogsService } from "../providers/firebase-logs/firebase-logs.se
 import { FirebaseLogsServiceMock } from "../../test-config/services-mocks/firebaseLogsService.mock";
 import { ActivityService } from "../providers/activity/activity.service";
 import { ActivityServiceMock } from "../../test-config/services-mocks/activity-service.mock";
-import { of } from "rxjs/observable/of";
-import { STORAGE } from "./app.enums";
+import {STORAGE} from "./app.enums";
+import {Observable} from "rxjs";
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -32,6 +32,7 @@ describe('Component: Root', () => {
   let syncServiceSpy;
   let authService;
   let appService;
+  let activityService;
   let syncService;
   let storageService;
   let visitService;
@@ -71,26 +72,11 @@ describe('Component: Root', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MyApp);
-    comp = fixture.componentInstance;
-    authService = TestBed.get(AuthService);
-    syncService = TestBed.get(SyncService);
-    storageService = TestBed.get(StorageService);
-    appService = TestBed.get(AppService);
-    visitService = TestBed.get(VisitService);
-    screenOrientation = TestBed.get(ScreenOrientation);
-    firebaseLogsService = TestBed.get(FirebaseLogsService);
+    setup();
   });
 
   afterEach(() => {
-    fixture.destroy();
-    comp = null;
-    authService = null;
-    syncService = null;
-    storageService = null;
-    visitService = null;
-    screenOrientation = null;
-    firebaseLogsService = null;
+    teardown();
   });
 
   it('should create component', (done) => {
@@ -193,4 +179,92 @@ describe('Component: Root', () => {
     comp.manageAppState()
   });
 
+  describe("manageAppState", () => {
+    beforeEach(() => {
+      setup();
+    });
+
+    afterEach(() => {
+      teardown();
+    });
+    describe("with an existing visit open", () => {
+      it("should not call clearExpiredVisitData",  () => {
+        storageService.read = jasmine.createSpy('read').and.callFake((key) => {
+          let keyReturn;
+          switch (key) {
+            case STORAGE.STATE: {
+              keyReturn = true;
+              break;
+            }
+            case STORAGE.VISIT: {
+              keyReturn = true;
+              break;
+            }
+            case STORAGE.ACTIVITIES: {
+              keyReturn = false;
+              break;
+            }
+          }
+          return Promise.resolve(keyReturn);
+        });
+        spyOn(activityService, 'isVisitStillOpen').and.returnValue(Observable.of({body: true}));
+        spyOn(comp, "clearExpiredVisitData");
+        comp.manageAppState();
+        expect(comp.clearExpiredVisitData).not.toHaveBeenCalled();
+      });
+    });
+    describe("with no open visit", () => {
+      it("should call clearExpiredVisitData",  () => {
+        storageService.read = jasmine.createSpy('read').and.callFake((key) => {
+          let keyReturn;
+          switch (key) {
+            case STORAGE.STATE: {
+              keyReturn = true;
+              break;
+            }
+            case STORAGE.VISIT: {
+              keyReturn = true;
+              break;
+            }
+            case STORAGE.ACTIVITIES: {
+              keyReturn = false;
+              break;
+            }
+          }
+          return Promise.resolve(keyReturn);
+        });
+        spyOn(activityService, 'isVisitStillOpen').and.returnValue(Observable.of({body: false}));
+        spyOn(comp, "clearExpiredVisitData");
+        comp.manageAppState();
+        // setTimeout(() => {
+        //   console.log("Calls: ", spy.calls);
+        //   expect(spy).not.toHaveBeenCalled();
+        //   }, 100)
+      });
+    });
+  });
+
+  const setup = () => {
+    fixture = TestBed.createComponent(MyApp);
+    comp = fixture.componentInstance;
+    authService = TestBed.get(AuthService);
+    syncService = TestBed.get(SyncService);
+    storageService = TestBed.get(StorageService);
+    appService = TestBed.get(AppService);
+    visitService = TestBed.get(VisitService);
+    activityService = TestBed.get(ActivityService);
+    screenOrientation = TestBed.get(ScreenOrientation);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
+  };
+
+  const teardown = () => {
+    fixture.destroy();
+    comp = null;
+    authService = null;
+    syncService = null;
+    storageService = null;
+    visitService = null;
+    screenOrientation = null;
+    firebaseLogsService = null;
+  };
 });
