@@ -89,7 +89,7 @@ export class VisitTimelinePage implements OnInit {
   ionViewDidEnter() {
     this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VISIT_TIMELINE);
     if (!this.activityService.waitTimeStarted && this.canAddOtherWaitingTime(this.timeline)) {
-      this.timeout = setTimeout(() => {
+      this.activityService.waitTimer = setTimeout(() => {
         let waitActivity: ActivityModel = this.activityService.createActivity(this.visit, VISIT.ACTIVITY_TYPE_WAIT, true, true);
         this.activityService.waitTimeStarted = true;
         if (this.timeline.length === 0) {
@@ -110,7 +110,7 @@ export class VisitTimelinePage implements OnInit {
     this.firebaseLogsService.search_vehicle_time.search_vehicle_start_time = Date.now();
     let test = this.testReportService.createTest();
     this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {test: test});
-    clearTimeout(this.timeout);
+    clearTimeout(this.activityService.waitTimer);
   }
 
   createTimeline(): void {
@@ -158,7 +158,7 @@ export class VisitTimelinePage implements OnInit {
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
         this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_VISIT);
-        clearTimeout(this.timeout);
+        clearTimeout(this.activityService.waitTimer);
         let activity: ActivityModel = this.activityService.createActivityBodyForCall(this.visitService.visit, null, this.timeline);
         this.activityService.submitActivity(activity).subscribe(
           (resp) => {

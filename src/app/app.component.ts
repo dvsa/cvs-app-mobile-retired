@@ -157,6 +157,7 @@ export class MyApp {
     this.activityService.waitTimeStarted = false;
     this.visitService.visit = {} as VisitModel;
     this.activityService.activities = [];
+    clearTimeout(this.activityService.waitTimer);
   }
 
 
