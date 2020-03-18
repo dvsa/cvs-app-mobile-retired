@@ -7,12 +7,15 @@ import { Observable } from "rxjs";
 export class ActivityServiceMock {
   activities: ActivityModel[] = [];
   waitTimeStarted: boolean = false;
+  waitTimer: number;
   isSubmitError: boolean;
   isUpdateError: boolean;
+  isVisitOpen: boolean;
 
   constructor() {
     this.isSubmitError = false;
     this.isUpdateError = false;
+    this.isVisitOpen = true;
   }
 
   createActivity(visit: VisitModel, activityType?: string, pushToActivities?: boolean, updateActivities?: boolean): ActivityModel {
@@ -53,6 +56,10 @@ export class ActivityServiceMock {
 
   updateActivityReasons(activities) {
     return this.isUpdateError ? Observable.throw({error: {error: ''}}) : of(true);
+  }
+
+  isVisitStillOpen() {
+    return {body: this.isVisitOpen};
   }
 
   createActivityBodyForCall(visit, testResult?: TestResultModel, timeline?) {
