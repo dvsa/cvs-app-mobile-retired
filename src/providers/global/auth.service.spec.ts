@@ -11,7 +11,7 @@ describe(`AuthService`, () => {
   let authService: AuthService;
 
   // dummy hand crafted jwt token for testing purpose only
-  const JWT_TOKEN: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNQc3ZUZXN0ZXIiXSwidGlkIjoiMTIzNDU2Nzg5MCJ9.9prTaDS-toi8z6HUbuhm5es1IcRp-BHVAqxjuu7C7-k';
+  const JWT_TOKEN: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNQc3ZUZXN0ZXIiXSwidGlkIjoiMTIzNDU2Nzg5MCIsImVtcGxveWVlaWQiOiIwOTg3NjU0MzIxIn0.Qwu_-GoMkgxGnyMfIDQlVak0dQAUX27lYSnX0P4Htq0';
   const JWT_TOKEN_EMPTY: string = '';
 
   beforeEach(() => {
@@ -92,15 +92,17 @@ describe(`AuthService`, () => {
   });
 
   it('should set default tester details with authResponse', () => {
-    let authResponse = {
-      accessToken: JWT_TOKEN,
-    };
-
-    let result = authService.setTesterDetails(authResponse);
+    let result = authService.setTesterDetails({accessToken: JWT_TOKEN});
     expect(result.testerId).toBeTruthy();
     expect(result.testerEmail).toBeTruthy();
     expect(result.testerName).toBeTruthy();
     expect(result.testerRoles[0]).toBe(TESTER_ROLES.PSV);
+  });
+
+  it('the tester ID should not be the OID', () => {
+    let result = authService.setTesterDetails({accessToken: JWT_TOKEN});
+    expect(result.testerId).toBeTruthy();
+    expect(result.testerId).not.toBe('1234567890');
   });
 
   it('should set the tenantId with authResponse', () => {
@@ -108,11 +110,13 @@ describe(`AuthService`, () => {
     expect(authService.tenantId).toBe('1234567890');
   });
 
-  it('should set the tester details in localStorage', () => {
+
+
+  it('should set the tester details in localStorage', () => {//this fails
     authService.setTesterDetails({accessToken: JWT_TOKEN});
     expect(localStorage.getItem('tester-details')).toEqual(JSON.stringify({
       testerName: "John Doe",
-      testerId: "1234567890",
+      testerId: "0987654321",
       testerEmail: "test@email.com",
       testerRoles: [TESTER_ROLES.PSV]
     }));
