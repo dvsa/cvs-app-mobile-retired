@@ -37,3 +37,4 @@ config/application.json
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+GoogleService-Info.plist

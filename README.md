@@ -21,12 +21,21 @@ To get a working build running locally follow these steps:
 
 2. Run `npm install`.
 
-3. Set up the configuration for app's deeplinking using the following command after replacing "key", "https", "example.com" with your values:
+3. (Optional) Set up the configuration for app's deeplinking using the following command after replacing "key", "https", "example.com" with your values:
   'ionic cordova plugin add ionic-plugin-deeplinks --variable URL_SCHEME=key --variable DEEPLINK_SCHEME=https --variable DEEPLINK_HOST=example.com'
 
-4. Run the following GIT command: "git update-index --assume-unchanged config/application.json"
+4. (Optional) Run the following GIT command: "git update-index --assume-unchanged config/application.json" - [Mobile App](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App).
+You will have to remove the ios platform before you build and add ios@5.0.1
+The below command will prepare your app to be used in xCode and load the necessary platform and plugins. 
+```
+node_modules/.bin/ionic cordova platform remove ios
+node_modules/.bin/ionic cordova platform add ios@5.0.1
+```
 
 5. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
+Your application can then be used in ran in Xcode emulator (iPhone8+), simply open `Vehicle Testing.xcodeproj` in Xcode 10.3.
+Make sure the correct Xcode version is selected as your cli - `Xcode > Preferences > Command Line Tools > Xcode 10.3`.
+You will require a test account with a password that you can request to one of your colleague.
 
 6. After finishing your development, if you encounter problems switching branches, use 'git update-index --no-assume-unchanged config/application.json' command. Revert changes made to 'config/application.json' and then switch branches.
 
