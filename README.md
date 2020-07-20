@@ -71,21 +71,42 @@ node_modules/.bin/ionic cordova platform remove ios
 node_modules/.bin/ionic cordova platform add ios@5.0.1
 ```
 
-5. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
+### Build in xCode
+
+
+1. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
 Your application can then be used in ran in Xcode emulator (iPhone8+), simply open `Vehicle Testing.xcodeproj` in Xcode 10.3.
 Make sure the correct Xcode version is selected as your cli - `Xcode > Preferences > Command Line Tools > Xcode 10.3`.
 You will require a test account with a password that you can request to one of your colleague.
 
-6. After finishing your development, if you encounter problems switching branches, use 'git update-index --no-assume-unchanged config/application.json' command. Revert changes made to 'config/application.json' and then switch branches.
+2. After finishing your development, if you encounter problems switching branches, use 'git update-index --no-assume-unchanged config/application.json' command. Revert changes made to 'config/application.json' and then switch branches.
 
-### For testing in the browser:
+### Development
 
-`ionic serve`
+#### in the browser:
+
+The following script will allow you to run the app in your browser `ionic serve`.
 
 If you are asked to install the missing dependencies please choose yes.
 You will also require the [environment configuration steps](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-Environmentfiles) as well as [local development mode](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-Runningtheappindevelopmentmode) and a [test user](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-Credentials).
 
-### For testing on an iOS device:
+#### in the emulator:
+
+You can run the following script - `npm run start` to run the application in the emulator with the live reload.
+
+You will first need to get your iPhone 8 Plus that you can find under `Simulator > Hardware menu > Devices > Manage devices`.
+The ID will be shown on the `Identifier` key.
+You can then copy paste the value in the `env` file to the following variable:
+```
+IPHONE8_P_ID=
+
+```
+
+
+and rename this file from `env` to `.env`.
+
+
+## For testing on an iOS device:
 
 `ionic cordova build ios`
 
