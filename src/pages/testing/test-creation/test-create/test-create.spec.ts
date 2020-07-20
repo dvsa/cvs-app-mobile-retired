@@ -12,7 +12,8 @@ import {
   VEHICLE_TYPE,
   TEST_COMPLETION_STATUS,
   TEST_TYPE_RESULTS,
-  MOD_TYPES
+  MOD_TYPES,
+  DEFICIENCY_CATEGORY
 } from "../../../../app/app.enums";
 import { TestService } from "../../../../providers/test/test.service";
 import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
@@ -197,6 +198,106 @@ describe('Component: TestCreatePage', () => {
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
     testType.certificateNumber = '123456';
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('Edit');
+  });
+
+  it('should set the testResult to FAIL when a PASS test with sections has major defects', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testResult = TEST_TYPE_RESULTS.PASS;
+    testType.defects.push(DefectDetailsDataMock.DefectData);
+
+    component.getTestTypeStatus(vehicle, testType);
+
+    expect(testType.testResult).toBe(TEST_TYPE_RESULTS.FAIL);
+  });
+
+  it('should set the testResult to PRS when a PASS test with sections has repaired major defects', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testResult = TEST_TYPE_RESULTS.PASS;
+    let defect = DefectDetailsDataMock.DefectData;
+    defect.prs = true;
+    testType.defects.push(defect);
+
+    component.getTestTypeStatus(vehicle, testType);
+
+    expect(testType.testResult).toBe(TEST_TYPE_RESULTS.PRS);
+  });
+
+  it('should not change the testResult when a PASS test with sections has minor defects', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testResult = TEST_TYPE_RESULTS.PASS;
+    let defect = DefectDetailsDataMock.DefectData;
+    defect.deficiencyCategory = DEFICIENCY_CATEGORY.MINOR;
+    testType.defects.push(defect);
+
+    component.getTestTypeStatus(vehicle, testType);
+
+    expect(testType.testResult).toBe(TEST_TYPE_RESULTS.PASS);
+  });
+
+  it('should set the testResult to FAIL when a test with sections has major defects but does not have a testResult', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testResult = undefined;
+    testType.defects.push(DefectDetailsDataMock.DefectData);
+
+    component.getTestTypeStatus(vehicle, testType);
+
+    expect(testType.testResult).toBe(TEST_TYPE_RESULTS.FAIL);
+  });
+
+  it('should set the testResult to FAIL when a PASS test without sections has major defects', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testTypeId = '94';
+    testType.testResult = TEST_TYPE_RESULTS.PASS;
+    testType.defects.push(DefectDetailsDataMock.DefectData);
+
+    component.getTestTypeStatus(vehicle, testType);
+
+    expect(testType.testResult).toBe(TEST_TYPE_RESULTS.FAIL);
+  });
+
+  it('should set the testResult to PRS when a PASS test without sections has repaired major defects', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testTypeId = '94';
+    testType.testResult = TEST_TYPE_RESULTS.PASS;
+    let defect = DefectDetailsDataMock.DefectData;
+    defect.prs = true;
+    testType.defects.push(defect);
+
+    component.getTestTypeStatus(vehicle, testType);
+
+    expect(testType.testResult).toBe(TEST_TYPE_RESULTS.PRS);
+  });
+
+  it('should not change the testResult when a PASS test without sections has minor defects', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testTypeId = '94';
+    testType.testResult = TEST_TYPE_RESULTS.PASS;
+    let defect = DefectDetailsDataMock.DefectData;
+    defect.deficiencyCategory = DEFICIENCY_CATEGORY.MINOR;
+    testType.defects.push(defect);
+
+    component.getTestTypeStatus(vehicle, testType);
+
+    expect(testType.testResult).toBe(TEST_TYPE_RESULTS.PASS);
+  });
+
+  it('should set the testResult to FAIL when a test without sections has major defects but does not have a testResult', () => {
+    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
+    let vehicle: VehicleModel = {...VEHICLE};
+    testType.testTypeId = '94';
+    testType.testResult = undefined;
+    testType.defects.push(DefectDetailsDataMock.DefectData);
+
+    component.getTestTypeStatus(vehicle, testType);
+
+    expect(testType.testResult).toBe(TEST_TYPE_RESULTS.FAIL);
   });
 
   it('should have "Edit" status if a TIR test has the certificateNumber exactly 5 digits long', () => {
