@@ -181,11 +181,10 @@ export class TestCreatePage implements OnInit {
           isInProgress = true;
           testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
         }
+        testType.testResult = this.testTypeService.setTestResult(testType, testTypeFieldMetadata.hasDefects);
 
       } else if (testType.testTypeId === testTypeFieldMetadata.testTypeId && !testTypeFieldMetadata.sections.length) {
-        if (!testType.testResult) {
-          testType.testResult = this.testTypeService.setTestResult(testType, testTypeFieldMetadata.hasDefects);
-        }
+        testType.testResult = this.testTypeService.setTestResult(testType, testTypeFieldMetadata.hasDefects);
         isInProgress = false;
         testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
       }
