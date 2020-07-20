@@ -38,3 +38,4 @@ config/application.json
 Thumbs.db
 UserInterfaceState.xcuserstate
 GoogleService-Info.plist
+*.env
