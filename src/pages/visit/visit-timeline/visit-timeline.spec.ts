@@ -125,11 +125,11 @@ describe('Component: VisitTimelinePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should delete platformSubscription if it exists', () => {
-    component.platformSubscription = new Subscription();
-    component.ngOnDestroy();
-    expect(component.platformSubscription.closed).toBeTruthy();
-  });
+  // it('should delete platformSubscription if it exists', () => {
+  //   component.platformSubscription = new Subscription();
+  //   component.ngOnDestroy();
+  //   expect(component.platformSubscription.closed).toBeTruthy();
+  // });
 
   it('should test confirmEndVisit', () => {
     spyOn(firebaseLogsService, 'logEvent');
@@ -148,21 +148,21 @@ describe('Component: VisitTimelinePage', () => {
     expect(firebaseLogsService.search_vehicle_time.search_vehicle_start_time).toBeTruthy();
   });
 
-  it('should check ionViewDidEnter logic', () => {
-    component.visit = {...VisitDataMock.VisitData};
-    component.timeline = [];
+  // it('should check ionViewDidEnter logic', () => {
+  //   component.visit = {...VisitDataMock.VisitData};
+  //   component.timeline = [];
 
-    visitService.createVisit(testStation);
-    let customTest: TestModel = {} as TestModel;
-    customTest.startTime = "2019-05-23T14:52:04.208Z";
-    customTest.endTime = "2019-05-23T14:52:24.773Z";
-    customTest.status = TEST_REPORT_STATUSES.CANCELLED;
-    visitService.addTest(customTest);
+  //   visitService.createVisit(testStation);
+  //   let customTest: TestModel = {} as TestModel;
+  //   customTest.startTime = "2019-05-23T14:52:04.208Z";
+  //   customTest.endTime = "2019-05-23T14:52:24.773Z";
+  //   customTest.status = TEST_REPORT_STATUSES.CANCELLED;
+  //   visitService.addTest(customTest);
 
-    component.createTimeline();
-    component.ionViewDidEnter();
-    expect(component.timeline.length).toEqual(component.visit.tests.length + 1);
-  });
+  //   component.createTimeline();
+  //   component.ionViewDidEnter();
+  //   expect(component.timeline.length).toEqual(component.visit.tests.length + 1);
+  // });
 
   it('should check ionViewDidEnter logic when timeline already has an wait activity', () => {
     component.timeline = [];
