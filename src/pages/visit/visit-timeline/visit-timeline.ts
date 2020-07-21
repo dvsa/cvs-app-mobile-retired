@@ -57,11 +57,12 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
               private formatVrmPipe: FormatVrmPipe,
               private platform: Platform) {
     this.timeline = [];
-    this.platform.ready().then(() => {
-      this.platformSubscription = this.platform.resume.subscribe(() => {
-        this.waitTimeHandler();
-      })
-    });
+    // FIXME: Needs to be fixed separately.
+    // this.platform.ready().then(() => {
+    //   this.platformSubscription = this.platform.resume.subscribe(() => {
+    //     this.waitTimeHandler();
+    //   })
+    // });
   }
 
   ngOnInit() {
@@ -70,9 +71,9 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.platformSubscription) {
-      this.platformSubscription.unsubscribe();
-    }
+    // if (this.platformSubscription) {
+    //   this.platformSubscription.unsubscribe();
+    // }
   }
 
   ionViewWillEnter() {
@@ -81,7 +82,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
   ionViewDidEnter() {
     this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VISIT_TIMELINE);
-    this.waitTimeHandler();
+   // this.waitTimeHandler(); FIXME: Needs to be fixed separately.
   }
 
   have5MinutesPassedSinceLastActivity(): boolean {
