@@ -4,8 +4,7 @@
       EU vehicle category
     </ion-title>
     <ion-buttons end>
-      <button ion-button
-              (click)="onSave()">
+      <button ion-button (click)="onSave()">
         Save
       </button>
     </ion-buttons>
@@ -13,19 +12,24 @@
 </ion-header>
 
 <ion-content class="content-background-color-grey">
-
   <p padding-horizontal class="subtitle">{{categorySubtitle}}</p>
   <ion-list class="eu-cat">
-    <button ion-item padding-left detail-none
-            [ngClass]="{'error-incomplete-item': errorIncomplete}"
-            *ngFor="let elem of categoriesArr"
-            (click)="setVehicleCategory(elem.key)">
+    <button
+      ion-item
+      padding-left
+      detail-none
+      [ngClass]="{'error-incomplete-item': errorIncomplete}"
+      *ngFor="let elem of categoriesArr"
+      (click)="setVehicleCategory(elem.key)"
+    >
       <h3 text-capitalize>{{displayVehicleCategoryKey(elem.key)}}</h3>
       <p text-wrap>{{elem.value}}</p>
-      <ion-icon item-end class="selected"
-                name="checkmark"
-                *ngIf="vehicle.euVehicleCategory === elem.key"></ion-icon>
+      <ion-icon
+        item-end
+        class="selected"
+        name="checkmark"
+        *ngIf="vehicle.euVehicleCategory === elem.key"
+      ></ion-icon>
     </button>
   </ion-list>
-
 </ion-content>

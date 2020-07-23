@@ -1,17 +1,29 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonicPage, Navbar, NavController, NavParams, ViewController } from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  Navbar,
+  NavController,
+  NavParams,
+  ViewController
+} from 'ionic-angular';
 import {
   AdditionalInfoMetadataModel,
   DefectDetailsModel,
   DefectLocationModel
 } from '../../../../models/defects/defect-details.model';
-import { DefectsService } from "../../../../providers/defects/defects.service";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import {APP_STRINGS, DEFICIENCY_CATEGORY, FIREBASE_DEFECTS, TEST_TYPE_RESULTS} from '../../../../app/app.enums';
+import { DefectsService } from '../../../../providers/defects/defects.service';
+import { TestTypeModel } from '../../../../models/tests/test-type.model';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
+import {
+  APP_STRINGS,
+  DEFICIENCY_CATEGORY,
+  FIREBASE_DEFECTS,
+  TEST_TYPE_RESULTS
+} from '../../../../app/app.enums';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
-import { ProhibitionClearanceTestTypesData } from "../../../../assets/app-data/test-types-data/prohibition-clearance-test-types.data";
-import {TestTypesFieldsMetadata} from '../../../../assets/app-data/test-types-data/test-types-fields.metadata';
+import { ProhibitionClearanceTestTypesData } from '../../../../assets/app-data/test-types-data/prohibition-clearance-test-types.data';
+import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-data/test-types-fields.metadata';
 
 @IonicPage()
 @Component({
@@ -31,17 +43,20 @@ export class DefectDetailsPage implements OnInit {
   notesChanged: boolean = false;
   showProhibition: boolean = false;
   prohibitionAsterisk: boolean = false;
-  prohibitionClearanceTestTypesIds: string[] = ProhibitionClearanceTestTypesData.ProhibitionClearanceTestTypesIds;
+  prohibitionClearanceTestTypesIds: string[] =
+    ProhibitionClearanceTestTypesData.ProhibitionClearanceTestTypesIds;
   isProhibitionClearance: boolean;
   @ViewChild(Navbar) navBar: Navbar;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public viewCtrl: ViewController,
-              public defectsService: DefectsService,
-              private testTypeService: TestTypeService,
-              private alertCtrl: AlertController,
-              private firebaseLogsService: FirebaseLogsService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public viewCtrl: ViewController,
+    public defectsService: DefectsService,
+    private testTypeService: TestTypeService,
+    private alertCtrl: AlertController,
+    private firebaseLogsService: FirebaseLogsService
+  ) {
     this.vehicleTest = navParams.get('vehicleTest');
     this.defect = navParams.get('deficiency');
     this.isEdit = navParams.get('isEdit');
@@ -52,14 +67,18 @@ export class DefectDetailsPage implements OnInit {
     this.tempDefectLocation = Object.assign({}, this.defect.additionalInformation.location);
     this.tempDefectNotes = this.defect.additionalInformation.notes;
     this.defectMetadata = this.defect.metadata.category.additionalInfo;
-    this.isLocation = this.defectMetadata && this.defectMetadata.location ? this.checkForLocation(this.defectMetadata.location) : false;
+    this.isLocation =
+      this.defectMetadata && this.defectMetadata.location
+        ? this.checkForLocation(this.defectMetadata.location)
+        : false;
     this.checkForPrs(this.defect);
     this.checkForProhibition(this.defect);
   }
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.DEFECT_DESC);
-    this.isProhibitionClearance = this.prohibitionClearanceTestTypesIds.indexOf(this.vehicleTest.testTypeId) !== -1;
+    this.isProhibitionClearance =
+      this.prohibitionClearanceTestTypesIds.indexOf(this.vehicleTest.testTypeId) !== -1;
   }
 
   ionViewDidLoad() {
@@ -67,7 +86,7 @@ export class DefectDetailsPage implements OnInit {
       this.defect.additionalInformation.location = Object.assign({}, this.tempDefectLocation);
       this.defect.additionalInformation.notes = this.tempDefectNotes;
       this.navCtrl.pop();
-    }
+    };
   }
 
   /**
@@ -82,7 +101,7 @@ export class DefectDetailsPage implements OnInit {
     if (!this.fromTestReview) {
       let views = this.navCtrl.getViews();
       for (let i = views.length - 1; i >= 0; i--) {
-        if (views[i].component.name == "CompleteTestPage") {
+        if (views[i].component.name == 'CompleteTestPage') {
           if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
           this.navCtrl.popTo(views[i]);
         }
@@ -95,7 +114,9 @@ export class DefectDetailsPage implements OnInit {
   }
 
   private getTestTypeDetailsFromFieldsMetadata(testTypeModel: TestTypeModel) {
-    return TestTypesFieldsMetadata.FieldsMetadata.find((fieldsMetadata) => testTypeModel.testTypeId === fieldsMetadata.testTypeId);
+    return TestTypesFieldsMetadata.FieldsMetadata.find(
+      (fieldsMetadata) => testTypeModel.testTypeId === fieldsMetadata.testTypeId
+    );
   }
 
   checkForLocation(location: {}): boolean {
@@ -109,13 +130,11 @@ export class DefectDetailsPage implements OnInit {
 
   checkIfDefectWasAdded(): boolean {
     let found = false;
-    this.vehicleTest.defects.forEach(
-      defect => {
-        if (defect.deficiencyRef == this.defect.deficiencyRef) {
-          found = true;
-        }
+    this.vehicleTest.defects.forEach((defect) => {
+      if (defect.deficiencyRef == this.defect.deficiencyRef) {
+        found = true;
       }
-    );
+    });
     return found;
   }
 
@@ -165,8 +184,7 @@ export class DefectDetailsPage implements OnInit {
       buttons: [
         {
           text: APP_STRINGS.CANCEL,
-          handler: () => {
-          }
+          handler: () => {}
         },
         {
           text: APP_STRINGS.REMOVE,
@@ -185,6 +203,10 @@ export class DefectDetailsPage implements OnInit {
   }
 
   private logFirebaseNotesChanged() {
-    this.firebaseLogsService.logEvent(FIREBASE_DEFECTS.DEFECT_NOTES_USAGE, FIREBASE_DEFECTS.DEFICIENCY_REFERENCE, this.defect.deficiencyRef);
+    this.firebaseLogsService.logEvent(
+      FIREBASE_DEFECTS.DEFECT_NOTES_USAGE,
+      FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
+      this.defect.deficiencyRef
+    );
   }
 }

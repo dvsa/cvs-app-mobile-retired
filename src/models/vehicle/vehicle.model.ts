@@ -1,6 +1,6 @@
-import { TestTypeModel } from "../tests/test-type.model";
-import { TechRecordModel } from "./tech-record.model";
-import { TestResultModel } from "../tests/test-result.model";
+import { TestTypeModel } from '../tests/test-type.model';
+import { TechRecordModel } from './tech-record.model';
+import { TestResultModel } from '../tests/test-result.model';
 
 export interface VehicleModel {
   systemNumber: string;

@@ -3,12 +3,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'formatBoolean'
 })
-
 export class FormatBooleanPipe implements PipeTransform {
-  constructor() {
-  }
+  constructor() {}
 
   transform(inputValue: boolean): string {
-    return inputValue ? 'Yes' : "No";
+    return inputValue ? 'Yes' : 'No';
   }
 }

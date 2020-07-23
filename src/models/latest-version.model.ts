@@ -1,8 +1,8 @@
 export interface LatestVersionModel {
-  'mobile-app': AppVersionModel
+  'mobile-app': AppVersionModel;
 }
 
 export interface AppVersionModel {
-  version: string,
-  version_checking: string
+  version: string;
+  version_checking: string;
 }

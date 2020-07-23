@@ -1,5 +1,4 @@
 ion-app.ios page-visit-timeline {
-
   ion-content {
     .list-ios {
       button {
@@ -87,7 +86,7 @@ ion-app.ios page-visit-timeline {
 
         .timeline-bar {
           border-left-color: color($colors, tertiary);
-          top: calc(10px + 8px);//first timeline bar has to start top + margin-top lower
+          top: calc(10px + 8px); //first timeline bar has to start top + margin-top lower
         }
       }
 
@@ -103,7 +102,6 @@ ion-app.ios page-visit-timeline {
         .icon-ios {
           color: color($colors, primary);
         }
-
 
         img {
           height: 20px;

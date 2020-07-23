@@ -1,7 +1,12 @@
-import { EMISSION_STANDARD, FUEL_TYPE, MOD_TYPES, TEST_TYPE_FIELDS, TEST_TYPE_RESULTS } from "../../../app/app.enums";
+import {
+  EMISSION_STANDARD,
+  FUEL_TYPE,
+  MOD_TYPES,
+  TEST_TYPE_FIELDS,
+  TEST_TYPE_RESULTS
+} from '../../../app/app.enums';
 
 export class TestTypesFieldsMetadata {
-
   public static get LecMinExpiryDate(): string {
     let minDate = new Date();
     minDate.setFullYear(new Date().getFullYear() + 1);
@@ -54,7 +59,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -65,7 +72,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '3',
-        testTypeName: "Class 6A seatbelt installation check (annual test)",
+        testTypeName: 'Class 6A seatbelt installation check (annual test)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -101,7 +108,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -112,7 +121,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '4',
-        testTypeName: "Class 6A seatbelt installation check (first test)",
+        testTypeName: 'Class 6A seatbelt installation check (first test)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -148,7 +157,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -159,7 +170,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '7',
-        testTypeName: "Paid retest",
+        testTypeName: 'Paid retest',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -195,7 +206,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -206,7 +219,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '8',
-        testTypeName: "Paid retest with Class 6A seatbelt installation check",
+        testTypeName: 'Paid retest with Class 6A seatbelt installation check',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -242,7 +255,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -260,7 +275,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '10',
-        testTypeName: "Part-paid retest",
+        testTypeName: 'Part-paid retest',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -296,7 +311,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -307,7 +324,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '14',
-        testTypeName: "Paid prohibition clearance (full inspection with certificate)",
+        testTypeName: 'Paid prohibition clearance (full inspection with certificate)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -343,7 +360,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -354,7 +373,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '15',
-        testTypeName: "Paid prohibition clearance (full inspection without certificate)",
+        testTypeName: 'Paid prohibition clearance (full inspection without certificate)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -390,7 +409,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -401,7 +422,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '16',
-        testTypeName: "Part-paid prohibition clearance (full inspection)",
+        testTypeName: 'Part-paid prohibition clearance (full inspection)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -437,7 +458,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -448,7 +471,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '18',
-        testTypeName: "Paid prohibition clearance (retest with certificate)",
+        testTypeName: 'Paid prohibition clearance (retest with certificate)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -484,7 +507,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -495,7 +520,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '19',
-        testTypeName: "Paid prohibition clearance (retest without certificate)",
+        testTypeName: 'Paid prohibition clearance (retest without certificate)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -531,7 +556,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -541,7 +568,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '21',
-        testTypeName: "Part-paid prohibition clearance (retest with certificate)",
+        testTypeName: 'Part-paid prohibition clearance (retest with certificate)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -577,7 +604,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -588,7 +617,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '22',
-        testTypeName: "Part-paid prohibition clearance (retest without certificate)",
+        testTypeName: 'Part-paid prohibition clearance (retest without certificate)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -624,7 +653,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -634,7 +665,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '23',
-        testTypeName: "Part-paid prohibition clearance (partial inspection)",
+        testTypeName: 'Part-paid prohibition clearance (partial inspection)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -670,7 +701,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -681,7 +714,8 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '27',
-        testTypeName: "Paid prohibition clearance with Class 6A seatbelt installation check (full inspection)",
+        testTypeName:
+          'Paid prohibition clearance with Class 6A seatbelt installation check (full inspection)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -717,7 +751,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -728,7 +764,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '28',
-        testTypeName: "Prohibition clearance (retest with Class 6A seatbelt installation check)",
+        testTypeName: 'Prohibition clearance (retest with Class 6A seatbelt installation check)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -764,7 +800,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -775,7 +813,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '30',
-        testTypeName: "Voluntary brake test",
+        testTypeName: 'Voluntary brake test',
         sections: [
           {
             sectionName: 'Result',
@@ -808,7 +846,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '31',
-        testTypeName: "Voluntary headlamp aim check",
+        testTypeName: 'Voluntary headlamp aim check',
         sections: [
           {
             sectionName: 'Result',
@@ -841,7 +879,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '32',
-        testTypeName: "Voluntary smoke test",
+        testTypeName: 'Voluntary smoke test',
         sections: [
           {
             sectionName: 'Result',
@@ -874,7 +912,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '33',
-        testTypeName: "Voluntary multi check (headlamp aim, smoke and brake test)",
+        testTypeName: 'Voluntary multi check (headlamp aim, smoke and brake test)',
         sections: [
           {
             sectionName: 'Result',
@@ -907,7 +945,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '34',
-        testTypeName: "Voluntary speed limiter check",
+        testTypeName: 'Voluntary speed limiter check',
         sections: [
           {
             sectionName: 'Result',
@@ -940,7 +978,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '35',
-        testTypeName: "Voluntary Vitesse 100",
+        testTypeName: 'Voluntary Vitesse 100',
         sections: [
           {
             sectionName: 'Result',
@@ -973,7 +1011,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '36',
-        testTypeName: "Voluntary Tempo 100",
+        testTypeName: 'Voluntary Tempo 100',
         sections: [
           {
             sectionName: 'Result',
@@ -1006,7 +1044,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '38',
-        testTypeName: "Notifiable alteration check",
+        testTypeName: 'Notifiable alteration check',
         sections: [
           {
             sectionName: 'Result',
@@ -1040,7 +1078,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1051,7 +1094,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '39',
-        testTypeName: "Low Emissions Certificate (LEC) with annual test",
+        testTypeName: 'Low Emissions Certificate (LEC) with annual test',
         sections: [
           {
             sectionName: 'Result',
@@ -1087,7 +1130,12 @@ export class TestTypesFieldsMetadata {
                 type: TEST_TYPE_FIELDS.EXPIRY_DATE,
                 minDate: TestTypesFieldsMetadata.LecMinExpiryDate,
                 maxDate: TestTypesFieldsMetadata.LecMaxExpiryDate,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1138,7 +1186,12 @@ export class TestTypesFieldsMetadata {
                   }
                 ],
                 defaultValue: 'Select',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'smokeTestKLimitApplied',
@@ -1146,7 +1199,12 @@ export class TestTypesFieldsMetadata {
                 label: 'Smoke test "K" limit applied',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'fuelType',
@@ -1191,7 +1249,12 @@ export class TestTypesFieldsMetadata {
                   }
                 ],
                 defaultValue: 'Select',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1222,7 +1285,12 @@ export class TestTypesFieldsMetadata {
                   }
                 ],
                 defaultValue: 'Select',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'particulateTrapFitted',
@@ -1230,10 +1298,21 @@ export class TestTypesFieldsMetadata {
                 label: 'Particulate trap fitted',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  },
+                  { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                  },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'particulateTrapSerialNumber',
@@ -1241,10 +1320,21 @@ export class TestTypesFieldsMetadata {
                 label: 'Particulate trap serial number',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  },
+                  { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                  },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'modificationTypeUsed',
@@ -1252,9 +1342,17 @@ export class TestTypesFieldsMetadata {
                 label: 'Modification type used',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  },
+                  { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1297,7 +1395,7 @@ export class TestTypesFieldsMetadata {
               {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
-                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM
               }
             ],
             dependentOn: ['testResult']
@@ -1358,7 +1456,12 @@ export class TestTypesFieldsMetadata {
                 type: TEST_TYPE_FIELDS.EXPIRY_DATE,
                 minDate: TestTypesFieldsMetadata.LecMinExpiryDate,
                 maxDate: TestTypesFieldsMetadata.LecMaxExpiryDate,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1409,7 +1512,12 @@ export class TestTypesFieldsMetadata {
                   }
                 ],
                 defaultValue: 'Select',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'smokeTestKLimitApplied',
@@ -1417,7 +1525,12 @@ export class TestTypesFieldsMetadata {
                 label: 'Smoke test "K" limit applied',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'fuelType',
@@ -1462,7 +1575,12 @@ export class TestTypesFieldsMetadata {
                   }
                 ],
                 defaultValue: 'Select',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1493,7 +1611,12 @@ export class TestTypesFieldsMetadata {
                   }
                 ],
                 defaultValue: 'Select',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'particulateTrapFitted',
@@ -1501,10 +1624,21 @@ export class TestTypesFieldsMetadata {
                 label: 'Particulate trap fitted',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  },
+                  { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                  },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'particulateTrapSerialNumber',
@@ -1512,10 +1646,21 @@ export class TestTypesFieldsMetadata {
                 label: 'Particulate trap serial number',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  },
+                  { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                  },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'modificationTypeUsed',
@@ -1523,9 +1668,17 @@ export class TestTypesFieldsMetadata {
                 label: 'Modification type used',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  },
+                  { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1572,7 +1725,12 @@ export class TestTypesFieldsMetadata {
                 type: TEST_TYPE_FIELDS.EXPIRY_DATE,
                 minDate: TestTypesFieldsMetadata.LecMinExpiryDate,
                 maxDate: TestTypesFieldsMetadata.LecMaxExpiryDate,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1623,7 +1781,12 @@ export class TestTypesFieldsMetadata {
                   }
                 ],
                 defaultValue: 'Select',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'smokeTestKLimitApplied',
@@ -1631,7 +1794,12 @@ export class TestTypesFieldsMetadata {
                 label: 'Smoke test "K" limit applied',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'fuelType',
@@ -1676,7 +1844,12 @@ export class TestTypesFieldsMetadata {
                   }
                 ],
                 defaultValue: 'Select',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1707,7 +1880,12 @@ export class TestTypesFieldsMetadata {
                   }
                 ],
                 defaultValue: 'Select',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'particulateTrapFitted',
@@ -1715,10 +1893,21 @@ export class TestTypesFieldsMetadata {
                 label: 'Particulate trap fitted',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  },
+                  { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                  },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'particulateTrapSerialNumber',
@@ -1726,10 +1915,21 @@ export class TestTypesFieldsMetadata {
                 label: 'Particulate trap serial number',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  },
+                  { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                  },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
+                  }
+                ]
               },
               {
                 testTypePropertyName: 'modificationTypeUsed',
@@ -1737,9 +1937,17 @@ export class TestTypesFieldsMetadata {
                 label: 'Modification type used',
                 type: 'number',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: null},
-                  {testTypePropertyName: 'modType', valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  },
+                  { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
+                  {
+                    testTypePropertyName: 'modType',
+                    valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1850,7 +2058,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1895,7 +2108,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1908,8 +2126,15 @@ export class TestTypesFieldsMetadata {
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.EXPIRY_DATE,
                 minDate: new Date().toISOString(),
-                maxDate: new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString(),
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                maxDate: new Date(
+                  new Date().setFullYear(new Date().getFullYear() + 2)
+                ).toISOString(),
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -1968,7 +2193,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -2013,7 +2243,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -2058,7 +2293,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -2071,8 +2311,15 @@ export class TestTypesFieldsMetadata {
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.EXPIRY_DATE,
                 minDate: new Date().toISOString(),
-                maxDate: new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString(),
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                maxDate: new Date(
+                  new Date().setFullYear(new Date().getFullYear() + 2)
+                ).toISOString(),
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -2117,7 +2364,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -2130,8 +2382,15 @@ export class TestTypesFieldsMetadata {
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.EXPIRY_DATE,
                 minDate: new Date().toISOString(),
-                maxDate: new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString(),
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                maxDate: new Date(
+                  new Date().setFullYear(new Date().getFullYear() + 2)
+                ).toISOString(),
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -2233,7 +2492,8 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '82',
-        testTypeName: 'Paid prohibition clearance on first test (full inspection with certification)',
+        testTypeName:
+          'Paid prohibition clearance on first test (full inspection with certification)',
         sections: [],
         hasDefects: true,
         hasNotes: true
@@ -2452,7 +2712,8 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '93',
-        testTypeName: 'Prohibition clearance (retest without Class 6A seatbelt installation check)',
+        testTypeName:
+          'Prohibition clearance (retest without Class 6A seatbelt installation check)',
         sections: [
           {
             sectionName: 'Seatbelt installation check',
@@ -2488,7 +2749,9 @@ export class TestTypesFieldsMetadata {
                 label: 'Most recent installation check',
                 type: 'date',
                 defaultValue: 'Enter',
-                dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+                dependentOn: [
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+                ]
               }
             ]
           }
@@ -2528,7 +2791,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '100',
-        testTypeName: "Vitesse 100 Replacement",
+        testTypeName: 'Vitesse 100 Replacement',
         sections: [
           {
             sectionName: 'Result',
@@ -2638,7 +2901,8 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '119',
-        testTypeName: 'Paid prohibition clearance on first test (full inspection with certification)',
+        testTypeName:
+          'Paid prohibition clearance on first test (full inspection with certification)',
         sections: [],
         hasDefects: true,
         hasNotes: true
@@ -2652,7 +2916,7 @@ export class TestTypesFieldsMetadata {
       },
       {
         testTypeId: '121',
-        testTypeName: "Vitesse 100 Application",
+        testTypeName: 'Vitesse 100 Application',
         sections: [
           {
             sectionName: 'Result',
@@ -2732,11 +2996,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -2782,11 +3051,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -2832,11 +3106,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -2882,11 +3161,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -2932,11 +3216,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -2982,11 +3271,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3032,11 +3326,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3082,11 +3381,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3132,11 +3436,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3177,11 +3486,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3222,11 +3536,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3267,11 +3586,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3312,11 +3636,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3357,11 +3686,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3402,11 +3736,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3447,11 +3786,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3492,11 +3836,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3537,7 +3886,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -3582,7 +3936,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -3627,7 +3986,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -3781,11 +4145,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -3831,11 +4200,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4018,11 +4392,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4068,11 +4447,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4118,11 +4502,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4168,11 +4557,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4218,11 +4612,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4268,11 +4667,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4318,11 +4722,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4368,11 +4777,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4418,11 +4832,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4463,11 +4882,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4508,11 +4932,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4553,11 +4982,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4598,11 +5032,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4643,11 +5082,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4688,11 +5132,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4733,7 +5182,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -4778,7 +5232,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -4894,7 +5353,12 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
@@ -4944,11 +5408,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -4994,11 +5463,16 @@ export class TestTypesFieldsMetadata {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
                 type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
-                dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
+                dependentOn: [
+                  {
+                    testTypePropertyName: 'testResult',
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                  }
+                ]
               }
             ],
             dependentOn: ['testResult']
-          },
+          }
         ],
         hasSpecialistDefects: true,
         hasNotes: true
@@ -5140,6 +5614,6 @@ export class TestTypesFieldsMetadata {
         hasSpecialistDefects: true,
         hasNotes: true
       }
-    ]
+    ];
   }
 }

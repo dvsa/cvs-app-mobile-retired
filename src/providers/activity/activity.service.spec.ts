@@ -1,17 +1,17 @@
-import { TestBed } from "@angular/core/testing";
-import { StorageService } from "../natives/storage.service";
-import { ActivityService } from "./activity.service";
-import { AppService } from "../global/app.service";
-import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
-import { AuthService } from "../global/auth.service";
-import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
-import { HTTPService } from "../global/http.service";
-import { ActivityDataMock } from "../../assets/data-mocks/activity.data.mock";
-import { VisitModel } from "../../models/visit/visit.model";
-import { TestResultsDataMock } from "../../assets/data-mocks/test-results-data.mock";
-import { TestResultModel } from "../../models/tests/test-result.model";
-import { WaitTimeReasonsData } from "../../assets/app-data/wait-time-data/wait-time-reasons.data";
-import { VISIT } from "../../app/app.enums";
+import { TestBed } from '@angular/core/testing';
+import { StorageService } from '../natives/storage.service';
+import { ActivityService } from './activity.service';
+import { AppService } from '../global/app.service';
+import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
+import { AuthService } from '../global/auth.service';
+import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
+import { HTTPService } from '../global/http.service';
+import { ActivityDataMock } from '../../assets/data-mocks/activity.data.mock';
+import { VisitModel } from '../../models/visit/visit.model';
+import { TestResultsDataMock } from '../../assets/data-mocks/test-results-data.mock';
+import { TestResultModel } from '../../models/tests/test-result.model';
+import { WaitTimeReasonsData } from '../../assets/app-data/wait-time-data/wait-time-reasons.data';
+import { VISIT } from '../../app/app.enums';
 
 describe('Provider: ActivityService', () => {
   let activityService: ActivityService;
@@ -28,225 +28,308 @@ describe('Provider: ActivityService', () => {
   const TEST_RESULT = TestResultsDataMock.TestResultsData;
   let activitiesForUpdate = ActivityDataMock.UpdateActivities;
   let visit: VisitModel = {
-    "startTime": "2019-05-23T12:11:11.974Z",
-    "endTime": null,
-    "testStationName": "Abshire-Kub",
-    "testStationPNumber": "09-4129632",
-    "testStationEmail": "teststationname@dvsa.gov.uk",
-    "testStationType": "gvts",
-    "testerId": "9b4q4o87d",
-    "testerName": "gvminnbbl",
-    "testerEmail": "blabla@email.com",
-    "tests": [],
-    "id": "8e56af10-503c-494c-836b-b2f3aa3c56ac"
+    startTime: '2019-05-23T12:11:11.974Z',
+    endTime: null,
+    testStationName: 'Abshire-Kub',
+    testStationPNumber: '09-4129632',
+    testStationEmail: 'teststationname@dvsa.gov.uk',
+    testStationType: 'gvts',
+    testerId: '9b4q4o87d',
+    testerName: 'gvminnbbl',
+    testerEmail: 'blabla@email.com',
+    tests: [],
+    id: '8e56af10-503c-494c-836b-b2f3aa3c56ac'
   };
 
   let waitActivity = {
-    "activityType": "wait",
-    "testStationName": "Abshire-Kub",
-    "testStationPNumber": "09-4129632",
-    "testStationEmail": "teststationname@dvsa.gov.uk",
-    "testStationType": "gvts",
-    "testerName": "gvminnbbl",
-    "testerStaffId": "9b4q4o87d",
-    "startTime": "2019-05-23T12:11:11.974Z",
-    "endTime": null,
-    "waitReason": ["Waiting for vehicle"],
-    "notes": "",
-    "parentId": "8e56af10-503c-494c-836b-b2f3aa3c56ac"
+    activityType: 'wait',
+    testStationName: 'Abshire-Kub',
+    testStationPNumber: '09-4129632',
+    testStationEmail: 'teststationname@dvsa.gov.uk',
+    testStationType: 'gvts',
+    testerName: 'gvminnbbl',
+    testerStaffId: '9b4q4o87d',
+    startTime: '2019-05-23T12:11:11.974Z',
+    endTime: null,
+    waitReason: ['Waiting for vehicle'],
+    notes: '',
+    parentId: '8e56af10-503c-494c-836b-b2f3aa3c56ac'
   };
 
   let testResult: TestResultModel = {
-    "systemNumber": "1000000",
-    "testResultId": "b1972f03-4a1d-482a-a812-7bdd82b1aae9",
-    "vrm": "BQ91YHQ",
-    "vin": "1B7GG36N12S678410",
-    "testStationName": "Abshire-Kub",
-    "testStationPNumber": "09-4129632",
-    "testStationType": "gvts",
-    "testerName": "dnbcjcmvb",
-    "testerStaffId": "77deigpn9",
-    "testerEmailAddress": "dnbcjcmvb.77deigpn9@email.com",
-    "testStartTimestamp": "2019-05-23T14:52:33.216Z",
-    "testEndTimestamp": "2019-05-24T09:12:54.689Z",
-    "testStatus": "cancelled",
-    "reasonForCancellation": "we",
-    "vehicleClass": {"description": "small psv (ie: less than or equal to 22 seats)", "code": "s"},
-    "vehicleType": "psv",
-    "numberOfSeats": 50,
-    "vehicleConfiguration": "rigid",
-    "odometerReading": null,
-    "odometerReadingUnits": null,
-    "preparerId": "No preparer ID given",
-    "preparerName": "",
-    "euVehicleCategory": null,
-    "countryOfRegistration": "gb",
-    "vehicleSize": "small",
-    "noOfAxles": 2,
-    "numberOfWheelsDriven": null,
-    "testTypes": []
+    systemNumber: '1000000',
+    testResultId: 'b1972f03-4a1d-482a-a812-7bdd82b1aae9',
+    vrm: 'BQ91YHQ',
+    vin: '1B7GG36N12S678410',
+    testStationName: 'Abshire-Kub',
+    testStationPNumber: '09-4129632',
+    testStationType: 'gvts',
+    testerName: 'dnbcjcmvb',
+    testerStaffId: '77deigpn9',
+    testerEmailAddress: 'dnbcjcmvb.77deigpn9@email.com',
+    testStartTimestamp: '2019-05-23T14:52:33.216Z',
+    testEndTimestamp: '2019-05-24T09:12:54.689Z',
+    testStatus: 'cancelled',
+    reasonForCancellation: 'we',
+    vehicleClass: { description: 'small psv (ie: less than or equal to 22 seats)', code: 's' },
+    vehicleType: 'psv',
+    numberOfSeats: 50,
+    vehicleConfiguration: 'rigid',
+    odometerReading: null,
+    odometerReadingUnits: null,
+    preparerId: 'No preparer ID given',
+    preparerName: '',
+    euVehicleCategory: null,
+    countryOfRegistration: 'gb',
+    vehicleSize: 'small',
+    noOfAxles: 2,
+    numberOfWheelsDriven: null,
+    testTypes: []
   };
 
   let newVisit = {
-    "startTime": "2019-05-23T14:52:02.041Z",
-    "endTime": null,
-    "testStationName": "Abshire-Kub",
-    "testStationPNumber": "09-4129632",
-    "testStationEmail": "teststationname@dvsa.gov.uk",
-    "testStationType": "gvts",
-    "testerId": "77deigpn9",
-    "testerName": "dnbcjcmvb",
-    "testerEmail": "dnbcjcmvb.77deigpn9@email.com",
-    "tests": [{
-      "testResultId": "e2b1f4b7-16d8-440b-bb73-adbc9a0147b9",
-      "startTime": "2019-05-23T14:52:04.208Z",
-      "endTime": "2019-05-23T14:52:24.773Z",
-      "status": "cancelled",
-      "reasonForCancellation": "qw",
-      "vehicles": [{
-        "vrm": "BQ91YHQ",
-        "vin": "1B7GG36N12S678410",
-        "techRecord": {
-          "bodyType": {"description": "single decker", "code": "s"},
-          "grossKerbWeight": 13315,
-          "brakeCode": "171202",
-          "lastUpdatedAt": "2019-01-16T12:24:38.027Z",
-          "coifDate": "2010-12-20",
-          "seatsUpperDeck": 0,
-          "standingCapacity": 0,
-          "brakes": {
-            "brakeCodeOriginal": "123",
-            "brakeCode": "171202",
-            "retarderBrakeOne": "exhaust",
-            "brakeForceWheelsNotLocked": {"parkingBrakeForceA": 2742, "serviceBrakeForceA": 7713, "secondaryBrakeForceA": 3857},
-            "dataTrBrakeTwo": "None",
-            "retarderBrakeTwo": "exhaust",
-            "dataTrBrakeOne": "None",
-            "dataTrBrakeThree": "None",
-            "brakeForceWheelsUpToHalfLocked": {"secondaryBrakeForceB": 3329, "parkingBrakeForceB": 2130, "serviceBrakeForceB": 6658}
-          },
-          "bodyModel": "Tourismo",
-          "bodyMake": "Plaxton",
-          "conversionRefNo": "2",
-          "grossLadenWeight": 17140,
-          "axles": [{
-            "axleNumber": 1,
-            "tyres": {"tyreSize": "295/80-22.5", "speedCategorySymbol": "j", "fitmentCode": "single", "dataTrAxles": 0, "plyRating": "A", "tyreCode": 456},
-            "parkingBrakeMrk": false,
-            "weights": {"kerbWeight": 5018, "gbWeight": 7100, "ladenWeight": 7100, "designWeight": 7100}
-          }, {
-            "axleNumber": 2,
-            "weights": {"kerbWeight": 8297, "gbWeight": 11500, "ladenWeight": 11500, "designWeight": 12600},
-            "tyres": {"tyreSize": "295/80-22.5", "speedCategorySymbol": "j", "fitmentCode": "double", "dataTrAxles": 0, "plyRating": "A", "tyreCode": 456}
-          }],
-          "createdAt": "2019-01-16T12:24:38.027Z",
-          "chassisModel": "632,01",
-          "grossGbWeight": 18000,
-          "dispensations": "None",
-          "vehicleClass": {"description": "small psv (ie: less than or equal to 22 seats)", "code": "s"},
-          "chassisMake": "Mercedes",
-          "vehicleSize": "small",
-          "noOfAxles": 2,
-          "grossDesignWeight": 19000,
-          "vehicleType": "psv",
-          "speedLimiterMrk": false,
-          "vehicleConfiguration": "rigid",
-          "regnDate": "2011-01-05",
-          "seatsLowerDeck": 50,
-          "tachoExemptMrk": false,
-          "unladenWeight": 0,
-          "ntaNumber": "7",
-          "reasonForCreation": "COIF",
-          "speedRestriction": 0,
-          "manufactureYear": 2010,
-          "remarks": "None",
-          "statusCode": "current"
-        },
-        "testResultsHistory": [],
-        "countryOfRegistration": "gb",
-        "euVehicleCategory": null,
-        "odometerReading": null,
-        "odometerMetric": null,
-        "preparerId": "No preparer ID given",
-        "preparerName": "",
-        "testTypes": []
-      }]
-    }, {
-      "testResultId": "2d44d0e3-14da-472c-a3d7-f6c1693d84ef",
-      "startTime": "2019-05-23T14:52:33.216Z",
-      "endTime": "2019-05-23T14:55:17.148Z",
-      "status": "cancelled",
-      "reasonForCancellation": "qwe",
-      "vehicles": [{
-        "vrm": "BQ91YHQ",
-        "vin": "1B7GG36N12S678410",
-        "techRecord": {
-          "bodyType": {"description": "single decker", "code": "s"},
-          "grossKerbWeight": 13315,
-          "brakeCode": "171202",
-          "lastUpdatedAt": "2019-01-16T12:24:38.027Z",
-          "coifDate": "2010-12-20",
-          "seatsUpperDeck": 0,
-          "standingCapacity": 0,
-          "brakes": {
-            "brakeCodeOriginal": "123",
-            "brakeCode": "171202",
-            "retarderBrakeOne": "exhaust",
-            "brakeForceWheelsNotLocked": {"parkingBrakeForceA": 2742, "serviceBrakeForceA": 7713, "secondaryBrakeForceA": 3857},
-            "dataTrBrakeTwo": "None",
-            "retarderBrakeTwo": "exhaust",
-            "dataTrBrakeOne": "None",
-            "dataTrBrakeThree": "None",
-            "brakeForceWheelsUpToHalfLocked": {"secondaryBrakeForceB": 3329, "parkingBrakeForceB": 2130, "serviceBrakeForceB": 6658}
-          },
-          "bodyModel": "Tourismo",
-          "bodyMake": "Plaxton",
-          "conversionRefNo": "2",
-          "grossLadenWeight": 17140,
-          "axles": [{
-            "axleNumber": 1,
-            "tyres": {"tyreSize": "295/80-22.5", "speedCategorySymbol": "j", "fitmentCode": "single", "dataTrAxles": 0, "plyRating": "A", "tyreCode": 456},
-            "parkingBrakeMrk": false,
-            "weights": {"kerbWeight": 5018, "gbWeight": 7100, "ladenWeight": 7100, "designWeight": 7100}
-          }, {
-            "axleNumber": 2,
-            "weights": {"kerbWeight": 8297, "gbWeight": 11500, "ladenWeight": 11500, "designWeight": 12600},
-            "tyres": {"tyreSize": "295/80-22.5", "speedCategorySymbol": "j", "fitmentCode": "double", "dataTrAxles": 0, "plyRating": "A", "tyreCode": 456}
-          }],
-          "createdAt": "2019-01-16T12:24:38.027Z",
-          "chassisModel": "632,01",
-          "grossGbWeight": 18000,
-          "dispensations": "None",
-          "vehicleClass": {"description": "small psv (ie: less than or equal to 22 seats)", "code": "s"},
-          "chassisMake": "Mercedes",
-          "vehicleSize": "small",
-          "noOfAxles": 2,
-          "grossDesignWeight": 19000,
-          "vehicleType": "psv",
-          "speedLimiterMrk": false,
-          "vehicleConfiguration": "rigid",
-          "regnDate": "2011-01-05",
-          "seatsLowerDeck": 50,
-          "tachoExemptMrk": false,
-          "unladenWeight": 0,
-          "ntaNumber": "7",
-          "reasonForCreation": "COIF",
-          "speedRestriction": 0,
-          "manufactureYear": 2010,
-          "remarks": "None",
-          "statusCode": "current"
-        },
-        "testResultsHistory": [],
-        "countryOfRegistration": "gb",
-        "euVehicleCategory": null,
-        "odometerReading": null,
-        "odometerMetric": null,
-        "preparerId": "No preparer ID given",
-        "preparerName": "",
-        "testTypes": []
-      }]
-    }],
-    "id": "3ea6476a-c360-4bd5-9ba5-048c2a428f4c"
+    startTime: '2019-05-23T14:52:02.041Z',
+    endTime: null,
+    testStationName: 'Abshire-Kub',
+    testStationPNumber: '09-4129632',
+    testStationEmail: 'teststationname@dvsa.gov.uk',
+    testStationType: 'gvts',
+    testerId: '77deigpn9',
+    testerName: 'dnbcjcmvb',
+    testerEmail: 'dnbcjcmvb.77deigpn9@email.com',
+    tests: [
+      {
+        testResultId: 'e2b1f4b7-16d8-440b-bb73-adbc9a0147b9',
+        startTime: '2019-05-23T14:52:04.208Z',
+        endTime: '2019-05-23T14:52:24.773Z',
+        status: 'cancelled',
+        reasonForCancellation: 'qw',
+        vehicles: [
+          {
+            vrm: 'BQ91YHQ',
+            vin: '1B7GG36N12S678410',
+            techRecord: {
+              bodyType: { description: 'single decker', code: 's' },
+              grossKerbWeight: 13315,
+              brakeCode: '171202',
+              lastUpdatedAt: '2019-01-16T12:24:38.027Z',
+              coifDate: '2010-12-20',
+              seatsUpperDeck: 0,
+              standingCapacity: 0,
+              brakes: {
+                brakeCodeOriginal: '123',
+                brakeCode: '171202',
+                retarderBrakeOne: 'exhaust',
+                brakeForceWheelsNotLocked: {
+                  parkingBrakeForceA: 2742,
+                  serviceBrakeForceA: 7713,
+                  secondaryBrakeForceA: 3857
+                },
+                dataTrBrakeTwo: 'None',
+                retarderBrakeTwo: 'exhaust',
+                dataTrBrakeOne: 'None',
+                dataTrBrakeThree: 'None',
+                brakeForceWheelsUpToHalfLocked: {
+                  secondaryBrakeForceB: 3329,
+                  parkingBrakeForceB: 2130,
+                  serviceBrakeForceB: 6658
+                }
+              },
+              bodyModel: 'Tourismo',
+              bodyMake: 'Plaxton',
+              conversionRefNo: '2',
+              grossLadenWeight: 17140,
+              axles: [
+                {
+                  axleNumber: 1,
+                  tyres: {
+                    tyreSize: '295/80-22.5',
+                    speedCategorySymbol: 'j',
+                    fitmentCode: 'single',
+                    dataTrAxles: 0,
+                    plyRating: 'A',
+                    tyreCode: 456
+                  },
+                  parkingBrakeMrk: false,
+                  weights: {
+                    kerbWeight: 5018,
+                    gbWeight: 7100,
+                    ladenWeight: 7100,
+                    designWeight: 7100
+                  }
+                },
+                {
+                  axleNumber: 2,
+                  weights: {
+                    kerbWeight: 8297,
+                    gbWeight: 11500,
+                    ladenWeight: 11500,
+                    designWeight: 12600
+                  },
+                  tyres: {
+                    tyreSize: '295/80-22.5',
+                    speedCategorySymbol: 'j',
+                    fitmentCode: 'double',
+                    dataTrAxles: 0,
+                    plyRating: 'A',
+                    tyreCode: 456
+                  }
+                }
+              ],
+              createdAt: '2019-01-16T12:24:38.027Z',
+              chassisModel: '632,01',
+              grossGbWeight: 18000,
+              dispensations: 'None',
+              vehicleClass: {
+                description: 'small psv (ie: less than or equal to 22 seats)',
+                code: 's'
+              },
+              chassisMake: 'Mercedes',
+              vehicleSize: 'small',
+              noOfAxles: 2,
+              grossDesignWeight: 19000,
+              vehicleType: 'psv',
+              speedLimiterMrk: false,
+              vehicleConfiguration: 'rigid',
+              regnDate: '2011-01-05',
+              seatsLowerDeck: 50,
+              tachoExemptMrk: false,
+              unladenWeight: 0,
+              ntaNumber: '7',
+              reasonForCreation: 'COIF',
+              speedRestriction: 0,
+              manufactureYear: 2010,
+              remarks: 'None',
+              statusCode: 'current'
+            },
+            testResultsHistory: [],
+            countryOfRegistration: 'gb',
+            euVehicleCategory: null,
+            odometerReading: null,
+            odometerMetric: null,
+            preparerId: 'No preparer ID given',
+            preparerName: '',
+            testTypes: []
+          }
+        ]
+      },
+      {
+        testResultId: '2d44d0e3-14da-472c-a3d7-f6c1693d84ef',
+        startTime: '2019-05-23T14:52:33.216Z',
+        endTime: '2019-05-23T14:55:17.148Z',
+        status: 'cancelled',
+        reasonForCancellation: 'qwe',
+        vehicles: [
+          {
+            vrm: 'BQ91YHQ',
+            vin: '1B7GG36N12S678410',
+            techRecord: {
+              bodyType: { description: 'single decker', code: 's' },
+              grossKerbWeight: 13315,
+              brakeCode: '171202',
+              lastUpdatedAt: '2019-01-16T12:24:38.027Z',
+              coifDate: '2010-12-20',
+              seatsUpperDeck: 0,
+              standingCapacity: 0,
+              brakes: {
+                brakeCodeOriginal: '123',
+                brakeCode: '171202',
+                retarderBrakeOne: 'exhaust',
+                brakeForceWheelsNotLocked: {
+                  parkingBrakeForceA: 2742,
+                  serviceBrakeForceA: 7713,
+                  secondaryBrakeForceA: 3857
+                },
+                dataTrBrakeTwo: 'None',
+                retarderBrakeTwo: 'exhaust',
+                dataTrBrakeOne: 'None',
+                dataTrBrakeThree: 'None',
+                brakeForceWheelsUpToHalfLocked: {
+                  secondaryBrakeForceB: 3329,
+                  parkingBrakeForceB: 2130,
+                  serviceBrakeForceB: 6658
+                }
+              },
+              bodyModel: 'Tourismo',
+              bodyMake: 'Plaxton',
+              conversionRefNo: '2',
+              grossLadenWeight: 17140,
+              axles: [
+                {
+                  axleNumber: 1,
+                  tyres: {
+                    tyreSize: '295/80-22.5',
+                    speedCategorySymbol: 'j',
+                    fitmentCode: 'single',
+                    dataTrAxles: 0,
+                    plyRating: 'A',
+                    tyreCode: 456
+                  },
+                  parkingBrakeMrk: false,
+                  weights: {
+                    kerbWeight: 5018,
+                    gbWeight: 7100,
+                    ladenWeight: 7100,
+                    designWeight: 7100
+                  }
+                },
+                {
+                  axleNumber: 2,
+                  weights: {
+                    kerbWeight: 8297,
+                    gbWeight: 11500,
+                    ladenWeight: 11500,
+                    designWeight: 12600
+                  },
+                  tyres: {
+                    tyreSize: '295/80-22.5',
+                    speedCategorySymbol: 'j',
+                    fitmentCode: 'double',
+                    dataTrAxles: 0,
+                    plyRating: 'A',
+                    tyreCode: 456
+                  }
+                }
+              ],
+              createdAt: '2019-01-16T12:24:38.027Z',
+              chassisModel: '632,01',
+              grossGbWeight: 18000,
+              dispensations: 'None',
+              vehicleClass: {
+                description: 'small psv (ie: less than or equal to 22 seats)',
+                code: 's'
+              },
+              chassisMake: 'Mercedes',
+              vehicleSize: 'small',
+              noOfAxles: 2,
+              grossDesignWeight: 19000,
+              vehicleType: 'psv',
+              speedLimiterMrk: false,
+              vehicleConfiguration: 'rigid',
+              regnDate: '2011-01-05',
+              seatsLowerDeck: 50,
+              tachoExemptMrk: false,
+              unladenWeight: 0,
+              ntaNumber: '7',
+              reasonForCreation: 'COIF',
+              speedRestriction: 0,
+              manufactureYear: 2010,
+              remarks: 'None',
+              statusCode: 'current'
+            },
+            testResultsHistory: [],
+            countryOfRegistration: 'gb',
+            euVehicleCategory: null,
+            odometerReading: null,
+            odometerMetric: null,
+            preparerId: 'No preparer ID given',
+            preparerName: '',
+            testTypes: []
+          }
+        ]
+      }
+    ],
+    id: '3ea6476a-c360-4bd5-9ba5-048c2a428f4c'
   };
 
   beforeEach(() => {
@@ -256,11 +339,10 @@ describe('Provider: ActivityService', () => {
     TestBed.configureTestingModule({
       providers: [
         ActivityService,
-        {provide: StorageService, useValue: storageServiceSpy},
-        {provide: AppService, useClass: AppServiceMock},
-        {provide: AuthService, useClass: AuthServiceMock},
-        {provide: HTTPService, useValue: httpServiceSpy},
-
+        { provide: StorageService, useValue: storageServiceSpy },
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: HTTPService, useValue: httpServiceSpy }
       ]
     });
 
@@ -284,7 +366,12 @@ describe('Provider: ActivityService', () => {
     expect(newActivity1.activityType).toBe(VISIT.ACTIVITY_TYPE_UNACCOUNTABLE_TIME);
     expect(storageService.update).not.toHaveBeenCalled();
 
-    let newActivity2 = activityService.createActivity(visit, VISIT.ACTIVITY_TYPE_WAIT, true, true);
+    let newActivity2 = activityService.createActivity(
+      visit,
+      VISIT.ACTIVITY_TYPE_WAIT,
+      true,
+      true
+    );
     expect(newActivity2.activityType).toBe(VISIT.ACTIVITY_TYPE_WAIT);
     expect(storageService.update).toHaveBeenCalled();
   });
@@ -316,7 +403,7 @@ describe('Provider: ActivityService', () => {
 
   it('should return array of activities for update call', () => {
     let activitiesForUpdate = activityService.createActivitiesForUpdateCall(ACTIVITIES);
-    expect(activitiesForUpdate[0].id).toBe("8ae539aa-cbfb-49e2-8951-63567003b512");
+    expect(activitiesForUpdate[0].id).toBe('8ae539aa-cbfb-49e2-8951-63567003b512');
   });
 
   it('should create activity body for call on submit/cancel test or end visit', () => {
@@ -336,7 +423,6 @@ describe('Provider: ActivityService', () => {
     expect(activityForBody).toBeTruthy();
     expect(activityForBody.activityType).toBe(VISIT.ACTIVITY_TYPE_WAIT);
 
-
     activityForBody = activityService.createActivityBodyForCall(newVisit, testResult, null);
     expect(activityForBody).toBeTruthy();
 
@@ -351,4 +437,3 @@ describe('Provider: ActivityService', () => {
     expect(activityService.activities).toBeTruthy();
   });
 });
-

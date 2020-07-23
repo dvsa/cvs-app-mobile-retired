@@ -1,4 +1,4 @@
-import { DEFICIENCY_CATEGORY, VEHICLE_TYPE } from "../../app/app.enums";
+import { DEFICIENCY_CATEGORY, VEHICLE_TYPE } from '../../app/app.enums';
 
 export interface DefectCategoryReferenceDataModel {
   imNumber: number;
@@ -27,16 +27,16 @@ export interface DefectDeficiencyReferenceDataModel {
 
 export interface AdditionalInfoModel {
   psv: {
-    location?: LocationMetadataModel,
-    notes?: boolean
+    location?: LocationMetadataModel;
+    notes?: boolean;
   };
   hgv: {
-    location?: LocationMetadataModel,
-    notes?: boolean
+    location?: LocationMetadataModel;
+    notes?: boolean;
   };
   trl: {
-    location?: LocationMetadataModel,
-    notes?: boolean
+    location?: LocationMetadataModel;
+    notes?: boolean;
   };
 }
 
@@ -49,6 +49,3 @@ export interface LocationMetadataModel {
   seatNumber?: number[] | null;
   axleNumber?: number[] | null;
 }
-
-
-

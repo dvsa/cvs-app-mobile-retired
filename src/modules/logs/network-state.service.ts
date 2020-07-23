@@ -6,21 +6,22 @@ import { Observable } from 'rxjs/Observable';
 
 export enum ConnectionStatus {
   ONLINE = 0,
-  OFFLINE,
+  OFFLINE
 }
 
 @Injectable()
 export class NetworkStateProvider {
+  private networkStatus$: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(
+    ConnectionStatus.OFFLINE
+  );
 
-  private networkStatus$: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.OFFLINE);
-
-  constructor(private network: Network, private platform: Platform) {
-  }
+  constructor(private network: Network, private platform: Platform) {}
 
   initialiseNetworkState(): void {
     this.platform.ready().then(() => {
       this.initialiseNetworkEvents();
-      const status = this.network.type !== 'none' ? ConnectionStatus.ONLINE : ConnectionStatus.OFFLINE;
+      const status =
+        this.network.type !== 'none' ? ConnectionStatus.ONLINE : ConnectionStatus.OFFLINE;
       this.networkStatus$.next(status);
     });
   }
@@ -54,5 +55,4 @@ export class NetworkStateProvider {
     }
     return this.networkStatus$.getValue();
   }
-
 }

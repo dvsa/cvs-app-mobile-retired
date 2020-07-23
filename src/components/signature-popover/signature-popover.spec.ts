@@ -1,17 +1,17 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { Events, LoadingController, ViewController } from "ionic-angular";
-import { SignaturePopoverComponent } from "./signature-popover";
-import { LoadingControllerMock, ViewControllerMock } from "ionic-mocks";
-import { SignatureService } from "../../providers/signature/signature.service";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { APP_STRINGS } from "../../app/app.enums";
-import { SignatureServiceMock } from "../../../test-config/services-mocks/signature-service.mock";
-import { AppService } from "../../providers/global/app.service";
-import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
-import { AuthService } from "../../providers/global/auth.service";
-import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
-import { Store } from "@ngrx/store";
-import { TestStore } from "../../providers/interceptors/auth.interceptor.spec";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Events, LoadingController, ViewController } from 'ionic-angular';
+import { SignaturePopoverComponent } from './signature-popover';
+import { LoadingControllerMock, ViewControllerMock } from 'ionic-mocks';
+import { SignatureService } from '../../providers/signature/signature.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { APP_STRINGS } from '../../app/app.enums';
+import { SignatureServiceMock } from '../../../test-config/services-mocks/signature-service.mock';
+import { AppService } from '../../providers/global/app.service';
+import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
+import { AuthService } from '../../providers/global/auth.service';
+import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
+import { Store } from '@ngrx/store';
+import { TestStore } from '../../providers/interceptors/auth.interceptor.spec';
 
 describe('Component: SignaturePopoverComponent', () => {
   let fixture: ComponentFixture<SignaturePopoverComponent>;
@@ -24,19 +24,16 @@ describe('Component: SignaturePopoverComponent', () => {
   let store: Store<any>;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
-      declarations: [
-        SignaturePopoverComponent
-      ],
+      declarations: [SignaturePopoverComponent],
       providers: [
         Events,
-        {provide: SignatureService, useClass: SignatureServiceMock},
-        {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
-        {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
-        {provide: AppService, useClass: AppServiceMock},
-        {provide: AuthService, useClass: AuthServiceMock},
-        {provide: Store, useClass: TestStore}
+        { provide: SignatureService, useClass: SignatureServiceMock },
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: Store, useClass: TestStore }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -78,5 +75,4 @@ describe('Component: SignaturePopoverComponent', () => {
     comp.confirmPop();
     expect(comp.loading.present).toHaveBeenCalled();
   });
-
 });

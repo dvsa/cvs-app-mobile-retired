@@ -13,7 +13,7 @@ export enum STORAGE {
 }
 
 export enum PATHS {
-  TECH_RECORDS = "tech-records"
+  TECH_RECORDS = 'tech-records'
 }
 
 export enum STATUS_CODE {
@@ -70,7 +70,7 @@ export enum TEST_TYPE_RESULTS {
   ABANDONED = 'abandoned',
   FAIL = 'fail',
   PASS = 'pass',
-  PRS = 'prs',
+  PRS = 'prs'
 }
 
 export enum TEST_COMPLETION_STATUS {
@@ -151,8 +151,8 @@ export enum APP_STRINGS {
   CONFIRM_PREPARER = 'You are about to add this preparer to the test.',
   ADD_PREPARER_INFO_TEXT = 'If you are shown a preparer ID, add this to the test now',
   WITHOUT_PREPARER_MSG = "You won't be able to add this information later.",
-  PREPARER_NOT_FOUND = "Preparer not found",
-  PREPARER_NOT_FOUND_MSG = "You can continue without adding a preparer ID or search again.",
+  PREPARER_NOT_FOUND = 'Preparer not found',
+  PREPARER_NOT_FOUND_MSG = 'You can continue without adding a preparer ID or search again.',
   SEARCH_AGAIN = 'Search again',
   CONTINUE = 'Continue',
   CANCEL = 'Cancel',
@@ -219,7 +219,7 @@ export enum APP_STRINGS {
   SIGNATURE_DIVIDER = 'use your finger to sign below',
   SIGN_CONF_TITLE = 'Save signature',
   SIGN_CONF_MSG = 'After it has been saved, it cannot be edited and will be used each time you need to sign a certificate.',
-  SIGN_TOAST_MSG = "Your Signature has been saved and will be used each time you need to sign a certificate",
+  SIGN_TOAST_MSG = 'Your Signature has been saved and will be used each time you need to sign a certificate',
   SIGN_NOT_ENTERED = 'Signature not entered',
   SIGN_ENTER = 'You must enter your signature before saving.',
   SIGN_UNABLE_LOAD_DATA = 'Unable to load data',
@@ -230,10 +230,10 @@ export enum APP_STRINGS {
   UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support.",
   WAIT_REASONS_MSG_ISSUE = "You've selected 'Site issue', give more details in notes section.",
   WAIT_REASONS_MSG_OTHER = "You've selected 'Other', give more details in notes section.",
-  WAIT_REASONS_TITLE = "Add notes",
-  PROHIBITION_TITLE = "Prohibition alert",
+  WAIT_REASONS_TITLE = 'Add notes',
+  PROHIBITION_TITLE = 'Prohibition alert',
   PROHIBITION_MSG_NOTES = "Explain why you haven't issued a prohibition for this defect in the Notes section.",
-  PROHIBITION_MSG_CONFIRM = "This defect requires you to issue a prohibition in Mobile Compliance. Confirm you’ve done this in the Prohibition section.",
+  PROHIBITION_MSG_CONFIRM = 'This defect requires you to issue a prohibition in Mobile Compliance. Confirm you’ve done this in the Prohibition section.',
   NO_PREPARER_ID_FOUND = 'No preparer ID found',
   NO_PREPARER_ID_GIVEN = 'No preparer ID given',
   TRAILER_ID_OR_VIN = 'Enter trailer ID or VIN',
@@ -242,7 +242,7 @@ export enum APP_STRINGS {
   CONFIRMATION_MESSAGE_SUBMIT_TEST = 'The tests have been submitted and will be emailed to ',
   CONFIRMATION_ADDITIONAL_MESSAGE_SUBMIT_TEST = 'If you do not receive the email, ',
   CONFIRMATION_ADDITIONAL_MESSAGE_BUTTON_SUBMIT_TEST = 'call central support',
-  PROVISIONAL_LABEL_TEXT = "This is a provisional record.",
+  PROVISIONAL_LABEL_TEXT = 'This is a provisional record.',
   TEST_CREATE_ERROR_BANNER = 'You must complete all vehicle and test type details before reviewing.',
   SKELETON = 'skeleton',
   SKELETON_ALERT_TITLE = 'Incomplete vehicle record',
@@ -316,7 +316,7 @@ export enum VEHICLE_CLASS {
   CLASS_N = 'n',
   CLASS_V = 'v',
   CLASS_T = 't',
-  CLASS_S = 's',
+  CLASS_S = 's'
 }
 
 export enum VEHICLE_STATUS {
@@ -386,7 +386,6 @@ export enum VISIT {
   ACTIVITY_TYPE_UNACCOUNTABLE_TIME = 'unaccountable time',
   ALREADY_ENDED = 'Activity already ended'
 }
-
 
 export enum PAGE_NAMES {
   TEST_STATION_SEARCH_PAGE = 'TestStationSearchPage',
@@ -470,7 +469,7 @@ export enum FIREBASE_AUTH {
   TENANT_ID = 'tenant_id',
   OID = 'OID',
   USER_ROLES = 'user_roles',
-  ERROR_MESSAGE = 'error_message',
+  ERROR_MESSAGE = 'error_message'
 }
 
 export enum FIREBASE_DEFECTS {
@@ -541,6 +540,6 @@ export enum TEST_TYPES_IDS {
 
 export enum APP_UPDATE {
   TITLE = 'Update required',
-  MESSAGE = 'A newer version of the Vehicle Testing app has been released. You must update using \'DVSA apps\'.',
+  MESSAGE = "A newer version of the Vehicle Testing app has been released. You must update using 'DVSA apps'.",
   BUTTON = 'Close Vehicle Testing app'
 }

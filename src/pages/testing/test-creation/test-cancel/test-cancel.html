@@ -1,27 +1,29 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>Cancel test</ion-title>
-        <ion-buttons end>
-            <button ion-button
-                    (click)="onSubmit()"
-                    [ngClass]="{buttonOpacity: changeOpacity}">
-                Submit
-            </button>
-        </ion-buttons>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title>Cancel test</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="onSubmit()" [ngClass]="{buttonOpacity: changeOpacity}">
+        Submit
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 <ion-content class="content-background-color-grey">
-    <ion-list>
-        <ion-item-group>
-            <ion-item-divider padding-left>Reason for cancellation (required)</ion-item-divider>
-            <ion-item padding-left>
-                <ion-textarea placeholder="Add reason for cancellation"
-                              rows="5"
-                              [(ngModel)]="cancellationReason"></ion-textarea>
-            </ion-item>
-        </ion-item-group>
-    </ion-list>
-    <p class="cancellation-info">You are about to cancel all tests for this vehicle. You will not be able to edit this test later. The test will
-        not be recorded against the vehicle and no certificate will be issued.</p>
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider padding-left>Reason for cancellation (required)</ion-item-divider>
+      <ion-item padding-left>
+        <ion-textarea
+          placeholder="Add reason for cancellation"
+          rows="5"
+          [(ngModel)]="cancellationReason"
+        ></ion-textarea>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+  <p class="cancellation-info">
+    You are about to cancel all tests for this vehicle. You will not be able to edit this test
+    later. The test will not be recorded against the vehicle and no certificate will be issued.
+  </p>
 </ion-content>

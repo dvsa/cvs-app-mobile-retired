@@ -1,5 +1,4 @@
 page-reasons-selection {
-
   .item-divider-ios {
     font-size: $font-size-small;
     text-transform: none;
@@ -14,7 +13,7 @@ page-reasons-selection {
       margin: 16px 28px 16px 0;
     }
 
-    ion-icon[item-end]{
+    ion-icon[item-end] {
       display: flex;
       align-items: center;
       margin: 0;
@@ -23,7 +22,4 @@ page-reasons-selection {
       height: 100%;
     }
   }
-
 }
-
-

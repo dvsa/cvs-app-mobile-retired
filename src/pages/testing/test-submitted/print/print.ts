@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -7,9 +7,5 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
   templateUrl: 'print.html'
 })
 export class PrintPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-
-  }
-
+  constructor(public navCtrl: NavController, public navParams: NavParams) {}
 }

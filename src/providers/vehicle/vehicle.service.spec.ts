@@ -1,25 +1,25 @@
-import { async, TestBed } from "@angular/core/testing";
-import { TechRecordDataMock } from "../../assets/data-mocks/tech-record-data.mock";
-import { TestTypeModel } from "../../models/tests/test-type.model";
-import { TestTypeDataModelMock } from "../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { VisitService } from "../visit/visit.service";
-import { VisitServiceMock } from "../../../test-config/services-mocks/visit-service.mock";
-import { HTTPService } from "../global/http.service";
-import { VehicleService } from "./vehicle.service";
-import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
-import { ODOMETER_METRIC, STORAGE, TEST_TYPE_RESULTS } from "../../app/app.enums";
-import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
-import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
-import { Store } from "@ngrx/store";
-import { TestStore } from "../interceptors/auth.interceptor.spec";
-import { StorageService } from "../natives/storage.service";
-import { StorageServiceMock } from "../../../test-config/services-mocks/storage-service.mock";
-import { AuthService } from "../global/auth.service";
-import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
-import { of } from "rxjs/observable/of";
-import { HttpEventType, HttpHeaders } from "@angular/common/http";
-import { TestResultsHistoryDataMock } from "../../assets/data-mocks/test-results-history-data.mock";
-import { AlertController } from "ionic-angular";
+import { async, TestBed } from '@angular/core/testing';
+import { TechRecordDataMock } from '../../assets/data-mocks/tech-record-data.mock';
+import { TestTypeModel } from '../../models/tests/test-type.model';
+import { TestTypeDataModelMock } from '../../assets/data-mocks/data-model/test-type-data-model.mock';
+import { VisitService } from '../visit/visit.service';
+import { VisitServiceMock } from '../../../test-config/services-mocks/visit-service.mock';
+import { HTTPService } from '../global/http.service';
+import { VehicleService } from './vehicle.service';
+import { PreparersReferenceDataModel } from '../../models/reference-data-models/preparers.model';
+import { ODOMETER_METRIC, STORAGE, TEST_TYPE_RESULTS } from '../../app/app.enums';
+import { VehicleTechRecordModel } from '../../models/vehicle/tech-record.model';
+import { VehicleDataMock } from '../../assets/data-mocks/vehicle-data.mock';
+import { Store } from '@ngrx/store';
+import { TestStore } from '../interceptors/auth.interceptor.spec';
+import { StorageService } from '../natives/storage.service';
+import { StorageServiceMock } from '../../../test-config/services-mocks/storage-service.mock';
+import { AuthService } from '../global/auth.service';
+import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
+import { of } from 'rxjs/observable/of';
+import { HttpEventType, HttpHeaders } from '@angular/common/http';
+import { TestResultsHistoryDataMock } from '../../assets/data-mocks/test-results-history-data.mock';
+import { AlertController } from 'ionic-angular';
 
 describe('Provider: VehicleService', () => {
   let vehicleService: VehicleService;
@@ -32,33 +32,34 @@ describe('Provider: VehicleService', () => {
   const VEHICLE_TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const TEST_TYPE: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const PREPARER: PreparersReferenceDataModel = {
-    preparerId: "AK4434",
-    preparerName: "Durrell Vehicles Limited"
+    preparerId: 'AK4434',
+    preparerName: 'Durrell Vehicles Limited'
   };
-
 
   beforeEach(() => {
     const httpServiceSpy = {
       getTechRecords: jasmine.createSpy('getTechRecords').and.callFake(() => of(null)),
-      getTestResultsHistory: jasmine.createSpy('getTestResultsHistory').and.callFake(() => of({
-        type: {} as HttpEventType.Response,
-        clone: {} as any,
-        headers: {} as HttpHeaders,
-        status: 200,
-        statusText: '',
-        url: '',
-        ok: true,
-        body: TestResultsHistoryDataMock.TestResultHistoryData
-      })),
+      getTestResultsHistory: jasmine.createSpy('getTestResultsHistory').and.callFake(() =>
+        of({
+          type: {} as HttpEventType.Response,
+          clone: {} as any,
+          headers: {} as HttpHeaders,
+          status: 200,
+          statusText: '',
+          url: '',
+          ok: true,
+          body: TestResultsHistoryDataMock.TestResultHistoryData
+        })
+      )
     };
     TestBed.configureTestingModule({
       providers: [
         VehicleService,
-        {provide: VisitService, useClass: VisitServiceMock},
-        {provide: HTTPService, useValue: httpServiceSpy},
-        {provide: Store, useClass: TestStore},
-        {provide: StorageService, useClass: StorageServiceMock},
-        {provide: AuthService, useClass: AuthServiceMock},
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: HTTPService, useValue: httpServiceSpy },
+        { provide: Store, useClass: TestStore },
+        { provide: StorageService, useClass: StorageServiceMock },
+        { provide: AuthService, useClass: AuthServiceMock }
       ]
     });
     vehicleService = TestBed.get(VehicleService);
@@ -82,7 +83,7 @@ describe('Provider: VehicleService', () => {
   });
 
   it('should create a new vehicle with vehicle categorry included', () => {
-    let vehicleWithCategory = {...VEHICLE_TECH_RECORD};
+    let vehicleWithCategory = { ...VEHICLE_TECH_RECORD };
     vehicleWithCategory.techRecord[0].euVehicleCategory = 'n1';
     let createdVehicle;
     expect(createdVehicle).toBeUndefined();
@@ -93,7 +94,7 @@ describe('Provider: VehicleService', () => {
   it('should create a vehicle with null VRM if vrms array is empty', () => {
     let newVehicle;
     expect(newVehicle).toBeUndefined();
-    let vehicleTechRecord = {...VEHICLE_TECH_RECORD};
+    let vehicleTechRecord = { ...VEHICLE_TECH_RECORD };
     vehicleTechRecord.vrms = [];
     newVehicle = vehicleService.createVehicle(vehicleTechRecord);
     expect(newVehicle.techRecord).toBeDefined();
@@ -185,36 +186,39 @@ describe('Provider: VehicleService', () => {
     spyOn(storageService, 'update');
     vehicleService.getTestResultsHistory(systemNumber).subscribe(() => {
       expect(storageService.update).toHaveBeenCalledTimes(1);
-      expect(storageService.update).toHaveBeenCalledWith(STORAGE.TEST_HISTORY + systemNumber, TestResultsHistoryDataMock.TestResultHistoryData);
+      expect(storageService.update).toHaveBeenCalledWith(
+        STORAGE.TEST_HISTORY + systemNumber,
+        TestResultsHistoryDataMock.TestResultHistoryData
+      );
     });
   }));
 
   it('should check if a specific vehicle is a skeleton record or not', () => {
-    let vehicle = {...VehicleDataMock.VehicleData};
+    let vehicle = { ...VehicleDataMock.VehicleData };
     expect(vehicleService.isVehicleSkeleton(vehicle)).toBeFalsy();
     vehicle.techRecord.recordCompleteness = 'skeleton';
     expect(vehicleService.isVehicleSkeleton(vehicle)).toBeTruthy();
   });
 
   it('should compare two techRecords and return -1 if the first vehicle is not a skeleton but the second is', () => {
-    let vehicle1 = {...VehicleDataMock.VehicleData};
-    let vehicle2 = {...VehicleDataMock.VehicleData};
+    let vehicle1 = { ...VehicleDataMock.VehicleData };
+    let vehicle2 = { ...VehicleDataMock.VehicleData };
     vehicle1.techRecord.recordCompleteness = 'complete';
     vehicle2.techRecord.recordCompleteness = 'skeleton';
     expect(vehicleService.compareVehicles(vehicle1, vehicle2)).toEqual(-1);
   });
 
   it('should compare two techRecords and return 1 if the first vehicle is a skeleton but the second is not', () => {
-    let vehicle1 = {...VehicleDataMock.VehicleData};
-    let vehicle2 = {...VehicleDataMock.VehicleData};
+    let vehicle1 = { ...VehicleDataMock.VehicleData };
+    let vehicle2 = { ...VehicleDataMock.VehicleData };
     vehicle1.techRecord.recordCompleteness = 'skeleton';
     vehicle2.techRecord.recordCompleteness = 'complete';
     expect(vehicleService.compareVehicles(vehicle1, vehicle2)).toEqual(1);
   });
 
   it('should compare two techRecords and return -1 if the first vehicle should alphabetically be before the second one', () => {
-    let vehicle1 = {...VehicleDataMock.VehicleData};
-    let vehicle2 = {...VehicleDataMock.VehicleData};
+    let vehicle1 = { ...VehicleDataMock.VehicleData };
+    let vehicle2 = { ...VehicleDataMock.VehicleData };
     vehicle1.techRecord.chassisMake = 'T';
     vehicle2.techRecord.chassisMake = 'W';
     expect(vehicleService.compareVehicles(vehicle1, vehicle2)).toEqual(-1);

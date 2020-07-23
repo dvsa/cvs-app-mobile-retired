@@ -82,13 +82,15 @@ export interface TechRecordModel {
 }
 
 export interface Dimensions {
-  length: number,
-  width: number,
+  length: number;
+  width: number;
   /* -------- ONLY FOR TRL -------- */
-  axleSpacing: [{
-    axles: string,
-    value: number
-  }]
+  axleSpacing: [
+    {
+      axles: string;
+      value: number;
+    }
+  ];
 }
 
 export interface VrmModel {
@@ -120,7 +122,7 @@ export interface BrakeModel {
 
 export interface AxelsModel {
   parkingBrakeMrk?: boolean;
-  axleNumber: number
+  axleNumber: number;
   weights?: WeightsModel;
   tyres: TyresModel;
   /* -------- ONLY FOR TRL -------- */

@@ -1,5 +1,5 @@
-import { CompleteTestPage } from "./complete-test";
-import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
+import { CompleteTestPage } from './complete-test';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import {
   ActionSheetController,
   AlertController,
@@ -8,35 +8,40 @@ import {
   NavController,
   NavParams,
   ViewController
-} from "ionic-angular";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { DefectDetailsModel } from "../../../../models/defects/defect-details.model";
-import { DefectsService } from "../../../../providers/defects/defects.service";
-import { DefectsReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
+} from 'ionic-angular';
+import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { DefectDetailsModel } from '../../../../models/defects/defect-details.model';
+import { DefectsService } from '../../../../providers/defects/defects.service';
+import { DefectsReferenceDataMock } from '../../../../assets/data-mocks/reference-data-mocks/defects-data.mock';
 import {
-  DEFICIENCY_CATEGORY, MOD_TYPES, REG_EX_PATTERNS,
-  SPEC_VALUES, TEST_TYPE_FIELDS, TEST_TYPE_INPUTS,
-  TEST_TYPE_RESULTS, TEST_TYPE_SECTIONS,
+  DEFICIENCY_CATEGORY,
+  MOD_TYPES,
+  REG_EX_PATTERNS,
+  SPEC_VALUES,
+  TEST_TYPE_FIELDS,
+  TEST_TYPE_INPUTS,
+  TEST_TYPE_RESULTS,
+  TEST_TYPE_SECTIONS,
   TEST_TYPES_IDS
-} from "../../../../app/app.enums";
-import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { TestTypeMetadataMock } from "../../../../assets/data-mocks/data-model/test-type-metadata.mock";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
-import { of } from "rxjs/observable/of";
-import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
-import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
-import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
-import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
-import { ActionSheetControllerMock, ModalControllerMock, ViewControllerMock } from "ionic-mocks";
+} from '../../../../app/app.enums';
+import { TechRecordDataMock } from '../../../../assets/data-mocks/tech-record-data.mock';
+import { TestTypeModel } from '../../../../models/tests/test-type.model';
+import { TestTypeDataModelMock } from '../../../../assets/data-mocks/data-model/test-type-data-model.mock';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { VisitServiceMock } from '../../../../../test-config/services-mocks/visit-service.mock';
+import { TestTypeMetadataMock } from '../../../../assets/data-mocks/data-model/test-type-metadata.mock';
+import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
+import { VehicleServiceMock } from '../../../../../test-config/services-mocks/vehicle-service.mock';
+import { of } from 'rxjs/observable/of';
+import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
+import { DefectCategoryReferenceDataModel } from '../../../../models/reference-data-models/defects.reference-model';
+import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
+import { DefectDetailsDataMock } from '../../../../assets/data-mocks/defect-details-data.mock';
+import { ActionSheetControllerMock, ModalControllerMock, ViewControllerMock } from 'ionic-mocks';
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -53,7 +58,7 @@ describe('Component: CompleteTestPage', () => {
   let vehicleService: VehicleService;
   let modalCtrl: ModalController;
 
-  const DEFECTS: DefectCategoryReferenceDataModel[] = DefectsReferenceDataMock.DefectsData
+  const DEFECTS: DefectCategoryReferenceDataModel[] = DefectsReferenceDataMock.DefectsData;
   const ADDED_DEFECT: DefectDetailsModel = {
     deficiencyRef: '1.1.a',
     deficiencyCategory: DEFICIENCY_CATEGORY.MAJOR,
@@ -90,7 +95,7 @@ describe('Component: CompleteTestPage', () => {
 
   beforeEach(async(() => {
     defectsServiceSpy = jasmine.createSpyObj('DefectsService', {
-      'getDefectsFromStorage': of(DEFECTS)
+      getDefectsFromStorage: of(DEFECTS)
     });
 
     TestBed.configureTestingModule({
@@ -99,17 +104,20 @@ describe('Component: CompleteTestPage', () => {
       providers: [
         NavController,
         ChangeDetectorRef,
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: VisitService, useClass: VisitServiceMock},
-        {provide: TestTypeService, useClass: TestTypeServiceMock},
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: TestTypeService, useClass: TestTypeServiceMock },
         AlertController,
-        {provide: ActionSheetController, useFactory: () => ActionSheetControllerMock.instance()},
-        {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
-        {provide: VehicleService, useClass: VehicleServiceMock},
-        {provide: DefectsService, useValue: defectsServiceSpy},
-        {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
+        {
+          provide: ActionSheetController,
+          useFactory: () => ActionSheetControllerMock.instance()
+        },
+        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: VehicleService, useClass: VehicleServiceMock },
+        { provide: DefectsService, useValue: defectsServiceSpy },
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -134,11 +142,11 @@ describe('Component: CompleteTestPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        'vehicleTest': VEHICLE_TEST,
-        'vehicle': VEHICLE
+        vehicleTest: VEHICLE_TEST,
+        vehicle: VEHICLE
       };
       return params[param];
-    })
+    });
   });
 
   afterEach(() => {
@@ -157,7 +165,7 @@ describe('Component: CompleteTestPage', () => {
   it('should check if an ADR test-type has a 6 digits certificateNumber, if not set error true', () => {
     spyOn(comp, 'updateTestType');
     spyOn(comp, 'getTestTypeDetails');
-    comp.vehicleTest = {...VEHICLE_TEST};
+    comp.vehicleTest = { ...VEHICLE_TEST };
     comp.errorIncomplete = true;
     comp.vehicleTest.testTypeId = '50';
     comp.vehicleTest.certificateNumber = '1234';
@@ -176,7 +184,7 @@ describe('Component: CompleteTestPage', () => {
   it('should check if a TIR test-type has a 5 digits certificateNumber, if not set error true', () => {
     spyOn(comp, 'updateTestType');
     spyOn(comp, 'getTestTypeDetails');
-    comp.vehicleTest = {...VEHICLE_TEST};
+    comp.vehicleTest = { ...VEHICLE_TEST };
     comp.errorIncomplete = true;
     comp.vehicleTest.testTypeId = '49';
     comp.vehicleTest.certificateNumber = '1234';
@@ -208,11 +216,12 @@ describe('Component: CompleteTestPage', () => {
     expect(viewCtrl.dismiss).not.toHaveBeenCalled();
   });
 
-  it('should VisitService and Root Component share the same instance',
-    inject([VisitService], (injectService: VisitService) => {
+  it('should VisitService and Root Component share the same instance', inject(
+    [VisitService],
+    (injectService: VisitService) => {
       expect(injectService).toBe(visitService);
-    })
-  );
+    }
+  ));
 
   it('should convert to number', () => {
     const number = '5';
@@ -244,7 +253,7 @@ describe('Component: CompleteTestPage', () => {
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.PASS;
     expect(comp.getDDLValueToDisplay(TEST_TYPES_METADATA.sections[0].inputs[0])).toEqual('Pass');
 
-    comp.vehicleTest = {...VEHICLE_TEST};
+    comp.vehicleTest = { ...VEHICLE_TEST };
     comp.vehicleTest.modType = MOD_TYPES.P.toLowerCase();
     expect(comp.getDDLValueToDisplay(TEST_TYPES_METADATA.sections[3].inputs[0])).toEqual('P');
   });
@@ -291,7 +300,7 @@ describe('Component: CompleteTestPage', () => {
   it('should create a handler for a DDL button', () => {
     comp.today = new Date().toISOString();
     comp.completedFields = {};
-    comp.vehicleTest = {...VEHICLE_TEST};
+    comp.vehicleTest = { ...VEHICLE_TEST };
     comp.vehicleTest.lastSeatbeltInstallationCheckDate = '2019-01-14';
     let input = TestTypeMetadataMock.TestTypeMetadata.sections[2].inputs[0];
     comp.createDDLButtons(input);
@@ -354,10 +363,13 @@ describe('Component: CompleteTestPage', () => {
 
   it('should test openInputModalDismissHandler logic', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
-    comp.openInputModalDismissHandler(TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0], {
-      fromTestReview: false,
-      errorIncomplete: false
-    });
+    comp.openInputModalDismissHandler(
+      TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0],
+      {
+        fromTestReview: false,
+        errorIncomplete: false
+      }
+    );
     expect(comp.errorIncomplete).toBeFalsy();
   });
 
@@ -365,7 +377,10 @@ describe('Component: CompleteTestPage', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.testTypeDetails = TestTypeMetadataMock.TestTypeMetadata;
     comp.completedFields = {};
-    comp.openInputPage(TestTypeMetadataMock.TestTypeMetadata.sections[0], TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0]);
+    comp.openInputPage(
+      TestTypeMetadataMock.TestTypeMetadata.sections[0],
+      TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0]
+    );
     expect(modalCtrl.create).toHaveBeenCalled();
   });
 
@@ -411,7 +426,7 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should return the correct type of the certificate number field', () => {
-    comp.vehicleTest = {...TestTypeDataModelMock.TestTypeData};
+    comp.vehicleTest = { ...TestTypeDataModelMock.TestTypeData };
     comp.vehicleTest.testTypeId = '125';
     expect(comp.getTypeForCertificateNumberField()).toEqual('text');
 
@@ -426,7 +441,7 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should return the correct pattern of the certificate number field', () => {
-    comp.vehicleTest = {...TestTypeDataModelMock.TestTypeData};
+    comp.vehicleTest = { ...TestTypeDataModelMock.TestTypeData };
     comp.vehicleTest.testTypeId = '125';
     expect(comp.getPatternForCertificateNumberField()).toEqual('');
 

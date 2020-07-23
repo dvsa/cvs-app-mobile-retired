@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, NavController, NavParams, ViewController } from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  LoadingController,
+  NavController,
+  NavParams,
+  ViewController
+} from 'ionic-angular';
 import { VehicleModel } from '../../../../../models/vehicle/vehicle.model';
 import { Observer } from 'rxjs';
 import { TestResultModel } from '../../../../../models/tests/test-result.model';
@@ -16,7 +23,7 @@ import { TestModel } from '../../../../../models/tests/test.model';
 @IonicPage()
 @Component({
   selector: 'multiple-tech-records-selection',
-  templateUrl: 'multiple-tech-records-selection.html',
+  templateUrl: 'multiple-tech-records-selection.html'
 })
 export class MultipleTechRecordsSelectionPage {
   combinationTestData: TestModel;
@@ -25,23 +32,25 @@ export class MultipleTechRecordsSelectionPage {
   APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
   isAtLeastOneSkeleton: boolean;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private viewCtrl: ViewController,
-              public loadingCtrl: LoadingController,
-              private authService: AuthService,
-              public vehicleService: VehicleService,
-              public storageService: StorageService,
-              private firebase: Firebase,
-              private store$: Store<LogsModel>,
-              private alertCtrl: AlertController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private viewCtrl: ViewController,
+    public loadingCtrl: LoadingController,
+    private authService: AuthService,
+    public vehicleService: VehicleService,
+    public storageService: StorageService,
+    private firebase: Firebase,
+    private store$: Store<LogsModel>,
+    private alertCtrl: AlertController
+  ) {
     this.vehicles = this.navParams.get('vehicles');
     this.combinationTestData = navParams.get('test');
   }
 
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(APP_STRINGS.IDENTIFY_VEHICLE);
-    this.isAtLeastOneSkeleton = this.vehicles.some(vehicle => {
+    this.isAtLeastOneSkeleton = this.vehicles.some((vehicle) => {
       return this.vehicleService.isVehicleSkeleton(vehicle);
     });
   }
@@ -61,27 +70,29 @@ export class MultipleTechRecordsSelectionPage {
         const log: Log = {
           type: 'error',
           message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-          timestamp: Date.now(),
+          timestamp: Date.now()
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
         this.firebase.logEvent('test_error', {
           content_type: 'error',
-          item_id: "Failed retrieving the testResultsHistory"
+          item_id: 'Failed retrieving the testResultsHistory'
         });
         this.storageService.update(STORAGE.TEST_HISTORY + selectedVehicle.systemNumber, []);
         this.goToVehicleDetails(selectedVehicle);
       },
-      complete: function () {
-      }
+      complete: function() {}
     };
 
     if (this.vehicleService.isVehicleSkeleton(selectedVehicle)) {
       LOADING.dismiss();
       this.vehicleService.createSkeletonAlert(this.alertCtrl);
     } else {
-      this.vehicleService.getTestResultsHistory(selectedVehicle.systemNumber).subscribe(testHistoryResponseObserver).add(() => {
-        LOADING.dismiss();
-      });
+      this.vehicleService
+        .getTestResultsHistory(selectedVehicle.systemNumber)
+        .subscribe(testHistoryResponseObserver)
+        .add(() => {
+          LOADING.dismiss();
+        });
     }
   }
 

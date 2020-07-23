@@ -1,38 +1,40 @@
-import { VehicleModel } from "../../models/vehicle/vehicle.model";
-import { CommonRegExp } from "../utils/common-regExp";
-import { HTTPService } from "../global/http.service";
-import { Observable } from "rxjs";
-import { Injectable } from "@angular/core";
-import { VisitService } from "../visit/visit.service";
-import { TestTypeModel } from "../../models/tests/test-type.model";
-import { VehicleTechRecordModel } from "../../models/vehicle/tech-record.model";
-import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
-import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
-import { APP_STRINGS, STORAGE, TEST_TYPE_INPUTS } from "../../app/app.enums";
-import { HttpResponse } from "@angular/common/http";
-import { TestResultModel } from "../../models/tests/test-result.model";
-import { Log, LogsModel } from "../../modules/logs/logs.model";
-import * as logsActions from "../../modules/logs/logs.actions";
-import { Store } from "@ngrx/store";
-import { StorageService } from "../natives/storage.service";
-import { AuthService } from "../global/auth.service";
-import { AlertController } from "ionic-angular";
+import { VehicleModel } from '../../models/vehicle/vehicle.model';
+import { CommonRegExp } from '../utils/common-regExp';
+import { HTTPService } from '../global/http.service';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { VisitService } from '../visit/visit.service';
+import { TestTypeModel } from '../../models/tests/test-type.model';
+import { VehicleTechRecordModel } from '../../models/vehicle/tech-record.model';
+import { PreparersReferenceDataModel } from '../../models/reference-data-models/preparers.model';
+import { CountryOfRegistrationData } from '../../assets/app-data/country-of-registration/country-of-registration.data';
+import { APP_STRINGS, STORAGE, TEST_TYPE_INPUTS } from '../../app/app.enums';
+import { HttpResponse } from '@angular/common/http';
+import { TestResultModel } from '../../models/tests/test-result.model';
+import { Log, LogsModel } from '../../modules/logs/logs.model';
+import * as logsActions from '../../modules/logs/logs.actions';
+import { Store } from '@ngrx/store';
+import { StorageService } from '../natives/storage.service';
+import { AuthService } from '../global/auth.service';
+import { AlertController } from 'ionic-angular';
 
 @Injectable()
 export class VehicleService {
-
-  constructor(private httpService: HTTPService,
-              public visitService: VisitService,
-              private store$: Store<LogsModel>,
-              public storageService: StorageService,
-              private authService: AuthService) {
-  }
+  constructor(
+    private httpService: HTTPService,
+    public visitService: VisitService,
+    private store$: Store<LogsModel>,
+    public storageService: StorageService,
+    private authService: AuthService
+  ) {}
 
   createVehicle(vehicleTechRecord: VehicleTechRecordModel): VehicleModel {
     let newVehicle: VehicleModel = {} as VehicleModel;
 
     newVehicle.systemNumber = vehicleTechRecord.systemNumber;
-    newVehicle.vrm = vehicleTechRecord.vrms.length ? vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm : null;
+    newVehicle.vrm = vehicleTechRecord.vrms.length
+      ? vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm
+      : null;
     newVehicle.vin = vehicleTechRecord.vin;
     if (vehicleTechRecord.trailerId) newVehicle.trailerId = vehicleTechRecord.trailerId;
     newVehicle.techRecord = vehicleTechRecord.techRecord[0];
@@ -65,13 +67,19 @@ export class VehicleService {
     this.visitService.updateVisit();
   }
 
-  getVehicleTechRecords(searchedValue: string, searchCriteriaQueryParam: string): Observable<VehicleModel[]> {
-    return this.httpService.getTechRecords(searchedValue.toUpperCase(), searchCriteriaQueryParam)
+  getVehicleTechRecords(
+    searchedValue: string,
+    searchCriteriaQueryParam: string
+  ): Observable<VehicleModel[]> {
+    return this.httpService
+      .getTechRecords(searchedValue.toUpperCase(), searchCriteriaQueryParam)
       .map((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => {
         const log: Log = {
           type: 'info',
-          message: `${this.authService.getOid()} - ${techRecordsResponse.status} ${techRecordsResponse.statusText} for API call to ${techRecordsResponse.url}`,
-          timestamp: Date.now(),
+          message: `${this.authService.getOid()} - ${techRecordsResponse.status} ${
+            techRecordsResponse.statusText
+          } for API call to ${techRecordsResponse.url}`,
+          timestamp: Date.now()
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
         return techRecordsResponse.body.map(this.createVehicle);
@@ -82,17 +90,18 @@ export class VehicleService {
   }
 
   getTestResultsHistory(systemNumber: string): Observable<TestResultModel[]> {
-    return this.httpService.getTestResultsHistory(systemNumber)
-      .map((data) => {
-        const log: Log = {
-          type: 'info',
-          message: `${this.authService.getOid()} - ${data.status} ${data.statusText} for API call to ${data.url}`,
-          timestamp: Date.now(),
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
-        this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
-        return data.body;
-      });
+    return this.httpService.getTestResultsHistory(systemNumber).map((data) => {
+      const log: Log = {
+        type: 'info',
+        message: `${this.authService.getOid()} - ${data.status} ${
+          data.statusText
+        } for API call to ${data.url}`,
+        timestamp: Date.now()
+      };
+      this.store$.dispatch(new logsActions.SaveLog(log));
+      this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
+      return data.body;
+    });
   }
 
   setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string): VehicleModel {
@@ -105,7 +114,10 @@ export class VehicleService {
   hasOnlyOneTestTypeWithSic(vehicle: VehicleModel) {
     let testsFound = 0;
     for (let testType of vehicle.testTypes) {
-      if (testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] || testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] === false) {
+      if (
+        testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] ||
+        testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] === false
+      ) {
         testsFound++;
       }
     }
@@ -114,14 +126,17 @@ export class VehicleService {
 
   removeSicFields(vehicle, fields) {
     if (this.hasOnlyOneTestTypeWithSic(vehicle)) {
-      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_CARRIED_OUT)) delete fields[TEST_TYPE_INPUTS.SIC_CARRIED_OUT];
-      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER)) delete fields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER];
-      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_LAST_DATE)) delete fields[TEST_TYPE_INPUTS.SIC_LAST_DATE];
+      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_CARRIED_OUT))
+        delete fields[TEST_TYPE_INPUTS.SIC_CARRIED_OUT];
+      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER))
+        delete fields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER];
+      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_LAST_DATE))
+        delete fields[TEST_TYPE_INPUTS.SIC_LAST_DATE];
     }
   }
 
   formatOdometerReadingValue(string: string): string {
-    return string ? string.replace(CommonRegExp.ODOMETER_VALUE, ",") : null;
+    return string ? string.replace(CommonRegExp.ODOMETER_VALUE, ',') : null;
   }
 
   createSkeletonAlert(alertCtrl: AlertController) {

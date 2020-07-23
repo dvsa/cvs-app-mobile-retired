@@ -1,15 +1,21 @@
-import { AlertController, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  NavController,
+  NavParams,
+  ViewController
+} from 'ionic-angular';
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { SpecialistCustomDefectModel } from "../../../../models/defects/defect-details.model";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { APP_STRINGS } from "../../../../app/app.enums";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
+import { TestTypeModel } from '../../../../models/tests/test-type.model';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { APP_STRINGS } from '../../../../app/app.enums';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 
 @IonicPage()
 @Component({
   selector: 'page-defect-details-specialist-testing',
-  templateUrl: 'defect-details-specialist-testing.html',
+  templateUrl: 'defect-details-specialist-testing.html'
 })
 export class DefectDetailsSpecialistTestingPage {
   isEdit: boolean;
@@ -18,13 +24,15 @@ export class DefectDetailsSpecialistTestingPage {
   testType: TestTypeModel;
   errorIncomplete: boolean;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private viewCtrl: ViewController,
-              private visitService: VisitService,
-              private cdRef: ChangeDetectorRef,
-              private alertCtrl: AlertController,
-              private testTypeService: TestTypeService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private viewCtrl: ViewController,
+    private visitService: VisitService,
+    private cdRef: ChangeDetectorRef,
+    private alertCtrl: AlertController,
+    private testTypeService: TestTypeService
+  ) {
     this.isEdit = this.navParams.get('isEdit');
     this.defectIndex = this.navParams.get('defectIndex');
     this.defect = this.navParams.get('defect');
@@ -58,8 +66,7 @@ export class DefectDetailsSpecialistTestingPage {
       buttons: [
         {
           text: APP_STRINGS.CANCEL,
-          handler: () => {
-          }
+          handler: () => {}
         },
         {
           text: APP_STRINGS.REMOVE,

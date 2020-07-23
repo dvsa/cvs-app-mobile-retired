@@ -1,17 +1,45 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActionSheetController, AlertController, Events, IonicPage, ItemSliding, ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
-import { DefectDetailsModel, SpecialistCustomDefectModel } from "../../../../models/defects/defect-details.model";
-import { DefectsService } from "../../../../providers/defects/defects.service";
-import { APP, DEFICIENCY_CATEGORY, FIREBASE, FIREBASE_DEFECTS, FIREBASE_SCREEN_NAMES, MOD_TYPES, PAGE_NAMES, REG_EX_PATTERNS, TEST_TYPE_FIELDS, TEST_TYPE_INPUTS, TEST_TYPE_RESULTS, TEST_TYPE_SECTIONS, TIR_CERTIFICATE_NUMBER_PREFIXES, VEHICLE_TYPE } from "../../../../app/app.enums";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { TestTypesFieldsMetadata } from "../../../../assets/app-data/test-types-data/test-types-fields.metadata";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
-import { NotifiableAlterationTestTypesData } from "../../../../assets/app-data/test-types-data/notifiable-alteration-test-types.data";
+import {
+  ActionSheetController,
+  AlertController,
+  Events,
+  IonicPage,
+  ItemSliding,
+  ModalController,
+  NavController,
+  NavParams,
+  ViewController
+} from 'ionic-angular';
+import {
+  DefectDetailsModel,
+  SpecialistCustomDefectModel
+} from '../../../../models/defects/defect-details.model';
+import { DefectsService } from '../../../../providers/defects/defects.service';
+import {
+  APP,
+  DEFICIENCY_CATEGORY,
+  FIREBASE,
+  FIREBASE_DEFECTS,
+  FIREBASE_SCREEN_NAMES,
+  MOD_TYPES,
+  PAGE_NAMES,
+  REG_EX_PATTERNS,
+  TEST_TYPE_FIELDS,
+  TEST_TYPE_INPUTS,
+  TEST_TYPE_RESULTS,
+  TEST_TYPE_SECTIONS,
+  TIR_CERTIFICATE_NUMBER_PREFIXES,
+  VEHICLE_TYPE
+} from '../../../../app/app.enums';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { TestTypeModel } from '../../../../models/tests/test-type.model';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-data/test-types-fields.metadata';
+import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
+import { DefectCategoryReferenceDataModel } from '../../../../models/reference-data-models/defects.reference-model';
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+import { NotifiableAlterationTestTypesData } from '../../../../assets/app-data/test-types-data/notifiable-alteration-test-types.data';
 
 @IonicPage()
 @Component({
@@ -31,7 +59,8 @@ export class CompleteTestPage implements OnInit {
   today: string;
   patterns: typeof REG_EX_PATTERNS = REG_EX_PATTERNS;
   changeBackground: boolean = false;
-  notifiableAlterationTestTypesDataIds: string[] = NotifiableAlterationTestTypesData.NotifiableAlterationTestTypesDataIds;
+  notifiableAlterationTestTypesDataIds: string[] =
+    NotifiableAlterationTestTypesData.NotifiableAlterationTestTypesDataIds;
   isNotifiableAlteration: boolean;
   isNotesIncompleteError: boolean;
   TEST_TYPE_RESULTS: typeof TEST_TYPE_RESULTS = TEST_TYPE_RESULTS;
@@ -41,19 +70,21 @@ export class CompleteTestPage implements OnInit {
   vehicleTypes: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   tirCertificateNumberPrefixes: typeof TIR_CERTIFICATE_NUMBER_PREFIXES = TIR_CERTIFICATE_NUMBER_PREFIXES;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public visitService: VisitService,
-              public defectsService: DefectsService,
-              private alertCtrl: AlertController,
-              public testTypeService: TestTypeService,
-              private actionSheetCtrl: ActionSheetController,
-              private modalCtrl: ModalController,
-              private events: Events,
-              private cdRef: ChangeDetectorRef,
-              private vehicleService: VehicleService,
-              private viewCtrl: ViewController,
-              private firebaseLogsService: FirebaseLogsService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public visitService: VisitService,
+    public defectsService: DefectsService,
+    private alertCtrl: AlertController,
+    public testTypeService: TestTypeService,
+    private actionSheetCtrl: ActionSheetController,
+    private modalCtrl: ModalController,
+    private events: Events,
+    private cdRef: ChangeDetectorRef,
+    private vehicleService: VehicleService,
+    private viewCtrl: ViewController,
+    private firebaseLogsService: FirebaseLogsService
+  ) {
     this.vehicle = navParams.get('vehicle');
     this.vehicleTest = navParams.get('vehicleTest');
     this.completedFields = navParams.get('completedFields');
@@ -68,20 +99,36 @@ export class CompleteTestPage implements OnInit {
     this.testTypeFields = TEST_TYPE_FIELDS;
     this.testTypeDetails = this.getTestTypeDetails();
     this.updateTestType();
-    this.defectsService.getDefectsFromStorage().subscribe(
-      (defects: DefectCategoryReferenceDataModel[]) => {
+    this.defectsService
+      .getDefectsFromStorage()
+      .subscribe((defects: DefectCategoryReferenceDataModel[]) => {
         this.defectsCategories = defects;
-      }
-    );
-    if (this.vehicleTest.numberOfSeatbeltsFitted && this.testTypeDetails.category === 'B') this.errorIncomplete = false;
-    if ((this.testTypeService.isAdrTestType(this.vehicleTest.testTypeId) && this.vehicleTest.certificateNumber && this.vehicleTest.certificateNumber.length && this.vehicleTest.certificateNumber.length < 6 && this.errorIncomplete) ||
-      (this.testTypeService.isTirTestType(this.vehicleTest.testTypeId) && this.vehicleTest.certificateNumber && this.vehicleTest.certificateNumber.length && this.vehicleTest.certificateNumber.length < 5 && this.errorIncomplete)) this.errorIncompleteCertificateNumber = true;
+      });
+    if (this.vehicleTest.numberOfSeatbeltsFitted && this.testTypeDetails.category === 'B')
+      this.errorIncomplete = false;
+    if (
+      (this.testTypeService.isAdrTestType(this.vehicleTest.testTypeId) &&
+        this.vehicleTest.certificateNumber &&
+        this.vehicleTest.certificateNumber.length &&
+        this.vehicleTest.certificateNumber.length < 6 &&
+        this.errorIncomplete) ||
+      (this.testTypeService.isTirTestType(this.vehicleTest.testTypeId) &&
+        this.vehicleTest.certificateNumber &&
+        this.vehicleTest.certificateNumber.length &&
+        this.vehicleTest.certificateNumber.length < 5 &&
+        this.errorIncomplete)
+    )
+      this.errorIncompleteCertificateNumber = true;
   }
 
   ionViewWillEnter() {
     this.isNotesIncompleteError = false;
-    this.isNotifiableAlteration = this.notifiableAlterationTestTypesDataIds.indexOf(this.vehicleTest.testTypeId) !== -1;
-    this.blockTestResultSelection = this.testTypeService.updateLinkedTestResults(this.vehicle, this.vehicleTest);
+    this.isNotifiableAlteration =
+      this.notifiableAlterationTestTypesDataIds.indexOf(this.vehicleTest.testTypeId) !== -1;
+    this.blockTestResultSelection = this.testTypeService.updateLinkedTestResults(
+      this.vehicle,
+      this.vehicleTest
+    );
   }
 
   ionViewDidEnter() {
@@ -95,18 +142,31 @@ export class CompleteTestPage implements OnInit {
     for (let section of this.testTypeDetails.sections) {
       for (let input of section.inputs) {
         if (this.completedFields.hasOwnProperty(input.testTypePropertyName)) {
-          this.vehicleTest[input.testTypePropertyName] = this.completedFields[input.testTypePropertyName];
+          this.vehicleTest[input.testTypePropertyName] = this.completedFields[
+            input.testTypePropertyName
+          ];
         } else {
-          if (input.defaultValue && input.values && !this.vehicleTest[input.testTypePropertyName]) {
+          if (
+            input.defaultValue &&
+            input.values &&
+            !this.vehicleTest[input.testTypePropertyName]
+          ) {
             for (let inputValue of input.values) {
               if (input.defaultValue === inputValue.text) {
-                this.completedFields[input.testTypePropertyName] = this.vehicleTest[input.testTypePropertyName] = inputValue.value;
+                this.completedFields[input.testTypePropertyName] = this.vehicleTest[
+                  input.testTypePropertyName
+                ] = inputValue.value;
               }
             }
           }
         }
-        if (this.testTypeDetails.category === 'B' && input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
-          this.completedFields[input.testTypePropertyName] = this.vehicleTest[input.testTypePropertyName] = true;
+        if (
+          this.testTypeDetails.category === 'B' &&
+          input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT
+        ) {
+          this.completedFields[input.testTypePropertyName] = this.vehicleTest[
+            input.testTypePropertyName
+          ] = true;
         }
       }
     }
@@ -126,14 +186,22 @@ export class CompleteTestPage implements OnInit {
     this.vehicleTest[input.testTypePropertyName] = inputValue;
     if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
       if (inputValue) {
-        this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.today;
+        this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[
+          TEST_TYPE_INPUTS.SIC_LAST_DATE
+        ] = this.today;
       } else {
-        this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = null;
-        this.completedFields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = null;
+        this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[
+          TEST_TYPE_INPUTS.SIC_LAST_DATE
+        ] = null;
+        this.completedFields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER] = this.vehicleTest[
+          TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER
+        ] = null;
       }
     }
-    if (this.testTypeService.isAdrTestType(this.vehicleTest.testTypeId) &&
-      inputValue === TEST_TYPE_RESULTS.FAIL) {
+    if (
+      this.testTypeService.isAdrTestType(this.vehicleTest.testTypeId) &&
+      inputValue === TEST_TYPE_RESULTS.FAIL
+    ) {
       this.vehicleTest.certificateNumber = null;
       this.vehicleTest.testExpiryDate = null;
     }
@@ -157,13 +225,17 @@ export class CompleteTestPage implements OnInit {
         this.vehicleTest.modificationTypeUsed = null;
       }
     }
-    if (this.testTypeService.isTirTestType(this.vehicleTest.testTypeId) &&
-      inputValue === TEST_TYPE_RESULTS.FAIL) {
+    if (
+      this.testTypeService.isTirTestType(this.vehicleTest.testTypeId) &&
+      inputValue === TEST_TYPE_RESULTS.FAIL
+    ) {
       this.vehicleTest.certificateNumber = null;
     }
-    if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT ||
+    if (
+      input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT ||
       input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER ||
-      input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE) {
+      input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE
+    ) {
       this.completedFields[input.testTypePropertyName] = inputValue;
     }
   }
@@ -180,7 +252,7 @@ export class CompleteTestPage implements OnInit {
       };
       buttons.push(button);
     }
-    buttons.push({text: 'Cancel', role: 'cancel'});
+    buttons.push({ text: 'Cancel', role: 'cancel' });
     return buttons;
   }
 
@@ -197,7 +269,10 @@ export class CompleteTestPage implements OnInit {
 
   getDDLValueToDisplay(input) {
     for (let inputValue of input.values) {
-      if (this.completedFields[input.testTypePropertyName] === inputValue.value || this.vehicleTest[input.testTypePropertyName] === inputValue.value) {
+      if (
+        this.completedFields[input.testTypePropertyName] === inputValue.value ||
+        this.vehicleTest[input.testTypePropertyName] === inputValue.value
+      ) {
         if (input.testTypePropertyName === TEST_TYPE_INPUTS.MOD_TYPE) {
           return inputValue.text.split(' - ')[0];
         }
@@ -209,36 +284,48 @@ export class CompleteTestPage implements OnInit {
   canDisplaySection(section) {
     // for ADR test-types
     // -----FROM HERE-----
-    if (this.testTypeService.isAdrTestType(this.vehicleTest.testTypeId) &&
+    if (
+      this.testTypeService.isAdrTestType(this.vehicleTest.testTypeId) &&
       this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL &&
       (section.inputs[0].type === TEST_TYPE_FIELDS.CERTIFICATE_NUMBER ||
-        section.inputs[0].type === TEST_TYPE_FIELDS.EXPIRY_DATE)) {
+        section.inputs[0].type === TEST_TYPE_FIELDS.EXPIRY_DATE)
+    ) {
       return false;
     }
     // -----TO HERE-----
     // for LEC test-types
     // -----FROM HERE-----
-    if (this.testTypeService.isLecTestType(this.vehicleTest.testTypeId) &&
+    if (
+      this.testTypeService.isLecTestType(this.vehicleTest.testTypeId) &&
       this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL &&
       (section.sectionName === TEST_TYPE_SECTIONS.EXPIRY_DATE ||
         section.sectionName === TEST_TYPE_SECTIONS.EMISSION_DETAILS ||
-        section.sectionName === TEST_TYPE_SECTIONS.MODIFICATION)) {
+        section.sectionName === TEST_TYPE_SECTIONS.MODIFICATION)
+    ) {
       return false;
     }
     // -----TO HERE-----
     // for TIR test-types
     // -----FROM HERE-----
-    if (this.testTypeService.isTirTestType(this.vehicleTest.testTypeId) &&
-      this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL && section.inputs[0].type === TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM) {
+    if (
+      this.testTypeService.isTirTestType(this.vehicleTest.testTypeId) &&
+      this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL &&
+      section.inputs[0].type === TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM
+    ) {
       return false;
     }
     // -----TO HERE-----
     // for Specialist test-types with certificate number and Notifiable Alteration for PSVs
     // -----FROM HERE-----
-    if ((this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(this.vehicleTest.testTypeId) ||
-      this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
-      this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)) &&
-      this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL && section.inputs[0].type === TEST_TYPE_FIELDS.CERTIFICATE_NUMBER) {
+    if (
+      (this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
+        this.vehicleTest.testTypeId
+      ) ||
+        this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
+        this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)) &&
+      this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL &&
+      section.inputs[0].type === TEST_TYPE_FIELDS.CERTIFICATE_NUMBER
+    ) {
       return false;
     }
     // -----TO HERE-----
@@ -253,12 +340,20 @@ export class CompleteTestPage implements OnInit {
   }
 
   canDisplayInput(input) {
-    if (this.testTypeDetails.category === 'B' && input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
+    if (
+      this.testTypeDetails.category === 'B' &&
+      input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT
+    ) {
       return false;
     }
-    if (this.completedFields[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] && input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE) {
+    if (
+      this.completedFields[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] &&
+      input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_LAST_DATE
+    ) {
       if (!this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE]) {
-        this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.today;
+        this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[
+          TEST_TYPE_INPUTS.SIC_LAST_DATE
+        ] = this.today;
       }
       return false;
     }
@@ -291,11 +386,14 @@ export class CompleteTestPage implements OnInit {
       vehicleCategory: this.testTypeDetails.category,
       sectionName: input.title || section.sectionName,
       input: input,
-      existentValue: this.completedFields[input.testTypePropertyName] || this.vehicleTest[input.testTypePropertyName] || null,
+      existentValue:
+        this.completedFields[input.testTypePropertyName] ||
+        this.vehicleTest[input.testTypePropertyName] ||
+        null,
       fromTestReview: this.fromTestReview,
       errorIncomplete: this.errorIncomplete
     });
-    INPUT_MODAL.onDidDismiss(data => {
+    INPUT_MODAL.onDidDismiss((data) => {
       this.openInputModalDismissHandler(input, data);
     });
     INPUT_MODAL.present();
@@ -308,11 +406,19 @@ export class CompleteTestPage implements OnInit {
 
   onSave() {
     this.isNotesIncompleteError = false;
-    if ((this.isNotifiableAlteration || this.testTypeService.isLecTestType(this.vehicleTest.testTypeId)) && this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL && !this.vehicleTest.additionalNotesRecorded) {
+    if (
+      (this.isNotifiableAlteration ||
+        this.testTypeService.isLecTestType(this.vehicleTest.testTypeId)) &&
+      this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL &&
+      !this.vehicleTest.additionalNotesRecorded
+    ) {
       this.isNotesIncompleteError = true;
       return;
     }
-    this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest, this.testTypeDetails.hasDefects);
+    this.vehicleTest.testResult = this.testTypeService.setTestResult(
+      this.vehicleTest,
+      this.testTypeDetails.hasDefects
+    );
     this.visitService.updateVisit();
     this.events.publish(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, this.completedFields);
     if (this.fromTestReview) {
@@ -329,7 +435,9 @@ export class CompleteTestPage implements OnInit {
       defects: this.defectsCategories,
       fromTestReview: this.fromTestReview
     });
-    this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN][FIREBASE_DEFECTS.ADD_DEFECT_START_TIME] = Date.now();
+    this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN][
+      FIREBASE_DEFECTS.ADD_DEFECT_START_TIME
+    ] = Date.now();
   }
 
   openDefect(defect: DefectDetailsModel): void {
@@ -345,7 +453,7 @@ export class CompleteTestPage implements OnInit {
         vehicleTest: this.vehicleTest,
         advisory: defect,
         isEdit: true
-      })
+      });
     }
   }
 
@@ -367,7 +475,9 @@ export class CompleteTestPage implements OnInit {
         {
           text: 'Remove',
           handler: () => {
-            this.testTypeService.isSpecialistTestType(this.vehicleTest.testTypeId) ? this.removeSpecialistCustomDefect(specialistCustomDefectIndex) : this.removeDefect(defect);
+            this.testTypeService.isSpecialistTestType(this.vehicleTest.testTypeId)
+              ? this.removeSpecialistCustomDefect(specialistCustomDefectIndex)
+              : this.removeDefect(defect);
           }
         }
       ]
@@ -393,7 +503,7 @@ export class CompleteTestPage implements OnInit {
       ]
     });
     confirm.present();
-    confirm.onDidDismiss(() => this.changeBackground = false);
+    confirm.onDidDismiss(() => (this.changeBackground = false));
   }
 
   removeDefect(defect) {
@@ -405,7 +515,11 @@ export class CompleteTestPage implements OnInit {
   }
 
   removeTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
-    this.firebaseLogsService.logEvent(FIREBASE.REMOVE_TEST_TYPE, FIREBASE.TEST_TYPE_NAME, vehicleTest.testTypeName);
+    this.firebaseLogsService.logEvent(
+      FIREBASE.REMOVE_TEST_TYPE,
+      FIREBASE.TEST_TYPE_NAME,
+      vehicleTest.testTypeName
+    );
     this.vehicleService.removeSicFields(vehicle, this.completedFields);
     this.vehicleService.removeTestType(vehicle, vehicleTest);
     this.navCtrl.pop();
@@ -424,33 +538,50 @@ export class CompleteTestPage implements OnInit {
     this.cdRef.detectChanges();
     if (this.testTypeService.isTirTestType(this.vehicleTest.testTypeId)) {
       this.vehicleTest.certificateNumber = value.length > 5 ? value.substring(0, 5) : value;
-    } else if (this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(this.vehicleTest.testTypeId) ||
+    } else if (
+      this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
+        this.vehicleTest.testTypeId
+      ) ||
       this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
-      this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)) {
+      this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)
+    ) {
       let formattedValue = value.replace(/[^a-zA-Z0-9]/gi, '');
-      this.vehicleTest.certificateNumber = formattedValue.length > 20 ? formattedValue.substring(0, 20) : formattedValue;
+      this.vehicleTest.certificateNumber =
+        formattedValue.length > 20 ? formattedValue.substring(0, 20) : formattedValue;
     } else {
       this.vehicleTest.certificateNumber = value.length > 6 ? value.substring(0, 6) : value;
     }
   }
 
   getTypeForCertificateNumberField(): string {
-    return this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(this.vehicleTest.testTypeId) ||
-    this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
-    this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId) ? 'text' : 'number';
+    return this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
+      this.vehicleTest.testTypeId
+    ) ||
+      this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
+      this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)
+      ? 'text'
+      : 'number';
   }
 
   getPatternForCertificateNumberField(): string {
-    return this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(this.vehicleTest.testTypeId) ||
-    this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
-    this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId) ? '' : this.patterns.NUMERIC;
+    return this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
+      this.vehicleTest.testTypeId
+    ) ||
+      this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
+      this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)
+      ? ''
+      : this.patterns.NUMERIC;
   }
 
-  toSpecialistDefectDetailsPage(isEditMode: boolean, defectIndex?: number, defect?: SpecialistCustomDefectModel): void {
+  toSpecialistDefectDetailsPage(
+    isEditMode: boolean,
+    defectIndex?: number,
+    defect?: SpecialistCustomDefectModel
+  ): void {
     const MODAL = this.modalCtrl.create(PAGE_NAMES.DEFECT_DETAILS_SPECIALIST_TESTING, {
       isEdit: isEditMode,
       defectIndex: isEditMode ? defectIndex : null,
-      defect: isEditMode ? defect : {} as SpecialistCustomDefectModel,
+      defect: isEditMode ? defect : ({} as SpecialistCustomDefectModel),
       testType: this.vehicleTest,
       errorIncomplete: this.errorIncomplete
     });

@@ -1,52 +1,52 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title padding-right>{{sectionName}}</ion-title>
     <ion-buttons>
-      <button ion-button
-              class="cancel"
-              (click)="onCancel()">
+      <button ion-button class="cancel" (click)="onCancel()">
         Cancel
       </button>
     </ion-buttons>
     <ion-buttons end>
-      <button ion-button
-              (click)="onDone()">
+      <button ion-button (click)="onDone()">
         Done
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content class="content-background-color-grey">
   <ion-item-group *ngIf="input.testTypePropertyName !== testTypesInputs.K_LIMIT">
     <ion-item-divider padding-left>
-      <span
-        *ngIf="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER">{{input.label.toUpperCase()}}</span>
+      <span *ngIf="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER"
+        >{{input.label.toUpperCase()}}</span
+      >
     </ion-item-divider>
-    <ion-item padding-left
-              [ngClass]="{'error-incomplete-item': errorIncomplete && !inputValue}">
-      <ion-input [type]="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER ? input.type : 'text'"
-                 [pattern]="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER ? patterns.NUMERIC : ''"
-                 [placeholder]="input.defaultValue"
-                 [(ngModel)]="inputValue"
-                 (ngModelChange)="valueInputChange($event)"
-                 #valueInput></ion-input>
+    <ion-item padding-left [ngClass]="{'error-incomplete-item': errorIncomplete && !inputValue}">
+      <ion-input
+        [type]="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER ? input.type : 'text'"
+        [pattern]="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER ? patterns.NUMERIC : ''"
+        [placeholder]="input.defaultValue"
+        [(ngModel)]="inputValue"
+        (ngModelChange)="valueInputChange($event)"
+        #valueInput
+      ></ion-input>
     </ion-item>
   </ion-item-group>
   <ion-item-group *ngIf="input.testTypePropertyName === testTypesInputs.K_LIMIT">
     <ion-item-divider></ion-item-divider>
     <ion-row class="k-limit-custom">
       <ion-col col-10>
-        <ion-item padding-left
-                  [ngClass]="{'error-incomplete-item': errorIncomplete && !inputValue}">
-          <ion-input type="text"
-                     [placeholder]="input.defaultValue"
-                     [(ngModel)]="inputValue"
-                     (ngModelChange)="valueInputChange($event)"
-                     #customValueInput></ion-input>
+        <ion-item
+          padding-left
+          [ngClass]="{'error-incomplete-item': errorIncomplete && !inputValue}"
+        >
+          <ion-input
+            type="text"
+            [placeholder]="input.defaultValue"
+            [(ngModel)]="inputValue"
+            (ngModelChange)="valueInputChange($event)"
+            #customValueInput
+          ></ion-input>
         </ion-item>
       </ion-col>
       <ion-col col-2>

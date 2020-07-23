@@ -1,26 +1,28 @@
-import { Injectable } from "@angular/core";
-import { TestModel } from "../../models/tests/test.model";
-import { VisitModel } from "../../models/visit/visit.model";
-import { StorageService } from "../natives/storage.service";
-import { HTTPService } from "../global/http.service";
-import { ActivityModel } from "../../models/visit/activity.model";
-import { Events } from "ionic-angular";
-import { STORAGE, VISIT } from "../../app/app.enums";
-import { Observable } from "rxjs";
-import { AuthService } from "../global/auth.service";
-import { AppService } from "../global/app.service";
-import { ActivityService } from "../activity/activity.service";
+import { Injectable } from '@angular/core';
+import { TestModel } from '../../models/tests/test.model';
+import { VisitModel } from '../../models/visit/visit.model';
+import { StorageService } from '../natives/storage.service';
+import { HTTPService } from '../global/http.service';
+import { ActivityModel } from '../../models/visit/activity.model';
+import { Events } from 'ionic-angular';
+import { STORAGE, VISIT } from '../../app/app.enums';
+import { Observable } from 'rxjs';
+import { AuthService } from '../global/auth.service';
+import { AppService } from '../global/app.service';
+import { ActivityService } from '../activity/activity.service';
 
 @Injectable()
 export class VisitService {
   visit: VisitModel;
 
-  constructor(public storageService: StorageService,
-              public appService: AppService,
-              public authService: AuthService,
-              public events: Events,
-              private httpService: HTTPService,
-              private activityService: ActivityService) {
+  constructor(
+    public storageService: StorageService,
+    public appService: AppService,
+    public authService: AuthService,
+    public events: Events,
+    private httpService: HTTPService,
+    private activityService: ActivityService
+  ) {
     this.visit = {} as VisitModel;
   }
 
@@ -49,7 +51,7 @@ export class VisitService {
       testStationType: testStation.testStationType,
       testerName: this.authService.testerDetails.testerName,
       testerStaffId: this.authService.testerDetails.testerId,
-      testerEmail: this.authService.testerDetails.testerEmail,
+      testerEmail: this.authService.testerDetails.testerEmail
     };
     return this.httpService.startVisit(activities);
   }
@@ -64,9 +66,16 @@ export class VisitService {
 
   addTest(test: TestModel) {
     this.visit.tests.push(test);
-    let latestActivity = this.activityService.activities[this.activityService.activities.length - 1];
-    if (latestActivity && latestActivity.activityType === VISIT.ACTIVITY_TYPE_WAIT && !latestActivity.endTime) {
-      this.activityService.activities[this.activityService.activities.length - 1].endTime = test.startTime;
+    let latestActivity = this.activityService.activities[
+      this.activityService.activities.length - 1
+    ];
+    if (
+      latestActivity &&
+      latestActivity.activityType === VISIT.ACTIVITY_TYPE_WAIT &&
+      !latestActivity.endTime
+    ) {
+      this.activityService.activities[this.activityService.activities.length - 1].endTime =
+        test.startTime;
       this.activityService.updateActivities();
       this.activityService.waitTimeStarted = false;
     }

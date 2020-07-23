@@ -1,8 +1,8 @@
-import { StateReformingService } from "./state-reforming.service";
-import { TestBed } from "@angular/core/testing";
-import { StorageService } from "../natives/storage.service";
-import { AppService } from "./app.service";
-import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
+import { StateReformingService } from './state-reforming.service';
+import { TestBed } from '@angular/core/testing';
+import { StorageService } from '../natives/storage.service';
+import { AppService } from './app.service';
+import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
 
 describe('Provider: StateReformingService', () => {
   let stateReformingService: StateReformingService;
@@ -16,8 +16,8 @@ describe('Provider: StateReformingService', () => {
     TestBed.configureTestingModule({
       providers: [
         StateReformingService,
-        {provide: AppService, useClass: AppServiceMock},
-        {provide: StorageService, useValue: storageServiceSpy}
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: StorageService, useValue: storageServiceSpy }
       ]
     });
     stateReformingService = TestBed.get(StateReformingService);

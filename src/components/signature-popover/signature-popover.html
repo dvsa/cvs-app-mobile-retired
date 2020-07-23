@@ -1,18 +1,19 @@
-
 <div>
   <h5 text-center>{{ title }}</h5>
   <p text-center padding-horizontal>{{ msg }}</p>
 </div>
 <ion-grid no-padding>
   <ion-row class="pop-img">
-    <img [src]="signatureService.signatureString"/>
+    <img [src]="signatureService.signatureString" />
   </ion-row>
   <ion-row class="row-border">
     <ion-col col-6 text-center class="col-border">
       <button ion-button full clear (click)="closePop()">Cancel</button>
     </ion-col>
     <ion-col col-6 text-center>
-      <button ion-button full clear (click)="confirmPop()" class="bold-action-button">Confirm</button>
+      <button ion-button full clear (click)="confirmPop()" class="bold-action-button">
+        Confirm
+      </button>
     </ion-col>
   </ion-row>
 </ion-grid>

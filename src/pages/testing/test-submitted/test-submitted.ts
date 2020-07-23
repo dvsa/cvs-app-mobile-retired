@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { TestModel } from "../../../models/tests/test.model";
+import { TestModel } from '../../../models/tests/test.model';
 
 @IonicPage()
 @Component({
@@ -11,9 +11,11 @@ import { TestModel } from "../../../models/tests/test.model";
 export class TestSubmittedPage {
   testData: TestModel;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private socialSharing: SocialSharing) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private socialSharing: SocialSharing
+  ) {
     this.testData = this.navParams.get('test');
   }
 

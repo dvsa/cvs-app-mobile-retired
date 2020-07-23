@@ -6,11 +6,17 @@
 </ion-header>
 <ion-content padding>
   <div class="logo">
-    <ion-img class="logo-img" src="./assets/imgs/client-logo.svg" width="140" height="94" (click)="enableCache()"></ion-img>
+    <ion-img
+      class="logo-img"
+      src="./assets/imgs/client-logo.svg"
+      width="140"
+      height="94"
+      (click)="enableCache()"
+    ></ion-img>
   </div>
 
   <div class="beta">
-   <span>BETA</span>
+    <span>BETA</span>
   </div>
 
   <div class="start-title">
@@ -18,13 +24,12 @@
   </div>
 
   <h2>{{ appStrings.APP_DESC_PT1 }}<br />{{ appStrings.APP_DESC_PT2 }}</h2>
-
 </ion-content>
 <ion-footer>
   <div class="footer-cta-section">
     <button ion-button block (click)="getStarted()" color="secondary">
       <span>Get started</span>
-      <img padding-left src="./assets/imgs/arrow-icon.svg">
+      <img padding-left src="./assets/imgs/arrow-icon.svg" />
     </button>
   </div>
 </ion-footer>

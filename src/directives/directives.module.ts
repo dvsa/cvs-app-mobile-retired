@@ -1,19 +1,11 @@
-import {NgModule} from '@angular/core';
-import {TransformingSearchBarDirective} from './transforming-searchbar/transforming-searchbar';
+import { NgModule } from '@angular/core';
+import { TransformingSearchBarDirective } from './transforming-searchbar/transforming-searchbar';
 
-const DIRECTIVES = [
-  TransformingSearchBarDirective,
-]
+const DIRECTIVES = [TransformingSearchBarDirective];
 
 @NgModule({
-  declarations: [
-    ...DIRECTIVES,
-  ],
+  declarations: [...DIRECTIVES],
   imports: [],
-  exports: [
-    ...DIRECTIVES,
-  ]
+  exports: [...DIRECTIVES]
 })
-
-export class DirectivesModule {
-}
+export class DirectivesModule {}

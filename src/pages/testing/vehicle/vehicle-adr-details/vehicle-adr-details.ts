@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, ViewController } from 'ionic-angular';
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import {
   ADR_DETAILS,
   ADR_VEHICLE_TYPE,
   APP_STRINGS,
-  DEFAULT_VALUES, GUIDANCE_NOTES,
+  DEFAULT_VALUES,
+  GUIDANCE_NOTES,
   MEMOS_APPLY,
   VEHICLE_TYPE
-} from "../../../../app/app.enums";
+} from '../../../../app/app.enums';
 
 @IonicPage()
 @Component({
   selector: 'page-vehicle-adr-details',
-  templateUrl: 'vehicle-adr-details.html',
+  templateUrl: 'vehicle-adr-details.html'
 })
 export class VehicleAdrDetailsPage {
   vehicleData: VehicleModel;
@@ -26,9 +27,11 @@ export class VehicleAdrDetailsPage {
   MEMOS_APPLY: typeof MEMOS_APPLY = MEMOS_APPLY;
   GUIDANCE_NOTES: typeof GUIDANCE_NOTES = GUIDANCE_NOTES;
 
-  constructor(private navParams: NavParams,
-              private commonFunc: CommonFunctionsService,
-              private viewCtrl: ViewController) {
+  constructor(
+    private navParams: NavParams,
+    private commonFunc: CommonFunctionsService,
+    private viewCtrl: ViewController
+  ) {
     this.vehicleData = this.navParams.get('vehicleData');
   }
 

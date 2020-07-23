@@ -1,4 +1,4 @@
-import { ActivityModel } from "../../../models/visit/activity.model";
+import { ActivityModel } from '../../../models/visit/activity.model';
 
 export class ActivityDataModelMock {
   public static get ActivityData(): ActivityModel {
@@ -11,6 +11,6 @@ export class ActivityDataModelMock {
       testerName: 'Hercules',
       testerStaffId: 'hercules1',
       testerEmail: 'tester@mail.com'
-    }
+    };
   }
 }

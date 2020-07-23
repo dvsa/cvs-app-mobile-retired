@@ -1,21 +1,20 @@
 page-defect-details {
-
   .content-ios {
     color: color($colors, dark);
   }
 
-  .item-description{
+  .item-description {
     font-size: $font-size-medium;
     font-weight: $font-weight-semi-bold;
     display: inline-block;
     text-transform: lowercase;
 
-    &::first-letter{
+    &::first-letter {
       text-transform: capitalize;
     }
   }
 
-  p{
+  p {
     font-size: $font-size-medium;
   }
 
@@ -28,8 +27,8 @@ page-defect-details {
     font-size: $font-size-small;
   }
 
-  ion-item{
-    .select-icon{
+  ion-item {
+    .select-icon {
       display: none;
     }
   }

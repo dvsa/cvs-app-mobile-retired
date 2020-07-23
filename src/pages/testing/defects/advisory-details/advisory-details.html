@@ -19,7 +19,13 @@
     <ion-list>
       <ion-item-divider padding-left>DEFECT ITEM</ion-item-divider>
       <ion-item no-lines padding-left>
-        <ion-row class="advisory__item-status" ion-text color="dark" align-items-center justify-content-start>
+        <ion-row
+          class="advisory__item-status"
+          ion-text
+          color="dark"
+          align-items-center
+          justify-content-start
+        >
           {{ advisory.deficiencyRef }}
           <ion-badge item-end text-uppercase color="light">Advisory</ion-badge>
         </ion-row>
@@ -29,15 +35,25 @@
       </ion-item>
       <ion-item-divider padding-left>NOTES</ion-item-divider>
       <ion-item no-lines padding-horizontal>
-        <ion-textarea maxlength="200" rows="5" [(ngModel)]="advisory.additionalInformation.notes"
-                      placeholder="Add Notes">
+        <ion-textarea
+          maxlength="200"
+          rows="5"
+          [(ngModel)]="advisory.additionalInformation.notes"
+          placeholder="Add Notes"
+        >
           Notes
         </ion-textarea>
       </ion-item>
       <ion-item-group *ngIf="isEdit">
         <ion-item-divider text-uppercase></ion-item-divider>
-        <button ion-item detail-none padding-left class="btn-remove-advisory" (click)="removeAdvisoryConfirm()">Remove
-          defect
+        <button
+          ion-item
+          detail-none
+          padding-left
+          class="btn-remove-advisory"
+          (click)="removeAdvisoryConfirm()"
+        >
+          Remove defect
         </button>
       </ion-item-group>
     </ion-list>

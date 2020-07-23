@@ -1,5 +1,5 @@
-import { TEST_TYPE_RESULTS } from "../../../app/app.enums";
-import { TestTypeModel } from "../../../models/tests/test-type.model";
+import { TEST_TYPE_RESULTS } from '../../../app/app.enums';
+import { TestTypeModel } from '../../../models/tests/test-type.model';
 
 export class TestTypeDataModelMock {
   public static get TestTypeData(): TestTypeModel {
@@ -23,6 +23,6 @@ export class TestTypeDataModelMock {
       customDefects: [],
       reasons: [],
       linkedIds: ['38', '39']
-    }
+    };
   }
 }

@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { AbandonmentReasonItemModel } from "../../../../models/tests/abandonment-reason-item.model";
-import { TestAbandonmentReasonsData } from "../../../../assets/app-data/abandon-data/test-abandonment-reasons.data";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { APP_STRINGS, VEHICLE_TYPE } from "../../../../app/app.enums";
-import { TirTestTypesData } from "../../../../assets/app-data/test-types-data/tir-test-types.data";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { AbandonmentReasonItemModel } from '../../../../models/tests/abandonment-reason-item.model';
+import { TestAbandonmentReasonsData } from '../../../../assets/app-data/abandon-data/test-abandonment-reasons.data';
+import { TestTypeModel } from '../../../../models/tests/test-type.model';
+import { APP_STRINGS, VEHICLE_TYPE } from '../../../../app/app.enums';
+import { TirTestTypesData } from '../../../../assets/app-data/test-types-data/tir-test-types.data';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 
 @IonicPage()
 @Component({
   selector: 'page-reasons-selection',
-  templateUrl: 'reasons-selection.html',
+  templateUrl: 'reasons-selection.html'
 })
 export class ReasonsSelectionPage {
   vehicleTest: TestTypeModel;
@@ -20,10 +20,12 @@ export class ReasonsSelectionPage {
   altAbandon: boolean;
   fromTestReview: boolean;
 
-  constructor(private navCtrl: NavController,
-              private navParams: NavParams,
-              private viewCtrl: ViewController,
-              private testTypeService: TestTypeService) {
+  constructor(
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private viewCtrl: ViewController,
+    private testTypeService: TestTypeService
+  ) {
     this.vehicleTest = this.navParams.get('vehicleTest');
     this.vehicleType = this.navParams.get('vehicleType');
     this.altAbandon = this.navParams.get('altAbandon');
@@ -50,7 +52,9 @@ export class ReasonsSelectionPage {
 
   onCheck(reason: AbandonmentReasonItemModel) {
     reason.isChecked = !reason.isChecked;
-    reason.isChecked ? this.selectedReasons.push(reason.text) : this.selectedReasons.splice(this.selectedReasons.indexOf(reason.text), 1);
+    reason.isChecked
+      ? this.selectedReasons.push(reason.text)
+      : this.selectedReasons.splice(this.selectedReasons.indexOf(reason.text), 1);
   }
 
   populateReasonList(vehicleType: string): string[] {
@@ -71,13 +75,13 @@ export class ReasonsSelectionPage {
     return reasonsList;
   }
 
-  transformReasons(vehicleType: string): { text: string, isChecked: boolean }[] {
+  transformReasons(vehicleType: string): { text: string; isChecked: boolean }[] {
     let reasonsList: string[] = this.populateReasonList(vehicleType);
-    return reasonsList.map(reason => {
+    return reasonsList.map((reason) => {
       return {
         text: reason,
         isChecked: false
-      }
+      };
     });
   }
 }

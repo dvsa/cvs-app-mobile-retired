@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import {
   APP_STRINGS,
   TEST_TYPE_RESULTS,
@@ -9,16 +9,15 @@ import {
   VEHICLE_TYPE,
   FIREBASE_SCREEN_NAMES
 } from '../../../../app/app.enums';
-import { TestResultModel } from "../../../../models/tests/test-result.model";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { TestResultModel } from '../../../../models/tests/test-result.model';
+import { TestTypeModel } from '../../../../models/tests/test-type.model';
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 
 @IonicPage()
 @Component({
   selector: 'page-vehicle-history',
-  templateUrl: 'vehicle-history.html',
+  templateUrl: 'vehicle-history.html'
 })
-
 export class VehicleHistoryPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   vehicleData: VehicleModel;
@@ -28,11 +27,13 @@ export class VehicleHistoryPage {
   testResultHistoryClone: any[] = [];
   testTypeArray: any[] = [];
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public viewCtrl: ViewController,
-              public commonFunc: CommonFunctionsService,
-              private firebaseLogsService: FirebaseLogsService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public viewCtrl: ViewController,
+    public commonFunc: CommonFunctionsService,
+    private firebaseLogsService: FirebaseLogsService
+  ) {
     this.vehicleData = navParams.get('vehicleData');
     this.testResultHistory = navParams.get('testResultsHistory');
   }
@@ -64,7 +65,10 @@ export class VehicleHistoryPage {
   createTestTypeArray(): void {
     if (this.testResultHistory.length) {
       this.testResultHistoryClone.forEach((testResult, testIndex) => {
-        if (testResult.testTypes.length && testResult.testStatus === TEST_REPORT_STATUSES.SUBMITTED) {
+        if (
+          testResult.testTypes.length &&
+          testResult.testStatus === TEST_REPORT_STATUSES.SUBMITTED
+        ) {
           testResult.testTypes.forEach((testType, typeTypeIndex) => {
             testType.testIndex = testIndex;
             testType.testTypeIndex = typeTypeIndex;

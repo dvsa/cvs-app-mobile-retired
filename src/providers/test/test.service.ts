@@ -1,11 +1,9 @@
-import { TestModel } from "../../models/tests/test.model";
-import { VehicleModel } from "../../models/vehicle/vehicle.model";
+import { TestModel } from '../../models/tests/test.model';
+import { VehicleModel } from '../../models/vehicle/vehicle.model';
 import * as uuidv4 from 'uuid/v4';
 
 export class TestService {
-
-  constructor() {
-  }
+  constructor() {}
 
   createTest() {
     let newTest = {} as TestModel;

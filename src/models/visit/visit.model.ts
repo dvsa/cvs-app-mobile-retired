@@ -1,4 +1,4 @@
-import { TestModel } from "../tests/test.model";
+import { TestModel } from '../tests/test.model';
 
 export interface VisitModel {
   startTime: string;

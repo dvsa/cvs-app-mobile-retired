@@ -1,4 +1,9 @@
-import { EU_VEHICLE_CATEGORY, VEHICLE_CONFIGURATION, VEHICLE_SIZE, VEHICLE_TYPE } from "../../app/app.enums";
+import {
+  EU_VEHICLE_CATEGORY,
+  VEHICLE_CONFIGURATION,
+  VEHICLE_SIZE,
+  VEHICLE_TYPE
+} from '../../app/app.enums';
 
 export interface TestTypesReferenceDataModel {
   id: string;
@@ -16,5 +21,3 @@ export interface TestTypesReferenceDataModel {
   nextTestTypesOrCategories?: TestTypesReferenceDataModel[];
   linkedIds?: string[] | null;
 }
-
-

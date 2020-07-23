@@ -1,4 +1,4 @@
-import { DefectDetailsModel, SpecialistCustomDefectModel } from "../defects/defect-details.model";
+import { DefectDetailsModel, SpecialistCustomDefectModel } from '../defects/defect-details.model';
 
 export interface TestTypeModel {
   testTypeName: string;
@@ -17,7 +17,7 @@ export interface TestTypeModel {
   lastSeatbeltInstallationCheckDate?: string | null; // PSV
   seatbeltInstallationCheckDate?: boolean | null; // PSV
   testExpiryDate?: string;
-  modType?: string | { code: string, description: string } | null;
+  modType?: string | { code: string; description: string } | null;
   emissionStandard?: string;
   fuelType?: string;
   modificationTypeUsed?: string;

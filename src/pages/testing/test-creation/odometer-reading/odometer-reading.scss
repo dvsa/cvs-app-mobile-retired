@@ -1,7 +1,5 @@
 page-odometer-reading {
-
   ion-header {
-
     ion-navbar.toolbar.toolbar-ios.statusbar-padding {
       height: 100px;
       padding-top: 24px !important;
@@ -22,7 +20,6 @@ page-odometer-reading {
   }
 
   .item-ios {
-
     .unit {
       margin-top: 2px;
     }
@@ -31,7 +28,6 @@ page-odometer-reading {
       margin: 0;
       color: $color-grey-1;
     }
-
   }
 
   ion-item.error-incomplete-item ::placeholder {

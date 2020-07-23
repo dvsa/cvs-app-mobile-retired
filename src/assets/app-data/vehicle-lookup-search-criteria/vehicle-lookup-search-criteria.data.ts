@@ -14,16 +14,11 @@ export class VehicleLookupSearchCriteriaData {
       'Full VIN',
       'Partial VIN (last 6 characters)',
       'Trailer ID'
-    ]
+    ];
   }
 
   public static get VehicleLookupSearchCriteriaTrailersOnly() {
-    return [
-      'Trailer ID or VIN',
-      'Full VIN',
-      'Partial VIN (last 6 characters)',
-      'Trailer ID'
-    ]
+    return ['Trailer ID or VIN', 'Full VIN', 'Partial VIN (last 6 characters)', 'Trailer ID'];
   }
 
   public static get VehicleLookupQueryParameters() {
@@ -51,7 +46,7 @@ export class VehicleLookupSearchCriteriaData {
       {
         text: 'Trailer ID',
         queryParam: 'trailerId'
-      },
-    ]
+      }
+    ];
   }
 }

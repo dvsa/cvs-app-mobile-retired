@@ -1,5 +1,5 @@
-import { TestStationDetailsPage } from "./test-station-details";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { TestStationDetailsPage } from './test-station-details';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   IonicModule,
   NavController,
@@ -7,23 +7,28 @@ import {
   AlertController,
   ViewController,
   LoadingController
-} from "ionic-angular";
-import { PipesModule } from "../../../pipes/pipes.module";
-import { Firebase } from "@ionic-native/firebase";
-import { NavControllerMock, AlertControllerMock, ViewControllerMock, LoadingControllerMock } from "ionic-mocks";
-import { CallNumber } from "@ionic-native/call-number";
-import { VisitService } from "../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../test-config/services-mocks/visit-service.mock";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { TestStationReferenceDataModel } from "../../../models/reference-data-models/test-station.model";
-import { NavParamsMock } from "../../../../test-config/ionic-mocks/nav-params.mock";
-import { AuthService } from "../../../providers/global/auth.service";
-import { AuthServiceMock } from "../../../../test-config/services-mocks/auth-service.mock";
-import { Store } from "@ngrx/store";
-import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec";
-import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
-import { FirebaseLogsServiceMock } from "../../../../test-config/services-mocks/firebaseLogsService.mock";
+} from 'ionic-angular';
+import { PipesModule } from '../../../pipes/pipes.module';
+import { Firebase } from '@ionic-native/firebase';
+import {
+  NavControllerMock,
+  AlertControllerMock,
+  ViewControllerMock,
+  LoadingControllerMock
+} from 'ionic-mocks';
+import { CallNumber } from '@ionic-native/call-number';
+import { VisitService } from '../../../providers/visit/visit.service';
+import { VisitServiceMock } from '../../../../test-config/services-mocks/visit-service.mock';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
+import { NavParamsMock } from '../../../../test-config/ionic-mocks/nav-params.mock';
+import { AuthService } from '../../../providers/global/auth.service';
+import { AuthServiceMock } from '../../../../test-config/services-mocks/auth-service.mock';
+import { Store } from '@ngrx/store';
+import { TestStore } from '../../../providers/interceptors/auth.interceptor.spec';
+import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+import { FirebaseLogsServiceMock } from '../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { AppService } from '../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../test-config/services-mocks/app-service.mock';
 
@@ -46,24 +51,21 @@ describe('Component: TestStationDetailsPage', () => {
 
     TestBed.configureTestingModule({
       declarations: [TestStationDetailsPage],
-      imports: [
-        IonicModule.forRoot(TestStationDetailsPage),
-        PipesModule
-      ],
+      imports: [IonicModule.forRoot(TestStationDetailsPage), PipesModule],
       providers: [
-        {provide: Firebase, useValue: firebaseSpy},
-        {provide: NavController, useFactory: () => NavControllerMock.instance()},
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
-        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
-        {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
-        {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
-        {provide: CallNumber, useValue: callNumberSpy},
-        {provide: VisitService, useClass: VisitServiceMock},
-        {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
-        {provide: AuthService, useClass: AuthServiceMock},
-        {provide: Store, useClass: TestStore},
-        {provide: AppService, useClass: AppServiceMock},
+        { provide: Firebase, useValue: firebaseSpy },
+        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
+        { provide: CallNumber, useValue: callNumberSpy },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: Store, useClass: TestStore },
+        { provide: AppService, useClass: AppServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -84,10 +86,10 @@ describe('Component: TestStationDetailsPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        'testStation': {} as TestStationReferenceDataModel
+        testStation: {} as TestStationReferenceDataModel
       };
       return params[param];
-    })
+    });
   });
 
   beforeEach(() => {

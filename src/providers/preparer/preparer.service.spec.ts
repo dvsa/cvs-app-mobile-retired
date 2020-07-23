@@ -1,8 +1,8 @@
-import { PreparerService } from "./preparer.service";
-import { StorageService } from "../natives/storage.service";
-import { PreparersDataMock } from "../../assets/data-mocks/reference-data-mocks/preparers-data.mock";
-import { TestBed } from "@angular/core/testing";
-import { PreparersReferenceDataModel } from "../../models/reference-data-models/preparers.model";
+import { PreparerService } from './preparer.service';
+import { StorageService } from '../natives/storage.service';
+import { PreparersDataMock } from '../../assets/data-mocks/reference-data-mocks/preparers-data.mock';
+import { TestBed } from '@angular/core/testing';
+import { PreparersReferenceDataModel } from '../../models/reference-data-models/preparers.model';
 
 describe('Provider: PreparerService', () => {
   let preparerService: PreparerService;
@@ -12,17 +12,13 @@ describe('Provider: PreparerService', () => {
   const preparerData = PreparersDataMock.PreparersData;
   let filter: string;
 
-
   beforeEach(() => {
     spy = jasmine.createSpyObj('StorageService', {
-      'read': new Promise(resolve => resolve(preparerData))
+      read: new Promise((resolve) => resolve(preparerData))
     });
 
     TestBed.configureTestingModule({
-      providers: [
-        PreparerService,
-        {provide: StorageService, useValue: spy}
-      ]
+      providers: [PreparerService, { provide: StorageService, useValue: spy }]
     });
 
     preparerService = TestBed.get(PreparerService);
@@ -34,13 +30,10 @@ describe('Provider: PreparerService', () => {
     storageService = null;
   });
 
-
   it('should return data from local storage', () => {
-    preparerService.getPreparersFromStorage().subscribe(
-      data => {
-        expect(data).toBe(<PreparersReferenceDataModel[]>preparerData);
-      }
-    )
+    preparerService.getPreparersFromStorage().subscribe((data) => {
+      expect(data).toBe(<PreparersReferenceDataModel[]>preparerData);
+    });
   });
 
   it('should return Preparer by ID', () => {

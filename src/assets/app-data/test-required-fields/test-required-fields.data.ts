@@ -18,7 +18,7 @@ export class TestsWithoutCertificate {
       'Voluntary speed limiter check',
       'Voluntary Vitesse 100',
       'Voluntary Tempo 100'
-    ]
+    ];
   }
 }
 
@@ -43,7 +43,7 @@ export class TestsWithoutTestExpiry {
       'Voluntary Vitesse 100',
       'Voluntary Tempo 100',
       'Notifiable alteration check'
-     ]
+    ];
   }
 }
 
@@ -70,7 +70,7 @@ export class TestsWithoutSeatbelts {
       'Notifiable alteration check',
       'Low Emissions Certificate (LEC) with annual test',
       'Low Emissions Certificate (LEC) without annual test'
-     ]
+    ];
   }
 }
 
@@ -101,7 +101,7 @@ export class TestsWithoutDefects {
       '87', // Voluntary Shaker plate check
       '88', // Voluntary Speed limiter check
       '89', // Voluntary smoke test
-      '90', // Voluntary headlamp aim test
-     ]
+      '90' // Voluntary headlamp aim test
+    ];
   }
 }

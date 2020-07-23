@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavParams, ViewController } from 'ionic-angular';
-import { EuVehicleCategoryData } from "../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VEHICLE_TYPE } from "../../../../app/app.enums";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
+import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { VEHICLE_TYPE } from '../../../../app/app.enums';
+import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 
 @IonicPage()
 @Component({
   selector: 'page-eu-vehicle-category',
-  templateUrl: 'eu-vehicle-category.html',
+  templateUrl: 'eu-vehicle-category.html'
 })
 export class CategoryReadingPage implements OnInit {
   vehicle: VehicleModel;
@@ -18,10 +18,12 @@ export class CategoryReadingPage implements OnInit {
   errorIncomplete: boolean;
   categoriesArr = [];
 
-  constructor(private navParams: NavParams,
-              private visitService: VisitService,
-              private viewCtrl: ViewController,
-              private vehicleService: VehicleService) {
+  constructor(
+    private navParams: NavParams,
+    private visitService: VisitService,
+    private viewCtrl: ViewController,
+    private vehicleService: VehicleService
+  ) {
     this.vehicle = this.navParams.get('vehicle');
     this.errorIncomplete = this.navParams.get('errorIncomplete');
   }
@@ -75,4 +77,3 @@ export class CategoryReadingPage implements OnInit {
     this.viewCtrl.dismiss();
   }
 }
-

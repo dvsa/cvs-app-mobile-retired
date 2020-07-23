@@ -1,9 +1,21 @@
-import { MultipleTechRecordsSelectionPage } from "./multiple-tech-records-selection";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, LoadingController, NavController, NavParams, ViewController } from 'ionic-angular';
-import { NavParamsMock } from "../../../../../../test-config/ionic-mocks/nav-params.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { AlertControllerMock, LoadingControllerMock, NavControllerMock, ViewControllerMock } from 'ionic-mocks';
+import { MultipleTechRecordsSelectionPage } from './multiple-tech-records-selection';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  AlertController,
+  IonicModule,
+  LoadingController,
+  NavController,
+  NavParams,
+  ViewController
+} from 'ionic-angular';
+import { NavParamsMock } from '../../../../../../test-config/ionic-mocks/nav-params.mock';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  AlertControllerMock,
+  LoadingControllerMock,
+  NavControllerMock,
+  ViewControllerMock
+} from 'ionic-mocks';
 import { AuthService } from '../../../../../providers/global/auth.service';
 import { AuthServiceMock } from '../../../../../../test-config/services-mocks/auth-service.mock';
 import { VehicleService } from '../../../../../providers/vehicle/vehicle.service';
@@ -31,16 +43,19 @@ describe('Component: ', () => {
       declarations: [MultipleTechRecordsSelectionPage],
       imports: [IonicModule.forRoot(MultipleTechRecordsSelectionPage)],
       providers: [
-        {provide: NavController, useFactory: () => NavControllerMock.instance()},
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
-        {provide: AuthService, useClass: AuthServiceMock},
-        {provide: VehicleService, useClass: VehicleServiceMock},
-        {provide: StorageService, useClass: StorageServiceMock},
-        {provide: Firebase, useValue: jasmine.createSpyObj<Firebase>(['logEvent', 'setScreenName'])},
-        {provide: Store, useClass: TestStore},
-        {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
-        {provide: AlertController, useFactory: () => AlertControllerMock.instance()}
+        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: VehicleService, useClass: VehicleServiceMock },
+        { provide: StorageService, useClass: StorageServiceMock },
+        {
+          provide: Firebase,
+          useValue: jasmine.createSpyObj<Firebase>(['logEvent', 'setScreenName'])
+        },
+        { provide: Store, useClass: TestStore },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -68,7 +83,7 @@ describe('Component: ', () => {
 
   it('should check if at at least one vehicle is skeleton', () => {
     component.vehicles = [];
-    component.vehicles.push({...VehicleDataMock.VehicleData});
+    component.vehicles.push({ ...VehicleDataMock.VehicleData });
     component.ionViewWillEnter();
     expect(component.isAtLeastOneSkeleton).toBeFalsy();
     component.vehicles[0].techRecord.recordCompleteness = 'skeleton';
@@ -91,7 +106,7 @@ describe('Component: ', () => {
       test: undefined,
       vehicle: VehicleDataMock.VehicleData
     });
-    let skeletonVehicle = {...VehicleDataMock.VehicleData};
+    let skeletonVehicle = { ...VehicleDataMock.VehicleData };
     skeletonVehicle.techRecord.recordCompleteness = 'skeleton';
     component.openVehicleDetails(skeletonVehicle);
     expect(alertCtrl.create).toHaveBeenCalled();

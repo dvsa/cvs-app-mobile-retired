@@ -5,28 +5,33 @@
     </ion-title>
   </ion-navbar>
   <ion-toolbar>
-    <ion-searchbar (ionInput)="searchList($event)"
-                   [(ngModel)]="searchVal"
-                   [ngClass]="{'keep-cancel-on': focusOut}"
-                   (ionFocus)="keepCancelOn($event)"
-                   (ionCancel)="keepCancelOn($event, true)"
-                   [showCancelButton]="true"
-                   [cancelButtonText]="'Cancel'"
-                   [placeholder]="appStrings.PLACEHOLDER_DEFECT_CAT"
-                   #searchBar>
+    <ion-searchbar
+      (ionInput)="searchList($event)"
+      [(ngModel)]="searchVal"
+      [ngClass]="{'keep-cancel-on': focusOut}"
+      (ionFocus)="keepCancelOn($event)"
+      (ionCancel)="keepCancelOn($event, true)"
+      [showCancelButton]="true"
+      [cancelButtonText]="'Cancel'"
+      [placeholder]="appStrings.PLACEHOLDER_DEFECT_CAT"
+      #searchBar
+    >
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content no-padding class="content-background-color-grey" >
+<ion-content no-padding class="content-background-color-grey">
   <ion-list text-wrap *ngIf="filteredCategories.length > 0">
-    <ion-item detail-none padding-left
-              class="list-item-height"
-              *ngFor="let category of filteredCategories | byVehicleType: vehicleType"
-              (click)="selectCategory(category)">
-        <span>
-          <h3>{{ category.imNumber }}. {{ category.imDescription }}</h3>
-        </span>
+    <ion-item
+      detail-none
+      padding-left
+      class="list-item-height"
+      *ngFor="let category of filteredCategories | byVehicleType: vehicleType"
+      (click)="selectCategory(category)"
+    >
+      <span>
+        <h3>{{ category.imNumber }}. {{ category.imDescription }}</h3>
+      </span>
       <ion-icon item-end name="arrow-forward"></ion-icon>
     </ion-item>
   </ion-list>
