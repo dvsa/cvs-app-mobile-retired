@@ -1,10 +1,10 @@
-import { VehicleLookupSearchCriteriaSelectionPage } from "./vehicle-lookup-search-criteria-selection";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
-import { NavParamsMock } from "../../../../../../test-config/ionic-mocks/nav-params.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { VehicleLookupSearchCriteriaData } from "../../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data";
-import { ViewControllerMock } from "ionic-mocks";
+import { VehicleLookupSearchCriteriaSelectionPage } from './vehicle-lookup-search-criteria-selection';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { IonicModule, NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavParamsMock } from '../../../../../../test-config/ionic-mocks/nav-params.mock';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { VehicleLookupSearchCriteriaData } from '../../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
+import { ViewControllerMock } from 'ionic-mocks';
 
 describe('Component: VehicleLookupSearchCriteriaSelectionPage', () => {
   let component: VehicleLookupSearchCriteriaSelectionPage;
@@ -19,8 +19,8 @@ describe('Component: VehicleLookupSearchCriteriaSelectionPage', () => {
       imports: [IonicModule.forRoot(VehicleLookupSearchCriteriaSelectionPage)],
       providers: [
         NavController,
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useFactory: () => ViewControllerMock.instance()}
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -55,7 +55,11 @@ describe('Component: VehicleLookupSearchCriteriaSelectionPage', () => {
   });
 
   it('should format an array of strings into an array of objects', () => {
-    expect(component.getFormattedSearchCriteriaList(VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria)[0].text).toEqual(VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria[0]);
+    expect(
+      component.getFormattedSearchCriteriaList(
+        VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria
+      )[0].text
+    ).toEqual(VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria[0]);
   });
 
   it('should check which is the selected search criteria', () => {

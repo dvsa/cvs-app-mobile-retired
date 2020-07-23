@@ -1,4 +1,4 @@
-  export interface PreparersReferenceDataModel {
-    preparerId: string | null;
-    preparerName: string;
-  }
+export interface PreparersReferenceDataModel {
+  preparerId: string | null;
+  preparerName: string;
+}

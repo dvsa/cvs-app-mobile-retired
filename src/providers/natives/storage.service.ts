@@ -6,27 +6,20 @@ import { Subject, Observable } from 'rxjs';
 export class StorageService {
   private storageSub = new Subject<any>();
 
-  constructor(private storage: Storage) {
-  }
+  constructor(private storage: Storage) {}
 
   create(key: string, dataArray: any | any[]): Promise<any> {
     return this.storage.set(key, dataArray);
   }
 
   read(key: string): Promise<any> {
-    return this.storage.get(key).then(
-      (data: any) => data
-    );
+    return this.storage.get(key).then((data: any) => data);
   }
 
   update(key, value): Promise<any> {
-    return this.storage.remove(key).then(
-      (data: any) => {
-        return this.storage.set(key, value).then(
-          (data: any) => data
-        );
-      }
-    );
+    return this.storage.remove(key).then((data: any) => {
+      return this.storage.set(key, value).then((data: any) => data);
+    });
   }
 
   watchStorage(): Observable<any> {
@@ -44,18 +37,14 @@ export class StorageService {
   }
 
   delete(key: string): Promise<any> {
-    return this.storage.remove(key).then(
-      data => {
-        return data
-      }
-    );
+    return this.storage.remove(key).then((data) => {
+      return data;
+    });
   }
 
   clearStorage(): Promise<any> {
-    return this.storage.clear().then(
-      (data) => {
-        return data
-      }
-    );
+    return this.storage.clear().then((data) => {
+      return data;
+    });
   }
 }

@@ -1,18 +1,18 @@
-import { TestBed } from "@angular/core/testing";
-import { VisitService } from "./visit.service";
-import { StorageService } from "../natives/storage.service";
-import { TestStationDataMock } from "../../assets/data-mocks/reference-data-mocks/test-station-data.mock";
-import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
-import { TestModel } from "../../models/tests/test.model";
-import { TestDataModelMock } from "../../assets/data-mocks/data-model/test-data-model.mock";
-import { AuthService } from "../global/auth.service";
-import { HTTPService } from "../global/http.service";
-import { Events } from "ionic-angular";
-import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
-import { AppService } from "../global/app.service";
-import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
-import { ActivityService } from "../activity/activity.service";
-import { ActivityServiceMock } from "../../../test-config/services-mocks/activity-service.mock";
+import { TestBed } from '@angular/core/testing';
+import { VisitService } from './visit.service';
+import { StorageService } from '../natives/storage.service';
+import { TestStationDataMock } from '../../assets/data-mocks/reference-data-mocks/test-station-data.mock';
+import { TestStationReferenceDataModel } from '../../models/reference-data-models/test-station.model';
+import { TestModel } from '../../models/tests/test.model';
+import { TestDataModelMock } from '../../assets/data-mocks/data-model/test-data-model.mock';
+import { AuthService } from '../global/auth.service';
+import { HTTPService } from '../global/http.service';
+import { Events } from 'ionic-angular';
+import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
+import { AppService } from '../global/app.service';
+import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
+import { ActivityService } from '../activity/activity.service';
+import { ActivityServiceMock } from '../../../test-config/services-mocks/activity-service.mock';
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
@@ -35,11 +35,11 @@ describe('Provider: VisitService', () => {
       providers: [
         Events,
         VisitService,
-        {provide: ActivityService, useClass: ActivityServiceMock},
-        {provide: AppService, useClass: AppServiceMock},
-        {provide: AuthService, useClass: AuthServiceMock},
-        {provide: StorageService, useValue: storageServiceSpy},
-        {provide: HTTPService, useValue: httpServiceSpy}
+        { provide: ActivityService, useClass: ActivityServiceMock },
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: StorageService, useValue: storageServiceSpy },
+        { provide: HTTPService, useValue: httpServiceSpy }
       ]
     });
     visitService = TestBed.get(VisitService);
@@ -83,11 +83,11 @@ describe('Provider: VisitService', () => {
   it('should return the latest test', () => {
     visitService.createVisit(TEST_STATION);
     let aTest: TestModel = {
-      "startTime": null,
-      "endTime": '14 March',
-      "status": null,
-      "reasonForCancellation": '',
-      "vehicles": []
+      startTime: null,
+      endTime: '14 March',
+      status: null,
+      reasonForCancellation: '',
+      vehicles: []
     };
     visitService.visit.tests.push(aTest);
     let lateTest = visitService.getLatestTest();
@@ -95,20 +95,22 @@ describe('Provider: VisitService', () => {
   });
 
   it('should add test to visit.tests array', () => {
-    activityService.activities = [{
-      "activityType": "wait",
-      "testStationName": "Abshire-Kub",
-      "testStationPNumber": "09-4129632",
-      "testStationEmail": "teststationname@dvsa.gov.uk",
-      "testStationType": "gvts",
-      "testerName": "gvminnbbl",
-      "testerStaffId": "9b4q4o87d",
-      "startTime": "2019-05-23T12:11:11.974Z",
-      "endTime": null,
-      "waitReason": ["Waiting for vehicle"],
-      "notes": "",
-      "parentId": "8e56af10-503c-494c-836b-b2f3aa3c56ac"
-    }];
+    activityService.activities = [
+      {
+        activityType: 'wait',
+        testStationName: 'Abshire-Kub',
+        testStationPNumber: '09-4129632',
+        testStationEmail: 'teststationname@dvsa.gov.uk',
+        testStationType: 'gvts',
+        testerName: 'gvminnbbl',
+        testerStaffId: '9b4q4o87d',
+        startTime: '2019-05-23T12:11:11.974Z',
+        endTime: null,
+        waitReason: ['Waiting for vehicle'],
+        notes: '',
+        parentId: '8e56af10-503c-494c-836b-b2f3aa3c56ac'
+      }
+    ];
     visitService.createVisit(TEST_STATION);
     expect(visitService.visit.tests.length).toBe(0);
     TEST.startTime = '2019-05-23T14:11:11.974Z';

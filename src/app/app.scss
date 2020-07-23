@@ -98,7 +98,8 @@ body {
   -webkit-text-size-adjust: $disable-accessibility-text-scaling;
 }
 
-ion-list .input-wrapper { //accessibility formatting for the lists
+ion-list .input-wrapper {
+  //accessibility formatting for the lists
   display: flex;
   flex-wrap: wrap;
 
@@ -116,7 +117,10 @@ ion-list .input-wrapper { //accessibility formatting for the lists
   }
 }
 
-h1, h2, h3, h4,
+h1,
+h2,
+h3,
+h4,
 p[text-left],
 span[text-left] {
   color: color($colors, dark);
@@ -171,7 +175,13 @@ span[text-left] {
   .accessibility-bold-text {
     font-weight: 600 !important;
 
-    span, p, h1, h2, h3, h4, h5 {
+    span,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
       font-weight: 600 !important;
     }
   }
@@ -179,7 +189,6 @@ span[text-left] {
 
 // Searchbars found in the header
 .header-ios ion-toolbar .searchbar-ios {
-
   .searchbar-search-icon,
   .searchbar-clear-icon {
     filter: brightness(0) invert(1);
@@ -354,7 +363,6 @@ ion-list.vehicle-list {
   }
 
   button.item-ios {
-
     .item-inner {
       border-bottom: 0.5px solid $color-grey-2;
       min-height: 60px;
@@ -398,7 +406,6 @@ ion-list.vehicle-list {
 }
 
 .submit-toast {
-
   .toast-wrapper.toast-top {
     background: unset;
   }

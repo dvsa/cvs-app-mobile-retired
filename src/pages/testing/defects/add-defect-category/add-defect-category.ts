@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { DefectsService } from "../../../../providers/defects/defects.service";
-import { APP, APP_STRINGS } from "../../../../app/app.enums";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { DefectCategoryReferenceDataModel } from "../../../../models/reference-data-models/defects.reference-model";
+import { DefectsService } from '../../../../providers/defects/defects.service';
+import { APP, APP_STRINGS } from '../../../../app/app.enums';
+import { TestTypeModel } from '../../../../models/tests/test-type.model';
+import { DefectCategoryReferenceDataModel } from '../../../../models/reference-data-models/defects.reference-model';
 
 @IonicPage()
 @Component({
   selector: 'page-add-defect-category',
-  templateUrl: 'add-defect-category.html',
+  templateUrl: 'add-defect-category.html'
 })
 export class AddDefectCategoryPage implements OnInit {
   vehicleType: string;
@@ -20,7 +20,13 @@ export class AddDefectCategoryPage implements OnInit {
   focusOut: boolean = false;
   appStrings: {} = APP_STRINGS;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private defectsService: DefectsService, public events: Events) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public viewCtrl: ViewController,
+    private defectsService: DefectsService,
+    public events: Events
+  ) {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
     this.defectCategories = navParams.get('defects');
@@ -52,7 +58,10 @@ export class AddDefectCategoryPage implements OnInit {
   }
 
   private populateCategoriesArray(): DefectCategoryReferenceDataModel[] {
-    let filteredArr = this.defectsService.searchDefect(this.defectCategories, this.searchVal, ['imNumber', 'imDescription']);
+    let filteredArr = this.defectsService.searchDefect(this.defectCategories, this.searchVal, [
+      'imNumber',
+      'imDescription'
+    ]);
     return this.defectsService.orderDefectsArray(filteredArr, 'imNumber', 'asc');
   }
 

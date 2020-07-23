@@ -1,4 +1,4 @@
-import { TEST_STATION_TYPE } from "../../app/app.enums";
+import { TEST_STATION_TYPE } from '../../app/app.enums';
 
 export interface TestStationReferenceDataModel {
   testStationId: string;

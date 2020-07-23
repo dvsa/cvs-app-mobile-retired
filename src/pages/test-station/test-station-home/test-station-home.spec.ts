@@ -1,24 +1,24 @@
-import { TestStationHomePage } from "./test-station-home";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, NavController } from "ionic-angular";
-import { AppService } from "../../../providers/global/app.service";
-import { StorageService } from "../../../providers/natives/storage.service";
-import { VisitService } from "../../../providers/visit/visit.service";
-import { ScreenOrientation } from "@ionic-native/screen-orientation";
-import { AuthService } from "../../../providers/global/auth.service";
-import { CallNumber } from "@ionic-native/call-number";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { StorageServiceMock } from "../../../../test-config/services-mocks/storage-service.mock";
-import { VisitServiceMock } from "../../../../test-config/services-mocks/visit-service.mock";
-import { AuthServiceMock } from "../../../../test-config/services-mocks/auth-service.mock";
-import { AlertControllerMock } from "ionic-mocks";
-import { PAGE_NAMES } from "../../../app/app.enums";
-import { Store } from "@ngrx/store";
-import { NetworkStateProvider } from "../../../modules/logs/network-state.service";
-import { TestStore } from "../../../providers/interceptors/auth.interceptor.spec";
-import { AppServiceMock } from "../../../../test-config/services-mocks/app-service.mock";
-import { FirebaseLogsService } from "../../../providers/firebase-logs/firebase-logs.service";
-import { FirebaseLogsServiceMock } from "../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { TestStationHomePage } from './test-station-home';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AlertController, IonicModule, NavController } from 'ionic-angular';
+import { AppService } from '../../../providers/global/app.service';
+import { StorageService } from '../../../providers/natives/storage.service';
+import { VisitService } from '../../../providers/visit/visit.service';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { AuthService } from '../../../providers/global/auth.service';
+import { CallNumber } from '@ionic-native/call-number';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { StorageServiceMock } from '../../../../test-config/services-mocks/storage-service.mock';
+import { VisitServiceMock } from '../../../../test-config/services-mocks/visit-service.mock';
+import { AuthServiceMock } from '../../../../test-config/services-mocks/auth-service.mock';
+import { AlertControllerMock } from 'ionic-mocks';
+import { PAGE_NAMES } from '../../../app/app.enums';
+import { Store } from '@ngrx/store';
+import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
+import { TestStore } from '../../../providers/interceptors/auth.interceptor.spec';
+import { AppServiceMock } from '../../../../test-config/services-mocks/app-service.mock';
+import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+import { FirebaseLogsServiceMock } from '../../../../test-config/services-mocks/firebaseLogsService.mock';
 
 describe('Component: TestStationHomePage', () => {
   let comp: TestStationHomePage;
@@ -39,30 +39,29 @@ describe('Component: TestStationHomePage', () => {
   let $store: any;
   let firebaseLogsService: FirebaseLogsService;
 
-
   beforeEach(async(() => {
     navCtrlSpy = jasmine.createSpyObj('NavController', ['push']);
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
-    networkStateProviderSpy = jasmine.createSpyObj('NetworkStateProvider', ['initialiseNetworkState']);
+    networkStateProviderSpy = jasmine.createSpyObj('NetworkStateProvider', [
+      'initialiseNetworkState'
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [TestStationHomePage],
-      imports: [
-        IonicModule.forRoot(TestStationHomePage)
-      ],
+      imports: [IonicModule.forRoot(TestStationHomePage)],
       providers: [
-        {provide: NavController, useValue: navCtrlSpy},
-        {provide: AppService, useClass: AppServiceMock},
-        {provide: StorageService, useClass: StorageServiceMock},
-        {provide: VisitService, useClass: VisitServiceMock},
-        {provide: ScreenOrientation, useValue: screenOrientationSpy},
-        {provide: AuthService, useClass: AuthServiceMock},
-        {provide: Store, useClass: TestStore},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
-        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
-        {provide: CallNumber, useValue: callNumberSpy},
-        {provide: NetworkStateProvider, useValue: networkStateProviderSpy}
+        { provide: NavController, useValue: navCtrlSpy },
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: StorageService, useClass: StorageServiceMock },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: ScreenOrientation, useValue: screenOrientationSpy },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: Store, useClass: TestStore },
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: CallNumber, useValue: callNumberSpy },
+        { provide: NetworkStateProvider, useValue: networkStateProviderSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

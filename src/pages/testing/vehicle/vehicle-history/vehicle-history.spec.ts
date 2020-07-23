@@ -1,19 +1,19 @@
-import { VehicleHistoryPage } from "./vehicle-history";
-import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
-import { PipesModule } from "../../../../pipes/pipes.module";
-import { TestResultsHistoryDataMock } from "../../../../assets/data-mocks/test-results-history-data.mock";
-import { TestTypeArrayDataMock } from "../../../../assets/data-mocks/test-type-array-data.mock";
+import { VehicleHistoryPage } from './vehicle-history';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { IonicModule, NavController, NavParams, ViewController } from 'ionic-angular';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ViewControllerMock } from '../../../../../test-config/ionic-mocks/view-controller.mock';
+import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
+import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
+import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
+import { PipesModule } from '../../../../pipes/pipes.module';
+import { TestResultsHistoryDataMock } from '../../../../assets/data-mocks/test-results-history-data.mock';
+import { TestTypeArrayDataMock } from '../../../../assets/data-mocks/test-type-array-data.mock';
 import { APP_STRINGS, TECH_RECORD_STATUS, VEHICLE_TYPE } from '../../../../app/app.enums';
 import { By } from '@angular/platform-browser';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
-import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
 
 describe('Component: VehicleHistoryPage', () => {
   let comp: VehicleHistoryPage;
@@ -28,19 +28,15 @@ describe('Component: VehicleHistoryPage', () => {
   let testTypeArray = TestTypeArrayDataMock.TestTypeArrayData;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [VehicleHistoryPage],
-      imports: [
-        IonicModule.forRoot(VehicleHistoryPage),
-        PipesModule
-      ],
+      imports: [IonicModule.forRoot(VehicleHistoryPage), PipesModule],
       providers: [
         NavController,
         CommonFunctionsService,
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useClass: ViewControllerMock},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: ViewController, useClass: ViewControllerMock },
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -60,12 +56,11 @@ describe('Component: VehicleHistoryPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       let params = {
-        'vehicleData': vehicleData,
-        'testResultsHistory': testResultsHistory
+        vehicleData: vehicleData,
+        testResultsHistory: testResultsHistory
       };
       return params[param];
-    })
-
+    });
   });
 
   beforeEach(() => {
@@ -115,102 +110,106 @@ describe('Component: VehicleHistoryPage', () => {
 
   it('should check if any defect have an prohibition issued and returns true, otherwise return false', () => {
     let testType = {
-      "prohibitionIssued": false,
-      "testCode": "pms",
-      "lastUpdatedAt": "2019-05-23T12:49:21.455Z",
-      "testNumber": "W01B89366",
-      "additionalCommentsForAbandon": "none",
-      "numberOfSeatbeltsFitted": 2,
-      "testTypeEndTimestamp": "2019-01-14T10:36:33.987Z",
-      "reasonForAbandoning": "none",
-      "lastSeatbeltInstallationCheckDate": "2019-01-14",
-      "createdAt": "2019-05-23T12:49:21.455Z",
-      "testTypeId": "19",
-      "testTypeStartTimestamp": "2019-01-14T10:36:33.987Z",
-      "certificateNumber": "12334",
-      "testTypeName": "Annual test",
-      "seatbeltInstallationCheckDate": true,
-      "additionalNotesRecorded": "VEHICLE FRONT ROW SECOND SEAT HAS MISSING SEATBELT",
-      "defects": [{
-        "deficiencyCategory": "major",
-        "deficiencyText": "missing.",
-        "prs": false,
-        "additionalInformation": {
-          "location": {
-            "axleNumber": null,
-            "horizontal": null,
-            "vertical": "upper",
-            "longitudinal": null,
-            "rowNumber": 1,
-            "lateral": "centre",
-            "seatNumber": 2
+      prohibitionIssued: false,
+      testCode: 'pms',
+      lastUpdatedAt: '2019-05-23T12:49:21.455Z',
+      testNumber: 'W01B89366',
+      additionalCommentsForAbandon: 'none',
+      numberOfSeatbeltsFitted: 2,
+      testTypeEndTimestamp: '2019-01-14T10:36:33.987Z',
+      reasonForAbandoning: 'none',
+      lastSeatbeltInstallationCheckDate: '2019-01-14',
+      createdAt: '2019-05-23T12:49:21.455Z',
+      testTypeId: '19',
+      testTypeStartTimestamp: '2019-01-14T10:36:33.987Z',
+      certificateNumber: '12334',
+      testTypeName: 'Annual test',
+      seatbeltInstallationCheckDate: true,
+      additionalNotesRecorded: 'VEHICLE FRONT ROW SECOND SEAT HAS MISSING SEATBELT',
+      defects: [
+        {
+          deficiencyCategory: 'major',
+          deficiencyText: 'missing.',
+          prs: false,
+          additionalInformation: {
+            location: {
+              axleNumber: null,
+              horizontal: null,
+              vertical: 'upper',
+              longitudinal: null,
+              rowNumber: 1,
+              lateral: 'centre',
+              seatNumber: 2
+            },
+            notes: 'seatbelt missing'
           },
-          "notes": "seatbelt missing"
+          itemNumber: 1,
+          deficiencyRef: '3.1.a',
+          stdForProhibition: false,
+          prohibitionIssued: false,
+          deficiencySubId: null,
+          imDescription: 'Seat Belts & Supplementary Restraint Systems',
+          deficiencyId: 'a',
+          itemDescription: 'Obligatory Seat Belt:',
+          imNumber: 3
         },
-        "itemNumber": 1,
-        "deficiencyRef": "3.1.a",
-        "stdForProhibition": false,
-        "prohibitionIssued": false,
-        "deficiencySubId": null,
-        "imDescription": "Seat Belts & Supplementary Restraint Systems",
-        "deficiencyId": "a",
-        "itemDescription": "Obligatory Seat Belt:",
-        "imNumber": 3
-      }, {
-        "deficiencyCategory": "major",
-        "deficiencyText": "missing.",
-        "prs": false,
-        "additionalInformation": {
-          "location": {
-            "axleNumber": null,
-            "horizontal": null,
-            "vertical": "upper",
-            "longitudinal": null,
-            "rowNumber": 1,
-            "lateral": "centre",
-            "seatNumber": 2
+        {
+          deficiencyCategory: 'major',
+          deficiencyText: 'missing.',
+          prs: false,
+          additionalInformation: {
+            location: {
+              axleNumber: null,
+              horizontal: null,
+              vertical: 'upper',
+              longitudinal: null,
+              rowNumber: 1,
+              lateral: 'centre',
+              seatNumber: 2
+            },
+            notes: 'seatbelt missing'
           },
-          "notes": "seatbelt missing"
+          itemNumber: 1,
+          deficiencyRef: '3.1.a',
+          stdForProhibition: true,
+          prohibitionIssued: true,
+          deficiencySubId: null,
+          imDescription: 'Seat Belts & Supplementary Restraint Systems',
+          deficiencyId: 'a',
+          itemDescription: 'Obligatory Seat Belt:',
+          imNumber: 3
         },
-        "itemNumber": 1,
-        "deficiencyRef": "3.1.a",
-        "stdForProhibition": true,
-        "prohibitionIssued": true,
-        "deficiencySubId": null,
-        "imDescription": "Seat Belts & Supplementary Restraint Systems",
-        "deficiencyId": "a",
-        "itemDescription": "Obligatory Seat Belt:",
-        "imNumber": 3
-      }, {
-        "deficiencyCategory": "major",
-        "deficiencyText": "missing.",
-        "prs": false,
-        "additionalInformation": {
-          "location": {
-            "axleNumber": null,
-            "horizontal": null,
-            "vertical": "upper",
-            "longitudinal": null,
-            "rowNumber": 1,
-            "lateral": "centre",
-            "seatNumber": 2
+        {
+          deficiencyCategory: 'major',
+          deficiencyText: 'missing.',
+          prs: false,
+          additionalInformation: {
+            location: {
+              axleNumber: null,
+              horizontal: null,
+              vertical: 'upper',
+              longitudinal: null,
+              rowNumber: 1,
+              lateral: 'centre',
+              seatNumber: 2
+            },
+            notes: 'seatbelt missing'
           },
-          "notes": "seatbelt missing"
-        },
-        "itemNumber": 1,
-        "deficiencyRef": "3.1.a",
-        "stdForProhibition": false,
-        "prohibitionIssued": false,
-        "deficiencySubId": null,
-        "imDescription": "Seat Belts & Supplementary Restraint Systems",
-        "deficiencyId": "a",
-        "itemDescription": "Obligatory Seat Belt:",
-        "imNumber": 3
-      }],
-      "name": "Annual test",
-      "testResult": "fail",
-      "testIndex": 52,
-      "testTypeIndex": 0
+          itemNumber: 1,
+          deficiencyRef: '3.1.a',
+          stdForProhibition: false,
+          prohibitionIssued: false,
+          deficiencySubId: null,
+          imDescription: 'Seat Belts & Supplementary Restraint Systems',
+          deficiencyId: 'a',
+          itemDescription: 'Obligatory Seat Belt:',
+          imNumber: 3
+        }
+      ],
+      name: 'Annual test',
+      testResult: 'fail',
+      testIndex: 52,
+      testTypeIndex: 0
     };
     expect(comp.haveProhibition(testType)).toBeTruthy();
     testType.defects = [];
@@ -222,7 +221,9 @@ describe('Component: VehicleHistoryPage', () => {
   it('should verify that the vehicle type is one of the specified types', () => {
     let vehicle = Object.create(VehicleDataMock.VehicleData);
     expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV)).toBeTruthy();
-    expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeTruthy();
+    expect(
+      comp.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)
+    ).toBeTruthy();
   });
 
   it('should verify that the vehicle type is not one of specified types', () => {
@@ -250,5 +251,4 @@ describe('Component: VehicleHistoryPage', () => {
       expect(title).toBeNull();
     });
   });
-
 });

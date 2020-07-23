@@ -1,18 +1,18 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { IonicModule, NavParams, ViewController } from "ionic-angular";
-import { ViewControllerMock } from "ionic-mocks";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { OdometerReadingPage } from "./odometer-reading";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
-import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { of } from "rxjs/observable/of";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { IonicModule, NavParams, ViewController } from 'ionic-angular';
+import { ViewControllerMock } from 'ionic-mocks';
+import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { VisitServiceMock } from '../../../../../test-config/services-mocks/visit-service.mock';
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { OdometerReadingPage } from './odometer-reading';
+import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
+import { VehicleServiceMock } from '../../../../../test-config/services-mocks/vehicle-service.mock';
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
+import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { of } from 'rxjs/observable/of';
 
 describe('Component: OdometerReadingPage', () => {
   let component: OdometerReadingPage;
@@ -24,18 +24,15 @@ describe('Component: OdometerReadingPage', () => {
   let VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(() => {
-
     TestBed.configureTestingModule({
       declarations: [OdometerReadingPage],
-      imports: [
-        IonicModule.forRoot(OdometerReadingPage)
-      ],
+      imports: [IonicModule.forRoot(OdometerReadingPage)],
       providers: [
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
-        {provide: VisitService, useClass: VisitServiceMock},
-        {provide: VehicleService, useClass: VehicleServiceMock},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock}
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: VehicleService, useClass: VehicleServiceMock },
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -52,7 +49,7 @@ describe('Component: OdometerReadingPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        'vehicle': VEHICLE
+        vehicle: VEHICLE
       };
       return params[param];
     });

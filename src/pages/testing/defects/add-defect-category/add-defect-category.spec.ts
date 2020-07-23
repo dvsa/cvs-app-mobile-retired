@@ -1,15 +1,15 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { Events, IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
-import { DefectsService } from "../../../../providers/defects/defects.service";
-import { PipesModule } from "../../../../pipes/pipes.module";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
-import { DefectsServiceMock } from "../../../../../test-config/services-mocks/defects-service.mock";
-import { DefectsReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/defects-data.mock";
-import { NavControllerMock } from "ionic-mocks";
-import { AddDefectCategoryPage } from "./add-defect-category";
-import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Events, IonicModule, NavController, NavParams, ViewController } from 'ionic-angular';
+import { DefectsService } from '../../../../providers/defects/defects.service';
+import { PipesModule } from '../../../../pipes/pipes.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
+import { ViewControllerMock } from '../../../../../test-config/ionic-mocks/view-controller.mock';
+import { DefectsServiceMock } from '../../../../../test-config/services-mocks/defects-service.mock';
+import { DefectsReferenceDataMock } from '../../../../assets/data-mocks/reference-data-mocks/defects-data.mock';
+import { NavControllerMock } from 'ionic-mocks';
+import { AddDefectCategoryPage } from './add-defect-category';
+import { TestTypeDataModelMock } from '../../../../assets/data-mocks/data-model/test-type-data-model.mock';
 
 describe('Component: AddDefectCategoryPage', () => {
   let comp: AddDefectCategoryPage;
@@ -20,16 +20,13 @@ describe('Component: AddDefectCategoryPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddDefectCategoryPage],
-      imports: [
-        PipesModule,
-        IonicModule.forRoot(AddDefectCategoryPage)
-      ],
+      imports: [PipesModule, IonicModule.forRoot(AddDefectCategoryPage)],
       providers: [
         Events,
-        {provide: NavController, useFactory: () => NavControllerMock.instance()},
-        {provide: DefectsService, useClass: DefectsServiceMock},
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useClass: ViewControllerMock}
+        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: DefectsService, useClass: DefectsServiceMock },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: ViewController, useClass: ViewControllerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

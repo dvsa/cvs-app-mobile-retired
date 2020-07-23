@@ -1,28 +1,41 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, LoadingController, ModalController, NavController, NavParams } from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  LoadingController,
+  ModalController,
+  NavController,
+  NavParams
+} from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { TestResultModel } from "../../../../models/tests/test-result.model";
-import { map, tap } from "rxjs/operators";
-import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { APP_STRINGS, PAGE_NAMES, STORAGE, VEHICLE_TYPE, FIREBASE_SCREEN_NAMES } from "../../../../app/app.enums";
-import { StorageService } from "../../../../providers/natives/storage.service";
-import { Observable, Observer } from "rxjs";
-import { AppConfig } from "../../../../../config/app.config";
-import { _throw } from "rxjs/observable/throw";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { CallNumber } from "@ionic-native/call-number";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
+import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { TestResultModel } from '../../../../models/tests/test-result.model';
+import { map, tap } from 'rxjs/operators';
+import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
+import {
+  APP_STRINGS,
+  PAGE_NAMES,
+  STORAGE,
+  VEHICLE_TYPE,
+  FIREBASE_SCREEN_NAMES
+} from '../../../../app/app.enums';
+import { StorageService } from '../../../../providers/natives/storage.service';
+import { Observable, Observer } from 'rxjs';
+import { AppConfig } from '../../../../../config/app.config';
+import { _throw } from 'rxjs/observable/throw';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { CallNumber } from '@ionic-native/call-number';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { Firebase } from '@ionic-native/firebase';
-import { HttpResponse } from "@angular/common/http";
-import { Store } from "@ngrx/store";
-import { Log, LogsModel } from "../../../../modules/logs/logs.model";
-import { AuthService } from "../../../../providers/global/auth.service";
-import * as logsActions from "../../../../modules/logs/logs.actions";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { HttpResponse } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { Log, LogsModel } from '../../../../modules/logs/logs.model';
+import { AuthService } from '../../../../providers/global/auth.service';
+import * as logsActions from '../../../../modules/logs/logs.actions';
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { AppService } from '../../../../providers/global/app.service';
-import { VehicleLookupSearchCriteriaData } from "../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data";
+import { VehicleLookupSearchCriteriaData } from '../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
 
 @IonicPage()
 @Component({
@@ -38,21 +51,23 @@ export class VehicleLookupPage {
   isCombinationTest: boolean = false;
   selectedSearchCriteria: string;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public visitService: VisitService,
-              public alertCtrl: AlertController,
-              public loadingCtrl: LoadingController,
-              public storageService: StorageService,
-              private openNativeSettings: OpenNativeSettings,
-              private vehicleService: VehicleService,
-              private firebase: Firebase,
-              private firebaseLogsService: FirebaseLogsService,
-              private callNumber: CallNumber,
-              private authService: AuthService,
-              private store$: Store<LogsModel>,
-              public appService: AppService,
-              private modalCtrl: ModalController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public visitService: VisitService,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    public storageService: StorageService,
+    private openNativeSettings: OpenNativeSettings,
+    private vehicleService: VehicleService,
+    private firebase: Firebase,
+    private firebaseLogsService: FirebaseLogsService,
+    private callNumber: CallNumber,
+    private authService: AuthService,
+    private store$: Store<LogsModel>,
+    public appService: AppService,
+    private modalCtrl: ModalController
+  ) {
     this.testData = navParams.get('test');
   }
 
@@ -61,14 +76,22 @@ export class VehicleLookupPage {
     if (this.testData.vehicles.length) {
       this.isCombinationTest = true;
     }
-    this.selectedSearchCriteria = this.canSearchOnlyTrailers() ? VehicleLookupSearchCriteriaData.DefaultVehicleLookupSearchCriteriaTrailersOnly : VehicleLookupSearchCriteriaData.DefaultVehicleLookupSearchCriteria;
+    this.selectedSearchCriteria = this.canSearchOnlyTrailers()
+      ? VehicleLookupSearchCriteriaData.DefaultVehicleLookupSearchCriteriaTrailersOnly
+      : VehicleLookupSearchCriteriaData.DefaultVehicleLookupSearchCriteria;
     this.searchPlaceholder = this.getSearchFieldPlaceholder();
-    this.title = this.canSearchOnlyTrailers() ? APP_STRINGS.IDENTIFY_TRAILER : APP_STRINGS.IDENTIFY_VEHICLE;
-  };
+    this.title = this.canSearchOnlyTrailers()
+      ? APP_STRINGS.IDENTIFY_TRAILER
+      : APP_STRINGS.IDENTIFY_VEHICLE;
+  }
 
   doesHgvLgvExist() {
     for (let vehicle of this.testData.vehicles) {
-      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV || vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV) return true;
+      if (
+        vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV ||
+        vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV
+      )
+        return true;
     }
     return false;
   }
@@ -88,8 +111,13 @@ export class VehicleLookupPage {
     LOADING.present();
     this.oid = this.authService.getOid();
 
-    this.vehicleService.getVehicleTechRecords(searchedValue.toUpperCase(), this.getTechRecordQueryParam().queryParam)
-      .subscribe((vehicleData) => {
+    this.vehicleService
+      .getVehicleTechRecords(
+        searchedValue.toUpperCase(),
+        this.getTechRecordQueryParam().queryParam
+      )
+      .subscribe(
+        (vehicleData) => {
           const testHistoryResponseObserver: Observer<TestResultModel[]> = {
             next: () => {
               this.goToVehicleDetails(vehicleData[0]);
@@ -98,44 +126,53 @@ export class VehicleLookupPage {
               const log: Log = {
                 type: 'error',
                 message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-                timestamp: Date.now(),
+                timestamp: Date.now()
               };
               this.store$.dispatch(new logsActions.SaveLog(log));
               this.firebase.logEvent('test_error', {
                 content_type: 'error',
-                item_id: "Failed retrieving the testResultsHistory"
+                item_id: 'Failed retrieving the testResultsHistory'
               });
               this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
               this.goToVehicleDetails(vehicleData[0]);
             },
-            complete: function () {
-            }
+            complete: function() {}
           };
 
           if (vehicleData.length > 1) {
             this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
               LOADING.dismiss();
             });
-          } else if (vehicleData.length === 1 && this.vehicleService.isVehicleSkeleton(vehicleData[0])) {
+          } else if (
+            vehicleData.length === 1 &&
+            this.vehicleService.isVehicleSkeleton(vehicleData[0])
+          ) {
             this.vehicleService.createSkeletonAlert(this.alertCtrl);
             LOADING.dismiss();
           } else {
-            this.vehicleService.getTestResultsHistory(vehicleData[0].systemNumber).subscribe(testHistoryResponseObserver).add(() => {
-              LOADING.dismiss();
-            });
+            this.vehicleService
+              .getTestResultsHistory(vehicleData[0].systemNumber)
+              .subscribe(testHistoryResponseObserver)
+              .add(() => {
+                LOADING.dismiss();
+              });
           }
         },
         (error) => {
           const log: Log = {
             type: 'error',
-            message: `${this.oid} - ${error.status} ${error.error || error.message} for API call to ${error.url}`,
-            timestamp: Date.now(),
+            message: `${this.oid} - ${error.status} ${error.error ||
+              error.message} for API call to ${error.url}`,
+            timestamp: Date.now()
           };
           this.store$.dispatch(new logsActions.SaveLog(log));
           this.searchVal = '';
           LOADING.dismiss();
           this.showAlert();
-          this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Failed retrieving the techRecord"});
+          this.firebase.logEvent('test_error', {
+            content_type: 'error',
+            item_id: 'Failed retrieving the techRecord'
+          });
         }
       );
   }
@@ -155,7 +192,7 @@ export class VehicleLookupPage {
       buttons: ['OK']
     });
     alert.present();
-    this.firebase.logEvent('test_error', {content_type: 'error', item_id: "Vehicle not found"});
+    this.firebase.logEvent('test_error', { content_type: 'error', item_id: 'Vehicle not found' });
   }
 
   goToVehicleDetails(vehicleData: VehicleModel) {
@@ -174,42 +211,46 @@ export class VehicleLookupPage {
 
   private handleError(vehicleData: VehicleModel): Observable<any> {
     let alert = this.alertCtrl.create({
-        title: 'Unable to load data',
-        enableBackdropDismiss: false,
-        message: 'Make sure you are connected to the internet and try again',
-        buttons: [
-          {
-            text: APP_STRINGS.SETTINGS_BTN,
-            handler: () => {
-              this.openNativeSettings.open('settings');
-              this.handleError(vehicleData);
-            }
-          }, {
-            text: 'Call Technical Support',
-            handler: () => {
-              this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
-                data => console.log(data),
-                err => console.log(err)
-              );
-              return false
-            }
-          }, {
-            text: 'Try again',
-            handler: () => {
-              this.vehicleService.getTestResultsHistory(vehicleData.vin);
-            }
+      title: 'Unable to load data',
+      enableBackdropDismiss: false,
+      message: 'Make sure you are connected to the internet and try again',
+      buttons: [
+        {
+          text: APP_STRINGS.SETTINGS_BTN,
+          handler: () => {
+            this.openNativeSettings.open('settings');
+            this.handleError(vehicleData);
           }
-        ]
-      }
-    );
+        },
+        {
+          text: 'Call Technical Support',
+          handler: () => {
+            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
+              (data) => console.log(data),
+              (err) => console.log(err)
+            );
+            return false;
+          }
+        },
+        {
+          text: 'Try again',
+          handler: () => {
+            this.vehicleService.getTestResultsHistory(vehicleData.vin);
+          }
+        }
+      ]
+    });
     alert.present();
-    return _throw(
-      'Something bad happened; please try again later.'
-    );
+    return _throw('Something bad happened; please try again later.');
   }
 
   getSearchFieldPlaceholder() {
-    return APP_STRINGS.ENTER + ' ' + this.selectedSearchCriteria.charAt(0).toLowerCase() + this.selectedSearchCriteria.slice(1);
+    return (
+      APP_STRINGS.ENTER +
+      ' ' +
+      this.selectedSearchCriteria.charAt(0).toLowerCase() +
+      this.selectedSearchCriteria.slice(1)
+    );
   }
 
   onChangeSearchCriteria() {
@@ -218,15 +259,15 @@ export class VehicleLookupPage {
       trailersOnly: this.canSearchOnlyTrailers()
     });
     MODAL.present();
-    MODAL.onDidDismiss(data => {
+    MODAL.onDidDismiss((data) => {
       this.selectedSearchCriteria = data.selectedSearchCriteria;
       this.searchPlaceholder = this.getSearchFieldPlaceholder();
     });
   }
 
   getTechRecordQueryParam() {
-    return VehicleLookupSearchCriteriaData.VehicleLookupQueryParameters.find(queryParamItem => {
+    return VehicleLookupSearchCriteriaData.VehicleLookupQueryParameters.find((queryParamItem) => {
       return queryParamItem.text === this.selectedSearchCriteria;
-    })
+    });
   }
 }

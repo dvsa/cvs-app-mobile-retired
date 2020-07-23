@@ -1,12 +1,12 @@
 import { TestBed, async } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Data } from "@angular/router";
-import { HTTPService } from "./http.service";
-import { ActivityModel } from "../../models/visit/activity.model";
-import { ActivityDataModelMock } from "../../assets/data-mocks/data-model/activity-data-model.mock";
-import { ActivityDataMock } from "../../assets/data-mocks/activity.data.mock";
-import { AppConfig } from "../../../config/app.config";
+import { Data } from '@angular/router';
+import { HTTPService } from './http.service';
+import { ActivityModel } from '../../models/visit/activity.model';
+import { ActivityDataModelMock } from '../../assets/data-mocks/data-model/activity-data-model.mock';
+import { ActivityDataMock } from '../../assets/data-mocks/activity.data.mock';
+import { AppConfig } from '../../../config/app.config';
 
 describe(`Provider: HttpService`, () => {
   let httpClient: HttpClient;
@@ -26,8 +26,8 @@ describe(`Provider: HttpService`, () => {
   });
 
   it('can test HttpClient.get', () => {
-    const testData: Data = {name: 'Test Data'};
-    httpClient.get<Data>(testUrl).subscribe(data => expect(data).toEqual(testData));
+    const testData: Data = { name: 'Test Data' };
+    httpClient.get<Data>(testUrl).subscribe((data) => expect(data).toEqual(testData));
     const req = httpMock.expectOne(testUrl);
     expect(req.request.method).toEqual('GET');
     req.flush(testData);
@@ -43,7 +43,7 @@ describe(`Provider: HttpService`, () => {
     );
     const req = httpMock.expectOne(testUrl);
     const mockError = new ErrorEvent('Network error', {
-      message: emsg,
+      message: emsg
     });
     req.error(mockError);
   });
@@ -143,11 +143,15 @@ describe(`Provider: HttpService`, () => {
   });
 
   it('should encode the search identifier', async(() => {
-    const searchIdentifier = "YV31ME00000 1/\\*-1";
+    const searchIdentifier = 'YV31ME00000 1/\\*-1';
     httpService.getTechRecords(searchIdentifier, 'all').subscribe();
 
-    const testRequest = httpMock.expectOne(`${AppConfig.BACKEND_URL_TECHRECORDS}/${encodeURIComponent(searchIdentifier)}/tech-records?status=provisional_over_current&searchCriteria=all`);
+    const testRequest = httpMock.expectOne(
+      `${AppConfig.BACKEND_URL_TECHRECORDS}/${encodeURIComponent(
+        searchIdentifier
+      )}/tech-records?status=provisional_over_current&searchCriteria=all`
+    );
     expect(testRequest.request.method).toEqual('GET');
-    testRequest.flush(null, { status: 200, statusText:'Ok' });
+    testRequest.flush(null, { status: 200, statusText: 'Ok' });
   }));
 });

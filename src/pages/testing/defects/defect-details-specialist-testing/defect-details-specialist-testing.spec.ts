@@ -1,16 +1,22 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ViewControllerMock } from "../../../../../test-config/ionic-mocks/view-controller.mock";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
-import { DefectDetailsSpecialistTestingPage } from "./defect-details-specialist-testing";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { SpecialistCustomDefectModel } from "../../../../models/defects/defect-details.model";
-import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { AlertControllerMock } from "ionic-mocks";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  AlertController,
+  IonicModule,
+  NavController,
+  NavParams,
+  ViewController
+} from 'ionic-angular';
+import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ViewControllerMock } from '../../../../../test-config/ionic-mocks/view-controller.mock';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
+import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
+import { DefectDetailsSpecialistTestingPage } from './defect-details-specialist-testing';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { VisitServiceMock } from '../../../../../test-config/services-mocks/visit-service.mock';
+import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
+import { TestTypeDataModelMock } from '../../../../assets/data-mocks/data-model/test-type-data-model.mock';
+import { AlertControllerMock } from 'ionic-mocks';
 
 describe('Component: DefectDetailsSpecialistTestingPage', () => {
   let component: DefectDetailsSpecialistTestingPage;
@@ -26,11 +32,11 @@ describe('Component: DefectDetailsSpecialistTestingPage', () => {
       providers: [
         NavController,
         ChangeDetectorRef,
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useClass: ViewControllerMock},
-        {provide: TestTypeService, useClass: TestTypeServiceMock},
-        {provide: VisitService, useClass: VisitServiceMock},
-        {provide: AlertController, useFactory: () => AlertControllerMock.instance()}
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: ViewController, useClass: ViewControllerMock },
+        { provide: TestTypeService, useClass: TestTypeServiceMock },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -45,7 +51,7 @@ describe('Component: DefectDetailsSpecialistTestingPage', () => {
     component.isEdit = false;
     component.defectIndex = null;
     component.defect = {} as SpecialistCustomDefectModel;
-    component.testType = {...TestTypeDataModelMock.TestTypeData};
+    component.testType = { ...TestTypeDataModelMock.TestTypeData };
     component.errorIncomplete = false;
   });
 

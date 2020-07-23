@@ -1,17 +1,17 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, NavController, NavParams } from "ionic-angular";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { TestAbandoningPage } from "./test-abandoning";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
-import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import { AlertControllerMock, NavControllerMock } from "ionic-mocks";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AlertController, IonicModule, NavController, NavParams } from 'ionic-angular';
+import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TestAbandoningPage } from './test-abandoning';
+import { TestTypeModel } from '../../../../models/tests/test-type.model';
+import { TestTypeDataModelMock } from '../../../../assets/data-mocks/data-model/test-type-data-model.mock';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { VisitServiceMock } from '../../../../../test-config/services-mocks/visit-service.mock';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
+import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
+import { AlertControllerMock, NavControllerMock } from 'ionic-mocks';
 
 describe('Component: TestAbandoningPage', () => {
   let component: TestAbandoningPage;
@@ -30,12 +30,12 @@ describe('Component: TestAbandoningPage', () => {
       declarations: [TestAbandoningPage],
       imports: [IonicModule.forRoot(TestAbandoningPage)],
       providers: [
-        {provide: NavController, useFactory: () => NavControllerMock.instance()},
-        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
-        {provide: VisitService, useClass: VisitServiceMock},
-        {provide: TestTypeService, useClass: TestTypeServiceMock},
-        {provide: NavParams, useClass: NavParamsMock}
+        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: TestTypeService, useClass: TestTypeServiceMock },
+        { provide: NavParams, useClass: NavParamsMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -56,11 +56,11 @@ describe('Component: TestAbandoningPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        'vehicleTest': vehicleTest,
-        'selectedReasons': selectedReasons
+        vehicleTest: vehicleTest,
+        selectedReasons: selectedReasons
       };
       return params[param];
-    })
+    });
   });
 
   afterEach(() => {
@@ -91,7 +91,7 @@ describe('Component: TestAbandoningPage', () => {
   });
 
   it('should test onDone handler logic - popToRoot to have been called', () => {
-    spyOn(component, "updateVehicleTestModel");
+    spyOn(component, 'updateVehicleTestModel');
     component.vehicleTest = vehicleTest;
     component.fromTestReview = true;
     component.onDoneHandler();
@@ -100,7 +100,7 @@ describe('Component: TestAbandoningPage', () => {
   });
 
   it('should test onDone handler logic - popToRoot not to have been called', () => {
-    spyOn(component, "updateVehicleTestModel");
+    spyOn(component, 'updateVehicleTestModel');
     component.vehicleTest = vehicleTest;
     component.fromTestReview = false;
     component.onDoneHandler();
@@ -119,5 +119,4 @@ describe('Component: TestAbandoningPage', () => {
     expect(component.vehicleTest.reasons.length).toEqual(2);
     expect(component.vehicleTest.additionalCommentsForAbandon).toEqual('Some additional comment');
   });
-
 });

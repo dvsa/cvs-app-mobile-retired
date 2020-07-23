@@ -1,4 +1,4 @@
-import { TEST_TYPES_IDS } from "../../../app/app.enums";
+import { TEST_TYPES_IDS } from '../../../app/app.enums';
 
 export class LecTestTypesData {
   public static get LecTestTypesDataIds(): string[] {

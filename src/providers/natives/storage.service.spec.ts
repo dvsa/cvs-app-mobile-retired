@@ -1,20 +1,16 @@
-import { TestBed } from "@angular/core/testing";
-import { StorageService } from "./storage.service";
+import { TestBed } from '@angular/core/testing';
+import { StorageService } from './storage.service';
 import { Storage } from '@ionic/storage';
-import { StorageMock } from "ionic-mocks";
-import { Observable } from "rxjs";
+import { StorageMock } from 'ionic-mocks';
+import { Observable } from 'rxjs';
 
 describe('Provider: StorageService', () => {
   let storageService: StorageService;
   let storage: Storage;
 
   beforeEach(() => {
-
     TestBed.configureTestingModule({
-      providers: [
-        StorageService,
-        {provide: Storage, useFactory: () => StorageMock.instance()}
-      ]
+      providers: [StorageService, { provide: Storage, useFactory: () => StorageMock.instance() }]
     });
     storageService = TestBed.get(StorageService);
     storage = TestBed.get(Storage);
@@ -24,10 +20,10 @@ describe('Provider: StorageService', () => {
     let store = {};
 
     spyOn(window.localStorage, 'setItem').and.callFake((key, value) => {
-      return store[key] = value;
+      return (store[key] = value);
     });
 
-    spyOn(window.localStorage, 'removeItem').and.callFake((key) =>  {
+    spyOn(window.localStorage, 'removeItem').and.callFake((key) => {
       delete store[key];
     });
   });

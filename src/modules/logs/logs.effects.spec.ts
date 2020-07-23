@@ -8,14 +8,14 @@ import { empty } from 'rxjs/observable/empty';
 import { StoreModule, Store } from '@ngrx/store';
 import * as logsActions from './logs.actions';
 import { of } from 'rxjs/observable/of';
-import { Log, LogType } from "./logs.model";
-import { LogsProviderMock } from "./logs.service.mock";
-import { LogsProvider } from "./logs.service";
-import { logsReducer } from "./logs.reducer";
-import { DataStoreProvider } from "./data-store.service";
-import { NetworkStateProvider } from "./network-state.service";
-import { DataStoreProviderMock } from "./data-store.service.mock";
-import { NetworkStateProviderMock } from "./network-state.service.mock";
+import { Log, LogType } from './logs.model';
+import { LogsProviderMock } from './logs.service.mock';
+import { LogsProvider } from './logs.service';
+import { logsReducer } from './logs.reducer';
+import { DataStoreProvider } from './data-store.service';
+import { NetworkStateProvider } from './network-state.service';
+import { DataStoreProviderMock } from './data-store.service.mock';
+import { NetworkStateProviderMock } from './network-state.service.mock';
 
 export class TestActions extends Actions {
   constructor() {
@@ -28,7 +28,6 @@ export class TestActions extends Actions {
 }
 
 describe('Logs Effects', () => {
-
   let effects: LogsEffects;
   let actions$: any;
   let cacheDays: number;
@@ -40,17 +39,17 @@ describe('Logs Effects', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          logs: logsReducer,
-        }),
+          logs: logsReducer
+        })
       ],
       providers: [
         LogsEffects,
         provideMockActions(() => actions$),
-        {provide: NetworkStateProvider, useClass: NetworkStateProviderMock},
-        {provide: DataStoreProvider, useClass: DataStoreProviderMock},
-        {provide: LogsProvider, useClass: LogsProviderMock},
-        Store,
-      ],
+        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
+        { provide: DataStoreProvider, useClass: DataStoreProviderMock },
+        { provide: LogsProvider, useClass: LogsProviderMock },
+        Store
+      ]
     });
     effects = TestBed.get(LogsEffects);
     dataStoreMock = TestBed.get(DataStoreProvider);
@@ -74,7 +73,12 @@ describe('Logs Effects', () => {
 
   it('should dispatch the persist logs action when an individual log is added', (done) => {
     // ARRANGE
-    const log: Log = {['test']: 'xyz', type: LogType.DEBUG, message: 'test', timestamp: 1234567};
+    const log: Log = {
+      ['test']: 'xyz',
+      type: LogType.DEBUG,
+      message: 'test',
+      timestamp: 1234567
+    };
     // ACT
     actions$.next(new logsActions.SaveLog(log));
     // ASSERT
@@ -113,19 +117,25 @@ describe('Logs Effects', () => {
         done();
       });
     }));
-
   });
 
   describe('getAndConvertPersistedLogs', () => {
     it('should return data without emptying cache if data is not too old', (done) => {
-      const log: Log = {['test']: 'xyz', type: LogType.DEBUG, message: 'test', timestamp: 1234567};
+      const log: Log = {
+        ['test']: 'xyz',
+        type: LogType.DEBUG,
+        message: 'test',
+        timestamp: 1234567
+      };
       const dataWthinWindowCache = {
         data: log
       };
 
       // override mock getItem as we need data to test
       // @ts-ignore
-      dataStoreMock.getItem.and.callFake(() => Promise.resolve(JSON.stringify(dataWthinWindowCache)));
+      dataStoreMock.getItem.and.callFake(() =>
+        Promise.resolve(JSON.stringify(dataWthinWindowCache))
+      );
 
       spyOn(effects, 'emptyCachedData').and.callThrough();
 
@@ -135,6 +145,5 @@ describe('Logs Effects', () => {
         done();
       });
     });
-
   });
 });

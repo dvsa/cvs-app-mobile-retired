@@ -15,21 +15,24 @@
   <ion-list>
     <ion-item-group>
       <ion-item-divider padding-left>Reading</ion-item-divider>
-      <ion-item padding-left
-                [ngClass]="{'error-incomplete-item': errorIncomplete && !odometerReading}">
-        <ion-input placeholder="Enter value"
-                   type="number"
-                   [pattern]="patterns.NUMERIC"
-                   maxlength="7"
-                   [(ngModel)]="odometerReading"
-                   (ngModelChange)="valueInputChange($event)"
-                   #valueInput></ion-input>
+      <ion-item
+        padding-left
+        [ngClass]="{'error-incomplete-item': errorIncomplete && !odometerReading}"
+      >
+        <ion-input
+          placeholder="Enter value"
+          type="number"
+          [pattern]="patterns.NUMERIC"
+          maxlength="7"
+          [(ngModel)]="odometerReading"
+          (ngModelChange)="valueInputChange($event)"
+          #valueInput
+        ></ion-input>
       </ion-item>
     </ion-item-group>
     <ion-item-group>
       <ion-item-divider padding-left>Unit</ion-item-divider>
-      <button ion-item padding-left
-              (click)="onEdit()">
+      <button ion-item padding-left (click)="onEdit()">
         <h3 class="unit">{{displayOdometerMetricCapitalized()}}</h3>
         <h3 item-end class="unit-edit">Edit</h3>
       </button>

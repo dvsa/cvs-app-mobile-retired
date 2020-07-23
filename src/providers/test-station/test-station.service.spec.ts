@@ -1,8 +1,8 @@
-import { TestBed } from "@angular/core/testing";
-import { StorageService } from "../natives/storage.service";
-import { TestStationService } from "./test-station.service";
-import { TestStationReferenceDataModel } from "../../models/reference-data-models/test-station.model";
-import { TestStationDataMock } from "../../assets/data-mocks/reference-data-mocks/test-station-data.mock";
+import { TestBed } from '@angular/core/testing';
+import { StorageService } from '../natives/storage.service';
+import { TestStationService } from './test-station.service';
+import { TestStationReferenceDataModel } from '../../models/reference-data-models/test-station.model';
+import { TestStationDataMock } from '../../assets/data-mocks/reference-data-mocks/test-station-data.mock';
 
 describe('Provider: TestStationService', () => {
   let testStationService: TestStationService;
@@ -16,14 +16,11 @@ describe('Provider: TestStationService', () => {
 
   beforeEach(() => {
     spy = jasmine.createSpyObj('StorageService', {
-      'read': new Promise(resolve => resolve(testStationData))
+      read: new Promise((resolve) => resolve(testStationData))
     });
 
     TestBed.configureTestingModule({
-      providers: [
-        TestStationService,
-        {provide: StorageService, useValue: spy}
-      ]
+      providers: [TestStationService, { provide: StorageService, useValue: spy }]
     });
 
     testStationService = TestBed.get(TestStationService);
@@ -36,11 +33,9 @@ describe('Provider: TestStationService', () => {
   });
 
   it('should return data from local storage', () => {
-    testStationService.getTestStationsFromStorage().subscribe(
-      data => {
-        expect(data).toBe(<TestStationReferenceDataModel[]>testStationData)
-      }
-    )
+    testStationService.getTestStationsFromStorage().subscribe((data) => {
+      expect(data).toBe(<TestStationReferenceDataModel[]>testStationData);
+    });
   });
 
   it('should return searched value as bold', () => {
@@ -62,7 +57,11 @@ describe('Provider: TestStationService', () => {
 
   it('should return Test Station by name', () => {
     filter = 'An Test Station Name';
-    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
+    let filteredData = testStationService.sortAndSearchTestStation(
+      initialData,
+      filter,
+      PROPERTIES
+    );
 
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0][0].testStationName).toEqual(filter);
@@ -70,7 +69,11 @@ describe('Provider: TestStationService', () => {
 
   it('should return Test Station by address', () => {
     filter = 'An Test Station Address';
-    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
+    let filteredData = testStationService.sortAndSearchTestStation(
+      initialData,
+      filter,
+      PROPERTIES
+    );
 
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0][0].testStationAddress).toEqual(filter);
@@ -78,7 +81,11 @@ describe('Provider: TestStationService', () => {
 
   it('should return Test Station by pNumber', () => {
     filter = '123';
-    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
+    let filteredData = testStationService.sortAndSearchTestStation(
+      initialData,
+      filter,
+      PROPERTIES
+    );
 
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0][0].testStationPNumber).toEqual(filter);
@@ -86,20 +93,28 @@ describe('Provider: TestStationService', () => {
 
   it('should return nothing by unrelated string', () => {
     filter = 'xxx';
-    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
+    let filteredData = testStationService.sortAndSearchTestStation(
+      initialData,
+      filter,
+      PROPERTIES
+    );
 
     expect(filteredData.length).toEqual(0);
   });
 
   it('should filter test stations that have set null as testStationAddress', () => {
     filter = 'ATF without testStationAddress';
-    let filteredData = testStationService.sortAndSearchTestStation(initialData, filter, PROPERTIES);
+    let filteredData = testStationService.sortAndSearchTestStation(
+      initialData,
+      filter,
+      PROPERTIES
+    );
 
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0][0].testStationName).toEqual(filter);
   });
 
-  it('should also order the atfs starting with digits', function () {
+  it('should also order the atfs starting with digits', function() {
     let customTestStationData = [...TestStationDataMock.TestStationData];
     customTestStationData[0].testStationName = '923 GJK';
     let groupedData = testStationService.groupByLetter(customTestStationData, 'testStationName');

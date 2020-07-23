@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Firebase } from "@ionic-native/firebase";
+import { Injectable } from '@angular/core';
+import { Firebase } from '@ionic-native/firebase';
 
 @Injectable()
 export class FirebaseLogsService {
@@ -39,21 +39,28 @@ export class FirebaseLogsService {
     add_test_type_time_taken: 0
   };
 
-  constructor(private firebase: Firebase) {
-  }
+  constructor(private firebase: Firebase) {}
 
-  logEvent(eventName: string,
-           paramName1?: string, paramValue1?: any,
-           paramName2?: string, paramValue2?: any,
-           paramName3?: string, paramValue3?: any,
-           paramName4?: string, paramValue4?: any): Promise<any> {
+  logEvent(
+    eventName: string,
+    paramName1?: string,
+    paramValue1?: any,
+    paramName2?: string,
+    paramValue2?: any,
+    paramName3?: string,
+    paramValue3?: any,
+    paramName4?: string,
+    paramValue4?: any
+  ): Promise<any> {
     let data = {};
     if (paramName1) data[paramName1] = paramValue1 || '';
     if (paramName2) data[paramName2] = paramValue2;
     if (paramName3) data[paramName3] = paramValue3;
     if (paramName4) data[paramName4] = paramValue4;
 
-    return data[paramName1] ? this.firebase.logEvent(eventName, data) : this.firebase.logEvent(eventName, {});
+    return data[paramName1]
+      ? this.firebase.logEvent(eventName, data)
+      : this.firebase.logEvent(eventName, {});
   }
 
   setScreenName(screenName: string) {

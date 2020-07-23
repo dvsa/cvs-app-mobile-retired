@@ -1,4 +1,4 @@
-import { MOD_TYPES, TEST_TYPE_FIELDS, TEST_TYPE_RESULTS } from "../../../app/app.enums";
+import { MOD_TYPES, TEST_TYPE_FIELDS, TEST_TYPE_RESULTS } from '../../../app/app.enums';
 
 export class TestTypeMetadataMock {
   public static get TestTypeMetadata() {
@@ -36,7 +36,7 @@ export class TestTypeMetadataMock {
             {
               testTypePropertyName: 'certificateNumber',
               placeholder: 'Enter',
-              type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+              type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM
             }
           ],
           dependentOn: ['testResult']
@@ -75,7 +75,9 @@ export class TestTypeMetadataMock {
               label: 'Most recent installation check',
               type: 'date',
               defaultValue: 'Enter',
-              dependentOn: [{testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0'}]
+              dependentOn: [
+                { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
+              ]
             }
           ]
         },
@@ -105,12 +107,18 @@ export class TestTypeMetadataMock {
                 }
               ],
               defaultValue: 'Select',
-              dependentOn: [{testTypePropertyName: 'testResult', valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL}]
-            }]
+              dependentOn: [
+                {
+                  testTypePropertyName: 'testResult',
+                  valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                }
+              ]
+            }
+          ]
         }
       ],
       hasDefects: false,
       hasNotes: true
-    }
+    };
   }
 }

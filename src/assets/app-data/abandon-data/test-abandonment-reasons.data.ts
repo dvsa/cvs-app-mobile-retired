@@ -13,7 +13,7 @@ export class TestAbandonmentReasonsData {
       'The driver and/or presenter of the vehicle declined either to remain in the vehicle or in its vicinity throughout the examination or to drive it or to operate controls or doors or to remove or refit panels after being requested to do so',
       'The vehicle exhaust outlet has been modified in such a way as to prevent a metered smoke check being conducted',
       'A proper examination cannot be readily carried out as any door, engine cover, hatch or other access device designed to be opened is locked or otherwise cannot be opened'
-    ]
+    ];
   }
 
   public static get TestAbandonmentReasonsHgvTrailerData() {
@@ -35,7 +35,7 @@ export class TestAbandonmentReasonsData {
       'The vehicle exhaust outlet has been modified preventing a metered smoke check',
       'The examiner could not open the tachograph',
       'The driver and/or presenter of the vehicle refused to or was unable to comply with the instructions of DVSA staff making it impractical or unsafe to continue the test'
-    ]
+    ];
   }
 
   public static get TestAbandonmentReasonsTirTestTypesData() {
@@ -51,7 +51,7 @@ export class TestAbandonmentReasonsData {
       'The vehicle was presented for test carrying unsuitable material',
       'Current Health and Safety legislation cannot be met in testing the vehicle',
       'The driver and/or presenter of the vehicle refused to or was unable to comply with the instructions of DVSA staff making it impractical or unsafe to continue the test'
-    ]
+    ];
   }
 
   public static get TestAbandonmentReasonsSpecialistTestTypesData() {
@@ -67,6 +67,6 @@ export class TestAbandonmentReasonsData {
       'The identification number is not: permanently fixed to the vehicle/trailer; easy to read and in an accessible position; adequate for the purpose of identifying the vehicle',
       'The driver at the time of the examination did not remain with the vehicle and operate the controls, or did not comply with a reasonable request of the examiner in the course of his duties, or did not remove and refit panels as requested',
       'The vehicle was not presented with the fuel tank(s) full'
-    ]
+    ];
   }
 }

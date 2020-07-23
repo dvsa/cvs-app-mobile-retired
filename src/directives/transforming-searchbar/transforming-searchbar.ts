@@ -1,18 +1,22 @@
-import {AfterViewInit, Directive, ElementRef, Input, OnDestroy, Renderer2} from '@angular/core';
-import {Events} from "ionic-angular";
-import { APP } from "../../app/app.enums";
+import { AfterViewInit, Directive, ElementRef, Input, OnDestroy, Renderer2 } from '@angular/core';
+import { Events } from 'ionic-angular';
+import { APP } from '../../app/app.enums';
 import { Keyboard } from '@ionic-native/keyboard';
 
 @Directive({
   selector: '[transforming-searchBar]'
 })
-
 export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy {
   @Input() searchBarElemRef;
   headerElemRef;
   watchKeyboard;
 
-  constructor(private el: ElementRef, private keyboard: Keyboard, private renderer: Renderer2, public events: Events) {
+  constructor(
+    private el: ElementRef,
+    private keyboard: Keyboard,
+    private renderer: Renderer2,
+    public events: Events
+  ) {
     this.headerElemRef = el.nativeElement;
   }
 
@@ -21,38 +25,30 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
     const scrollContent = this.headerElemRef.nextElementSibling.querySelector('.scroll-content');
     const ionToolbar = this.headerElemRef.querySelector('ion-toolbar');
 
-    this.searchBarElemRef.ionFocus.subscribe(
-      () => {
-        this.renderer.removeClass(scrollContent, 'searchbar-scroll--margin-big');
-        this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-small');
-        this.renderer.addClass(navBarElement, 'searchbar-navbar');
-        this.renderer.addClass(ionToolbar, 'searchbar-ionToolBar');
-      }
-    );
+    this.searchBarElemRef.ionFocus.subscribe(() => {
+      this.renderer.removeClass(scrollContent, 'searchbar-scroll--margin-big');
+      this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-small');
+      this.renderer.addClass(navBarElement, 'searchbar-navbar');
+      this.renderer.addClass(ionToolbar, 'searchbar-ionToolBar');
+    });
 
-    this.searchBarElemRef.ionCancel.subscribe(
-      () => {
-        this.renderer.removeClass(scrollContent, 'searchbar-scroll--margin-small');
-        this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-big');
-        this.renderer.removeClass(navBarElement, 'searchbar-navbar');
-        this.renderer.removeClass(ionToolbar, 'searchbar-ionToolBar');
-      }
-    );
+    this.searchBarElemRef.ionCancel.subscribe(() => {
+      this.renderer.removeClass(scrollContent, 'searchbar-scroll--margin-small');
+      this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-big');
+      this.renderer.removeClass(navBarElement, 'searchbar-navbar');
+      this.renderer.removeClass(ionToolbar, 'searchbar-ionToolBar');
+    });
 
-    this.watchKeyboard = this.keyboard.onKeyboardHide().subscribe(
-      ()=> {
-        this.renderer.removeClass(scrollContent, 'searchbar-scroll--margin-small');
-        this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-big');
-        this.renderer.removeClass(navBarElement, 'searchbar-navbar');
-        this.renderer.removeClass(ionToolbar, 'searchbar-ionToolBar');
-      }
-    );
+    this.watchKeyboard = this.keyboard.onKeyboardHide().subscribe(() => {
+      this.renderer.removeClass(scrollContent, 'searchbar-scroll--margin-small');
+      this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-big');
+      this.renderer.removeClass(navBarElement, 'searchbar-navbar');
+      this.renderer.removeClass(ionToolbar, 'searchbar-ionToolBar');
+    });
 
-    this.events.subscribe(APP.NAV_OUT,
-      () => {
-        this.setDefaultCss(scrollContent, navBarElement, ionToolbar);
-      }
-    )
+    this.events.subscribe(APP.NAV_OUT, () => {
+      this.setDefaultCss(scrollContent, navBarElement, ionToolbar);
+    });
   }
 
   ngOnDestroy() {
@@ -67,6 +63,5 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
     this.renderer.addClass(scrollContent, 'searchbar-scroll--margin-bot');
     this.renderer.removeClass(navBarElement, 'searchbar-navbar');
     this.renderer.removeClass(ionToolbar, 'searchbar-ionToolBar');
-
   }
 }

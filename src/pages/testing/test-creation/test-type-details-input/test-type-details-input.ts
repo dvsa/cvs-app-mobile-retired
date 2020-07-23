@@ -1,14 +1,18 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonicPage, NavParams, TextInput, ViewController } from 'ionic-angular';
-import { APP_STRINGS, REG_EX_PATTERNS, TEST_TYPE_FIELDS, TEST_TYPE_INPUTS } from "../../../../app/app.enums";
+import {
+  APP_STRINGS,
+  REG_EX_PATTERNS,
+  TEST_TYPE_FIELDS,
+  TEST_TYPE_INPUTS
+} from '../../../../app/app.enums';
 
 @IonicPage()
 @Component({
   selector: 'page-test-type-details-input',
-  templateUrl: 'test-type-details-input.html',
+  templateUrl: 'test-type-details-input.html'
 })
 export class TestTypeDetailsInputPage implements OnInit {
-
   vehicleCategory;
   sectionName;
   input;
@@ -22,10 +26,12 @@ export class TestTypeDetailsInputPage implements OnInit {
   @ViewChild('valueInput') valueInput: TextInput;
   @ViewChild('customValueInput') customValueInput: TextInput;
 
-  constructor(public navParams: NavParams,
-              private viewCtrl: ViewController,
-              private cdRef: ChangeDetectorRef,
-              private alertCtrl: AlertController) {
+  constructor(
+    public navParams: NavParams,
+    private viewCtrl: ViewController,
+    private cdRef: ChangeDetectorRef,
+    private alertCtrl: AlertController
+  ) {
     this.vehicleCategory = this.navParams.get('vehicleCategory');
     this.sectionName = this.navParams.get('sectionName');
     this.input = this.navParams.get('input');
@@ -66,12 +72,17 @@ export class TestTypeDetailsInputPage implements OnInit {
   }
 
   onCancel() {
-    this.viewCtrl.dismiss({fromTestReview: this.fromTestReview});
+    this.viewCtrl.dismiss({ fromTestReview: this.fromTestReview });
   }
 
   onDone() {
-    this.inputValue && this.inputValue.length ? this.errorIncomplete = false : this.errorIncomplete = true;
-    if (this.vehicleCategory === 'B' && (this.inputValue && this.inputValue.charAt(0) === '0' || !this.inputValue)) {
+    this.inputValue && this.inputValue.length
+      ? (this.errorIncomplete = false)
+      : (this.errorIncomplete = true);
+    if (
+      this.vehicleCategory === 'B' &&
+      ((this.inputValue && this.inputValue.charAt(0) === '0') || !this.inputValue)
+    ) {
       const ALERT = this.alertCtrl.create({
         title: APP_STRINGS.NO_SEATBELTS_ENTERED,
         message: APP_STRINGS.NO_SEATBELTS_ENTERED_SUBTITLE,
@@ -86,5 +97,4 @@ export class TestTypeDetailsInputPage implements OnInit {
       });
     }
   }
-
 }

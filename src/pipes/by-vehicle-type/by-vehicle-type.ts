@@ -4,18 +4,16 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'byVehicleType',
   pure: false
 })
-
 export class ByVehicleTypePipe implements PipeTransform {
-  constructor() {
-  }
+  constructor() {}
 
   transform(items: any[], filter: any): any {
     if (!filter) return items;
     let filteredArray = items.filter((elem) => {
       if (elem.forVehicleType.indexOf(filter.toLowerCase()) != -1) {
-        return elem
+        return elem;
       }
     });
-    return filteredArray
+    return filteredArray;
   }
 }

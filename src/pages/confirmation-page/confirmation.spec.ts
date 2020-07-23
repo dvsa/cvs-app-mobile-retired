@@ -1,13 +1,13 @@
-import { ConfirmationPage } from "./confirmation";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { AlertController, IonicModule, NavController, NavParams } from "ionic-angular";
-import { NavParamsMock } from "../../../test-config/ionic-mocks/nav-params.mock";
-import { StateReformingService } from "../../providers/global/state-reforming.service";
-import { StateReformingServiceMock } from "../../../test-config/services-mocks/state-reforming-service.mock";
-import { AlertControllerMock, NavControllerMock } from "ionic-mocks";
-import { CallNumber } from "@ionic-native/call-number";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { APP_STRINGS } from "../../app/app.enums";
+import { ConfirmationPage } from './confirmation';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AlertController, IonicModule, NavController, NavParams } from 'ionic-angular';
+import { NavParamsMock } from '../../../test-config/ionic-mocks/nav-params.mock';
+import { StateReformingService } from '../../providers/global/state-reforming.service';
+import { StateReformingServiceMock } from '../../../test-config/services-mocks/state-reforming-service.mock';
+import { AlertControllerMock, NavControllerMock } from 'ionic-mocks';
+import { CallNumber } from '@ionic-native/call-number';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { APP_STRINGS } from '../../app/app.enums';
 
 describe('Component: ConfirmationPage', () => {
   let comp: ConfirmationPage;
@@ -21,10 +21,10 @@ describe('Component: ConfirmationPage', () => {
       imports: [IonicModule.forRoot(ConfirmationPage)],
       providers: [
         CallNumber,
-        {provide: NavController, useFactory: () => NavControllerMock.instance()},
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: StateReformingService, useClass: StateReformingServiceMock},
-        {provide: AlertController, useFactory: () => AlertControllerMock.instance()}
+        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: StateReformingService, useClass: StateReformingServiceMock },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -53,11 +53,15 @@ describe('Component: ConfirmationPage', () => {
   it('should test ionViewWillEnter logic', () => {
     comp.testStationName = 'qwerty';
     comp.ionViewWillEnter();
-    expect(comp.message).toEqual(APP_STRINGS.CONFIRMATION_MESSAGE_END_VISIT + comp.testStationName);
+    expect(comp.message).toEqual(
+      APP_STRINGS.CONFIRMATION_MESSAGE_END_VISIT + comp.testStationName
+    );
     comp.testStationName = '';
     comp.testerEmailAddress = 'qwerty@qqq.com';
     comp.ionViewWillEnter();
-    expect(comp.message).toEqual(APP_STRINGS.CONFIRMATION_MESSAGE_SUBMIT_TEST + comp.testerEmailAddress);
+    expect(comp.message).toEqual(
+      APP_STRINGS.CONFIRMATION_MESSAGE_SUBMIT_TEST + comp.testerEmailAddress
+    );
   });
 
   it('should test pressing on done logic', () => {

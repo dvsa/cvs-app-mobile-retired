@@ -1,4 +1,4 @@
-import { FormatBooleanPipe } from "./format-boolean.pipe";
+import { FormatBooleanPipe } from './format-boolean.pipe';
 
 describe('FormatBooleanPipe', () => {
   let pipe = new FormatBooleanPipe();

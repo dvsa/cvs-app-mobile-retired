@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Log } from "./logs.model";
+import { Log } from './logs.model';
 
 export const SAVE_LOG = '[GLOBAL] Save Log';
 export const START_SENDING_LOGS = '[AppComponent] Start Sending Logs';
@@ -14,8 +14,7 @@ export const PERSIST_LOG = '[LogsEffects] Persist Logs';
 export class SaveLog implements Action {
   readonly type = SAVE_LOG;
 
-  constructor(public payload: Log) {
-  }
+  constructor(public payload: Log) {}
 }
 
 export class StartSendingLogs implements Action {
@@ -29,15 +28,13 @@ export class SendLogs implements Action {
 export class SendLogsSuccess implements Action {
   readonly type = SEND_LOGS_SUCCESS;
 
-  constructor(public timestamps: number[]) {
-  }
+  constructor(public timestamps: number[]) {}
 }
 
 export class SendLogsFailure implements Action {
   readonly type = SEND_LOGS_FAILURE;
 
-  constructor(public error: any) {
-  }
+  constructor(public error: any) {}
 }
 
 export class PersistLog implements Action {
@@ -51,16 +48,15 @@ export class LoadLog implements Action {
 export class LoadLogState implements Action {
   readonly type = LOAD_LOG_STATE;
 
-  constructor(public payload: Log[]) {
-  }
+  constructor(public payload: Log[]) {}
 }
 
 export type Types =
-  SaveLog |
-  StartSendingLogs |
-  SendLogs |
-  SendLogsSuccess |
-  SendLogsFailure |
-  PersistLog |
-  LoadLog |
-  LoadLogState;
+  | SaveLog
+  | StartSendingLogs
+  | SendLogs
+  | SendLogsSuccess
+  | SendLogsFailure
+  | PersistLog
+  | LoadLog
+  | LoadLogState;

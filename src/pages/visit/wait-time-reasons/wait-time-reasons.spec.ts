@@ -1,11 +1,17 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { WaitTimeReasonsPage } from "./wait-time-reasons";
-import { AlertController, IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ActivityDataMock } from "../../../assets/data-mocks/activity.data.mock";
-import { ViewControllerMock } from "ionic-mocks";
-import { ActivityModel } from "../../../models/visit/activity.model";
-import { NavParamsMock } from "../../../../test-config/ionic-mocks/nav-params.mock";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { WaitTimeReasonsPage } from './wait-time-reasons';
+import {
+  AlertController,
+  IonicModule,
+  NavController,
+  NavParams,
+  ViewController
+} from 'ionic-angular';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ActivityDataMock } from '../../../assets/data-mocks/activity.data.mock';
+import { ViewControllerMock } from 'ionic-mocks';
+import { ActivityModel } from '../../../models/visit/activity.model';
+import { NavParamsMock } from '../../../../test-config/ionic-mocks/nav-params.mock';
 
 describe('Component: WaitTimeReasonsPage', () => {
   let comp: WaitTimeReasonsPage;
@@ -17,16 +23,13 @@ describe('Component: WaitTimeReasonsPage', () => {
   const waitActivityData: ActivityModel = ActivityDataMock.WaitActivityData;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [WaitTimeReasonsPage],
-      imports: [
-        IonicModule.forRoot(WaitTimeReasonsPage)
-      ],
+      imports: [IonicModule.forRoot(WaitTimeReasonsPage)],
       providers: [
         NavController,
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
         AlertController
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -46,11 +49,10 @@ describe('Component: WaitTimeReasonsPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       let params = {
-        'waitActivity': waitActivityData
+        waitActivity: waitActivityData
       };
       return params[param];
     });
-
   });
 
   beforeEach(() => {

@@ -7,17 +7,15 @@
 </ion-header>
 
 <ion-content no-padding>
-  <div text-uppercase
-       text-center
-       class="vehicle-header-vrm-number">
-    <ng-container *ngIf="isVehicleOfType(vehicleData,VEHICLE_TYPE.TRL); else isVehicle">{{ vehicleData.trailerId }}</ng-container>
+  <div text-uppercase text-center class="vehicle-header-vrm-number">
+    <ng-container *ngIf="isVehicleOfType(vehicleData,VEHICLE_TYPE.TRL); else isVehicle"
+      >{{ vehicleData.trailerId }}</ng-container
+    >
     <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
   </div>
 
   <ion-list class="tests-list" *ngIf="testResultHistory.length">
-
     <ng-container *ngFor="let testType of testTypeArray">
-
       <button ion-item (click)="showTestDetails(testType.testIndex, testType.testTypeIndex)">
         <ion-grid>
           <ion-row justify-content-between padding-left>
@@ -26,18 +24,22 @@
             </ion-col>
 
             <ion-col col-auto text-right>
-              <p *ngIf="!haveProhibition(testType)"
-                 text-uppercase
-                 class="test-result"
-                 ion-text
-                 [color]="commonFunc.getTestResultColor(testType.testResult)">
+              <p
+                *ngIf="!haveProhibition(testType)"
+                text-uppercase
+                class="test-result"
+                ion-text
+                [color]="commonFunc.getTestResultColor(testType.testResult)"
+              >
                 {{ testType.testResult }}
               </p>
-              <p *ngIf="haveProhibition(testType)"
-                 text-uppercase
-                 class="test-result"
-                 ion-text
-                 color="dark">
+              <p
+                *ngIf="haveProhibition(testType)"
+                text-uppercase
+                class="test-result"
+                ion-text
+                color="dark"
+              >
                 PROHIBITION
               </p>
             </ion-col>
@@ -61,12 +63,10 @@
           </ion-row>
         </ion-grid>
       </button>
-
     </ng-container>
   </ion-list>
 
   <div *ngIf="!testResultHistory.length" class="no-result">
     <h3>{{ noHistory }}</h3>
   </div>
-
 </ion-content>

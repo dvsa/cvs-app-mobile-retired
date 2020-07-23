@@ -1,11 +1,11 @@
-import { TestBed } from "@angular/core/testing";
-import { AuthService } from "./auth.service";
-import { LOCAL_STORAGE, TESTER_ROLES } from "../../app/app.enums";
-import { MSAdal } from "@ionic-native/ms-adal";
-import { Platform } from "ionic-angular";
-import { CommonFunctionsService } from "../utils/common-functions";
-import { Store } from "@ngrx/store";
-import { TestStore } from "../interceptors/auth.interceptor.spec";
+import { TestBed } from '@angular/core/testing';
+import { AuthService } from './auth.service';
+import { LOCAL_STORAGE, TESTER_ROLES } from '../../app/app.enums';
+import { MSAdal } from '@ionic-native/ms-adal';
+import { Platform } from 'ionic-angular';
+import { CommonFunctionsService } from '../utils/common-functions';
+import { Store } from '@ngrx/store';
+import { TestStore } from '../interceptors/auth.interceptor.spec';
 
 describe(`AuthService`, () => {
   let authService: AuthService;
@@ -26,8 +26,8 @@ describe(`AuthService`, () => {
         CommonFunctionsService,
         Platform,
         MSAdal,
-        {provide: Store, useClass: TestStore}
-      ],
+        { provide: Store, useClass: TestStore }
+      ]
     });
 
     authService = TestBed.get(AuthService);
@@ -124,7 +124,7 @@ describe(`AuthService`, () => {
   });
 
   it('should set the tenantId with authResponse', () => {
-    authService.setTesterDetails({accessToken: JWT_TOKEN});
+    authService.setTesterDetails({ accessToken: JWT_TOKEN });
     expect(authService.tenantId).toBe('1234567890');
   });
 

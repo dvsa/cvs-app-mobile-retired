@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { StorageService } from "../natives/storage.service";
-import { PAGE_NAMES, STORAGE } from "../../app/app.enums";
-import { AppService } from "./app.service";
+import { Injectable } from '@angular/core';
+import { StorageService } from '../natives/storage.service';
+import { PAGE_NAMES, STORAGE } from '../../app/app.enums';
+import { AppService } from './app.service';
 
 interface StateHistoryModel {
   page: string;
@@ -10,9 +10,7 @@ interface StateHistoryModel {
 
 @Injectable()
 export class StateReformingService {
-
-  constructor(public storageService: StorageService, private appService: AppService) {
-  }
+  constructor(public storageService: StorageService, private appService: AppService) {}
 
   saveNavStack(nav) {
     if (this.appService.caching) {
@@ -35,16 +33,14 @@ export class StateReformingService {
   }
 
   onTestReview() {
-    this.storageService.read(STORAGE.STATE).then(
-      (data:string) => {
-        let stateHistory: StateHistoryModel[] = JSON.parse(data);
-        for (let i = stateHistory.length - 1; i > 0; i--) {
-          if (stateHistory[i].page == PAGE_NAMES.VISIT_TIMELINE_PAGE) break;
-          stateHistory.pop();
-        }
-        let stateJSON = JSON.stringify(stateHistory);
-        this.storageService.update(STORAGE.STATE, stateJSON);
+    this.storageService.read(STORAGE.STATE).then((data: string) => {
+      let stateHistory: StateHistoryModel[] = JSON.parse(data);
+      for (let i = stateHistory.length - 1; i > 0; i--) {
+        if (stateHistory[i].page == PAGE_NAMES.VISIT_TIMELINE_PAGE) break;
+        stateHistory.pop();
       }
-    )
+      let stateJSON = JSON.stringify(stateHistory);
+      this.storageService.update(STORAGE.STATE, stateJSON);
+    });
   }
 }

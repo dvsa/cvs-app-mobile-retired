@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { AppConfig } from "../../../config/app.config";
-import { APP, LOCAL_STORAGE, STORAGE } from "../../app/app.enums";
-import { Platform, ToastController } from "ionic-angular";
-import { StorageService } from "../natives/storage.service";
-import { AuthService } from "./auth.service";
+import { Injectable } from '@angular/core';
+import { AppConfig } from '../../../config/app.config';
+import { APP, LOCAL_STORAGE, STORAGE } from '../../app/app.enums';
+import { Platform, ToastController } from 'ionic-angular';
+import { StorageService } from '../natives/storage.service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AppService {
@@ -18,26 +18,27 @@ export class AppService {
   count: number = 0;
   private accessibilityTextZoomEnabled: boolean;
 
-  constructor(private platform: Platform,
-              private toastController: ToastController,
-              private storageService: StorageService,
-              private authService: AuthService) {
+  constructor(
+    private platform: Platform,
+    private toastController: ToastController,
+    private storageService: StorageService,
+    private authService: AuthService
+  ) {
     this.isCordova = this.platform.is('cordova');
-    this.isProduction = (AppConfig.IS_PRODUCTION == 'true');
+    this.isProduction = AppConfig.IS_PRODUCTION == 'true';
     this.isInitRunDone = !!localStorage.getItem(LOCAL_STORAGE.FIRST_INIT);
   }
 
   setFlags() {
-    this.isSignatureRegistered = (localStorage.getItem(LOCAL_STORAGE.SIGNATURE) == 'true');
-    this.caching = (localStorage.getItem(LOCAL_STORAGE.CACHING) == 'true');
-    this.easterEgg = (localStorage.getItem(LOCAL_STORAGE.EASTER_EGG) == 'true');
-    this.isInitSyncDone = (localStorage.getItem(APP.INIT_SYNC) == 'true');
+    this.isSignatureRegistered = localStorage.getItem(LOCAL_STORAGE.SIGNATURE) == 'true';
+    this.caching = localStorage.getItem(LOCAL_STORAGE.CACHING) == 'true';
+    this.easterEgg = localStorage.getItem(LOCAL_STORAGE.EASTER_EGG) == 'true';
+    this.isInitSyncDone = localStorage.getItem(APP.INIT_SYNC) == 'true';
     this.isJwtTokenStored = !!localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
   }
 
   manageAppInit(): Promise<any> {
     if (this.isCordova) {
-
       if (this.isInitRunDone) {
         this.setEasterEgg();
         this.setFlags();
@@ -49,14 +50,12 @@ export class AppService {
           this.clearLocalStorage()
         ];
 
-        return Promise.all(arr).then(
-          () => {
-            localStorage.setItem(LOCAL_STORAGE.FIRST_INIT, 'done');
-            this.setEasterEgg();
-            this.setFlags();
-            return Promise.resolve(true);
-          }
-        )
+        return Promise.all(arr).then(() => {
+          localStorage.setItem(LOCAL_STORAGE.FIRST_INIT, 'done');
+          this.setEasterEgg();
+          this.setFlags();
+          return Promise.resolve(true);
+        });
       }
     } else {
       this.setEasterEgg();
@@ -96,7 +95,9 @@ export class AppService {
     } else {
       localStorage.setItem(LOCAL_STORAGE.EASTER_EGG, 'true');
       let cache = localStorage.getItem(LOCAL_STORAGE.CACHING);
-      cache ? localStorage.setItem(LOCAL_STORAGE.CACHING, cache) : localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
+      cache
+        ? localStorage.setItem(LOCAL_STORAGE.CACHING, cache)
+        : localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
     }
   }
 
@@ -110,7 +111,7 @@ export class AppService {
   }
 
   public setAccessibilityTextZoom(zoom: number): void {
-    this.accessibilityTextZoomEnabled= zoom>106;
+    this.accessibilityTextZoomEnabled = zoom > 106;
   }
 
   /**

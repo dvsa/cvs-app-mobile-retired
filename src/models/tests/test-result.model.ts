@@ -1,5 +1,5 @@
-import { TestTypeModel } from "./test-type.model";
-import { VehicleClassModel } from "../vehicle/tech-record.model";
+import { TestTypeModel } from './test-type.model';
+import { VehicleClassModel } from '../vehicle/tech-record.model';
 
 export class TestResultModel {
   testResultId: string;
@@ -34,8 +34,8 @@ export class TestResultModel {
   numberOfWheelsDriven: number; // Motorcycle
   vehicleSize?: string; // PSV
   numberOfSeats?: number; // PSV (seatsLowerDeck + seatsUpperDeck)
-  regnDate?: string;// HGV
-  firstUseDate?: string;// TRL
+  regnDate?: string; // HGV
+  firstUseDate?: string; // TRL
   /* TEST TYPES */
   testTypes: TestTypeModel[];
 }

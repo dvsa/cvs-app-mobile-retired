@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Events, IonicPage, NavParams, ViewController } from 'ionic-angular';
-import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { APP } from "../../../../app/app.enums";
+import { CountryOfRegistrationData } from '../../../../assets/app-data/country-of-registration/country-of-registration.data';
+import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { APP } from '../../../../app/app.enums';
 
 @IonicPage()
 @Component({
   selector: 'page-country-of-registration',
-  templateUrl: 'country-of-registration.html',
+  templateUrl: 'country-of-registration.html'
 })
 export class RegionReadingPage implements OnInit {
   @ViewChild('searchBar') searchBar;
@@ -23,11 +23,13 @@ export class RegionReadingPage implements OnInit {
   vehicle: VehicleModel;
   focusOut: boolean = false;
 
-  constructor(private commonFunctionsService: CommonFunctionsService,
-              private viewCtrl: ViewController,
-              private navParams: NavParams,
-              private visitService: VisitService,
-              private events: Events) {
+  constructor(
+    private commonFunctionsService: CommonFunctionsService,
+    private viewCtrl: ViewController,
+    private navParams: NavParams,
+    private visitService: VisitService,
+    private events: Events
+  ) {
     this.vehicle = this.navParams.get('vehicle');
   }
 
@@ -40,13 +42,19 @@ export class RegionReadingPage implements OnInit {
   }
 
   filterCountries(searchVal: string) {
-    this.filteredCountries = this.commonFunctionsService.searchFor(this.countriesArr, searchVal, ['key', 'value']);
+    this.filteredCountries = this.commonFunctionsService.searchFor(this.countriesArr, searchVal, [
+      'key',
+      'value'
+    ]);
   }
 
   resetFilteredCountries() {
     this.filterCountries(this.searchVal);
     this.filteredCountries.sort(this.commonFunctionsService.orderBy('value', 'asc'));
-    this.groupedCountries = this.commonFunctionsService.groupArrayAlphabetically(this.filteredCountries, 'value');
+    this.groupedCountries = this.commonFunctionsService.groupArrayAlphabetically(
+      this.filteredCountries,
+      'value'
+    );
   }
 
   searchList(e): void {
@@ -69,4 +77,3 @@ export class RegionReadingPage implements OnInit {
     this.focusOut = !hideCancel;
   }
 }
-

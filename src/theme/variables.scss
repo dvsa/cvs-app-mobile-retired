@@ -3,16 +3,14 @@
 
 // Font path is used to include ionicons,
 // roboto, and noto sans fonts
-$font-path: "../assets/fonts";
-
+$font-path: '../assets/fonts';
 
 // The app direction is used to include
 // rtl styles in your app. For more info, please see:
 // http://ionicframework.com/docs/theming/rtl-support/
 $app-direction: ltr;
 
-
-@import "ionic.globals";
+@import 'ionic.globals';
 
 // Shared Variables
 // --------------------------------------------------
@@ -21,9 +19,9 @@ $app-direction: ltr;
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
-$title-font-family: "Arial Black", Gadget, sans-serif;
-$sf-pro-font-family: "SF Pro Text",  Gadget, sans-serif;
-$sf-pro-display-font-family: "SF Pro Display",  Gadget, sans-serif;
+$title-font-family: 'Arial Black', Gadget, sans-serif;
+$sf-pro-font-family: 'SF Pro Text', Gadget, sans-serif;
+$sf-pro-display-font-family: 'SF Pro Display', Gadget, sans-serif;
 
 $font-weight-normal: 400;
 $font-weight-semi-bold: 600;
@@ -54,13 +52,13 @@ $alert-ios-button-group-flex-wrap: wrap-reverse;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:     #2b8cc4,
-  secondary:   #00823b,
-  tertiary:    #005ea5,
-  danger:      #b10e1e,
-  attention:   #ffbf47,
-  light:       #fff,
-  dark:        #0b0c0c
+  primary: #2b8cc4,
+  secondary: #00823b,
+  tertiary: #005ea5,
+  danger: #b10e1e,
+  attention: #ffbf47,
+  light: #fff,
+  dark: #0b0c0c
 );
 
 $color-grey-1: #6c6c70;
@@ -102,15 +100,9 @@ $toolbar-background: color($colors, dark);
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
-
-
-
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
-
-
 
 // App Theme
 // --------------------------------------------------
@@ -119,19 +111,17 @@ $toolbar-background: color($colors, dark);
 // so that the above variables are used and Ionic's
 // default are overridden.
 
-@import "ionic.theme.default";
-
+@import 'ionic.theme.default';
 
 // Ionicons
 // --------------------------------------------------
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/ionicons/
 
-@import "ionic.ionicons";
-
+@import 'ionic.ionicons';
 
 // Fonts
 // --------------------------------------------------
 
-@import "roboto";
-@import "noto-sans";
+@import 'roboto';
+@import 'noto-sans';

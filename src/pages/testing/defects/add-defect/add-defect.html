@@ -5,15 +5,17 @@
     </ion-title>
   </ion-navbar>
   <ion-toolbar>
-    <ion-searchbar (ionInput)="searchList($event)"
-                   (ionFocus)="keepCancelOn($event)"
-                   (ionCancel)="keepCancelOn($event, true)"
-                   [ngClass]="{'keep-cancel-on': focusOut}"
-                   [(ngModel)]="searchVal"
-                   [showCancelButton]="true"
-                   [cancelButtonText]="'Cancel'"
-                   [placeholder]="appStrings.PLACEHOLDER_DEFECT_DESC"
-                   #searchBar>
+    <ion-searchbar
+      (ionInput)="searchList($event)"
+      (ionFocus)="keepCancelOn($event)"
+      (ionCancel)="keepCancelOn($event, true)"
+      [ngClass]="{'keep-cancel-on': focusOut}"
+      [(ngModel)]="searchVal"
+      [showCancelButton]="true"
+      [cancelButtonText]="'Cancel'"
+      [placeholder]="appStrings.PLACEHOLDER_DEFECT_DESC"
+      #searchBar
+    >
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
@@ -24,21 +26,27 @@
       <ion-item-divider class="defect-heading" padding-left>
         {{ category.imNumber }}.{{ item.itemNumber }} {{ item.itemDescription }}
       </ion-item-divider>
-      <ion-item detail-none padding-left
-                class="list-item-height"
-                *ngFor="let deficiency of filteredDeficiencies | byVehicleType: vehicleType"
-                (click)="selectDeficiency(deficiency)">
-      <span>
+      <ion-item
+        detail-none
+        padding-left
+        class="list-item-height"
+        *ngFor="let deficiency of filteredDeficiencies | byVehicleType: vehicleType"
+        (click)="selectDeficiency(deficiency)"
+      >
+        <span>
           <h3>
             <span class="bold">
-                <span>{{ category.imNumber }}.{{ item.itemNumber }}</span>
-                <span *ngIf="deficiency.deficiencyId">({{ deficiency.deficiencyId }})</span>
-                <span *ngIf="deficiency.deficiencySubId">({{ deficiency.deficiencySubId }})</span>
-                <span class="asterisk" *ngIf="deficiency.stdForProhibition">*</span>
+              <span>{{ category.imNumber }}.{{ item.itemNumber }}</span>
+              <span *ngIf="deficiency.deficiencyId">({{ deficiency.deficiencyId }})</span>
+              <span *ngIf="deficiency.deficiencySubId">({{ deficiency.deficiencySubId }})</span>
+              <span class="asterisk" *ngIf="deficiency.stdForProhibition">*</span>
             </span>
-            <ion-badge item-end text-uppercase
-                       [color]="defectsService.getBadgeColor(deficiency.deficiencyCategory)"
-                       [ngClass]="returnBadgeClass(deficiency.deficiencyCategory)">
+            <ion-badge
+              item-end
+              text-uppercase
+              [color]="defectsService.getBadgeColor(deficiency.deficiencyCategory)"
+              [ngClass]="returnBadgeClass(deficiency.deficiencyCategory)"
+            >
               {{ deficiency.deficiencyCategory }}
             </ion-badge>
           </h3>
@@ -51,13 +59,11 @@
       <ion-item-divider text-uppercase padding-left>
         Advisory
       </ion-item-divider>
-      <ion-item detail-none padding-left
-                (click)="addAdvisory()">
+      <ion-item detail-none padding-left (click)="addAdvisory()">
         <span ion-text color="dark">Add an advisory note</span>
         <ion-icon name="arrow-forward" item-end></ion-icon>
       </ion-item>
     </ion-item-group>
-
   </ion-list>
 
   <div *ngIf="filteredDeficiencies.length == 0" class="no-result">

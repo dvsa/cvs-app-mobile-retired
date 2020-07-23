@@ -1,11 +1,10 @@
 page-country-of-registration {
-
   ion-list.list-ios {
     margin-bottom: 0;
 
     button .label-ios {
       margin: 22px 8px 22px 0;
-      
+
       h3 {
         font-size: $font-size-medium;
       }
@@ -25,5 +24,4 @@ page-country-of-registration {
   .selected {
     color: color($colors, primary);
   }
-
 }

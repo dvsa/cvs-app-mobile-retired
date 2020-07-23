@@ -7,7 +7,6 @@
 </ion-header>
 
 <ion-content no-padding>
-
   <ion-list class="list-margin">
     <ion-list-header text-uppercase padding-left>TEST TYPE</ion-list-header>
     <ion-item ion-item detail-none padding-left class="test-type">
@@ -33,7 +32,8 @@
           </ion-col>
           <ion-col col-auto text-end>
             <span text-capitalize>
-              {{ (selectedTestType.testTypeStartTimestamp | date:'dd MMM yyyy') || defaultValues.NONE }}
+              {{ (selectedTestType.testTypeStartTimestamp | date:'dd MMM yyyy') ||
+              defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -47,8 +47,8 @@
           </ion-col>
           <ion-col col-auto text-end>
             <span text-capitalize>
-              {{ (selectedTestType.testTypeStartTimestamp | date:'HH:mm') || defaultValues.NONE }} -
-              {{ (selectedTestType.testTypeEndTimestamp | date:'HH:mm') || defaultValues.NONE }}
+              {{ (selectedTestType.testTypeStartTimestamp | date:'HH:mm') || defaultValues.NONE }}
+              - {{ (selectedTestType.testTypeEndTimestamp | date:'HH:mm') || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -80,15 +80,22 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item ion-item
-              detail-none
-              padding-left
-              *ngIf="!doesNotHaveCert && !isTestResultAbandon && !isTestResultFail && !testTypeService.isSpecialistWithoutCertificateNumberCapturedIds(selectedTestType.testTypeId); else showTestNumber">
+    <ion-item
+      ion-item
+      detail-none
+      padding-left
+      *ngIf="!doesNotHaveCert && !isTestResultAbandon && !isTestResultFail && !testTypeService.isSpecialistWithoutCertificateNumberCapturedIds(selectedTestType.testTypeId); else showTestNumber"
+    >
       <ion-grid no-padding>
         <ion-row justify-content-between>
           <ion-col col-auto text-start>
-            <span text-left>Certificate number<span
-              *ngIf="testTypeService.isSpecialistCoifWithAnnualTest(selectedTestType.testTypeId)"> (Annual test)</span></span>
+            <span text-left
+              >Certificate number<span
+                *ngIf="testTypeService.isSpecialistCoifWithAnnualTest(selectedTestType.testTypeId)"
+              >
+                (Annual test)</span
+              ></span
+            >
           </ion-col>
           <ion-col col-auto text-end>
             <span text-capitalize>
@@ -114,10 +121,12 @@
         </ion-grid>
       </ion-item>
     </ng-template>
-    <ion-item ion-item
-              detail-none
-              padding-left
-              *ngIf="testTypeService.isSpecialistCoifWithAnnualTest(selectedTestType.testTypeId) && selectedTestType.secondaryCertificateNumber">
+    <ion-item
+      ion-item
+      detail-none
+      padding-left
+      *ngIf="testTypeService.isSpecialistCoifWithAnnualTest(selectedTestType.testTypeId) && selectedTestType.secondaryCertificateNumber"
+    >
       <ion-grid no-padding>
         <ion-row justify-content-between>
           <ion-col col-auto text-start>
@@ -211,7 +220,12 @@
         </div>
       </ion-grid>
     </ion-item>
-    <ion-item ion-item detail-none padding-left *ngIf="selectedTestType.particulateTrapSerialNumber">
+    <ion-item
+      ion-item
+      detail-none
+      padding-left
+      *ngIf="selectedTestType.particulateTrapSerialNumber"
+    >
       <ion-grid no-padding>
         <ion-row>
           <span text-left>Particulate trap serial number</span>
@@ -271,7 +285,13 @@
   <ion-list class="list-margin" *ngIf="!doesNotHaveDefects">
     <ion-list-header text-uppercase padding-left>DEFECTS</ion-list-header>
     <ng-container *ngIf="doDefectsExist">
-      <ion-item ion-item detail-none padding-left class="defect" *ngFor="let defect of selectedTestType.defects">
+      <ion-item
+        ion-item
+        detail-none
+        padding-left
+        class="defect"
+        *ngFor="let defect of selectedTestType.defects"
+      >
         <ion-grid no-padding>
           <ion-row justify-content-between>
             <ion-col col-auto text-start text-wrap>
@@ -280,9 +300,11 @@
                 <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
                 <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
               </span>
-              <ion-badge *ngIf="defect.deficiencyCategory"
-                         text-uppercase
-                         [color]="getDeficiencyColor(defect.deficiencyCategory)">
+              <ion-badge
+                *ngIf="defect.deficiencyCategory"
+                text-uppercase
+                [color]="getDeficiencyColor(defect.deficiencyCategory)"
+              >
                 {{ defect.deficiencyCategory }}
               </ion-badge>
               <ion-badge *ngIf="defect.prs" color="tertiary">PRS</ion-badge>
@@ -351,8 +373,13 @@
       </ion-item>
     </ng-container>
     <ng-container *ngIf="checkForDefects(selectedTestType.customDefects)">
-      <ion-item ion-item detail-none padding-left class="defect"
-                *ngFor="let customDefect of selectedTestType.customDefects">
+      <ion-item
+        ion-item
+        detail-none
+        padding-left
+        class="defect"
+        *ngFor="let customDefect of selectedTestType.customDefects"
+      >
         <ion-grid no-padding>
           <ion-row justify-content-between>
             <ion-col col-auto text-start text-wrap>
@@ -375,7 +402,8 @@
       </ion-item>
     </ng-container>
     <ng-container
-      *ngIf="!checkForDefects(selectedTestType.defects) && !checkForDefects(selectedTestType.customDefects)">
+      *ngIf="!checkForDefects(selectedTestType.defects) && !checkForDefects(selectedTestType.customDefects)"
+    >
       <ion-item ion-item detail-none padding-left>
         <ion-grid no-padding>
           <ion-row justify-content-between>
@@ -399,8 +427,12 @@
           <ion-col col-auto text-start>
             <span text-left>Country of registration</span>
           </ion-col>
-          <ion-col col-auto text-end class="wrap-ellipsis country-of-registration"
-                   [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}">
+          <ion-col
+            col-auto
+            text-end
+            class="wrap-ellipsis country-of-registration"
+            [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}"
+          >
             <span>
               {{ countryOfRegistration }}
             </span>
@@ -430,9 +462,9 @@
             <span text-left>Odometer reading</span>
           </ion-col>
           <ion-col col-auto text-end>
-              <span>
-                {{selectedTestResult.odometerReading | number}} {{distanceType}}
-              </span>
+            <span>
+              {{selectedTestResult.odometerReading | number}} {{distanceType}}
+            </span>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -449,7 +481,8 @@
           </ion-col>
           <ion-col col-auto text-end>
             <span>
-              {{ (selectedTestType.seatbeltInstallationCheckDate | formatBoolean) || defaultValues.NONE }}
+              {{ (selectedTestType.seatbeltInstallationCheckDate | formatBoolean) ||
+              defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
@@ -477,7 +510,8 @@
           </ion-col>
           <ion-col col-auto text-end>
             <span>
-              {{ (selectedTestType.lastSeatbeltInstallationCheckDate | date:'dd MMM yyyy') || defaultValues.NOT_ENTERED }}
+              {{ (selectedTestType.lastSeatbeltInstallationCheckDate | date:'dd MMM yyyy') ||
+              defaultValues.NOT_ENTERED }}
             </span>
           </ion-col>
         </ion-row>
@@ -508,7 +542,9 @@
             <span text-left>Test facility number</span>
           </ion-col>
           <ion-col col-auto text-end>
-            <span text-capitalize>{{ selectedTestResult.testStationPNumber || defaultValues.NONE }}</span>
+            <span text-capitalize
+              >{{ selectedTestResult.testStationPNumber || defaultValues.NONE }}</span
+            >
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -537,8 +573,12 @@
           <ion-col col-auto text-start>
             <span text-left>Staff ID</span>
           </ion-col>
-          <ion-col col-auto text-end class="staff-id"
-                   [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled(), 'wrap-ellipsis': !appService.isAccessibilityTextZoomEnabled()}">
+          <ion-col
+            col-auto
+            text-end
+            class="staff-id"
+            [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled(), 'wrap-ellipsis': !appService.isAccessibilityTextZoomEnabled()}"
+          >
             <span>
               {{ selectedTestResult.testerStaffId || defaultValues.NONE }}
             </span>
@@ -562,5 +602,4 @@
       </ion-grid>
     </ion-item>
   </ion-list>
-
 </ion-content>

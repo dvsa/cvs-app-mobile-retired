@@ -4,33 +4,35 @@
       Test submitted
     </ion-title>
     <ion-buttons end>
-        <button ion-button (click)="finishTest()">
-            Done
-        </button>
+      <button ion-button (click)="finishTest()">
+        Done
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-item no-lines class="summary-message">
-      <img src="assets/checkmark.png">
-      <div>The following certificates have now been issued</div>
+    <img src="assets/checkmark.png" />
+    <div>The following certificates have now been issued</div>
   </ion-item>
   <ion-card *ngFor="let vehicle of testReport.vehicles">
-      <ion-list>
-          <ion-item>
-            <h2>{{ vehicle.type }}</h2>
-            <p class="vehicle-registration">{{ vehicle.registration }}</p>
-          </ion-item>
-          <ion-item *ngFor="let test of vehicle.vehicleTests">
-            <p>{{ test.name }}</p>
-          </ion-item>
-        </ion-list>
+    <ion-list>
+      <ion-item>
+        <h2>{{ vehicle.type }}</h2>
+        <p class="vehicle-registration">{{ vehicle.registration }}</p>
+      </ion-item>
+      <ion-item *ngFor="let test of vehicle.vehicleTests">
+        <p>{{ test.name }}</p>
+      </ion-item>
+    </ion-list>
   </ion-card>
 </ion-content>
 
 <ion-footer>
-    <div class="footer-cta-section">
-      <button ion-button block color="secondary" (click)="printAllDocuments()">Print all documents</button>
-    </div>
-  </ion-footer>
+  <div class="footer-cta-section">
+    <button ion-button block color="secondary" (click)="printAllDocuments()">
+      Print all documents
+    </button>
+  </div>
+</ion-footer>

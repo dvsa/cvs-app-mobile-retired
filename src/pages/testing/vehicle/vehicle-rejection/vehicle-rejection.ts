@@ -6,9 +6,5 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'vehicle-rejection.html'
 })
 export class VehicleRejectionPage {
-
-  constructor(public navCtrl: NavController) {
-
-  }
-
+  constructor(public navCtrl: NavController) {}
 }

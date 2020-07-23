@@ -1,19 +1,17 @@
-import { TEST_TYPE_RESULTS } from "../../app/app.enums";
-import { TestBed } from "@angular/core/testing";
-import { CommonFunctionsService } from "./common-functions";
-import { CountryOfRegistrationData } from "../../assets/app-data/country-of-registration/country-of-registration.data";
-import { TestTypesReferenceDataMock } from "../../assets/data-mocks/reference-data-mocks/test-types.mock";
-import { TestTypeArrayDataMock } from "../../assets/data-mocks/test-type-array-data.mock";
-import { VehicleDataMock } from "../../assets/data-mocks/vehicle-data.mock";
+import { TEST_TYPE_RESULTS } from '../../app/app.enums';
+import { TestBed } from '@angular/core/testing';
+import { CommonFunctionsService } from './common-functions';
+import { CountryOfRegistrationData } from '../../assets/app-data/country-of-registration/country-of-registration.data';
+import { TestTypesReferenceDataMock } from '../../assets/data-mocks/reference-data-mocks/test-types.mock';
+import { TestTypeArrayDataMock } from '../../assets/data-mocks/test-type-array-data.mock';
+import { VehicleDataMock } from '../../assets/data-mocks/vehicle-data.mock';
 
 describe('Provider: CommonFunctionsService', () => {
   let commonFunctionsService: CommonFunctionsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        CommonFunctionsService
-      ]
+      providers: [CommonFunctionsService]
     });
 
     commonFunctionsService = TestBed.get(CommonFunctionsService);
@@ -70,16 +68,16 @@ describe('Provider: CommonFunctionsService', () => {
   it('should return empty array if not found', () => {
     let searchVal = '123';
     let array = [
-      {key: "gb", value: "Great Britain and Northern Ireland - GB"},
-      {key: "gba", value: "Alderney - GBA"},
-      {key: 123, value: "123-lea"},
-      {key: "gbj", value: "Jersey - GBJ"},
-      {key: "gbm", value: "Isle of Man - GBM"},
-      {key: "gbz", value: "Gibraltar - GBZ"},
-      {key: "a", value: "Austria - A"},
-      {key: "b", value: "Belgium - B"},
-      {key: "bih", value: "Bosnia and Herzegovina - BIH"},
-      {key: "bg", value: "Bulgaria - BG"}
+      { key: 'gb', value: 'Great Britain and Northern Ireland - GB' },
+      { key: 'gba', value: 'Alderney - GBA' },
+      { key: 123, value: '123-lea' },
+      { key: 'gbj', value: 'Jersey - GBJ' },
+      { key: 'gbm', value: 'Isle of Man - GBM' },
+      { key: 'gbz', value: 'Gibraltar - GBZ' },
+      { key: 'a', value: 'Austria - A' },
+      { key: 'b', value: 'Belgium - B' },
+      { key: 'bih', value: 'Bosnia and Herzegovina - BIH' },
+      { key: 'bg', value: 'Bulgaria - BG' }
     ];
     let filteredArray = commonFunctionsService.searchFor(array, searchVal, ['key', 'value']);
     expect(filteredArray.length).toEqual(1);
@@ -180,6 +178,8 @@ describe('Provider: CommonFunctionsService', () => {
 
   it('should getCountryStringToBeDisplayed', () => {
     const vehicle = VehicleDataMock.VehicleData;
-    expect(commonFunctionsService.getCountryStringToBeDisplayed(vehicle)).toEqual('Great Britain and Northern Ireland');
+    expect(commonFunctionsService.getCountryStringToBeDisplayed(vehicle)).toEqual(
+      'Great Britain and Northern Ireland'
+    );
   });
 });

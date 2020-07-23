@@ -1,59 +1,60 @@
 import { AppServiceMock } from './../../../../../test-config/services-mocks/app-service.mock';
 import { AppService } from './../../../../providers/global/app.service';
-import { TestReviewPage } from "./test-review";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { TestReviewPage } from './test-review';
+import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import {
   IonicModule,
   NavController,
   NavParams,
   ViewController,
   AlertController,
-  LoadingController, ModalController
-} from "ionic-angular";
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+  LoadingController,
+  ModalController
+} from 'ionic-angular';
+import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import {
   NavControllerMock,
   ViewControllerMock,
   AlertControllerMock,
   LoadingControllerMock,
   ModalControllerMock
-} from "ionic-mocks";
-import { StateReformingService } from "../../../../providers/global/state-reforming.service";
-import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { StorageService } from "../../../../providers/natives/storage.service";
-import { StorageServiceMock } from "../../../../../test-config/services-mocks/storage-service.mock";
-import { TestResultService } from "../../../../providers/test-result/test-result.service";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { TestService } from "../../../../providers/test/test.service";
-import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { DefectsService } from "../../../../providers/defects/defects.service";
-import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
-import { AuthService } from "../../../../providers/global/auth.service";
-import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
-import { Store } from "@ngrx/store";
-import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
-import { TestResultServiceMock } from "../../../../../test-config/services-mocks/test-result-service.mock";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
-import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import { Firebase } from "@ionic-native/firebase";
-import { ActivityService } from "../../../../providers/activity/activity.service";
-import { ActivityServiceMock } from "../../../../../test-config/services-mocks/activity-service.mock";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
-import { TEST_TYPE_RESULTS, VEHICLE_TYPE } from "../../../../app/app.enums";
-import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
-import { By } from "../../../../../node_modules/@angular/platform-browser";
-import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
-import { SpecialistCustomDefectModel } from "../../../../models/defects/defect-details.model";
+} from 'ionic-mocks';
+import { StateReformingService } from '../../../../providers/global/state-reforming.service';
+import { StateReformingServiceMock } from '../../../../../test-config/services-mocks/state-reforming-service.mock';
+import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
+import { VehicleServiceMock } from '../../../../../test-config/services-mocks/vehicle-service.mock';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { VisitServiceMock } from '../../../../../test-config/services-mocks/visit-service.mock';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { StorageService } from '../../../../providers/natives/storage.service';
+import { StorageServiceMock } from '../../../../../test-config/services-mocks/storage-service.mock';
+import { TestResultService } from '../../../../providers/test-result/test-result.service';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { TestService } from '../../../../providers/test/test.service';
+import { TestServiceMock } from '../../../../../test-config/services-mocks/test-service.mock';
+import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
+import { DefectsService } from '../../../../providers/defects/defects.service';
+import { VisitDataMock } from '../../../../assets/data-mocks/visit-data.mock';
+import { AuthService } from '../../../../providers/global/auth.service';
+import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
+import { Store } from '@ngrx/store';
+import { TestStore } from '../../../../providers/interceptors/auth.interceptor.spec';
+import { TestResultServiceMock } from '../../../../../test-config/services-mocks/test-result-service.mock';
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
+import { Firebase } from '@ionic-native/firebase';
+import { ActivityService } from '../../../../providers/activity/activity.service';
+import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
+import { TEST_TYPE_RESULTS, VEHICLE_TYPE } from '../../../../app/app.enums';
+import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
+import { TechRecordDataMock } from '../../../../assets/data-mocks/tech-record-data.mock';
+import { By } from '../../../../../node_modules/@angular/platform-browser';
+import { TestTypeDataModelMock } from '../../../../assets/data-mocks/data-model/test-type-data-model.mock';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
+import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
+import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -72,7 +73,6 @@ describe('Component: TestReviewPage', () => {
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [TestReviewPage],
       imports: [IonicModule.forRoot(TestReviewPage)],
@@ -81,24 +81,24 @@ describe('Component: TestReviewPage', () => {
         CommonFunctionsService,
         OpenNativeSettings,
         DefectsService,
-        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
-        {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
-        {provide: ActivityService, useClass: ActivityServiceMock},
-        {provide: TestResultService, useClass: TestResultServiceMock},
-        {provide: TestService, useClass: TestServiceMock},
-        {provide: TestTypeService, useClass: TestTypeServiceMock},
-        {provide: StorageService, useClass: StorageServiceMock},
-        {provide: ViewController, useFactory: () => ViewControllerMock.instance()},
-        {provide: NavController, useFactory: () => NavControllerMock.instance()},
-        {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
-        {provide: StateReformingService, useClass: StateReformingServiceMock},
-        {provide: VehicleService, useClass: VehicleServiceMock},
-        {provide: VisitService, useClass: VisitServiceMock},
-        {provide: AuthService, useClass: AuthServiceMock},
-        {provide: Store, useClass: TestStore},
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
-        {provide: AppService, useClass: AppServiceMock},
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
+        { provide: ActivityService, useClass: ActivityServiceMock },
+        { provide: TestResultService, useClass: TestResultServiceMock },
+        { provide: TestService, useClass: TestServiceMock },
+        { provide: TestTypeService, useClass: TestTypeServiceMock },
+        { provide: StorageService, useClass: StorageServiceMock },
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
+        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: StateReformingService, useClass: StateReformingServiceMock },
+        { provide: VehicleService, useClass: VehicleServiceMock },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: Store, useClass: TestStore },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        { provide: AppService, useClass: AppServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -119,8 +119,8 @@ describe('Component: TestReviewPage', () => {
   });
 
   beforeEach(() => {
-    spyOn(window.localStorage, 'getItem').and.callFake(function () {
-      return JSON.stringify({"test": "test"});
+    spyOn(window.localStorage, 'getItem').and.callFake(function() {
+      return JSON.stringify({ test: 'test' });
     });
   });
 
@@ -170,7 +170,9 @@ describe('Component: TestReviewPage', () => {
   it('should verify that the vehicle type is one of the specified types', () => {
     let vehicle = Object.create(VehicleDataMock.VehicleData);
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV)).toBeTruthy();
-    expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeTruthy();
+    expect(
+      component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)
+    ).toBeTruthy();
   });
 
   it('should verify that the vehicle type is not one of specified types', () => {
@@ -201,7 +203,7 @@ describe('Component: TestReviewPage', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       let submitButton = fixture.debugElement.query(By.css('.footer-cta-section>button'));
-      expect(component.nextButtonText).toBe("Submit tests");
+      expect(component.nextButtonText).toBe('Submit tests');
       submitButton.nativeElement.dispatchEvent(new Event('click'));
       expect(component.submitTest).toHaveBeenCalled();
     });
@@ -227,8 +229,8 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should not pop to test overview if roadworthiness test result is fail', () => {
-    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
-    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+    let initialTestType = { ...TestTypeDataModelMock.TestTypeData };
+    let changedTestType = { ...TestTypeDataModelMock.TestTypeData };
 
     initialTestType.testTypeId = '62';
     changedTestType.testResult = TEST_TYPE_RESULTS.FAIL;
@@ -237,8 +239,8 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should not pop to test overview if adr test result is fail', () => {
-    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
-    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+    let initialTestType = { ...TestTypeDataModelMock.TestTypeData };
+    let changedTestType = { ...TestTypeDataModelMock.TestTypeData };
 
     initialTestType.testTypeId = '50';
     changedTestType.testResult = TEST_TYPE_RESULTS.FAIL;
@@ -247,8 +249,8 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should pop to test overview if adr test result is pass and the certificate number or expiryDate do not exist', () => {
-    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
-    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+    let initialTestType = { ...TestTypeDataModelMock.TestTypeData };
+    let changedTestType = { ...TestTypeDataModelMock.TestTypeData };
 
     initialTestType.testTypeId = '50';
     changedTestType.testResult = TEST_TYPE_RESULTS.PASS;
@@ -259,8 +261,8 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should pop to test overview if a test type initially had certificate number and after changing the details not', () => {
-    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
-    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+    let initialTestType = { ...TestTypeDataModelMock.TestTypeData };
+    let changedTestType = { ...TestTypeDataModelMock.TestTypeData };
 
     initialTestType.certificateNumber = '44334554';
     changedTestType.certificateNumber = null;
@@ -269,7 +271,7 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should get the formatted string to be displayed for odometer reading', () => {
-    let vehicle = {...VEHICLE};
+    let vehicle = { ...VEHICLE };
     vehicle.odometerReading = null;
     expect(component.getOdometerStringToBeDisplayed(vehicle)).toEqual('');
 
@@ -278,10 +280,12 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should check whether a Specialist test is completed or not', () => {
-    let initialTestType = {...TestTypeDataModelMock.TestTypeData};
-    let changedTestType = {...TestTypeDataModelMock.TestTypeData};
+    let initialTestType = { ...TestTypeDataModelMock.TestTypeData };
+    let changedTestType = { ...TestTypeDataModelMock.TestTypeData };
     initialTestType.testTypeId = '146';
-    changedTestType.customDefects.push({hasAllMandatoryFields: false} as SpecialistCustomDefectModel);
+    changedTestType.customDefects.push({
+      hasAllMandatoryFields: false
+    } as SpecialistCustomDefectModel);
     expect(component.isSpecialistTestTypeCompleted(changedTestType, initialTestType)).toBeFalsy();
 
     initialTestType.testTypeId = '125';
@@ -290,6 +294,8 @@ describe('Component: TestReviewPage', () => {
 
     changedTestType.certificateNumber = '123';
     changedTestType.customDefects[0].hasAllMandatoryFields = true;
-    expect(component.isSpecialistTestTypeCompleted(changedTestType, initialTestType)).toBeTruthy();
+    expect(
+      component.isSpecialistTestTypeCompleted(changedTestType, initialTestType)
+    ).toBeTruthy();
   });
 });

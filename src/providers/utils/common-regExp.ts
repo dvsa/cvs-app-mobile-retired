@@ -4,6 +4,6 @@ export class CommonRegExp {
   }
 
   public static get JTW_TOKEN(): RegExp {
-    return /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/
+    return /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
   }
 }

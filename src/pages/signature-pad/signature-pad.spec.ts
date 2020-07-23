@@ -1,20 +1,31 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { SignaturePadPage } from "./signature-pad";
-import { AlertController, Events, IonicModule, NavController, PopoverController } from "ionic-angular";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { AppService } from "../../providers/global/app.service";
-import { ScreenOrientation } from "@ionic-native/screen-orientation";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { SignatureService } from "../../providers/signature/signature.service";
-import { AlertControllerMock, EventsMock, NavControllerMock, PopoverControllerMock } from "ionic-mocks";
-import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
-import { SignaturePad } from "angular2-signaturepad/signature-pad";
-import { CallNumber } from "@ionic-native/call-number";
-import { Firebase } from "@ionic-native/firebase";
-import { AuthService } from "../../providers/global/auth.service";
-import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
-import { Store } from "@ngrx/store";
-import { TestStore } from "../../providers/interceptors/auth.interceptor.spec";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SignaturePadPage } from './signature-pad';
+import {
+  AlertController,
+  Events,
+  IonicModule,
+  NavController,
+  PopoverController
+} from 'ionic-angular';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AppService } from '../../providers/global/app.service';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { SignatureService } from '../../providers/signature/signature.service';
+import {
+  AlertControllerMock,
+  EventsMock,
+  NavControllerMock,
+  PopoverControllerMock
+} from 'ionic-mocks';
+import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
+import { SignaturePad } from 'angular2-signaturepad/signature-pad';
+import { CallNumber } from '@ionic-native/call-number';
+import { Firebase } from '@ionic-native/firebase';
+import { AuthService } from '../../providers/global/auth.service';
+import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
+import { Store } from '@ngrx/store';
+import { TestStore } from '../../providers/interceptors/auth.interceptor.spec';
 
 describe('Component: SignaturePadPage', () => {
   let fixture: ComponentFixture<SignaturePadPage>;
@@ -36,33 +47,33 @@ describe('Component: SignaturePadPage', () => {
   let callNumberSpy: any;
 
   beforeEach(async(() => {
-    signatureServiceSpy = jasmine.createSpyObj('SignatureService', ['saveSignature', 'saveToStorage', 'presentSuccessToast']);
+    signatureServiceSpy = jasmine.createSpyObj('SignatureService', [
+      'saveSignature',
+      'saveToStorage',
+      'presentSuccessToast'
+    ]);
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', ['open']);
     signaturePadSpy = jasmine.createSpyObj('SignaturePad', ['clear', 'toDataURL', 'isEmpty']);
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
 
     TestBed.configureTestingModule({
-      declarations: [
-        SignaturePadPage
-      ],
-      imports: [
-        IonicModule.forRoot(SignaturePadPage)
-      ],
+      declarations: [SignaturePadPage],
+      imports: [IonicModule.forRoot(SignaturePadPage)],
       providers: [
         Firebase,
-        {provide: AppService, useClass: AppServiceMock},
-        {provide: SignatureService, useValue: signatureServiceSpy},
-        {provide: NavController, useFactory: () => NavControllerMock.instance()},
-        {provide: PopoverController, useFactory: () => PopoverControllerMock.instance()},
-        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
-        {provide: ScreenOrientation, useValue: screenOrientationSpy},
-        {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
-        {provide: Events, useFactory: () => EventsMock.instance()},
-        {provide: SignaturePad, useValue: signaturePadSpy},
-        {provide: AuthService, useClass: AuthServiceMock},
-        {provide: Store, useClass: TestStore},
-        {provide: CallNumber, useValue: callNumberSpy}
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: SignatureService, useValue: signatureServiceSpy },
+        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: PopoverController, useFactory: () => PopoverControllerMock.instance() },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: ScreenOrientation, useValue: screenOrientationSpy },
+        { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
+        { provide: Events, useFactory: () => EventsMock.instance() },
+        { provide: SignaturePad, useValue: signaturePadSpy },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: Store, useClass: TestStore },
+        { provide: CallNumber, useValue: callNumberSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

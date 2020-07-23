@@ -1,12 +1,19 @@
-import { TestCreatePage } from "./test-create";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams, AlertController, ModalController, Events } from "ionic-angular";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestTypeDataModelMock } from "../../../../assets/data-mocks/data-model/test-type-data-model.mock";
-import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { TestCreatePage } from './test-create';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  IonicModule,
+  NavController,
+  NavParams,
+  AlertController,
+  ModalController,
+  Events
+} from 'ionic-angular';
+import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
+import { TestTypeModel } from '../../../../models/tests/test-type.model';
+import { TestTypeDataModelMock } from '../../../../assets/data-mocks/data-model/test-type-data-model.mock';
+import { TechRecordDataMock } from '../../../../assets/data-mocks/tech-record-data.mock';
+import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   ODOMETER_METRIC,
   VEHICLE_TYPE,
@@ -68,20 +75,20 @@ describe('Component: TestCreatePage', () => {
       declarations: [TestCreatePage],
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         CommonFunctionsService,
-        {provide: Events, useFactory: () => EventsMock.instance()},
-        {provide: NavController, useFactory: () => NavControllerMock.instance()},
-        {provide: ModalController, useFactory: () => ModalControllerMock.instance()},
-        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
-        {provide: AppService, useClass: AppServiceMock},
-        {provide: CallNumber, useValue: callNumberSpy},
-        {provide: StateReformingService, useClass: StateReformingServiceMock},
-        {provide: VehicleService, useClass: VehicleServiceMock},
-        {provide: VisitService, useClass: VisitServiceMock},
-        {provide: TestService, useClass: TestServiceMock},
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: TestTypeService, useClass: TestTypeServiceMock}
+        { provide: Events, useFactory: () => EventsMock.instance() },
+        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: CallNumber, useValue: callNumberSpy },
+        { provide: StateReformingService, useClass: StateReformingServiceMock },
+        { provide: VehicleService, useClass: VehicleServiceMock },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: TestService, useClass: TestServiceMock },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: TestTypeService, useClass: TestTypeServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -105,10 +112,10 @@ describe('Component: TestCreatePage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        'test': VisitDataMock.VisitTestData,
+        test: VisitDataMock.VisitTestData
       };
       return params[param];
-    })
+    });
   });
 
   afterEach(() => {
@@ -190,8 +197,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "Edit" status if a ADR test has the certificateNumber exactly 6 digits long', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '50';
     testType.testExpiryDate = new Date().toISOString();
     testType.certificateNumber = '12345';
@@ -301,8 +308,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "Edit" status if a TIR test has the certificateNumber exactly 5 digits long', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '49';
     testType.certificateNumber = '1234';
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
@@ -311,8 +318,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "Edit" status if a Specialist test has a certificateNumber captured', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '125';
     testType.certificateNumber = null;
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
@@ -321,8 +328,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "Edit" status if a PSV Notifiable Alteration test has a testResult captured', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '38';
     testType.testResult = null;
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
@@ -331,8 +338,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "in progress" status if a Specialist test has the custom defects incompletely captured', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '125';
     testType.certificateNumber = '12345';
     testType.customDefects.push({} as SpecialistCustomDefectModel);
@@ -415,7 +422,9 @@ describe('Component: TestCreatePage', () => {
     component.testData = newTest;
     component.onOdometer(0);
     expect(modalctrl.create).toHaveBeenCalled();
-    expect(firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time).toBeTruthy();
+    expect(
+      firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time
+    ).toBeTruthy();
   });
 
   it('should test onVehicleCategory logic', () => {
@@ -469,7 +478,9 @@ describe('Component: TestCreatePage', () => {
   it('should verify that the vehicle type is one of the specified types', () => {
     let vehicle = Object.create(VehicleDataMock.VehicleData);
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV)).toBeTruthy();
-    expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeTruthy();
+    expect(
+      component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)
+    ).toBeTruthy();
   });
 
   it('should verify that the vehicle type is not one of specified types', () => {
@@ -479,12 +490,12 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should check if a lec test-type is in progress or not', () => {
-    let testType = {...ADDED_VEHICLE_TEST};
+    let testType = { ...ADDED_VEHICLE_TEST };
     testType.testResult = TEST_TYPE_RESULTS.FAIL;
     testType.additionalNotesRecorded = 'notes';
     expect(component.isLecTestTypeInProgress(testType)).toBeFalsy();
 
-    testType = {...ADDED_VEHICLE_TEST};
+    testType = { ...ADDED_VEHICLE_TEST };
     testType.testResult = TEST_TYPE_RESULTS.PASS;
     testType.testExpiryDate = '2019-10-31';
     testType.emissionStandard = 'emission';
@@ -506,9 +517,9 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should check if a vehicle has only abandoned test types', () => {
-    let testType = {...ADDED_VEHICLE_TEST};
-    let testType2 = {...ADDED_VEHICLE_TEST};
-    let vehicle = {...VEHICLE};
+    let testType = { ...ADDED_VEHICLE_TEST };
+    let testType2 = { ...ADDED_VEHICLE_TEST };
+    let vehicle = { ...VEHICLE };
 
     testType.testResult = TEST_TYPE_RESULTS.ABANDONED;
     vehicle.testTypes.push(testType);
@@ -520,7 +531,7 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should autocomplete the vehicle category when there is only one category available', () => {
-    let vehicle = {...VEHICLE};
+    let vehicle = { ...VEHICLE };
     vehicle.euVehicleCategory = null;
     vehicle.techRecord.vehicleType = VEHICLE_TYPE.CAR;
     component.autoAssignVehicleCategoryOnlyWhenOneCategoryAvailable(vehicle);

@@ -13,13 +13,14 @@ export class TestStationDataMock {
         testStationPostcode: '0000',
         testStationLongitude: 1,
         testStationLatitude: 2,
-        testStationType: "gvts",
+        testStationType: 'gvts',
         testStationEmails: [
-          "teststationname@dvsa.gov.uk",
-          "teststationname1@dvsa.gov.uk",
-          "teststationname2@dvsa.gov.uk"
+          'teststationname@dvsa.gov.uk',
+          'teststationname1@dvsa.gov.uk',
+          'teststationname2@dvsa.gov.uk'
         ]
-      }, {
+      },
+      {
         testStationId: '14111',
         testStationName: 'Other ATF Name',
         testStationPNumber: '456',
@@ -31,11 +32,10 @@ export class TestStationDataMock {
         testStationPostcode: '1111',
         testStationLongitude: 3,
         testStationLatitude: 4,
-        testStationType: "atf",
-        testStationEmails: [
-          "teststationname@dvsa.gov.uk"
-        ]
-      }, {
+        testStationType: 'atf',
+        testStationEmails: ['teststationname@dvsa.gov.uk']
+      },
+      {
         testStationId: '124111',
         testStationName: 'That ATF Name',
         testStationPNumber: '789',
@@ -47,11 +47,10 @@ export class TestStationDataMock {
         testStationPostcode: '2222',
         testStationLongitude: 5,
         testStationLatitude: 6,
-        testStationType: "atf",
-        testStationEmails: [
-          "teststationname@dvsa.gov.uk"
-        ]
-      }, {
+        testStationType: 'atf',
+        testStationEmails: ['teststationname@dvsa.gov.uk']
+      },
+      {
         testStationId: '124112',
         testStationName: 'ATF without testStationAddress',
         testStationPNumber: '124112',
@@ -64,10 +63,8 @@ export class TestStationDataMock {
         testStationLongitude: 5,
         testStationLatitude: 6,
         testStationType: 'atf',
-        testStationEmails: [
-          'teststationname@dvsa.gov.uk'
-        ]
-      },
+        testStationEmails: ['teststationname@dvsa.gov.uk']
+      }
     ];
   }
 }

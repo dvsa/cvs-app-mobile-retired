@@ -20,7 +20,11 @@
       <ion-item-group class="make-full-width">
         <ion-item-divider padding-left text-uppercase>{{ dividerText }}</ion-item-divider>
         <div>
-          <signature-pad [options]="signaturePadOptions" (onEndEvent)="drawComplete()" id="signatureCanvas"></signature-pad>
+          <signature-pad
+            [options]="signaturePadOptions"
+            (onEndEvent)="drawComplete()"
+            id="signatureCanvas"
+          ></signature-pad>
         </div>
       </ion-item-group>
     </ion-row>

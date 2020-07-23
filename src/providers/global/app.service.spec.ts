@@ -1,12 +1,12 @@
-import { TestBed } from "@angular/core/testing";
-import { AuthService } from "./auth.service";
-import { AppService } from "./app.service";
-import { Platform, ToastController } from "ionic-angular";
-import { ToastControllerMock } from "ionic-mocks";
-import { StorageService } from "../natives/storage.service";
-import { StorageServiceMock } from "../../../test-config/services-mocks/storage-service.mock";
-import { AuthServiceMock } from "../../../test-config/services-mocks/auth-service.mock";
-import { APP, LOCAL_STORAGE } from "../../app/app.enums";
+import { TestBed } from '@angular/core/testing';
+import { AuthService } from './auth.service';
+import { AppService } from './app.service';
+import { Platform, ToastController } from 'ionic-angular';
+import { ToastControllerMock } from 'ionic-mocks';
+import { StorageService } from '../natives/storage.service';
+import { StorageServiceMock } from '../../../test-config/services-mocks/storage-service.mock';
+import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
+import { APP, LOCAL_STORAGE } from '../../app/app.enums';
 
 describe(`AppService: `, () => {
   let appService: AppService;
@@ -25,11 +25,11 @@ describe(`AppService: `, () => {
       imports: [],
       providers: [
         AppService,
-        {provide: Platform, useValue: platformSpy},
-        {provide: ToastController, useFactory: () => ToastControllerMock.instance()},
-        {provide: StorageService, useClass: StorageServiceMock},
-        {provide: AuthService, useClass: AuthServiceMock},
-      ],
+        { provide: Platform, useValue: platformSpy },
+        { provide: ToastController, useFactory: () => ToastControllerMock.instance() },
+        { provide: StorageService, useClass: StorageServiceMock },
+        { provide: AuthService, useClass: AuthServiceMock }
+      ]
     });
     platform = TestBed.get(Platform);
     toast = TestBed.get(ToastController);
@@ -52,14 +52,10 @@ describe(`AppService: `, () => {
       }
     };
 
-    spyOn(localStorage, 'getItem')
-      .and.callFake(MOCK_LOCAL_STORAGE.getItem);
-    spyOn(localStorage, 'setItem')
-      .and.callFake(MOCK_LOCAL_STORAGE.setItem);
-    spyOn(localStorage, 'removeItem')
-      .and.callFake(MOCK_LOCAL_STORAGE.removeItem);
-    spyOn(localStorage, 'clear')
-      .and.callFake(MOCK_LOCAL_STORAGE.clear);
+    spyOn(localStorage, 'getItem').and.callFake(MOCK_LOCAL_STORAGE.getItem);
+    spyOn(localStorage, 'setItem').and.callFake(MOCK_LOCAL_STORAGE.setItem);
+    spyOn(localStorage, 'removeItem').and.callFake(MOCK_LOCAL_STORAGE.removeItem);
+    spyOn(localStorage, 'clear').and.callFake(MOCK_LOCAL_STORAGE.clear);
   });
 
   afterEach(() => {
@@ -117,22 +113,18 @@ describe(`AppService: `, () => {
     expect(appService.isJwtTokenStored).toBeTruthy();
   });
 
-  it("should manage application initialization", () => {
+  it('should manage application initialization', () => {
     appService = new AppService(platform, toast, storageService, authService);
 
-    appService.manageAppInit().then(
-      (data) => {
-        expect(data).toBeTruthy()
-      }
-    );
+    appService.manageAppInit().then((data) => {
+      expect(data).toBeTruthy();
+    });
   });
 
-  it("should clear localStorage", () => {
+  it('should clear localStorage', () => {
     appService = new AppService(platform, toast, storageService, authService);
 
-    appService.clearLocalStorage().then(
-      (data) => expect(data).toBeTruthy()
-    )
+    appService.clearLocalStorage().then((data) => expect(data).toBeTruthy());
   });
 
   it("should set app's easter egg", () => {
@@ -184,7 +176,7 @@ describe(`AppService: `, () => {
 
   it('should be false if mobileAccessibility font size is below or equal to iOS default 106%', () => {
     appService = new AppService(platform, toast, storageService, authService);
-    
+
     appService.setAccessibilityTextZoom(106);
     expect(appService.isAccessibilityTextZoomEnabled()).toBeFalsy();
 
@@ -201,5 +193,4 @@ describe(`AppService: `, () => {
     appService.setAccessibilityTextZoom(331);
     expect(appService.isAccessibilityTextZoomEnabled()).toBeTruthy();
   });
-
 });

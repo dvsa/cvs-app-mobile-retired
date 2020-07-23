@@ -1,4 +1,4 @@
-import { LocationMetadataModel } from "../reference-data-models/defects.reference-model";
+import { LocationMetadataModel } from '../reference-data-models/defects.reference-model';
 
 export interface DefectDetailsModel {
   imNumber: number;
@@ -26,7 +26,7 @@ export interface DefectAdditionalInformationModel {
 export interface DefectsMetadataModel {
   category: {
     additionalInfo?: AdditionalInfoMetadataModel;
-  }
+  };
 }
 
 export interface AdditionalInfoMetadataModel {

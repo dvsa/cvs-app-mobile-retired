@@ -1,74 +1,105 @@
 <ion-header transforming-searchBar [searchBarElemRef]="searchBar">
-    <ion-navbar>
-        <ion-title margin-left>
-            Country of registration
-        </ion-title>
-        <ion-buttons end>
-            <button ion-button
-                    (click)="onSave()">
-                Save
-            </button>
-        </ion-buttons>
-    </ion-navbar>
-    <ion-toolbar>
-        <ion-searchbar (ionInput)="searchList($event)"
-                       (ionFocus)="keepCancelOn($event)"
-                       (ionCancel)="keepCancelOn($event, true)"
-                       [ngClass]="{'keep-cancel-on': focusOut}"
-                       [(ngModel)]="searchVal"
-                       [showCancelButton]="true"
-                       [cancelButtonText]="'Cancel'"
-                       placeholder="Search for country"
-                       #searchBar>
-        </ion-searchbar>
-    </ion-toolbar>
+  <ion-navbar>
+    <ion-title margin-left>
+      Country of registration
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="onSave()">
+        Save
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-searchbar
+      (ionInput)="searchList($event)"
+      (ionFocus)="keepCancelOn($event)"
+      (ionCancel)="keepCancelOn($event, true)"
+      [ngClass]="{'keep-cancel-on': focusOut}"
+      [(ngModel)]="searchVal"
+      [showCancelButton]="true"
+      [cancelButtonText]="'Cancel'"
+      placeholder="Search for country"
+      #searchBar
+    >
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding class="content-background-color-grey">
-
-    <ion-list *ngIf="filteredCountries.length" text-wrap>
-      <button ion-item padding-left detail-none class="list-item-height"
-              (click)="setVehicleRegCountry(notApplicableElem[0])">
-        <h3>{{ notApplicableElem[0].value }}</h3>
-        <ion-icon item-end class="selected"
-                  name="checkmark"
-                  *ngIf="vehicle.countryOfRegistration === notApplicableElem[0].key"></ion-icon>
-      </button>
-        <button ion-item padding-left detail-none class="list-item-height no-border"
-                (click)="setVehicleRegCountry(topElem[0])">
-            <h3>{{ topElem[0].value }}</h3>
-            <ion-icon item-end class="selected"
-                      name="checkmark"
-                      *ngIf="vehicle.countryOfRegistration === topElem[0].key"></ion-icon>
+  <ion-list *ngIf="filteredCountries.length" text-wrap>
+    <button
+      ion-item
+      padding-left
+      detail-none
+      class="list-item-height"
+      (click)="setVehicleRegCountry(notApplicableElem[0])"
+    >
+      <h3>{{ notApplicableElem[0].value }}</h3>
+      <ion-icon
+        item-end
+        class="selected"
+        name="checkmark"
+        *ngIf="vehicle.countryOfRegistration === notApplicableElem[0].key"
+      ></ion-icon>
+    </button>
+    <button
+      ion-item
+      padding-left
+      detail-none
+      class="list-item-height no-border"
+      (click)="setVehicleRegCountry(topElem[0])"
+    >
+      <h3>{{ topElem[0].value }}</h3>
+      <ion-icon
+        item-end
+        class="selected"
+        name="checkmark"
+        *ngIf="vehicle.countryOfRegistration === topElem[0].key"
+      ></ion-icon>
+    </button>
+    <div *ngFor="let countryGroup of groupedCountries">
+      <div *ngFor="let country of countryGroup; let i = index">
+        <ion-item-divider padding-left *ngIf="i == 0">
+          <b>{{ country.value | slice:0:1 }}</b>
+        </ion-item-divider>
+        <button
+          ion-item
+          padding-left
+          detail-none
+          class="list-item-height"
+          [ngClass]="{'no-border': i === countryGroup.length - 1}"
+          (click)="setVehicleRegCountry(country)"
+        >
+          <h3>{{ country.value }}</h3>
+          <ion-icon
+            item-end
+            class="selected"
+            name="checkmark"
+            *ngIf="vehicle.countryOfRegistration === country.key"
+          ></ion-icon>
         </button>
-        <div *ngFor="let countryGroup of groupedCountries">
-            <div *ngFor="let country of countryGroup; let i = index">
-                <ion-item-divider padding-left *ngIf="i == 0">
-                    <b>{{ country.value | slice:0:1 }}</b>
-                </ion-item-divider>
-                <button ion-item padding-left detail-none class="list-item-height"
-                        [ngClass]="{'no-border': i === countryGroup.length - 1}"
-                        (click)="setVehicleRegCountry(country)">
-                    <h3>{{ country.value }}</h3>
-                    <ion-icon item-end class="selected"
-                              name="checkmark"
-                              *ngIf="vehicle.countryOfRegistration === country.key"></ion-icon>
-                </button>
-            </div>
-        </div>
-        <ion-item-divider padding-left></ion-item-divider>
-        <button ion-item padding-left detail-none class="list-item-height"
-                (click)="setVehicleRegCountry(elem)"
-                *ngFor="let elem of botElem">
-            <h3>{{ elem.value }}</h3>
-            <ion-icon item-end class="selected"
-                      name="checkmark"
-                      *ngIf="vehicle.countryOfRegistration === elem.key"></ion-icon>
-        </button>
-    </ion-list>
-
-    <div *ngIf="!filteredCountries.length" class="no-result">
-        <h3>No results found</h3>
+      </div>
     </div>
+    <ion-item-divider padding-left></ion-item-divider>
+    <button
+      ion-item
+      padding-left
+      detail-none
+      class="list-item-height"
+      (click)="setVehicleRegCountry(elem)"
+      *ngFor="let elem of botElem"
+    >
+      <h3>{{ elem.value }}</h3>
+      <ion-icon
+        item-end
+        class="selected"
+        name="checkmark"
+        *ngIf="vehicle.countryOfRegistration === elem.key"
+      ></ion-icon>
+    </button>
+  </ion-list>
 
+  <div *ngIf="!filteredCountries.length" class="no-result">
+    <h3>No results found</h3>
+  </div>
 </ion-content>

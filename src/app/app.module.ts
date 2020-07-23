@@ -9,43 +9,43 @@ import { Camera } from '@ionic-native/camera';
 import { CallNumber } from '@ionic-native/call-number';
 import { MyApp } from './app.component';
 import { HTTPService } from '../providers/global/http.service';
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { IonicStorageModule } from "@ionic/storage";
-import { StorageService } from "../providers/natives/storage.service";
-import { AuthService } from "../providers/global/auth.service";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { WheelSelector } from "@ionic-native/wheel-selector";
-import { MobileAccessibility } from "@ionic-native/mobile-accessibility";
-import { SyncService } from "../providers/global/sync.service";
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { IonicStorageModule } from '@ionic/storage';
+import { StorageService } from '../providers/natives/storage.service';
+import { AuthService } from '../providers/global/auth.service';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { WheelSelector } from '@ionic-native/wheel-selector';
+import { MobileAccessibility } from '@ionic-native/mobile-accessibility';
+import { SyncService } from '../providers/global/sync.service';
 import { PreparerService } from '../providers/preparer/preparer.service';
-import { VisitService } from "../providers/visit/visit.service";
-import { StateReformingService } from "../providers/global/state-reforming.service";
-import { CommonFunctionsService } from "../providers/utils/common-functions";
+import { VisitService } from '../providers/visit/visit.service';
+import { StateReformingService } from '../providers/global/state-reforming.service';
+import { CommonFunctionsService } from '../providers/utils/common-functions';
 import { Keyboard } from '@ionic-native/keyboard';
-import { MSAdal } from "@ionic-native/ms-adal";
-import { AuthInterceptor } from "../providers/interceptors/auth.interceptor";
-import { SignaturePadModule } from "angular2-signaturepad";
-import { ScreenOrientation } from "@ionic-native/screen-orientation";
-import { SignaturePopoverComponent } from "../components/signature-popover/signature-popover";
-import { SignatureService } from "../providers/signature/signature.service";
-import { AppService } from "../providers/global/app.service";
-import { ActivityService } from "../providers/activity/activity.service";
+import { MSAdal } from '@ionic-native/ms-adal';
+import { AuthInterceptor } from '../providers/interceptors/auth.interceptor';
+import { SignaturePadModule } from 'angular2-signaturepad';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { SignaturePopoverComponent } from '../components/signature-popover/signature-popover';
+import { SignatureService } from '../providers/signature/signature.service';
+import { AppService } from '../providers/global/app.service';
+import { ActivityService } from '../providers/activity/activity.service';
 import { Firebase } from '@ionic-native/firebase';
-import { LogsModule } from "../modules/logs/logs.module";
-import { DataStoreProvider } from "../modules/logs/data-store.service";
-import { Network } from "@ionic-native/network";
-import { NetworkStateProvider } from "../modules/logs/network-state.service";
-import { LogsProvider } from "../modules/logs/logs.service";
-import { SecureStorage } from "@ionic-native/secure-storage";
-import { StoreModule } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
-import { FirebaseLogsService } from "../providers/firebase-logs/firebase-logs.service";
-import {AppVersion} from '@ionic-native/app-version';
+import { LogsModule } from '../modules/logs/logs.module';
+import { DataStoreProvider } from '../modules/logs/data-store.service';
+import { Network } from '@ionic-native/network';
+import { NetworkStateProvider } from '../modules/logs/network-state.service';
+import { LogsProvider } from '../modules/logs/logs.service';
+import { SecureStorage } from '@ionic-native/secure-storage';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
+import { AppVersion } from '@ionic-native/app-version';
 
 const IONIC_PROVIDERS = [
   StatusBar,
   SplashScreen,
-  {provide: ErrorHandler, useClass: IonicErrorHandler}
+  { provide: ErrorHandler, useClass: IonicErrorHandler }
 ];
 
 const CUSTOM_PROVIDERS = [
@@ -80,18 +80,15 @@ const IONIC_NATIVE_PROVIDERS = [
   Network,
   NetworkStateProvider,
   LogsProvider,
-  SecureStorage,
+  SecureStorage
 ];
 
 @NgModule({
-  declarations: [
-    MyApp,
-    SignaturePopoverComponent
-  ],
+  declarations: [MyApp, SignaturePopoverComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp, {statusbarPadding: true, swipeBackEnabled: false}),
+    IonicModule.forRoot(MyApp, { statusbarPadding: true, swipeBackEnabled: false }),
     IonicStorageModule.forRoot({
       driverOrder: ['sqlite', 'websql', 'indexeddb']
     }),
@@ -101,16 +98,12 @@ const IONIC_NATIVE_PROVIDERS = [
     LogsModule
   ],
   bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    SignaturePopoverComponent
-  ],
+  entryComponents: [MyApp, SignaturePopoverComponent],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     ...IONIC_PROVIDERS,
     ...CUSTOM_PROVIDERS,
     ...IONIC_NATIVE_PROVIDERS
   ]
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -1,26 +1,32 @@
-import { IonicModule, NavController, NavParams, AlertController, LoadingController } from "ionic-angular";
-import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { TestCancelPage } from "./test-cancel";
-import { TestService } from "../../../../providers/test/test.service";
-import { TestModel } from "../../../../models/tests/test.model";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
-import { TestResultService } from "../../../../providers/test-result/test-result.service";
-import { OpenNativeSettings } from "@ionic-native/open-native-settings";
-import { AlertControllerMock, LoadingControllerMock, NavControllerMock } from "ionic-mocks";
-import { AuthService } from "../../../../providers/global/auth.service";
-import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
-import { Store } from "@ngrx/store";
-import { TestStore } from "../../../../providers/interceptors/auth.interceptor.spec";
-import { TestResultServiceMock } from "../../../../../test-config/services-mocks/test-result-service.mock";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
-import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import { Firebase } from "@ionic-native/firebase";
-import { ActivityService } from "../../../../providers/activity/activity.service";
-import { ActivityServiceMock } from "../../../../../test-config/services-mocks/activity-service.mock";
+import {
+  IonicModule,
+  NavController,
+  NavParams,
+  AlertController,
+  LoadingController
+} from 'ionic-angular';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TestCancelPage } from './test-cancel';
+import { TestService } from '../../../../providers/test/test.service';
+import { TestModel } from '../../../../models/tests/test.model';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { VisitServiceMock } from '../../../../../test-config/services-mocks/visit-service.mock';
+import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
+import { VisitDataMock } from '../../../../assets/data-mocks/visit-data.mock';
+import { TestResultService } from '../../../../providers/test-result/test-result.service';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { AlertControllerMock, LoadingControllerMock, NavControllerMock } from 'ionic-mocks';
+import { AuthService } from '../../../../providers/global/auth.service';
+import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
+import { Store } from '@ngrx/store';
+import { TestStore } from '../../../../providers/interceptors/auth.interceptor.spec';
+import { TestResultServiceMock } from '../../../../../test-config/services-mocks/test-result-service.mock';
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
+import { Firebase } from '@ionic-native/firebase';
+import { ActivityService } from '../../../../providers/activity/activity.service';
+import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
 
 describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
@@ -41,34 +47,39 @@ describe('Component: TestCancelPage', () => {
     endTime: null,
     status: null,
     reasonForCancellation: '',
-    vehicles: [],
+    vehicles: []
   };
 
   beforeEach(async(() => {
-    testReportServiceSpy = jasmine.createSpyObj('testReportService', [{'getTestReport': testReport}, 'endTestReport']);
-    openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', [{
-      'open': new Promise(() => {
-        return true
-      })
-    }]);
+    testReportServiceSpy = jasmine.createSpyObj('testReportService', [
+      { getTestReport: testReport },
+      'endTestReport'
+    ]);
+    openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', [
+      {
+        open: new Promise(() => {
+          return true;
+        })
+      }
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [TestCancelPage],
       imports: [IonicModule.forRoot(TestCancelPage)],
       providers: [
         Firebase,
-        {provide: NavController, useFactory: () => NavControllerMock.instance()},
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
-        {provide: AlertController, useFactory: () => AlertControllerMock.instance()},
-        {provide: LoadingController, useFactory: () => LoadingControllerMock.instance()},
-        {provide: OpenNativeSettings, useValue: openNativeSettingsSpy},
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: VisitService, useClass: VisitServiceMock},
-        {provide: ActivityService, useClass: ActivityServiceMock},
-        {provide: TestService, useValue: testReportServiceSpy},
-        {provide: TestResultService, useClass: TestResultServiceMock},
-        {provide: AuthService, useClass: AuthServiceMock},
-        {provide: Store, useClass: TestStore}
+        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
+        { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: ActivityService, useClass: ActivityServiceMock },
+        { provide: TestService, useValue: testReportServiceSpy },
+        { provide: TestResultService, useClass: TestResultServiceMock },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: Store, useClass: TestStore }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -92,10 +103,10 @@ describe('Component: TestCancelPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        'test': VisitDataMock.VisitTestData,
+        test: VisitDataMock.VisitTestData
       };
       return params[param];
-    })
+    });
   });
 
   afterEach(() => {
@@ -119,11 +130,12 @@ describe('Component: TestCancelPage', () => {
     expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
-  it('should VisitService and TestCancelPage Component share the same instance',
-    inject([VisitService], (injectService: VisitService) => {
+  it('should VisitService and TestCancelPage Component share the same instance', inject(
+    [VisitService],
+    (injectService: VisitService) => {
       expect(injectService).toBe(visitService);
-    })
-  );
+    }
+  ));
 
   it('should verify either a string is valid or not', () => {
     component.cancellationReason = ' ';

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { AppConfig } from "../../../config/app.config";
-import { AuthenticationContext, AuthenticationResult, MSAdal } from "@ionic-native/ms-adal";
-import * as jwt_decode from "jwt-decode";
-import { TesterDetailsModel } from "../../models/tester-details.model";
-import { AUTH, LOCAL_STORAGE, TESTER_ROLES, LOG_TYPES } from "../../app/app.enums";
-import { Observable } from "rxjs";
-import { CommonRegExp } from "../utils/common-regExp";
-import { Platform } from "ionic-angular";
-import { CommonFunctionsService } from "../utils/common-functions";
-import { ErrorObservable } from "rxjs/observable/ErrorObservable";
-import { Log, LogsModel } from "../../modules/logs/logs.model";
-import * as logsActions from "../../modules/logs/logs.actions";
-import { Store } from "@ngrx/store";
+import { AppConfig } from '../../../config/app.config';
+import { AuthenticationContext, AuthenticationResult, MSAdal } from '@ionic-native/ms-adal';
+import * as jwt_decode from 'jwt-decode';
+import { TesterDetailsModel } from '../../models/tester-details.model';
+import { AUTH, LOCAL_STORAGE, TESTER_ROLES, LOG_TYPES } from '../../app/app.enums';
+import { Observable } from 'rxjs';
+import { CommonRegExp } from '../utils/common-regExp';
+import { Platform } from 'ionic-angular';
+import { CommonFunctionsService } from '../utils/common-functions';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { Log, LogsModel } from '../../modules/logs/logs.model';
+import * as logsActions from '../../modules/logs/logs.actions';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AuthService {
@@ -21,10 +21,12 @@ export class AuthService {
   userRoles: string[] = [];
   tenantId: string;
 
-  constructor(private msAdal: MSAdal,
-              public platform: Platform,
-              private commonFunc: CommonFunctionsService,
-              private store$: Store<LogsModel>) {
+  constructor(
+    private msAdal: MSAdal,
+    public platform: Platform,
+    private commonFunc: CommonFunctionsService,
+    private store$: Store<LogsModel>
+  ) {
     this.testerDetails = {} as TesterDetailsModel;
     this.jwtToken = localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
   }
@@ -44,43 +46,46 @@ export class AuthService {
   }
 
   private loginSilently(): Promise<string> {
-    return this.authContext.acquireTokenSilentAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, '').then(
-      (silentAuthResponse: AuthenticationResult) => {
+    return this.authContext
+      .acquireTokenSilentAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, '')
+      .then((silentAuthResponse: AuthenticationResult) => {
         this.logLoginAttempt(true);
         let authHeader = silentAuthResponse.createAuthorizationHeader();
         this.testerDetails = this.setTesterDetails(silentAuthResponse);
         this.logLoginSuccessful();
         return authHeader;
-      },
-    ).catch(
-      (error) => {
+      })
+      .catch((error) => {
         if (error.code == AUTH.MS_ADA_ERROR_USER_INPUT) {
           return this.loginWithUI();
         } else {
           console.error(error);
           this.logLoginUnsuccessful(error['code']);
         }
-      }
-    )
+      });
   }
-
 
   private loginWithUI(): Promise<string> {
     this.logLoginAttempt(false);
-    return this.authContext.acquireTokenAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, AppConfig.MSAL_REDIRECT_URL, '', '').then(
-      (authResponse: AuthenticationResult) => {
+    return this.authContext
+      .acquireTokenAsync(
+        AppConfig.MSAL_RESOURCE_URL,
+        AppConfig.MSAL_CLIENT_ID,
+        AppConfig.MSAL_REDIRECT_URL,
+        '',
+        ''
+      )
+      .then((authResponse: AuthenticationResult) => {
         let authHeader = authResponse.createAuthorizationHeader();
         this.testerDetails = this.setTesterDetails(authResponse);
         this.logLoginSuccessful();
         return authHeader;
-      }
-    ).catch(
-      (error) => {
+      })
+      .catch((error) => {
         console.log(error);
         this.logLoginUnsuccessful(error['code']);
         return error['code'];
-      }
-    )
+      });
   }
 
   logLoginAttempt(silentLoginAttempt: boolean) {
@@ -106,7 +111,9 @@ export class AuthService {
   logLoginSuccessful() {
     const log: Log = {
       type: LOG_TYPES.INFO,
-      message: `${this.testerDetails.testerId} - Login successful for client_id=${AppConfig.MSAL_CLIENT_ID}, tenant_id=${this.tenantId} with the user roles=${this.userRoles.toString()}`,
+      message: `${this.testerDetails.testerId} - Login successful for client_id=${
+        AppConfig.MSAL_CLIENT_ID
+      }, tenant_id=${this.tenantId} with the user roles=${this.userRoles.toString()}`,
       timestamp: Date.now()
     };
     this.store$.dispatch(new logsActions.SaveLog(log));
@@ -133,20 +140,21 @@ export class AuthService {
   }
 
   getOid() {
-    return (JSON.parse(localStorage.getItem('tester-details'))).testerId;
+    return JSON.parse(localStorage.getItem('tester-details')).testerId;
   }
 
   isValidToken(token): boolean {
     let tokenStr = token ? token.slice(7, token.length - 1) : null;
-    return (tokenStr && tokenStr.match(CommonRegExp.JTW_TOKEN));
+    return tokenStr && tokenStr.match(CommonRegExp.JTW_TOKEN);
   }
 
-  setTesterDetails(authResponse: AuthenticationResult | any,
-                   testerId = this.commonFunc.randomString(9),
-                   testerName = this.commonFunc.randomString(9),
-                   testerEmail = `${testerName}.${testerId}@email.com`,
-                   testerRoles = [TESTER_ROLES.FULL_ACCESS]): TesterDetailsModel {
-
+  setTesterDetails(
+    authResponse: AuthenticationResult | any,
+    testerId = this.commonFunc.randomString(9),
+    testerName = this.commonFunc.randomString(9),
+    testerEmail = `${testerName}.${testerId}@email.com`,
+    testerRoles = [TESTER_ROLES.FULL_ACCESS]
+  ): TesterDetailsModel {
     let details: TesterDetailsModel = {
       testerName,
       testerId,
@@ -164,7 +172,7 @@ export class AuthService {
     }
     this.userRoles = details.testerRoles;
     localStorage.setItem('tester-details', JSON.stringify(details));
-    return details
+    return details;
   }
 
   decodeJWT(token) {
@@ -172,6 +180,6 @@ export class AuthService {
   }
 
   hasRights(userRoles: string[], neededRoles: string[]): boolean {
-    return userRoles.some(role => neededRoles.indexOf(role) >= 0);
+    return userRoles.some((role) => neededRoles.indexOf(role) >= 0);
   }
 }

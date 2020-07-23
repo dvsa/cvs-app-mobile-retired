@@ -1,4 +1,4 @@
-import { FormatVrmPipe } from "./format-vrm.pipe";
+import { FormatVrmPipe } from './format-vrm.pipe';
 
 describe('FormatVrmPipe', () => {
   let pipe = new FormatVrmPipe();

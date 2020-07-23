@@ -1,5 +1,6 @@
 signature-popover {
-  div p {//scrollable message window
+  div p {
+    //scrollable message window
     max-height: 100px;
     overflow: scroll;
     margin: 0;
@@ -8,14 +9,15 @@ signature-popover {
   .pop-img {
     background-color: color($colors, light);
     height: 100px;
-
   }
 
-  h5 { //popover title
+  h5 {
+    //popover title
     margin-bottom: 5px;
   }
 
-  p { //popover subtitle
+  p {
+    //popover subtitle
     margin-top: 0;
   }
 
@@ -34,7 +36,7 @@ signature-popover {
 }
 
 .popover-ios .popover-content {
-  position:fixed;
+  position: fixed;
   background-color: $color-grey-3;
 }
 
@@ -43,5 +45,5 @@ ion-backdrop {
 }
 
 .popover-viewport {
-  overflow: hidden;//Fix 1px scrolling introduced by the buttons
+  overflow: hidden; //Fix 1px scrolling introduced by the buttons
 }

@@ -1,26 +1,25 @@
-import { TestResultModel } from "../../models/tests/test-result.model";
-import { VehicleModel } from "../../models/vehicle/vehicle.model";
-import { HTTPService } from "../global/http.service";
-import { Injectable } from "@angular/core";
-import { TIR_CERTIFICATE_NUMBER_PREFIXES, VEHICLE_TYPE } from "../../app/app.enums";
-import { CommonFunctionsService } from "../utils/common-functions";
-import { TestTypeService } from "../test-type/test-type.service";
-import { AuthService } from "../global/auth.service";
-import { TestTypeModel } from "../../models/tests/test-type.model";
+import { TestResultModel } from '../../models/tests/test-result.model';
+import { VehicleModel } from '../../models/vehicle/vehicle.model';
+import { HTTPService } from '../global/http.service';
+import { Injectable } from '@angular/core';
+import { TIR_CERTIFICATE_NUMBER_PREFIXES, VEHICLE_TYPE } from '../../app/app.enums';
+import { CommonFunctionsService } from '../utils/common-functions';
+import { TestTypeService } from '../test-type/test-type.service';
+import { AuthService } from '../global/auth.service';
+import { TestTypeModel } from '../../models/tests/test-type.model';
 import { FirstTestTypesData } from '../../assets/app-data/test-types-data/first-test-types.data';
-import { TirTestTypesData } from "../../assets/app-data/test-types-data/tir-test-types.data";
-import { AnnualTestTypesHgvTrlData } from "../../assets/app-data/test-types-data/annual-test-types-hgv-trl.data";
-import { PsvAnnualTestsThatGenerateCertificateData } from "../../assets/app-data/test-types-data/psv-annual-tests-that-generate-certificate.data";
+import { TirTestTypesData } from '../../assets/app-data/test-types-data/tir-test-types.data';
+import { AnnualTestTypesHgvTrlData } from '../../assets/app-data/test-types-data/annual-test-types-hgv-trl.data';
+import { PsvAnnualTestsThatGenerateCertificateData } from '../../assets/app-data/test-types-data/psv-annual-tests-that-generate-certificate.data';
 
 @Injectable()
 export class TestResultService {
-
   constructor(
     public authService: AuthService,
     private httpService: HTTPService,
     private commFunc: CommonFunctionsService,
-    private testTypeService: TestTypeService) {
-  }
+    private testTypeService: TestTypeService
+  ) {}
 
   createTestResult(visit, test, vehicle: VehicleModel): TestResultModel {
     let newTestResult = {} as TestResultModel;
@@ -43,20 +42,30 @@ export class TestResultService {
     if (vehicle.trailerId) {
       newTestResult.trailerId = vehicle.trailerId;
     } else {
-      newTestResult.odometerReading = vehicle.odometerReading ? parseInt(vehicle.odometerReading) : null;
+      newTestResult.odometerReading = vehicle.odometerReading
+        ? parseInt(vehicle.odometerReading)
+        : null;
       newTestResult.odometerReadingUnits = vehicle.odometerMetric ? vehicle.odometerMetric : null;
     }
     if (this.vehicleContainsFirstTestsOrAnnualTests(vehicle)) {
-      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) newTestResult.regnDate = vehicle.techRecord.regnDate;
+      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV)
+        newTestResult.regnDate = vehicle.techRecord.regnDate;
       else newTestResult.firstUseDate = vehicle.techRecord.firstUseDate;
     }
-    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV && this.vehicleContainsPsvAnnualTestsThatGenerateCertificate(vehicle)) {
+    if (
+      vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV &&
+      this.vehicleContainsPsvAnnualTestsThatGenerateCertificate(vehicle)
+    ) {
       newTestResult.regnDate = vehicle.techRecord.regnDate;
     }
     newTestResult.systemNumber = vehicle.systemNumber;
     newTestResult.vin = vehicle.vin;
     newTestResult.vehicleClass = vehicle.techRecord.vehicleClass;
-    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR || vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV) newTestResult.vehicleSubclass = vehicle.techRecord.vehicleSubclass;
+    if (
+      vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR ||
+      vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV
+    )
+      newTestResult.vehicleSubclass = vehicle.techRecord.vehicleSubclass;
     newTestResult.vehicleType = vehicle.techRecord.vehicleType;
     newTestResult.vehicleConfiguration = vehicle.techRecord.vehicleConfiguration;
     newTestResult.preparerId = vehicle.preparerId;
@@ -64,9 +73,15 @@ export class TestResultService {
     newTestResult.euVehicleCategory = vehicle.euVehicleCategory;
     newTestResult.countryOfRegistration = vehicle.countryOfRegistration;
     newTestResult.noOfAxles = vehicle.techRecord.noOfAxles;
-    newTestResult.numberOfWheelsDriven = vehicle.techRecord.vehicleType === VEHICLE_TYPE.MOTORCYCLE ? vehicle.techRecord.numberOfWheelsDriven : null;
-    if (vehicle.techRecord.vehicleSize) newTestResult.vehicleSize = vehicle.techRecord.vehicleSize;
-    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV) newTestResult.numberOfSeats = vehicle.techRecord.seatsLowerDeck + vehicle.techRecord.seatsUpperDeck;
+    newTestResult.numberOfWheelsDriven =
+      vehicle.techRecord.vehicleType === VEHICLE_TYPE.MOTORCYCLE
+        ? vehicle.techRecord.numberOfWheelsDriven
+        : null;
+    if (vehicle.techRecord.vehicleSize)
+      newTestResult.vehicleSize = vehicle.techRecord.vehicleSize;
+    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV)
+      newTestResult.numberOfSeats =
+        vehicle.techRecord.seatsLowerDeck + vehicle.techRecord.seatsUpperDeck;
     newTestResult.testTypes = vehicle.testTypes;
 
     return newTestResult;
@@ -77,16 +92,22 @@ export class TestResultService {
   }
 
   private isFirstTestOrAnnualTest(testType: TestTypeModel): boolean {
-    const concatenatedArray = FirstTestTypesData.FirstTestTypesDataIds.concat(AnnualTestTypesHgvTrlData.AnnualTestTypesHgvTrlDataIds);
-    return concatenatedArray.some(id => id === testType.testTypeId);
+    const concatenatedArray = FirstTestTypesData.FirstTestTypesDataIds.concat(
+      AnnualTestTypesHgvTrlData.AnnualTestTypesHgvTrlDataIds
+    );
+    return concatenatedArray.some((id) => id === testType.testTypeId);
   }
 
-  private vehicleContainsPsvAnnualTestsThatGenerateCertificate(vehicleType: VehicleModel): boolean {
+  private vehicleContainsPsvAnnualTestsThatGenerateCertificate(
+    vehicleType: VehicleModel
+  ): boolean {
     return vehicleType.testTypes.filter(this.isPsvAnnualTestsThatGenerateCertificate).length > 0;
   }
 
   private isPsvAnnualTestsThatGenerateCertificate(testType: TestTypeModel): boolean {
-    return PsvAnnualTestsThatGenerateCertificateData.PsvAnnualTestsThatGenerateCertificateIds.some(id => id === testType.testTypeId);
+    return PsvAnnualTestsThatGenerateCertificateData.PsvAnnualTestsThatGenerateCertificateIds.some(
+      (id) => id === testType.testTypeId
+    );
   }
 
   concatenateReasonsArray(reasons: string[]) {
@@ -103,8 +124,13 @@ export class TestResultService {
 
   formatCertificateNumber(testType: TestTypeModel, vehicleType: string) {
     if (testType.certificateNumber) {
-      return (TirTestTypesData.TirTestTypesDataIds.indexOf(testType.testTypeId) !== -1 ?
-        (vehicleType === VEHICLE_TYPE.HGV ? TIR_CERTIFICATE_NUMBER_PREFIXES.GB_V : TIR_CERTIFICATE_NUMBER_PREFIXES.GB_T) : '') + testType.certificateNumber;
+      return (
+        (TirTestTypesData.TirTestTypesDataIds.indexOf(testType.testTypeId) !== -1
+          ? vehicleType === VEHICLE_TYPE.HGV
+            ? TIR_CERTIFICATE_NUMBER_PREFIXES.GB_V
+            : TIR_CERTIFICATE_NUMBER_PREFIXES.GB_T
+          : '') + testType.certificateNumber
+      );
     }
     return null;
   }
@@ -120,7 +146,8 @@ export class TestResultService {
     if (testType.customDefects) {
       for (let customDefect of testType.customDefects) {
         if (!customDefect.hasOwnProperty('defectNotes')) customDefect.defectNotes = null;
-        if (customDefect.hasOwnProperty('hasAllMandatoryFields')) delete customDefect.hasAllMandatoryFields;
+        if (customDefect.hasOwnProperty('hasAllMandatoryFields'))
+          delete customDefect.hasAllMandatoryFields;
       }
     }
   }
@@ -138,16 +165,20 @@ export class TestResultService {
           delete testType.reasons;
         }
         this.moveCoifCertificateNumbersToSecondaryCertificateNumberField(testType);
-        testType.certificateNumber = this.formatCertificateNumber(testType, testResult.vehicleType);
+        testType.certificateNumber = this.formatCertificateNumber(
+          testType,
+          testResult.vehicleType
+        );
         if (testType.modType) {
           testType.modType = {
             code: testType.modType.split(' - ')[0],
             description: testType.modType.split(' - ')[1]
-          }
+          };
         }
         delete testType.completionStatus;
         delete testType.testTypeCategoryName;
-        if (testType.numberOfSeatbeltsFitted) testType.numberOfSeatbeltsFitted = parseInt(testType.numberOfSeatbeltsFitted);
+        if (testType.numberOfSeatbeltsFitted)
+          testType.numberOfSeatbeltsFitted = parseInt(testType.numberOfSeatbeltsFitted);
         this.testTypeService.endTestType(testType);
 
         if (testType.defects.length) {

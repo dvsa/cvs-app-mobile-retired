@@ -1,26 +1,26 @@
-import { TestTypesListPage } from "./test-types-list";
-import { async, ComponentFixture, inject, TestBed } from "@angular/core/testing";
-import { IonicModule, NavController, NavParams, ViewController } from "ionic-angular";
-import { NavParamsMock } from "../../../../../test-config/ionic-mocks/nav-params.mock";
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { StorageService } from "../../../../providers/natives/storage.service";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { TestTypesReferenceDataMock } from "../../../../assets/data-mocks/reference-data-mocks/test-types.mock";
-import { TestTypesReferenceDataModel } from "../../../../models/reference-data-models/test-types.model";
-import { PipesModule } from "../../../../pipes/pipes.module";
-import { TechRecordDataMock } from "../../../../assets/data-mocks/tech-record-data.mock";
-import { VehicleService } from "../../../../providers/vehicle/vehicle.service";
-import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
-import { APP_STRINGS, TEST_TYPE_RESULTS } from "../../../../app/app.enums";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
-import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import { NavControllerMock, ViewControllerMock } from "ionic-mocks";
-import { AuthService } from "../../../../providers/global/auth.service";
-import { AuthServiceMock } from "../../../../../test-config/services-mocks/auth-service.mock";
+import { TestTypesListPage } from './test-types-list';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { IonicModule, NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { StorageService } from '../../../../providers/natives/storage.service';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
+import { TestTypesReferenceDataMock } from '../../../../assets/data-mocks/reference-data-mocks/test-types.mock';
+import { TestTypesReferenceDataModel } from '../../../../models/reference-data-models/test-types.model';
+import { PipesModule } from '../../../../pipes/pipes.module';
+import { TechRecordDataMock } from '../../../../assets/data-mocks/tech-record-data.mock';
+import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
+import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
+import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
+import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
+import { APP_STRINGS, TEST_TYPE_RESULTS } from '../../../../app/app.enums';
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
+import { NavControllerMock, ViewControllerMock } from 'ionic-mocks';
+import { AuthService } from '../../../../providers/global/auth.service';
+import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
 
 describe('Component: TestTypesListPage', () => {
   let comp: TestTypesListPage;
@@ -42,25 +42,26 @@ describe('Component: TestTypesListPage', () => {
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      'read': new Promise(resolve => resolve(testTypes))
+      read: new Promise((resolve) => resolve(testTypes))
     });
-    vehicleServiceSpy = jasmine.createSpyObj('VehicleService', ['createVehicle', 'addTestType', 'removeTestType']);
+    vehicleServiceSpy = jasmine.createSpyObj('VehicleService', [
+      'createVehicle',
+      'addTestType',
+      'removeTestType'
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [TestTypesListPage],
-      imports: [
-        PipesModule,
-        IonicModule.forRoot(TestTypesListPage)
-      ],
+      imports: [PipesModule, IonicModule.forRoot(TestTypesListPage)],
       providers: [
-        {provide: NavController, useFactory: () => NavControllerMock.instance()},
+        { provide: NavController, useFactory: () => NavControllerMock.instance() },
         CommonFunctionsService,
-        {provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock},
-        {provide: TestTypeService, useClass: TestTypeServiceMock},
-        {provide: VehicleService, useValue: vehicleServiceSpy},
-        {provide: AuthService, useClass: AuthServiceMock},
-        {provide: NavParams, useClass: NavParamsMock},
-        {provide: ViewController, useFactory: () => ViewControllerMock.instance()}
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        { provide: TestTypeService, useClass: TestTypeServiceMock },
+        { provide: VehicleService, useValue: vehicleServiceSpy },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -83,11 +84,11 @@ describe('Component: TestTypesListPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        'testTypeReferenceData': null,
-        'vehicleData': vehicle
+        testTypeReferenceData: null,
+        vehicleData: vehicle
       };
       return params[param];
-    })
+    });
   });
 
   afterEach(() => {
@@ -120,11 +121,12 @@ describe('Component: TestTypesListPage', () => {
     expect(viewCtrl.setBackButtonText).toHaveBeenCalledWith('BackBtn');
   });
 
-  it('should TestTypeService and TestTypesListPage Component share the same instance',
-    inject([TestTypeService], (injectService: TestTypeService) => {
+  it('should TestTypeService and TestTypesListPage Component share the same instance', inject(
+    [TestTypeService],
+    (injectService: TestTypeService) => {
       expect(injectService).toBe(testTypeService);
-    })
-  );
+    }
+  ));
 
   it('should return true of false if the testType can be displayed', () => {
     let addedIds = ['38', '39'];
@@ -138,7 +140,6 @@ describe('Component: TestTypesListPage', () => {
     expect(comp.canDisplayCategory(testTypes[1], addedIds)).toBeTruthy();
     expect(comp.canDisplayCategory(testTypes[0], addedIds)).toBeFalsy();
     expect(comp.canDisplayCategory(testTypes[2], addedIds)).toBeTruthy();
-
   });
 
   it('should return an array with the ids and the added tests', () => {
