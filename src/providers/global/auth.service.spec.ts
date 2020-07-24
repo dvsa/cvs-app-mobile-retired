@@ -12,7 +12,11 @@ describe(`AuthService`, () => {
 
   // dummy hand crafted jwt token for testing purpose only
   const JWT_TOKEN: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNQc3ZUZXN0ZXIiXSwidGlkIjoiMTIzNDU2Nzg5MCIsImVtcGxveWVlaWQiOiIwOTg3NjU0MzIxIn0.Qwu_-GoMkgxGnyMfIDQlVak0dQAUX27lYSnX0P4Htq0';
+  const JWT_TOKEN_EMPLOYEEID_EMPTY: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNQc3ZUZXN0ZXIiXSwidGlkIjoiMTIzNDU2Nzg5MCIsImVtcGxveWVlaWQiOiIifQ.8gWAj1UNgfbj-MTmT3u21rW7VTVnnHsXl3pVSxzroQ0';
+  const JWT_TOKEN_EMPLOYEEID_MISSING: string = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNQc3ZUZXN0ZXIiXSwidGlkIjoiMTIzNDU2Nzg5MCJ9.9prTaDS-toi8z6HUbuhm5es1IcRp-BHVAqxjuu7C7-k';
   const JWT_TOKEN_EMPTY: string = '';
+  const EMPLOYEEID = '0987654321';
+  const OID = '1234567890';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,10 +103,24 @@ describe(`AuthService`, () => {
     expect(result.testerRoles[0]).toBe(TESTER_ROLES.PSV);
   });
 
-  it('the tester ID should not be the OID', () => {
+  it('should set testerID to employeeid if both OID and employeeid are present', () => {
     let result = authService.setTesterDetails({accessToken: JWT_TOKEN});
+    expect(result.testerId).toBe(EMPLOYEEID);
+    expect(result.testerId).not.toBe(OID);
+  });
+
+  it('should set testerID to OID if employeeid is missing', () => {
+    let result = authService.setTesterDetails({accessToken: JWT_TOKEN_EMPLOYEEID_MISSING});
     expect(result.testerId).toBeTruthy();
-    expect(result.testerId).not.toBe('1234567890');
+    expect(result.testerId).toBe(OID);
+    expect(result.testerId).not.toBe(EMPLOYEEID);
+  });
+
+  it('should set testerID to OID if employeeid is empty', () => {
+    let result = authService.setTesterDetails({accessToken: JWT_TOKEN_EMPLOYEEID_EMPTY});
+    expect(result.testerId).toBeTruthy();
+    expect(result.testerId).toBe(OID);
+    expect(result.testerId).not.toBe(EMPLOYEEID);
   });
 
   it('should set the tenantId with authResponse', () => {
