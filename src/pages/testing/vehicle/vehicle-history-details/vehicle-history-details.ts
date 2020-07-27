@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
+import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import {
   TEST_TYPE_RESULTS,
   DEFICIENCY_CATEGORY,
@@ -14,17 +14,17 @@ import {
   TestsWithoutSeatbelts,
   TestsWithoutDefects
 } from '../../../../assets/app-data/test-required-fields/test-required-fields.data';
-import { TestTypeModel } from "../../../../models/tests/test-type.model";
-import { TestResultModel } from "../../../../models/tests/test-result.model";
-import { CountryOfRegistrationData } from "../../../../assets/app-data/country-of-registration/country-of-registration.data";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
+import { TestTypeModel } from '../../../../models/tests/test-type.model';
+import { TestResultModel } from '../../../../models/tests/test-result.model';
+import { CountryOfRegistrationData } from '../../../../assets/app-data/country-of-registration/country-of-registration.data';
+import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { AppService } from '../../../../providers/global/app.service';
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 
 @IonicPage()
 @Component({
   selector: 'page-vehicle-history-details',
-  templateUrl: 'vehicle-history-details.html',
+  templateUrl: 'vehicle-history-details.html'
 })
 export class VehicleHistoryDetailsPage {
   testResultHistory: any;
@@ -49,13 +49,15 @@ export class VehicleHistoryDetailsPage {
   distanceType: string;
   vehicleType: string;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public viewCtrl: ViewController,
-              public commonFunc: CommonFunctionsService,
-              private firebaseLogsService: FirebaseLogsService,
-              public appService: AppService,
-              public testTypeService: TestTypeService) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public viewCtrl: ViewController,
+    public commonFunc: CommonFunctionsService,
+    private firebaseLogsService: FirebaseLogsService,
+    public appService: AppService,
+    public testTypeService: TestTypeService
+  ) {
     this.testResultHistory = navParams.get('testResultHistory');
     this.testIndex = navParams.get('testIndex');
     this.testTypeIndex = navParams.get('testTypeIndex');
@@ -72,8 +74,14 @@ export class VehicleHistoryDetailsPage {
     this.setTestMetadata();
     this.compareTestWithMetadata();
 
-    this.isTestResultAbandon = this.commonFunc.checkForMatch(this.selectedTestType.testResult, TEST_TYPE_RESULTS.ABANDONED);
-    this.isTestResultFail = this.commonFunc.checkForMatch(this.selectedTestType.testResult, TEST_TYPE_RESULTS.FAIL);
+    this.isTestResultAbandon = this.commonFunc.checkForMatch(
+      this.selectedTestType.testResult,
+      TEST_TYPE_RESULTS.ABANDONED
+    );
+    this.isTestResultFail = this.commonFunc.checkForMatch(
+      this.selectedTestType.testResult,
+      TEST_TYPE_RESULTS.FAIL
+    );
     this.testResultColor = this.commonFunc.getTestResultColor(this.selectedTestType.testResult);
   }
 
@@ -89,18 +97,39 @@ export class VehicleHistoryDetailsPage {
     this.testsWithoutCertificate = TestsWithoutCertificate.TestsWithoutCertificate;
     this.testsWithoutSeatbelts = TestsWithoutSeatbelts.TestsWithoutSeatbelts;
     this.testsWithoutDefects = TestsWithoutDefects.TestsWithoutDefects;
-    this.countryOfRegistration = this.selectedTestResult.countryOfRegistration ? CountryOfRegistrationData.CountryData.find(country => {
-      return this.selectedTestResult.countryOfRegistration === country.key;
-    }).value.split(' -')[0] : '';
-    this.distanceType = this.commonFunc.getDistanceType(this.testResultHistory[this.testIndex].odometerReadingUnits);
+    this.countryOfRegistration = this.selectedTestResult.countryOfRegistration
+      ? this.getCountryOfRegistration(this.selectedTestResult.countryOfRegistration)
+      : '';
+    this.distanceType = this.commonFunc.getDistanceType(
+      this.testResultHistory[this.testIndex].odometerReadingUnits
+    );
+  }
+
+  getCountryOfRegistration(countryKey: string): string {
+    const countryMeta = CountryOfRegistrationData.CountryData.find(
+      (country) => countryKey === country.key
+    );
+
+    if (!!countryMeta) {
+      return countryMeta.value.split(' -')[0];
+    }
   }
 
   compareTestWithMetadata() {
     // this implementation based on test type's name has to be changed! use test type's id instead!
     if (this.selectedTestType.testTypeName) {
-      this.doesNotHaveCert = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutCertificate);
-      this.doesNotHaveDefects = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeId, this.testsWithoutDefects);
-      this.doesNotHaveBelts = this.commonFunc.checkForMatchInArray(this.selectedTestType.testTypeName, this.testsWithoutSeatbelts);
+      this.doesNotHaveCert = this.commonFunc.checkForMatchInArray(
+        this.selectedTestType.testTypeName,
+        this.testsWithoutCertificate
+      );
+      this.doesNotHaveDefects = this.commonFunc.checkForMatchInArray(
+        this.selectedTestType.testTypeId,
+        this.testsWithoutDefects
+      );
+      this.doesNotHaveBelts = this.commonFunc.checkForMatchInArray(
+        this.selectedTestType.testTypeName,
+        this.testsWithoutSeatbelts
+      );
     }
   }
 
@@ -120,5 +149,4 @@ export class VehicleHistoryDetailsPage {
   checkForDefects(defects: any[]): boolean {
     return defects && defects.length > 0;
   }
-
 }
