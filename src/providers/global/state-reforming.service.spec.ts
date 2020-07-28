@@ -1,24 +1,30 @@
-import { StateReformingService } from './state-reforming.service';
-import { TestBed } from '@angular/core/testing';
-import { StorageService } from '../natives/storage.service';
-import { AppService } from './app.service';
-import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
+import { StateReformingService } from "./state-reforming.service";
+import { TestBed } from "@angular/core/testing";
+import { StorageService } from "../natives/storage.service";
+import { AppService } from "./app.service";
+import { AppServiceMock } from "../../../test-config/services-mocks/app-service.mock";
+import { StorageServiceMock } from "../../../test-config/services-mocks/storage-service.mock";
 
-describe('Provider: StateReformingService', () => {
+describe("Provider: StateReformingService", () => {
   let stateReformingService: StateReformingService;
   let storageService: StorageService;
-  let storageServiceSpy: any;
   let appService: AppService;
+  let navMock = {
+    length(): number {
+      return 1;
+    },
+    getByIndex(i) {
+      return { name: "test" };
+    },
+  };
 
   beforeEach(() => {
-    storageServiceSpy = jasmine.createSpyObj('StorageService', ['read']);
-
     TestBed.configureTestingModule({
       providers: [
         StateReformingService,
         { provide: AppService, useClass: AppServiceMock },
-        { provide: StorageService, useValue: storageServiceSpy }
-      ]
+        { provide: StorageService, useClass: StorageServiceMock },
+      ],
     });
     stateReformingService = TestBed.get(StateReformingService);
     storageService = TestBed.get(StorageService);
@@ -29,5 +35,33 @@ describe('Provider: StateReformingService', () => {
     stateReformingService = null;
     storageService = null;
     appService = null;
+  });
+
+  it("should be created", () => {
+    expect(stateReformingService).toBeTruthy();
+  });
+
+  it("should update storage on saveNavStack action", () => {
+    spyOn(storageService, "update");
+    stateReformingService.saveNavStack(navMock);
+    expect(appService.caching).toBeTruthy();
+    expect(storageService.update).toHaveBeenCalledWith(
+      "state",
+      '[{"page":"test"}]'
+    );
+  });
+
+  it("should update storage on onTestReview action", (done) => {
+    spyOn(storageService, "update");
+    const spy = spyOn(storageService, "read").and.returnValue(
+      Promise.resolve(true)
+    );
+    stateReformingService.onTestReview();
+
+    spy.calls.mostRecent().returnValue.then((res) => {
+      expect(res).toBe(true);
+      expect(storageService.update).toHaveBeenCalledWith("state", "true");
+      done();
+    });
   });
 });
