@@ -11,6 +11,7 @@ import {
   MEMOS_APPLY,
   VEHICLE_TYPE
 } from '../../../../app/app.enums';
+import { AdrDetails } from '../../../../models/vehicle/tech-record.model';
 
 @IonicPage()
 @Component({
@@ -19,6 +20,8 @@ import {
 })
 export class VehicleAdrDetailsPage {
   vehicleData: VehicleModel;
+  adrData: AdrDetails;
+
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   ADR_DETAILS: typeof ADR_DETAILS = ADR_DETAILS;
   APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
@@ -33,6 +36,7 @@ export class VehicleAdrDetailsPage {
     private viewCtrl: ViewController
   ) {
     this.vehicleData = this.navParams.get('vehicleData');
+    this.adrData = this.vehicleData.techRecord.adrDetails || ({} as AdrDetails);
   }
 
   ionViewWillEnter() {
