@@ -1,4 +1,9 @@
-import { VehicleTechRecordModel } from '../../models/vehicle/tech-record.model';
+import {
+  VehicleTechRecordModel,
+  AdrDetails,
+  Tank,
+  TankDetails
+} from '../../models/vehicle/tech-record.model';
 
 export class TechRecordDataMock {
   public static get VehicleTechRecordData(): VehicleTechRecordModel {
@@ -101,5 +106,57 @@ export class TechRecordDataMock {
         }
       ]
     };
+  }
+
+  public static get AdrDetailsData(): AdrDetails {
+    return {
+      vehicleDetails: {
+        approvalDate: '2020-03-10',
+        type: 'centre axle battery'
+      },
+      listStatementApplicable: false,
+      batteryListNumber: '',
+      declarationsSeen: false,
+      brakeDeclarationsSeen: false,
+      brakeDeclarationIssuer: '',
+      brakeEndurance: false,
+      weight: '',
+      compatibilityGroupJ: false,
+      documents: [],
+      permittedDangerousGoods: ['AT'],
+      additionalExaminerNotes: '',
+      applicantDetails: {
+        name: 'Ben',
+        street: 'Robert green',
+        city: 'Birmingham',
+        town: 'lala land',
+        postcode: 'NG4 12Z'
+      },
+      memosApply: [],
+      additionalNotes: {
+        number: ['1', '2A'],
+        guidanceNotes: []
+      },
+      adrTypeApprovalNo: '',
+      tank: {
+        tankDetails: {
+          yearOfManufacture: '1998',
+          specialProvisions: '',
+          tankManufacturerSerialNo: '',
+          tankCode: 'code',
+          tankTypeAppNo: '',
+          tankManufacturer: 'Marc',
+          tc2Details: {},
+          tc3Details: []
+        } as TankDetails,
+        tankStatement: {
+          statement: null,
+          productListRefNo: null,
+          substancesPermitted: '',
+          productListUnNo: [],
+          productList: ''
+        }
+      } as Tank
+    } as AdrDetails;
   }
 }
