@@ -25,6 +25,9 @@ import { ActivityService } from '../providers/activity/activity.service';
 import { ActivityServiceMock } from '../../test-config/services-mocks/activity-service.mock';
 import { STORAGE } from './app.enums';
 import { Observable } from 'rxjs';
+import { Network } from '@ionic-native/network';
+import { Store } from '@ngrx/store';
+import { TestStore } from '../providers/interceptors/auth.interceptor.spec';
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -58,7 +61,9 @@ describe('Component: Root', () => {
         CallNumber,
         OpenNativeSettings,
         MobileAccessibility,
-        ScreenOrientation
+        ScreenOrientation,
+        Network,
+        { provide: Store, useClass: TestStore }
       ],
       imports: [
         BrowserModule,

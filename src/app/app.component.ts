@@ -8,19 +8,25 @@ import { SyncService } from '../providers/global/sync.service';
 import { StorageService } from '../providers/natives/storage.service';
 import { VisitService } from '../providers/visit/visit.service';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { Subscription } from 'rxjs';
 import {
   ACCESSIBILITY_DEFAULT_VALUES,
   FIREBASE,
   LOCAL_STORAGE,
   PAGE_NAMES,
   SIGNATURE_STATUS,
-  STORAGE
+  STORAGE,
+  LOG_TYPES
 } from './app.enums';
 import { TesterDetailsModel } from '../models/tester-details.model';
 import { AppService } from '../providers/global/app.service';
 import { ActivityService } from '../providers/activity/activity.service';
 import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
 import { VisitModel } from '../models/visit/visit.model';
+import { Network } from '@ionic-native/network';
+import { LogsModel, Log } from '../modules/logs/logs.model';
+import { Store } from '@ngrx/store';
+import * as logsActions from '../modules/logs/logs.actions';
 
 @Component({
   templateUrl: 'app.html'
@@ -28,6 +34,9 @@ import { VisitModel } from '../models/visit/visit.model';
 export class MyApp {
   @ViewChild(Nav) navElem: Nav;
   rootPage: any = PAGE_NAMES.TEST_STATION_HOME_PAGE;
+
+  connected: Subscription;
+  disconnected: Subscription;
 
   constructor(
     public platform: Platform,
@@ -44,7 +53,9 @@ export class MyApp {
     private mobileAccessibility: MobileAccessibility,
     private renderer: Renderer2,
     private firebaseLogsService: FirebaseLogsService,
-    private screenOrientation: ScreenOrientation
+    private screenOrientation: ScreenOrientation,
+    private network: Network,
+    private store$: Store<LogsModel>
   ) {
     platform.ready().then(() => {
       statusBar.overlaysWebView(true);
@@ -65,6 +76,10 @@ export class MyApp {
         this.splashScreen.show();
         this.manageAppState();
       });
+
+      // TOOD: Remove logging after the white screen bug is resolved
+      // CVSB: 17584
+      // this.setupLogNetworkStatus();
     });
   }
 
@@ -204,5 +219,59 @@ export class MyApp {
     return this.navElem.setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE).then(() => {
       return this.navElem.popToRoot();
     });
+  }
+
+  // private setupLogNetworkStatus(): void {
+  //   this.network.onDisconnect().subscribe(() => {
+  //     const log: Log = {
+  //       type: LOG_TYPES.INFO,
+  //       message: `User ${this.authService.getOid()} lost connection (connection type ${
+  //         this.network.type
+  //       })`,
+  //       timestamp: Date.now()
+  //     };
+  //     this.store$.dispatch(new logsActions.SaveLog(log));
+  //   });
+
+  //   this.network.onConnect().subscribe(() => {
+  //     const log: Log = {
+  //       type: LOG_TYPES.INFO,
+  //       message: `User ${this.authService.getOid()} connected (connection type ${
+  //         this.network.type
+  //       })`,
+  //       timestamp: Date.now()
+  //     };
+  //     this.store$.dispatch(new logsActions.SaveLog(log));
+  //   });
+  // }
+
+  ionViewDidEnter() {
+    let log: Log = {
+      type: LOG_TYPES.INFO,
+      timestamp: Date.now()
+    } as Log;
+
+    this.connected = this.network.onDisconnect().subscribe((data: Network) => {
+      log = {
+        ...log,
+        message: `User ${this.authService.getOid()} lost connection (connection type ${
+          data.type
+        })`
+      };
+      this.store$.dispatch(new logsActions.SaveLog(log));
+    });
+
+    this.disconnected = this.network.onConnect().subscribe((data: Network) => {
+      log = {
+        ...log,
+        message: `User ${this.authService.getOid()} connected (connection type ${data.type})`
+      };
+      this.store$.dispatch(new logsActions.SaveLog(log));
+    });
+  }
+
+  ionViewWillLeave() {
+    this.connected.unsubscribe();
+    this.disconnected.unsubscribe();
   }
 }
