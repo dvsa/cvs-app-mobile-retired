@@ -3,6 +3,10 @@ import { StorageService } from './storage.service';
 import { Storage } from '@ionic/storage';
 import { StorageMock } from 'ionic-mocks';
 import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { TestStore } from '../interceptors/auth.interceptor.spec';
+import { AuthService } from '../global/auth.service';
+import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
 
 describe('Provider: StorageService', () => {
   let storageService: StorageService;
@@ -10,7 +14,12 @@ describe('Provider: StorageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [StorageService, { provide: Storage, useFactory: () => StorageMock.instance() }]
+      providers: [
+        StorageService,
+        { provide: Storage, useFactory: () => StorageMock.instance() },
+        { provide: Store, useClass: TestStore },
+        { provide: AuthService, useClass: AuthServiceMock }
+      ]
     });
     storageService = TestBed.get(StorageService);
     storage = TestBed.get(Storage);
