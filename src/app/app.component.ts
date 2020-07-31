@@ -79,7 +79,7 @@ export class MyApp {
 
       // TOOD: Remove logging after the white screen bug is resolved
       // CVSB: 17584
-      // this.setupLogNetworkStatus();
+      this.setupLogNetworkStatus();
     });
   }
 
@@ -221,50 +221,28 @@ export class MyApp {
     });
   }
 
-  // private setupLogNetworkStatus(): void {
-  //   this.network.onDisconnect().subscribe(() => {
-  //     const log: Log = {
-  //       type: LOG_TYPES.INFO,
-  //       message: `User ${this.authService.getOid()} lost connection (connection type ${
-  //         this.network.type
-  //       })`,
-  //       timestamp: Date.now()
-  //     };
-  //     this.store$.dispatch(new logsActions.SaveLog(log));
-  //   });
-
-  //   this.network.onConnect().subscribe(() => {
-  //     const log: Log = {
-  //       type: LOG_TYPES.INFO,
-  //       message: `User ${this.authService.getOid()} connected (connection type ${
-  //         this.network.type
-  //       })`,
-  //       timestamp: Date.now()
-  //     };
-  //     this.store$.dispatch(new logsActions.SaveLog(log));
-  //   });
-  // }
-
-  ionViewDidEnter() {
+  private setupLogNetworkStatus(): void {
     let log: Log = {
       type: LOG_TYPES.INFO,
       timestamp: Date.now()
     } as Log;
 
-    this.connected = this.network.onDisconnect().subscribe((data: Network) => {
+    this.connected = this.network.onDisconnect().subscribe(() => {
       log = {
         ...log,
         message: `User ${this.authService.getOid()} lost connection (connection type ${
-          data.type
+          this.network.type
         })`
       };
       this.store$.dispatch(new logsActions.SaveLog(log));
     });
 
-    this.disconnected = this.network.onConnect().subscribe((data: Network) => {
+    this.disconnected = this.network.onConnect().subscribe(() => {
       log = {
         ...log,
-        message: `User ${this.authService.getOid()} connected (connection type ${data.type})`
+        message: `User ${this.authService.getOid()} connected (connection type ${
+          this.network.type
+        })`
       };
       this.store$.dispatch(new logsActions.SaveLog(log));
     });
