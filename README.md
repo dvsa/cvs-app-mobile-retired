@@ -37,12 +37,19 @@ Please install and run the following securiy programs as part of your testing pr
 [repo-security-scanner](https://github.com/UKHomeOffice/repo-security-scanner) and after installing run it with `git log -p | scanrepo`.
 
 #### Sonarqube
-In order to generate SonarQube reports on local, follow the steps:
-- Download SonarQube server -> [sonarqube](https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip)
-- Download SonarQube scanner -> [scanner](https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-macosx.zip)
+
+In order to generate SonarQube reports on local, follow the steps (brew approach is recommended):
+- install sonarqube using brew - [formula](https://formulae.brew.sh/formula/sonarqube) -
+- change `sonar.host.url` to point to localhost, by default, sonar runs on `http://localhost:9000`.
+- run the sonar server - `sonar start` - then perform your analysis - `sonar-scanner` -
+- Report will be available on `http://localhost:9000/dashboard?id=org.sonarqube%3Acvs-app-mobile`.
+
+or alternatively you can manually install sonar server and its scanner:
+- Download SonarQube server - [sonarqube](https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip)
+- Download SonarQube scanner - [scanner](https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-macosx.zip)
 - Add sonar-scanner in environment variables -> In bash_profile add the line `"export PATH=<PATH_TO_SONAR_SCANNER>/sonar-scanner-3.3.0.1492-macosx/bin:$PATH"`
-- Start the SonarQube server -> `cd <PATH_TO_SONARQUBE_SERVER>/bin/macosx-universal-64 ./sonar.sh start`
-- In the microservice folder run the command -> `npm run sonar-scanner`
+- Start the SonarQube server - `cd <PATH_TO_SONARQUBE_SERVER>/bin/macosx-universal-64 ./sonar.sh start`
+- In the microservice folder run the command - `npm run sonar-scanner`
 
 ### Authentication
 ​

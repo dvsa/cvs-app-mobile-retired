@@ -39,3 +39,4 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 GoogleService-Info.plist
 *.env
+TESTS-PhantomJS_2.1.1_(Mac_OS_X_0.0.0).xml
