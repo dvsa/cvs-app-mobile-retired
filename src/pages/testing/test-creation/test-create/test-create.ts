@@ -6,7 +6,7 @@ import {
   ItemSliding,
   ModalController,
   NavController,
-  NavParams
+  NavParams,
 } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
@@ -23,7 +23,7 @@ import {
   TEST_COMPLETION_STATUS,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
-  VEHICLE_TYPE
+  VEHICLE_TYPE,
 } from '../../../../app/app.enums';
 import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-data/test-types-fields.metadata';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
@@ -36,7 +36,7 @@ import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-ca
 @IonicPage()
 @Component({
   selector: 'page-test-create',
-  templateUrl: 'test-create.html'
+  templateUrl: 'test-create.html',
 })
 export class TestCreatePage implements OnInit {
   @ViewChildren('slidingItem') slidingItems: QueryList<ItemSliding>;
@@ -66,7 +66,7 @@ export class TestCreatePage implements OnInit {
     private commonFunctions: CommonFunctionsService,
     private modalCtrl: ModalController,
     private firebaseLogsService: FirebaseLogsService,
-    private testTypeService: TestTypeService
+    private testTypeService: TestTypeService,
   ) {
     this.testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
   }
@@ -74,7 +74,7 @@ export class TestCreatePage implements OnInit {
   ngOnInit() {
     this.stateReformingService.saveNavStack(this.navCtrl);
     this.testCompletionStatus = TEST_COMPLETION_STATUS;
-    let lastTestIndex = this.visitService.visit.tests.length - 1;
+    const lastTestIndex = this.visitService.visit.tests.length - 1;
     this.testData = Object.keys(this.visitService.visit).length
       ? this.visitService.visit.tests[lastTestIndex]
       : this.navParams.get('test');
@@ -83,19 +83,21 @@ export class TestCreatePage implements OnInit {
   ionViewWillEnter() {
     this.displayAddVehicleButton = true;
     this.doesHgvLgvExist = false;
-    for (let vehicle of this.testData.vehicles) {
+    for (const vehicle of this.testData.vehicles) {
       if (
         vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV ||
         vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR ||
         vehicle.techRecord.vehicleType === VEHICLE_TYPE.MOTORCYCLE ||
         this.testData.vehicles.length >= 4
-      )
+      ) {
         this.displayAddVehicleButton = false;
+      }
       if (
         vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV ||
         vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV
-      )
+      ) {
         this.doesHgvLgvExist = true;
+      }
 
       this.autoAssignVehicleCategoryOnlyWhenOneCategoryAvailable(vehicle);
     }
@@ -133,19 +135,19 @@ export class TestCreatePage implements OnInit {
 
   getOdometerStringToBeDisplayed(index: number) {
     if (this.doesOdometerDataExist(index)) {
-      let unit = this.commonFunctions.getDistanceType(
-        this.testData.vehicles[index].odometerMetric
+      const unit = this.commonFunctions.getDistanceType(
+        this.testData.vehicles[index].odometerMetric,
       );
       return (
         this.vehicleService.formatOdometerReadingValue(
-          this.testData.vehicles[index].odometerReading
+          this.testData.vehicles[index].odometerReading,
         ) +
         ' ' +
         unit
       );
-    } else {
-      return 'Enter';
     }
+    return 'Enter';
+
   }
 
   getVehicleTypeIconToShow(vehicle: VehicleModel) {
@@ -167,31 +169,31 @@ export class TestCreatePage implements OnInit {
     ) {
       testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
       return false;
-    } else {
-      testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
-      return true;
     }
+    testType.completionStatus = TEST_COMPLETION_STATUS.IN_PROGRESS;
+    return true;
+
   }
 
   getTestTypeStatus(vehicle: VehicleModel, testType: TestTypeModel) {
     let isInProgress = true;
     this.testTypeService.updateLinkedTestResults(vehicle, testType);
-    for (let testTypeFieldMetadata of this.testTypesFieldsMetadata) {
+    for (const testTypeFieldMetadata of this.testTypesFieldsMetadata) {
       if (
         testType.testTypeId === testTypeFieldMetadata.testTypeId &&
         testTypeFieldMetadata.sections.length
       ) {
         isInProgress = false;
         testType.completionStatus = TEST_COMPLETION_STATUS.EDIT;
-        for (let section of testTypeFieldMetadata.sections) {
-          for (let input of section.inputs) {
+        for (const section of testTypeFieldMetadata.sections) {
+          for (const input of section.inputs) {
             if (
               (!testType[input.testTypePropertyName] &&
                 testType[input.testTypePropertyName] !== false) ||
               ((this.testTypeService.isAdrTestType(testType.testTypeId) ||
                 this.testTypeService.isTirTestType(testType.testTypeId) ||
                 this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
-                  testType.testTypeId
+                  testType.testTypeId,
                 ) ||
                 this.testTypeService.isSpecialistPartOfCoifTestTypes(testType.testTypeId) ||
                 this.testTypeService.isPsvNotifiableAlterationTestType(testType.testTypeId)) &&
@@ -229,7 +231,7 @@ export class TestCreatePage implements OnInit {
               }
               if (
                 (this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
-                  testType.testTypeId
+                  testType.testTypeId,
                 ) ||
                   this.testTypeService.isSpecialistPartOfCoifTestTypes(testType.testTypeId)) &&
                 (testType.testResult === TEST_TYPE_RESULTS.FAIL ||
@@ -289,22 +291,22 @@ export class TestCreatePage implements OnInit {
   }
 
   onVehicleDetails(vehicle: VehicleModel) {
-    this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, { vehicle: vehicle });
+    this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, { vehicle });
   }
 
   openTest(vehicle: VehicleModel, vehicleTest: TestTypeModel): void {
     if (!this.isTestAbandoned(vehicleTest)) {
       this.navCtrl.push(PAGE_NAMES.COMPLETE_TEST_PAGE, {
-        vehicle: vehicle,
-        vehicleTest: vehicleTest,
+        vehicle,
+        vehicleTest,
         completedFields: this.completedFields,
-        errorIncomplete: this.errorIncomplete
+        errorIncomplete: this.errorIncomplete,
       });
     } else {
       this.navCtrl.push(PAGE_NAMES.TEST_ABANDONING_PAGE, {
-        vehicleTest: vehicleTest,
+        vehicleTest,
         selectedReasons: vehicleTest.reasons,
-        editMode: false
+        editMode: false,
       });
     }
   }
@@ -314,7 +316,7 @@ export class TestCreatePage implements OnInit {
 
     const MODAL = this.modalCtrl.create(PAGE_NAMES.ODOMETER_READING_PAGE, {
       vehicle: this.testData.vehicles[index],
-      errorIncomplete: this.errorIncomplete
+      errorIncomplete: this.errorIncomplete,
     });
     MODAL.present();
     MODAL.onDidDismiss(() => {
@@ -324,7 +326,7 @@ export class TestCreatePage implements OnInit {
 
   onCountryOfRegistration(vehicle: VehicleModel) {
     const MODAL = this.modalCtrl.create(PAGE_NAMES.REGION_READING_PAGE, {
-      vehicle: vehicle
+      vehicle,
     });
     MODAL.present();
     MODAL.onDidDismiss(() => {
@@ -334,8 +336,8 @@ export class TestCreatePage implements OnInit {
 
   onVehicleCategory(vehicle: VehicleModel) {
     const MODAL = this.modalCtrl.create(PAGE_NAMES.CATEGORY_READING_PAGE, {
-      vehicle: vehicle,
-      errorIncomplete: this.errorIncomplete
+      vehicle,
+      errorIncomplete: this.errorIncomplete,
     });
     MODAL.present();
     MODAL.onDidDismiss(() => {
@@ -346,7 +348,7 @@ export class TestCreatePage implements OnInit {
   onRemoveVehicleTest(
     vehicle: VehicleModel,
     vehicleTest: TestTypeModel,
-    slidingItem: ItemSliding
+    slidingItem: ItemSliding,
   ) {
     slidingItem.close();
     const alert = this.alertCtrl.create({
@@ -355,15 +357,15 @@ export class TestCreatePage implements OnInit {
       buttons: [
         {
           text: APP_STRINGS.CANCEL,
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: APP_STRINGS.REMOVE,
           handler: () => {
             this.removeVehicleTest(vehicle, vehicleTest);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     alert.present();
@@ -376,7 +378,7 @@ export class TestCreatePage implements OnInit {
     this.firebaseLogsService.logEvent(
       FIREBASE.REMOVE_TEST_TYPE,
       FIREBASE.TEST_TYPE_NAME,
-      vehicleTest.testTypeName
+      vehicleTest.testTypeName,
     );
     this.vehicleService.removeSicFields(vehicle, this.completedFields);
     this.vehicleService.removeTestType(vehicle, vehicleTest);
@@ -388,14 +390,14 @@ export class TestCreatePage implements OnInit {
 
   onAbandonVehicleTest(vehicleType, vehicleTest) {
     this.navCtrl.push(PAGE_NAMES.REASONS_SELECTION_PAGE, {
-      vehicleType: vehicleType,
-      vehicleTest: vehicleTest
+      vehicleType,
+      vehicleTest,
     });
   }
 
   onCancel() {
     this.navCtrl.push(PAGE_NAMES.TEST_CANCEL_PAGE, {
-      test: this.testData
+      test: this.testData,
     });
   }
 
@@ -421,7 +423,7 @@ export class TestCreatePage implements OnInit {
 
   areAllVehiclesCompletelyTested(test: TestModel): boolean {
     return test.vehicles.every((vehicle: VehicleModel) => {
-      let isOdometerCaptured = vehicle.trailerId ? true : vehicle.odometerReading; // TRLs does not have odometer Reading
+      const isOdometerCaptured = vehicle.trailerId ? true : vehicle.odometerReading; // TRLs does not have odometer Reading
       return (
         (vehicle.countryOfRegistration &&
           vehicle.euVehicleCategory &&
@@ -448,7 +450,7 @@ export class TestCreatePage implements OnInit {
     this.changeOpacity = true;
     let finishedTest = true;
     let requiredFieldsCompleted = true;
-    for (let vehicle of this.testData.vehicles) {
+    for (const vehicle of this.testData.vehicles) {
       if (
         (!vehicle.countryOfRegistration ||
           !vehicle.euVehicleCategory ||
@@ -463,21 +465,21 @@ export class TestCreatePage implements OnInit {
     }
 
     if (!allVehiclesHaveTests) {
-      let alert = this.alertCtrl.create({
+      const alert = this.alertCtrl.create({
         title: APP_STRINGS.NO_TESTS_ADDED,
         message: APP_STRINGS.PLEASE_ADD_TEST,
-        buttons: [APP_STRINGS.OK]
+        buttons: [APP_STRINGS.OK],
       });
       alert.present();
       this.firebaseLogsService.logEvent(
         FIREBASE.TEST_ERROR,
         FIREBASE.ERROR,
-        FIREBASE.NO_TEST_ADDED
+        FIREBASE.NO_TEST_ADDED,
       );
       this.firebaseLogsService.logEvent(
         FIREBASE.TEST_REVIEW_UNSUCCESSFUL,
         FIREBASE.MISSING_MADATORY_FIELD,
-        FIREBASE.NO_TEST_ADDED
+        FIREBASE.NO_TEST_ADDED,
       );
       alert.onDidDismiss(() => (this.changeOpacity = false));
     } else if (!finishedTest || !requiredFieldsCompleted) {
@@ -486,12 +488,12 @@ export class TestCreatePage implements OnInit {
       this.firebaseLogsService.logEvent(
         FIREBASE.TEST_ERROR,
         FIREBASE.ERROR,
-        FIREBASE.NOT_ALL_TESTS_COMPLETED
+        FIREBASE.NOT_ALL_TESTS_COMPLETED,
       );
       if (!finishedTest) {
         this.firebaseLogsService.logEvent(
           FIREBASE.TEST_REVIEW_UNSUCCESSFUL,
-          FIREBASE.NOT_ALL_TESTS_COMPLETED
+          FIREBASE.NOT_ALL_TESTS_COMPLETED,
         );
       }
     } else {
@@ -506,24 +508,27 @@ export class TestCreatePage implements OnInit {
   }
 
   logMissingFields(vehicle) {
-    if (!vehicle.countryOfRegistration)
+    if (!vehicle.countryOfRegistration) {
       this.firebaseLogsService.logEvent(
         FIREBASE.TEST_REVIEW_UNSUCCESSFUL,
         FIREBASE.MISSING_MADATORY_FIELD,
-        FIREBASE.COUNTRY_OF_REGISTRATION
+        FIREBASE.COUNTRY_OF_REGISTRATION,
       );
-    if (!vehicle.euVehicleCategory)
+    }
+    if (!vehicle.euVehicleCategory) {
       this.firebaseLogsService.logEvent(
         FIREBASE.TEST_REVIEW_UNSUCCESSFUL,
         FIREBASE.MISSING_MADATORY_FIELD,
-        FIREBASE.EU_VEHICLE_CATEGORY
+        FIREBASE.EU_VEHICLE_CATEGORY,
       );
-    if (!vehicle.odometerReading)
+    }
+    if (!vehicle.odometerReading) {
       this.firebaseLogsService.logEvent(
         FIREBASE.TEST_REVIEW_UNSUCCESSFUL,
         FIREBASE.MISSING_MADATORY_FIELD,
-        FIREBASE.ODOMETER_READING
+        FIREBASE.ODOMETER_READING,
       );
+    }
   }
 
   isVehicleOfType(vehicle: VehicleModel, ...vehicleType: VEHICLE_TYPE[]) {

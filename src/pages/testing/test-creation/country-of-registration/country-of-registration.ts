@@ -9,7 +9,7 @@ import { APP } from '../../../../app/app.enums';
 @IonicPage()
 @Component({
   selector: 'page-country-of-registration',
-  templateUrl: 'country-of-registration.html'
+  templateUrl: 'country-of-registration.html',
 })
 export class RegionReadingPage implements OnInit {
   @ViewChild('searchBar') searchBar;
@@ -28,7 +28,7 @@ export class RegionReadingPage implements OnInit {
     private viewCtrl: ViewController,
     private navParams: NavParams,
     private visitService: VisitService,
-    private events: Events
+    private events: Events,
   ) {
     this.vehicle = this.navParams.get('vehicle');
   }
@@ -44,7 +44,7 @@ export class RegionReadingPage implements OnInit {
   filterCountries(searchVal: string) {
     this.filteredCountries = this.commonFunctionsService.searchFor(this.countriesArr, searchVal, [
       'key',
-      'value'
+      'value',
     ]);
   }
 
@@ -53,7 +53,7 @@ export class RegionReadingPage implements OnInit {
     this.filteredCountries.sort(this.commonFunctionsService.orderBy('value', 'asc'));
     this.groupedCountries = this.commonFunctionsService.groupArrayAlphabetically(
       this.filteredCountries,
-      'value'
+      'value',
     );
   }
 

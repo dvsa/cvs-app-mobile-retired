@@ -3,18 +3,18 @@ import {
   FUEL_TYPE,
   MOD_TYPES,
   TEST_TYPE_FIELDS,
-  TEST_TYPE_RESULTS
+  TEST_TYPE_RESULTS,
 } from '../../../app/app.enums';
 
 export class TestTypesFieldsMetadata {
   public static get LecMinExpiryDate(): string {
-    let minDate = new Date();
+    const minDate = new Date();
     minDate.setFullYear(new Date().getFullYear() + 1);
     return minDate.toISOString();
   }
 
   public static get LecMaxExpiryDate(): string {
-    let maxDate = new Date();
+    const maxDate = new Date();
     maxDate.setFullYear(new Date().getFullYear() + 2, new Date().getMonth() - 1);
     return maxDate.toISOString();
   }
@@ -37,22 +37,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -60,15 +60,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'A',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '3',
@@ -86,22 +86,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'Yes'
+                defaultValue: 'Yes',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -109,15 +109,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'B',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '4',
@@ -135,22 +135,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'Yes'
+                defaultValue: 'Yes',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -158,15 +158,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'B',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '7',
@@ -184,22 +184,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -207,15 +207,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'A',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '8',
@@ -233,22 +233,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'Yes'
+                defaultValue: 'Yes',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -256,22 +256,22 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'B',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: 'paidRetestWithoutClass6aSeatbeltInstallationCheck',
         sections: [],
         category: 'B',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '10',
@@ -289,22 +289,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -312,15 +312,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'A',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '14',
@@ -338,22 +338,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -361,15 +361,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'A',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '15',
@@ -387,22 +387,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -410,15 +410,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'A',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '16',
@@ -436,22 +436,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -459,15 +459,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'A',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '18',
@@ -485,22 +485,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -508,15 +508,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'A',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '19',
@@ -534,22 +534,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -557,14 +557,14 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '21',
@@ -582,22 +582,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -605,15 +605,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'A',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '22',
@@ -631,22 +631,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -654,14 +654,14 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '23',
@@ -679,22 +679,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'No'
+                defaultValue: 'No',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -702,15 +702,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'A',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '27',
@@ -729,22 +729,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'Yes'
+                defaultValue: 'Yes',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -752,15 +752,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'B',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '28',
@@ -778,22 +778,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'Yes'
+                defaultValue: 'Yes',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -801,15 +801,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'B',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '30',
@@ -827,22 +827,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '31',
@@ -860,22 +860,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '32',
@@ -893,22 +893,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '33',
@@ -926,22 +926,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '34',
@@ -959,22 +959,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '35',
@@ -992,22 +992,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '36',
@@ -1025,22 +1025,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '38',
@@ -1058,18 +1058,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -1081,16 +1081,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '39',
@@ -1108,18 +1108,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Expiry date',
@@ -1133,12 +1133,12 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
+            dependentOn: ['testResult'],
           },
           {
             sectionName: 'Emission details',
@@ -1152,46 +1152,46 @@ export class TestTypesFieldsMetadata {
                   {
                     text: EMISSION_STANDARD._010,
                     value: EMISSION_STANDARD._010,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD._003,
                     value: EMISSION_STANDARD._003,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_3,
                     value: EMISSION_STANDARD.EURO_3,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_4,
                     value: EMISSION_STANDARD.EURO_4,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_6,
                     value: EMISSION_STANDARD.EURO_6,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_VI,
                     value: EMISSION_STANDARD.EURO_VI,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.FULL_ELECTRIC,
                     value: EMISSION_STANDARD.FULL_ELECTRIC,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
                 defaultValue: 'Select',
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'smokeTestKLimitApplied',
@@ -1202,9 +1202,9 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'fuelType',
@@ -1215,49 +1215,49 @@ export class TestTypesFieldsMetadata {
                   {
                     text: FUEL_TYPE.DIESEL,
                     value: FUEL_TYPE.DIESEL.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.GAS_CNG,
                     value: FUEL_TYPE.GAS_CNG.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.GAS_LNG,
                     value: FUEL_TYPE.GAS_LNG.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.GAS_LPG,
                     value: FUEL_TYPE.GAS_LPG.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.FUEL_CELL,
                     value: FUEL_TYPE.FUEL_CELL.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.PETROL,
                     value: FUEL_TYPE.PETROL.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.FULL_ELECTRIC,
                     value: FUEL_TYPE.FULL_ELECTRIC.toLowerCase(),
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
                 defaultValue: 'Select',
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
+            dependentOn: ['testResult'],
           },
           {
             sectionName: 'Modification',
@@ -1271,26 +1271,26 @@ export class TestTypesFieldsMetadata {
                   {
                     text: MOD_TYPES.P,
                     value: MOD_TYPES.P.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: MOD_TYPES.M,
                     value: MOD_TYPES.M.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: MOD_TYPES.G,
                     value: MOD_TYPES.G.toLowerCase(),
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
                 defaultValue: 'Select',
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'particulateTrapFitted',
@@ -1301,18 +1301,18 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
                   },
                   { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase(),
                   },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
-                  }
-                ]
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase(),
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'particulateTrapSerialNumber',
@@ -1323,18 +1323,18 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
                   },
                   { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase(),
                   },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
-                  }
-                ]
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase(),
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'modificationTypeUsed',
@@ -1345,21 +1345,21 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
                   },
                   { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase(),
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: 'lecWithoutAnnualTest',
@@ -1376,18 +1376,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -1395,28 +1395,28 @@ export class TestTypesFieldsMetadata {
               {
                 testTypePropertyName: 'certificateNumber',
                 placeholder: 'Enter',
-                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM
-              }
+                type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '40',
         testTypeName: 'Annual test',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '41',
         testTypeName: 'First test',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '44',
@@ -1434,18 +1434,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Expiry date',
@@ -1459,12 +1459,12 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
+            dependentOn: ['testResult'],
           },
           {
             sectionName: 'Emission details',
@@ -1478,46 +1478,46 @@ export class TestTypesFieldsMetadata {
                   {
                     text: EMISSION_STANDARD._010,
                     value: EMISSION_STANDARD._010,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD._003,
                     value: EMISSION_STANDARD._003,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_3,
                     value: EMISSION_STANDARD.EURO_3,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_4,
                     value: EMISSION_STANDARD.EURO_4,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_6,
                     value: EMISSION_STANDARD.EURO_6,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_VI,
                     value: EMISSION_STANDARD.EURO_VI,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.FULL_ELECTRIC,
                     value: EMISSION_STANDARD.FULL_ELECTRIC,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
                 defaultValue: 'Select',
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'smokeTestKLimitApplied',
@@ -1528,9 +1528,9 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'fuelType',
@@ -1541,49 +1541,49 @@ export class TestTypesFieldsMetadata {
                   {
                     text: FUEL_TYPE.DIESEL,
                     value: FUEL_TYPE.DIESEL.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.GAS_CNG,
                     value: FUEL_TYPE.GAS_CNG.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.GAS_LNG,
                     value: FUEL_TYPE.GAS_LNG.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.GAS_LPG,
                     value: FUEL_TYPE.GAS_LPG.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.FUEL_CELL,
                     value: FUEL_TYPE.FUEL_CELL.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.PETROL,
                     value: FUEL_TYPE.PETROL.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.FULL_ELECTRIC,
                     value: FUEL_TYPE.FULL_ELECTRIC.toLowerCase(),
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
                 defaultValue: 'Select',
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
+            dependentOn: ['testResult'],
           },
           {
             sectionName: 'Modification',
@@ -1597,26 +1597,26 @@ export class TestTypesFieldsMetadata {
                   {
                     text: MOD_TYPES.P,
                     value: MOD_TYPES.P.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: MOD_TYPES.M,
                     value: MOD_TYPES.M.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: MOD_TYPES.G,
                     value: MOD_TYPES.G.toLowerCase(),
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
                 defaultValue: 'Select',
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'particulateTrapFitted',
@@ -1627,18 +1627,18 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
                   },
                   { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase(),
                   },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
-                  }
-                ]
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase(),
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'particulateTrapSerialNumber',
@@ -1649,18 +1649,18 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
                   },
                   { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase(),
                   },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
-                  }
-                ]
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase(),
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'modificationTypeUsed',
@@ -1671,21 +1671,21 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
                   },
                   { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase(),
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '45',
@@ -1703,18 +1703,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Expiry date',
@@ -1728,12 +1728,12 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
+            dependentOn: ['testResult'],
           },
           {
             sectionName: 'Emission details',
@@ -1747,46 +1747,46 @@ export class TestTypesFieldsMetadata {
                   {
                     text: EMISSION_STANDARD._010,
                     value: EMISSION_STANDARD._010,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD._003,
                     value: EMISSION_STANDARD._003,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_3,
                     value: EMISSION_STANDARD.EURO_3,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_4,
                     value: EMISSION_STANDARD.EURO_4,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_6,
                     value: EMISSION_STANDARD.EURO_6,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.EURO_VI,
                     value: EMISSION_STANDARD.EURO_VI,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: EMISSION_STANDARD.FULL_ELECTRIC,
                     value: EMISSION_STANDARD.FULL_ELECTRIC,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
                 defaultValue: 'Select',
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'smokeTestKLimitApplied',
@@ -1797,9 +1797,9 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'fuelType',
@@ -1810,49 +1810,49 @@ export class TestTypesFieldsMetadata {
                   {
                     text: FUEL_TYPE.DIESEL,
                     value: FUEL_TYPE.DIESEL.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.GAS_CNG,
                     value: FUEL_TYPE.GAS_CNG.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.GAS_LNG,
                     value: FUEL_TYPE.GAS_LNG.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.GAS_LPG,
                     value: FUEL_TYPE.GAS_LPG.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.FUEL_CELL,
                     value: FUEL_TYPE.FUEL_CELL.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.PETROL,
                     value: FUEL_TYPE.PETROL.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: FUEL_TYPE.FULL_ELECTRIC,
                     value: FUEL_TYPE.FULL_ELECTRIC.toLowerCase(),
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
                 defaultValue: 'Select',
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
+            dependentOn: ['testResult'],
           },
           {
             sectionName: 'Modification',
@@ -1866,26 +1866,26 @@ export class TestTypesFieldsMetadata {
                   {
                     text: MOD_TYPES.P,
                     value: MOD_TYPES.P.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: MOD_TYPES.M,
                     value: MOD_TYPES.M.toLowerCase(),
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: MOD_TYPES.G,
                     value: MOD_TYPES.G.toLowerCase(),
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
                 defaultValue: 'Select',
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'particulateTrapFitted',
@@ -1896,18 +1896,18 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
                   },
                   { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase(),
                   },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
-                  }
-                ]
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase(),
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'particulateTrapSerialNumber',
@@ -1918,18 +1918,18 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
                   },
                   { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase()
+                    valueToBeDifferentFrom: MOD_TYPES.M.toLowerCase(),
                   },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase()
-                  }
-                ]
+                    valueToBeDifferentFrom: MOD_TYPES.G.toLowerCase(),
+                  },
+                ],
               },
               {
                 testTypePropertyName: 'modificationTypeUsed',
@@ -1940,21 +1940,21 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
                   },
                   { testTypePropertyName: 'modType', valueToBeDifferentFrom: null },
                   {
                     testTypePropertyName: 'modType',
-                    valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase()
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: MOD_TYPES.P.toLowerCase(),
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '47',
@@ -1972,22 +1972,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '48',
@@ -2005,22 +2005,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '49',
@@ -2038,18 +2038,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -2061,16 +2061,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '50',
@@ -2088,18 +2088,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -2111,12 +2111,12 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
+            dependentOn: ['testResult'],
           },
           {
             sectionName: 'Expiry date',
@@ -2127,35 +2127,35 @@ export class TestTypesFieldsMetadata {
                 type: TEST_TYPE_FIELDS.EXPIRY_DATE,
                 minDate: new Date().toISOString(),
                 maxDate: new Date(
-                  new Date().setFullYear(new Date().getFullYear() + 2)
+                  new Date().setFullYear(new Date().getFullYear() + 2),
                 ).toISOString(),
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '53',
         testTypeName: 'Paid annual test retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '54',
         testTypeName: 'Part paid annual test retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '56',
@@ -2173,18 +2173,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -2196,16 +2196,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '57',
@@ -2223,18 +2223,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -2246,16 +2246,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '59',
@@ -2273,18 +2273,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -2296,12 +2296,12 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
+            dependentOn: ['testResult'],
           },
           {
             sectionName: 'Expiry date',
@@ -2312,21 +2312,21 @@ export class TestTypesFieldsMetadata {
                 type: TEST_TYPE_FIELDS.EXPIRY_DATE,
                 minDate: new Date().toISOString(),
                 maxDate: new Date(
-                  new Date().setFullYear(new Date().getFullYear() + 2)
+                  new Date().setFullYear(new Date().getFullYear() + 2),
                 ).toISOString(),
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '60',
@@ -2344,18 +2344,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -2367,12 +2367,12 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
+            dependentOn: ['testResult'],
           },
           {
             sectionName: 'Expiry date',
@@ -2383,112 +2383,112 @@ export class TestTypesFieldsMetadata {
                 type: TEST_TYPE_FIELDS.EXPIRY_DATE,
                 minDate: new Date().toISOString(),
                 maxDate: new Date(
-                  new Date().setFullYear(new Date().getFullYear() + 2)
+                  new Date().setFullYear(new Date().getFullYear() + 2),
                 ).toISOString(),
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '62',
         testTypeName: 'Paid roadworthiness retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '63',
         testTypeName: 'Part paid roadworthiness retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '65',
         testTypeName: 'Paid first test retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '66',
         testTypeName: 'Part paid first test retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '67',
         testTypeName: 'Free first test retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '70',
         testTypeName: 'Paid prohibition clearance (full inspection with certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '71',
         testTypeName: 'Paid prohibition clearance (full inspection without certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '72',
         testTypeName: 'Part paid prohibition clearance (full inspection without certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '73',
         testTypeName: 'Part paid prohibition clearance (part inspection without certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '76',
         testTypeName: 'Paid prohibition clearance (retest with certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '77',
         testTypeName: 'Paid prohibition clearance (retest without certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '79',
         testTypeName: 'Part paid prohibition clearance (retest with certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '80',
         testTypeName: 'Part paid prohibition clearance (retest without certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '82',
@@ -2496,14 +2496,14 @@ export class TestTypesFieldsMetadata {
           'Paid prohibition clearance on first test (full inspection with certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '83',
         testTypeName: 'Paid retest prohibition clearance on first test',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '85',
@@ -2521,22 +2521,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '86',
@@ -2554,22 +2554,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '87',
@@ -2587,22 +2587,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '88',
@@ -2620,22 +2620,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '89',
@@ -2653,22 +2653,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '90',
@@ -2686,29 +2686,29 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '91',
         testTypeName: 'Voluntary roadworthiness test',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '93',
@@ -2727,22 +2727,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Yes',
                     value: true,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'No',
                     value: false,
-                    cssClass: ''
-                  }
+                    cssClass: '',
+                  },
                 ],
-                defaultValue: 'Yes'
+                defaultValue: 'Yes',
               },
               {
                 testTypePropertyName: 'numberOfSeatbeltsFitted',
                 label: 'Number of seatbelts fitted',
                 info: 'If there are no seatbelts fitted, enter zero (0).',
                 type: 'number',
-                defaultValue: 'Enter'
+                defaultValue: 'Enter',
               },
               {
                 testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -2750,15 +2750,15 @@ export class TestTypesFieldsMetadata {
                 type: 'date',
                 defaultValue: 'Enter',
                 dependentOn: [
-                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-                ]
-              }
-            ]
-          }
+                  { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+                ],
+              },
+            ],
+          },
         ],
         category: 'A',
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       // ----- duplicated test types with different testTypeIds for TRLs with 1 axle -----
       {
@@ -2766,28 +2766,28 @@ export class TestTypesFieldsMetadata {
         testTypeName: 'Annual test',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '95',
         testTypeName: 'First test',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '98',
         testTypeName: 'Paid annual test retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '99',
         testTypeName: 'Part paid annual test retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '100',
@@ -2805,99 +2805,99 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '101',
         testTypeName: 'Paid roadworthiness retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '103',
         testTypeName: 'Paid first test retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '104',
         testTypeName: 'Part paid first test retest',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '107',
         testTypeName: 'Paid prohibition clearance (full inspection with certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '108',
         testTypeName: 'Paid prohibition clearance (full inspection without certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '109',
         testTypeName: 'Part paid prohibition clearance (full inspection without certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '110',
         testTypeName: 'Part paid prohibition clearance (part inspection without certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '113',
         testTypeName: 'Paid prohibition clearance (retest with certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '114',
         testTypeName: 'Paid prohibition clearance (retest without certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '116',
         testTypeName: 'Part paid prohibition clearance (retest with certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '117',
         testTypeName: 'Part paid prohibition clearance (retest without certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '119',
@@ -2905,14 +2905,14 @@ export class TestTypesFieldsMetadata {
           'Paid prohibition clearance on first test (full inspection with certification)',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '120',
         testTypeName: 'Paid retest prohibition clearance on first test',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '121',
@@ -2930,29 +2930,29 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasDefects: false,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '122',
         testTypeName: 'Voluntary roadworthiness test',
         sections: [],
         hasDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       // ----- specialist tests -----
       {
@@ -2971,23 +2971,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -2999,16 +2999,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '126',
@@ -3026,23 +3026,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3054,16 +3054,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '186',
@@ -3081,23 +3081,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3109,16 +3109,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '187',
@@ -3136,23 +3136,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3164,16 +3164,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '128',
@@ -3191,23 +3191,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3219,16 +3219,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '188',
@@ -3246,23 +3246,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3274,16 +3274,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '189',
@@ -3301,23 +3301,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3329,16 +3329,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '129',
@@ -3356,23 +3356,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3384,16 +3384,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '130',
@@ -3411,23 +3411,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3439,16 +3439,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '133',
@@ -3466,18 +3466,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3489,16 +3489,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '134',
@@ -3516,18 +3516,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3539,16 +3539,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '135',
@@ -3566,18 +3566,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3589,16 +3589,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '136',
@@ -3616,18 +3616,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3639,16 +3639,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '198',
@@ -3666,18 +3666,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3689,16 +3689,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '138',
@@ -3716,18 +3716,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3739,16 +3739,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '139',
@@ -3766,18 +3766,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3789,16 +3789,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '140',
@@ -3816,18 +3816,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -3839,16 +3839,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '142',
@@ -3866,18 +3866,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number (COIF)',
@@ -3889,16 +3889,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '143',
@@ -3916,18 +3916,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number (COIF)',
@@ -3939,16 +3939,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '144',
@@ -3966,18 +3966,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number (COIF)',
@@ -3989,16 +3989,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '146',
@@ -4016,22 +4016,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '147',
@@ -4049,22 +4049,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '148',
@@ -4082,27 +4082,27 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '150',
@@ -4120,23 +4120,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4148,16 +4148,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '151',
@@ -4175,23 +4175,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4203,16 +4203,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '153',
@@ -4230,27 +4230,27 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '190',
@@ -4268,22 +4268,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '191',
@@ -4301,22 +4301,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '154',
@@ -4334,22 +4334,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '158',
@@ -4367,23 +4367,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4395,16 +4395,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '159',
@@ -4422,23 +4422,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4450,16 +4450,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '161',
@@ -4477,23 +4477,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4505,16 +4505,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '192',
@@ -4532,23 +4532,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4560,16 +4560,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '193',
@@ -4587,23 +4587,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4615,16 +4615,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '162',
@@ -4642,23 +4642,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4670,16 +4670,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '194',
@@ -4697,23 +4697,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4725,16 +4725,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '195',
@@ -4752,23 +4752,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4780,16 +4780,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '163',
@@ -4807,23 +4807,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4835,16 +4835,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '166',
@@ -4862,18 +4862,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4885,16 +4885,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '167',
@@ -4912,18 +4912,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4935,16 +4935,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '169',
@@ -4962,18 +4962,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -4985,16 +4985,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '170',
@@ -5012,18 +5012,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -5035,16 +5035,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '172',
@@ -5062,18 +5062,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -5085,16 +5085,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '173',
@@ -5112,18 +5112,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -5135,16 +5135,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '175',
@@ -5162,18 +5162,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number (COIF)',
@@ -5185,16 +5185,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '176',
@@ -5212,18 +5212,18 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number (COIF)',
@@ -5235,16 +5235,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '177',
@@ -5262,22 +5262,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '178',
@@ -5295,22 +5295,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '179',
@@ -5328,23 +5328,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number (COIF)',
@@ -5356,16 +5356,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '181',
@@ -5383,23 +5383,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -5411,16 +5411,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '182',
@@ -5438,23 +5438,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
+                deactivateButtonOnSelection: true,
+              },
+            ],
           },
           {
             sectionName: 'Certificate number',
@@ -5466,16 +5466,16 @@ export class TestTypesFieldsMetadata {
                 dependentOn: [
                   {
                     testTypePropertyName: 'testResult',
-                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                  }
-                ]
-              }
+                    valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                  },
+                ],
+              },
             ],
-            dependentOn: ['testResult']
-          }
+            dependentOn: ['testResult'],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '184',
@@ -5493,27 +5493,27 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
+                    cssClass: 'danger-action-button',
                   },
                   {
                     text: 'Prs',
                     value: TEST_TYPE_RESULTS.PRS,
-                    cssClass: 'prs-action-button'
-                  }
+                    cssClass: 'prs-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '196',
@@ -5531,22 +5531,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '197',
@@ -5564,22 +5564,22 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
+        hasNotes: true,
       },
       {
         testTypeId: '185',
@@ -5597,23 +5597,23 @@ export class TestTypesFieldsMetadata {
                   {
                     text: 'Pass',
                     value: TEST_TYPE_RESULTS.PASS,
-                    cssClass: ''
+                    cssClass: '',
                   },
                   {
                     text: 'Fail',
                     value: TEST_TYPE_RESULTS.FAIL,
-                    cssClass: 'danger-action-button'
-                  }
+                    cssClass: 'danger-action-button',
+                  },
                 ],
                 defaultValue: 'Select',
-                deactivateButtonOnSelection: true
-              }
-            ]
-          }
+                deactivateButtonOnSelection: true,
+              },
+            ],
+          },
         ],
         hasSpecialistDefects: true,
-        hasNotes: true
-      }
+        hasNotes: true,
+      },
     ];
   }
 }

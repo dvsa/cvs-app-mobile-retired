@@ -4,7 +4,7 @@ import { IonicPage, NavController } from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-help',
-  templateUrl: 'help.html'
+  templateUrl: 'help.html',
 })
 export class HelpPage {
   constructor(public navCtrl: NavController) {}

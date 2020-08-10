@@ -4,6 +4,7 @@
     "rxjs-tslint-rules"
   ],
   "rules": {
+    "trailing-comma": "false",
     "no-duplicate-variable": true,
     "no-unused-variable": false,
     "quotemark": [false, "single"],

@@ -17,8 +17,8 @@ export class TestStationDataMock {
         testStationEmails: [
           'teststationname@dvsa.gov.uk',
           'teststationname1@dvsa.gov.uk',
-          'teststationname2@dvsa.gov.uk'
-        ]
+          'teststationname2@dvsa.gov.uk',
+        ],
       },
       {
         testStationId: '14111',
@@ -33,7 +33,7 @@ export class TestStationDataMock {
         testStationLongitude: 3,
         testStationLatitude: 4,
         testStationType: 'atf',
-        testStationEmails: ['teststationname@dvsa.gov.uk']
+        testStationEmails: ['teststationname@dvsa.gov.uk'],
       },
       {
         testStationId: '124111',
@@ -48,7 +48,7 @@ export class TestStationDataMock {
         testStationLongitude: 5,
         testStationLatitude: 6,
         testStationType: 'atf',
-        testStationEmails: ['teststationname@dvsa.gov.uk']
+        testStationEmails: ['teststationname@dvsa.gov.uk'],
       },
       {
         testStationId: '124112',
@@ -63,8 +63,8 @@ export class TestStationDataMock {
         testStationLongitude: 5,
         testStationLatitude: 6,
         testStationType: 'atf',
-        testStationEmails: ['teststationname@dvsa.gov.uk']
-      }
+        testStationEmails: ['teststationname@dvsa.gov.uk'],
+      },
     ];
   }
 }

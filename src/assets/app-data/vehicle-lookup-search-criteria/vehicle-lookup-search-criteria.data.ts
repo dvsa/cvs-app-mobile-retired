@@ -13,7 +13,7 @@ export class VehicleLookupSearchCriteriaData {
       'Registration number',
       'Full VIN',
       'Partial VIN (last 6 characters)',
-      'Trailer ID'
+      'Trailer ID',
     ];
   }
 
@@ -25,28 +25,28 @@ export class VehicleLookupSearchCriteriaData {
     return [
       {
         text: 'Registration number, VIN or trailer ID',
-        queryParam: 'all'
+        queryParam: 'all',
       },
       {
         text: 'Trailer ID or VIN',
-        queryParam: 'all'
+        queryParam: 'all',
       },
       {
         text: 'Registration number',
-        queryParam: 'vrm'
+        queryParam: 'vrm',
       },
       {
         text: 'Full VIN',
-        queryParam: 'vin'
+        queryParam: 'vin',
       },
       {
         text: 'Partial VIN (last 6 characters)',
-        queryParam: 'partialVin'
+        queryParam: 'partialVin',
       },
       {
         text: 'Trailer ID',
-        queryParam: 'trailerId'
-      }
+        queryParam: 'trailerId',
+      },
     ];
   }
 }

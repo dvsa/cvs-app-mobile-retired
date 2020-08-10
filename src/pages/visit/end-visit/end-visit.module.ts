@@ -4,6 +4,6 @@ import { EndVisitPage } from './end-visit';
 
 @NgModule({
   declarations: [EndVisitPage],
-  imports: [IonicPageModule.forChild(EndVisitPage)]
+  imports: [IonicPageModule.forChild(EndVisitPage)],
 })
 export class EndVisitModule {}

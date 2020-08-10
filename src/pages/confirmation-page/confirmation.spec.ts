@@ -24,9 +24,9 @@ describe('Component: ConfirmationPage', () => {
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: NavParams, useClass: NavParamsMock },
         { provide: StateReformingService, useClass: StateReformingServiceMock },
-        { provide: AlertController, useFactory: () => AlertControllerMock.instance() }
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
   }));
 
@@ -54,13 +54,13 @@ describe('Component: ConfirmationPage', () => {
     comp.testStationName = 'qwerty';
     comp.ionViewWillEnter();
     expect(comp.message).toEqual(
-      APP_STRINGS.CONFIRMATION_MESSAGE_END_VISIT + comp.testStationName
+      APP_STRINGS.CONFIRMATION_MESSAGE_END_VISIT + comp.testStationName,
     );
     comp.testStationName = '';
     comp.testerEmailAddress = 'qwerty@qqq.com';
     comp.ionViewWillEnter();
     expect(comp.message).toEqual(
-      APP_STRINGS.CONFIRMATION_MESSAGE_SUBMIT_TEST + comp.testerEmailAddress
+      APP_STRINGS.CONFIRMATION_MESSAGE_SUBMIT_TEST + comp.testerEmailAddress,
     );
   });
 

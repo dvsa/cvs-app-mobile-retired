@@ -6,7 +6,7 @@ export class TestService {
   constructor() {}
 
   createTest() {
-    let newTest = {} as TestModel;
+    const newTest = {} as TestModel;
 
     newTest.testResultId = uuidv4();
     newTest.startTime = new Date().toISOString();

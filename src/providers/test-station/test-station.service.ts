@@ -16,7 +16,7 @@ export class TestStationService {
   }
 
   sortAndSearchTestStation(items: any[], filter: string, properties: string[]): any[] {
-    let filteredArray: any[] = [];
+    const filteredArray: any[] = [];
     if (!items || !filter) {
       if ((filter === '' || filter == undefined) && items && Array.isArray(items[0])) {
         items.forEach((elem: TestStationReferenceDataModel[]) => {
@@ -30,9 +30,9 @@ export class TestStationService {
         : this.groupByLetter(items, properties[0]);
     }
     items.forEach((elem) => {
-      let arrGroup: any[] = elem.filter((item: TestStationReferenceDataModel) => {
-        for (let key in item) {
-          let propIndex: number = properties.indexOf(key);
+      const arrGroup: any[] = elem.filter((item: TestStationReferenceDataModel) => {
+        for (const key in item) {
+          const propIndex: number = properties.indexOf(key);
           if (propIndex != -1) {
             if (
               item[key] !== null &&
@@ -58,18 +58,18 @@ export class TestStationService {
     if (!find) return str;
     if (!str.toLowerCase().includes(find.toLowerCase())) return str;
 
-    let findIndex = str.toLowerCase().search(find.toLowerCase());
-    let strArr = [];
+    const findIndex = str.toLowerCase().search(find.toLowerCase());
+    const strArr = [];
     for (let i = 0; i < find.length; i++) {
       strArr.push(str[findIndex + i]);
     }
-    let re = str.substr(findIndex, find.length);
-    let res = strArr.join('');
+    const re = str.substr(findIndex, find.length);
+    const res = strArr.join('');
     return str.replace(re, `<strong>${res}</strong>`);
   }
 
   groupByLetter(array: any[], groupBy: string): any[] {
-    let sectionsArr = TEST_STATIONS_SEARCH.SECTIONS.split('');
+    const sectionsArr = TEST_STATIONS_SEARCH.SECTIONS.split('');
     let newArr = [],
       arrGroup = [];
     for (let i = 0; i < sectionsArr.length; i++) {

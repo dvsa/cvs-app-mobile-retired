@@ -8,6 +8,6 @@ import { TestStationService } from '../../../providers/test-station/test-station
 @NgModule({
   declarations: [TestStationSearchPage],
   imports: [PipesModule, DirectivesModule, IonicPageModule.forChild(TestStationSearchPage)],
-  providers: [TestStationService]
+  providers: [TestStationService],
 })
 export class TestStationSearchModule {}

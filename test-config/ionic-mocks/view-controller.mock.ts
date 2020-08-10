@@ -3,36 +3,36 @@ export class ViewControllerMock {
 
   public readReady = {
     subscribe() {
-    }
+    },
   };
 
   public writeReady = {
     subscribe() {
-    }
+    },
   };
 
   dismiss() {
   }
 
   public remove(startIndex: number): any {
-    return {}
-  };
+    return {};
+  }
 
   public _setHeader(): any {
-    return {}
-  };
+    return {};
+  }
 
   public _setIONContent(): any {
-    return {}
-  };
+    return {};
+  }
 
   public _setIONContentRef(): any {
-    return {}
-  };
+    return {};
+  }
 
   public _setNavbar(): any {
-    return {}
-  };
+    return {};
+  }
 
   public setBackButtonText() {
     Promise.resolve();

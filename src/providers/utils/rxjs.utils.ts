@@ -12,7 +12,7 @@ export interface GenericRetryStrategyInterface {
 export const genericRetryStrategy = ({
   maxRetryAttempts = 2,
   duration = 3000,
-  excludedStatusCodes = []
+  excludedStatusCodes = [],
 }: GenericRetryStrategyInterface = {}) => (attempts: Observable<any>) => {
   return attempts.pipe(
     mergeMap((error, i) => {
@@ -24,6 +24,6 @@ export const genericRetryStrategy = ({
         return _throw(error);
       }
       return timer(duration);
-    })
+    }),
   );
 };

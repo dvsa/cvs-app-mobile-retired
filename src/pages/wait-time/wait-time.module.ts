@@ -4,6 +4,6 @@ import { WaitTimePage } from './wait-time';
 
 @NgModule({
   declarations: [WaitTimePage],
-  imports: [IonicPageModule.forChild(WaitTimePage)]
+  imports: [IonicPageModule.forChild(WaitTimePage)],
 })
 export class WaitTimeModule {}

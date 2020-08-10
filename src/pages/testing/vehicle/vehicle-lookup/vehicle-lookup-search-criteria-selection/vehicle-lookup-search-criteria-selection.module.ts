@@ -4,6 +4,6 @@ import { VehicleLookupSearchCriteriaSelectionPage } from './vehicle-lookup-searc
 
 @NgModule({
   declarations: [VehicleLookupSearchCriteriaSelectionPage],
-  imports: [IonicPageModule.forChild(VehicleLookupSearchCriteriaSelectionPage)]
+  imports: [IonicPageModule.forChild(VehicleLookupSearchCriteriaSelectionPage)],
 })
 export class VehicleLookupSearchCriteriaSelectionPageModule {}

@@ -4,6 +4,6 @@ import { VehicleScanPage } from './vehicle-scan';
 
 @NgModule({
   declarations: [VehicleScanPage],
-  imports: [IonicPageModule.forChild(VehicleScanPage)]
+  imports: [IonicPageModule.forChild(VehicleScanPage)],
 })
 export class VehicleScanModule {}

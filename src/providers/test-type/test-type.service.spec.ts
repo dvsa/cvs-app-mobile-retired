@@ -5,7 +5,7 @@ import { TestTypesReferenceDataModel } from '../../models/reference-data-models/
 import { VisitService } from '../visit/visit.service';
 import {
   DefectDetailsModel,
-  SpecialistCustomDefectModel
+  SpecialistCustomDefectModel,
 } from '../../models/defects/defect-details.model';
 import { DefectDetailsDataMock } from '../../assets/data-mocks/defect-details-data.mock';
 import { TestTypesReferenceDataMock } from '../../assets/data-mocks/reference-data-mocks/test-types.mock';
@@ -33,7 +33,7 @@ describe('Provider: TestTypeService', () => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
       read: new Promise((resolve) => {
         return TEST_TYPES;
-      })
+      }),
     });
     visitServiceSpy = jasmine.createSpyObj('VisitService', ['updateVisit']);
 
@@ -43,8 +43,8 @@ describe('Provider: TestTypeService', () => {
         CommonFunctionsService,
         { provide: VisitService, useValue: visitServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
-      ]
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+      ],
     });
 
     testTypeService = TestBed.get(TestTypeService);
@@ -61,20 +61,20 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('create a testType', () => {
-    let testType: TestTypesReferenceDataModel = TEST_TYPES[0];
-    let newTestType = testTypeService.createTestType(testType, VEHICLE_TYPE.PSV);
+    const testType: TestTypesReferenceDataModel = TEST_TYPES[0];
+    const newTestType = testTypeService.createTestType(testType, VEHICLE_TYPE.PSV);
     expect(newTestType.testTypeName).toMatch('Annual test');
   });
 
   it('should put end time on the testType', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
     expect(testType.testTypeEndTimestamp).toBeNull();
     testTypeService.endTestType(testType);
     expect(testType.testTypeEndTimestamp).toBeTruthy();
   });
 
   it('should add a defect in test array', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
     expect(testType.defects.length).toEqual(0);
     testTypeService.addDefect(testType, DEFECT);
     expect(testType.defects.length).toEqual(1);
@@ -82,14 +82,14 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('should log exactly 2 events to firebase', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
     spyOn(firebaseLogsService, 'logEvent').and.returnValue(Promise.resolve(true));
     testTypeService.addDefect(testType, DEFECT);
     expect(firebaseLogsService.logEvent).toHaveBeenCalledTimes(2);
   });
 
   it('should remove a defect from test', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
     testType.defects = DefectDetailsDataMock.DefectDetails;
     expect(testType.defects.length).toEqual(2);
     testTypeService.removeDefect(testType, DEFECT);
@@ -97,7 +97,7 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('should log the remove event to firebase when removing a defect', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
     testType.defects = DefectDetailsDataMock.DefectDetails;
     spyOn(firebaseLogsService, 'logEvent').and.returnValue(Promise.resolve(true));
     testTypeService.removeDefect(testType, DEFECT);
@@ -105,55 +105,55 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('should set test result to FAIL: hasDefects true', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-    let hasDefects: boolean = true;
+    const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    const hasDefects: boolean = true;
     testType.defects = DefectDetailsDataMock.DefectDetails;
-    let result = testTypeService.setTestResult(testType, hasDefects);
+    const result = testTypeService.setTestResult(testType, hasDefects);
     expect(result).toMatch(TEST_TYPE_RESULTS.FAIL);
   });
 
   it('should set test result to FAIL: hasDefects false', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-    let hasDefects: boolean = false;
+    const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    const hasDefects: boolean = false;
     testType.defects = DefectDetailsDataMock.DefectDetails;
-    let result = testTypeService.setTestResult(testType, hasDefects);
+    const result = testTypeService.setTestResult(testType, hasDefects);
     expect(result).toMatch(TEST_TYPE_RESULTS.FAIL);
   });
 
   it('should set test result PASS: hasDefects false', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-    let hasDefects: boolean = false;
-    let result = testTypeService.setTestResult(testType, hasDefects);
+    const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    const hasDefects: boolean = false;
+    const result = testTypeService.setTestResult(testType, hasDefects);
     expect(result).toMatch(TEST_TYPE_RESULTS.PASS);
   });
 
   it('should set test result PRS: hasDefects false', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-    let hasDefects: boolean = true;
+    const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    const hasDefects: boolean = true;
     testType.defects.push(DefectDetailsDataMock.DefectData);
     testType.defects[0].prs = true;
-    let result = testTypeService.setTestResult(testType, hasDefects);
+    const result = testTypeService.setTestResult(testType, hasDefects);
     expect(result).toMatch(TEST_TYPE_RESULTS.PRS);
   });
 
   it('should set test result: ABANDONED', () => {
-    let testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+    const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
     testType.reasons.push('abandon ship');
-    let hasDefects: boolean = true;
-    let result = testTypeService.setTestResult(testType, hasDefects);
+    const hasDefects: boolean = true;
+    const result = testTypeService.setTestResult(testType, hasDefects);
     expect(result).toMatch(TEST_TYPE_RESULTS.ABANDONED);
   });
 
   it('should ordered testType array', () => {
-    let testTypes: TestTypeModel[] = [];
+    const testTypes: TestTypeModel[] = [];
     testTypes.push(TestTypeDataModelMock.TestTypeData);
     testTypes.push(TestTypeDataModelMock.TestTypeData);
     testTypes[0].testTypeId = '2';
     expect(testTypes[0].testTypeId).toMatch('2');
-    let orderedTestTypes: TestTypeModel[] = testTypeService.orderTestTypesArray(
+    const orderedTestTypes: TestTypeModel[] = testTypeService.orderTestTypesArray(
       testTypes,
       'testTypeId',
-      'asc'
+      'asc',
     );
     expect(orderedTestTypes[0].testTypeId).toMatch('1');
   });
@@ -168,7 +168,7 @@ describe('Provider: TestTypeService', () => {
     let adrTestType, annualTestType;
     adrTestType = { ...TestTypeDataModelMock.TestTypeData };
     annualTestType = { ...TestTypeDataModelMock.TestTypeData };
-    let vehicle = VehicleDataMock.VehicleData;
+    const vehicle = VehicleDataMock.VehicleData;
     adrTestType.testTypeId = '50';
     adrTestType.testResult = TEST_TYPE_RESULTS.PASS;
     adrTestType.certificateNumber = '6776322';
@@ -184,7 +184,7 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('should check if testType is ADR or not', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.testTypeId = '50';
     expect(testTypeService.isAdrTestType(testType.testTypeId)).toBeTruthy();
     testType.testTypeId = '1';
@@ -192,7 +192,7 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('should check if testType is LEC or not', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.testTypeId = '39';
     expect(testTypeService.isLecTestType(testType.testTypeId)).toBeTruthy();
     testType.testTypeId = '1';
@@ -200,7 +200,7 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('should check if testType is TIR or not', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.testTypeId = '49';
     expect(testTypeService.isTirTestType(testType.testTypeId)).toBeTruthy();
     testType.testTypeId = '1';
@@ -208,7 +208,7 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('should check if testType is specialist test or not', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.testTypeId = '150';
     expect(testTypeService.isSpecialistTestType(testType.testTypeId)).toBeTruthy();
     testType.testTypeId = '1';
@@ -216,7 +216,7 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('should remove a specific specialist custom defect', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.customDefects.push({} as SpecialistCustomDefectModel);
     expect(testType.customDefects.length).toEqual(1);
 
@@ -225,7 +225,7 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('should check if custom defects are completely captured', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.customDefects.push({} as SpecialistCustomDefectModel);
     expect(testTypeService.areSpecialistCustomDefectsCompleted(testType)).toBeFalsy();
 
@@ -234,46 +234,46 @@ describe('Provider: TestTypeService', () => {
   });
 
   it('should check if test type is IVA test or retest', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.testTypeId = '125';
     expect(
-      testTypeService.isSpecialistIvaTestAndRetestTestType(testType.testTypeId)
+      testTypeService.isSpecialistIvaTestAndRetestTestType(testType.testTypeId),
     ).toBeTruthy();
   });
 
   it('should check if test type is Specialist test except for CoifAndVoluntaryIvaTestAndRetest', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.testTypeId = '125';
     expect(
       testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
-        testType.testTypeId
-      )
+        testType.testTypeId,
+      ),
     ).toBeTruthy();
   });
 
   it('should check if test type is Specialist test part of Coif', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.testTypeId = '142';
     expect(testTypeService.isSpecialistPartOfCoifTestTypes(testType.testTypeId)).toBeTruthy();
   });
 
   it('should check if test type is PSV Notifiable Alteration test', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.testTypeId = '38';
     expect(testTypeService.isPsvNotifiableAlterationTestType(testType.testTypeId)).toBeTruthy();
   });
 
   it('should check if test type Coif with annual test', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.testTypeId = '175';
     expect(testTypeService.isSpecialistCoifWithAnnualTest(testType.testTypeId)).toBeTruthy();
   });
 
   it('should check if test type Coif with annual test', () => {
-    let testType = { ...TestTypeDataModelMock.TestTypeData };
+    const testType = { ...TestTypeDataModelMock.TestTypeData };
     testType.testTypeId = '153';
     expect(
-      testTypeService.isSpecialistWithoutCertificateNumberCapturedIds(testType.testTypeId)
+      testTypeService.isSpecialistWithoutCertificateNumberCapturedIds(testType.testTypeId),
     ).toBeTruthy();
   });
 });

@@ -6,7 +6,7 @@ import { TestModel } from '../../../models/tests/test.model';
 @IonicPage()
 @Component({
   selector: 'page-test-submitted',
-  templateUrl: 'test-submitted.html'
+  templateUrl: 'test-submitted.html',
 })
 export class TestSubmittedPage {
   testData: TestModel;
@@ -14,7 +14,7 @@ export class TestSubmittedPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private socialSharing: SocialSharing
+    private socialSharing: SocialSharing,
   ) {
     this.testData = this.navParams.get('test');
   }
@@ -24,12 +24,12 @@ export class TestSubmittedPage {
   }
 
   printAllDocuments(): void {
-    let options = {
+    const options = {
       message: 'The following certificates have now been issued',
       subject: 'Certificates',
       files: [''],
       url: '',
-      chooserTitle: 'Pick an app'
+      chooserTitle: 'Pick an app',
     };
     this.socialSharing.shareWithOptions(options);
   }

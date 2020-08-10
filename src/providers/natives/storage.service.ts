@@ -14,7 +14,7 @@ export class StorageService {
   constructor(
     private storage: Storage,
     private store$: Store<LogsModel>,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   create(key: string, dataArray: any | any[]): Promise<any> {
@@ -28,9 +28,9 @@ export class StorageService {
       const log: Log = {
         type: LOG_TYPES.INFO,
         message: `User ${this.authService.getOid()} read storage key ${key}: ${JSON.stringify(
-          data
+          data,
         )}`,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
       this.store$.dispatch(new logsActions.SaveLog(log));
 
@@ -46,9 +46,9 @@ export class StorageService {
         const log: Log = {
           type: LOG_TYPES.INFO,
           message: `User ${this.authService.getOid()} writing storage key ${key}: ${JSON.stringify(
-            data
+            data,
           )}`,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
 

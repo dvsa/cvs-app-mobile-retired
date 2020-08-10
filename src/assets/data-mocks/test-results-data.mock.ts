@@ -16,7 +16,7 @@ export class TestResultsDataMock {
         reasonForCancellation: '',
         vehicleClass: {
           code: '2',
-          description: '(MotorBikes over 200cc or with a sidecar)'
+          description: '(MotorBikes over 200cc or with a sidecar)',
         },
         vehicleType: 'PSV',
         numberOfSeats: 10,
@@ -65,12 +65,12 @@ export class TestResultsDataMock {
                         longitudinal: ['front', 'rear'],
                         rowNumber: null,
                         lateral: null,
-                        seatNumber: null
+                        seatNumber: null,
                       },
-                      notes: false
-                    }
+                      notes: false,
+                    },
                   },
-                  item: { itemNumber: 1, itemDescription: 'A registration plate:' }
+                  item: { itemNumber: 1, itemDescription: 'A registration plate:' },
                 },
                 prs: false,
                 notes: '',
@@ -81,8 +81,8 @@ export class TestResultsDataMock {
                   longitudinal: 'front',
                   rowNumber: null,
                   seatNumber: null,
-                  axleNumber: null
-                }
+                  axleNumber: null,
+                },
               },
               {
                 ref: '1.2',
@@ -93,15 +93,15 @@ export class TestResultsDataMock {
                   category: {
                     imNumber: 1,
                     imDescription: 'Registration Plate',
-                    additionalInfo: null
+                    additionalInfo: null,
                   },
-                  item: { itemNumber: 2, itemDescription: 'A registration mark:' }
+                  item: { itemNumber: 2, itemDescription: 'A registration mark:' },
                 },
                 prs: null,
                 notes: 'test',
-                location: null
-              }
-            ]
+                location: null,
+              },
+            ],
           },
           {
             createdAt: '2020-01-14T10:08:32.586Z',
@@ -134,9 +134,9 @@ export class TestResultsDataMock {
                     longitudinal: 'front',
                     rowNumber: 3,
                     seatNumber: 6,
-                    axleNumber: 4
+                    axleNumber: 4,
                   },
-                  notes: 'Additional notes about defect'
+                  notes: 'Additional notes about defect',
                 },
                 item: {
                   itemNumber: 3,
@@ -150,9 +150,9 @@ export class TestResultsDataMock {
                     deficiencyText: 'Text about deficiency',
                     stdForProhibition: true,
                     prs: true,
-                    forVehicleType: ['psv']
-                  }
-                }
+                    forVehicleType: ['psv'],
+                  },
+                },
               },
               {
                 imNumber: 4,
@@ -166,9 +166,9 @@ export class TestResultsDataMock {
                     longitudinal: 'front',
                     rowNumber: 4,
                     seatNumber: 2,
-                    axleNumber: 7
+                    axleNumber: 7,
                   },
-                  notes: 'Additional notes about defect'
+                  notes: 'Additional notes about defect',
                 },
                 item: {
                   itemNumber: 3,
@@ -182,14 +182,14 @@ export class TestResultsDataMock {
                     deficiencyText: 'Text about deficiency',
                     stdForProhibition: true,
                     prs: false,
-                    forVehicleType: ['psv']
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      }
+                    forVehicleType: ['psv'],
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
     ];
   }
 }

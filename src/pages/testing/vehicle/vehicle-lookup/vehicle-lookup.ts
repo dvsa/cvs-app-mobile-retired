@@ -5,7 +5,7 @@ import {
   LoadingController,
   ModalController,
   NavController,
-  NavParams
+  NavParams,
 } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
@@ -18,7 +18,7 @@ import {
   PAGE_NAMES,
   STORAGE,
   VEHICLE_TYPE,
-  FIREBASE_SCREEN_NAMES
+  FIREBASE_SCREEN_NAMES,
 } from '../../../../app/app.enums';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { Observable, Observer } from 'rxjs';
@@ -40,7 +40,7 @@ import { VehicleLookupSearchCriteriaData } from '../../../../assets/app-data/veh
 @IonicPage()
 @Component({
   selector: 'page-vehicle-lookup',
-  templateUrl: 'vehicle-lookup.html'
+  templateUrl: 'vehicle-lookup.html',
 })
 export class VehicleLookupPage {
   testData: TestModel;
@@ -66,7 +66,7 @@ export class VehicleLookupPage {
     private authService: AuthService,
     private store$: Store<LogsModel>,
     public appService: AppService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
   ) {
     this.testData = navParams.get('test');
   }
@@ -86,12 +86,13 @@ export class VehicleLookupPage {
   }
 
   doesHgvLgvExist() {
-    for (let vehicle of this.testData.vehicles) {
+    for (const vehicle of this.testData.vehicles) {
       if (
         vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV ||
         vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV
-      )
+      ) {
         return true;
+      }
     }
     return false;
   }
@@ -106,7 +107,7 @@ export class VehicleLookupPage {
 
   searchVehicle(searchedValue: string): void {
     const LOADING = this.loadingCtrl.create({
-      content: 'Loading...'
+      content: 'Loading...',
     });
     LOADING.present();
     this.oid = this.authService.getOid();
@@ -114,7 +115,7 @@ export class VehicleLookupPage {
     this.vehicleService
       .getVehicleTechRecords(
         searchedValue.toUpperCase(),
-        this.getTechRecordQueryParam().queryParam
+        this.getTechRecordQueryParam().queryParam,
       )
       .subscribe(
         (vehicleData) => {
@@ -126,17 +127,17 @@ export class VehicleLookupPage {
               const log: Log = {
                 type: 'error',
                 message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-                timestamp: Date.now()
+                timestamp: Date.now(),
               };
               this.store$.dispatch(new logsActions.SaveLog(log));
               this.firebase.logEvent('test_error', {
                 content_type: 'error',
-                item_id: 'Failed retrieving the testResultsHistory'
+                item_id: 'Failed retrieving the testResultsHistory',
               });
               this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
               this.goToVehicleDetails(vehicleData[0]);
             },
-            complete: function() {}
+            complete() {},
           };
 
           if (vehicleData.length > 1) {
@@ -163,7 +164,7 @@ export class VehicleLookupPage {
             type: 'error',
             message: `${this.oid} - ${error.status} ${error.error ||
               error.message} for API call to ${error.url}`,
-            timestamp: Date.now()
+            timestamp: Date.now(),
           };
           this.store$.dispatch(new logsActions.SaveLog(log));
           this.searchVal = '';
@@ -171,9 +172,9 @@ export class VehicleLookupPage {
           this.showAlert();
           this.firebase.logEvent('test_error', {
             content_type: 'error',
-            item_id: 'Failed retrieving the techRecord'
+            item_id: 'Failed retrieving the techRecord',
           });
-        }
+        },
       );
   }
 
@@ -189,7 +190,7 @@ export class VehicleLookupPage {
       title: APP_STRINGS.VEHICLE_NOT_FOUND,
       message: APP_STRINGS.VEHICLE_NOT_FOUND_MESSAGE,
       enableBackdropDismiss: false,
-      buttons: ['OK']
+      buttons: ['OK'],
     });
     alert.present();
     this.firebase.logEvent('test_error', { content_type: 'error', item_id: 'Vehicle not found' });
@@ -198,19 +199,19 @@ export class VehicleLookupPage {
   goToVehicleDetails(vehicleData: VehicleModel) {
     this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
       test: this.testData,
-      vehicle: vehicleData
+      vehicle: vehicleData,
     });
   }
 
   goToMultipleTechRecordsSelection(multipleVehicleData: VehicleModel[]) {
     return this.navCtrl.push(PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION, {
       test: this.testData,
-      vehicles: multipleVehicleData
+      vehicles: multipleVehicleData,
     });
   }
 
   private handleError(vehicleData: VehicleModel): Observable<any> {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title: 'Unable to load data',
       enableBackdropDismiss: false,
       message: 'Make sure you are connected to the internet and try again',
@@ -220,25 +221,25 @@ export class VehicleLookupPage {
           handler: () => {
             this.openNativeSettings.open('settings');
             this.handleError(vehicleData);
-          }
+          },
         },
         {
           text: 'Call Technical Support',
           handler: () => {
             this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
               (data) => console.log(data),
-              (err) => console.log(err)
+              (err) => console.log(err),
             );
             return false;
-          }
+          },
         },
         {
           text: 'Try again',
           handler: () => {
             this.vehicleService.getTestResultsHistory(vehicleData.vin);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     alert.present();
     return _throw('Something bad happened; please try again later.');
@@ -256,7 +257,7 @@ export class VehicleLookupPage {
   onChangeSearchCriteria() {
     const MODAL = this.modalCtrl.create(PAGE_NAMES.VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION, {
       selectedSearchCriteria: this.selectedSearchCriteria,
-      trailersOnly: this.canSearchOnlyTrailers()
+      trailersOnly: this.canSearchOnlyTrailers(),
     });
     MODAL.present();
     MODAL.onDidDismiss((data) => {

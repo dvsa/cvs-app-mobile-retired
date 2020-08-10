@@ -7,7 +7,7 @@ import { CommonFunctionsService } from '../utils/common-functions';
 import {
   DefectCategoryReferenceDataModel,
   DefectDeficiencyReferenceDataModel,
-  DefectItemReferenceDataModel
+  DefectItemReferenceDataModel,
 } from '../../models/reference-data-models/defects.reference-model';
 
 describe('Provider: DefectsService', () => {
@@ -28,15 +28,15 @@ describe('Provider: DefectsService', () => {
     spy = jasmine.createSpyObj('StorageService', {
       read: new Promise((resolve) => {
         return defectsCategories;
-      })
+      }),
     });
 
     TestBed.configureTestingModule({
       providers: [
         DefectsService,
         CommonFunctionsService,
-        { provide: StorageService, useValue: spy }
-      ]
+        { provide: StorageService, useValue: spy },
+      ],
     });
 
     defectsService = TestBed.get(DefectsService);
@@ -65,30 +65,30 @@ describe('Provider: DefectsService', () => {
   });
 
   it('should return list if nothing entered', () => {
-    let filter = null;
-    let filteredData = defectsService.searchDefect(defectsCategories, filter, [
+    const filter = null;
+    const filteredData = defectsService.searchDefect(defectsCategories, filter, [
       'imNumber',
-      'imDescription'
+      'imDescription',
     ]);
 
     expect(filteredData.length).toEqual(defectsCategories.length);
   });
 
   it('should return nothing if imNumber or imDescription not found', () => {
-    let filter = '1sdfsdfsdfsdfsdfsdf';
-    let filteredData = defectsService.searchDefect(defectsCategories, filter, [
+    const filter = '1sdfsdfsdfsdfsdfsdf';
+    const filteredData = defectsService.searchDefect(defectsCategories, filter, [
       'imNumber',
-      'imDescription'
+      'imDescription',
     ]);
 
     expect(filteredData.length).toEqual(0);
   });
 
   it('should return Defects Category by imNumber', () => {
-    let filter = '1';
-    let filteredData = defectsService.searchDefect(defectsCategories, filter, [
+    const filter = '1';
+    const filteredData = defectsService.searchDefect(defectsCategories, filter, [
       'imNumber',
-      'imDescription'
+      'imDescription',
     ]);
 
     expect(filteredData.length).toEqual(1);
@@ -96,10 +96,10 @@ describe('Provider: DefectsService', () => {
   });
 
   it('should return Defects Category by imDescription', () => {
-    let filter = 'Registration Plate';
-    let filteredData = defectsService.searchDefect(defectsCategories, filter, [
+    const filter = 'Registration Plate';
+    const filteredData = defectsService.searchDefect(defectsCategories, filter, [
       'imNumber',
-      'imDescription'
+      'imDescription',
     ]);
 
     expect(filteredData.length).toEqual(1);
@@ -107,10 +107,10 @@ describe('Provider: DefectsService', () => {
   });
 
   it('should return Defects Items by itemNumber', () => {
-    let filter = '1';
-    let filteredData = defectsService.searchDefect(defectsItems, filter, [
+    const filter = '1';
+    const filteredData = defectsService.searchDefect(defectsItems, filter, [
       'itemNumber',
-      'itemDescription'
+      'itemDescription',
     ]);
 
     expect(filteredData.length).toEqual(1);
@@ -118,10 +118,10 @@ describe('Provider: DefectsService', () => {
   });
 
   it('should return Defects Items by itemDescription', () => {
-    let filter = 'A registration plate:';
-    let filteredData = defectsService.searchDefect(defectsItems, filter, [
+    const filter = 'A registration plate:';
+    const filteredData = defectsService.searchDefect(defectsItems, filter, [
       'itemNumber',
-      'itemDescription'
+      'itemDescription',
     ]);
 
     expect(filteredData.length).toEqual(1);
@@ -129,20 +129,20 @@ describe('Provider: DefectsService', () => {
   });
 
   it('should return Deficiencies by deficiencyId', () => {
-    let filter = 'a';
-    let filteredData = defectsService.searchDefect(defectsDeficiencies, filter, [
+    const filter = 'a';
+    const filteredData = defectsService.searchDefect(defectsDeficiencies, filter, [
       'deficiencyId',
-      'deficiencyText'
+      'deficiencyText',
     ]);
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0].deficiencyId).toEqual(filter);
   });
 
   it('should return Deficiencies by deficiencyText', () => {
-    let filter = 'missing.';
-    let filteredData = defectsService.searchDefect(defectsDeficiencies, filter, [
+    const filter = 'missing.';
+    const filteredData = defectsService.searchDefect(defectsDeficiencies, filter, [
       'deficiencyId',
-      'deficiencyText'
+      'deficiencyText',
     ]);
 
     expect(filteredData.length).toEqual(1);
@@ -150,17 +150,17 @@ describe('Provider: DefectsService', () => {
   });
 
   it('should create defect based on isAdvisory: true', () => {
-    let isAdvisory = true;
-    let vehicleType = 'psv';
-    let defCat = defectsCategories[0];
-    let defItem = defectsItems[0];
-    let deficiency = defectsDeficiencies[0];
-    let defect = defectsService.createDefect(
+    const isAdvisory = true;
+    const vehicleType = 'psv';
+    const defCat = defectsCategories[0];
+    const defItem = defectsItems[0];
+    const deficiency = defectsDeficiencies[0];
+    const defect = defectsService.createDefect(
       defCat,
       defItem,
       deficiency,
       vehicleType,
-      isAdvisory
+      isAdvisory,
     );
 
     expect(defect.deficiencyCategory).toContain('advisory');
@@ -178,17 +178,17 @@ describe('Provider: DefectsService', () => {
   });
 
   it('should create defect based on isAdvisory: false', () => {
-    let isAdvisory = false;
-    let vehicleType = 'psv';
-    let defCat = defectsCategories[0];
-    let defItem = defectsItems[0];
-    let deficiency = defectsDeficiencies[0];
-    let defect = defectsService.createDefect(
+    const isAdvisory = false;
+    const vehicleType = 'psv';
+    const defCat = defectsCategories[0];
+    const defItem = defectsItems[0];
+    const deficiency = defectsDeficiencies[0];
+    const defect = defectsService.createDefect(
       defCat,
       defItem,
       deficiency,
       vehicleType,
-      isAdvisory
+      isAdvisory,
     );
 
     expect(defect.deficiencyRef).toBeTruthy();
@@ -207,12 +207,12 @@ describe('Provider: DefectsService', () => {
   });
 
   it('should sort an aray based on key and order', () => {
-    let defectsArray = defectsCategories;
+    const defectsArray = defectsCategories;
     expect(defectsArray[0].imDescription).toContain('Registration Plate');
-    let sortedDefectsArray = defectsService.orderDefectsArray(
+    const sortedDefectsArray = defectsService.orderDefectsArray(
       defectsArray,
       'imDescription',
-      'desc'
+      'desc',
     );
     expect(sortedDefectsArray[0].imDescription).toContain('Seat Belts');
   });

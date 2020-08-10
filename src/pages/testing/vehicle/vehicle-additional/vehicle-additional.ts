@@ -6,20 +6,20 @@ import {
   APP_STRINGS,
   DATE_FORMAT,
   TECH_RECORD_STATUS,
-  VEHICLE_TYPE
+  VEHICLE_TYPE,
 } from '../../../../app/app.enums';
 
 @IonicPage()
 @Component({
   selector: 'page-vehicle-additional',
-  templateUrl: 'vehicle-additional.html'
+  templateUrl: 'vehicle-additional.html',
 })
 export class VehicleAdditionalPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   SPECIAL_VEHICLE_TYPES: VEHICLE_TYPE[] = [
     VEHICLE_TYPE.CAR,
     VEHICLE_TYPE.LGV,
-    VEHICLE_TYPE.MOTORCYCLE
+    VEHICLE_TYPE.MOTORCYCLE,
   ];
   TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
   APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
@@ -31,7 +31,7 @@ export class VehicleAdditionalPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
-    public commonFunc: CommonFunctionsService
+    public commonFunc: CommonFunctionsService,
   ) {
     this.vehicleData = navParams.get('vehicleData');
     this.viewCtrl = viewCtrl;

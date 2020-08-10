@@ -4,7 +4,7 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
@@ -17,7 +17,7 @@ import {
   PAGE_NAMES,
   STORAGE,
   TECH_RECORD_STATUS,
-  VEHICLE_TYPE
+  VEHICLE_TYPE,
 } from '../../../../app/app.enums';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { AppConfig } from '../../../../../config/app.config';
@@ -28,14 +28,14 @@ import { AppService } from '../../../../providers/global/app.service';
 @IonicPage()
 @Component({
   selector: 'page-vehicle-details',
-  templateUrl: 'vehicle-details.html'
+  templateUrl: 'vehicle-details.html',
 })
 export class VehicleDetailsPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   SPECIAL_VEHICLE_TYPES: VEHICLE_TYPE[] = [
     VEHICLE_TYPE.MOTORCYCLE,
     VEHICLE_TYPE.CAR,
-    VEHICLE_TYPE.LGV
+    VEHICLE_TYPE.LGV,
   ];
   TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
   APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
@@ -54,7 +54,7 @@ export class VehicleDetailsPage {
     public commonFunc: CommonFunctionsService,
     private callNumber: CallNumber,
     private firebaseLogsService: FirebaseLogsService,
-    public appService: AppService
+    public appService: AppService,
   ) {
     this.vehicleData = navParams.get('vehicle');
     this.testData = navParams.get('test');
@@ -71,7 +71,7 @@ export class VehicleDetailsPage {
 
     this.firebaseLogsService.search_vehicle_time.search_vehicle_time_taken = this.firebaseLogsService.differenceInSeconds(
       this.firebaseLogsService.search_vehicle_time.search_vehicle_start_time,
-      this.firebaseLogsService.search_vehicle_time.search_vehicle_end_time
+      this.firebaseLogsService.search_vehicle_time.search_vehicle_end_time,
     );
     this.firebaseLogsService.logEvent(
       FIREBASE.SEARCH_VEHICLE_TIME_TAKEN,
@@ -80,7 +80,7 @@ export class VehicleDetailsPage {
       FIREBASE.SEARCH_VEHICLE_END_TIME,
       this.firebaseLogsService.search_vehicle_time.search_vehicle_end_time.toString(),
       FIREBASE.SEARCH_VEHICLE_TIME_TAKEN,
-      this.firebaseLogsService.search_vehicle_time.search_vehicle_time_taken
+      this.firebaseLogsService.search_vehicle_time.search_vehicle_time_taken,
     );
 
     this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_start_time = Date.now();
@@ -88,12 +88,12 @@ export class VehicleDetailsPage {
 
   goToPreparerPage(): void {
     this.changeOpacity = true;
-    let confirm = this.alertCtrl.create({
+    const confirm = this.alertCtrl.create({
       title: APP_STRINGS.CONFIRM_VEHICLE,
       message: APP_STRINGS.CONFIRM_VEHICLE_MSG,
       buttons: [
         {
-          text: APP_STRINGS.CANCEL
+          text: APP_STRINGS.CANCEL,
         },
         {
           text: APP_STRINGS.CONFIRM,
@@ -103,7 +103,7 @@ export class VehicleDetailsPage {
             this.navCtrl
               .push(PAGE_NAMES.ADD_PREPARER_PAGE, {
                 vehicle: this.vehicleData,
-                test: this.testData
+                test: this.testData,
               })
               .then((resp) => {
                 if (!resp) {
@@ -113,26 +113,26 @@ export class VehicleDetailsPage {
                     buttons: [
                       {
                         text: APP_STRINGS.CANCEL,
-                        role: 'cancel'
+                        role: 'cancel',
                       },
                       {
                         text: APP_STRINGS.CALL,
                         handler: () => {
                           this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
                             (data) => console.log(data),
-                            (err) => console.log(err)
+                            (err) => console.log(err),
                           );
                           return false;
-                        }
-                      }
-                    ]
+                        },
+                      },
+                    ],
                   });
                   alert.present();
                 }
               });
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     confirm.present();
     confirm.onDidDismiss(() => (this.changeOpacity = false));
@@ -140,7 +140,7 @@ export class VehicleDetailsPage {
 
   showMoreDetails(pageName: string): void {
     this.navCtrl.push(pageName, {
-      vehicleData: this.vehicleData
+      vehicleData: this.vehicleData,
     });
   }
 
@@ -150,7 +150,7 @@ export class VehicleDetailsPage {
       .then((data) => {
         this.navCtrl.push(PAGE_NAMES.VEHICLE_HISTORY_PAGE, {
           vehicleData: this.vehicleData,
-          testResultsHistory: data ? data : []
+          testResultsHistory: data ? data : [],
         });
       });
   }
@@ -160,7 +160,7 @@ export class VehicleDetailsPage {
 
     this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_time_taken = this.firebaseLogsService.differenceInSeconds(
       this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_start_time,
-      this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_end_time
+      this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_end_time,
     );
     this.firebaseLogsService.logEvent(
       FIREBASE.CONFIRM_VEHICLE_TIME_TAKEN,
@@ -169,7 +169,7 @@ export class VehicleDetailsPage {
       FIREBASE.CONFIRM_VEHICLE_END_TIME,
       this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_end_time.toString(),
       FIREBASE.CONFIRM_VEHICLE_TIME_TAKEN,
-      this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_time_taken
+      this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_time_taken,
     );
 
     this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time = Date.now();

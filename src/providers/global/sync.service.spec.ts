@@ -32,13 +32,13 @@ describe('Provider: SyncService', () => {
   let loadingCtrl: LoadingController;
   let appService: AppService;
   let appVersion: AppVersion;
-  let latestAppVersion = {
+  const latestAppVersion = {
     body: {
       'mobile-app': {
         version: 'v2.0.0',
-        version_checking: 'true'
-      }
-    }
+        version_checking: 'true',
+      },
+    },
   };
 
   beforeEach(() => {
@@ -49,7 +49,7 @@ describe('Provider: SyncService', () => {
       'getDefects',
       'getTestTypes',
       'getPreparers',
-      'getApplicationVersion'
+      'getApplicationVersion',
     ]);
     httpServiceSpy.getApplicationVersion = jasmine
       .createSpy()
@@ -69,8 +69,8 @@ describe('Provider: SyncService', () => {
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: Events, useFactory: () => EventsMock.instance() },
-        AppVersion
-      ]
+        AppVersion,
+      ],
     });
 
     syncService = TestBed.get(SyncService);
@@ -99,7 +99,7 @@ describe('Provider: SyncService', () => {
   });
 
   it('should call events.publish from handleData method', () => {
-    let myArray = [];
+    const myArray = [];
     myArray.push(DefectsReferenceDataMock.DefectsData);
     myArray.push(PreparersDataMock.PreparersData);
     myArray.push(TestStationDataMock.TestStationData);

@@ -34,7 +34,7 @@ describe('Component: TestTypesListPage', () => {
   let storageServiceSpy: any;
   let vehicleServiceSpy;
   let commonFunctionsService: CommonFunctionsService;
-  let vehicleData: VehicleModel = VehicleDataMock.VehicleData;
+  const vehicleData: VehicleModel = VehicleDataMock.VehicleData;
   let firebaseLogsService: FirebaseLogsService;
 
   const testTypes: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
@@ -42,12 +42,12 @@ describe('Component: TestTypesListPage', () => {
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      read: new Promise((resolve) => resolve(testTypes))
+      read: new Promise((resolve) => resolve(testTypes)),
     });
     vehicleServiceSpy = jasmine.createSpyObj('VehicleService', [
       'createVehicle',
       'addTestType',
-      'removeTestType'
+      'removeTestType',
     ]);
 
     TestBed.configureTestingModule({
@@ -61,9 +61,9 @@ describe('Component: TestTypesListPage', () => {
         { provide: VehicleService, useValue: vehicleServiceSpy },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: ViewController, useFactory: () => ViewControllerMock.instance() }
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -85,7 +85,7 @@ describe('Component: TestTypesListPage', () => {
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
         testTypeReferenceData: null,
-        vehicleData: vehicle
+        vehicleData: vehicle,
       };
       return params[param];
     });
@@ -125,7 +125,7 @@ describe('Component: TestTypesListPage', () => {
     [TestTypeService],
     (injectService: TestTypeService) => {
       expect(injectService).toBe(testTypeService);
-    }
+    },
   ));
 
   it('should return true of false if the testType can be displayed', () => {
@@ -136,7 +136,7 @@ describe('Component: TestTypesListPage', () => {
   });
 
   it('should return true or false if the leafs of the category are already added or not.', () => {
-    let addedIds = ['1', '38', '39'];
+    const addedIds = ['1', '38', '39'];
     expect(comp.canDisplayCategory(testTypes[1], addedIds)).toBeTruthy();
     expect(comp.canDisplayCategory(testTypes[0], addedIds)).toBeFalsy();
     expect(comp.canDisplayCategory(testTypes[2], addedIds)).toBeTruthy();
@@ -161,9 +161,9 @@ describe('Component: TestTypesListPage', () => {
       additionalCommentsForAbandon: null,
       defects: [],
       reasons: [],
-      linkedIds: ['38', '39']
+      linkedIds: ['38', '39'],
     });
-    let result = comp.addedTestTypesIds(vehicleData);
+    const result = comp.addedTestTypesIds(vehicleData);
     expect(result.length).toBe(1);
   });
 

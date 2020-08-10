@@ -3,7 +3,7 @@ import {
   NavController,
   NavParams,
   AlertController,
-  LoadingController
+  LoadingController,
 } from 'ionic-angular';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -42,25 +42,25 @@ describe('Component: TestCancelPage', () => {
   let store: Store<any>;
   let firebaseLogsService: FirebaseLogsService;
 
-  let testReport: TestModel = {
+  const testReport: TestModel = {
     startTime: null,
     endTime: null,
     status: null,
     reasonForCancellation: '',
-    vehicles: []
+    vehicles: [],
   };
 
   beforeEach(async(() => {
     testReportServiceSpy = jasmine.createSpyObj('testReportService', [
       { getTestReport: testReport },
-      'endTestReport'
+      'endTestReport',
     ]);
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', [
       {
         open: new Promise(() => {
           return true;
-        })
-      }
+        }),
+      },
     ]);
 
     TestBed.configureTestingModule({
@@ -79,9 +79,9 @@ describe('Component: TestCancelPage', () => {
         { provide: TestService, useValue: testReportServiceSpy },
         { provide: TestResultService, useClass: TestResultServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
-        { provide: Store, useClass: TestStore }
+        { provide: Store, useClass: TestStore },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -103,7 +103,7 @@ describe('Component: TestCancelPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        test: VisitDataMock.VisitTestData
+        test: VisitDataMock.VisitTestData,
       };
       return params[param];
     });
@@ -134,7 +134,7 @@ describe('Component: TestCancelPage', () => {
     [VisitService],
     (injectService: VisitService) => {
       expect(injectService).toBe(visitService);
-    }
+    },
   ));
 
   it('should verify either a string is valid or not', () => {

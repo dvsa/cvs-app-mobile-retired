@@ -8,7 +8,7 @@ import { DefectCategoryReferenceDataModel } from '../../../../models/reference-d
 @IonicPage()
 @Component({
   selector: 'page-add-defect-category',
-  templateUrl: 'add-defect-category.html'
+  templateUrl: 'add-defect-category.html',
 })
 export class AddDefectCategoryPage implements OnInit {
   vehicleType: string;
@@ -25,7 +25,7 @@ export class AddDefectCategoryPage implements OnInit {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     private defectsService: DefectsService,
-    public events: Events
+    public events: Events,
   ) {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
@@ -46,8 +46,8 @@ export class AddDefectCategoryPage implements OnInit {
     this.navCtrl.push('AddDefectItemPage', {
       vehicleType: this.vehicleType,
       vehicleTest: this.vehicleTest,
-      category: category,
-      fromTestReview: this.fromTestReview
+      category,
+      fromTestReview: this.fromTestReview,
     });
     this.events.publish(APP.NAV_OUT);
   }
@@ -58,9 +58,9 @@ export class AddDefectCategoryPage implements OnInit {
   }
 
   private populateCategoriesArray(): DefectCategoryReferenceDataModel[] {
-    let filteredArr = this.defectsService.searchDefect(this.defectCategories, this.searchVal, [
+    const filteredArr = this.defectsService.searchDefect(this.defectCategories, this.searchVal, [
       'imNumber',
-      'imDescription'
+      'imDescription',
     ]);
     return this.defectsService.orderDefectsArray(filteredArr, 'imNumber', 'asc');
   }

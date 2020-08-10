@@ -6,7 +6,7 @@ import {
   ModalController,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { VisitModel } from '../../../../models/visit/visit.model';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
@@ -24,7 +24,7 @@ import {
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
   TIR_CERTIFICATE_NUMBER_PREFIXES,
-  VEHICLE_TYPE
+  VEHICLE_TYPE,
 } from '../../../../app/app.enums';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
@@ -57,7 +57,7 @@ import { TestTypeService } from '../../../../providers/test-type/test-type.servi
 @IonicPage()
 @Component({
   selector: 'page-test-review',
-  templateUrl: 'test-review.html'
+  templateUrl: 'test-review.html',
 })
 export class TestReviewPage implements OnInit {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
@@ -100,7 +100,7 @@ export class TestReviewPage implements OnInit {
     private firebaseLogsService: FirebaseLogsService,
     private activityService: ActivityService,
     public appService: AppService,
-    private testTypeService: TestTypeService
+    private testTypeService: TestTypeService,
   ) {
     this.visit = this.visitService.visit;
     this.latestTest = this.visitService.getLatestTest();
@@ -133,7 +133,7 @@ export class TestReviewPage implements OnInit {
   }
 
   getOdometerStringToBeDisplayed(vehicle) {
-    let unit = vehicle.odometerMetric === ODOMETER_METRIC.KILOMETRES ? 'km' : 'mi';
+    const unit = vehicle.odometerMetric === ODOMETER_METRIC.KILOMETRES ? 'km' : 'mi';
     return vehicle.odometerReading
       ? this.vehicleService.formatOdometerReadingValue(vehicle.odometerReading) + ' ' + unit
       : '';
@@ -155,8 +155,8 @@ export class TestReviewPage implements OnInit {
   }
 
   getTestTypeOptionalFieldsToDisplay(testType: TestTypeModel, field) {
-    let testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
-    for (let testTypeFieldMetadata of testTypesFieldsMetadata) {
+    const testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
+    for (const testTypeFieldMetadata of testTypesFieldsMetadata) {
       if (testType.testTypeId === testTypeFieldMetadata.testTypeId) {
         return field === 'defects'
           ? testTypeFieldMetadata.hasDefects
@@ -171,13 +171,13 @@ export class TestReviewPage implements OnInit {
    * Opens a test overview page as a modal (sliding from bottom)
    */
   openTestDetailsPage(vehicle, testType) {
-    let initialTestType = this.commonFunctions.cloneObject(testType);
+    const initialTestType = this.commonFunctions.cloneObject(testType);
     this.completeFields(testType);
     const MODAL = this.modalCtrl.create(PAGE_NAMES.COMPLETE_TEST_PAGE, {
-      vehicle: vehicle,
+      vehicle,
       vehicleTest: testType,
       completedFields: this.completedFields,
-      fromTestReview: true
+      fromTestReview: true,
     });
     MODAL.onDidDismiss((data) => this.checkMissingTestTypeMandatoryFields(data, initialTestType));
     MODAL.present();
@@ -189,14 +189,14 @@ export class TestReviewPage implements OnInit {
 
   isSpecialistTestTypeCompleted(
     changedTestType: TestTypeModel,
-    initialTestType: TestTypeModel
+    initialTestType: TestTypeModel,
   ): boolean {
     // specialist test-types WITHOUT certificate number with custom defects incomplete
     if (
       this.testTypeService.isSpecialistTestType(initialTestType.testTypeId) &&
       !(
         this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
-          initialTestType.testTypeId
+          initialTestType.testTypeId,
         ) || this.testTypeService.isSpecialistPartOfCoifTestTypes(initialTestType.testTypeId)
       ) &&
       !this.testTypeService.areSpecialistCustomDefectsCompleted(changedTestType)
@@ -206,7 +206,7 @@ export class TestReviewPage implements OnInit {
     // specialist test-types WITH certificate number with certificate number missing or custom defects incomplete
     if (
       (this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
-        initialTestType.testTypeId
+        initialTestType.testTypeId,
       ) ||
         this.testTypeService.isSpecialistPartOfCoifTestTypes(initialTestType.testTypeId)) &&
       (!changedTestType.certificateNumber ||
@@ -224,7 +224,7 @@ export class TestReviewPage implements OnInit {
    */
   checkMissingTestTypeMandatoryFields(
     changedTestType: TestTypeModel,
-    initialTestType: TestTypeModel
+    initialTestType: TestTypeModel,
   ): void {
     if (this.adrTestTypesIds.indexOf(initialTestType.testTypeId) !== -1) {
       if (
@@ -257,11 +257,12 @@ export class TestReviewPage implements OnInit {
    * Go to next vehicle if there are vehicles left, otherwise submit test
    */
   goToNextPage() {
-    if (this.vehicleBeingReviewed < this.latestTest.vehicles.length - 1)
+    if (this.vehicleBeingReviewed < this.latestTest.vehicles.length - 1) {
       this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE, {
         vehicleBeingReviewed: this.vehicleBeingReviewed + 1,
-        backButtonText: this.title
+        backButtonText: this.title,
       });
+    }
     else this.submitTest();
   }
 
@@ -282,7 +283,7 @@ export class TestReviewPage implements OnInit {
             text: APP_STRINGS.CANCEL,
             handler: () => {
               this.submitInProgress = false;
-            }
+            },
           },
           {
             text: APP_STRINGS.SUBMIT,
@@ -292,9 +293,9 @@ export class TestReviewPage implements OnInit {
               this.latestTest.status = TEST_REPORT_STATUSES.SUBMITTED;
               this.testService.endTestReport(this.latestTest);
               this.submit(this.latestTest);
-            }
-          }
-        ]
+            },
+          },
+        ],
       });
       ALERT.present();
     }
@@ -304,7 +305,7 @@ export class TestReviewPage implements OnInit {
    * Algorithm to submit a test containing multiple vehicles
    */
   submit(test) {
-    let stack: Observable<any>[] = [];
+    const stack: Observable<any>[] = [];
     this.oid = this.authService.getOid();
     const TRY_AGAIN_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
@@ -314,15 +315,15 @@ export class TestReviewPage implements OnInit {
           text: APP_STRINGS.SETTINGS_BTN,
           handler: () => {
             this.openNativeSettings.open('settings');
-          }
+          },
         },
         {
           text: APP_STRINGS.TRY_AGAIN_BTN,
           handler: () => {
             this.submit(test);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     TRY_AGAIN_ALERT.onDidDismiss(() => {
@@ -330,14 +331,14 @@ export class TestReviewPage implements OnInit {
     });
 
     const LOADING = this.loadingCtrl.create({
-      content: 'Loading...'
+      content: 'Loading...',
     });
     LOADING.present();
 
-    let testResultsArr: TestResultModel[] = [];
+    const testResultsArr: TestResultModel[] = [];
 
-    for (let vehicle of test.vehicles) {
-      let testResult = this.testResultService.createTestResult(this.visit, test, vehicle);
+    for (const vehicle of test.vehicles) {
+      const testResult = this.testResultService.createTestResult(this.visit, test, vehicle);
       testResultsArr.push(testResult);
       stack.push(
         this.testResultService.submitTestResult(testResult).pipe(
@@ -347,12 +348,12 @@ export class TestReviewPage implements OnInit {
               message: `${this.oid} - ${error.status} ${
                 error.error.errors ? error.error.errors[0] : error.error
               } for API call to ${error.url} with the body message ${JSON.stringify(testResult)}`,
-              timestamp: Date.now()
+              timestamp: Date.now(),
             };
             this.store$.dispatch(new logsActions.SaveLog(log));
             return Observable.throw(error);
-          })
-        )
+          }),
+        ),
       );
     }
     Observable.forkJoin(stack).subscribe(
@@ -360,29 +361,30 @@ export class TestReviewPage implements OnInit {
         const log: Log = {
           type: 'info',
           message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
         this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_TEST);
-        for (let testResult of testResultsArr) {
+        for (const testResult of testResultsArr) {
           const activity = this.activityService.createActivityBodyForCall(
             this.visitService.visit,
             testResult,
-            false
+            false,
           );
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
               const log: Log = {
                 type: LOG_TYPES.INFO,
                 message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
-                timestamp: Date.now()
+                timestamp: Date.now(),
               };
               this.store$.dispatch(new logsActions.SaveLog(log));
-              let activityIndex = this.activityService.activities
+              const activityIndex = this.activityService.activities
                 .map((activity) => activity.endTime)
                 .indexOf(testResult.testStartTimestamp);
-              if (activityIndex > -1)
+              if (activityIndex > -1) {
                 this.activityService.activities[activityIndex].id = resp.body.id;
+              }
               this.activityService.updateActivities();
               this.visitService.updateVisit();
             },
@@ -390,21 +392,21 @@ export class TestReviewPage implements OnInit {
               const log: Log = {
                 type: LOG_TYPES.ERROR,
                 message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
-                timestamp: Date.now()
+                timestamp: Date.now(),
               };
               this.store$.dispatch(new logsActions.SaveLog(log));
               this.firebase.logEvent('test_error', {
                 content_type: 'error',
-                item_id: 'Wait activity submission failed'
+                item_id: 'Wait activity submission failed',
               });
-            }
+            },
           );
         }
         this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
         LOADING.dismiss();
         this.submitInProgress = false;
         this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
-          testerEmailAddress: this.visit.testerEmail
+          testerEmailAddress: this.visit.testerEmail,
         });
       },
       (error) => {
@@ -413,9 +415,9 @@ export class TestReviewPage implements OnInit {
         this.firebaseLogsService.logEvent(
           FIREBASE.TEST_ERROR,
           FIREBASE.ERROR,
-          FIREBASE.TEST_SUBMISSION_FAILED
+          FIREBASE.TEST_SUBMISSION_FAILED,
         );
-      }
+      },
     );
   }
 

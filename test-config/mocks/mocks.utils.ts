@@ -4,7 +4,7 @@ import { DefectDetailsModel } from '../../src/models/defects/defect-details.mode
 
 export const MOCK_UTILS = {
   mockTesterDetails,
-  mockDefectsDetails
+  mockDefectsDetails,
 };
 
 function mockTesterDetails(args?: Partial<TesterDetailsModel>): TesterDetailsModel {
@@ -12,7 +12,7 @@ function mockTesterDetails(args?: Partial<TesterDetailsModel>): TesterDetailsMod
     testerName: 'John Doe',
     testerId: '1234567890',
     testerEmail: 'test@email.com',
-    testerRoles: [TESTER_ROLES.PSV]
+    testerRoles: [TESTER_ROLES.PSV],
   } as TesterDetailsModel;
 
   return { ...mock, ...args };
@@ -31,9 +31,9 @@ function mockDefectsDetails(args?: Partial<DefectDetailsModel>): DefectDetailsMo
         longitudinal: 'front',
         rowNumber: null,
         lateral: null,
-        seatNumber: null
+        seatNumber: null,
       },
-      notes: 'None'
+      notes: 'None',
     },
     itemNumber: 1,
     deficiencyRef: '1.1.a',
@@ -42,7 +42,7 @@ function mockDefectsDetails(args?: Partial<DefectDetailsModel>): DefectDetailsMo
     imDescription: 'Registration Plate',
     deficiencyId: 'a',
     itemDescription: 'A registration plate:',
-    imNumber: 1
+    imNumber: 1,
   } as DefectDetailsModel;
 
   return { ...mock, ...args };

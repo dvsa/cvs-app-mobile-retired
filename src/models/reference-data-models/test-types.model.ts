@@ -2,7 +2,7 @@ import {
   EU_VEHICLE_CATEGORY,
   VEHICLE_CONFIGURATION,
   VEHICLE_SIZE,
-  VEHICLE_TYPE
+  VEHICLE_TYPE,
 } from '../../app/app.enums';
 
 export interface TestTypesReferenceDataModel {

@@ -4,7 +4,7 @@ import { APP } from '../../app/app.enums';
 import { Keyboard } from '@ionic-native/keyboard';
 
 @Directive({
-  selector: '[transforming-searchBar]'
+  selector: '[transforming-searchBar]',
 })
 export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy {
   @Input() searchBarElemRef;
@@ -15,7 +15,7 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
     private el: ElementRef,
     private keyboard: Keyboard,
     private renderer: Renderer2,
-    public events: Events
+    public events: Events,
   ) {
     this.headerElemRef = el.nativeElement;
   }

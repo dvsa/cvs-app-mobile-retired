@@ -27,7 +27,7 @@ export class LogsEffects {
     private store$: Store<LogsModel>,
     private logsProvider: LogsProvider,
     private dataStore: DataStoreProvider,
-    private networkStateProvider: NetworkStateProvider
+    private networkStateProvider: NetworkStateProvider,
   ) {}
 
   @Effect()
@@ -35,7 +35,7 @@ export class LogsEffects {
     ofType(logsActions.START_SENDING_LOGS),
     switchMap(() => {
       return interval(60 * 1000).pipe(map(() => new logsActions.SendLogs()));
-    })
+    }),
   );
 
   @Effect()
@@ -45,7 +45,7 @@ export class LogsEffects {
     switchMap(([action, logs]) => {
       this.saveLogs(logs);
       return of();
-    })
+    }),
   );
 
   @Effect()
@@ -53,9 +53,9 @@ export class LogsEffects {
     ofType(logsActions.LOAD_LOG),
     switchMap(() => {
       return this.getPersistedLogs().pipe(
-        map((logs: Log[]) => new logsActions.LoadLogState(logs))
+        map((logs: Log[]) => new logsActions.LoadLogState(logs)),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -63,7 +63,7 @@ export class LogsEffects {
     ofType(logsActions.SAVE_LOG),
     switchMap(() => {
       return of(new logsActions.PersistLog());
-    })
+    }),
   );
 
   @Effect()
@@ -71,7 +71,7 @@ export class LogsEffects {
     ofType(logsActions.SEND_LOGS_SUCCESS),
     switchMap(() => {
       return of(new logsActions.PersistLog());
-    })
+    }),
   );
 
   @Effect()
@@ -84,7 +84,7 @@ export class LogsEffects {
       }
       return Observable.forkJoin([
         this.logsProvider.sendLogs(logs),
-        this.logsProvider.sendUnauthLogs(logs)
+        this.logsProvider.sendUnauthLogs(logs),
       ]).pipe(
         map((response: any) => {
           const timestamps = logs.map((log) => log.timestamp);
@@ -92,16 +92,16 @@ export class LogsEffects {
         }),
         catchError((err: any) => {
           return of(new logsActions.SendLogsFailure(err));
-        })
+        }),
       );
-    })
+    }),
   );
 
   // TODO: All this has to be moved to the LogsProvider or DataStore provider
 
   getPersistedLogs = (): Observable<Log[]> => {
     return from(this.getAndConvertPersistedLogs());
-  };
+  }
 
   getAndConvertPersistedLogs = (): Promise<Log[]> =>
     this.dataStore
@@ -117,33 +117,33 @@ export class LogsEffects {
       .catch(() => {
         const emptyLogData: Log[] = [];
         return emptyLogData;
-      });
+      })
 
   saveLogs = (logData: Log[]) => {
     const logDataToStore: LogCache = {
       dateStored: new Date().toISOString(),
-      data: logData
+      data: logData,
     };
     this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore)).then((response) => {});
-  };
+  }
 
   isCacheTooOld = (dateStored: Date, now: Date): boolean => {
     return (
       Math.floor(
         (Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) -
           Date.UTC(dateStored.getFullYear(), dateStored.getMonth(), dateStored.getDate())) /
-          (1000 * 60 * 60 * 24)
+          (1000 * 60 * 60 * 24),
       ) > 7
     );
-  };
+  }
 
   emptyCachedData = () => {
     const emptyLogData: Log[] = [];
     const logDataToStore: LogCache = {
       dateStored: new Date().toISOString(),
-      data: emptyLogData
+      data: emptyLogData,
     };
     this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore)).then(() => {});
     return emptyLogData;
-  };
+  }
 }

@@ -21,7 +21,7 @@ describe('Component: TestAbandoningPage', () => {
   let alertCtrl: AlertController;
   let visitService: VisitService;
 
-  let vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
+  const vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const selectedReasons = ['Best reason', 'Second best reason'];
   const additionalComment = 'Some additional comment';
 
@@ -35,9 +35,9 @@ describe('Component: TestAbandoningPage', () => {
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestTypeService, useClass: TestTypeServiceMock },
-        { provide: NavParams, useClass: NavParamsMock }
+        { provide: NavParams, useClass: NavParamsMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -56,8 +56,8 @@ describe('Component: TestAbandoningPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        vehicleTest: vehicleTest,
-        selectedReasons: selectedReasons
+        vehicleTest,
+        selectedReasons,
       };
       return params[param];
     });

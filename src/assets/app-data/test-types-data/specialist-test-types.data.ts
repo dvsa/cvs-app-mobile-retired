@@ -55,7 +55,7 @@ export class SpecialistTestTypesData {
       '185',
       '196',
       '197',
-      '198'
+      '198',
     ];
   }
 
@@ -86,7 +86,7 @@ export class SpecialistTestTypesData {
       '184',
       '196',
       '197',
-      '185'
+      '185',
     ];
   }
 
@@ -127,7 +127,7 @@ export class SpecialistTestTypesData {
       '173',
       '181',
       '182',
-      '198'
+      '198',
     ];
   }
 
@@ -153,7 +153,7 @@ export class SpecialistTestTypesData {
       '184',
       '196',
       '197',
-      '185'
+      '185',
     ];
   }
 }

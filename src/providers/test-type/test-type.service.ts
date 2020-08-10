@@ -7,12 +7,12 @@ import {
   STORAGE,
   TEST_TYPE_RESULTS,
   FIREBASE_DEFECTS,
-  VEHICLE_TYPE
+  VEHICLE_TYPE,
 } from '../../app/app.enums';
 import { TestTypeModel } from '../../models/tests/test-type.model';
 import {
   DefectDetailsModel,
-  SpecialistCustomDefectModel
+  SpecialistCustomDefectModel,
 } from '../../models/defects/defect-details.model';
 import { VisitService } from '../visit/visit.service';
 import { TestTypesReferenceDataModel } from '../../models/reference-data-models/test-types.model';
@@ -31,11 +31,11 @@ export class TestTypeService {
     private storageService: StorageService,
     public visitService: VisitService,
     public commonFunctions: CommonFunctionsService,
-    private firebaseLogsService: FirebaseLogsService
+    private firebaseLogsService: FirebaseLogsService,
   ) {}
 
   createTestType(testType: TestTypesReferenceDataModel, vehicleType: string): TestTypeModel {
-    let newTestType = {} as TestTypeModel;
+    const newTestType = {} as TestTypeModel;
     newTestType.name = testType.name;
     newTestType.testTypeName = testType.testTypeName;
     newTestType.testTypeId = testType.id;
@@ -87,16 +87,15 @@ export class TestTypeService {
     this.firebaseLogsService.logEvent(
       FIREBASE_DEFECTS.ADD_DEFECT,
       FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
-      deficiencyRef
+      deficiencyRef,
     );
 
-    let parameters = this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN];
+    const parameters = this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN];
     parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME] = Date.now();
-    parameters[
-      FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN
-    ] = this.firebaseLogsService.differenceInSeconds(
+    parameters[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN
+] = this.firebaseLogsService.differenceInSeconds(
       parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],
-      parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME]
+      parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME],
     );
     this.firebaseLogsService.logEvent(
       FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN,
@@ -105,12 +104,12 @@ export class TestTypeService {
       FIREBASE_DEFECTS.ADD_DEFECT_END_TIME,
       parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME],
       FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN,
-      parameters[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN]
+      parameters[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN],
     );
   }
 
   removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
-    let defIdx = testType.defects
+    const defIdx = testType.defects
       .map((e) => {
         return e.deficiencyRef;
       })
@@ -124,7 +123,7 @@ export class TestTypeService {
     testType.customDefects.splice(index, 1);
     this.visitService.updateVisit();
     this.logFirebaseRemoveDefect(
-      testType.customDefects[index] ? testType.customDefects[index].referenceNumber : null
+      testType.customDefects[index] ? testType.customDefects[index].referenceNumber : null,
     );
   }
 
@@ -132,7 +131,7 @@ export class TestTypeService {
     this.firebaseLogsService.logEvent(
       FIREBASE_DEFECTS.REMOVE_DEFECT,
       FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
-      deficiencyRef
+      deficiencyRef,
     );
   }
 
@@ -142,9 +141,9 @@ export class TestTypeService {
 
   setTestResult(testType: TestTypeModel, hasDefects: boolean): string | TEST_TYPE_RESULTS {
     let result = hasDefects ? TEST_TYPE_RESULTS.PASS : testType.testResult;
-    let criticalDeficienciesArr: DefectDetailsModel[] = [];
+    const criticalDeficienciesArr: DefectDetailsModel[] = [];
     if (testType.reasons.length) return TEST_TYPE_RESULTS.ABANDONED;
-    if (testType.defects.length)
+    if (testType.defects.length) {
       testType.defects.forEach((defect: DefectDetailsModel) => {
         switch (defect.deficiencyCategory.toLowerCase()) {
           case DEFICIENCY_CATEGORY.MAJOR:
@@ -157,8 +156,9 @@ export class TestTypeService {
             break;
         }
       });
+    }
     if (criticalDeficienciesArr.length) {
-      let criticalDefStatus = criticalDeficienciesArr.every((defect) => {
+      const criticalDefStatus = criticalDeficienciesArr.every((defect) => {
         return defect.prs;
       });
       result = criticalDefStatus ? TEST_TYPE_RESULTS.PRS : TEST_TYPE_RESULTS.FAIL;
@@ -170,7 +170,7 @@ export class TestTypeService {
     let blockTestResultSelection = false;
     if (AdrTestTypesData.AdrTestTypesDataIds.indexOf(testType.testTypeId) !== -1) {
       // between Annual test and ADR tests for HGVs and TRLs
-      for (let vehicleTestType of vehicle.testTypes) {
+      for (const vehicleTestType of vehicle.testTypes) {
         if (
           (vehicleTestType.testTypeId === '40' || vehicleTestType.testTypeId === '94') &&
           vehicleTestType.testResult === TEST_TYPE_RESULTS.FAIL
@@ -220,7 +220,7 @@ export class TestTypeService {
   isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(testTypeId: string): boolean {
     return (
       SpecialistTestTypesData.SpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetestIds.indexOf(
-        testTypeId
+        testTypeId,
       ) !== -1
     );
   }
@@ -236,7 +236,7 @@ export class TestTypeService {
   isPsvNotifiableAlterationTestType(testTypeId: string): boolean {
     return (
       NotifiableAlterationTestTypesData.PsvNotifiableAlterationTestTypeDataIds.indexOf(
-        testTypeId
+        testTypeId,
       ) !== -1
     );
   }
@@ -244,7 +244,7 @@ export class TestTypeService {
   isSpecialistWithoutCertificateNumberCapturedIds(testTypeId: string): boolean {
     return (
       SpecialistTestTypesData.SpecialistWithoutCertificateNumberCapturedIds.indexOf(
-        testTypeId
+        testTypeId,
       ) !== -1
     );
   }

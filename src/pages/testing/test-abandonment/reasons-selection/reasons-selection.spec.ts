@@ -24,9 +24,9 @@ describe('Component: ReasonsSelectionPage', () => {
         NavController,
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ViewController, useClass: ViewControllerMock },
-        { provide: TestTypeService, useClass: TestTypeServiceMock }
+        { provide: TestTypeService, useClass: TestTypeServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

@@ -5,7 +5,7 @@ import {
   LoadingController,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { VehicleModel } from '../../../../../models/vehicle/vehicle.model';
 import { Observer } from 'rxjs';
@@ -23,7 +23,7 @@ import { TestModel } from '../../../../../models/tests/test.model';
 @IonicPage()
 @Component({
   selector: 'multiple-tech-records-selection',
-  templateUrl: 'multiple-tech-records-selection.html'
+  templateUrl: 'multiple-tech-records-selection.html',
 })
 export class MultipleTechRecordsSelectionPage {
   combinationTestData: TestModel;
@@ -42,7 +42,7 @@ export class MultipleTechRecordsSelectionPage {
     public storageService: StorageService,
     private firebase: Firebase,
     private store$: Store<LogsModel>,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
   ) {
     this.vehicles = this.navParams.get('vehicles');
     this.combinationTestData = navParams.get('test');
@@ -57,7 +57,7 @@ export class MultipleTechRecordsSelectionPage {
 
   openVehicleDetails(selectedVehicle: VehicleModel): void {
     const LOADING = this.loadingCtrl.create({
-      content: 'Loading...'
+      content: 'Loading...',
     });
     LOADING.present();
     this.oid = this.authService.getOid();
@@ -70,17 +70,17 @@ export class MultipleTechRecordsSelectionPage {
         const log: Log = {
           type: 'error',
           message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
         this.firebase.logEvent('test_error', {
           content_type: 'error',
-          item_id: 'Failed retrieving the testResultsHistory'
+          item_id: 'Failed retrieving the testResultsHistory',
         });
         this.storageService.update(STORAGE.TEST_HISTORY + selectedVehicle.systemNumber, []);
         this.goToVehicleDetails(selectedVehicle);
       },
-      complete: function() {}
+      complete() {},
     };
 
     if (this.vehicleService.isVehicleSkeleton(selectedVehicle)) {
@@ -99,7 +99,7 @@ export class MultipleTechRecordsSelectionPage {
   goToVehicleDetails(selectedVehicle: VehicleModel) {
     this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
       test: this.combinationTestData,
-      vehicle: selectedVehicle
+      vehicle: selectedVehicle,
     });
   }
 }

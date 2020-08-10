@@ -39,9 +39,9 @@ describe('Component: VehicleHistoryDetailsPage', () => {
         { provide: ViewController, useClass: ViewControllerMock },
         { provide: TestTypeService, useClass: TestTypeServiceMock },
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

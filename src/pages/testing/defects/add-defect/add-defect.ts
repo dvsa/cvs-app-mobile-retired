@@ -7,13 +7,13 @@ import { TestTypeModel } from '../../../../models/tests/test-type.model';
 import {
   DefectCategoryReferenceDataModel,
   DefectDeficiencyReferenceDataModel,
-  DefectItemReferenceDataModel
+  DefectItemReferenceDataModel,
 } from '../../../../models/reference-data-models/defects.reference-model';
 
 @IonicPage()
 @Component({
   selector: 'page-add-defect',
-  templateUrl: 'add-defect.html'
+  templateUrl: 'add-defect.html',
 })
 export class AddDefectPage implements OnInit {
   vehicleType: string;
@@ -32,7 +32,7 @@ export class AddDefectPage implements OnInit {
     public viewCtrl: ViewController,
     public defectsService: DefectsService,
     public events: Events,
-    public commonFunc: CommonFunctionsService
+    public commonFunc: CommonFunctionsService,
   ) {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
@@ -50,12 +50,12 @@ export class AddDefectPage implements OnInit {
   }
 
   selectDeficiency(deficiency: DefectDeficiencyReferenceDataModel): void {
-    let defect = this.defectsService.createDefect(
+    const defect = this.defectsService.createDefect(
       this.category,
       this.item,
       deficiency,
       this.vehicleType,
-      false
+      false,
     );
     this.focusOut = false;
 
@@ -63,24 +63,24 @@ export class AddDefectPage implements OnInit {
       vehicleTest: this.vehicleTest,
       deficiency: defect,
       isEdit: false,
-      fromTestReview: this.fromTestReview
+      fromTestReview: this.fromTestReview,
     });
     this.clearSearch();
   }
 
   addAdvisory(): void {
-    let advisory = this.defectsService.createDefect(
+    const advisory = this.defectsService.createDefect(
       this.category,
       this.item,
       null,
       this.vehicleType,
-      true
+      true,
     );
 
     this.navCtrl.push('AdvisoryDetailsPage', {
       vehicleTest: this.vehicleTest,
-      advisory: advisory,
-      isEdit: false
+      advisory,
+      isEdit: false,
     });
     this.clearSearch();
   }
@@ -101,9 +101,9 @@ export class AddDefectPage implements OnInit {
   }
 
   private populateDeficienciesArray(): DefectDeficiencyReferenceDataModel[] {
-    let filteredArr = this.defectsService.searchDefect(this.item.deficiencies, this.searchVal, [
+    const filteredArr = this.defectsService.searchDefect(this.item.deficiencies, this.searchVal, [
       'deficiencyId',
-      'deficiencyText'
+      'deficiencyText',
     ]);
     return this.defectsService.orderDefectsArray(filteredArr, 'deficiencyId', 'asc');
   }

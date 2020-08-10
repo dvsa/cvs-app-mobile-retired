@@ -6,7 +6,7 @@ export class VisitDataMock {
   }
 
   public static get VisitTestDataArray() {
-    let testArr = [];
+    const testArr = [];
     for (let i = 0; i < 5; i++) {
       testArr[i] = VisitDataMock.VisitData.tests[0];
     }
@@ -54,7 +54,7 @@ export class VisitDataMock {
                   brakeForceWheelsNotLocked: {
                     parkingBrakeForceA: 2742,
                     serviceBrakeForceA: 7713,
-                    secondaryBrakeForceA: 3857
+                    secondaryBrakeForceA: 3857,
                   },
                   dataTrBrakeTwo: 'None',
                   retarderBrakeTwo: 'exhaust',
@@ -63,8 +63,8 @@ export class VisitDataMock {
                   brakeForceWheelsUpToHalfLocked: {
                     secondaryBrakeForceB: 3329,
                     parkingBrakeForceB: 2130,
-                    serviceBrakeForceB: 6658
-                  }
+                    serviceBrakeForceB: 6658,
+                  },
                 },
                 bodyModel: 'Tourismo',
                 bodyMake: 'Plaxton',
@@ -78,7 +78,7 @@ export class VisitDataMock {
                       kerbWeight: 5018,
                       gbWeight: 7100,
                       ladenWeight: 7100,
-                      designWeight: 7100
+                      designWeight: 7100,
                     },
                     tyres: {
                       tyreSize: '295/80-22.5',
@@ -86,8 +86,8 @@ export class VisitDataMock {
                       fitmentCode: 'single',
                       dataTrAxles: 0,
                       plyRating: 'A',
-                      tyreCode: 456
-                    }
+                      tyreCode: 456,
+                    },
                   },
                   {
                     axleNumber: 2,
@@ -95,7 +95,7 @@ export class VisitDataMock {
                       kerbWeight: 8297,
                       gbWeight: 11500,
                       ladenWeight: 11500,
-                      designWeight: 12600
+                      designWeight: 12600,
                     },
                     tyres: {
                       tyreSize: '295/80-22.5',
@@ -103,9 +103,9 @@ export class VisitDataMock {
                       fitmentCode: 'double',
                       dataTrAxles: 0,
                       plyRating: 'A',
-                      tyreCode: 456
-                    }
-                  }
+                      tyreCode: 456,
+                    },
+                  },
                 ],
                 chassisModel: '632,01',
                 grossGbWeight: 18000,
@@ -113,7 +113,7 @@ export class VisitDataMock {
                 manufactureDate: 2010,
                 vehicleClass: {
                   code: 'S',
-                  description: ''
+                  description: '',
                 },
                 chassisMake: 'Mercedes',
                 vehicleSize: 'small',
@@ -130,7 +130,7 @@ export class VisitDataMock {
                 reasonForCreation: 'COIF',
                 speedRestriction: 0,
                 remarks: 'None',
-                statusCode: 'current'
+                statusCode: 'current',
               },
               testResultsHistory: [],
               countryOfRegistration: 'gb',
@@ -176,8 +176,8 @@ export class VisitDataMock {
                           longitudinal: '',
                           rowNumber: null,
                           seatNumber: null,
-                          axleNumber: null
-                        }
+                          axleNumber: null,
+                        },
                       },
                       metadata: {
                         category: {
@@ -189,17 +189,17 @@ export class VisitDataMock {
                               longitudinal: null,
                               rowNumber: null,
                               lateral: ['nearside', 'offside', 'centre'],
-                              seatNumber: null
+                              seatNumber: null,
                             },
-                            notes: true
-                          }
-                        }
+                            notes: true,
+                          },
+                        },
                       },
-                      prs: true
-                    }
+                      prs: true,
+                    },
                   ],
                   testTypeCategoryName: 'Annual test',
-                  completionStatus: 'edit'
+                  completionStatus: 'edit',
                 },
                 {
                   name: 'LEC',
@@ -220,7 +220,7 @@ export class VisitDataMock {
                   additionalNotesRecorded: '',
                   defects: [],
                   testTypeCategoryName: 'Technical test',
-                  completionStatus: 'edit'
+                  completionStatus: 'edit',
                 },
                 {
                   name: 'Speed limiter check',
@@ -239,19 +239,19 @@ export class VisitDataMock {
                   reasons: [
                     'The vehicle was not submitted for test at the appointed time',
                     'The relevant test fee has not been paid',
-                    'Current Health and Safety legislation cannot be met in testing the vehicle'
+                    'Current Health and Safety legislation cannot be met in testing the vehicle',
                   ],
                   additionalCommentsForAbandon: 'wfdsewweewc',
                   additionalNotesRecorded: '',
                   defects: [],
                   testTypeCategoryName: 'Voluntary test',
-                  completionStatus: 'edit'
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  completionStatus: 'edit',
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
   }
 }

@@ -14,7 +14,7 @@ export class SignatureService {
     message: APP_STRINGS.SIGN_TOAST_MSG,
     duration: 4000,
     position: 'top',
-    cssClass: 'sign-toast-css'
+    cssClass: 'sign-toast-css',
   });
 
   constructor(
@@ -23,13 +23,13 @@ export class SignatureService {
     private events: Events,
     private toastCtrl: ToastController,
     private storageService: StorageService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   saveSignature(): Observable<any> {
     return this.httpService.saveSignature(
       this.authService.testerDetails.testerId,
-      this.signatureString.slice(22, this.signatureString.length)
+      this.signatureString.slice(22, this.signatureString.length),
     );
   }
 

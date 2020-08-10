@@ -19,31 +19,31 @@ export class HTTPService {
 
   getAtfs(): Observable<HttpResponse<TestStationReferenceDataModel[]>> {
     return this.http.get<TestStationReferenceDataModel[]>(AppConfig.BACKEND_URL_TEST_STATIONS, {
-      observe: 'response'
+      observe: 'response',
     });
   }
 
   getDefects(): Observable<HttpResponse<DefectItemReferenceDataModel[]>> {
     return this.http.get<DefectItemReferenceDataModel[]>(AppConfig.BACKEND_URL_DEFECTS, {
-      observe: 'response'
+      observe: 'response',
     });
   }
 
   getTestTypes(): Observable<HttpResponse<TestTypesReferenceDataModel[]>> {
     return this.http.get<TestTypesReferenceDataModel[]>(AppConfig.BACKEND_URL_TESTTYPES, {
-      observe: 'response'
+      observe: 'response',
     });
   }
 
   getPreparers(): Observable<HttpResponse<PreparersReferenceDataModel[]>> {
     return this.http.get<PreparersReferenceDataModel[]>(AppConfig.BACKEND_URL_PREPARERS, {
-      observe: 'response'
+      observe: 'response',
     });
   }
 
   getTechRecords(
     param: string,
-    searchCriteria: string
+    searchCriteria: string,
   ): Observable<HttpResponse<VehicleTechRecordModel[]>> {
     return this.http.get<VehicleTechRecordModel[]>(
       `${AppConfig.BACKEND_URL_TECHRECORDS}/${encodeURIComponent(param)}/${PATHS.TECH_RECORDS}`,
@@ -51,22 +51,22 @@ export class HTTPService {
         observe: 'response',
         params: {
           status: 'provisional_over_current',
-          searchCriteria
-        }
-      }
+          searchCriteria,
+        },
+      },
     );
   }
 
   getTestResultsHistory(systemNumber: string): Observable<HttpResponse<TestResultModel[]>> {
     return this.http.get<TestResultModel[]>(
       `${AppConfig.BACKEND_URL_TEST_RESULTS}/${systemNumber}`,
-      { observe: 'response' }
+      { observe: 'response' },
     );
   }
 
   postTestResult(body): Observable<HttpResponse<any>> {
     return this.http.post<TestResultModel>(AppConfig.BACKEND_URL_TEST_RESULTS, body, {
-      observe: 'response'
+      observe: 'response',
     });
   }
 
@@ -76,7 +76,7 @@ export class HTTPService {
 
   endVisit(visitID: string): Observable<HttpResponse<any>> {
     return this.http.put(`${AppConfig.BACKEND_URL_VISIT}/${visitID}/end`, null, {
-      observe: 'response'
+      observe: 'response',
     });
   }
 
@@ -86,19 +86,19 @@ export class HTTPService {
 
   updateActivity(activities): Observable<HttpResponse<any>> {
     return this.http.put(`${AppConfig.BACKEND_URL_VISIT}/update`, activities, {
-      observe: 'response'
+      observe: 'response',
     });
   }
 
   getOpenVisitCheck(testerStaffId): Observable<HttpResponse<any>> {
     return this.http.get(`${AppConfig.BACKEND_URL_VISIT}/open?testerStaffId=${testerStaffId}`, {
-      observe: 'response'
+      observe: 'response',
     });
   }
 
   saveSignature(staffId: string, signatureString: string): Observable<HttpResponse<any>> {
     return this.http.put(`${AppConfig.BACKEND_URL_SIGNATURE}${staffId}.base64`, signatureString, {
-      observe: 'response'
+      observe: 'response',
     });
   }
 
@@ -107,10 +107,10 @@ export class HTTPService {
   }
 
   sendUnauthenticatedLogs(logs: Log[]): Observable<HttpResponse<any>> {
-    let headers = new HttpHeaders().set('x-api-key', AppConfig.UNAUTH_LOGS_API_KEY);
+    const headers = new HttpHeaders().set('x-api-key', AppConfig.UNAUTH_LOGS_API_KEY);
     return this.http.post(AppConfig.BACKEND_URL_UNAUTH_LOGS, logs, {
       headers,
-      observe: 'response'
+      observe: 'response',
     });
   }
 

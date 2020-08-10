@@ -10,7 +10,7 @@ import * as logsActions from '../../modules/logs/logs.actions';
 
 @Component({
   selector: 'signature-popover',
-  templateUrl: 'signature-popover.html'
+  templateUrl: 'signature-popover.html',
 })
 export class SignaturePopoverComponent implements OnInit {
   oid: string;
@@ -26,14 +26,14 @@ export class SignaturePopoverComponent implements OnInit {
     public loadingCtrl: LoadingController,
     public signatureService: SignatureService,
     private authService: AuthService,
-    private store$: Store<LogsModel>
+    private store$: Store<LogsModel>,
   ) {}
 
   ngOnInit(): void {
     this.title = APP_STRINGS.SIGN_CONF_TITLE;
     this.msg = APP_STRINGS.SIGN_CONF_MSG;
     this.loading = this.loadingCtrl.create({
-      content: 'Loading...'
+      content: 'Loading...',
     });
   }
 
@@ -50,7 +50,7 @@ export class SignaturePopoverComponent implements OnInit {
             const log: Log = {
               type: 'info',
               message: `${this.oid} - ${response.status} ${response.body.message} for API call to ${response.url}`,
-              timestamp: Date.now()
+              timestamp: Date.now(),
             };
             this.store$.dispatch(new logsActions.SaveLog(log));
             this.signatureService.saveToStorage().then(() => {
@@ -65,12 +65,12 @@ export class SignaturePopoverComponent implements OnInit {
             const log: Log = {
               type: 'error',
               message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url}`,
-              timestamp: Date.now()
+              timestamp: Date.now(),
             };
             this.store$.dispatch(new logsActions.SaveLog(log));
             this.loading.dismissAll();
             this.events.publish(SIGNATURE_STATUS.ERROR);
-          }
+          },
         );
       });
     });

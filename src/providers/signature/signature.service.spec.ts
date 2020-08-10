@@ -36,8 +36,8 @@ describe('SignatureService', () => {
         { provide: AppService, useClass: AppServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: StorageService, useValue: storageServiceSpy },
-        { provide: HTTPService, useValue: httpServiceSpy }
-      ]
+        { provide: HTTPService, useValue: httpServiceSpy },
+      ],
     });
     signatureService = TestBed.get(SignatureService);
     storageService = TestBed.get(StorageService);
@@ -69,7 +69,7 @@ describe('SignatureService', () => {
   });
 
   it('should test if events.unsubscribe haveBeenCalled', () => {
-    let toast = toastCtrl.create();
+    const toast = toastCtrl.create();
     expect(toastCtrl.create).toHaveBeenCalled();
     signatureService.presentSuccessToast();
     expect(events.unsubscribe).toHaveBeenCalledWith(SIGNATURE_STATUS.SAVED);

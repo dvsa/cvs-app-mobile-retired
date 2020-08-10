@@ -5,13 +5,13 @@ import { APP, APP_STRINGS } from '../../../../app/app.enums';
 import { TestTypeModel } from '../../../../models/tests/test-type.model';
 import {
   DefectCategoryReferenceDataModel,
-  DefectItemReferenceDataModel
+  DefectItemReferenceDataModel,
 } from '../../../../models/reference-data-models/defects.reference-model';
 
 @IonicPage()
 @Component({
   selector: 'page-add-defect-item',
-  templateUrl: 'add-defect-item.html'
+  templateUrl: 'add-defect-item.html',
 })
 export class AddDefectItemPage implements OnInit {
   vehicleType: string;
@@ -28,7 +28,7 @@ export class AddDefectItemPage implements OnInit {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public defectsService: DefectsService,
-    public events: Events
+    public events: Events,
   ) {
     this.vehicleType = navParams.get('vehicleType');
     this.vehicleTest = navParams.get('vehicleTest');
@@ -50,8 +50,8 @@ export class AddDefectItemPage implements OnInit {
       vehicleType: this.vehicleType,
       vehicleTest: this.vehicleTest,
       category: this.category,
-      item: item,
-      fromTestReview: this.fromTestReview
+      item,
+      fromTestReview: this.fromTestReview,
     });
     this.events.publish(APP.NAV_OUT);
   }
@@ -62,9 +62,9 @@ export class AddDefectItemPage implements OnInit {
   }
 
   private populateItemsArray(): DefectItemReferenceDataModel[] {
-    let filteredArr = this.defectsService.searchDefect(this.category.items, this.searchVal, [
+    const filteredArr = this.defectsService.searchDefect(this.category.items, this.searchVal, [
       'itemNumber',
-      'itemDescription'
+      'itemDescription',
     ]);
     return this.defectsService.orderDefectsArray(filteredArr, 'itemNumber', 'asc');
   }

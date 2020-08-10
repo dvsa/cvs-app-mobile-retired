@@ -23,8 +23,8 @@ describe('Component: VehicleBrakesPage', () => {
         NavController,
         CommonFunctionsService,
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: ViewController, useClass: ViewControllerMock }
-      ]
+        { provide: ViewController, useClass: ViewControllerMock },
+      ],
     }).compileComponents();
 
     navParams = TestBed.get(NavParams);
@@ -44,8 +44,8 @@ describe('Component: VehicleBrakesPage', () => {
 
     componentFixture.detectChanges();
     componentFixture.whenStable().then(() => {
-      let title = componentFixture.debugElement.query(
-        By.css('ion-toolbar ion-title div.toolbar-title')
+      const title = componentFixture.debugElement.query(
+        By.css('ion-toolbar ion-title div.toolbar-title'),
       );
       expect(title).toBeNull();
     });
@@ -56,8 +56,8 @@ describe('Component: VehicleBrakesPage', () => {
 
     componentFixture.detectChanges();
     componentFixture.whenStable().then(() => {
-      let title = componentFixture.debugElement.query(
-        By.css('ion-toolbar ion-title div.toolbar-title')
+      const title = componentFixture.debugElement.query(
+        By.css('ion-toolbar ion-title div.toolbar-title'),
       );
       expect(title.nativeElement.innerText).toBe(APP_STRINGS.PROVISIONAL_LABEL_TEXT);
     });

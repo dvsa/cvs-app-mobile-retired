@@ -1,7 +1,7 @@
 import { FormatVrmPipe } from './format-vrm.pipe';
 
 describe('FormatVrmPipe', () => {
-  let pipe = new FormatVrmPipe();
+  const pipe = new FormatVrmPipe();
 
   it('should place a space in a string after 4 characters', () => {
     let vrm = 'BQ91YHQ';

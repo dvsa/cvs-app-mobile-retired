@@ -7,7 +7,7 @@ import {
   TEST_TYPE_RESULTS,
   TEST_REPORT_STATUSES,
   VEHICLE_TYPE,
-  FIREBASE_SCREEN_NAMES
+  FIREBASE_SCREEN_NAMES,
 } from '../../../../app/app.enums';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
 import { TestTypeModel } from '../../../../models/tests/test-type.model';
@@ -16,7 +16,7 @@ import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebas
 @IonicPage()
 @Component({
   selector: 'page-vehicle-history',
-  templateUrl: 'vehicle-history.html'
+  templateUrl: 'vehicle-history.html',
 })
 export class VehicleHistoryPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
@@ -32,7 +32,7 @@ export class VehicleHistoryPage {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public commonFunc: CommonFunctionsService,
-    private firebaseLogsService: FirebaseLogsService
+    private firebaseLogsService: FirebaseLogsService,
   ) {
     this.vehicleData = navParams.get('vehicleData');
     this.testResultHistory = navParams.get('testResultsHistory');
@@ -56,9 +56,9 @@ export class VehicleHistoryPage {
   showTestDetails(testIndex: number, testTypeIndex: number): void {
     this.navCtrl.push('VehicleHistoryDetailsPage', {
       testResultHistory: this.testResultHistory,
-      testIndex: testIndex,
-      testTypeIndex: testTypeIndex,
-      vehicleType: this.vehicleData.techRecord.vehicleType
+      testIndex,
+      testTypeIndex,
+      vehicleType: this.vehicleData.techRecord.vehicleType,
     });
   }
 

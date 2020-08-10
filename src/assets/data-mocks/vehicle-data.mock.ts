@@ -13,7 +13,7 @@ export class VehicleDataMock {
         bodyModel: 'blanao',
         bodyType: {
           code: 'a',
-          description: 'articulated'
+          description: 'articulated',
         },
         manufactureYear: 1989,
         regnDate: '2018-12-19',
@@ -42,7 +42,7 @@ export class VehicleDataMock {
         brakeCode: 'string',
         vehicleClass: {
           code: 's',
-          description: 'single decker'
+          description: 'single decker',
         },
         vehicleType: 'psv',
         euVehicleCategory: 'm1',
@@ -59,13 +59,13 @@ export class VehicleDataMock {
           brakeForceWheelsNotLocked: {
             serviceBrakeForce: 0,
             secondaryBrakeForce: 0,
-            parkingBrakeForce: 0
+            parkingBrakeForce: 0,
           },
           brakeForceWheelsUpToHalfLocked: {
             serviceBrakeForce: 0,
             secondaryBrakeForce: 0,
-            parkingBrakeForce: 0
-          }
+            parkingBrakeForce: 0,
+          },
         },
         axles: [
           {
@@ -75,7 +75,7 @@ export class VehicleDataMock {
               kerbWeight: 0,
               ladenWeight: 0,
               gbWeight: 0,
-              designWeight: 0
+              designWeight: 0,
             },
             tyres: {
               tyreSize: 'big',
@@ -83,11 +83,11 @@ export class VehicleDataMock {
               fitmentCode: 'double',
               dataTrPsvAxles: 0,
               speedCategorySymbol: 'a7',
-              tyreCode: 0
-            }
-          }
+              tyreCode: 0,
+            },
+          },
         ],
-        notes: ''
+        notes: '',
       },
       testResultsHistory: [],
       countryOfRegistration: 'gb',
@@ -96,7 +96,7 @@ export class VehicleDataMock {
       odometerMetric: '',
       preparerId: '',
       preparerName: '',
-      testTypes: []
+      testTypes: [],
     };
   }
 }

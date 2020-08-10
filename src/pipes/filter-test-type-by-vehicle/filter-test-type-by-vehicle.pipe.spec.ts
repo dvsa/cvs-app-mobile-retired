@@ -6,9 +6,9 @@ import { cloneDeep } from 'lodash';
 import { AuthService } from '../../providers/global/auth.service';
 
 describe('FilterTestTypeByVehiclePipe', () => {
-  let pipe = new FilterTestTypeByVehiclePipe(new AuthService(null, null, null, null));
-  let testTypeData: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
-  let vehicle = VehicleDataMock.VehicleData;
+  const pipe = new FilterTestTypeByVehiclePipe(new AuthService(null, null, null, null));
+  const testTypeData: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
+  const vehicle = VehicleDataMock.VehicleData;
 
   it('return filtered by vehicle', () => {
     expect(pipe.transform(testTypeData, vehicle).length).toBe(2);
@@ -44,7 +44,7 @@ describe('FilterTestTypeByVehiclePipe', () => {
 
   describe('getField function', () => {
     it('correctly extracts a field from a present input', () => {
-      let testInput = { thing: 'aValue' };
+      const testInput = { thing: 'aValue' };
       expect(pipe.getField(testInput, 'thing')).toEqual('aValue');
     });
 

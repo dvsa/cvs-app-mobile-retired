@@ -116,9 +116,9 @@ export class MyApp {
 
   manageAppState(): void {
     this.storageService.read(STORAGE.STATE).then((resp) => {
-      let stateResp = resp;
+      const stateResp = resp;
       if (stateResp) {
-        //Is there an existing visit?
+        // Is there an existing visit?
         this.storageService.read(STORAGE.VISIT).then((resp) => {
           if (resp) {
             // Is that visit still open on the backend?
@@ -126,7 +126,7 @@ export class MyApp {
               const visitStillOpen = visitStillOpenResponse.body;
               if (visitStillOpen) {
                 this.visitService.visit = resp;
-                let parsedArr = JSON.parse(stateResp);
+                const parsedArr = JSON.parse(stateResp);
                 this.navElem.setPages(parsedArr).then(() => this.splashScreen.hide());
               } else {
                 await this.clearExpiredVisitData();
@@ -200,7 +200,7 @@ export class MyApp {
   }
 
   private generateUserDetails(): void {
-    let localTesterDetails: TesterDetailsModel = JSON.parse(
+    const localTesterDetails: TesterDetailsModel = JSON.parse(
       localStorage.getItem(LOCAL_STORAGE.TESTER_DETAILS)
     );
     if (localTesterDetails) {

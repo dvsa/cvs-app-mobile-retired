@@ -19,7 +19,7 @@ export class TestResultsHistoryDataMock {
         testerEmailAddress: 'test',
         vehicleClass: {
           description: 'small psv (ie: less than or equal to 22 seats)',
-          code: 's'
+          code: 's',
         },
         odometerReadingUnits: 'kilometres',
         vehicleSize: 'small',
@@ -53,9 +53,9 @@ export class TestResultsHistoryDataMock {
             additionalNotesRecorded: null,
             defects: [],
             name: 'Annual test',
-            testResult: 'pass'
-          }
-        ]
+            testResult: 'pass',
+          },
+        ],
       },
       {
         systemNumber: '1000000',
@@ -73,7 +73,7 @@ export class TestResultsHistoryDataMock {
         testerEmailAddress: 'test',
         vehicleClass: {
           description: 'small psv (ie: less than or equal to 22 seats)',
-          code: 's'
+          code: 's',
         },
         odometerReadingUnits: 'kilometres',
         vehicleSize: 'small',
@@ -107,10 +107,10 @@ export class TestResultsHistoryDataMock {
             additionalNotesRecorded: null,
             defects: [],
             name: 'Annual test',
-            testResult: 'pass'
-          }
-        ]
-      }
+            testResult: 'pass',
+          },
+        ],
+      },
     ];
   }
 }

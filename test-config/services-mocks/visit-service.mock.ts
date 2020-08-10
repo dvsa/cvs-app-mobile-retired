@@ -22,16 +22,16 @@ export class VisitServiceMock {
   }
 
   public startVisit(): Observable<any> {
-    return this.isError ? Observable.throw({error: {error: ''}}) : of({body: {id: '123'}});
+    return this.isError ? Observable.throw({ error: { error: '' } }) : of({ body: { id: '123' } });
   }
 
   public endVisit(isError) {
     this.visit.endTime = new Date().toISOString();
     if (isError) {
-      return Observable.throw({error: {error: ''}})
-    } else {
-      return of(true)
-    }
+      return Observable.throw({ error: { error: '' } });
+    } 
+      return of(true);
+    
   }
 
   public addTest(test: TestModel) {
@@ -44,7 +44,7 @@ export class VisitServiceMock {
       if (testReport == testToRemove) {
         this.visit.tests.splice(index, 1);
       }
-    })
+    });
   }
 
   public getTests(): TestModel[] {

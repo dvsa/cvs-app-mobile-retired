@@ -8,6 +8,6 @@ import { DirectivesModule } from '../../../../directives/directives.module';
 @NgModule({
   declarations: [AddDefectItemPage],
   imports: [PipesModule, DirectivesModule, IonicPageModule.forChild(AddDefectItemPage)],
-  providers: [DefectsService]
+  providers: [DefectsService],
 })
 export class AddDefectItemPageModule {}

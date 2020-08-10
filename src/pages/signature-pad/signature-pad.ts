@@ -4,7 +4,7 @@ import {
   Events,
   IonicPage,
   NavController,
-  PopoverController
+  PopoverController,
 } from 'ionic-angular';
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
@@ -24,7 +24,7 @@ import { Store } from '@ngrx/store';
 @IonicPage()
 @Component({
   selector: 'page-signature-pad',
-  templateUrl: 'signature-pad.html'
+  templateUrl: 'signature-pad.html',
 })
 export class SignaturePadPage implements OnInit {
   @ViewChild(SignaturePad) public signaturePad: SignaturePad;
@@ -36,7 +36,7 @@ export class SignaturePadPage implements OnInit {
   public signaturePadOptions: Object = {
     minWidth: 2,
     canvasWidth: 701,
-    canvasHeight: 239
+    canvasHeight: 239,
   };
 
   constructor(
@@ -51,7 +51,7 @@ export class SignaturePadPage implements OnInit {
     private firebase: Firebase,
     private authService: AuthService,
     private store$: Store<LogsModel>,
-    private callNumber: CallNumber
+    private callNumber: CallNumber,
   ) {
     this.events.subscribe(SIGNATURE_STATUS.ERROR, () => {
       this.showConfirm();
@@ -64,13 +64,15 @@ export class SignaturePadPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    if (this.appService.isCordova)
+    if (this.appService.isCordova) {
       this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY);
+    }
   }
 
   ionViewWillLeave() {
-    if (this.appService.isCordova)
+    if (this.appService.isCordova) {
       this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
+    }
   }
 
   ngAfterViewInit() {
@@ -94,13 +96,13 @@ export class SignaturePadPage implements OnInit {
           text: APP_STRINGS.SETTINGS_BTN,
           handler: () => {
             if (this.appService.isCordova) this.openNativeSettings.open('settings');
-          }
+          },
         },
         {
           text: APP_STRINGS.CALL_SUPP_BTN,
           handler: () => {
             this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true);
-          }
+          },
         },
         {
           text: APP_STRINGS.TRY_AGAIN_BTN,
@@ -111,7 +113,7 @@ export class SignaturePadPage implements OnInit {
                 const log: Log = {
                   type: 'info',
                   message: `${this.oid} - ${response.status} ${response.body.message} for API call to ${response.url}`,
-                  timestamp: Date.now()
+                  timestamp: Date.now(),
                 };
                 this.store$.dispatch(new logsActions.SaveLog(log));
                 this.signatureService.presentSuccessToast();
@@ -124,19 +126,19 @@ export class SignaturePadPage implements OnInit {
                 const log: Log = {
                   type: 'error',
                   message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url}`,
-                  timestamp: Date.now()
+                  timestamp: Date.now(),
                 };
                 this.store$.dispatch(new logsActions.SaveLog(log));
                 this.firebase.logEvent('test_error', {
                   content_type: 'error',
-                  item_id: 'Saving signature failed'
+                  item_id: 'Saving signature failed',
                 });
                 this.showConfirm();
-              }
+              },
             );
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     CONFIRM_ALERT.present();
   }
@@ -153,7 +155,7 @@ export class SignaturePadPage implements OnInit {
       const EMPTY_SIGNATURE = this.alertCtrl.create({
         title: APP_STRINGS.SIGN_NOT_ENTERED,
         message: APP_STRINGS.SIGN_ENTER,
-        buttons: [APP_STRINGS.OK]
+        buttons: [APP_STRINGS.OK],
       });
       EMPTY_SIGNATURE.present();
     }

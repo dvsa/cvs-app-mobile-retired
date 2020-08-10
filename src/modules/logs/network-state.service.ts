@@ -6,13 +6,13 @@ import { Observable } from 'rxjs/Observable';
 
 export enum ConnectionStatus {
   ONLINE = 0,
-  OFFLINE
+  OFFLINE,
 }
 
 @Injectable()
 export class NetworkStateProvider {
   private networkStatus$: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(
-    ConnectionStatus.OFFLINE
+    ConnectionStatus.OFFLINE,
   );
 
   constructor(private network: Network, private platform: Platform) {}

@@ -14,11 +14,11 @@ describe('Provider: PreparerService', () => {
 
   beforeEach(() => {
     spy = jasmine.createSpyObj('StorageService', {
-      read: new Promise((resolve) => resolve(preparerData))
+      read: new Promise((resolve) => resolve(preparerData)),
     });
 
     TestBed.configureTestingModule({
-      providers: [PreparerService, { provide: StorageService, useValue: spy }]
+      providers: [PreparerService, { provide: StorageService, useValue: spy }],
     });
 
     preparerService = TestBed.get(PreparerService);
@@ -38,14 +38,14 @@ describe('Provider: PreparerService', () => {
 
   it('should return Preparer by ID', () => {
     filter = 'AK4434';
-    let filteredData = preparerService.search(preparerData, filter);
+    const filteredData = preparerService.search(preparerData, filter);
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0].preparerId).toEqual(filter);
   });
 
   it('should return nothing by unrelated string', () => {
     filter = 'xxx';
-    let filteredData = preparerService.search(preparerData, filter);
+    const filteredData = preparerService.search(preparerData, filter);
 
     expect(filteredData.length).toEqual(0);
   });
@@ -53,14 +53,14 @@ describe('Provider: PreparerService', () => {
   it('should return nothing by no array', () => {
     filter = 'xxx';
     let preparerArray;
-    let filteredData = preparerService.search(preparerArray, filter);
+    const filteredData = preparerService.search(preparerArray, filter);
 
     expect(filteredData.length).toEqual(0);
   });
 
   it('should return array as no filter entered', () => {
     let filter;
-    let filteredData = preparerService.search(preparerData, filter);
+    const filteredData = preparerService.search(preparerData, filter);
 
     expect(filteredData.length).toEqual(preparerData.length);
   });

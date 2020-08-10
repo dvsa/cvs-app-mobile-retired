@@ -5,6 +5,6 @@ import { SignaturePadModule } from 'angular2-signaturepad';
 
 @NgModule({
   declarations: [SignaturePadPage],
-  imports: [SignaturePadModule, IonicPageModule.forChild(SignaturePadPage)]
+  imports: [SignaturePadModule, IonicPageModule.forChild(SignaturePadPage)],
 })
 export class SignaturePadPageModule {}

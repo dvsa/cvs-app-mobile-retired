@@ -16,7 +16,7 @@ export class PsvAnnualTestsThatGenerateCertificateData {
       '142',
       '146',
       '175',
-      '177'
+      '177',
     ];
   }
 }

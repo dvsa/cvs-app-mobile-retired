@@ -5,12 +5,12 @@ import { TEST_REPORT_TITLES } from "../../src/app/app.enums";
 export class TestServiceMock {
 
   createTest() {
-    let newTest = {} as TestModel;
+    const newTest = {} as TestModel;
     newTest.startTime = new Date().toISOString();
     newTest.endTime = null;
     newTest.status = null;
     newTest.reasonForCancellation = '';
-    newTest.vehicles = []
+    newTest.vehicles = [];
     return newTest;
   }
 
@@ -30,8 +30,8 @@ export class TestServiceMock {
         }
       }
       return TEST_REPORT_TITLES.SINGLE_TEST;
-    } else {
+    } 
       return TEST_REPORT_TITLES.COMBINED_TEST;
-    }
+    
   }
 }

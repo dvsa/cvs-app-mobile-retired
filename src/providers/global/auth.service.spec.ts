@@ -12,7 +12,7 @@ export class AuthenticationContextMock {
   tokenCache = {
     clear() {
       return true;
-    }
+    },
   };
   acquireTokenAsync() {
     return Promise.resolve();
@@ -41,8 +41,8 @@ describe(`AuthService`, () => {
         Platform,
         MSAdal,
         { provide: Store, useClass: TestStore },
-        { provide: AuthenticationContext, useClass: AuthenticationContextMock }
-      ]
+        { provide: AuthenticationContext, useClass: AuthenticationContextMock },
+      ],
     });
 
     authService = TestBed.get(AuthService);
@@ -95,7 +95,7 @@ describe(`AuthService`, () => {
       expectedDetails.testerId,
       expectedDetails.testerName,
       expectedDetails.testerEmail,
-      [TESTER_ROLES.PSV]
+      [TESTER_ROLES.PSV],
     );
     expect(details.testerName).toEqual('John Doe');
     expect(details.testerId).toEqual('1234567890');
@@ -116,7 +116,7 @@ describe(`AuthService`, () => {
   });
 
   it('should set default tester details with no authResponse', () => {
-    let result = authService.setTesterDetails(null);
+    const result = authService.setTesterDetails(null);
     expect(result.testerId).toBeTruthy();
     expect(result.testerEmail).toBeTruthy();
     expect(result.testerName).toBeTruthy();
@@ -124,11 +124,11 @@ describe(`AuthService`, () => {
   });
 
   it('should set default tester details with authResponse', () => {
-    let authResponse = {
-      accessToken: JWT_TOKEN
+    const authResponse = {
+      accessToken: JWT_TOKEN,
     };
 
-    let result = authService.setTesterDetails(authResponse);
+    const result = authService.setTesterDetails(authResponse);
     expect(result.testerId).toBeTruthy();
     expect(result.testerEmail).toBeTruthy();
     expect(result.testerName).toBeTruthy();
@@ -143,7 +143,7 @@ describe(`AuthService`, () => {
   it('should set the tester details in localStorage', () => {
     authService.setTesterDetails({ accessToken: JWT_TOKEN });
     expect(localStorage.getItem('tester-details')).toEqual(
-      JSON.stringify(MOCK_UTILS.mockTesterDetails())
+      JSON.stringify(MOCK_UTILS.mockTesterDetails()),
     );
   });
 

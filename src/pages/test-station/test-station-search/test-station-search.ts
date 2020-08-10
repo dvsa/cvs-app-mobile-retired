@@ -8,7 +8,7 @@ import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-l
 @IonicPage()
 @Component({
   selector: 'page-test-station-search',
-  templateUrl: 'test-station-search.html'
+  templateUrl: 'test-station-search.html',
 })
 export class TestStationSearchPage implements OnInit {
   @ViewChild('searchBar') searchBar;
@@ -21,7 +21,7 @@ export class TestStationSearchPage implements OnInit {
     public navCtrl: NavController,
     public events: Events,
     private testStationService: TestStationService,
-    private firebaseLogsService: FirebaseLogsService
+    private firebaseLogsService: FirebaseLogsService,
   ) {}
 
   ngOnInit() {
@@ -40,13 +40,13 @@ export class TestStationSearchPage implements OnInit {
         this.testStations = this.filteredTestStations = this.testStationService.sortAndSearchTestStation(
           testStations,
           this.searchVal,
-          ['testStationName']
+          ['testStationName'],
         );
       });
   }
 
   openTestStation(testStation: TestStationReferenceDataModel): void {
-    this.navCtrl.push('TestStationDetailsPage', { testStation: testStation }).then(() => {
+    this.navCtrl.push('TestStationDetailsPage', { testStation }).then(() => {
       this.clearSearch();
       this.focusOut = false;
     });
@@ -61,7 +61,7 @@ export class TestStationSearchPage implements OnInit {
     this.filteredTestStations = this.testStationService.sortAndSearchTestStation(
       this.testStations,
       this.searchVal,
-      ['testStationName', 'testStationPNumber', 'testStationAddress']
+      ['testStationName', 'testStationPNumber', 'testStationAddress'],
     );
   }
 
@@ -71,7 +71,7 @@ export class TestStationSearchPage implements OnInit {
     this.filteredTestStations = this.testStationService.sortAndSearchTestStation(
       this.testStations,
       this.searchVal,
-      ['testStationName']
+      ['testStationName'],
     );
   }
 

@@ -22,7 +22,7 @@ export class AppService {
     private platform: Platform,
     private toastController: ToastController,
     private storageService: StorageService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     this.isCordova = this.platform.is('cordova');
     this.isProduction = AppConfig.IS_PRODUCTION == 'true';
@@ -43,11 +43,11 @@ export class AppService {
         this.setEasterEgg();
         this.setFlags();
         return Promise.resolve();
-      } else {
-        let arr = [
+      }  {
+        const arr = [
           this.authService.resetTokenCache(),
           this.storageService.clearStorage(),
-          this.clearLocalStorage()
+          this.clearLocalStorage(),
         ];
 
         return Promise.all(arr).then(() => {
@@ -57,11 +57,11 @@ export class AppService {
           return Promise.resolve(true);
         });
       }
-    } else {
-      this.setEasterEgg();
-      this.setFlags();
-      return Promise.resolve(true);
     }
+    this.setEasterEgg();
+    this.setFlags();
+    return Promise.resolve(true);
+
   }
 
   clearLocalStorage(): Promise<any> {
@@ -94,7 +94,7 @@ export class AppService {
       localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
     } else {
       localStorage.setItem(LOCAL_STORAGE.EASTER_EGG, 'true');
-      let cache = localStorage.getItem(LOCAL_STORAGE.CACHING);
+      const cache = localStorage.getItem(LOCAL_STORAGE.CACHING);
       cache
         ? localStorage.setItem(LOCAL_STORAGE.CACHING, cache)
         : localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
@@ -103,9 +103,9 @@ export class AppService {
 
   private presentToast(message: string): void {
     const TOAST = this.toastController.create({
-      message: message,
+      message,
       position: 'top',
-      duration: 2000
+      duration: 2000,
     });
     TOAST.present();
   }

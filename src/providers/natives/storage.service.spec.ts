@@ -18,15 +18,15 @@ describe('Provider: StorageService', () => {
         StorageService,
         { provide: Storage, useFactory: () => StorageMock.instance() },
         { provide: Store, useClass: TestStore },
-        { provide: AuthService, useClass: AuthServiceMock }
-      ]
+        { provide: AuthService, useClass: AuthServiceMock },
+      ],
     });
     storageService = TestBed.get(StorageService);
     storage = TestBed.get(Storage);
   });
 
   beforeEach(() => {
-    let store = {};
+    const store = {};
 
     spyOn(window.localStorage, 'setItem').and.callFake((key, value) => {
       return (store[key] = value);

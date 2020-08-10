@@ -5,7 +5,7 @@ import {
   NavController,
   NavParams,
   TextInput,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { FIREBASE, ODOMETER_METRIC, REG_EX_PATTERNS } from '../../../../app/app.enums';
@@ -16,7 +16,7 @@ import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebas
 @IonicPage()
 @Component({
   selector: 'page-odometer-reading',
-  templateUrl: 'odometer-reading.html'
+  templateUrl: 'odometer-reading.html',
 })
 export class OdometerReadingPage implements OnInit {
   odometerReading: string;
@@ -34,7 +34,7 @@ export class OdometerReadingPage implements OnInit {
     private navParams: NavParams,
     private vehicleService: VehicleService,
     private cdRef: ChangeDetectorRef,
-    private firebaseLogsService: FirebaseLogsService
+    private firebaseLogsService: FirebaseLogsService,
   ) {
     this.vehicle = this.navParams.get('vehicle');
     this.errorIncomplete = this.navParams.get('errorIncomplete');
@@ -73,7 +73,7 @@ export class OdometerReadingPage implements OnInit {
 
     this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_time_taken = this.firebaseLogsService.differenceInSeconds(
       this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time,
-      this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_end_time
+      this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_end_time,
     );
     this.firebaseLogsService.logEvent(
       FIREBASE.ADD_ODOMETER_READING_TIME_TAKEN,
@@ -82,13 +82,13 @@ export class OdometerReadingPage implements OnInit {
       FIREBASE.ADD_ODOMETER_READING_END_TIME,
       this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_end_time.toString(),
       FIREBASE.ADD_ODOMETER_READING_TIME_TAKEN,
-      this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_time_taken
+      this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_time_taken,
     );
 
     this.vehicle = this.vehicleService.setOdometer(
       this.vehicle,
       this.odometerReading,
-      this.odometerMetric
+      this.odometerMetric,
     );
     this.viewCtrl.dismiss();
   }
@@ -101,19 +101,19 @@ export class OdometerReadingPage implements OnInit {
           text: 'Kilometres',
           handler: () => {
             this.odometerMetric = ODOMETER_METRIC.KILOMETRES;
-          }
+          },
         },
         {
           text: 'Miles',
           handler: () => {
             this.odometerMetric = ODOMETER_METRIC.MILES;
-          }
+          },
         },
         {
           text: 'Cancel',
-          role: 'cancel'
-        }
-      ]
+          role: 'cancel',
+        },
+      ],
     });
     actionSheet.present();
   }

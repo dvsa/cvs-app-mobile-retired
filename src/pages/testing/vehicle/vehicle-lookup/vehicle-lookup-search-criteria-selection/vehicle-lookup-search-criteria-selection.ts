@@ -10,7 +10,7 @@ export interface SearchCriteriaItemModel {
 @IonicPage()
 @Component({
   selector: 'page-vehicle-lookup-search-criteria-selection',
-  templateUrl: 'vehicle-lookup-search-criteria-selection.html'
+  templateUrl: 'vehicle-lookup-search-criteria-selection.html',
 })
 export class VehicleLookupSearchCriteriaSelectionPage implements OnInit {
   selectedSearchCriteria: string;
@@ -20,7 +20,7 @@ export class VehicleLookupSearchCriteriaSelectionPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private viewCtrl: ViewController
+    private viewCtrl: ViewController,
   ) {
     this.selectedSearchCriteria = this.navParams.get('selectedSearchCriteria');
     this.trailersOnly = this.navParams.get('trailersOnly');
@@ -29,20 +29,20 @@ export class VehicleLookupSearchCriteriaSelectionPage implements OnInit {
   ngOnInit(): void {
     this.searchCriteriaList = this.trailersOnly
       ? this.getFormattedSearchCriteriaList(
-          VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteriaTrailersOnly
+          VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteriaTrailersOnly,
         )
       : this.getFormattedSearchCriteriaList(
-          VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria
+          VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria,
         );
   }
 
   getFormattedSearchCriteriaList(
-    notFormattedSearchCriteriaList: string[]
+    notFormattedSearchCriteriaList: string[],
   ): SearchCriteriaItemModel[] {
     return notFormattedSearchCriteriaList.map((searchCriteriaValue) => {
       return {
         text: searchCriteriaValue,
-        isChecked: this.selectedSearchCriteria === searchCriteriaValue
+        isChecked: this.selectedSearchCriteria === searchCriteriaValue,
       };
     });
   }

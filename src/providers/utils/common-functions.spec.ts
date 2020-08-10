@@ -11,7 +11,7 @@ describe('Provider: CommonFunctionsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CommonFunctionsService]
+      providers: [CommonFunctionsService],
     });
 
     commonFunctionsService = TestBed.get(CommonFunctionsService);
@@ -22,14 +22,14 @@ describe('Provider: CommonFunctionsService', () => {
   });
 
   it('should return a capitalized string', () => {
-    let someString = 'aaa';
-    let capString = commonFunctionsService.capitalizeString(someString);
+    const someString = 'aaa';
+    const capString = commonFunctionsService.capitalizeString(someString);
     expect(capString).toMatch('Aaa');
   });
 
   it('should return true if string is matched, false if not', () => {
     let inputValue = 'aaa';
-    let expectedvalue = 'Aaa';
+    const expectedvalue = 'Aaa';
     let matched = commonFunctionsService.checkForMatch(inputValue, expectedvalue);
     expect(matched).toBeTruthy();
     inputValue = 'xscsd';
@@ -38,36 +38,36 @@ describe('Provider: CommonFunctionsService', () => {
   });
 
   it('should return true if a match was found in array', () => {
-    let inputValue = 'aaa';
-    let expectedArray = ['sad', 'dfdfsd', 'rgrgerg', 'aaa'];
-    let match = commonFunctionsService.checkForMatchInArray(inputValue, expectedArray);
+    const inputValue = 'aaa';
+    const expectedArray = ['sad', 'dfdfsd', 'rgrgerg', 'aaa'];
+    const match = commonFunctionsService.checkForMatchInArray(inputValue, expectedArray);
     expect(match).toBeTruthy();
   });
 
   it('should return false if a match was not found', () => {
-    let inputValue = 'zxzcz';
-    let expectedArray = ['sad', 'dfdfsd', 'rgrgerg', 'aaa'];
-    let match = commonFunctionsService.checkForMatchInArray(inputValue, expectedArray);
+    const inputValue = 'zxzcz';
+    const expectedArray = ['sad', 'dfdfsd', 'rgrgerg', 'aaa'];
+    const match = commonFunctionsService.checkForMatchInArray(inputValue, expectedArray);
     expect(match).toBeFalsy();
   });
 
   it('should return array if searchValue not entered', () => {
     let searchVal;
-    let array = CountryOfRegistrationData.CountryData;
-    let filteredArray = commonFunctionsService.searchFor(array, searchVal, ['key', 'value']);
+    const array = CountryOfRegistrationData.CountryData;
+    const filteredArray = commonFunctionsService.searchFor(array, searchVal, ['key', 'value']);
     expect(filteredArray.length).toEqual(array.length);
   });
 
   it('should return elements from array', () => {
-    let searchVal = 'bg';
-    let array = CountryOfRegistrationData.CountryData;
-    let filteredArray = commonFunctionsService.searchFor(array, searchVal, ['key', 'value']);
+    const searchVal = 'bg';
+    const array = CountryOfRegistrationData.CountryData;
+    const filteredArray = commonFunctionsService.searchFor(array, searchVal, ['key', 'value']);
     expect(filteredArray[0]['key']).toMatch('bg');
   });
 
   it('should return empty array if not found', () => {
-    let searchVal = '123';
-    let array = [
+    const searchVal = '123';
+    const array = [
       { key: 'gb', value: 'Great Britain and Northern Ireland - GB' },
       { key: 'gba', value: 'Alderney - GBA' },
       { key: 123, value: '123-lea' },
@@ -77,9 +77,9 @@ describe('Provider: CommonFunctionsService', () => {
       { key: 'a', value: 'Austria - A' },
       { key: 'b', value: 'Belgium - B' },
       { key: 'bih', value: 'Bosnia and Herzegovina - BIH' },
-      { key: 'bg', value: 'Bulgaria - BG' }
+      { key: 'bg', value: 'Bulgaria - BG' },
     ];
-    let filteredArray = commonFunctionsService.searchFor(array, searchVal, ['key', 'value']);
+    const filteredArray = commonFunctionsService.searchFor(array, searchVal, ['key', 'value']);
     expect(filteredArray.length).toEqual(1);
   });
 
@@ -99,74 +99,74 @@ describe('Provider: CommonFunctionsService', () => {
   });
 
   it('should return an asc ordered array', () => {
-    let array = CountryOfRegistrationData.CountryData;
-    let sortedArray = array.sort(commonFunctionsService.orderBy('key', 'asc'));
+    const array = CountryOfRegistrationData.CountryData;
+    const sortedArray = array.sort(commonFunctionsService.orderBy('key', 'asc'));
     expect(sortedArray[0]['key']).toMatch('a');
   });
 
   it('should return an desc ordered array', () => {
-    let array = CountryOfRegistrationData.CountryData;
-    let sortedArray = array.sort(commonFunctionsService.orderBy('key'));
+    const array = CountryOfRegistrationData.CountryData;
+    const sortedArray = array.sort(commonFunctionsService.orderBy('key'));
     expect(sortedArray[0]['key']).toMatch('a');
   });
 
   it('should return array in same order', () => {
-    let array = CountryOfRegistrationData.CountryData;
-    let sortedArray = array.sort(commonFunctionsService.orderBy('some'));
+    const array = CountryOfRegistrationData.CountryData;
+    const sortedArray = array.sort(commonFunctionsService.orderBy('some'));
     expect(sortedArray[0]['key']).toMatch(array[0]['key']);
   });
 
   it('should return an array ordered by stringId, order given', () => {
-    let array = TestTypesReferenceDataMock.TestTypesData;
-    let sortedArray = array.sort(commonFunctionsService.orderByStringId('id', 'asc'));
+    const array = TestTypesReferenceDataMock.TestTypesData;
+    const sortedArray = array.sort(commonFunctionsService.orderByStringId('id', 'asc'));
     expect(sortedArray[0]['id']).toMatch('1');
   });
 
   it('should return an array ordered by stringId, order not given', () => {
-    let array = TestTypesReferenceDataMock.TestTypesData;
-    let sortedArray = array.sort(commonFunctionsService.orderByStringId('id'));
+    const array = TestTypesReferenceDataMock.TestTypesData;
+    const sortedArray = array.sort(commonFunctionsService.orderByStringId('id'));
     expect(sortedArray[0]['id']).toMatch('1');
   });
 
   it('should return array in same order', () => {
-    let array = TestTypesReferenceDataMock.TestTypesData;
-    let sortedArray = array.sort(commonFunctionsService.orderByStringId('some'));
+    const array = TestTypesReferenceDataMock.TestTypesData;
+    const sortedArray = array.sort(commonFunctionsService.orderByStringId('some'));
     expect(sortedArray[0]['id']).toMatch(array[0]['id']);
   });
 
   it('should return an array ordered by stringId, order given', () => {
-    let array = TestTypesReferenceDataMock.TestTypesData;
-    let sortedArray = array.sort(commonFunctionsService.orderByStringId('id', 'desc'));
+    const array = TestTypesReferenceDataMock.TestTypesData;
+    const sortedArray = array.sort(commonFunctionsService.orderByStringId('id', 'desc'));
     expect(sortedArray[0]['id']).toMatch('5');
   });
 
   it('should make a clone of an given object', () => {
-    let object = {
+    const object = {
       name: 'John Doe',
-      age: 30
+      age: 30,
     };
-    let objectClone = commonFunctionsService.cloneObject(object);
+    const objectClone = commonFunctionsService.cloneObject(object);
     objectClone.name = 'Ghita';
     expect(object.name).toMatch('John Doe');
   });
 
   it('should group elements of an array by given property', () => {
-    let array = CountryOfRegistrationData.CountryData;
-    let sortedArr = array.sort(commonFunctionsService.orderBy('value', 'asc'));
-    let groupedArray = commonFunctionsService.groupArrayAlphabetically(sortedArr, 'value');
+    const array = CountryOfRegistrationData.CountryData;
+    const sortedArr = array.sort(commonFunctionsService.orderBy('value', 'asc'));
+    const groupedArray = commonFunctionsService.groupArrayAlphabetically(sortedArr, 'value');
     expect(groupedArray[0][0]['value']).toMatch('Alderney - GBA');
   });
 
   it('should return the intersection of n arrays', () => {
-    let someArray = [['2', '39', '40'], ['43', '2'], ['2']];
+    const someArray = [['2', '39', '40'], ['43', '2'], ['2']];
     expect(commonFunctionsService.intersection(someArray)[0]).toBe('2');
   });
 
   it('should order the dates of each test type if testTypeArray is not empty', () => {
     const testTypeArray = TestTypeArrayDataMock.TestTypeArrayData;
     commonFunctionsService.orderTestTypeArrayByDate(testTypeArray);
-    let firstDate = +new Date(testTypeArray[0].testTypeStartTimestamp);
-    let nextDate = +new Date(testTypeArray[1].testTypeStartTimestamp);
+    const firstDate = +new Date(testTypeArray[0].testTypeStartTimestamp);
+    const nextDate = +new Date(testTypeArray[1].testTypeStartTimestamp);
     expect(firstDate).toBeGreaterThan(nextDate);
   });
 
@@ -179,7 +179,7 @@ describe('Provider: CommonFunctionsService', () => {
   it('should getCountryStringToBeDisplayed', () => {
     const vehicle = VehicleDataMock.VehicleData;
     expect(commonFunctionsService.getCountryStringToBeDisplayed(vehicle)).toEqual(
-      'Great Britain and Northern Ireland'
+      'Great Britain and Northern Ireland',
     );
   });
 });

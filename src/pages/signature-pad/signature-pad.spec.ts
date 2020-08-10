@@ -5,7 +5,7 @@ import {
   Events,
   IonicModule,
   NavController,
-  PopoverController
+  PopoverController,
 } from 'ionic-angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppService } from '../../providers/global/app.service';
@@ -16,7 +16,7 @@ import {
   AlertControllerMock,
   EventsMock,
   NavControllerMock,
-  PopoverControllerMock
+  PopoverControllerMock,
 } from 'ionic-mocks';
 import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
@@ -50,7 +50,7 @@ describe('Component: SignaturePadPage', () => {
     signatureServiceSpy = jasmine.createSpyObj('SignatureService', [
       'saveSignature',
       'saveToStorage',
-      'presentSuccessToast'
+      'presentSuccessToast',
     ]);
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', ['open']);
@@ -73,9 +73,9 @@ describe('Component: SignaturePadPage', () => {
         { provide: SignaturePad, useValue: signaturePadSpy },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: Store, useClass: TestStore },
-        { provide: CallNumber, useValue: callNumberSpy }
+        { provide: CallNumber, useValue: callNumberSpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

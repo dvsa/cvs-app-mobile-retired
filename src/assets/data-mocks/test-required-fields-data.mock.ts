@@ -18,7 +18,7 @@ export class testsWithoutCertificate {
       'Voluntary speed limiter check',
       'Voluntary Vitesse 100',
       'Voluntary Tempo 100',
-      'Notifiable alteration check'
+      'Notifiable alteration check',
     ];
   }
 }
@@ -43,7 +43,7 @@ export class testsWithoutTestExpiry {
       'Voluntary speed limiter check',
       'Voluntary Vitesse 100',
       'Voluntary Tempo 100',
-      'Notifiable alteration check'
+      'Notifiable alteration check',
     ];
   }
 }
@@ -70,7 +70,7 @@ export class testsWithoutSeatbelts {
       'Voluntary Tempo 100',
       'Notifiable alteration check',
       'Low Emissions Certificate (LEC) with annual test',
-      'Low Emissions Certificate (LEC) without annual test'
+      'Low Emissions Certificate (LEC) without annual test',
     ];
   }
 }
@@ -87,7 +87,7 @@ export class testsWithoutDefects {
       'Voluntary Tempo 100',
       'Notifiable alteration check',
       'Low Emissions Certificate (LEC) with annual test',
-      'Low Emissions Certificate (LEC) without annual test'
+      'Low Emissions Certificate (LEC) without annual test',
     ];
   }
 }

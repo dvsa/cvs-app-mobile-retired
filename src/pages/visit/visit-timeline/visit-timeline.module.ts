@@ -8,6 +8,6 @@ import { FormatVrmPipe } from '../../../pipes/format-vrm/format-vrm.pipe';
 @NgModule({
   declarations: [VisitTimelinePage],
   imports: [IonicPageModule.forChild(VisitTimelinePage), PipesModule],
-  providers: [TestService, FormatVrmPipe]
+  providers: [TestService, FormatVrmPipe],
 })
 export class VisitTimelineModule {}

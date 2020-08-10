@@ -20,16 +20,16 @@ export class ActivityService {
     private storageService: StorageService,
     private appService: AppService,
     private authService: AuthService,
-    private httpService: HTTPService
+    private httpService: HTTPService,
   ) {}
 
   createActivity(
     visit: VisitModel,
     activityType?: string,
     pushToActivities?: boolean,
-    updateActivities?: boolean
+    updateActivities?: boolean,
   ): ActivityModel {
-    let activity: ActivityModel = {
+    const activity: ActivityModel = {
       activityType: activityType ? activityType : VISIT.ACTIVITY_TYPE_UNACCOUNTABLE_TIME,
       testStationName: visit.testStationName,
       testStationPNumber: visit.testStationPNumber,
@@ -41,7 +41,7 @@ export class ActivityService {
       endTime: null,
       waitReason: [],
       notes: '',
-      parentId: visit.id
+      parentId: visit.id,
     };
     if (pushToActivities) this.activities.push(activity);
     if (updateActivities) this.updateActivities();
@@ -77,7 +77,7 @@ export class ActivityService {
     let timeNotTesting = 0;
 
     if (testResult) {
-      let indexTestResult = visit.tests
+      const indexTestResult = visit.tests
         .map((elem) => elem.startTime)
         .indexOf(testResult.testStartTimestamp);
       if (indexTestResult === 0) {
@@ -138,12 +138,12 @@ export class ActivityService {
   }
 
   createActivitiesForUpdateCall(activitiesArr: ActivityModel[]) {
-    let activitiesForUpdate = [];
-    for (let activity of activitiesArr) {
-      let updActivity = {
+    const activitiesForUpdate = [];
+    for (const activity of activitiesArr) {
+      const updActivity = {
         id: activity.id,
         waitReason: activity.waitReason,
-        notes: activity.notes ? activity.notes : null
+        notes: activity.notes ? activity.notes : null,
       };
       activitiesForUpdate.push(updActivity);
     }

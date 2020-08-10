@@ -6,7 +6,7 @@ import {
   LoadingController,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { NavParamsMock } from '../../../../../../test-config/ionic-mocks/nav-params.mock';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -14,7 +14,7 @@ import {
   AlertControllerMock,
   LoadingControllerMock,
   NavControllerMock,
-  ViewControllerMock
+  ViewControllerMock,
 } from 'ionic-mocks';
 import { AuthService } from '../../../../../providers/global/auth.service';
 import { AuthServiceMock } from '../../../../../../test-config/services-mocks/auth-service.mock';
@@ -51,13 +51,13 @@ describe('Component: ', () => {
         { provide: StorageService, useClass: StorageServiceMock },
         {
           provide: Firebase,
-          useValue: jasmine.createSpyObj<Firebase>(['logEvent', 'setScreenName'])
+          useValue: jasmine.createSpyObj<Firebase>(['logEvent', 'setScreenName']),
         },
         { provide: Store, useClass: TestStore },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
-        { provide: AlertController, useFactory: () => AlertControllerMock.instance() }
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -95,7 +95,7 @@ describe('Component: ', () => {
     component.openVehicleDetails(VehicleDataMock.VehicleData);
     expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
       test: undefined,
-      vehicle: VehicleDataMock.VehicleData
+      vehicle: VehicleDataMock.VehicleData,
     });
   });
 
@@ -104,9 +104,9 @@ describe('Component: ', () => {
     component.openVehicleDetails(VehicleDataMock.VehicleData);
     expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
       test: undefined,
-      vehicle: VehicleDataMock.VehicleData
+      vehicle: VehicleDataMock.VehicleData,
     });
-    let skeletonVehicle = { ...VehicleDataMock.VehicleData };
+    const skeletonVehicle = { ...VehicleDataMock.VehicleData };
     skeletonVehicle.techRecord.recordCompleteness = 'skeleton';
     component.openVehicleDetails(skeletonVehicle);
     expect(alertCtrl.create).toHaveBeenCalled();

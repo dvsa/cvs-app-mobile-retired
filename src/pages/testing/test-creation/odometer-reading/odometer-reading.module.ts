@@ -6,6 +6,6 @@ import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 @NgModule({
   declarations: [OdometerReadingPage],
   imports: [IonicPageModule.forChild(OdometerReadingPage)],
-  providers: [VehicleService]
+  providers: [VehicleService],
 })
 export class OdometerReadingPageModule {}

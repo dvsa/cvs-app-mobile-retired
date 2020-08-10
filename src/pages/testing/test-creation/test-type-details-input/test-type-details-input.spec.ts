@@ -31,12 +31,12 @@ describe("Component: TestTypeDetailsInputPage", () => {
   let alertCtrl: AlertController;
   let viewCtrl: ViewControllerMock;
 
-  let mockValueInput: TextInput = {
+  const mockValueInput: TextInput = {
     input: new EventEmitter<UIEvent>(),
     setFocus(): void {},
   } as TextInput;
 
-  let mockInput = {
+  const mockInput = {
     testTypePropertyName: "test",
     label: { toUpperCase(): void {} },
   };
@@ -117,7 +117,7 @@ describe("Component: TestTypeDetailsInputPage", () => {
   it("should call setFocus on customValueInput ionViewDidEnter action", fakeAsync(() => {
     const spyCustomValueInput = spyOn(
       comp.customValueInput,
-      "setFocus"
+      "setFocus",
     ).and.callThrough();
 
     comp.ionViewDidEnter();

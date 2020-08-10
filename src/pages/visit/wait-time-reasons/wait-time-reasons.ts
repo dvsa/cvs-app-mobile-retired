@@ -4,7 +4,7 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { WaitTimeReasonsData } from '../../../assets/app-data/wait-time-data/wait-time-reasons.data';
 import { WaitReasonItemModel } from '../../../models/visit/wait-reason-item.model';
@@ -15,7 +15,7 @@ import { APP_STRINGS, WAIT_TIME_REASONS } from '../../../app/app.enums';
 @IonicPage()
 @Component({
   selector: 'page-wait-time-reasons',
-  templateUrl: 'wait-time-reasons.html'
+  templateUrl: 'wait-time-reasons.html',
 })
 export class WaitTimeReasonsPage {
   reasonsList: WaitReasonItemModel[];
@@ -28,7 +28,7 @@ export class WaitTimeReasonsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
   ) {
     this.waitActivity = this.navParams.get('waitActivity');
   }
@@ -39,7 +39,7 @@ export class WaitTimeReasonsPage {
     this.reasonsList = WaitTimeReasonsData.WaitTimeReasonsData.map((reason) => {
       return {
         text: reason,
-        isChecked: this.isItChecked(reason)
+        isChecked: this.isItChecked(reason),
       };
     });
     this.notes = this.waitActivity.notes;
@@ -56,13 +56,13 @@ export class WaitTimeReasonsPage {
     });
     const CONFIRM = this.alertCtrl.create({
       title: APP_STRINGS.WAIT_REASONS_TITLE,
-      message: message,
+      message,
       buttons: [
         {
           text: APP_STRINGS.OK,
-          role: 'cancel'
-        }
-      ]
+          role: 'cancel',
+        },
+      ],
     });
 
     if (

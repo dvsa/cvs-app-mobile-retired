@@ -4,6 +4,6 @@ import { ConfirmationPage } from './confirmation';
 
 @NgModule({
   declarations: [ConfirmationPage],
-  imports: [IonicPageModule.forChild(ConfirmationPage)]
+  imports: [IonicPageModule.forChild(ConfirmationPage)],
 })
 export class ConfirmationPageModule {}

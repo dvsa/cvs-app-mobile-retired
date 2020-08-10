@@ -28,8 +28,8 @@ describe(`AppService: `, () => {
         { provide: Platform, useValue: platformSpy },
         { provide: ToastController, useFactory: () => ToastControllerMock.instance() },
         { provide: StorageService, useClass: StorageServiceMock },
-        { provide: AuthService, useClass: AuthServiceMock }
-      ]
+        { provide: AuthService, useClass: AuthServiceMock },
+      ],
     });
     platform = TestBed.get(Platform);
     toast = TestBed.get(ToastController);
@@ -49,7 +49,7 @@ describe(`AppService: `, () => {
       },
       clear: () => {
         store = {};
-      }
+      },
     };
 
     spyOn(localStorage, 'getItem').and.callFake(MOCK_LOCAL_STORAGE.getItem);

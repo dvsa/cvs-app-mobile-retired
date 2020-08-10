@@ -4,7 +4,7 @@ import {
   IonicPage,
   LoadingController,
   NavController,
-  NavParams
+  NavParams,
 } from 'ionic-angular';
 import { TestModel } from '../../../../models/tests/test.model';
 import { TestService } from '../../../../providers/test/test.service';
@@ -14,7 +14,7 @@ import {
   FIREBASE_SCREEN_NAMES,
   LOG_TYPES,
   PAGE_NAMES,
-  TEST_REPORT_STATUSES
+  TEST_REPORT_STATUSES,
 } from '../../../../app/app.enums';
 import { TestResultService } from '../../../../providers/test-result/test-result.service';
 import { VisitService } from '../../../../providers/visit/visit.service';
@@ -33,7 +33,7 @@ import { TestResultModel } from '../../../../models/tests/test-result.model';
 @IonicPage()
 @Component({
   selector: 'page-test-cancel',
-  templateUrl: 'test-cancel.html'
+  templateUrl: 'test-cancel.html',
 })
 export class TestCancelPage {
   testData: TestModel;
@@ -56,7 +56,7 @@ export class TestCancelPage {
     private authService: AuthService,
     private store$: Store<LogsModel>,
     private firebaseLogsService: FirebaseLogsService,
-    private activityService: ActivityService
+    private activityService: ActivityService,
   ) {
     this.testData = this.navParams.get('test');
   }
@@ -82,23 +82,23 @@ export class TestCancelPage {
         message: 'You will not be able to make changes to this test after it has been cancelled.',
         buttons: [
           {
-            text: 'Back'
+            text: 'Back',
           },
           {
             text: 'Submit',
             cssClass: 'danger-action-button',
             handler: () => {
               this.submitHandler();
-            }
-          }
-        ]
+            },
+          },
+        ],
       });
     } else {
       this.cancellationReason = '';
       alert = this.alertCtrl.create({
         title: 'Reason not entered',
         message: 'You must add a reason for cancelling this test to submit the cancellation.',
-        buttons: ['Ok']
+        buttons: ['Ok'],
       });
     }
     alert.present();
@@ -106,7 +106,7 @@ export class TestCancelPage {
   }
 
   submit(test) {
-    let stack: Observable<any>[] = [];
+    const stack: Observable<any>[] = [];
     this.oid = this.authService.getOid();
     const TRY_AGAIN_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
@@ -116,30 +116,30 @@ export class TestCancelPage {
           text: APP_STRINGS.SETTINGS_BTN,
           handler: () => {
             this.openNativeSettings.open('settings');
-          }
+          },
         },
         {
           text: APP_STRINGS.TRY_AGAIN_BTN,
           handler: () => {
             this.tryAgain = true;
             this.submit(this.testData);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     const LOADING = this.loadingCtrl.create({
-      content: 'Loading...'
+      content: 'Loading...',
     });
     LOADING.present();
 
-    let testResultsArr: TestResultModel[] = [];
+    const testResultsArr: TestResultModel[] = [];
 
-    for (let vehicle of test.vehicles) {
-      let testResult = this.testResultService.createTestResult(
+    for (const vehicle of test.vehicles) {
+      const testResult = this.testResultService.createTestResult(
         this.visitService.visit,
         test,
-        vehicle
+        vehicle,
       );
       testResultsArr.push(testResult);
       stack.push(
@@ -150,12 +150,12 @@ export class TestCancelPage {
               message: `${this.oid} - ${error.status} ${
                 error.error.errors ? error.error.errors[0] : error.error
               } for API call to ${error.url} with the body message ${JSON.stringify(testResult)}`,
-              timestamp: Date.now()
+              timestamp: Date.now(),
             };
             this.store$.dispatch(new logsActions.SaveLog(log));
             return Observable.throw(error);
-          })
-        )
+          }),
+        ),
       );
     }
     Observable.forkJoin(stack).subscribe(
@@ -163,29 +163,30 @@ export class TestCancelPage {
         const log: Log = {
           type: 'info',
           message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
         this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
-        for (let testResult of testResultsArr) {
+        for (const testResult of testResultsArr) {
           const activity = this.activityService.createActivityBodyForCall(
             this.visitService.visit,
             testResult,
-            false
+            false,
           );
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
               const log: Log = {
                 type: LOG_TYPES.INFO,
                 message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
-                timestamp: Date.now()
+                timestamp: Date.now(),
               };
               this.store$.dispatch(new logsActions.SaveLog(log));
-              let activityIndex = this.activityService.activities
+              const activityIndex = this.activityService.activities
                 .map((activity) => activity.endTime)
                 .indexOf(testResult.testStartTimestamp);
-              if (activityIndex > -1)
+              if (activityIndex > -1) {
                 this.activityService.activities[activityIndex].id = resp.body.id;
+              }
               this.activityService.updateActivities();
               this.visitService.updateVisit();
             },
@@ -193,18 +194,18 @@ export class TestCancelPage {
               const log: Log = {
                 type: LOG_TYPES.ERROR,
                 message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
-                timestamp: Date.now()
+                timestamp: Date.now(),
               };
               this.store$.dispatch(new logsActions.SaveLog(log));
               this.firebase.logEvent('test_error', {
                 content_type: 'error',
-                item_id: 'Wait activity submission failed'
+                item_id: 'Wait activity submission failed',
               });
-            }
+            },
           );
         }
         LOADING.dismiss();
-        let views = this.navCtrl.getViews();
+        const views = this.navCtrl.getViews();
         for (let i = views.length - 1; i >= 0; i--) {
           if (views[i].component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
             this.navCtrl.popTo(views[i]);
@@ -217,7 +218,7 @@ export class TestCancelPage {
         this.firebaseLogsService.logEvent(
           FIREBASE.TEST_ERROR,
           FIREBASE.ERROR,
-          FIREBASE.TEST_SUBMISSION_FAILED
+          FIREBASE.TEST_SUBMISSION_FAILED,
         );
         TRY_AGAIN_ALERT.onDidDismiss(() => {
           if (!this.tryAgain) {
@@ -226,7 +227,7 @@ export class TestCancelPage {
             this.tryAgain = false;
           }
         });
-      }
+      },
     );
   }
 

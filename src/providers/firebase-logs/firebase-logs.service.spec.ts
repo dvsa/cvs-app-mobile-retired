@@ -13,9 +13,9 @@ describe('Provider: FirebaseLogsService', () => {
         FirebaseLogsService,
         {
           provide: Firebase,
-          useValue: jasmine.createSpyObj<Firebase>(['logEvent', 'setScreenName'])
-        }
-      ]
+          useValue: jasmine.createSpyObj<Firebase>(['logEvent', 'setScreenName']),
+        },
+      ],
     });
 
     firebaseLogsService = TestBed.get(FirebaseLogsService);
@@ -34,13 +34,13 @@ describe('Provider: FirebaseLogsService', () => {
   });
 
   it('should call firebase.logEvent with 4 parameters', () => {
-    let testParameters = {
+    const testParameters = {
       parameter0: 'value0',
       parameter1: 'value1',
       parameter2: 'value2',
-      parameter3: 'value3'
+      parameter3: 'value3',
     };
-    let testParametersKeys = Object.keys(testParameters);
+    const testParametersKeys = Object.keys(testParameters);
 
     firebaseLogsService.logEvent(
       eventName,
@@ -51,7 +51,7 @@ describe('Provider: FirebaseLogsService', () => {
       testParametersKeys[2],
       testParameters.parameter2,
       testParametersKeys[3],
-      testParameters.parameter3
+      testParameters.parameter3,
     );
     expect(firebase.logEvent).toHaveBeenCalledWith(eventName, testParameters);
   });
@@ -70,14 +70,14 @@ describe('Provider: FirebaseLogsService', () => {
       'somestring',
       'somestring',
       'somestring',
-      'somestring'
+      'somestring',
     );
     expect(firebase.logEvent).toHaveBeenCalled();
   });
 
   it('should calculate date difference in seconds', () => {
-    let start = 1560410995134;
-    let end = 1560411004732;
+    const start = 1560410995134;
+    const end = 1560411004732;
     expect(firebaseLogsService.differenceInSeconds(start, end)).toBe(10);
   });
 

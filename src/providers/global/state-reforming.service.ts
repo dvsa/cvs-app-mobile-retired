@@ -14,7 +14,7 @@ export class StateReformingService {
 
   saveNavStack(nav) {
     if (this.appService.caching) {
-      let stateHistory: StateHistoryModel[] = [];
+      const stateHistory: StateHistoryModel[] = [];
       for (let i = 0; i < nav.length(); i++) {
         const view = nav.getByIndex(i);
         if (view.name == PAGE_NAMES.TEST_TYPES_LIST_PAGE) continue;
@@ -24,22 +24,22 @@ export class StateReformingService {
         if (view.name == PAGE_NAMES.TEST_CANCEL_PAGE) continue;
         stateHistory.push({
           page: view.name,
-          params: view.data
+          params: view.data,
         });
       }
-      let stateJSON = JSON.stringify(stateHistory);
+      const stateJSON = JSON.stringify(stateHistory);
       this.storageService.update(STORAGE.STATE, stateJSON);
     }
   }
 
   onTestReview() {
     this.storageService.read(STORAGE.STATE).then((data: string) => {
-      let stateHistory: StateHistoryModel[] = JSON.parse(data);
+      const stateHistory: StateHistoryModel[] = JSON.parse(data);
       for (let i = stateHistory.length - 1; i > 0; i--) {
         if (stateHistory[i].page == PAGE_NAMES.VISIT_TIMELINE_PAGE) break;
         stateHistory.pop();
       }
-      let stateJSON = JSON.stringify(stateHistory);
+      const stateJSON = JSON.stringify(stateHistory);
       this.storageService.update(STORAGE.STATE, stateJSON);
     });
   }

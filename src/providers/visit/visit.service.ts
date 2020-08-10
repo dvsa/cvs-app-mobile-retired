@@ -21,7 +21,7 @@ export class VisitService {
     public authService: AuthService,
     public events: Events,
     private httpService: HTTPService,
-    private activityService: ActivityService
+    private activityService: ActivityService,
   ) {
     this.visit = {} as VisitModel;
   }
@@ -43,7 +43,7 @@ export class VisitService {
   }
 
   startVisit(testStation): Observable<any> {
-    let activities: ActivityModel = {
+    const activities: ActivityModel = {
       activityType: VISIT.ACTIVITY_TYPE_VISIT,
       testStationName: testStation.testStationName,
       testStationPNumber: testStation.testStationPNumber,
@@ -51,7 +51,7 @@ export class VisitService {
       testStationType: testStation.testStationType,
       testerName: this.authService.testerDetails.testerName,
       testerStaffId: this.authService.testerDetails.testerId,
-      testerEmail: this.authService.testerDetails.testerEmail
+      testerEmail: this.authService.testerDetails.testerEmail,
     };
     return this.httpService.startVisit(activities);
   }
@@ -66,9 +66,8 @@ export class VisitService {
 
   addTest(test: TestModel) {
     this.visit.tests.push(test);
-    let latestActivity = this.activityService.activities[
-      this.activityService.activities.length - 1
-    ];
+    const latestActivity = this.activityService.activities[this.activityService.activities.length - 1
+];
     if (
       latestActivity &&
       latestActivity.activityType === VISIT.ACTIVITY_TYPE_WAIT &&

@@ -7,7 +7,7 @@ export class RoadworthinessTestTypesData {
       TEST_TYPES_IDS._63,
       TEST_TYPES_IDS._91,
       TEST_TYPES_IDS._101,
-      TEST_TYPES_IDS._122
+      TEST_TYPES_IDS._122,
     ];
   }
 }

@@ -20,9 +20,9 @@ describe('Component: VehicleLookupSearchCriteriaSelectionPage', () => {
       providers: [
         NavController,
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: ViewController, useFactory: () => ViewControllerMock.instance() }
+        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -57,8 +57,8 @@ describe('Component: VehicleLookupSearchCriteriaSelectionPage', () => {
   it('should format an array of strings into an array of objects', () => {
     expect(
       component.getFormattedSearchCriteriaList(
-        VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria
-      )[0].text
+        VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria,
+      )[0].text,
     ).toEqual(VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria[0]);
   });
 

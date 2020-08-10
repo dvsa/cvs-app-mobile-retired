@@ -4,6 +4,6 @@ import { TestStationHomePage } from './test-station-home';
 
 @NgModule({
   declarations: [TestStationHomePage],
-  imports: [IonicPageModule.forChild(TestStationHomePage)]
+  imports: [IonicPageModule.forChild(TestStationHomePage)],
 })
 export class TestStationHomeModule {}

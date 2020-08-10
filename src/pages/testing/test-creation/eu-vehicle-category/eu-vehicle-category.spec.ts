@@ -26,9 +26,9 @@ describe('Component: EuVehicleCategoryPage', () => {
         { provide: NavParams, useClass: NavParamsMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: ViewController, useClass: ViewControllerMock },
-        { provide: VehicleService, useClass: VehicleServiceMock }
+        { provide: VehicleService, useClass: VehicleServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

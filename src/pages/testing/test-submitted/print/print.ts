@@ -4,7 +4,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-print',
-  templateUrl: 'print.html'
+  templateUrl: 'print.html',
 })
 export class PrintPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {}

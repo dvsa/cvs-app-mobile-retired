@@ -3,9 +3,9 @@ import { VEHICLE_TYPE } from '../../app/app.enums';
 import { DefectsReferenceDataMock } from '../../assets/data-mocks/reference-data-mocks/defects-data.mock';
 
 describe('ByVehicleTypePipe', () => {
-  let pipe = new ByVehicleTypePipe();
+  const pipe = new ByVehicleTypePipe();
 
-  let deficiencies = DefectsReferenceDataMock.DefectDataDeficiencies;
+  const deficiencies = DefectsReferenceDataMock.DefectDataDeficiencies;
   deficiencies.push({
     deficiencyCategory: 'major',
     deficiencyText: 'insecure.',
@@ -13,7 +13,7 @@ describe('ByVehicleTypePipe', () => {
     stdForProhibition: false,
     deficiencySubId: null,
     forVehicleType: ['other'],
-    deficiencyId: 'f'
+    deficiencyId: 'f',
   });
 
   it('return only psv items', () => {

@@ -23,9 +23,9 @@ describe('Component: VehicleHistoryPage', () => {
   let commonFunctionsService: any;
   let firebaseLogsService: FirebaseLogsService;
 
-  let testResultsHistory: any = TestResultsHistoryDataMock.TestResultHistoryData;
-  let vehicleData: VehicleModel = VehicleDataMock.VehicleData;
-  let testTypeArray = TestTypeArrayDataMock.TestTypeArrayData;
+  const testResultsHistory: any = TestResultsHistoryDataMock.TestResultHistoryData;
+  const vehicleData: VehicleModel = VehicleDataMock.VehicleData;
+  const testTypeArray = TestTypeArrayDataMock.TestTypeArrayData;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,9 +36,9 @@ describe('Component: VehicleHistoryPage', () => {
         CommonFunctionsService,
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ViewController, useClass: ViewControllerMock },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
   }));
 
@@ -55,9 +55,9 @@ describe('Component: VehicleHistoryPage', () => {
     const navParams = fixture.debugElement.injector.get(NavParams);
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
-      let params = {
-        vehicleData: vehicleData,
-        testResultsHistory: testResultsHistory
+      const params = {
+        vehicleData,
+        testResultsHistory,
       };
       return params[param];
     });
@@ -109,7 +109,7 @@ describe('Component: VehicleHistoryPage', () => {
   });
 
   it('should check if any defect have an prohibition issued and returns true, otherwise return false', () => {
-    let testType = {
+    const testType = {
       prohibitionIssued: false,
       testCode: 'pms',
       lastUpdatedAt: '2019-05-23T12:49:21.455Z',
@@ -139,9 +139,9 @@ describe('Component: VehicleHistoryPage', () => {
               longitudinal: null,
               rowNumber: 1,
               lateral: 'centre',
-              seatNumber: 2
+              seatNumber: 2,
             },
-            notes: 'seatbelt missing'
+            notes: 'seatbelt missing',
           },
           itemNumber: 1,
           deficiencyRef: '3.1.a',
@@ -151,7 +151,7 @@ describe('Component: VehicleHistoryPage', () => {
           imDescription: 'Seat Belts & Supplementary Restraint Systems',
           deficiencyId: 'a',
           itemDescription: 'Obligatory Seat Belt:',
-          imNumber: 3
+          imNumber: 3,
         },
         {
           deficiencyCategory: 'major',
@@ -165,9 +165,9 @@ describe('Component: VehicleHistoryPage', () => {
               longitudinal: null,
               rowNumber: 1,
               lateral: 'centre',
-              seatNumber: 2
+              seatNumber: 2,
             },
-            notes: 'seatbelt missing'
+            notes: 'seatbelt missing',
           },
           itemNumber: 1,
           deficiencyRef: '3.1.a',
@@ -177,7 +177,7 @@ describe('Component: VehicleHistoryPage', () => {
           imDescription: 'Seat Belts & Supplementary Restraint Systems',
           deficiencyId: 'a',
           itemDescription: 'Obligatory Seat Belt:',
-          imNumber: 3
+          imNumber: 3,
         },
         {
           deficiencyCategory: 'major',
@@ -191,9 +191,9 @@ describe('Component: VehicleHistoryPage', () => {
               longitudinal: null,
               rowNumber: 1,
               lateral: 'centre',
-              seatNumber: 2
+              seatNumber: 2,
             },
-            notes: 'seatbelt missing'
+            notes: 'seatbelt missing',
           },
           itemNumber: 1,
           deficiencyRef: '3.1.a',
@@ -203,13 +203,13 @@ describe('Component: VehicleHistoryPage', () => {
           imDescription: 'Seat Belts & Supplementary Restraint Systems',
           deficiencyId: 'a',
           itemDescription: 'Obligatory Seat Belt:',
-          imNumber: 3
-        }
+          imNumber: 3,
+        },
       ],
       name: 'Annual test',
       testResult: 'fail',
       testIndex: 52,
-      testTypeIndex: 0
+      testTypeIndex: 0,
     };
     expect(comp.haveProhibition(testType)).toBeTruthy();
     testType.defects = [];
@@ -219,15 +219,15 @@ describe('Component: VehicleHistoryPage', () => {
   });
 
   it('should verify that the vehicle type is one of the specified types', () => {
-    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    const vehicle = Object.create(VehicleDataMock.VehicleData);
     expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV)).toBeTruthy();
     expect(
-      comp.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)
+      comp.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV),
     ).toBeTruthy();
   });
 
   it('should verify that the vehicle type is not one of specified types', () => {
-    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    const vehicle = Object.create(VehicleDataMock.VehicleData);
     expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL)).toBeFalsy();
     expect(comp.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
   });
@@ -237,7 +237,7 @@ describe('Component: VehicleHistoryPage', () => {
 
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      let title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
+      const title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
       expect(title).toBeNull();
     });
   });
@@ -247,7 +247,7 @@ describe('Component: VehicleHistoryPage', () => {
 
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      let title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
+      const title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
       expect(title).toBeNull();
     });
   });

@@ -25,9 +25,9 @@ describe('Component: AddDefectItemPage', () => {
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: DefectsService, useClass: DefectsServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: ViewController, useClass: ViewControllerMock }
+        { provide: ViewController, useClass: ViewControllerMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

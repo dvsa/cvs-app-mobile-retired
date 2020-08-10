@@ -6,7 +6,7 @@ import {
   NavParams,
   AlertController,
   ModalController,
-  Events
+  Events,
 } from 'ionic-angular';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { TestTypeModel } from '../../../../models/tests/test-type.model';
@@ -20,7 +20,7 @@ import {
   TEST_COMPLETION_STATUS,
   TEST_TYPE_RESULTS,
   MOD_TYPES,
-  DEFICIENCY_CATEGORY
+  DEFICIENCY_CATEGORY,
 } from "../../../../app/app.enums";
 import { TestService } from "../../../../providers/test/test.service";
 import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
@@ -63,7 +63,7 @@ describe('Component: TestCreatePage', () => {
   let commonFuncService: CommonFunctionsService;
 
   const ADDED_VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
-  let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
+  const vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const TEST_DATA = TestDataModelMock.TestData;
   const VEHICLE = VehicleDataMock.VehicleData;
   const DEFECTS = DefectDetailsDataMock.DefectDetails;
@@ -88,9 +88,9 @@ describe('Component: TestCreatePage', () => {
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestService, useClass: TestServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: TestTypeService, useClass: TestTypeServiceMock }
+        { provide: TestTypeService, useClass: TestTypeServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestCreatePage);
@@ -112,7 +112,7 @@ describe('Component: TestCreatePage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        test: VisitDataMock.VisitTestData
+        test: VisitDataMock.VisitTestData,
       };
       return params[param];
     });
@@ -162,8 +162,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should say either a test has odometer data or not', () => {
-    let newTest = testService.createTest();
-    let newVehicle = vehicleService.createVehicle(vehicle);
+    const newTest = testService.createTest();
+    const newVehicle = vehicleService.createVehicle(vehicle);
     newTest.vehicles.push(newVehicle);
     component.testData = newTest;
 
@@ -174,8 +174,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should return correctly formatted string of odometer data', () => {
-    let newTest = testService.createTest();
-    let newVehicle = vehicleService.createVehicle(vehicle);
+    const newTest = testService.createTest();
+    const newVehicle = vehicleService.createVehicle(vehicle);
     newTest.vehicles.push(newVehicle);
     component.testData = newTest;
 
@@ -197,8 +197,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "Edit" status if a ADR test has the certificateNumber exactly 6 digits long', () => {
-    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
-    let vehicle: VehicleModel = { ...VEHICLE };
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '50';
     testType.testExpiryDate = new Date().toISOString();
     testType.certificateNumber = '12345';
@@ -208,8 +208,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to FAIL when a PASS test with sections has major defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testResult = TEST_TYPE_RESULTS.PASS;
     testType.defects.push(DefectDetailsDataMock.DefectData);
 
@@ -219,10 +219,10 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to PRS when a PASS test with sections has repaired major defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testResult = TEST_TYPE_RESULTS.PASS;
-    let defect = DefectDetailsDataMock.DefectData;
+    const defect = DefectDetailsDataMock.DefectData;
     defect.prs = true;
     testType.defects.push(defect);
 
@@ -232,10 +232,10 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should not change the testResult when a PASS test with sections has minor defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testResult = TEST_TYPE_RESULTS.PASS;
-    let defect = DefectDetailsDataMock.DefectData;
+    const defect = DefectDetailsDataMock.DefectData;
     defect.deficiencyCategory = DEFICIENCY_CATEGORY.MINOR;
     testType.defects.push(defect);
 
@@ -245,8 +245,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to FAIL when a test with sections has major defects but does not have a testResult', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testResult = undefined;
     testType.defects.push(DefectDetailsDataMock.DefectData);
 
@@ -256,8 +256,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to FAIL when a PASS test without sections has major defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '94';
     testType.testResult = TEST_TYPE_RESULTS.PASS;
     testType.defects.push(DefectDetailsDataMock.DefectData);
@@ -268,11 +268,11 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to PRS when a PASS test without sections has repaired major defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '94';
     testType.testResult = TEST_TYPE_RESULTS.PASS;
-    let defect = DefectDetailsDataMock.DefectData;
+    const defect = DefectDetailsDataMock.DefectData;
     defect.prs = true;
     testType.defects.push(defect);
 
@@ -282,11 +282,11 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should not change the testResult when a PASS test without sections has minor defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '94';
     testType.testResult = TEST_TYPE_RESULTS.PASS;
-    let defect = DefectDetailsDataMock.DefectData;
+    const defect = DefectDetailsDataMock.DefectData;
     defect.deficiencyCategory = DEFICIENCY_CATEGORY.MINOR;
     testType.defects.push(defect);
 
@@ -296,8 +296,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to FAIL when a test without sections has major defects but does not have a testResult', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '94';
     testType.testResult = undefined;
     testType.defects.push(DefectDetailsDataMock.DefectData);
@@ -308,8 +308,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "Edit" status if a TIR test has the certificateNumber exactly 5 digits long', () => {
-    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
-    let vehicle: VehicleModel = { ...VEHICLE };
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '49';
     testType.certificateNumber = '1234';
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
@@ -318,8 +318,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "Edit" status if a Specialist test has a certificateNumber captured', () => {
-    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
-    let vehicle: VehicleModel = { ...VEHICLE };
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '125';
     testType.certificateNumber = null;
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
@@ -328,8 +328,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "Edit" status if a PSV Notifiable Alteration test has a testResult captured', () => {
-    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
-    let vehicle: VehicleModel = { ...VEHICLE };
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '38';
     testType.testResult = null;
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
@@ -338,8 +338,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should have "in progress" status if a Specialist test has the custom defects incompletely captured', () => {
-    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
-    let vehicle: VehicleModel = { ...VEHICLE };
+    const testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    const vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '125';
     testType.certificateNumber = '12345';
     testType.customDefects.push({} as SpecialistCustomDefectModel);
@@ -351,8 +351,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should not allow to review a test because not all mandatory fields completed', () => {
-    let newTest = testService.createTest();
-    let newVehicle = vehicleService.createVehicle(vehicle);
+    const newTest = testService.createTest();
+    const newVehicle = vehicleService.createVehicle(vehicle);
     vehicleService.addTestType(newVehicle, ADDED_VEHICLE_TEST);
     newTest.vehicles.push(newVehicle);
     component.testData = newTest;
@@ -361,8 +361,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should not allow to review a test because no testType added', () => {
-    let newTest = testService.createTest();
-    let newVehicle = vehicleService.createVehicle(vehicle);
+    const newTest = testService.createTest();
+    const newVehicle = vehicleService.createVehicle(vehicle);
     newTest.vehicles.push(newVehicle);
     newVehicle.testTypes = [];
     newVehicle.countryOfRegistration = 'United Kingdom';
@@ -374,14 +374,14 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should not allow to review a combination test if at least one vehicle has an incomplete test', () => {
-    let newTest = testService.createTest();
-    let completeTest = TestTypeDataModelMock.TestTypeData;
+    const newTest = testService.createTest();
+    const completeTest = TestTypeDataModelMock.TestTypeData;
     completeTest.testTypeId = '90';
-    let incompleteTest = TestTypeDataModelMock.TestTypeData;
+    const incompleteTest = TestTypeDataModelMock.TestTypeData;
     incompleteTest.testTypeId = '90';
     incompleteTest.testResult = null;
 
-    let hgv = vehicleService.createVehicle(vehicle);
+    const hgv = vehicleService.createVehicle(vehicle);
     vehicleService.addTestType(hgv, incompleteTest);
     hgv.techRecord.vehicleType = VEHICLE_TYPE.HGV;
     hgv.countryOfRegistration = 'United Kingdom';
@@ -389,7 +389,7 @@ describe('Component: TestCreatePage', () => {
     hgv.odometerReading = '122';
     newTest.vehicles.push(hgv);
 
-    let trailer = vehicleService.createVehicle(vehicle);
+    const trailer = vehicleService.createVehicle(vehicle);
     vehicleService.addTestType(trailer, completeTest);
     trailer.techRecord.vehicleType = VEHICLE_TYPE.TRL;
     trailer.countryOfRegistration = 'United Kingdom';
@@ -416,14 +416,14 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should test onOdometer logic', () => {
-    let newTest = testService.createTest();
-    let newVehicle = vehicleService.createVehicle(vehicle);
+    const newTest = testService.createTest();
+    const newVehicle = vehicleService.createVehicle(vehicle);
     newTest.vehicles.push(newVehicle);
     component.testData = newTest;
     component.onOdometer(0);
     expect(modalctrl.create).toHaveBeenCalled();
     expect(
-      firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time
+      firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time,
     ).toBeTruthy();
   });
 
@@ -450,7 +450,7 @@ describe('Component: TestCreatePage', () => {
 
   it('should check if logEvent was called', () => {
     spyOn(firebaseLogsService, 'logEvent');
-    let vehicle = VehicleDataMock.VehicleData;
+    const vehicle = VehicleDataMock.VehicleData;
     vehicle.countryOfRegistration = '';
     component.logMissingFields(vehicle);
     expect(firebaseLogsService.logEvent).toHaveBeenCalled();
@@ -469,22 +469,22 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should check if navCtrl.push was called', () => {
-    let tests = [];
+    const tests = [];
     tests.push(testService.createTest());
     component.addTrailer(tests);
     expect(navCtrl.push).toHaveBeenCalled();
   });
 
   it('should verify that the vehicle type is one of the specified types', () => {
-    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    const vehicle = Object.create(VehicleDataMock.VehicleData);
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV)).toBeTruthy();
     expect(
-      component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)
+      component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV),
     ).toBeTruthy();
   });
 
   it('should verify that the vehicle type is not one of specified types', () => {
-    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    const vehicle = Object.create(VehicleDataMock.VehicleData);
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL)).toBeFalsy();
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
   });
@@ -517,9 +517,9 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should check if a vehicle has only abandoned test types', () => {
-    let testType = { ...ADDED_VEHICLE_TEST };
-    let testType2 = { ...ADDED_VEHICLE_TEST };
-    let vehicle = { ...VEHICLE };
+    const testType = { ...ADDED_VEHICLE_TEST };
+    const testType2 = { ...ADDED_VEHICLE_TEST };
+    const vehicle = { ...VEHICLE };
 
     testType.testResult = TEST_TYPE_RESULTS.ABANDONED;
     vehicle.testTypes.push(testType);
@@ -531,7 +531,7 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should autocomplete the vehicle category when there is only one category available', () => {
-    let vehicle = { ...VEHICLE };
+    const vehicle = { ...VEHICLE };
     vehicle.euVehicleCategory = null;
     vehicle.techRecord.vehicleType = VEHICLE_TYPE.CAR;
     component.autoAssignVehicleCategoryOnlyWhenOneCategoryAvailable(vehicle);

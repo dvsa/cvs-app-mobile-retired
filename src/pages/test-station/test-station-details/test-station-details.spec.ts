@@ -6,7 +6,7 @@ import {
   NavParams,
   AlertController,
   ViewController,
-  LoadingController
+  LoadingController,
 } from 'ionic-angular';
 import { PipesModule } from '../../../pipes/pipes.module';
 import { Firebase } from '@ionic-native/firebase';
@@ -14,7 +14,7 @@ import {
   NavControllerMock,
   AlertControllerMock,
   ViewControllerMock,
-  LoadingControllerMock
+  LoadingControllerMock,
 } from 'ionic-mocks';
 import { CallNumber } from '@ionic-native/call-number';
 import { VisitService } from '../../../providers/visit/visit.service';
@@ -65,9 +65,9 @@ describe('Component: TestStationDetailsPage', () => {
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: Store, useClass: TestStore },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });
 
@@ -86,7 +86,7 @@ describe('Component: TestStationDetailsPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        testStation: {} as TestStationReferenceDataModel
+        testStation: {} as TestStationReferenceDataModel,
       };
       return params[param];
     });

@@ -6,6 +6,6 @@ import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 @NgModule({
   declarations: [VehicleLookupPage],
   imports: [IonicPageModule.forChild(VehicleLookupPage)],
-  providers: [VehicleService]
+  providers: [VehicleService],
 })
 export class VehicleLookupModule {}

@@ -22,7 +22,7 @@ export class ActivityDataMock {
         testStationType: 'gvts',
         testerName: 'zaluy5iy2',
         testerStaffId: 'ho3k2g87a',
-        waitReason: ['Admin', 'Break']
+        waitReason: ['Admin', 'Break'],
       },
       {
         activityType: 'unaccountable time',
@@ -37,8 +37,8 @@ export class ActivityDataMock {
         testStationType: 'gvts',
         testerName: 'zaluy5iy2',
         testerStaffId: 'ho3k2g87a',
-        waitReason: []
-      }
+        waitReason: [],
+      },
     ];
   }
 
@@ -47,18 +47,18 @@ export class ActivityDataMock {
       {
         id: '0',
         waitReason: ['Admin', 'Break'],
-        notes: 'something'
+        notes: 'something',
       },
       {
         id: '1',
         waitReason: ['Admin'],
-        notes: 'something'
+        notes: 'something',
       },
       {
         id: '2',
         waitReason: ['Break'],
-        notes: 'something'
-      }
+        notes: 'something',
+      },
     ];
   }
 }

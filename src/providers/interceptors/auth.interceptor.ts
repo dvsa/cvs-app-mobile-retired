@@ -3,7 +3,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -35,7 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
         message: `${this.authService.getOid()} - Cannot perform call to ${
           req.url
         }. Currently offline`,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
       this.store$.dispatch(new logsActions.SaveLog(log));
 
@@ -45,7 +45,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const log: Log = {
       type: 'info',
       message: `${oid} - API call to ${req.url}`,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
     this.store$.dispatch(new logsActions.SaveLog(log));
     return next.handle(this.addAuthHeader(req, this.authService.getJWTToken())).pipe(
@@ -56,7 +56,7 @@ export class AuthInterceptor implements HttpInterceptor {
           const log: Log = {
             type: 'info',
             message: `${oid} - ${response.status} Response for API call to ${response.url}`,
-            timestamp: Date.now()
+            timestamp: Date.now(),
           };
           this.store$.dispatch(new logsActions.SaveLog(log));
         }
@@ -68,7 +68,7 @@ export class AuthInterceptor implements HttpInterceptor {
           const log: Log = {
             type: 'error',
             message: `${oid} - ${error.status} ${error.message} for API call to ${error.url}`,
-            timestamp: Date.now()
+            timestamp: Date.now(),
           };
           this.store$.dispatch(new logsActions.SaveLog(log));
 
@@ -79,7 +79,7 @@ export class AuthInterceptor implements HttpInterceptor {
               return _throw(error);
           }
         }
-      })
+      }),
     );
   }
 
@@ -101,17 +101,17 @@ export class AuthInterceptor implements HttpInterceptor {
         }),
         finalize(() => {
           this.isRefreshingToken = false;
-        })
+        }),
       );
-    } else {
-      return this.tokenSubject.pipe(
+    }
+    return this.tokenSubject.pipe(
         filter((token) => token != null),
         take(1),
         switchMap((token) => {
           return next.handle(this.addAuthHeader(req, token));
-        })
+        }),
       );
-    }
+
   }
 
   addAuthHeader(request: HttpRequest<any>, token) {
@@ -119,8 +119,8 @@ export class AuthInterceptor implements HttpInterceptor {
     if (AUTH_HEADER && request.url !== AppConfig.URL_LATEST_VERSION) {
       return request.clone({
         setHeaders: {
-          Authorization: `${AUTH_HEADER}`
-        }
+          Authorization: `${AUTH_HEADER}`,
+        },
       });
     }
     return request;

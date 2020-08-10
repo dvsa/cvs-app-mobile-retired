@@ -4,7 +4,7 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { PreparerService } from '../../../../providers/preparer/preparer.service';
 import { TestModel } from '../../../../models/tests/test.model';
@@ -14,7 +14,7 @@ import {
   FIREBASE_SCREEN_NAMES,
   PAGE_NAMES,
   TESTER_ROLES,
-  VEHICLE_TYPE
+  VEHICLE_TYPE,
 } from '../../../../app/app.enums';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
@@ -29,7 +29,7 @@ import { AppService } from '../../../../providers/global/app.service';
 @IonicPage()
 @Component({
   selector: 'page-add-preparer',
-  templateUrl: 'add-preparer.html'
+  templateUrl: 'add-preparer.html',
 })
 export class AddPreparerPage implements OnInit {
   preparers: PreparersReferenceDataModel[] = [];
@@ -54,7 +54,7 @@ export class AddPreparerPage implements OnInit {
     private authService: AuthService,
     private firebaseLogsService: FirebaseLogsService,
     private commonFunc: CommonFunctionsService,
-    public appService: AppService
+    public appService: AppService,
   ) {
     this.vehicleData = this.navParams.get('vehicle');
     this.testData = this.navParams.get('test');
@@ -69,7 +69,7 @@ export class AddPreparerPage implements OnInit {
     return this.hasRightsToTestVechicle(
       [TESTER_ROLES.FULL_ACCESS],
       this.authService.userRoles,
-      this.vehicleData.techRecord.vehicleType
+      this.vehicleData.techRecord.vehicleType,
     );
   }
 
@@ -100,8 +100,8 @@ export class AddPreparerPage implements OnInit {
 
   formatDataForConfirm(): void {
     if (this.searchValue && this.searchValue.length > 0) {
-      let searchVal = this.searchValue.toLowerCase().replace(/ /g, '');
-      let preparer = this.preparers.find((elem) => elem.preparerId.toLowerCase() === searchVal);
+      const searchVal = this.searchValue.toLowerCase().replace(/ /g, '');
+      const preparer = this.preparers.find((elem) => elem.preparerId.toLowerCase() === searchVal);
 
       if (preparer) {
         this.presentPreparerConfirm(preparer, this.appService.isAccessibilityTextZoomEnabled());
@@ -109,21 +109,21 @@ export class AddPreparerPage implements OnInit {
         this.presentPreparerConfirm(
           {
             preparerId: APP_STRINGS.NO_PREPARER_ID_FOUND,
-            preparerName: ''
+            preparerName: '',
           },
           this.appService.isAccessibilityTextZoomEnabled(),
           false,
-          true
+          true,
         );
       }
     } else {
       this.presentPreparerConfirm(
         {
           preparerId: APP_STRINGS.NO_PREPARER_ID_GIVEN,
-          preparerName: ''
+          preparerName: '',
         },
         this.appService.isAccessibilityTextZoomEnabled(),
-        false
+        false,
       );
     }
   }
@@ -132,7 +132,7 @@ export class AddPreparerPage implements OnInit {
     preparer: PreparersReferenceDataModel,
     isAccessibilityTextZoomEnabled,
     preparerFound = true,
-    showSearchAgain = false
+    showSearchAgain = false,
   ) {
     let showThisTitle, showThisMessage;
 
@@ -155,7 +155,7 @@ export class AddPreparerPage implements OnInit {
         {
           text: !showSearchAgain ? APP_STRINGS.CANCEL : APP_STRINGS.SEARCH_AGAIN,
           role: 'cancel',
-          handler: () => {}
+          handler: () => {},
         },
         {
           text: !showSearchAgain ? APP_STRINGS.CONFIRM : APP_STRINGS.CONTINUE,
@@ -164,16 +164,17 @@ export class AddPreparerPage implements OnInit {
             if (
               !this.visitService.visit.tests.length ||
               this.visitService.getLatestTest().endTime
-            )
+            ) {
               this.visitService.addTest(this.testData);
+            }
             this.testReportService.addVehicle(this.testData, this.vehicleData);
             this.selectPreparer(preparer);
             this.navCtrl.push(PAGE_NAMES.TEST_CREATE_PAGE, {
-              test: this.testData
+              test: this.testData,
             });
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     ALERT.present();
     ALERT.onDidDismiss(() => (this.activeIndex = null));
@@ -214,7 +215,7 @@ export class AddPreparerPage implements OnInit {
 
     this.firebaseLogsService.confirm_preparer_time.confirm_preparer_time_taken = this.firebaseLogsService.differenceInSeconds(
       this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time,
-      this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time
+      this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time,
     );
     this.firebaseLogsService.logEvent(
       FIREBASE.CONFIRM_PREPARER_TIME_TAKEN,
@@ -223,7 +224,7 @@ export class AddPreparerPage implements OnInit {
       FIREBASE.CONFIRM_PREPARER_END_TIME,
       this.firebaseLogsService.confirm_preparer_time.confirm_preparer_end_time.toString(),
       FIREBASE.CONFIRM_PREPARER_TIME_TAKEN,
-      this.firebaseLogsService.confirm_preparer_time.confirm_preparer_time_taken
+      this.firebaseLogsService.confirm_preparer_time.confirm_preparer_time_taken,
     );
   }
 

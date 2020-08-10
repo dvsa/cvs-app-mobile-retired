@@ -5,7 +5,7 @@ import {
   IonicModule,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { NavControllerMock } from '../../../../../test-config/ionic-mocks/nav-controller.mock';
 import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
@@ -39,7 +39,7 @@ describe('Component: VehicleDetailsPage', () => {
   let viewController: ViewController;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
-  let test = TestTypeArrayDataMock.TestTypeArrayData[0];
+  const test = TestTypeArrayDataMock.TestTypeArrayData[0];
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
@@ -56,9 +56,9 @@ describe('Component: VehicleDetailsPage', () => {
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: CallNumber, useValue: callNumberSpy },
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });
 
@@ -67,7 +67,7 @@ describe('Component: VehicleDetailsPage', () => {
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
         vehicle: VEHICLE,
-        test: test
+        test,
       };
       return params[param];
     });
@@ -116,7 +116,7 @@ describe('Component: VehicleDetailsPage', () => {
 
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      let title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
+      const title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
       expect(title).toBeNull();
     });
   });
@@ -126,7 +126,7 @@ describe('Component: VehicleDetailsPage', () => {
 
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      let title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
+      const title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
       expect(title.nativeElement.innerText).toBe(APP_STRINGS.PROVISIONAL_LABEL_TEXT);
     });
   });

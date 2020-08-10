@@ -11,7 +11,7 @@ import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebas
 @IonicPage()
 @Component({
   selector: 'page-tests-types-list',
-  templateUrl: 'test-types-list.html'
+  templateUrl: 'test-types-list.html',
 })
 export class TestTypesListPage implements OnInit {
   vehicleData: VehicleModel;
@@ -29,7 +29,7 @@ export class TestTypesListPage implements OnInit {
     private vehicleService: VehicleService,
     private viewCtrl: ViewController,
     public commonFunctions: CommonFunctionsService,
-    private firebaseLogsService: FirebaseLogsService
+    private firebaseLogsService: FirebaseLogsService,
   ) {
     this.vehicleData = navParams.get('vehicleData');
     this.testTypeReferenceData = navParams.get('testTypeData');
@@ -38,15 +38,16 @@ export class TestTypesListPage implements OnInit {
   }
 
   ngOnInit() {
-    if (this.testTypeReferenceData)
+    if (this.testTypeReferenceData) {
       this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(
         this.testTypeReferenceData,
         'id',
-        'asc'
+        'asc',
       );
+    }
     this.backBtn = this.navParams.get('backBtn');
     this.getTestTypeReferenceData();
-    let previousView = this.navCtrl.getPrevious();
+    const previousView = this.navCtrl.getPrevious();
     this.firstPage = previousView.id != PAGE_NAMES.TEST_TYPES_LIST_PAGE;
   }
 
@@ -67,7 +68,7 @@ export class TestTypesListPage implements OnInit {
           this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(
             data,
             'id',
-            'asc'
+            'asc',
           );
         });
     }
@@ -78,17 +79,17 @@ export class TestTypesListPage implements OnInit {
 
     if (testType.nextTestTypesOrCategories) {
       this.navCtrl.push(PAGE_NAMES.TEST_TYPES_LIST_PAGE, {
-        vehicleData: vehicleData,
+        vehicleData,
         testTypeData: testType.nextTestTypesOrCategories,
         previousPage: testType.name,
         testTypeCategoryName: this.testTypeCategoryName,
-        backBtn: this.previousPage || APP_STRINGS.TEST_TYPE
+        backBtn: this.previousPage || APP_STRINGS.TEST_TYPE,
       });
     } else {
       this.firebaseLogsService.add_test_type_time.add_test_type_end_time = Date.now();
       this.firebaseLogsService.add_test_type_time.add_test_type_time_taken = this.firebaseLogsService.differenceInSeconds(
         this.firebaseLogsService.add_test_type_time.add_test_type_start_time,
-        this.firebaseLogsService.add_test_type_time.add_test_type_end_time
+        this.firebaseLogsService.add_test_type_time.add_test_type_end_time,
       );
       this.firebaseLogsService.logEvent(
         FIREBASE.ADD_TEST_TYPE_TIME_TAKEN,
@@ -97,15 +98,15 @@ export class TestTypesListPage implements OnInit {
         FIREBASE.ADD_TEST_TYPE_END_TIME,
         this.firebaseLogsService.add_test_type_time.add_test_type_end_time.toString(),
         FIREBASE.ADD_TEST_TYPE_TIME_TAKEN,
-        this.firebaseLogsService.add_test_type_time.add_test_type_time_taken
+        this.firebaseLogsService.add_test_type_time.add_test_type_time_taken,
       );
-      let views = this.navCtrl.getViews();
+      const views = this.navCtrl.getViews();
       for (let i = views.length - 1; i >= 0; i--) {
         if (views[i].component.name == PAGE_NAMES.TEST_CREATE_PAGE) {
           testType.name = this.testTypeCategoryName;
-          let test = this.testTypeService.createTestType(
+          const test = this.testTypeService.createTestType(
             testType,
-            this.vehicleData.techRecord.vehicleType
+            this.vehicleData.techRecord.vehicleType,
           );
           test.testTypeCategoryName = this.testTypeCategoryName;
           this.vehicleService.addTestType(vehicleData, test);
@@ -122,17 +123,17 @@ export class TestTypesListPage implements OnInit {
 
   canDisplay(addedTestsIds: string[], testToDisplay: TestTypesReferenceDataModel | any): boolean {
     return addedTestsIds.every((elem) =>
-      testToDisplay.linkedIds ? testToDisplay.linkedIds.indexOf(elem) > -1 : true
+      testToDisplay.linkedIds ? testToDisplay.linkedIds.indexOf(elem) > -1 : true,
     );
   }
 
   canDisplayCategory(
     testTypeCategory: TestTypesReferenceDataModel,
-    addedTestTypesIds: string[]
+    addedTestTypesIds: string[],
   ): boolean {
     let displayable = false;
     if (testTypeCategory.nextTestTypesOrCategories) {
-      for (let elem of testTypeCategory.nextTestTypesOrCategories) {
+      for (const elem of testTypeCategory.nextTestTypesOrCategories) {
         if (elem.nextTestTypesOrCategories) {
           displayable = this.canDisplayCategory(elem, addedTestTypesIds);
         } else {
@@ -145,8 +146,8 @@ export class TestTypesListPage implements OnInit {
   }
 
   addedTestTypesIds(vehicleData: VehicleModel): string[] {
-    let addedIds = [];
-    for (let testType of vehicleData.testTypes) addedIds.push(testType.testTypeId);
+    const addedIds = [];
+    for (const testType of vehicleData.testTypes) addedIds.push(testType.testTypeId);
     return addedIds;
   }
 }

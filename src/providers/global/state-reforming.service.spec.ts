@@ -9,7 +9,7 @@ describe("Provider: StateReformingService", () => {
   let stateReformingService: StateReformingService;
   let storageService: StorageService;
   let appService: AppService;
-  let navMock = {
+  const navMock = {
     length(): number {
       return 1;
     },
@@ -47,14 +47,14 @@ describe("Provider: StateReformingService", () => {
     expect(appService.caching).toBeTruthy();
     expect(storageService.update).toHaveBeenCalledWith(
       "state",
-      '[{"page":"test"}]'
+      '[{"page":"test"}]',
     );
   });
 
   it("should update storage on onTestReview action", (done) => {
     spyOn(storageService, "update");
     const spy = spyOn(storageService, "read").and.returnValue(
-      Promise.resolve(true)
+      Promise.resolve(true),
     );
     stateReformingService.onTestReview();
 

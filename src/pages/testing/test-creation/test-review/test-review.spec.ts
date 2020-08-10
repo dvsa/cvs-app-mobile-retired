@@ -9,7 +9,7 @@ import {
   ViewController,
   AlertController,
   LoadingController,
-  ModalController
+  ModalController,
 } from 'ionic-angular';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import {
@@ -17,7 +17,7 @@ import {
   ViewControllerMock,
   AlertControllerMock,
   LoadingControllerMock,
-  ModalControllerMock
+  ModalControllerMock,
 } from 'ionic-mocks';
 import { StateReformingService } from '../../../../providers/global/state-reforming.service';
 import { StateReformingServiceMock } from '../../../../../test-config/services-mocks/state-reforming-service.mock';
@@ -69,7 +69,7 @@ describe('Component: TestReviewPage', () => {
   let modalCtrl: ModalController;
   let navCtrl: NavController;
 
-  let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
+  const vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
@@ -98,9 +98,9 @@ describe('Component: TestReviewPage', () => {
         { provide: Store, useClass: TestStore },
         { provide: NavParams, useClass: NavParamsMock },
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -119,7 +119,7 @@ describe('Component: TestReviewPage', () => {
   });
 
   beforeEach(() => {
-    spyOn(window.localStorage, 'getItem').and.callFake(function() {
+    spyOn(window.localStorage, 'getItem').and.callFake(function () {
       return JSON.stringify({ test: 'test' });
     });
   });
@@ -168,23 +168,23 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should verify that the vehicle type is one of the specified types', () => {
-    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    const vehicle = Object.create(VehicleDataMock.VehicleData);
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV)).toBeTruthy();
     expect(
-      component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)
+      component.isVehicleOfType(vehicle, VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV),
     ).toBeTruthy();
   });
 
   it('should verify that the vehicle type is not one of specified types', () => {
-    let vehicle = Object.create(VehicleDataMock.VehicleData);
+    const vehicle = Object.create(VehicleDataMock.VehicleData);
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL)).toBeFalsy();
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
   });
 
   it('display the submit button if the currently reviewed vehicle is the last one', () => {
-    let newTest = testService.createTest();
-    let firstVehicle = vehicleService.createVehicle(vehicle);
-    let secondVehicle = vehicleService.createVehicle(vehicle);
+    const newTest = testService.createTest();
+    const firstVehicle = vehicleService.createVehicle(vehicle);
+    const secondVehicle = vehicleService.createVehicle(vehicle);
     newTest.vehicles.push(firstVehicle);
     newTest.vehicles.push(secondVehicle);
     firstVehicle.testTypes = [];
@@ -202,7 +202,7 @@ describe('Component: TestReviewPage', () => {
 
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      let submitButton = fixture.debugElement.query(By.css('.footer-cta-section>button'));
+      const submitButton = fixture.debugElement.query(By.css('.footer-cta-section>button'));
       expect(component.nextButtonText).toBe('Submit tests');
       submitButton.nativeElement.dispatchEvent(new Event('click'));
       expect(component.submitTest).toHaveBeenCalled();
@@ -210,7 +210,7 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should update completeFields with the values on the current testType', () => {
-    let testType = TestTypeDataModelMock.TestTypeData;
+    const testType = TestTypeDataModelMock.TestTypeData;
     component.completeFields(testType);
     expect(Object.keys(component.completedFields).length).toBe(0);
 
@@ -222,15 +222,15 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should open the testDetailsModal', () => {
-    let firstVehicle = vehicleService.createVehicle(vehicle);
-    let testType = TestTypeDataModelMock.TestTypeData;
+    const firstVehicle = vehicleService.createVehicle(vehicle);
+    const testType = TestTypeDataModelMock.TestTypeData;
     component.openTestDetailsPage(firstVehicle, testType);
     expect(modalCtrl.create).toHaveBeenCalled();
   });
 
   it('should not pop to test overview if roadworthiness test result is fail', () => {
-    let initialTestType = { ...TestTypeDataModelMock.TestTypeData };
-    let changedTestType = { ...TestTypeDataModelMock.TestTypeData };
+    const initialTestType = { ...TestTypeDataModelMock.TestTypeData };
+    const changedTestType = { ...TestTypeDataModelMock.TestTypeData };
 
     initialTestType.testTypeId = '62';
     changedTestType.testResult = TEST_TYPE_RESULTS.FAIL;
@@ -239,8 +239,8 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should not pop to test overview if adr test result is fail', () => {
-    let initialTestType = { ...TestTypeDataModelMock.TestTypeData };
-    let changedTestType = { ...TestTypeDataModelMock.TestTypeData };
+    const initialTestType = { ...TestTypeDataModelMock.TestTypeData };
+    const changedTestType = { ...TestTypeDataModelMock.TestTypeData };
 
     initialTestType.testTypeId = '50';
     changedTestType.testResult = TEST_TYPE_RESULTS.FAIL;
@@ -249,8 +249,8 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should pop to test overview if adr test result is pass and the certificate number or expiryDate do not exist', () => {
-    let initialTestType = { ...TestTypeDataModelMock.TestTypeData };
-    let changedTestType = { ...TestTypeDataModelMock.TestTypeData };
+    const initialTestType = { ...TestTypeDataModelMock.TestTypeData };
+    const changedTestType = { ...TestTypeDataModelMock.TestTypeData };
 
     initialTestType.testTypeId = '50';
     changedTestType.testResult = TEST_TYPE_RESULTS.PASS;
@@ -261,8 +261,8 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should pop to test overview if a test type initially had certificate number and after changing the details not', () => {
-    let initialTestType = { ...TestTypeDataModelMock.TestTypeData };
-    let changedTestType = { ...TestTypeDataModelMock.TestTypeData };
+    const initialTestType = { ...TestTypeDataModelMock.TestTypeData };
+    const changedTestType = { ...TestTypeDataModelMock.TestTypeData };
 
     initialTestType.certificateNumber = '44334554';
     changedTestType.certificateNumber = null;
@@ -271,7 +271,7 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should get the formatted string to be displayed for odometer reading', () => {
-    let vehicle = { ...VEHICLE };
+    const vehicle = { ...VEHICLE };
     vehicle.odometerReading = null;
     expect(component.getOdometerStringToBeDisplayed(vehicle)).toEqual('');
 
@@ -280,11 +280,11 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should check whether a Specialist test is completed or not', () => {
-    let initialTestType = { ...TestTypeDataModelMock.TestTypeData };
-    let changedTestType = { ...TestTypeDataModelMock.TestTypeData };
+    const initialTestType = { ...TestTypeDataModelMock.TestTypeData };
+    const changedTestType = { ...TestTypeDataModelMock.TestTypeData };
     initialTestType.testTypeId = '146';
     changedTestType.customDefects.push({
-      hasAllMandatoryFields: false
+      hasAllMandatoryFields: false,
     } as SpecialistCustomDefectModel);
     expect(component.isSpecialistTestTypeCompleted(changedTestType, initialTestType)).toBeFalsy();
 
@@ -295,7 +295,7 @@ describe('Component: TestReviewPage', () => {
     changedTestType.certificateNumber = '123';
     changedTestType.customDefects[0].hasAllMandatoryFields = true;
     expect(
-      component.isSpecialistTestTypeCompleted(changedTestType, initialTestType)
+      component.isSpecialistTestTypeCompleted(changedTestType, initialTestType),
     ).toBeTruthy();
   });
 });

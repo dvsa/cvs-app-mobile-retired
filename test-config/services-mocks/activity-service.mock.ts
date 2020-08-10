@@ -19,7 +19,7 @@ export class ActivityServiceMock {
   }
 
   createActivity(visit: VisitModel, activityType?: string, pushToActivities?: boolean, updateActivities?: boolean): ActivityModel {
-    let activity: ActivityModel = {
+    const activity: ActivityModel = {
       activityType: activityType ? activityType : 'unaccountable time',
       testStationName: visit.testStationName,
       testStationPNumber: visit.testStationPNumber,
@@ -31,7 +31,7 @@ export class ActivityServiceMock {
       endTime: null,
       waitReason: [],
       notes: '',
-      parentId: visit.id
+      parentId: visit.id,
     };
     if (pushToActivities) this.activities.push(activity);
     if (updateActivities) this.updateActivities();
@@ -43,7 +43,7 @@ export class ActivityServiceMock {
   }
 
   submitActivity() {
-    return this.isSubmitError ? Observable.throw({error: {error: ''}}) : of({body: {id: '123'}});
+    return this.isSubmitError ? Observable.throw({ error: { error: '' } }) : of({ body: { id: '123' } });
   }
 
   getActivities(): ActivityModel[] {
@@ -55,11 +55,11 @@ export class ActivityServiceMock {
   }
 
   updateActivityReasons(activities) {
-    return this.isUpdateError ? Observable.throw({error: {error: ''}}) : of(true);
+    return this.isUpdateError ? Observable.throw({ error: { error: '' } }) : of(true);
   }
 
   isVisitStillOpen() {
-    return {body: this.isVisitOpen};
+    return { body: this.isVisitOpen };
   }
 
   createActivityBodyForCall(visit, testResult?: TestResultModel, timeline?) {
@@ -67,7 +67,7 @@ export class ActivityServiceMock {
     let timeNotTesting = 0;
 
     if (testResult) {
-      let indexTestResult = visit.tests.map((elem) => elem.startTime).indexOf(testResult.testStartTimestamp);
+      const indexTestResult = visit.tests.map((elem) => elem.startTime).indexOf(testResult.testStartTimestamp);
       if (indexTestResult === 0) {
         timeNotTesting = (Date.parse(testResult.testStartTimestamp) - Date.parse(visit.startTime)) / 1000 / 60;
         timeNotTesting < 5 ? activity = this.createActivity(visit, null, false, false) : activity = this.createActivity(visit, 'wait', false, false);
@@ -102,12 +102,12 @@ export class ActivityServiceMock {
   }
 
   createActivitiesForUpdateCall(activitiesArr: ActivityModel[]) {
-    let activitiesForUpdate = [];
-    for (let activity of activitiesArr) {
-      let updActivity = {
+    const activitiesForUpdate = [];
+    for (const activity of activitiesArr) {
+      const updActivity = {
         id: activity.id,
         waitReason: activity.waitReason,
-        notes: activity.notes ? activity.notes : null
+        notes: activity.notes ? activity.notes : null,
       };
       activitiesForUpdate.push(updActivity);
     }

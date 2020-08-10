@@ -49,7 +49,7 @@ export class CommonFunctionsService {
   }
 
   public groupArrayAlphabetically(array: any[], groupBy: string) {
-    let alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
     let newArr = [],
       arrGroup = [];
     for (let i = 0; i < alphabet.length; i++) {
@@ -101,7 +101,7 @@ export class CommonFunctionsService {
     let newObj = oldObj;
     if (oldObj && typeof oldObj === 'object') {
       newObj = Object.prototype.toString.call(oldObj) === '[object Array]' ? [] : {};
-      for (let i in oldObj) {
+      for (const i in oldObj) {
         newObj[i] = this.cloneObject(oldObj[i]);
       }
     }
@@ -119,11 +119,11 @@ export class CommonFunctionsService {
   }
 
   intersection(allowedTestsArray: string[][]): string[] {
-    let result = [];
+    const result = [];
     for (let i = 0; i < allowedTestsArray.length; i++) {
-      let currentList = allowedTestsArray[i];
+      const currentList = allowedTestsArray[i];
       for (let y = 0; y < currentList.length; y++) {
-        let currentValue = currentList[y];
+        const currentValue = currentList[y];
         if (result.indexOf(currentValue) === -1) {
           if (
             allowedTestsArray.filter((obj) => {
@@ -147,8 +147,8 @@ export class CommonFunctionsService {
   }
 
   getCountryStringToBeDisplayed(vehicle: VehicleModel) {
-    let corData = CountryOfRegistrationData.CountryData;
-    for (let elem of corData) {
+    const corData = CountryOfRegistrationData.CountryData;
+    for (const elem of corData) {
       if (vehicle.countryOfRegistration === elem.key) {
         return elem.value.split(' -')[0];
       }

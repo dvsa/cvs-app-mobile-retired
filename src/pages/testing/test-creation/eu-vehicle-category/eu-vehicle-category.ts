@@ -9,7 +9,7 @@ import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 @IonicPage()
 @Component({
   selector: 'page-eu-vehicle-category',
-  templateUrl: 'eu-vehicle-category.html'
+  templateUrl: 'eu-vehicle-category.html',
 })
 export class CategoryReadingPage implements OnInit {
   vehicle: VehicleModel;
@@ -22,7 +22,7 @@ export class CategoryReadingPage implements OnInit {
     private navParams: NavParams,
     private visitService: VisitService,
     private viewCtrl: ViewController,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
   ) {
     this.vehicle = this.navParams.get('vehicle');
     this.errorIncomplete = this.navParams.get('errorIncomplete');

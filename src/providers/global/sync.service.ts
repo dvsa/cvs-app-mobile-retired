@@ -27,7 +27,7 @@ declare let cordova: any;
 export class SyncService {
   initSyncDone: boolean;
   loading = this.loadingCtrl.create({
-    content: 'Loading...'
+    content: 'Loading...',
   });
   loadOrder: Observable<any>[] = [];
   oid: string;
@@ -44,7 +44,7 @@ export class SyncService {
     private firebase: Firebase,
     public authService: AuthService,
     private store$: Store<LogsModel>,
-    private appVersion: AppVersion
+    private appVersion: AppVersion,
   ) {}
   startSync(): void {
     this.checkForUpdate();
@@ -65,13 +65,13 @@ export class SyncService {
   }
 
   public async checkForUpdate() {
-    let promises = [];
+    const promises = [];
     promises.push(this.appVersion.getVersionNumber());
     promises.push(this.httpService.getApplicationVersion());
     promises.push(this.storageService.read(STORAGE.VISIT));
 
     try {
-      let results = await Promise.all(promises);
+      const results = await Promise.all(promises);
       const currentAppVersion = results[0];
       const latestAppVersionModel: AppVersionModel = results[1].body['mobile-app'];
       const visit = results[2];
@@ -96,10 +96,10 @@ export class SyncService {
           text: APP_UPDATE.BUTTON,
           handler: () => {
             cordova.plugins.exit();
-          }
-        }
+          },
+        },
       ],
-      enableBackdropDismiss: false
+      enableBackdropDismiss: false,
     });
   }
 
@@ -116,7 +116,7 @@ export class SyncService {
         const log: Log = {
           type: 'info',
           message: `${this.oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
         this.storageService.update(STORAGE[microservice.toUpperCase()], data.body);
@@ -128,15 +128,15 @@ export class SyncService {
           type: 'error',
           message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url ||
             microservice + 'microservice'}`,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
         this.firebase.logEvent('test_error', {
           content_type: 'error',
-          item_id: `Error at ${microservice} microservice`
+          item_id: `Error at ${microservice} microservice`,
         });
         return of(undefined);
-      })
+      }),
     );
   }
 
@@ -159,7 +159,7 @@ export class SyncService {
   }
 
   handleError(): Observable<any> {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title: 'Unable to load data',
       enableBackdropDismiss: false,
       message: 'Make sure you are connected to the internet and try again',
@@ -169,25 +169,25 @@ export class SyncService {
           handler: () => {
             this.openNativeSettings.open('settings');
             this.handleError();
-          }
+          },
         },
         {
           text: 'Call Technical Support',
           handler: () => {
             this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
               (data) => console.log(data),
-              (err) => console.log(err)
+              (err) => console.log(err),
             );
             return false;
-          }
+          },
         },
         {
           text: 'Try again',
           handler: () => {
             this.getAllData();
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     alert.present();
     return _throw('Something bad happened; please try again later.');

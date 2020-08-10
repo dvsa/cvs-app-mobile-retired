@@ -9,14 +9,14 @@ import {
   DEFAULT_VALUES,
   GUIDANCE_NOTES,
   MEMOS_APPLY,
-  VEHICLE_TYPE
+  VEHICLE_TYPE,
 } from '../../../../app/app.enums';
 import { AdrDetails } from '../../../../models/vehicle/tech-record.model';
 
 @IonicPage()
 @Component({
   selector: 'page-vehicle-adr-details',
-  templateUrl: 'vehicle-adr-details.html'
+  templateUrl: 'vehicle-adr-details.html',
 })
 export class VehicleAdrDetailsPage {
   vehicleData: VehicleModel;
@@ -33,7 +33,7 @@ export class VehicleAdrDetailsPage {
   constructor(
     private navParams: NavParams,
     private commonFunc: CommonFunctionsService,
-    private viewCtrl: ViewController
+    private viewCtrl: ViewController,
   ) {
     this.vehicleData = this.navParams.get('vehicleData');
     this.adrData = this.vehicleData.techRecord.adrDetails || ({} as AdrDetails);

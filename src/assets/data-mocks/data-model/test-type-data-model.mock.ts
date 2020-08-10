@@ -22,7 +22,7 @@ export class TestTypeDataModelMock {
       defects: [],
       customDefects: [],
       reasons: [],
-      linkedIds: ['38', '39']
+      linkedIds: ['38', '39'],
     };
   }
 }

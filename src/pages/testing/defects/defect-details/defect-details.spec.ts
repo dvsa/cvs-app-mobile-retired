@@ -17,7 +17,7 @@ import {
   TEST_TYPE_RESULTS,
   DEFICIENCY_CATEGORY,
   FIREBASE_DEFECTS,
-  APP_STRINGS
+  APP_STRINGS,
 } from '../../../../app/app.enums';
 import { NavControllerMock } from '../../../../../test-config/ionic-mocks/nav-controller.mock';
 
@@ -52,11 +52,11 @@ describe('Component: DefectDetailsPage', () => {
             longitudinal: ['front'],
             rowNumber: [],
             seatNumber: [],
-            vertical: []
+            vertical: [],
           },
-          notes: false
-        }
-      }
+          notes: false,
+        },
+      },
     },
     prs: false,
     prohibitionIssued: false,
@@ -69,9 +69,9 @@ describe('Component: DefectDetailsPage', () => {
         longitudinal: '',
         rowNumber: null,
         seatNumber: null,
-        axleNumber: null
-      }
-    }
+        axleNumber: null,
+      },
+    },
   };
 
   const addedDefect: DefectDetailsModel = {
@@ -95,11 +95,11 @@ describe('Component: DefectDetailsPage', () => {
             longitudinal: ['front'],
             rowNumber: [],
             seatNumber: [],
-            vertical: []
+            vertical: [],
           },
-          notes: false
-        }
-      }
+          notes: false,
+        },
+      },
     },
     prs: false,
     prohibitionIssued: false,
@@ -112,16 +112,16 @@ describe('Component: DefectDetailsPage', () => {
         longitudinal: '',
         rowNumber: null,
         seatNumber: null,
-        axleNumber: null
-      }
-    }
+        axleNumber: null,
+      },
+    },
   };
   const isEdit: boolean = false;
   let defectsServiceSpy;
 
   beforeEach(async(() => {
     defectsServiceSpy = jasmine.createSpyObj('DefectsService', {
-      getBadgeColor: 'danger'
+      getBadgeColor: 'danger',
     });
 
     TestBed.configureTestingModule({
@@ -133,9 +133,9 @@ describe('Component: DefectDetailsPage', () => {
         { provide: DefectsService, useValue: defectsServiceSpy },
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ViewController, useClass: ViewControllerMock },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
   }));
 
@@ -153,10 +153,10 @@ describe('Component: DefectDetailsPage', () => {
     const navParams = fixture.debugElement.injector.get(NavParams);
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
-      let params = {
-        vehicleTest: vehicleTest,
+      const params = {
+        vehicleTest,
         deficiency: defect,
-        isEdit: isEdit
+        isEdit,
       };
       return params[param];
     });
@@ -187,7 +187,7 @@ describe('Component: DefectDetailsPage', () => {
     [TestTypeService],
     (injectService: TestTypeService) => {
       expect(injectService).toBe(testTypeService);
-    }
+    },
   ));
 
   it('should check if the defect was added before', () => {
@@ -219,7 +219,7 @@ describe('Component: DefectDetailsPage', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(comp.notesChanged).toBeFalsy();
-      let textarea = fixture.debugElement.query(By.css('.textarea-height'));
+      const textarea = fixture.debugElement.query(By.css('.textarea-height'));
       textarea.nativeElement.value = 'new note';
       textarea.nativeElement.dispatchEvent(new Event('input'));
       expect(comp.notesChanged).toBeTruthy();
@@ -235,7 +235,7 @@ describe('Component: DefectDetailsPage', () => {
     expect(firebaseLogsService.logEvent).toHaveBeenCalledWith(
       FIREBASE_DEFECTS.DEFECT_NOTES_USAGE,
       FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
-      defect.deficiencyRef
+      defect.deficiencyRef,
     );
   });
 
@@ -297,9 +297,9 @@ describe('Component: DefectDetailsPage', () => {
     vehicleTest.defects.map((defect) => {
       defect.prs = true;
     });
-    let testResult: string | TEST_TYPE_RESULTS = testTypeService.setTestResult(
+    const testResult: string | TEST_TYPE_RESULTS = testTypeService.setTestResult(
       comp.vehicleTest,
-      true
+      true,
     );
     expect(testResult).toBe(TEST_TYPE_RESULTS.PRS);
   });

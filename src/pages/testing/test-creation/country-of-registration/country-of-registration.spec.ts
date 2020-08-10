@@ -21,9 +21,9 @@ describe('Component: RegionReadingPage', () => {
         Events,
         { provide: ViewController, useClass: ViewControllerMock },
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: VisitService, useClass: VisitServiceMock }
+        { provide: VisitService, useClass: VisitServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
   }));
 

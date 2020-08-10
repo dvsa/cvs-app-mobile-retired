@@ -15,7 +15,7 @@ export class VehicleServiceMock {
   private vehicleService: VehicleService = new VehicleService(null, null, null, null, null);
 
   createVehicle(vehicleTechRecord: VehicleTechRecordModel): VehicleModel {
-    let newVehicle: VehicleModel = {} as VehicleModel;
+    const newVehicle: VehicleModel = {} as VehicleModel;
     newVehicle.vrm = vehicleTechRecord.vrms.find((elem) => elem.isPrimary).vrm;
     newVehicle.vin = vehicleTechRecord.vin;
     newVehicle.techRecord = this.getCurrentTechRecord(vehicleTechRecord);
@@ -56,9 +56,9 @@ export class VehicleServiceMock {
   }
 
   getCurrentTechRecord(array) {
-    let currentArray = array.techRecord.find(
+    const currentArray = array.techRecord.find(
       techRec => {
-        return techRec['statusCode'] == 'current'
+        return techRec['statusCode'] == 'current';
       });
     currentArray.noOfAxles = 2;
     currentArray['vehicleSize'] = 'small';
@@ -72,8 +72,8 @@ export class VehicleServiceMock {
 
   hasOnlyOneTestTypeWithSic(vehicle: VehicleModel) {
     let testsFound = 0;
-    for (let testType of vehicle.testTypes) {
-      if (testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] || testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] === false) {
+    for (const testType of vehicle.testTypes) {
+      if (testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] || !testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT]) {
         testsFound++;
       }
     }
@@ -92,7 +92,7 @@ export class VehicleServiceMock {
     const ALERT = alertCtrl.create({
       title: APP_STRINGS.SKELETON_ALERT_TITLE,
       message: APP_STRINGS.SKELETON_ALERT_MESSAGE,
-      buttons: [APP_STRINGS.OK]
+      buttons: [APP_STRINGS.OK],
     });
     ALERT.present();
   }

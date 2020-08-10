@@ -5,7 +5,7 @@ import {
   IonicModule,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { DefectsService } from '../../../../providers/defects/defects.service';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
@@ -18,7 +18,7 @@ import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   DefectCategoryReferenceDataModel,
-  DefectItemReferenceDataModel
+  DefectItemReferenceDataModel,
 } from '../../../../models/reference-data-models/defects.reference-model';
 import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
 import { ViewControllerMock } from '../../../../../test-config/ionic-mocks/view-controller.mock';
@@ -43,7 +43,7 @@ describe('Component: AddDefectPage', () => {
 
   beforeEach(async(() => {
     commonFunctionsServiceSpy = jasmine.createSpyObj('CommonFunctionsService', {
-      capitalizeString: 'Minor'
+      capitalizeString: 'Minor',
     });
 
     TestBed.configureTestingModule({
@@ -55,9 +55,9 @@ describe('Component: AddDefectPage', () => {
         { provide: NavParams, useClass: NavParamsMock },
         { provide: DefectsService, useClass: DefectsServiceMock },
         { provide: CommonFunctionsService, useValue: commonFunctionsServiceSpy },
-        { provide: ViewController, useClass: ViewControllerMock }
+        { provide: ViewController, useClass: ViewControllerMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -79,7 +79,7 @@ describe('Component: AddDefectPage', () => {
         vehicleTest: VEHICLE_TECH_RECORD.techRecord[0].vehicleType,
         vehicleType: VEHICLE_TEST,
         category: CATEGORY,
-        item: ITEM
+        item: ITEM,
       };
       return params[param];
     });
@@ -103,14 +103,14 @@ describe('Component: AddDefectPage', () => {
     [DefectsService],
     (injectService: DefectsService) => {
       expect(injectService).toBe(defectsService);
-    }
+    },
   ));
 
   it('should CommonFunctionsService and AddDefectPage Component share the same instance', inject(
     [CommonFunctionsService],
     (injectService: CommonFunctionsService) => {
       expect(injectService).toBe(commonFunctionsService);
-    }
+    },
   ));
 
   it('should return the CSS Class', () => {

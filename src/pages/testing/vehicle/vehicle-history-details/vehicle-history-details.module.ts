@@ -8,6 +8,6 @@ import { TestTypeService } from '../../../../providers/test-type/test-type.servi
 @NgModule({
   declarations: [VehicleHistoryDetailsPage],
   imports: [IonicPageModule.forChild(VehicleHistoryDetailsPage), PipesModule],
-  providers: [CommonFunctionsService, TestTypeService]
+  providers: [CommonFunctionsService, TestTypeService],
 })
 export class VehicleHistoryDetailsPageModule {}

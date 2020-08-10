@@ -4,6 +4,6 @@ import { PrintPage } from './print';
 
 @NgModule({
   declarations: [PrintPage],
-  imports: [IonicPageModule.forChild(PrintPage)]
+  imports: [IonicPageModule.forChild(PrintPage)],
 })
 export class PrintModule {}

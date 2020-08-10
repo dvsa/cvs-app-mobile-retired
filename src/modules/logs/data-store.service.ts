@@ -11,7 +11,7 @@ export class DataStoreProvider {
   constructor(
     public platform: Platform,
     public secureStorage: SecureStorage,
-    public networkState: NetworkStateProvider
+    public networkState: NetworkStateProvider,
   ) {}
 
   setSecureContainer(container: SecureStorageObject): void {

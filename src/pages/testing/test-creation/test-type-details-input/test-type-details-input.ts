@@ -4,13 +4,13 @@ import {
   APP_STRINGS,
   REG_EX_PATTERNS,
   TEST_TYPE_FIELDS,
-  TEST_TYPE_INPUTS
+  TEST_TYPE_INPUTS,
 } from '../../../../app/app.enums';
 
 @IonicPage()
 @Component({
   selector: 'page-test-type-details-input',
-  templateUrl: 'test-type-details-input.html'
+  templateUrl: 'test-type-details-input.html',
 })
 export class TestTypeDetailsInputPage implements OnInit {
   vehicleCategory;
@@ -30,7 +30,7 @@ export class TestTypeDetailsInputPage implements OnInit {
     public navParams: NavParams,
     private viewCtrl: ViewController,
     private cdRef: ChangeDetectorRef,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
   ) {
     this.vehicleCategory = this.navParams.get('vehicleCategory');
     this.sectionName = this.navParams.get('sectionName');
@@ -86,14 +86,14 @@ export class TestTypeDetailsInputPage implements OnInit {
       const ALERT = this.alertCtrl.create({
         title: APP_STRINGS.NO_SEATBELTS_ENTERED,
         message: APP_STRINGS.NO_SEATBELTS_ENTERED_SUBTITLE,
-        buttons: [APP_STRINGS.OK]
+        buttons: [APP_STRINGS.OK],
       });
       ALERT.present();
     } else {
       this.viewCtrl.dismiss({
         inputValue: this.inputValue,
         fromTestReview: this.fromTestReview,
-        errorIncomplete: this.errorIncomplete
+        errorIncomplete: this.errorIncomplete,
       });
     }
   }

@@ -8,7 +8,7 @@ import { AppConfig } from '../../../config/app.config';
 @IonicPage()
 @Component({
   selector: 'page-confirmation',
-  templateUrl: 'confirmation.html'
+  templateUrl: 'confirmation.html',
 })
 export class ConfirmationPage {
   testStationName: string;
@@ -22,7 +22,7 @@ export class ConfirmationPage {
     public navParams: NavParams,
     private stateReformingService: StateReformingService,
     private alertCtrl: AlertController,
-    private callNumber: CallNumber
+    private callNumber: CallNumber,
   ) {
     this.testStationName = navParams.get('testStationName');
     this.testerEmailAddress = navParams.get('testerEmailAddress');
@@ -43,7 +43,7 @@ export class ConfirmationPage {
     if (this.testStationName) {
       this.navCtrl.popToRoot();
     } else if (this.testerEmailAddress) {
-      let views = this.navCtrl.getViews();
+      const views = this.navCtrl.getViews();
       for (let i = views.length - 1; i >= 0; i--) {
         if (views[i].component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
           this.stateReformingService.onTestReview();
@@ -54,19 +54,19 @@ export class ConfirmationPage {
   }
 
   callSupport() {
-    let confirm = this.alertCtrl.create({
+    const confirm = this.alertCtrl.create({
       title: `${AppConfig.KEY_PHONE_NUMBER}`,
       buttons: [
         {
-          text: APP_STRINGS.CANCEL
+          text: APP_STRINGS.CANCEL,
         },
         {
           text: APP_STRINGS.CALL,
           handler: () => {
             this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     confirm.present();
   }

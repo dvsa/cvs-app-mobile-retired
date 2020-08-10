@@ -24,7 +24,7 @@ export class TestTypeArrayDataMock {
         defects: [],
         name: 'Annual test',
         certificateLink: 'url',
-        testResult: 'fail'
+        testResult: 'fail',
       },
       {
         testIndex: 0,
@@ -46,8 +46,8 @@ export class TestTypeArrayDataMock {
         additionalNotesRecorded: 'VEHICLE FRONT REGISTRATION PLATE MISSING',
         defects: [],
         name: 'Annual test',
-        testResult: 'pass'
-      }
+        testResult: 'pass',
+      },
     ];
   }
 }

@@ -7,12 +7,12 @@ import {
   DEFAULT_VALUES,
   APP_STRINGS,
   ODOMETER_METRIC,
-  FIREBASE_SCREEN_NAMES
+  FIREBASE_SCREEN_NAMES,
 } from '../../../../app/app.enums';
 import {
   TestsWithoutCertificate,
   TestsWithoutSeatbelts,
-  TestsWithoutDefects
+  TestsWithoutDefects,
 } from '../../../../assets/app-data/test-required-fields/test-required-fields.data';
 import { TestTypeModel } from '../../../../models/tests/test-type.model';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
@@ -24,7 +24,7 @@ import { TestTypeService } from '../../../../providers/test-type/test-type.servi
 @IonicPage()
 @Component({
   selector: 'page-vehicle-history-details',
-  templateUrl: 'vehicle-history-details.html'
+  templateUrl: 'vehicle-history-details.html',
 })
 export class VehicleHistoryDetailsPage {
   testResultHistory: any;
@@ -56,7 +56,7 @@ export class VehicleHistoryDetailsPage {
     public commonFunc: CommonFunctionsService,
     private firebaseLogsService: FirebaseLogsService,
     public appService: AppService,
-    public testTypeService: TestTypeService
+    public testTypeService: TestTypeService,
   ) {
     this.testResultHistory = navParams.get('testResultHistory');
     this.testIndex = navParams.get('testIndex');
@@ -76,11 +76,11 @@ export class VehicleHistoryDetailsPage {
 
     this.isTestResultAbandon = this.commonFunc.checkForMatch(
       this.selectedTestType.testResult,
-      TEST_TYPE_RESULTS.ABANDONED
+      TEST_TYPE_RESULTS.ABANDONED,
     );
     this.isTestResultFail = this.commonFunc.checkForMatch(
       this.selectedTestType.testResult,
-      TEST_TYPE_RESULTS.FAIL
+      TEST_TYPE_RESULTS.FAIL,
     );
     this.testResultColor = this.commonFunc.getTestResultColor(this.selectedTestType.testResult);
   }
@@ -101,13 +101,13 @@ export class VehicleHistoryDetailsPage {
       ? this.getCountryOfRegistration(this.selectedTestResult.countryOfRegistration)
       : '';
     this.distanceType = this.commonFunc.getDistanceType(
-      this.testResultHistory[this.testIndex].odometerReadingUnits
+      this.testResultHistory[this.testIndex].odometerReadingUnits,
     );
   }
 
   getCountryOfRegistration(countryKey: string): string {
     const countryMeta = CountryOfRegistrationData.CountryData.find(
-      (country) => countryKey === country.key
+      (country) => countryKey === country.key,
     );
 
     if (!!countryMeta) {
@@ -120,15 +120,15 @@ export class VehicleHistoryDetailsPage {
     if (this.selectedTestType.testTypeName) {
       this.doesNotHaveCert = this.commonFunc.checkForMatchInArray(
         this.selectedTestType.testTypeName,
-        this.testsWithoutCertificate
+        this.testsWithoutCertificate,
       );
       this.doesNotHaveDefects = this.commonFunc.checkForMatchInArray(
         this.selectedTestType.testTypeId,
-        this.testsWithoutDefects
+        this.testsWithoutDefects,
       );
       this.doesNotHaveBelts = this.commonFunc.checkForMatchInArray(
         this.selectedTestType.testTypeName,
-        this.testsWithoutSeatbelts
+        this.testsWithoutSeatbelts,
       );
     }
   }

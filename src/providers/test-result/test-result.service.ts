@@ -18,11 +18,11 @@ export class TestResultService {
     public authService: AuthService,
     private httpService: HTTPService,
     private commFunc: CommonFunctionsService,
-    private testTypeService: TestTypeService
+    private testTypeService: TestTypeService,
   ) {}
 
   createTestResult(visit, test, vehicle: VehicleModel): TestResultModel {
-    let newTestResult = {} as TestResultModel;
+    const newTestResult = {} as TestResultModel;
 
     newTestResult.testResultId = test.testResultId;
     /* VISIT */
@@ -48,8 +48,9 @@ export class TestResultService {
       newTestResult.odometerReadingUnits = vehicle.odometerMetric ? vehicle.odometerMetric : null;
     }
     if (this.vehicleContainsFirstTestsOrAnnualTests(vehicle)) {
-      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV)
+      if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV) {
         newTestResult.regnDate = vehicle.techRecord.regnDate;
+      }
       else newTestResult.firstUseDate = vehicle.techRecord.firstUseDate;
     }
     if (
@@ -64,8 +65,9 @@ export class TestResultService {
     if (
       vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR ||
       vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV
-    )
+    ) {
       newTestResult.vehicleSubclass = vehicle.techRecord.vehicleSubclass;
+    }
     newTestResult.vehicleType = vehicle.techRecord.vehicleType;
     newTestResult.vehicleConfiguration = vehicle.techRecord.vehicleConfiguration;
     newTestResult.preparerId = vehicle.preparerId;
@@ -77,11 +79,13 @@ export class TestResultService {
       vehicle.techRecord.vehicleType === VEHICLE_TYPE.MOTORCYCLE
         ? vehicle.techRecord.numberOfWheelsDriven
         : null;
-    if (vehicle.techRecord.vehicleSize)
+    if (vehicle.techRecord.vehicleSize) {
       newTestResult.vehicleSize = vehicle.techRecord.vehicleSize;
-    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV)
+    }
+    if (vehicle.techRecord.vehicleType === VEHICLE_TYPE.PSV) {
       newTestResult.numberOfSeats =
         vehicle.techRecord.seatsLowerDeck + vehicle.techRecord.seatsUpperDeck;
+    }
     newTestResult.testTypes = vehicle.testTypes;
 
     return newTestResult;
@@ -93,20 +97,20 @@ export class TestResultService {
 
   private isFirstTestOrAnnualTest(testType: TestTypeModel): boolean {
     const concatenatedArray = FirstTestTypesData.FirstTestTypesDataIds.concat(
-      AnnualTestTypesHgvTrlData.AnnualTestTypesHgvTrlDataIds
+      AnnualTestTypesHgvTrlData.AnnualTestTypesHgvTrlDataIds,
     );
     return concatenatedArray.some((id) => id === testType.testTypeId);
   }
 
   private vehicleContainsPsvAnnualTestsThatGenerateCertificate(
-    vehicleType: VehicleModel
+    vehicleType: VehicleModel,
   ): boolean {
     return vehicleType.testTypes.filter(this.isPsvAnnualTestsThatGenerateCertificate).length > 0;
   }
 
   private isPsvAnnualTestsThatGenerateCertificate(testType: TestTypeModel): boolean {
     return PsvAnnualTestsThatGenerateCertificateData.PsvAnnualTestsThatGenerateCertificateIds.some(
-      (id) => id === testType.testTypeId
+      (id) => id === testType.testTypeId,
     );
   }
 
@@ -144,19 +148,20 @@ export class TestResultService {
 
   formatCustomDefects(testType: TestTypeModel) {
     if (testType.customDefects) {
-      for (let customDefect of testType.customDefects) {
+      for (const customDefect of testType.customDefects) {
         if (!customDefect.hasOwnProperty('defectNotes')) customDefect.defectNotes = null;
-        if (customDefect.hasOwnProperty('hasAllMandatoryFields'))
+        if (customDefect.hasOwnProperty('hasAllMandatoryFields')) {
           delete customDefect.hasAllMandatoryFields;
+        }
       }
     }
   }
 
   submitTestResult(testResult: TestResultModel) {
-    let newTestResult = this.commFunc.cloneObject(testResult);
+    const newTestResult = this.commFunc.cloneObject(testResult);
 
     if (newTestResult.testTypes.length) {
-      for (let testType of newTestResult.testTypes) {
+      for (const testType of newTestResult.testTypes) {
         if (testType.hasOwnProperty('linkedIds')) delete testType.linkedIds;
         if (testType.hasOwnProperty('reasons')) {
           if (testType.reasons.length) {
@@ -167,22 +172,23 @@ export class TestResultService {
         this.moveCoifCertificateNumbersToSecondaryCertificateNumberField(testType);
         testType.certificateNumber = this.formatCertificateNumber(
           testType,
-          testResult.vehicleType
+          testResult.vehicleType,
         );
         if (testType.modType) {
           testType.modType = {
             code: testType.modType.split(' - ')[0],
-            description: testType.modType.split(' - ')[1]
+            description: testType.modType.split(' - ')[1],
           };
         }
         delete testType.completionStatus;
         delete testType.testTypeCategoryName;
-        if (testType.numberOfSeatbeltsFitted)
+        if (testType.numberOfSeatbeltsFitted) {
           testType.numberOfSeatbeltsFitted = parseInt(testType.numberOfSeatbeltsFitted);
+        }
         this.testTypeService.endTestType(testType);
 
         if (testType.defects.length) {
-          for (let defect of testType.defects) {
+          for (const defect of testType.defects) {
             if (defect.hasOwnProperty('metadata')) delete defect.metadata;
           }
         }

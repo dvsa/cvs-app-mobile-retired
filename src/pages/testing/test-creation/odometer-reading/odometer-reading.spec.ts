@@ -21,7 +21,7 @@ describe('Component: OdometerReadingPage', () => {
   let firebaseLogsService: FirebaseLogsService;
   let navParams: NavParams;
 
-  let VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
+  const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,9 +32,9 @@ describe('Component: OdometerReadingPage', () => {
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: VehicleService, useClass: VehicleServiceMock },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OdometerReadingPage);
@@ -49,7 +49,7 @@ describe('Component: OdometerReadingPage', () => {
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
-        vehicle: VEHICLE
+        vehicle: VEHICLE,
       };
       return params[param];
     });

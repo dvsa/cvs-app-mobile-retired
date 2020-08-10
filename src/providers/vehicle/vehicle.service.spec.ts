@@ -26,14 +26,14 @@ describe('Provider: VehicleService', () => {
   let visitService: VisitService;
   let httpService: HTTPService;
   let storageService: StorageService;
-  let vehicle = VehicleDataMock.VehicleData;
+  const vehicle = VehicleDataMock.VehicleData;
   let alertCtrl: AlertController;
 
   const VEHICLE_TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const TEST_TYPE: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const PREPARER: PreparersReferenceDataModel = {
     preparerId: 'AK4434',
-    preparerName: 'Durrell Vehicles Limited'
+    preparerName: 'Durrell Vehicles Limited',
   };
 
   beforeEach(() => {
@@ -48,9 +48,9 @@ describe('Provider: VehicleService', () => {
           statusText: '',
           url: '',
           ok: true,
-          body: TestResultsHistoryDataMock.TestResultHistoryData
-        })
-      )
+          body: TestResultsHistoryDataMock.TestResultHistoryData,
+        }),
+      ),
     };
     TestBed.configureTestingModule({
       providers: [
@@ -59,8 +59,8 @@ describe('Provider: VehicleService', () => {
         { provide: HTTPService, useValue: httpServiceSpy },
         { provide: Store, useClass: TestStore },
         { provide: StorageService, useClass: StorageServiceMock },
-        { provide: AuthService, useClass: AuthServiceMock }
-      ]
+        { provide: AuthService, useClass: AuthServiceMock },
+      ],
     });
     vehicleService = TestBed.get(VehicleService);
     visitService = TestBed.get(VisitService);
@@ -83,7 +83,7 @@ describe('Provider: VehicleService', () => {
   });
 
   it('should create a new vehicle with vehicle categorry included', () => {
-    let vehicleWithCategory = { ...VEHICLE_TECH_RECORD };
+    const vehicleWithCategory = { ...VEHICLE_TECH_RECORD };
     vehicleWithCategory.techRecord[0].euVehicleCategory = 'n1';
     let createdVehicle;
     expect(createdVehicle).toBeUndefined();
@@ -94,7 +94,7 @@ describe('Provider: VehicleService', () => {
   it('should create a vehicle with null VRM if vrms array is empty', () => {
     let newVehicle;
     expect(newVehicle).toBeUndefined();
-    let vehicleTechRecord = { ...VEHICLE_TECH_RECORD };
+    const vehicleTechRecord = { ...VEHICLE_TECH_RECORD };
     vehicleTechRecord.vrms = [];
     newVehicle = vehicleService.createVehicle(vehicleTechRecord);
     expect(newVehicle.techRecord).toBeDefined();
@@ -102,16 +102,16 @@ describe('Provider: VehicleService', () => {
   });
 
   it('should add a test-type to vehicle.testTypes array', () => {
-    let newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
+    const newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.testTypes.length).toBe(0);
     vehicleService.addTestType(newVehicle, TEST_TYPE);
     expect(newVehicle.testTypes.length).toBe(1);
   });
 
   it('should add odometer values', () => {
-    let odomReading: string = '1234';
-    let odomMetric: ODOMETER_METRIC = ODOMETER_METRIC.KILOMETRES;
-    let newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
+    const odomReading: string = '1234';
+    const odomMetric: ODOMETER_METRIC = ODOMETER_METRIC.KILOMETRES;
+    const newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.odometerMetric).toBeFalsy();
     expect(newVehicle.odometerReading).toBeFalsy();
     vehicleService.setOdometer(newVehicle, odomReading, odomMetric);
@@ -120,7 +120,7 @@ describe('Provider: VehicleService', () => {
   });
 
   it('should remove the added test-type from vehicle.testTypes array', () => {
-    let newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
+    const newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.testTypes.length).toBe(0);
     vehicleService.addTestType(newVehicle, TEST_TYPE);
     expect(newVehicle.testTypes.length).toBe(1);
@@ -129,7 +129,7 @@ describe('Provider: VehicleService', () => {
   });
 
   it('should add preparer to vehicle', () => {
-    let newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
+    const newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.preparerId).toBeFalsy();
     expect(newVehicle.preparerName).toBeFalsy();
     vehicleService.addPreparer(newVehicle, PREPARER);
@@ -175,9 +175,9 @@ describe('Provider: VehicleService', () => {
       additionalCommentsForAbandon: null,
       defects: [],
       reasons: [],
-      linkedIds: null
+      linkedIds: null,
     });
-    let onlyOne = vehicleService.hasOnlyOneTestTypeWithSic(vehicle);
+    const onlyOne = vehicleService.hasOnlyOneTestTypeWithSic(vehicle);
     expect(onlyOne).toBeTruthy();
   });
 
@@ -188,37 +188,37 @@ describe('Provider: VehicleService', () => {
       expect(storageService.update).toHaveBeenCalledTimes(1);
       expect(storageService.update).toHaveBeenCalledWith(
         STORAGE.TEST_HISTORY + systemNumber,
-        TestResultsHistoryDataMock.TestResultHistoryData
+        TestResultsHistoryDataMock.TestResultHistoryData,
       );
     });
   }));
 
   it('should check if a specific vehicle is a skeleton record or not', () => {
-    let vehicle = { ...VehicleDataMock.VehicleData };
+    const vehicle = { ...VehicleDataMock.VehicleData };
     expect(vehicleService.isVehicleSkeleton(vehicle)).toBeFalsy();
     vehicle.techRecord.recordCompleteness = 'skeleton';
     expect(vehicleService.isVehicleSkeleton(vehicle)).toBeTruthy();
   });
 
   it('should compare two techRecords and return -1 if the first vehicle is not a skeleton but the second is', () => {
-    let vehicle1 = { ...VehicleDataMock.VehicleData };
-    let vehicle2 = { ...VehicleDataMock.VehicleData };
+    const vehicle1 = { ...VehicleDataMock.VehicleData };
+    const vehicle2 = { ...VehicleDataMock.VehicleData };
     vehicle1.techRecord.recordCompleteness = 'complete';
     vehicle2.techRecord.recordCompleteness = 'skeleton';
     expect(vehicleService.compareVehicles(vehicle1, vehicle2)).toEqual(-1);
   });
 
   it('should compare two techRecords and return 1 if the first vehicle is a skeleton but the second is not', () => {
-    let vehicle1 = { ...VehicleDataMock.VehicleData };
-    let vehicle2 = { ...VehicleDataMock.VehicleData };
+    const vehicle1 = { ...VehicleDataMock.VehicleData };
+    const vehicle2 = { ...VehicleDataMock.VehicleData };
     vehicle1.techRecord.recordCompleteness = 'skeleton';
     vehicle2.techRecord.recordCompleteness = 'complete';
     expect(vehicleService.compareVehicles(vehicle1, vehicle2)).toEqual(1);
   });
 
   it('should compare two techRecords and return -1 if the first vehicle should alphabetically be before the second one', () => {
-    let vehicle1 = { ...VehicleDataMock.VehicleData };
-    let vehicle2 = { ...VehicleDataMock.VehicleData };
+    const vehicle1 = { ...VehicleDataMock.VehicleData };
+    const vehicle2 = { ...VehicleDataMock.VehicleData };
     vehicle1.techRecord.chassisMake = 'T';
     vehicle2.techRecord.chassisMake = 'W';
     expect(vehicleService.compareVehicles(vehicle1, vehicle2)).toEqual(-1);

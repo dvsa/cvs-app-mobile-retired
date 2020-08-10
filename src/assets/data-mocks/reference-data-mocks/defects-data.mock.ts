@@ -28,12 +28,12 @@ export class DefectsReferenceDataMock {
               longitudinal: ['front'],
               rowNumber: [],
               lateral: [],
-              seatNumber: []
+              seatNumber: [],
             },
-            notes: false
+            notes: false,
           },
           hgv: {},
-          trl: {}
+          trl: {},
         },
         imNumber: 1,
         items: [
@@ -48,7 +48,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'major',
@@ -57,10 +57,10 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'b'
-              }
+                deficiencyId: 'b',
+              },
             ],
-            forVehicleType: ['psv']
+            forVehicleType: ['psv'],
           },
           {
             itemNumber: 2,
@@ -73,7 +73,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'major',
@@ -82,7 +82,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'b'
+                deficiencyId: 'b',
               },
               {
                 deficiencyCategory: 'major',
@@ -91,13 +91,13 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'c'
-              }
+                deficiencyId: 'c',
+              },
             ],
-            forVehicleType: ['psv']
-          }
+            forVehicleType: ['psv'],
+          },
         ],
-        forVehicleType: ['psv']
+        forVehicleType: ['psv'],
       },
       {
         imDescription: 'Seat Belts & Supplementary Restraint Systems',
@@ -110,12 +110,12 @@ export class DefectsReferenceDataMock {
               longitudinal: [],
               rowNumber: [2],
               lateral: ['nearside'],
-              seatNumber: [2]
+              seatNumber: [2],
             },
-            notes: true
+            notes: true,
           },
           hgv: {},
-          trl: {}
+          trl: {},
         },
         imNumber: 3,
         items: [
@@ -130,7 +130,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'major',
@@ -139,10 +139,10 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'b'
-              }
+                deficiencyId: 'b',
+              },
             ],
-            forVehicleType: ['psv', 'hgv']
+            forVehicleType: ['psv', 'hgv'],
           },
           {
             itemNumber: 2,
@@ -156,7 +156,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: 'i',
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'dangerous',
@@ -166,7 +166,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: true,
                 deficiencySubId: 'ii',
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'major',
@@ -176,10 +176,10 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'b'
-              }
+                deficiencyId: 'b',
+              },
             ],
-            forVehicleType: ['psv', 'hgv']
+            forVehicleType: ['psv', 'hgv'],
           },
           {
             itemNumber: 3,
@@ -193,7 +193,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'major',
@@ -203,7 +203,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'b'
+                deficiencyId: 'b',
               },
               {
                 deficiencyCategory: 'major',
@@ -213,7 +213,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'c'
+                deficiencyId: 'c',
               },
               {
                 deficiencyCategory: 'major',
@@ -222,7 +222,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'd'
+                deficiencyId: 'd',
               },
               {
                 deficiencyCategory: 'major',
@@ -232,10 +232,10 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'e'
-              }
+                deficiencyId: 'e',
+              },
             ],
-            forVehicleType: ['psv', 'hgv']
+            forVehicleType: ['psv', 'hgv'],
           },
           {
             itemNumber: 4,
@@ -249,7 +249,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: 'i',
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'major',
@@ -259,7 +259,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: 'ii',
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'major',
@@ -268,10 +268,10 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: 'ii',
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
-              }
+                deficiencyId: 'a',
+              },
             ],
-            forVehicleType: ['psv', 'hgv']
+            forVehicleType: ['psv', 'hgv'],
           },
           {
             itemNumber: 5,
@@ -285,10 +285,10 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: null
-              }
+                deficiencyId: null,
+              },
             ],
-            forVehicleType: ['psv', 'hgv']
+            forVehicleType: ['psv', 'hgv'],
           },
           {
             itemNumber: 6,
@@ -301,7 +301,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: true,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'major',
@@ -310,10 +310,10 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'b'
-              }
+                deficiencyId: 'b',
+              },
             ],
-            forVehicleType: ['psv', 'hgv']
+            forVehicleType: ['psv', 'hgv'],
           },
           {
             itemNumber: 7,
@@ -327,7 +327,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'major',
@@ -337,10 +337,10 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'b'
-              }
+                deficiencyId: 'b',
+              },
             ],
-            forVehicleType: ['psv', 'hgv']
+            forVehicleType: ['psv', 'hgv'],
           },
           {
             itemNumber: 8,
@@ -353,7 +353,7 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'a'
+                deficiencyId: 'a',
               },
               {
                 deficiencyCategory: 'major',
@@ -362,10 +362,10 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: 'b'
-              }
+                deficiencyId: 'b',
+              },
             ],
-            forVehicleType: ['psv', 'hgv']
+            forVehicleType: ['psv', 'hgv'],
           },
           {
             itemNumber: 9,
@@ -378,14 +378,14 @@ export class DefectsReferenceDataMock {
                 stdForProhibition: false,
                 deficiencySubId: null,
                 forVehicleType: ['psv', 'hgv'],
-                deficiencyId: null
-              }
+                deficiencyId: null,
+              },
             ],
-            forVehicleType: ['psv', 'hgv']
-          }
+            forVehicleType: ['psv', 'hgv'],
+          },
         ],
-        forVehicleType: ['psv']
-      }
+        forVehicleType: ['psv'],
+      },
     ];
   }
 }

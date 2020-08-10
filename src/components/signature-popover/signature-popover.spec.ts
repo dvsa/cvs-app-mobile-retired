@@ -33,9 +33,9 @@ describe('Component: SignaturePopoverComponent', () => {
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: AppService, useClass: AppServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
-        { provide: Store, useClass: TestStore }
+        { provide: Store, useClass: TestStore },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

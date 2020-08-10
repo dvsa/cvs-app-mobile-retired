@@ -44,7 +44,7 @@ describe('Component: TestStationHomePage', () => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
     networkStateProviderSpy = jasmine.createSpyObj('NetworkStateProvider', [
-      'initialiseNetworkState'
+      'initialiseNetworkState',
     ]);
 
     TestBed.configureTestingModule({
@@ -61,9 +61,9 @@ describe('Component: TestStationHomePage', () => {
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: CallNumber, useValue: callNumberSpy },
-        { provide: NetworkStateProvider, useValue: networkStateProviderSpy }
+        { provide: NetworkStateProvider, useValue: networkStateProviderSpy },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

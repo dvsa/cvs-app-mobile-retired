@@ -39,8 +39,8 @@ describe('Logs Effects', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          logs: logsReducer
-        })
+          logs: logsReducer,
+        }),
       ],
       providers: [
         LogsEffects,
@@ -48,8 +48,8 @@ describe('Logs Effects', () => {
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: LogsProvider, useClass: LogsProviderMock },
-        Store
-      ]
+        Store,
+      ],
     });
     effects = TestBed.get(LogsEffects);
     dataStoreMock = TestBed.get(DataStoreProvider);
@@ -77,7 +77,7 @@ describe('Logs Effects', () => {
       ['test']: 'xyz',
       type: LogType.DEBUG,
       message: 'test',
-      timestamp: 1234567
+      timestamp: 1234567,
     };
     // ACT
     actions$.next(new logsActions.SaveLog(log));
@@ -125,16 +125,16 @@ describe('Logs Effects', () => {
         ['test']: 'xyz',
         type: LogType.DEBUG,
         message: 'test',
-        timestamp: 1234567
+        timestamp: 1234567,
       };
       const dataWthinWindowCache = {
-        data: log
+        data: log,
       };
 
       // override mock getItem as we need data to test
       // @ts-ignore
       dataStoreMock.getItem.and.callFake(() =>
-        Promise.resolve(JSON.stringify(dataWthinWindowCache))
+        Promise.resolve(JSON.stringify(dataWthinWindowCache)),
       );
 
       spyOn(effects, 'emptyCachedData').and.callThrough();

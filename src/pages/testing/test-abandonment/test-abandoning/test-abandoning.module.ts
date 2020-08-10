@@ -6,6 +6,6 @@ import { TestTypeService } from '../../../../providers/test-type/test-type.servi
 @NgModule({
   declarations: [TestAbandoningPage],
   imports: [IonicPageModule.forChild(TestAbandoningPage)],
-  providers: [TestTypeService]
+  providers: [TestTypeService],
 })
 export class TestAbandoningPageModule {}

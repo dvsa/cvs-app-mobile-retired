@@ -25,11 +25,11 @@ export class VehicleService {
     public visitService: VisitService,
     private store$: Store<LogsModel>,
     public storageService: StorageService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   createVehicle(vehicleTechRecord: VehicleTechRecordModel): VehicleModel {
-    let newVehicle: VehicleModel = {} as VehicleModel;
+    const newVehicle: VehicleModel = {} as VehicleModel;
 
     newVehicle.systemNumber = vehicleTechRecord.systemNumber;
     newVehicle.vrm = vehicleTechRecord.vrms.length
@@ -69,7 +69,7 @@ export class VehicleService {
 
   getVehicleTechRecords(
     searchedValue: string,
-    searchCriteriaQueryParam: string
+    searchCriteriaQueryParam: string,
   ): Observable<VehicleModel[]> {
     return this.httpService
       .getTechRecords(searchedValue.toUpperCase(), searchCriteriaQueryParam)
@@ -79,7 +79,7 @@ export class VehicleService {
           message: `${this.authService.getOid()} - ${techRecordsResponse.status} ${
             techRecordsResponse.statusText
           } for API call to ${techRecordsResponse.url}`,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
         return techRecordsResponse.body.map(this.createVehicle);
@@ -96,7 +96,7 @@ export class VehicleService {
         message: `${this.authService.getOid()} - ${data.status} ${
           data.statusText
         } for API call to ${data.url}`,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
       this.store$.dispatch(new logsActions.SaveLog(log));
       this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
@@ -113,10 +113,10 @@ export class VehicleService {
 
   hasOnlyOneTestTypeWithSic(vehicle: VehicleModel) {
     let testsFound = 0;
-    for (let testType of vehicle.testTypes) {
+    for (const testType of vehicle.testTypes) {
       if (
         testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] ||
-        testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT] === false
+        !testType[TEST_TYPE_INPUTS.SIC_CARRIED_OUT]
       ) {
         testsFound++;
       }
@@ -126,12 +126,15 @@ export class VehicleService {
 
   removeSicFields(vehicle, fields) {
     if (this.hasOnlyOneTestTypeWithSic(vehicle)) {
-      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_CARRIED_OUT))
+      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_CARRIED_OUT)) {
         delete fields[TEST_TYPE_INPUTS.SIC_CARRIED_OUT];
-      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER))
+      }
+      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER)) {
         delete fields[TEST_TYPE_INPUTS.SIC_SEATBELTS_NUMBER];
-      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_LAST_DATE))
+      }
+      if (fields.hasOwnProperty(TEST_TYPE_INPUTS.SIC_LAST_DATE)) {
         delete fields[TEST_TYPE_INPUTS.SIC_LAST_DATE];
+      }
     }
   }
 
@@ -143,7 +146,7 @@ export class VehicleService {
     const ALERT = alertCtrl.create({
       title: APP_STRINGS.SKELETON_ALERT_TITLE,
       message: APP_STRINGS.SKELETON_ALERT_MESSAGE,
-      buttons: [APP_STRINGS.OK]
+      buttons: [APP_STRINGS.OK],
     });
     ALERT.present();
   }

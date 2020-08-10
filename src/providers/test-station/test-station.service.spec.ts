@@ -16,11 +16,11 @@ describe('Provider: TestStationService', () => {
 
   beforeEach(() => {
     spy = jasmine.createSpyObj('StorageService', {
-      read: new Promise((resolve) => resolve(testStationData))
+      read: new Promise((resolve) => resolve(testStationData)),
     });
 
     TestBed.configureTestingModule({
-      providers: [TestStationService, { provide: StorageService, useValue: spy }]
+      providers: [TestStationService, { provide: StorageService, useValue: spy }],
     });
 
     testStationService = TestBed.get(TestStationService);
@@ -57,10 +57,10 @@ describe('Provider: TestStationService', () => {
 
   it('should return Test Station by name', () => {
     filter = 'An Test Station Name';
-    let filteredData = testStationService.sortAndSearchTestStation(
+    const filteredData = testStationService.sortAndSearchTestStation(
       initialData,
       filter,
-      PROPERTIES
+      PROPERTIES,
     );
 
     expect(filteredData.length).toEqual(1);
@@ -69,10 +69,10 @@ describe('Provider: TestStationService', () => {
 
   it('should return Test Station by address', () => {
     filter = 'An Test Station Address';
-    let filteredData = testStationService.sortAndSearchTestStation(
+    const filteredData = testStationService.sortAndSearchTestStation(
       initialData,
       filter,
-      PROPERTIES
+      PROPERTIES,
     );
 
     expect(filteredData.length).toEqual(1);
@@ -81,10 +81,10 @@ describe('Provider: TestStationService', () => {
 
   it('should return Test Station by pNumber', () => {
     filter = '123';
-    let filteredData = testStationService.sortAndSearchTestStation(
+    const filteredData = testStationService.sortAndSearchTestStation(
       initialData,
       filter,
-      PROPERTIES
+      PROPERTIES,
     );
 
     expect(filteredData.length).toEqual(1);
@@ -93,10 +93,10 @@ describe('Provider: TestStationService', () => {
 
   it('should return nothing by unrelated string', () => {
     filter = 'xxx';
-    let filteredData = testStationService.sortAndSearchTestStation(
+    const filteredData = testStationService.sortAndSearchTestStation(
       initialData,
       filter,
-      PROPERTIES
+      PROPERTIES,
     );
 
     expect(filteredData.length).toEqual(0);
@@ -104,20 +104,20 @@ describe('Provider: TestStationService', () => {
 
   it('should filter test stations that have set null as testStationAddress', () => {
     filter = 'ATF without testStationAddress';
-    let filteredData = testStationService.sortAndSearchTestStation(
+    const filteredData = testStationService.sortAndSearchTestStation(
       initialData,
       filter,
-      PROPERTIES
+      PROPERTIES,
     );
 
     expect(filteredData.length).toEqual(1);
     expect(filteredData[0][0].testStationName).toEqual(filter);
   });
 
-  it('should also order the atfs starting with digits', function() {
-    let customTestStationData = [...TestStationDataMock.TestStationData];
+  it('should also order the atfs starting with digits', function () {
+    const customTestStationData = [...TestStationDataMock.TestStationData];
     customTestStationData[0].testStationName = '923 GJK';
-    let groupedData = testStationService.groupByLetter(customTestStationData, 'testStationName');
+    const groupedData = testStationService.groupByLetter(customTestStationData, 'testStationName');
     expect(groupedData[0][0].testStationName.charAt(0)).toEqual('9');
   });
 });

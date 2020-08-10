@@ -28,11 +28,11 @@ export class DefectDetailsDataMock {
                 longitudinal: ['front', 'rear'],
                 rowNumber: null,
                 lateral: null,
-                seatNumber: null
+                seatNumber: null,
               },
-              notes: false
-            }
-          }
+              notes: false,
+            },
+          },
         },
         prs: false,
         prohibitionIssued: false,
@@ -45,9 +45,9 @@ export class DefectDetailsDataMock {
             longitudinal: 'front',
             rowNumber: null,
             seatNumber: null,
-            axleNumber: null
-          }
-        }
+            axleNumber: null,
+          },
+        },
       },
       {
         deficiencyRef: '1.2',
@@ -61,15 +61,15 @@ export class DefectDetailsDataMock {
         itemNumber: 2,
         itemDescription: 'A registration mark:',
         metadata: {
-          category: { additionalInfo: null }
+          category: { additionalInfo: null },
         },
         prs: null,
         prohibitionIssued: false,
         additionalInformation: {
           notes: 'test',
-          location: null
-        }
-      }
+          location: null,
+        },
+      },
     ];
   }
 }

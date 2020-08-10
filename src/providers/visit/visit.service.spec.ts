@@ -25,7 +25,7 @@ describe('Provider: VisitService', () => {
   let activityService: ActivityService;
 
   const TEST_STATION: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
-  let TEST: TestModel = TestDataModelMock.TestData;
+  const TEST: TestModel = TestDataModelMock.TestData;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['update', 'delete']);
@@ -39,8 +39,8 @@ describe('Provider: VisitService', () => {
         { provide: AppService, useClass: AppServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: StorageService, useValue: storageServiceSpy },
-        { provide: HTTPService, useValue: httpServiceSpy }
-      ]
+        { provide: HTTPService, useValue: httpServiceSpy },
+      ],
     });
     visitService = TestBed.get(VisitService);
     appService = TestBed.get(AppService);
@@ -82,15 +82,15 @@ describe('Provider: VisitService', () => {
 
   it('should return the latest test', () => {
     visitService.createVisit(TEST_STATION);
-    let aTest: TestModel = {
+    const aTest: TestModel = {
       startTime: null,
       endTime: '14 March',
       status: null,
       reasonForCancellation: '',
-      vehicles: []
+      vehicles: [],
     };
     visitService.visit.tests.push(aTest);
-    let lateTest = visitService.getLatestTest();
+    const lateTest = visitService.getLatestTest();
     expect(lateTest.endTime).toMatch('14 March');
   });
 
@@ -108,8 +108,8 @@ describe('Provider: VisitService', () => {
         endTime: null,
         waitReason: ['Waiting for vehicle'],
         notes: '',
-        parentId: '8e56af10-503c-494c-836b-b2f3aa3c56ac'
-      }
+        parentId: '8e56af10-503c-494c-836b-b2f3aa3c56ac',
+      },
     ];
     visitService.createVisit(TEST_STATION);
     expect(visitService.visit.tests.length).toBe(0);

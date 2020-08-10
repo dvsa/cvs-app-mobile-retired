@@ -9,6 +9,6 @@ import { CommonFunctionsService } from '../../../../providers/utils/common-funct
 @NgModule({
   declarations: [AddDefectPage],
   imports: [PipesModule, DirectivesModule, IonicPageModule.forChild(AddDefectPage)],
-  providers: [DefectsService, CommonFunctionsService]
+  providers: [DefectsService, CommonFunctionsService],
 })
 export class AddDefectModule {}

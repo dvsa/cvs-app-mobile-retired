@@ -10,7 +10,7 @@ import { TestTypeService } from '../../../../providers/test-type/test-type.servi
 @IonicPage()
 @Component({
   selector: 'page-reasons-selection',
-  templateUrl: 'reasons-selection.html'
+  templateUrl: 'reasons-selection.html',
 })
 export class ReasonsSelectionPage {
   vehicleTest: TestTypeModel;
@@ -24,7 +24,7 @@ export class ReasonsSelectionPage {
     private navCtrl: NavController,
     private navParams: NavParams,
     private viewCtrl: ViewController,
-    private testTypeService: TestTypeService
+    private testTypeService: TestTypeService,
   ) {
     this.vehicleTest = this.navParams.get('vehicleTest');
     this.vehicleType = this.navParams.get('vehicleType');
@@ -46,7 +46,7 @@ export class ReasonsSelectionPage {
       selectedReasons: this.selectedReasons,
       editMode: true,
       altAbandon: this.altAbandon,
-      fromTestReview: this.fromTestReview
+      fromTestReview: this.fromTestReview,
     });
   }
 
@@ -76,11 +76,11 @@ export class ReasonsSelectionPage {
   }
 
   transformReasons(vehicleType: string): { text: string; isChecked: boolean }[] {
-    let reasonsList: string[] = this.populateReasonList(vehicleType);
+    const reasonsList: string[] = this.populateReasonList(vehicleType);
     return reasonsList.map((reason) => {
       return {
         text: reason,
-        isChecked: false
+        isChecked: false,
       };
     });
   }

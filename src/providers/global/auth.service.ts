@@ -25,7 +25,7 @@ export class AuthService {
     private msAdal: MSAdal,
     public platform: Platform,
     private commonFunc: CommonFunctionsService,
-    private store$: Store<LogsModel>
+    private store$: Store<LogsModel>,
   ) {
     this.testerDetails = {} as TesterDetailsModel;
     this.jwtToken = localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
@@ -50,7 +50,7 @@ export class AuthService {
       .acquireTokenSilentAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, '')
       .then((silentAuthResponse: AuthenticationResult) => {
         this.logLoginAttempt(true);
-        let authHeader = silentAuthResponse.createAuthorizationHeader();
+        const authHeader = silentAuthResponse.createAuthorizationHeader();
         this.testerDetails = this.setTesterDetails(silentAuthResponse);
         this.logLoginSuccessful();
         return authHeader;
@@ -58,10 +58,10 @@ export class AuthService {
       .catch((error) => {
         if (error.code == AUTH.MS_ADA_ERROR_USER_INPUT) {
           return this.loginWithUI();
-        } else {
-          console.error(error);
-          this.logLoginUnsuccessful(error['code']);
         }
+        console.error(error);
+        this.logLoginUnsuccessful(error['code']);
+
       });
   }
 
@@ -73,10 +73,10 @@ export class AuthService {
         AppConfig.MSAL_CLIENT_ID,
         AppConfig.MSAL_REDIRECT_URL,
         '',
-        ''
+        '',
       )
       .then((authResponse: AuthenticationResult) => {
-        let authHeader = authResponse.createAuthorizationHeader();
+        const authHeader = authResponse.createAuthorizationHeader();
         this.testerDetails = this.setTesterDetails(authResponse);
         this.logLoginSuccessful();
         return authHeader;
@@ -95,14 +95,14 @@ export class AuthService {
         type: LOG_TYPES.INFO,
         message: `Silent login attempt, token present for client_id=${AppConfig.MSAL_CLIENT_ID}, resource_url=${AppConfig.MSAL_RESOURCE_URL}`,
         timestamp: Date.now(),
-        unauthenticated: true
+        unauthenticated: true,
       };
     } else {
       log = {
         type: LOG_TYPES.INFO,
         message: `Login attempt, token not present for client_id=${AppConfig.MSAL_CLIENT_ID}, redirect_url=${AppConfig.MSAL_REDIRECT_URL}, resource_url=${AppConfig.MSAL_RESOURCE_URL}`,
         timestamp: Date.now(),
-        unauthenticated: true
+        unauthenticated: true,
       };
     }
     this.store$.dispatch(new logsActions.SaveLog(log));
@@ -114,7 +114,7 @@ export class AuthService {
       message: `${this.testerDetails.testerId} - Login successful for client_id=${
         AppConfig.MSAL_CLIENT_ID
       }, tenant_id=${this.tenantId} with the user roles=${this.userRoles.toString()}`,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
     this.store$.dispatch(new logsActions.SaveLog(log));
   }
@@ -124,7 +124,7 @@ export class AuthService {
       type: LOG_TYPES.ERROR,
       message: `Login unsuccessful for client_id=${AppConfig.MSAL_CLIENT_ID} with the error message ${errorMessage}`,
       timestamp: Date.now(),
-      unauthenticated: true
+      unauthenticated: true,
     };
     this.store$.dispatch(new logsActions.SaveLog(log));
   }
@@ -144,7 +144,7 @@ export class AuthService {
   }
 
   isValidToken(token): boolean {
-    let tokenStr = token ? token.slice(7, token.length - 1) : null;
+    const tokenStr = token ? token.slice(7, token.length - 1) : null;
     return tokenStr && tokenStr.match(CommonRegExp.JTW_TOKEN);
   }
 
@@ -153,17 +153,17 @@ export class AuthService {
     testerId = this.commonFunc.randomString(9),
     testerName = this.commonFunc.randomString(9),
     testerEmail = `${testerName}.${testerId}@email.com`,
-    testerRoles = [TESTER_ROLES.FULL_ACCESS]
+    testerRoles = [TESTER_ROLES.FULL_ACCESS],
   ): TesterDetailsModel {
-    let details: TesterDetailsModel = {
+    const details: TesterDetailsModel = {
       testerName,
       testerId,
       testerEmail,
-      testerRoles
+      testerRoles,
     };
 
     if (authResponse) {
-      let decodedToken = this.decodeJWT(authResponse.accessToken);
+      const decodedToken = this.decodeJWT(authResponse.accessToken);
       details.testerId = decodedToken.employeeid || decodedToken.oid;
       details.testerName = decodedToken['name'];
       details.testerEmail = decodedToken['upn'];

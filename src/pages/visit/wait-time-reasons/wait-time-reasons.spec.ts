@@ -5,7 +5,7 @@ import {
   IonicModule,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivityDataMock } from '../../../assets/data-mocks/activity.data.mock';
@@ -30,9 +30,9 @@ describe('Component: WaitTimeReasonsPage', () => {
         NavController,
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
-        AlertController
+        AlertController,
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -48,8 +48,8 @@ describe('Component: WaitTimeReasonsPage', () => {
     const navParams = fixture.debugElement.injector.get(NavParams);
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
-      let params = {
-        waitActivity: waitActivityData
+      const params = {
+        waitActivity: waitActivityData,
       };
       return params[param];
     });
@@ -84,11 +84,11 @@ describe('Component: WaitTimeReasonsPage', () => {
   });
 
   it('should push into array if reason is checked', () => {
-    let reason = {
+    const reason = {
       isChecked: true,
-      text: 'some reason'
+      text: 'some reason',
     };
-    let selectedReasons = [];
+    const selectedReasons = [];
     comp.onCheck(reason, selectedReasons);
     expect(selectedReasons.length > 0).toBeTruthy();
     reason.isChecked = false;

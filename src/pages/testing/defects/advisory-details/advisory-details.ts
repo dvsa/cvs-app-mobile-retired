@@ -8,7 +8,7 @@ import { TestTypeService } from '../../../../providers/test-type/test-type.servi
 @IonicPage()
 @Component({
   selector: 'page-advisory-details',
-  templateUrl: 'advisory-details.html'
+  templateUrl: 'advisory-details.html',
 })
 export class AdvisoryDetailsPage {
   vehicleTest: TestTypeModel;
@@ -19,7 +19,7 @@ export class AdvisoryDetailsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private alertCtrl: AlertController,
-    private testTypeService: TestTypeService
+    private testTypeService: TestTypeService,
   ) {
     this.vehicleTest = navParams.get('vehicleTest');
     this.advisory = navParams.get('advisory');
@@ -31,7 +31,7 @@ export class AdvisoryDetailsPage {
   }
 
   submitAdvisory(): void {
-    let views = this.navCtrl.getViews();
+    const views = this.navCtrl.getViews();
     for (let i = views.length - 1; i >= 0; i--) {
       if (
         views[i].component.name == 'CompleteTestPage' ||
@@ -57,15 +57,15 @@ export class AdvisoryDetailsPage {
       buttons: [
         {
           text: APP_STRINGS.CANCEL,
-          handler: () => {}
+          handler: () => {},
         },
         {
           text: APP_STRINGS.REMOVE,
           handler: () => {
             this.removeAdvisory();
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     REMOVE_ALERT.present();
   }

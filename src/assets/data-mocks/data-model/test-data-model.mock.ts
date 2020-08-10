@@ -7,7 +7,7 @@ export class TestDataModelMock {
       endTime: null,
       status: null,
       reasonForCancellation: '',
-      vehicles: []
+      vehicles: [],
     };
   }
 }

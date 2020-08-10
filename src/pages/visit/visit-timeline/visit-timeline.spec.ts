@@ -9,7 +9,7 @@ import {
   NavParams,
   ToastController,
   ModalController,
-  Platform
+  Platform,
 } from 'ionic-angular';
 import { PipesModule } from '../../../pipes/pipes.module';
 import { StateReformingService } from '../../../providers/global/state-reforming.service';
@@ -21,7 +21,7 @@ import {
   AlertControllerMock,
   NavParamsMock,
   ToastControllerMock,
-  ModalControllerMock
+  ModalControllerMock,
 } from 'ionic-mocks';
 import { AppService } from '../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../test-config/services-mocks/app-service.mock';
@@ -71,8 +71,8 @@ describe('Component: VisitTimelinePage', () => {
   let storageServiceSpy: any;
   let store: Store<any>;
 
-  let waitActivity = ActivityDataMock.WaitActivityData;
-  let testStation = TestStationDataMock.TestStationData[0];
+  const waitActivity = ActivityDataMock.WaitActivityData;
+  const testStation = TestStationDataMock.TestStationData[0];
 
   beforeEach(() => {
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', ['open']);
@@ -100,9 +100,9 @@ describe('Component: VisitTimelinePage', () => {
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: Store, useClass: TestStore },
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
-        FormatVrmPipe
+        FormatVrmPipe,
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
   });
 
@@ -213,7 +213,7 @@ describe('Component: VisitTimelinePage', () => {
 
     activityService.addActivity(waitActivity);
     visitService.createVisit(testStation);
-    let customTest: TestModel = {} as TestModel;
+    const customTest: TestModel = {} as TestModel;
     customTest.startTime = '2019-05-23T14:52:04.208Z';
     customTest.endTime = '2019-05-23T14:52:24.773Z';
     customTest.status = TEST_REPORT_STATUSES.CANCELLED;
@@ -223,7 +223,7 @@ describe('Component: VisitTimelinePage', () => {
   });
 
   it('should create the confirm alert', () => {
-    let newVisit = visitService.createVisit(testStation);
+    const newVisit = visitService.createVisit(testStation);
     component.showConfirm(newVisit);
     expect(alertCtrl.create).toHaveBeenCalled();
 
@@ -235,7 +235,7 @@ describe('Component: VisitTimelinePage', () => {
   });
 
   it('should end visit', () => {
-    let newVisit = visitService.createVisit(testStation);
+    const newVisit = visitService.createVisit(testStation);
     spyOn(component, 'showConfirm');
     component.endVisit();
     expect(component.showConfirm).toHaveBeenCalled();
@@ -266,7 +266,7 @@ describe('Component: VisitTimelinePage', () => {
   });
 
   it('should check if it can be added another waiting time', () => {
-    let customTimeline = [];
+    const customTimeline = [];
     expect(component.canAddOtherWaitingTime(customTimeline)).toBeTruthy();
 
     customTimeline.push(waitActivity);
@@ -274,7 +274,7 @@ describe('Component: VisitTimelinePage', () => {
   });
 
   it('should check if waitTimeReasons are checked', () => {
-    let customTimeline = ActivityDataMock.Activities;
+    const customTimeline = ActivityDataMock.Activities;
     expect(component.checkWaitTimeReasons(customTimeline)).toBeTruthy();
   });
 
@@ -298,7 +298,7 @@ describe('Component: VisitTimelinePage', () => {
   it('it should display the confirmation page if the endVisit call fails with the Activity already ended error message', () => {
     spyOn(component, 'onUpdateActivityReasonsSuccess');
     spyOn(visitService, 'endVisit').and.returnValue(
-      Observable.throw({ error: { error: VISIT.ALREADY_ENDED } })
+      Observable.throw({ error: { error: VISIT.ALREADY_ENDED } }),
     );
     component.visit = visitService.createVisit(testStation);
     component.confirmEndVisit();
@@ -338,14 +338,14 @@ describe('Component: VisitTimelinePage', () => {
   });
 
   it('should return the VRM when the vehicle is a PSV', () => {
-    let vehicle: VehicleModel = Object.create(VehicleDataMock.VehicleData);
+    const vehicle: VehicleModel = Object.create(VehicleDataMock.VehicleData);
     vehicle.techRecord.vehicleType = VEHICLE_TYPE.PSV;
     vehicle.vrm = 'AB12CDE';
     expect(component.getVehicleIdentifier(vehicle)).toBe('AB12 CDE');
   });
 
   it('should return the Trailer ID when the vehicle is a Trailer', () => {
-    let vehicle: VehicleModel = Object.create(VehicleDataMock.VehicleData);
+    const vehicle: VehicleModel = Object.create(VehicleDataMock.VehicleData);
     vehicle.techRecord.vehicleType = VEHICLE_TYPE.TRL;
     vehicle.trailerId = 'C000001';
     expect(component.getVehicleIdentifier(vehicle)).toBe('C000001');

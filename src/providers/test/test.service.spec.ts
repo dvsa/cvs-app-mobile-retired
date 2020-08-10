@@ -15,11 +15,11 @@ describe('Provider: TestReportService', () => {
     vehicleServiceSpy = jasmine.createSpyObj('VehicleService', [
       'createVehicle',
       'addTestType',
-      'removeTestType'
+      'removeTestType',
     ]);
 
     TestBed.configureTestingModule({
-      providers: [TestService, { provide: VehicleService, useValue: vehicleServiceSpy }]
+      providers: [TestService, { provide: VehicleService, useValue: vehicleServiceSpy }],
     });
 
     testService = TestBed.get(TestService);
@@ -32,18 +32,18 @@ describe('Provider: TestReportService', () => {
   });
 
   it('should assign the startTime to the report', () => {
-    let newTest = testService.createTest();
+    const newTest = testService.createTest();
     expect(newTest.startTime).toBeTruthy();
   });
 
   it('should assign the endTime to the report', () => {
-    let endedTest = testService.createTest();
+    const endedTest = testService.createTest();
     testService.endTestReport(endedTest);
     expect(endedTest.endTime).toBeTruthy();
   });
 
   it('should add a vehicle to the vehicles array of testReport', () => {
-    let newTest = testService.createTest();
+    const newTest = testService.createTest();
     expect(newTest.vehicles.length).toEqual(0);
     testService.addVehicle(newTest, VEHICLE);
     expect(newTest.vehicles.length).toEqual(1);

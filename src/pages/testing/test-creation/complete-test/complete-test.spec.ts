@@ -7,7 +7,7 @@ import {
   ModalController,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
 import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -23,7 +23,7 @@ import {
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
   TEST_TYPE_SECTIONS,
-  TEST_TYPES_IDS
+  TEST_TYPES_IDS,
 } from '../../../../app/app.enums';
 import { TechRecordDataMock } from '../../../../assets/data-mocks/tech-record-data.mock';
 import { TestTypeModel } from '../../../../models/tests/test-type.model';
@@ -71,7 +71,7 @@ describe('Component: CompleteTestPage', () => {
     deficiencySubId: null,
     itemDescription: 'test2',
     metadata: {
-      category: {}
+      category: {},
     },
     prs: false,
     prohibitionIssued: false,
@@ -84,9 +84,9 @@ describe('Component: CompleteTestPage', () => {
         longitudinal: '',
         rowNumber: null,
         seatNumber: null,
-        axleNumber: null
-      }
-    }
+        axleNumber: null,
+      },
+    },
   };
 
   const TEST_TYPES_METADATA = TestTypeMetadataMock.TestTypeMetadata;
@@ -95,7 +95,7 @@ describe('Component: CompleteTestPage', () => {
 
   beforeEach(async(() => {
     defectsServiceSpy = jasmine.createSpyObj('DefectsService', {
-      getDefectsFromStorage: of(DEFECTS)
+      getDefectsFromStorage: of(DEFECTS),
     });
 
     TestBed.configureTestingModule({
@@ -111,15 +111,15 @@ describe('Component: CompleteTestPage', () => {
         AlertController,
         {
           provide: ActionSheetController,
-          useFactory: () => ActionSheetControllerMock.instance()
+          useFactory: () => ActionSheetControllerMock.instance(),
         },
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: DefectsService, useValue: defectsServiceSpy },
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -143,7 +143,7 @@ describe('Component: CompleteTestPage', () => {
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
         vehicleTest: VEHICLE_TEST,
-        vehicle: VEHICLE
+        vehicle: VEHICLE,
       };
       return params[param];
     });
@@ -220,7 +220,7 @@ describe('Component: CompleteTestPage', () => {
     [VisitService],
     (injectService: VisitService) => {
       expect(injectService).toBe(visitService);
-    }
+    },
   ));
 
   it('should convert to number', () => {
@@ -267,7 +267,7 @@ describe('Component: CompleteTestPage', () => {
 
     comp.vehicleTest.testTypeId = TEST_TYPES_IDS._44;
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.FAIL;
-    let section = TestTypeMetadataMock.TestTypeMetadata.sections[0];
+    const section = TestTypeMetadataMock.TestTypeMetadata.sections[0];
     section.sectionName = TEST_TYPE_SECTIONS.EMISSION_DETAILS;
     expect(comp.canDisplaySection(section)).toBeFalsy();
 
@@ -289,7 +289,7 @@ describe('Component: CompleteTestPage', () => {
   it('should tell if an input can be displayed', () => {
     comp.vehicleTest = navParams.get('vehicleTest');
     comp.testTypeDetails = comp.getTestTypeDetails();
-    let input = TEST_TYPES_METADATA.sections[2].inputs[2];
+    const input = TEST_TYPES_METADATA.sections[2].inputs[2];
     comp.completedFields = {};
     comp.completedFields.seatbeltInstallationCheckDate = false;
     expect(comp.canDisplayInput(input)).toBeTruthy();
@@ -367,8 +367,8 @@ describe('Component: CompleteTestPage', () => {
       TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0],
       {
         fromTestReview: false,
-        errorIncomplete: false
-      }
+        errorIncomplete: false,
+      },
     );
     expect(comp.errorIncomplete).toBeFalsy();
   });
@@ -379,7 +379,7 @@ describe('Component: CompleteTestPage', () => {
     comp.completedFields = {};
     comp.openInputPage(
       TestTypeMetadataMock.TestTypeMetadata.sections[0],
-      TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0]
+      TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0],
     );
     expect(modalCtrl.create).toHaveBeenCalled();
   });
@@ -410,7 +410,7 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should open ddl when blockTestResultSelection is false', () => {
-    let input = {} as any;
+    const input = {} as any;
     input.testTypePropertyName = 'testResult';
     comp.blockTestResultSelection = false;
     comp.openDDL(input);
@@ -418,7 +418,7 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should not open ddl when blockTestResultSelection is true and input is testResult', () => {
-    let input = {} as any;
+    const input = {} as any;
     input.testTypePropertyName = 'testResult';
     comp.blockTestResultSelection = true;
     comp.openDDL(input);

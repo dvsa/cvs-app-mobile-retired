@@ -22,12 +22,12 @@ describe('Provider: ActivityService', () => {
   let httpService: HTTPService;
   let httpServiceSpy: any;
 
-  let waitreasonsData = WaitTimeReasonsData.WaitTimeReasonsData;
-  let activity = ActivityDataMock.WaitActivityData;
+  const waitreasonsData = WaitTimeReasonsData.WaitTimeReasonsData;
+  const activity = ActivityDataMock.WaitActivityData;
   const ACTIVITIES = ActivityDataMock.Activities;
   const TEST_RESULT = TestResultsDataMock.TestResultsData;
-  let activitiesForUpdate = ActivityDataMock.UpdateActivities;
-  let visit: VisitModel = {
+  const activitiesForUpdate = ActivityDataMock.UpdateActivities;
+  const visit: VisitModel = {
     startTime: '2019-05-23T12:11:11.974Z',
     endTime: null,
     testStationName: 'Abshire-Kub',
@@ -38,10 +38,10 @@ describe('Provider: ActivityService', () => {
     testerName: 'gvminnbbl',
     testerEmail: 'blabla@email.com',
     tests: [],
-    id: '8e56af10-503c-494c-836b-b2f3aa3c56ac'
+    id: '8e56af10-503c-494c-836b-b2f3aa3c56ac',
   };
 
-  let waitActivity = {
+  const waitActivity = {
     activityType: 'wait',
     testStationName: 'Abshire-Kub',
     testStationPNumber: '09-4129632',
@@ -53,10 +53,10 @@ describe('Provider: ActivityService', () => {
     endTime: null,
     waitReason: ['Waiting for vehicle'],
     notes: '',
-    parentId: '8e56af10-503c-494c-836b-b2f3aa3c56ac'
+    parentId: '8e56af10-503c-494c-836b-b2f3aa3c56ac',
   };
 
-  let testResult: TestResultModel = {
+  const testResult: TestResultModel = {
     systemNumber: '1000000',
     testResultId: 'b1972f03-4a1d-482a-a812-7bdd82b1aae9',
     vrm: 'BQ91YHQ',
@@ -84,10 +84,10 @@ describe('Provider: ActivityService', () => {
     vehicleSize: 'small',
     noOfAxles: 2,
     numberOfWheelsDriven: null,
-    testTypes: []
+    testTypes: [],
   };
 
-  let newVisit = {
+  const newVisit = {
     startTime: '2019-05-23T14:52:02.041Z',
     endTime: null,
     testStationName: 'Abshire-Kub',
@@ -123,7 +123,7 @@ describe('Provider: ActivityService', () => {
                 brakeForceWheelsNotLocked: {
                   parkingBrakeForceA: 2742,
                   serviceBrakeForceA: 7713,
-                  secondaryBrakeForceA: 3857
+                  secondaryBrakeForceA: 3857,
                 },
                 dataTrBrakeTwo: 'None',
                 retarderBrakeTwo: 'exhaust',
@@ -132,8 +132,8 @@ describe('Provider: ActivityService', () => {
                 brakeForceWheelsUpToHalfLocked: {
                   secondaryBrakeForceB: 3329,
                   parkingBrakeForceB: 2130,
-                  serviceBrakeForceB: 6658
-                }
+                  serviceBrakeForceB: 6658,
+                },
               },
               bodyModel: 'Tourismo',
               bodyMake: 'Plaxton',
@@ -148,15 +148,15 @@ describe('Provider: ActivityService', () => {
                     fitmentCode: 'single',
                     dataTrAxles: 0,
                     plyRating: 'A',
-                    tyreCode: 456
+                    tyreCode: 456,
                   },
                   parkingBrakeMrk: false,
                   weights: {
                     kerbWeight: 5018,
                     gbWeight: 7100,
                     ladenWeight: 7100,
-                    designWeight: 7100
-                  }
+                    designWeight: 7100,
+                  },
                 },
                 {
                   axleNumber: 2,
@@ -164,7 +164,7 @@ describe('Provider: ActivityService', () => {
                     kerbWeight: 8297,
                     gbWeight: 11500,
                     ladenWeight: 11500,
-                    designWeight: 12600
+                    designWeight: 12600,
                   },
                   tyres: {
                     tyreSize: '295/80-22.5',
@@ -172,9 +172,9 @@ describe('Provider: ActivityService', () => {
                     fitmentCode: 'double',
                     dataTrAxles: 0,
                     plyRating: 'A',
-                    tyreCode: 456
-                  }
-                }
+                    tyreCode: 456,
+                  },
+                },
               ],
               createdAt: '2019-01-16T12:24:38.027Z',
               chassisModel: '632,01',
@@ -182,7 +182,7 @@ describe('Provider: ActivityService', () => {
               dispensations: 'None',
               vehicleClass: {
                 description: 'small psv (ie: less than or equal to 22 seats)',
-                code: 's'
+                code: 's',
               },
               chassisMake: 'Mercedes',
               vehicleSize: 'small',
@@ -200,7 +200,7 @@ describe('Provider: ActivityService', () => {
               speedRestriction: 0,
               manufactureYear: 2010,
               remarks: 'None',
-              statusCode: 'current'
+              statusCode: 'current',
             },
             testResultsHistory: [],
             countryOfRegistration: 'gb',
@@ -209,9 +209,9 @@ describe('Provider: ActivityService', () => {
             odometerMetric: null,
             preparerId: 'No preparer ID given',
             preparerName: '',
-            testTypes: []
-          }
-        ]
+            testTypes: [],
+          },
+        ],
       },
       {
         testResultId: '2d44d0e3-14da-472c-a3d7-f6c1693d84ef',
@@ -238,7 +238,7 @@ describe('Provider: ActivityService', () => {
                 brakeForceWheelsNotLocked: {
                   parkingBrakeForceA: 2742,
                   serviceBrakeForceA: 7713,
-                  secondaryBrakeForceA: 3857
+                  secondaryBrakeForceA: 3857,
                 },
                 dataTrBrakeTwo: 'None',
                 retarderBrakeTwo: 'exhaust',
@@ -247,8 +247,8 @@ describe('Provider: ActivityService', () => {
                 brakeForceWheelsUpToHalfLocked: {
                   secondaryBrakeForceB: 3329,
                   parkingBrakeForceB: 2130,
-                  serviceBrakeForceB: 6658
-                }
+                  serviceBrakeForceB: 6658,
+                },
               },
               bodyModel: 'Tourismo',
               bodyMake: 'Plaxton',
@@ -263,15 +263,15 @@ describe('Provider: ActivityService', () => {
                     fitmentCode: 'single',
                     dataTrAxles: 0,
                     plyRating: 'A',
-                    tyreCode: 456
+                    tyreCode: 456,
                   },
                   parkingBrakeMrk: false,
                   weights: {
                     kerbWeight: 5018,
                     gbWeight: 7100,
                     ladenWeight: 7100,
-                    designWeight: 7100
-                  }
+                    designWeight: 7100,
+                  },
                 },
                 {
                   axleNumber: 2,
@@ -279,7 +279,7 @@ describe('Provider: ActivityService', () => {
                     kerbWeight: 8297,
                     gbWeight: 11500,
                     ladenWeight: 11500,
-                    designWeight: 12600
+                    designWeight: 12600,
                   },
                   tyres: {
                     tyreSize: '295/80-22.5',
@@ -287,9 +287,9 @@ describe('Provider: ActivityService', () => {
                     fitmentCode: 'double',
                     dataTrAxles: 0,
                     plyRating: 'A',
-                    tyreCode: 456
-                  }
-                }
+                    tyreCode: 456,
+                  },
+                },
               ],
               createdAt: '2019-01-16T12:24:38.027Z',
               chassisModel: '632,01',
@@ -297,7 +297,7 @@ describe('Provider: ActivityService', () => {
               dispensations: 'None',
               vehicleClass: {
                 description: 'small psv (ie: less than or equal to 22 seats)',
-                code: 's'
+                code: 's',
               },
               chassisMake: 'Mercedes',
               vehicleSize: 'small',
@@ -315,7 +315,7 @@ describe('Provider: ActivityService', () => {
               speedRestriction: 0,
               manufactureYear: 2010,
               remarks: 'None',
-              statusCode: 'current'
+              statusCode: 'current',
             },
             testResultsHistory: [],
             countryOfRegistration: 'gb',
@@ -324,12 +324,12 @@ describe('Provider: ActivityService', () => {
             odometerMetric: null,
             preparerId: 'No preparer ID given',
             preparerName: '',
-            testTypes: []
-          }
-        ]
-      }
+            testTypes: [],
+          },
+        ],
+      },
     ],
-    id: '3ea6476a-c360-4bd5-9ba5-048c2a428f4c'
+    id: '3ea6476a-c360-4bd5-9ba5-048c2a428f4c',
   };
 
   beforeEach(() => {
@@ -342,8 +342,8 @@ describe('Provider: ActivityService', () => {
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: AppService, useClass: AppServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
-        { provide: HTTPService, useValue: httpServiceSpy }
-      ]
+        { provide: HTTPService, useValue: httpServiceSpy },
+      ],
     });
 
     activityService = TestBed.get(ActivityService);
@@ -361,16 +361,16 @@ describe('Provider: ActivityService', () => {
   });
 
   it('should create an activity', () => {
-    let newActivity1 = activityService.createActivity(visit, null, false, false);
+    const newActivity1 = activityService.createActivity(visit, null, false, false);
     expect(newActivity1).toBeTruthy();
     expect(newActivity1.activityType).toBe(VISIT.ACTIVITY_TYPE_UNACCOUNTABLE_TIME);
     expect(storageService.update).not.toHaveBeenCalled();
 
-    let newActivity2 = activityService.createActivity(
+    const newActivity2 = activityService.createActivity(
       visit,
       VISIT.ACTIVITY_TYPE_WAIT,
       true,
-      true
+      true,
     );
     expect(newActivity2.activityType).toBe(VISIT.ACTIVITY_TYPE_WAIT);
     expect(storageService.update).toHaveBeenCalled();
@@ -378,7 +378,7 @@ describe('Provider: ActivityService', () => {
 
   it('should check if activities are returned', () => {
     activityService.activities = ActivityDataMock.Activities;
-    let activitiesArr = activityService.getActivities();
+    const activitiesArr = activityService.getActivities();
     expect(activitiesArr).toBeTruthy();
   });
 
@@ -402,7 +402,7 @@ describe('Provider: ActivityService', () => {
   });
 
   it('should return array of activities for update call', () => {
-    let activitiesForUpdate = activityService.createActivitiesForUpdateCall(ACTIVITIES);
+    const activitiesForUpdate = activityService.createActivitiesForUpdateCall(ACTIVITIES);
     expect(activitiesForUpdate[0].id).toBe('8ae539aa-cbfb-49e2-8951-63567003b512');
   });
 
@@ -426,7 +426,7 @@ describe('Provider: ActivityService', () => {
     activityForBody = activityService.createActivityBodyForCall(newVisit, testResult, null);
     expect(activityForBody).toBeTruthy();
 
-    let customVisit = newVisit;
+    const customVisit = newVisit;
     customVisit.tests.shift();
     activityForBody = activityService.createActivityBodyForCall(newVisit, testResult, null);
     expect(activityForBody).toBeTruthy();

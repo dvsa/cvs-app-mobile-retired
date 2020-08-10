@@ -4,6 +4,6 @@ import { HelpPage } from './help';
 
 @NgModule({
   declarations: [HelpPage],
-  imports: [IonicPageModule.forChild(HelpPage)]
+  imports: [IonicPageModule.forChild(HelpPage)],
 })
 export class HelpModule {}

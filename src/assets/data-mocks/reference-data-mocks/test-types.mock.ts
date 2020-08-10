@@ -16,7 +16,7 @@ export class TestTypesReferenceDataMock {
         forVehicleSubclass: null,
         forVehicleWheels: null,
         testTypeClassification: 'Annual With Certificate',
-        linkedIds: ['38', '39']
+        linkedIds: ['38', '39'],
       },
       {
         id: '2',
@@ -43,7 +43,7 @@ export class TestTypesReferenceDataMock {
             forVehicleSubclass: null,
             forVehicleWheels: null,
             testTypeClassification: 'Annual With Certificate',
-            linkedIds: ['38', '39']
+            linkedIds: ['38', '39'],
           },
           {
             id: '4',
@@ -58,9 +58,9 @@ export class TestTypesReferenceDataMock {
             forVehicleSubclass: null,
             forVehicleWheels: null,
             testTypeClassification: 'Annual With Certificate',
-            linkedIds: ['38', '39']
-          }
-        ]
+            linkedIds: ['38', '39'],
+          },
+        ],
       },
       {
         id: '5',
@@ -99,7 +99,7 @@ export class TestTypesReferenceDataMock {
                 forVehicleSubclass: null,
                 forVehicleWheels: null,
                 testTypeClassification: 'Annual With Certificate',
-                linkedIds: ['38', '39']
+                linkedIds: ['38', '39'],
               },
               {
                 id: '8',
@@ -114,9 +114,9 @@ export class TestTypesReferenceDataMock {
                 forVehicleSubclass: null,
                 forVehicleWheels: null,
                 testTypeClassification: 'Annual With Certificate',
-                linkedIds: ['38', '39']
-              }
-            ]
+                linkedIds: ['38', '39'],
+              },
+            ],
           },
           {
             id: '9',
@@ -142,11 +142,11 @@ export class TestTypesReferenceDataMock {
                 forVehicleClass: null,
                 forVehicleSubclass: null,
                 forVehicleWheels: null,
-                linkedIds: ['38', '39']
-              }
-            ]
-          }
-        ]
+                linkedIds: ['38', '39'],
+              },
+            ],
+          },
+        ],
       },
       {
         id: 'bsgs2341212',
@@ -161,8 +161,8 @@ export class TestTypesReferenceDataMock {
         forVehicleSubclass: null,
         forVehicleWheels: null,
         linkedIds: null,
-        nextTestTypesOrCategories: null
-      }
+        nextTestTypesOrCategories: null,
+      },
     ];
   }
 }

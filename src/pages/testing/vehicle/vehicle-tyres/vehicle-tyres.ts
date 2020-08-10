@@ -7,7 +7,7 @@ import { APP_STRINGS, VEHICLE_TYPE, TECH_RECORD_STATUS } from '../../../../app/a
 @IonicPage()
 @Component({
   selector: 'page-vehicle-tyres',
-  templateUrl: 'vehicle-tyres.html'
+  templateUrl: 'vehicle-tyres.html',
 })
 export class VehicleTyresPage {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
@@ -19,7 +19,7 @@ export class VehicleTyresPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
-    public commonFunc: CommonFunctionsService
+    public commonFunc: CommonFunctionsService,
   ) {
     this.vehicleData = navParams.get('vehicleData');
     this.viewCtrl = viewCtrl;

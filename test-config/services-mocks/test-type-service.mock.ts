@@ -14,7 +14,7 @@ import { NotifiableAlterationTestTypesData } from "../../src/assets/app-data/tes
 
 export class TestTypeServiceMock {
   createTestType(testType: TestTypesReferenceDataModel): TestTypeModel {
-    let newTestType = {} as TestTypeModel;
+    const newTestType = {} as TestTypeModel;
     newTestType.name = testType.name;
     newTestType.testTypeName = testType.testTypeName;
     newTestType.testTypeId = testType.id;
@@ -31,7 +31,7 @@ export class TestTypeServiceMock {
     newTestType.additionalCommentsForAbandon = '';
     newTestType.additionalNotesRecorded = '';
     newTestType.defects = [];
-    return newTestType
+    return newTestType;
   }
 
   addDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
@@ -43,8 +43,8 @@ export class TestTypeServiceMock {
   }
 
   removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
-    let defIdx = testType.defects.map((e) => {
-      return e.deficiencyRef
+    const defIdx = testType.defects.map((e) => {
+      return e.deficiencyRef;
     }).indexOf(defect.deficiencyRef);
     testType.defects.splice(defIdx, 1);
   }
@@ -54,18 +54,18 @@ export class TestTypeServiceMock {
   }
 
   getTestTypesFromStorage(): Observable<TestTypesReferenceDataModel[]> {
-    return of(TestTypesReferenceDataMock.TestTypesData)
+    return of(TestTypesReferenceDataMock.TestTypesData);
   }
 
   areSpecialistCustomDefectsCompleted(testType: TestTypeModel): boolean {
     return testType.customDefects.every((defect: SpecialistCustomDefectModel) => {
       return defect.hasAllMandatoryFields;
-    })
+    });
   }
 
   setTestResult(testType: TestTypeModel): TEST_TYPE_RESULTS {
     let result = TEST_TYPE_RESULTS.PASS;
-    let criticalDeficienciesArr: DefectDetailsModel[] = [];
+    const criticalDeficienciesArr: DefectDetailsModel[] = [];
     if (testType.reasons.length) return TEST_TYPE_RESULTS.ABANDONED;
     testType.defects.forEach(
       (defect: DefectDetailsModel) => {
@@ -81,10 +81,10 @@ export class TestTypeServiceMock {
         }
       });
     if (criticalDeficienciesArr.length) {
-      let criticalDefStatus = criticalDeficienciesArr.every(
+      const criticalDefStatus = criticalDeficienciesArr.every(
         (defect) => {
-          return defect.prs
-        }
+          return defect.prs;
+        },
       );
       result = criticalDefStatus ? TEST_TYPE_RESULTS.PRS : TEST_TYPE_RESULTS.FAIL;
     }
@@ -118,7 +118,7 @@ export class TestTypeServiceMock {
 
   updateLinkedTestResults(vehicle: VehicleModel, testType: TestTypeModel) {
     if (testType.testTypeId === '40' && testType.testResult === TEST_TYPE_RESULTS.FAIL) {
-      for (let vehicleTestType of vehicle.testTypes) {
+      for (const vehicleTestType of vehicle.testTypes) {
         if (AdrTestTypesData.AdrTestTypesDataIds.indexOf(vehicleTestType.testTypeId) !== -1 && vehicleTestType.testResult !== TEST_TYPE_RESULTS.FAIL) {
           vehicleTestType.testResult = TEST_TYPE_RESULTS.FAIL;
           vehicleTestType.certificateNumber = null;

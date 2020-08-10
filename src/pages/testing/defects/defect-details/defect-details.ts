@@ -5,12 +5,12 @@ import {
   Navbar,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import {
   AdditionalInfoMetadataModel,
   DefectDetailsModel,
-  DefectLocationModel
+  DefectLocationModel,
 } from '../../../../models/defects/defect-details.model';
 import { DefectsService } from '../../../../providers/defects/defects.service';
 import { TestTypeModel } from '../../../../models/tests/test-type.model';
@@ -19,7 +19,7 @@ import {
   APP_STRINGS,
   DEFICIENCY_CATEGORY,
   FIREBASE_DEFECTS,
-  TEST_TYPE_RESULTS
+  TEST_TYPE_RESULTS,
 } from '../../../../app/app.enums';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { ProhibitionClearanceTestTypesData } from '../../../../assets/app-data/test-types-data/prohibition-clearance-test-types.data';
@@ -28,7 +28,7 @@ import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-
 @IonicPage()
 @Component({
   selector: 'page-defect-details',
-  templateUrl: 'defect-details.html'
+  templateUrl: 'defect-details.html',
 })
 export class DefectDetailsPage implements OnInit {
   vehicleTest: TestTypeModel;
@@ -55,7 +55,7 @@ export class DefectDetailsPage implements OnInit {
     public defectsService: DefectsService,
     private testTypeService: TestTypeService,
     private alertCtrl: AlertController,
-    private firebaseLogsService: FirebaseLogsService
+    private firebaseLogsService: FirebaseLogsService,
   ) {
     this.vehicleTest = navParams.get('vehicleTest');
     this.defect = navParams.get('deficiency');
@@ -99,7 +99,7 @@ export class DefectDetailsPage implements OnInit {
    */
   addDefect(): void {
     if (!this.fromTestReview) {
-      let views = this.navCtrl.getViews();
+      const views = this.navCtrl.getViews();
       for (let i = views.length - 1; i >= 0; i--) {
         if (views[i].component.name == 'CompleteTestPage') {
           if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
@@ -115,12 +115,12 @@ export class DefectDetailsPage implements OnInit {
 
   private getTestTypeDetailsFromFieldsMetadata(testTypeModel: TestTypeModel) {
     return TestTypesFieldsMetadata.FieldsMetadata.find(
-      (fieldsMetadata) => testTypeModel.testTypeId === fieldsMetadata.testTypeId
+      (fieldsMetadata) => testTypeModel.testTypeId === fieldsMetadata.testTypeId,
     );
   }
 
   checkForLocation(location: {}): boolean {
-    for (let type in location) {
+    for (const type in location) {
       if (location[type]) {
         return true;
       }
@@ -170,9 +170,9 @@ export class DefectDetailsPage implements OnInit {
       message: showThisMessage,
       buttons: [
         {
-          text: APP_STRINGS.OK
-        }
-      ]
+          text: APP_STRINGS.OK,
+        },
+      ],
     });
     alert.present();
   }
@@ -184,15 +184,15 @@ export class DefectDetailsPage implements OnInit {
       buttons: [
         {
           text: APP_STRINGS.CANCEL,
-          handler: () => {}
+          handler: () => {},
         },
         {
           text: APP_STRINGS.REMOVE,
           handler: () => {
             this.removeDefect(defect);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     confirm.present();
   }
@@ -206,7 +206,7 @@ export class DefectDetailsPage implements OnInit {
     this.firebaseLogsService.logEvent(
       FIREBASE_DEFECTS.DEFECT_NOTES_USAGE,
       FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
-      this.defect.deficiencyRef
+      this.defect.deficiencyRef,
     );
   }
 }

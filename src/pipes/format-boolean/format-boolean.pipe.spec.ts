@@ -1,7 +1,7 @@
 import { FormatBooleanPipe } from './format-boolean.pipe';
 
 describe('FormatBooleanPipe', () => {
-  let pipe = new FormatBooleanPipe();
+  const pipe = new FormatBooleanPipe();
 
   it('should convert boolean to string', () => {
     let inputValue = true;

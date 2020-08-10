@@ -17,18 +17,18 @@ export class TestTypeMetadataMock {
                 {
                   text: 'Pass',
                   value: TEST_TYPE_RESULTS.PASS,
-                  cssClass: ''
+                  cssClass: '',
                 },
                 {
                   text: 'Fail',
                   value: TEST_TYPE_RESULTS.FAIL,
-                  cssClass: 'danger-action-button'
-                }
+                  cssClass: 'danger-action-button',
+                },
               ],
               defaultValue: 'Select',
-              deactivateButtonOnSelection: true
-            }
-          ]
+              deactivateButtonOnSelection: true,
+            },
+          ],
         },
         {
           sectionName: 'Certificate number',
@@ -36,10 +36,10 @@ export class TestTypeMetadataMock {
             {
               testTypePropertyName: 'certificateNumber',
               placeholder: 'Enter',
-              type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM
-            }
+              type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM,
+            },
           ],
-          dependentOn: ['testResult']
+          dependentOn: ['testResult'],
         },
         {
           sectionName: 'Seatbelt installation check',
@@ -53,22 +53,22 @@ export class TestTypeMetadataMock {
                 {
                   text: 'Yes',
                   value: true,
-                  cssClass: ''
+                  cssClass: '',
                 },
                 {
                   text: 'No',
                   value: false,
-                  cssClass: ''
-                }
+                  cssClass: '',
+                },
               ],
-              defaultValue: 'No'
+              defaultValue: 'No',
             },
             {
               testTypePropertyName: 'numberOfSeatbeltsFitted',
               label: 'Number of seatbelts fitted',
               info: 'If there are no seatbelts fitted, enter zero (0).',
               type: 'number',
-              defaultValue: 'Enter'
+              defaultValue: 'Enter',
             },
             {
               testTypePropertyName: 'lastSeatbeltInstallationCheckDate',
@@ -76,10 +76,10 @@ export class TestTypeMetadataMock {
               type: 'date',
               defaultValue: 'Enter',
               dependentOn: [
-                { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' }
-              ]
-            }
-          ]
+                { testTypePropertyName: 'numberOfSeatbeltsFitted', valueToBeDifferentFrom: '0' },
+              ],
+            },
+          ],
         },
         {
           sectionName: 'Modification',
@@ -93,32 +93,32 @@ export class TestTypeMetadataMock {
                 {
                   text: MOD_TYPES.P,
                   value: MOD_TYPES.P.toLowerCase(),
-                  cssClass: ''
+                  cssClass: '',
                 },
                 {
                   text: MOD_TYPES.M,
                   value: MOD_TYPES.M.toLowerCase(),
-                  cssClass: ''
+                  cssClass: '',
                 },
                 {
                   text: MOD_TYPES.G,
                   value: MOD_TYPES.G.toLowerCase(),
-                  cssClass: ''
-                }
+                  cssClass: '',
+                },
               ],
               defaultValue: 'Select',
               dependentOn: [
                 {
                   testTypePropertyName: 'testResult',
-                  valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
-                }
-              ]
-            }
-          ]
-        }
+                  valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL,
+                },
+              ],
+            },
+          ],
+        },
       ],
       hasDefects: false,
-      hasNotes: true
+      hasNotes: true,
     };
   }
 }

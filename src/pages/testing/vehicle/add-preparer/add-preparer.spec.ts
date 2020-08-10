@@ -8,7 +8,7 @@ import {
   IonicModule,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestService } from '../../../../providers/test/test.service';
@@ -49,7 +49,7 @@ describe('Component: AddPreparerPage', () => {
 
   beforeEach(async(() => {
     preparerServiceSpy = jasmine.createSpyObj('PreparerService', [
-      { getPreparersFromStorage: of(PreparersDataMock.PreparersData) }
+      { getPreparersFromStorage: of(PreparersDataMock.PreparersData) },
     ]);
     TestBed.configureTestingModule({
       declarations: [AddPreparerPage],
@@ -66,9 +66,9 @@ describe('Component: AddPreparerPage', () => {
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: ViewController, useClass: ViewControllerMock },
         { provide: VisitService, useClass: VisitDataMock },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -89,7 +89,7 @@ describe('Component: AddPreparerPage', () => {
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
       const params = {
         test: VisitDataMock.VisitTestData,
-        vehicle: TECH_RECORD
+        vehicle: TECH_RECORD,
       };
       return params[param];
     });
@@ -123,7 +123,7 @@ describe('Component: AddPreparerPage', () => {
     [VehicleService],
     (injectService: VehicleService) => {
       expect(injectService).toBe(vehicleService);
-    }
+    },
   ));
 
   it('should test checkForMatch', () => {
@@ -138,9 +138,9 @@ describe('Component: AddPreparerPage', () => {
     expect(comp.presentPreparerConfirm).toHaveBeenCalledWith(
       {
         preparerId: 'AK4434',
-        preparerName: 'Durrell Vehicles Limited'
+        preparerName: 'Durrell Vehicles Limited',
       },
-      false
+      false,
     );
   });
 
@@ -152,10 +152,10 @@ describe('Component: AddPreparerPage', () => {
     expect(comp.presentPreparerConfirm).toHaveBeenCalledWith(
       {
         preparerId: 'No preparer ID given',
-        preparerName: ''
+        preparerName: '',
       },
       false,
-      false
+      false,
     );
   });
 
@@ -167,11 +167,11 @@ describe('Component: AddPreparerPage', () => {
     expect(comp.presentPreparerConfirm).toHaveBeenCalledWith(
       {
         preparerId: 'No preparer ID found',
-        preparerName: ''
+        preparerName: '',
       },
       false,
       false,
-      true
+      true,
     );
   });
 
@@ -216,12 +216,12 @@ describe('Component: AddPreparerPage', () => {
   });
 
   it('should check if searchValue is updated or not', () => {
-    let vehicles = [];
+    const vehicles = [];
     expect(comp.searchValue).toBeFalsy();
     comp.autoPopulatePreparerInput(vehicles);
     expect(comp.searchValue).toBeFalsy();
 
-    let vehicle = VehicleDataMock.VehicleData;
+    const vehicle = VehicleDataMock.VehicleData;
     vehicle.preparerId = 'qwerty';
     vehicles.push(vehicle);
     expect(comp.searchValue).toBeFalsy();

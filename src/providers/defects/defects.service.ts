@@ -6,19 +6,19 @@ import { StorageService } from '../natives/storage.service';
 import { CommonFunctionsService } from '../utils/common-functions';
 import {
   DefectDetailsModel,
-  DefectsMetadataModel
+  DefectsMetadataModel,
 } from '../../models/defects/defect-details.model';
 import {
   DefectCategoryReferenceDataModel,
   DefectDeficiencyReferenceDataModel,
-  DefectItemReferenceDataModel
+  DefectItemReferenceDataModel,
 } from '../../models/reference-data-models/defects.reference-model';
 
 @Injectable()
 export class DefectsService {
   constructor(
     private storageService: StorageService,
-    private commonFunctions: CommonFunctionsService
+    private commonFunctions: CommonFunctionsService,
   ) {}
 
   getDefectsFromStorage(): Observable<DefectCategoryReferenceDataModel[]> {
@@ -43,19 +43,19 @@ export class DefectsService {
     defItem: DefectItemReferenceDataModel,
     deficiency: DefectDeficiencyReferenceDataModel,
     vehicleType: string,
-    isAdvisory: boolean
+    isAdvisory: boolean,
   ): DefectDetailsModel {
-    let metadata: DefectsMetadataModel = {
+    const metadata: DefectsMetadataModel = {
       category: {
         additionalInfo: !isAdvisory
           ? defCat.additionalInfo
             ? defCat.additionalInfo[vehicleType.toLowerCase()]
             : null
-          : null
-      }
+          : null,
+      },
     };
 
-    let defect: DefectDetailsModel = {
+    const defect: DefectDetailsModel = {
       deficiencyRef: !isAdvisory ? deficiency.ref : `${defCat.imNumber}.${defItem.itemNumber}`,
       deficiencyCategory: !isAdvisory
         ? deficiency.deficiencyCategory
@@ -71,20 +71,20 @@ export class DefectsService {
         notes: null,
         location: !isAdvisory
           ? {
-              vertical: null,
-              horizontal: null,
-              lateral: null,
-              longitudinal: null,
-              rowNumber: null,
-              seatNumber: null,
-              axleNumber: null
-            }
-          : null
+            vertical: null,
+            horizontal: null,
+            lateral: null,
+            longitudinal: null,
+            rowNumber: null,
+            seatNumber: null,
+            axleNumber: null,
+          }
+          : null,
       },
       stdForProhibition: !isAdvisory ? deficiency.stdForProhibition : null,
-      metadata: metadata,
+      metadata,
       prs: !isAdvisory ? false : null,
-      prohibitionIssued: false
+      prohibitionIssued: false,
     };
     return defect;
   }

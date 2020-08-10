@@ -6,6 +6,6 @@ import { DirectivesModule } from '../../../../directives/directives.module';
 @NgModule({
   declarations: [RegionReadingPage],
   imports: [DirectivesModule, IonicPageModule.forChild(RegionReadingPage)],
-  providers: []
+  providers: [],
 })
 export class RegionReadingPageModule {}

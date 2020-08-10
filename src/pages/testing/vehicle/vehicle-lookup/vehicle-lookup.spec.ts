@@ -7,13 +7,13 @@ import {
   ModalController,
   NavController,
   NavParams,
-  Loading
+  Loading,
 } from 'ionic-angular';
 import {
   AlertControllerMock,
   LoadingControllerMock,
   ModalControllerMock,
-  NavControllerMock
+  NavControllerMock,
 } from 'ionic-mocks';
 import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
 import { VisitService } from '../../../../providers/visit/visit.service';
@@ -77,9 +77,9 @@ describe('Component: VehicleLookupPage', () => {
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: Store, useClass: TestStore },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -150,7 +150,7 @@ describe('Component: VehicleLookupPage', () => {
     expect(storageService.update).toHaveBeenCalledTimes(1);
     expect(storageService.update).toHaveBeenCalledWith(
       STORAGE.TEST_HISTORY + VEHICLE.systemNumber,
-      []
+      [],
     );
   });
 

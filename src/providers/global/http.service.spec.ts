@@ -11,13 +11,13 @@ import { AppConfig } from '../../../config/app.config';
 describe(`Provider: HttpService`, () => {
   let httpClient: HttpClient;
   let httpMock: HttpTestingController;
-  let testUrl = '';
+  const testUrl = '';
   let httpService: HTTPService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [HTTPService]
+      providers: [HTTPService],
     });
 
     httpClient = TestBed.get(HttpClient);
@@ -39,11 +39,11 @@ describe(`Provider: HttpService`, () => {
       () => fail('should have failed with the network error'),
       (error: HttpErrorResponse) => {
         expect(error.error.message).toEqual(emsg, 'message');
-      }
+      },
     );
     const req = httpMock.expectOne(testUrl);
     const mockError = new ErrorEvent('Network error', {
-      message: emsg
+      message: emsg,
     });
     req.error(mockError);
   });
@@ -99,7 +99,7 @@ describe(`Provider: HttpService`, () => {
 
   it('test startVisit', () => {
     let data;
-    let activities: ActivityModel = ActivityDataModelMock.ActivityData;
+    const activities: ActivityModel = ActivityDataModelMock.ActivityData;
     expect(data).toBeUndefined();
     data = httpService.startVisit(activities);
     expect(data).toBeTruthy();
@@ -107,7 +107,7 @@ describe(`Provider: HttpService`, () => {
 
   it('test postActivity', () => {
     let data;
-    let waitActivity: ActivityModel = ActivityDataMock.WaitActivityData;
+    const waitActivity: ActivityModel = ActivityDataMock.WaitActivityData;
     expect(data).toBeUndefined();
     data = httpService.postActivity(waitActivity);
     expect(data).toBeTruthy();
@@ -115,8 +115,8 @@ describe(`Provider: HttpService`, () => {
 
   it('test updateActivity', () => {
     let data;
-    let updateWaitActivities = ActivityDataMock.UpdateActivities;
-    let updateWaitActivity = ActivityDataMock.UpdateActivity;
+    const updateWaitActivities = ActivityDataMock.UpdateActivities;
+    const updateWaitActivity = ActivityDataMock.UpdateActivity;
     expect(data).toBeUndefined();
     data = httpService.updateActivity(updateWaitActivities);
     expect(data).toBeTruthy();
@@ -148,8 +148,8 @@ describe(`Provider: HttpService`, () => {
 
     const testRequest = httpMock.expectOne(
       `${AppConfig.BACKEND_URL_TECHRECORDS}/${encodeURIComponent(
-        searchIdentifier
-      )}/tech-records?status=provisional_over_current&searchCriteria=all`
+        searchIdentifier,
+      )}/tech-records?status=provisional_over_current&searchCriteria=all`,
     );
     expect(testRequest.request.method).toEqual('GET');
     testRequest.flush(null, { status: 200, statusText: 'Ok' });

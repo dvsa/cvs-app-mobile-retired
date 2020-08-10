@@ -7,6 +7,6 @@ import { LogsEffects } from './logs.effects';
 
 @NgModule({
   imports: [StoreModule.forFeature('logs', logsReducer), EffectsModule.forFeature([LogsEffects])],
-  providers: []
+  providers: [],
 })
 export class LogsModule {}

@@ -3,7 +3,7 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
@@ -15,7 +15,7 @@ import { TestTypeService } from '../../../../providers/test-type/test-type.servi
 @IonicPage()
 @Component({
   selector: 'page-defect-details-specialist-testing',
-  templateUrl: 'defect-details-specialist-testing.html'
+  templateUrl: 'defect-details-specialist-testing.html',
 })
 export class DefectDetailsSpecialistTestingPage {
   isEdit: boolean;
@@ -31,7 +31,7 @@ export class DefectDetailsSpecialistTestingPage {
     private visitService: VisitService,
     private cdRef: ChangeDetectorRef,
     private alertCtrl: AlertController,
-    private testTypeService: TestTypeService
+    private testTypeService: TestTypeService,
   ) {
     this.isEdit = this.navParams.get('isEdit');
     this.defectIndex = this.navParams.get('defectIndex');
@@ -66,16 +66,16 @@ export class DefectDetailsSpecialistTestingPage {
       buttons: [
         {
           text: APP_STRINGS.CANCEL,
-          handler: () => {}
+          handler: () => {},
         },
         {
           text: APP_STRINGS.REMOVE,
           handler: () => {
             this.testTypeService.removeSpecialistCustomDefect(this.testType, this.defectIndex);
             this.viewCtrl.dismiss();
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     confirm.present();
   }

@@ -4,7 +4,7 @@ import {
   IonicModule,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
 import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -36,9 +36,9 @@ describe('Component: DefectDetailsSpecialistTestingPage', () => {
         { provide: ViewController, useClass: ViewControllerMock },
         { provide: TestTypeService, useClass: TestTypeServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
-        { provide: AlertController, useFactory: () => AlertControllerMock.instance() }
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

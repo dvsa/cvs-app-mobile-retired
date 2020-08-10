@@ -8,6 +8,6 @@ import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 @NgModule({
   declarations: [CompleteTestPage],
   imports: [IonicPageModule.forChild(CompleteTestPage)],
-  providers: [DefectsService, TestTypeService, VehicleService]
+  providers: [DefectsService, TestTypeService, VehicleService],
 })
 export class CompleteTestModule {}

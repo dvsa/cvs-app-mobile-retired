@@ -7,6 +7,6 @@ import { PipesModule } from '../../../../pipes/pipes.module';
 @NgModule({
   declarations: [VehicleTyresPage],
   imports: [IonicPageModule.forChild(VehicleTyresPage), PipesModule],
-  providers: [CommonFunctionsService]
+  providers: [CommonFunctionsService],
 })
 export class VehicleTyresPageModule {}

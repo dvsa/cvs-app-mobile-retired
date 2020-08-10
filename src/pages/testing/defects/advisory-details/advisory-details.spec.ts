@@ -4,7 +4,7 @@ import {
   IonicModule,
   NavController,
   NavParams,
-  ViewController
+  ViewController,
 } from 'ionic-angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
@@ -35,9 +35,9 @@ describe('Component: AdvisoryDetailsPage', () => {
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: TestTypeService, useClass: TestTypeServiceMock }
+        { provide: TestTypeService, useClass: TestTypeServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
   }));
 

@@ -14,8 +14,8 @@ const mockVehicleData = (): VehicleModel => {
   return {
     techRecord: {
       ...TechRecordDataMock.VehicleTechRecordData.techRecord[0],
-      adrDetails: TechRecordDataMock.AdrDetailsData
-    }
+      adrDetails: TechRecordDataMock.AdrDetailsData,
+    },
   } as VehicleModel;
 };
 
@@ -33,9 +33,9 @@ describe('Component: VehicleAdrDetailsPage', () => {
       providers: [
         CommonFunctionsService,
         { provide: NavParams, useValue: navParams },
-        { provide: ViewController, useClass: ViewControllerMock }
+        { provide: ViewController, useClass: ViewControllerMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     navParams.data = { vehicleData: mockVehicleData() };

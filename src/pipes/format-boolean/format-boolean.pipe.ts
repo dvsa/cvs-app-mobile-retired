@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'formatBoolean'
+  name: 'formatBoolean',
 })
 export class FormatBooleanPipe implements PipeTransform {
   constructor() {}

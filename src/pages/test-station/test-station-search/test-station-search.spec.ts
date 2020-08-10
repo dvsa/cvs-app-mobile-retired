@@ -18,7 +18,7 @@ describe('Component: TestStationSearchPage', () => {
   beforeEach(async(() => {
     const testStationServiceSpy = jasmine.createSpyObj('TestStationService', [
       'getTestStations, getTestStationsFromStorage',
-      'sortAndSearchTestStation'
+      'sortAndSearchTestStation',
     ]);
 
     TestBed.configureTestingModule({
@@ -27,9 +27,9 @@ describe('Component: TestStationSearchPage', () => {
       providers: [
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: TestStationService, useValue: testStationServiceSpy },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
+        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -64,7 +64,7 @@ describe('Component: TestStationSearchPage', () => {
     [TestStationService],
     (injectService: TestStationService) => {
       expect(injectService).toBe(testStationService);
-    }
+    },
   ));
 
   it('should test keepCancelOn method', () => {

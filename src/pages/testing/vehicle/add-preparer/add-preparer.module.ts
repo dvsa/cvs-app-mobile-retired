@@ -10,6 +10,6 @@ import { CommonFunctionsService } from '../../../../providers/utils/common-funct
 @NgModule({
   declarations: [AddPreparerPage],
   imports: [PipesModule, DirectivesModule, IonicPageModule.forChild(AddPreparerPage)],
-  providers: [VehicleService, TestService, CommonFunctionsService]
+  providers: [VehicleService, TestService, CommonFunctionsService],
 })
 export class AddPreparerPageModule {}

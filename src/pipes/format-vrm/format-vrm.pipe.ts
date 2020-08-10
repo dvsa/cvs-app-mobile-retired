@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'formatVrm'
+  name: 'formatVrm',
 })
 export class FormatVrmPipe implements PipeTransform {
   constructor() {}

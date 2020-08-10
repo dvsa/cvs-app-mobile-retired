@@ -6,7 +6,7 @@ import {
   APP_STRINGS,
   FIREBASE_SCREEN_NAMES,
   PAGE_NAMES,
-  TESTER_ROLES
+  TESTER_ROLES,
 } from '../../../app/app.enums';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AppService } from '../../../providers/global/app.service';
@@ -22,7 +22,7 @@ import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-l
 @IonicPage()
 @Component({
   selector: 'page-test-station-home',
-  templateUrl: 'test-station-home.html'
+  templateUrl: 'test-station-home.html',
 })
 export class TestStationHomePage implements OnInit {
   appStrings: object = APP_STRINGS;
@@ -38,20 +38,21 @@ export class TestStationHomePage implements OnInit {
     private callNumber: CallNumber,
     private store$: Store<LogsModel>,
     private networkStateProvider: NetworkStateProvider,
-    private firebaseLogsService: FirebaseLogsService
+    private firebaseLogsService: FirebaseLogsService,
   ) {}
 
   ngOnInit() {
     this.networkStateProvider.initialiseNetworkState();
     this.store$.dispatch(new StartSendingLogs());
-    if (this.appService.isCordova)
+    if (this.appService.isCordova) {
       this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
-    let neededRoles: string[] = [
+    }
+    const neededRoles: string[] = [
       TESTER_ROLES.FULL_ACCESS,
       TESTER_ROLES.PSV,
       TESTER_ROLES.HGV,
       TESTER_ROLES.ADR,
-      TESTER_ROLES.TIR
+      TESTER_ROLES.TIR,
     ];
     if (!this.authService.hasRights(this.authService.userRoles, neededRoles)) {
       const alert = this.alertCtrl.create({
@@ -63,13 +64,13 @@ export class TestStationHomePage implements OnInit {
             handler: () => {
               this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
                 (data) => console.log(data),
-                (err) => console.log(err)
+                (err) => console.log(err),
               );
               return false;
-            }
-          }
+            },
+          },
         ],
-        enableBackdropDismiss: false
+        enableBackdropDismiss: false,
       });
       alert.present();
     }

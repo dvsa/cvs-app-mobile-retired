@@ -2,7 +2,7 @@ import {
   VehicleTechRecordModel,
   AdrDetails,
   Tank,
-  TankDetails
+  TankDetails,
 } from '../../models/vehicle/tech-record.model';
 
 export class TechRecordDataMock {
@@ -12,12 +12,12 @@ export class TechRecordDataMock {
       vrms: [
         {
           vrm: 'BQ91YHQ',
-          isPrimary: true
+          isPrimary: true,
         },
         {
           vrm: 'QO92UX2',
-          isPrimary: false
-        }
+          isPrimary: false,
+        },
       ],
       vin: '1B7GG36N12S678410',
       techRecord: [
@@ -28,7 +28,7 @@ export class TechRecordDataMock {
           bodyModel: 'blanao',
           bodyType: {
             code: 'a',
-            description: 'articulated'
+            description: 'articulated',
           },
           manufactureYear: 1989,
           regnDate: '2018-12-19',
@@ -57,7 +57,7 @@ export class TechRecordDataMock {
           brakeCode: 'string',
           vehicleClass: {
             code: 's',
-            description: 'single decker'
+            description: 'single decker',
           },
           vehicleType: 'psv',
           euVehicleCategory: 'm2',
@@ -74,13 +74,13 @@ export class TechRecordDataMock {
             brakeForceWheelsNotLocked: {
               serviceBrakeForce: 0,
               secondaryBrakeForce: 0,
-              parkingBrakeForce: 0
+              parkingBrakeForce: 0,
             },
             brakeForceWheelsUpToHalfLocked: {
               serviceBrakeForce: 0,
               secondaryBrakeForce: 0,
-              parkingBrakeForce: 0
-            }
+              parkingBrakeForce: 0,
+            },
           },
           axles: [
             {
@@ -90,7 +90,7 @@ export class TechRecordDataMock {
                 kerbWeight: 0,
                 ladenWeight: 0,
                 gbWeight: 0,
-                designWeight: 0
+                designWeight: 0,
               },
               tyres: {
                 tyreSize: 'big',
@@ -98,13 +98,13 @@ export class TechRecordDataMock {
                 fitmentCode: 'double',
                 dataTrPsvAxles: 0,
                 speedCategorySymbol: 'a7',
-                tyreCode: 0
-              }
-            }
+                tyreCode: 0,
+              },
+            },
           ],
-          notes: ''
-        }
-      ]
+          notes: '',
+        },
+      ],
     };
   }
 
@@ -112,7 +112,7 @@ export class TechRecordDataMock {
     return {
       vehicleDetails: {
         approvalDate: '2020-03-10',
-        type: 'centre axle battery'
+        type: 'centre axle battery',
       },
       listStatementApplicable: false,
       batteryListNumber: '',
@@ -130,12 +130,12 @@ export class TechRecordDataMock {
         street: 'Robert green',
         city: 'Birmingham',
         town: 'lala land',
-        postcode: 'NG4 12Z'
+        postcode: 'NG4 12Z',
       },
       memosApply: [],
       additionalNotes: {
         number: ['1', '2A'],
-        guidanceNotes: []
+        guidanceNotes: [],
       },
       adrTypeApprovalNo: '',
       tank: {
@@ -147,16 +147,16 @@ export class TechRecordDataMock {
           tankTypeAppNo: '',
           tankManufacturer: 'Marc',
           tc2Details: {},
-          tc3Details: []
+          tc3Details: [],
         } as TankDetails,
         tankStatement: {
           statement: null,
           productListRefNo: null,
           substancesPermitted: '',
           productListUnNo: [],
-          productList: ''
-        }
-      } as Tank
+          productList: '',
+        },
+      } as Tank,
     } as AdrDetails;
   }
 }
