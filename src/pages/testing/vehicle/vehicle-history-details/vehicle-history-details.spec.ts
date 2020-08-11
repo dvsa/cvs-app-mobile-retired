@@ -1,5 +1,5 @@
 import { VehicleHistoryDetailsPage } from './vehicle-history-details';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ViewControllerMock } from '../../../../../test-config/ionic-mocks/view-controller.mock';
@@ -14,19 +14,14 @@ import { AppService } from '../../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
-import { DEFICIENCY_CATEGORY } from '../../../../app/app.enums';
-import { DefectDetailsModel } from '../../../../models/defects/defect-details.model';
-import { MOCK_UTILS } from '../../../../../test-config/mocks/mocks.utils';
 
 describe('Component: VehicleHistoryDetailsPage', () => {
   let comp: VehicleHistoryDetailsPage;
   let fixture: ComponentFixture<VehicleHistoryDetailsPage>;
   let navCtrl: NavController;
-  let commonFunctionsService: CommonFunctionsService;
+  let commonFunctionsService: any;
+  let defects: any;
   let firebaseLogsService: FirebaseLogsService;
-  let viewCtrl: ViewController;
-
-  const defects: DefectDetailsModel[] = [MOCK_UTILS.mockDefectsDetails()];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,16 +44,10 @@ describe('Component: VehicleHistoryDetailsPage', () => {
     fixture = TestBed.createComponent(VehicleHistoryDetailsPage);
     comp = fixture.componentInstance;
     navCtrl = TestBed.get(NavController);
-    viewCtrl = TestBed.get(ViewController);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
     firebaseLogsService = TestBed.get(FirebaseLogsService);
-    comp.testIndex = 0;
-    comp.testTypeIndex = 0;
     comp.testResultHistory = TestResultsHistoryDataMock.TestResultHistoryData;
-    comp.testsWithoutCertificate = ['test'];
-    comp.testsWithoutDefects = ['test'];
-    comp.testsWithoutSeatbelts = ['test'];
-    fixture.detectChanges();
+    comp.testIndex = 0;
   });
 
   afterEach(() => {
@@ -85,14 +74,43 @@ describe('Component: VehicleHistoryDetailsPage', () => {
   });
 
   it('should return false if defects is null', () => {
-    expect(comp.checkForDefects(null)).toBeFalsy;
+    defects = null;
+    expect(comp.checkForDefects(defects)).toBeFalsy;
   });
 
   it('should return false if defects array is empty', () => {
-    expect(comp.checkForDefects([])).toBeFalsy;
+    defects = [];
+    expect(comp.checkForDefects(defects)).toBeFalsy;
   });
 
   it('should return true if defects array is not empty', () => {
+    defects = [
+      {
+        deficiencyCategory: 'major',
+        deficiencyText: 'missing.',
+        prs: false,
+        additionalInformation: {
+          location: {
+            axleNumber: null,
+            horizontal: null,
+            vertical: null,
+            longitudinal: 'front',
+            rowNumber: null,
+            lateral: null,
+            seatNumber: null
+          },
+          notes: 'None'
+        },
+        itemNumber: 1,
+        deficiencyRef: '1.1.a',
+        stdForProhibition: false,
+        deficiencySubId: null,
+        imDescription: 'Registration Plate',
+        deficiencyId: 'a',
+        itemDescription: 'A registration plate:',
+        imNumber: 1
+      }
+    ];
     expect(comp.checkForDefects(defects)).toBeTruthy;
   });
 
@@ -103,37 +121,10 @@ describe('Component: VehicleHistoryDetailsPage', () => {
     expect(comp.countryOfRegistration).toEqual('Austria');
   });
 
-  it('should return color for category advisory', () => {
-    const deficiencyColor = comp.getDeficiencyColor(DEFICIENCY_CATEGORY.ADVISORY);
-    expect(deficiencyColor).toEqual('light');
-  });
-
-  it('should return color for category DANGEROUS', () => {
-    const deficiencyColor = comp.getDeficiencyColor(DEFICIENCY_CATEGORY.DANGEROUS);
-    expect(deficiencyColor).toEqual('dark');
-  });
-
-  it('should return color for category MAJOR', () => {
-    const deficiencyColor = comp.getDeficiencyColor(DEFICIENCY_CATEGORY.MAJOR);
-    expect(deficiencyColor).toEqual('danger');
-  });
-
-  it('should return color for category MINOR', () => {
-    const deficiencyColor = comp.getDeficiencyColor(DEFICIENCY_CATEGORY.MINOR);
-    expect(deficiencyColor).toEqual('attention');
-  });
-
-  it('should compareTestWithMetadata', () => {
-    comp.compareTestWithMetadata();
-    expect(comp.doesNotHaveCert).toEqual(false);
-    expect(comp.doesNotHaveDefects).toEqual(false);
-    expect(comp.doesNotHaveCert).toEqual(false);
-  });
-
-  it('should ionViewWillEnter', () => {
-    spyOn(viewCtrl, 'setBackButtonText');
-    comp.ionViewWillEnter();
-
-    expect(viewCtrl.setBackButtonText).toHaveBeenCalledWith('Test history');
+  it('should set "countryOfRegistration on component" to empty or undefined when no matching key', () => {
+    comp.selectedTestResult = {} as TestResultModel;
+    comp.selectedTestResult.countryOfRegistration = 'united';
+    comp.setTestMetadata();
+    expect(comp.countryOfRegistration).toBeUndefined();
   });
 });
