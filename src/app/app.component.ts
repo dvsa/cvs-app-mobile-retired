@@ -93,7 +93,9 @@ export class MyApp {
 
   private startAuthProcess(): void {
     if (this.appService.isCordova) {
+    // if (true) {
       this.authService.login().subscribe((resp: string) => {
+        console.log({resp})
         if (this.authService.isValidToken(resp)) {
           this.authService.setJWTToken(resp).then(() => {
             this.appService.isJwtTokenStored = true;

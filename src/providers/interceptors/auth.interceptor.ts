@@ -48,6 +48,8 @@ export class AuthInterceptor implements HttpInterceptor {
       timestamp: Date.now()
     };
     this.store$.dispatch(new logsActions.SaveLog(log));
+    // console.log('this.authService.getJWTToken()')
+    // console.log(this.authService.getJWTToken())
     return next.handle(this.addAuthHeader(req, this.authService.getJWTToken())).pipe(
       tap((response) => {
         // TOOD: Remove logging after the white screen bug is resolved

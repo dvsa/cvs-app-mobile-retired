@@ -27,6 +27,9 @@ export class AuthService {
     private commonFunc: CommonFunctionsService,
     private store$: Store<LogsModel>
   ) {
+    console.log({msAdal});
+    console.log({platform});
+
     this.testerDetails = {} as TesterDetailsModel;
     this.jwtToken = localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
   }
@@ -52,6 +55,7 @@ export class AuthService {
         this.logLoginAttempt(true);
         let authHeader = silentAuthResponse.createAuthorizationHeader();
         this.testerDetails = this.setTesterDetails(silentAuthResponse);
+        console.log(this.testerDetails)
         this.logLoginSuccessful();
         return authHeader;
       })
@@ -64,6 +68,17 @@ export class AuthService {
         }
       });
   }
+
+  // private loginSilently(): Promise<any> {
+  //   // https://login.microsoftonline.com/organizations/oauth2/v2.0/token
+  //   return this.authContext.acquireTokenSilentAsync("https://login.microsoftonline.com/organizations/oauth2/v2.0/token", AppConfig.MSAL_CLIENT_ID)
+  //   .then(function(authResponse) {
+  //     console.log("Token acquired: " + authResponse.accessToken);
+  //     console.log("Token will expire on: " + authResponse.expiresOn);
+  //   }, function(err) {
+  //     console.log("Failed to authenticate: " + err);
+  //   });
+  // }
 
   private loginWithUI(): Promise<string> {
     this.logLoginAttempt(false);
@@ -88,6 +103,74 @@ export class AuthService {
       });
   }
 
+
+  setJWTToken(token): Promise<any> {
+    this.jwtToken = token;
+    localStorage.setItem(LOCAL_STORAGE.JWT_TOKEN, this.jwtToken);
+    return Promise.resolve();
+  }
+
+<<<<<<< HEAD
+=======
+  // Need to store token return from MSADAL so we don't manually hardcode it
+>>>>>>> 90e765c... chore: add debug log
+  getJWTToken() {
+    return this.jwtToken;
+  }
+
+  getOid() {
+    return JSON.parse(localStorage.getItem('tester-details')).testerId;
+  }
+
+
+  setTesterDetails(
+    authResponse: AuthenticationResult | any,
+    testerId = this.commonFunc.randomString(9),
+    testerName = this.commonFunc.randomString(9),
+    testerEmail = `${testerName}.${testerId}@email.com`,
+    testerRoles = [TESTER_ROLES.FULL_ACCESS]
+  ): TesterDetailsModel {
+    let details: TesterDetailsModel = {
+      testerName,
+      testerId,
+      testerEmail,
+      testerRoles
+    };
+
+    console.log({authResponse})
+    if (authResponse) {
+      let decodedToken = this.decodeJWT(authResponse.accessToken);
+      console.log({decodedToken})
+      details.testerId = decodedToken.employeeid || decodedToken.oid;
+      details.testerName = decodedToken['name'];
+      details.testerEmail = decodedToken['upn'];
+      details.testerRoles = decodedToken['roles'];
+      this.tenantId = decodedToken['tid'];
+    }
+    this.userRoles = details.testerRoles;
+    localStorage.setItem('tester-details', JSON.stringify(details));
+    return details;
+  }
+
+
+  // Utils
+
+  decodeJWT(token) {
+    return jwt_decode(token);
+  }
+
+  isValidToken(token): boolean {
+    let tokenStr = token ? token.slice(7, token.length - 1) : null;
+    return tokenStr && tokenStr.match(CommonRegExp.JTW_TOKEN);
+  }
+
+
+  hasRights(userRoles: string[], neededRoles: string[]): boolean {
+    return userRoles.some((role) => neededRoles.indexOf(role) >= 0);
+  }
+
+
+  // Logs
   logLoginAttempt(silentLoginAttempt: boolean) {
     let log: Log;
     if (silentLoginAttempt) {
@@ -127,59 +210,5 @@ export class AuthService {
       unauthenticated: true
     };
     this.store$.dispatch(new logsActions.SaveLog(log));
-  }
-
-  setJWTToken(token): Promise<any> {
-    this.jwtToken = token;
-    localStorage.setItem(LOCAL_STORAGE.JWT_TOKEN, this.jwtToken);
-    return Promise.resolve();
-  }
-
-  getJWTToken() {
-    return this.jwtToken;
-  }
-
-  getOid() {
-    return JSON.parse(localStorage.getItem('tester-details')).testerId;
-  }
-
-  isValidToken(token): boolean {
-    let tokenStr = token ? token.slice(7, token.length - 1) : null;
-    return tokenStr && tokenStr.match(CommonRegExp.JTW_TOKEN);
-  }
-
-  setTesterDetails(
-    authResponse: AuthenticationResult | any,
-    testerId = this.commonFunc.randomString(9),
-    testerName = this.commonFunc.randomString(9),
-    testerEmail = `${testerName}.${testerId}@email.com`,
-    testerRoles = [TESTER_ROLES.FULL_ACCESS]
-  ): TesterDetailsModel {
-    let details: TesterDetailsModel = {
-      testerName,
-      testerId,
-      testerEmail,
-      testerRoles
-    };
-
-    if (authResponse) {
-      let decodedToken = this.decodeJWT(authResponse.accessToken);
-      details.testerId = decodedToken.employeeid || decodedToken.oid;
-      details.testerName = decodedToken['name'];
-      details.testerEmail = decodedToken['upn'];
-      details.testerRoles = decodedToken['roles'];
-      this.tenantId = decodedToken['tid'];
-    }
-    this.userRoles = details.testerRoles;
-    localStorage.setItem('tester-details', JSON.stringify(details));
-    return details;
-  }
-
-  decodeJWT(token) {
-    return jwt_decode(token);
-  }
-
-  hasRights(userRoles: string[], neededRoles: string[]): boolean {
-    return userRoles.some((role) => neededRoles.indexOf(role) >= 0);
   }
 }
