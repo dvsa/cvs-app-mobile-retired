@@ -110,10 +110,6 @@ export class AuthService {
     return Promise.resolve();
   }
 
-<<<<<<< HEAD
-=======
-  // Need to store token return from MSADAL so we don't manually hardcode it
->>>>>>> 90e765c... chore: add debug log
   getJWTToken() {
     return this.jwtToken;
   }
