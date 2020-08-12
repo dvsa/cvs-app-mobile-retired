@@ -71,17 +71,19 @@ node_modules/.bin/ionic cordova platform remove ios
 node_modules/.bin/ionic cordova platform add ios@5.0.1
 ```
 
-### Build in xCode
+5. Update the environment variables for your application - `application.json`.
+Further details can be found [here](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-Environmentfiles).
 
-
-1. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
+6. Test you're set-up correctly by running `npm run build`.  If it gets past the transpilation step you're good to go!
 Your application can then be used in ran in Xcode emulator (iPhone8+), simply open `Vehicle Testing.xcodeproj` in Xcode 10.3.
 Make sure the correct Xcode version is selected as your cli - `Xcode > Preferences > Command Line Tools > Xcode 10.3`.
 You will require a test account with a password that you can request to one of your colleague.
 
-2. After finishing your development, if you encounter problems switching branches, use 'git update-index --no-assume-unchanged config/application.json' command. Revert changes made to 'config/application.json' and then switch branches.
+7. If you wish to run the application in the browser instead of xCode ([6.](ionic:serve)),
+you will have to follow [these intructions](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-Runningtheappindevelopmentmode).
+You can then run `npm run ionic:serve`.
 
-### Development
+8. *(Optional)* After finishing your development, if you encounter problems switching branches, use 'git update-index --no-assume-unchanged config/application.json' command. Revert changes made to 'config/application.json' and then switch branches.
 
 #### in the browser:
 
