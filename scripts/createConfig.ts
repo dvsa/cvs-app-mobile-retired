@@ -53,11 +53,17 @@ audit = false
 //registry.ionicframework.com/:_authToken=${IONIC_PRODUCT_KEY}
 `;
 
-//TODO DevOps will need to change the file name from application.json to application.hybrid.ts
+//TODO has IonicAuthOptions signature
+// DevOps will need to change the file name from application.json to application.hybrid.ts
 //in AWS secret manager
 const applicationHybridJsonFile = `
 export default {
   options: {
+    "authConfig": 'azure',
+    "platform": 'cordova',
+    "tokenStorageProvider": "localStorage",
+    "clientID": "",
+    "logoutUrl": "",
     "IS_PRODUCTION": "${isProduction}",
     "STAFF_ID_KEY": "extn.StaffId",
     "KEY_PHONE_NUMBER": "${APP_KEY_PHONE_NUMBER}",

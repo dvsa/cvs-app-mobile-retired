@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 // import { AppConfig } from '../../../config/app.config';
+// TODO Remove once Ionic-Auth works and remove dependencies cordova & @native
 import { AuthenticationContext, AuthenticationResult, MSAdal } from '@ionic-native/ms-adal';
+import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
 import * as jwt_decode from 'jwt-decode';
 import { TesterDetailsModel } from '../../models/tester-details.model';
 import { AUTH, LOCAL_STORAGE, TESTER_ROLES, LOG_TYPES } from '../../app/app.enums';
@@ -16,6 +18,14 @@ import { Store } from '@ngrx/store';
 import {default as hybridConfig} from '../../../config/application.hybrid';
 import {default as webConfig} from '../../../config/application.web';
 
+
+export enum Token {
+  ID = 'idToken',
+  ACCESS = 'accessToken',
+  REFRESH = 'refreshToken'
+}
+
+
 @Injectable()
 export class AuthService {
   testerDetails: TesterDetailsModel;
@@ -24,6 +34,7 @@ export class AuthService {
   userRoles: string[] = [];
   tenantId: string;
   appConfig: any;
+  public ionicAuth: IonicAuth;
 
   constructor(
     private msAdal: MSAdal,
@@ -39,14 +50,36 @@ export class AuthService {
     this.appConfig = null
   }
 
-  public createAuthConfig = (): any => {
+  private createAuthConfig = async(): Promise<IonicAuthOptions> => {
     //TODO flip the !, we want the hybrid config when hybrid, for now it is to debug
     // call IonicAuth create here
     const appConfig = !this.platform.is('hybrid') ?
       hybridConfig.options :
       webConfig.options
     this.appConfig = appConfig;
-    return appConfig
+    return this.appConfig
+  }
+
+  public initIonicAuthConfig = async(): Promise<void> => {
+    // Add those to the hybridConfig as IonicAuth needs options/IonicAuthOptions
+    // https://github.com/ionic-team/demo-authconnect-azureb2c/blob/master/completed/src/environments/environment.ts
+    // context: '',
+    // resourceUrl: '',
+    // clientId: '',
+    // redirectUrl: '',
+    // logoutUrl: ''
+    try {
+      const config = await this.createAuthConfig()
+      console.log('config')
+      console.log(config)
+      // TODO this throws an error with webpack trying bundle that to run the tests
+      // This has to be explored as it could require a shim or @ionic-enterprise/auth
+      // not supported, Ionic team support/Sanj can help with that perhaps or Matt Culliford
+      // https://github.com/ionic-team/demo-authconnect-azureb2c/blob/master/completed/src/app/services/authentication.service.ts#L28
+      // const toto = this.ionicAuth = new IonicAuth(config)
+    } catch(e) {
+      throw new Error(e)
+    }
   }
 
   public getAuthConfigOptions = (): any => {

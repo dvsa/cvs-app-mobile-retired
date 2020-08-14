@@ -85,9 +85,9 @@ export class MyApp {
 
   initApp() {
     // Init config here hybrid or web
-    this.authService.createAuthConfig();
-    console.log('this.authService.getAuthConfigOptions()');
-    console.log(this.authService.getAuthConfigOptions());
+    this.authService.initIonicAuthConfig();
+    // console.log('this.authService.getAuthConfigOptions()');
+    // console.log(this.authService.getAuthConfigOptions());
 
     this.authService.createAuthContext().then(() => {
       this.appService.manageAppInit().then(() => {
