@@ -1,6 +1,14 @@
-<<<<<<< HEAD
-export IPHONE8_P_ID=
-=======
+######################
+####### DEVICE #######
+######################
+
+IPHONE8_P_ID=
+
+
+#####################
+####### IONIC #######
+#####################
+
 IONIC_PRODUCT_KEY=
 IONIC_APP_ID=
 IONIC_KEY_ID=
@@ -12,4 +20,3 @@ APP_KEY_PHONE_NUMBER=
 MSAL_RESOURCE_URL_NON_PROD=
 # Azure CVS VTA (DEV)
 API_NON_PROD=
->>>>>>> 90e765c... chore: add debug log

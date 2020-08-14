@@ -9,7 +9,9 @@
     "npm": "6.13.4"
   },
   "scripts": {
-    "start": "source .env && node_modules/.bin/ionic cordova emulate ios -lc --emulator --target=${IPHONE8_P_ID}",
+    "config": "node_modules/.bin/ts-node ./scripts/createConfig.ts --environment=local --appName=${npm_package_name}",
+    "start": "npm run config && npm run ionic:serve",
+    "start:device": "source .env && node_modules/.bin/ionic cordova emulate ios -lc --emulator --target=${IPHONE8_P_ID}",
     "clean": "ionic-app-scripts clean",
     "build-default": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
@@ -107,6 +109,7 @@
     "@types/jasmine": "^2.5.41",
     "angular2-template-loader": "^0.6.2",
     "cordova-wheel-selector-plugin": "^1.1.1",
+    "dotenv": "^8.2.0",
     "html-loader": "^0.5.1",
     "husky": "^3.0.9",
     "ionic": "^5.2.3",
@@ -124,13 +127,14 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.3",
     "lodash": "^4.17.19",
+    "native-run": "^0.2.9",
     "null-loader": "^0.1.1",
     "prettier": "^1.19.1",
     "protractor": "^5.4.2",
     "ts-loader": "^3.0.3",
     "ts-node": "^8.7.0",
     "typescript": "^2.9.2",
-    "native-run": "^0.2.9"
+    "yargs": "^15.4.1"
   },
   "description": "An Ionic project",
   "cordova": {
