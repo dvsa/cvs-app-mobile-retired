@@ -11,13 +11,15 @@ import {
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AppService } from '../../../providers/global/app.service';
 import { AuthService } from '../../../providers/global/auth.service';
-import { AppConfig } from '../../../../config/app.config';
+// import { AppConfig } from '../../../../config/app.config';
 import { CallNumber } from '@ionic-native/call-number';
 import { Log, LogsModel } from '../../../modules/logs/logs.model';
 import { Store } from '@ngrx/store';
 import { StartSendingLogs } from '../../../modules/logs/logs.actions';
 import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+
+import {default as hybridConfig} from '../../../../config/application.hybrid';
 
 @IonicPage()
 @Component({
@@ -61,7 +63,7 @@ export class TestStationHomePage implements OnInit {
           {
             text: APP_STRINGS.CALL,
             handler: () => {
-              this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
+              this.callNumber.callNumber(hybridConfig.options.KEY_PHONE_NUMBER, true).then(
                 (data) => console.log(data),
                 (err) => console.log(err)
               );

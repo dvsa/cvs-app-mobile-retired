@@ -3,8 +3,7 @@ import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angu
 import { APP_STRINGS, PAGE_NAMES } from '../../app/app.enums';
 import { StateReformingService } from '../../providers/global/state-reforming.service';
 import { CallNumber } from '@ionic-native/call-number';
-import { AppConfig } from '../../../config/app.config';
-
+import {default as hybridConfig} from '../../../config/application.hybrid';
 @IonicPage()
 @Component({
   selector: 'page-confirmation',
@@ -55,7 +54,7 @@ export class ConfirmationPage {
 
   callSupport() {
     let confirm = this.alertCtrl.create({
-      title: `${AppConfig.KEY_PHONE_NUMBER}`,
+      title: `${hybridConfig.options.KEY_PHONE_NUMBER}`,
       buttons: [
         {
           text: APP_STRINGS.CANCEL
@@ -63,7 +62,7 @@ export class ConfirmationPage {
         {
           text: APP_STRINGS.CALL,
           handler: () => {
-            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true);
+            this.callNumber.callNumber(hybridConfig.options.KEY_PHONE_NUMBER, true);
           }
         }
       ]

@@ -6,7 +6,9 @@ import { HTTPService } from './http.service';
 import { ActivityModel } from '../../models/visit/activity.model';
 import { ActivityDataModelMock } from '../../assets/data-mocks/data-model/activity-data-model.mock';
 import { ActivityDataMock } from '../../assets/data-mocks/activity.data.mock';
-import { AppConfig } from '../../../config/app.config';
+// import { AppConfig } from '../../../config/app.config';
+
+import {default as hybridConfig} from '../../../config/application.hybrid';
 
 describe(`Provider: HttpService`, () => {
   let httpClient: HttpClient;
@@ -147,7 +149,7 @@ describe(`Provider: HttpService`, () => {
     httpService.getTechRecords(searchIdentifier, 'all').subscribe();
 
     const testRequest = httpMock.expectOne(
-      `${AppConfig.BACKEND_URL_TECHRECORDS}/${encodeURIComponent(
+      `${hybridConfig.options.BACKEND_URL_TECHRECORDS}/${encodeURIComponent(
         searchIdentifier
       )}/tech-records?status=provisional_over_current&searchCriteria=all`
     );

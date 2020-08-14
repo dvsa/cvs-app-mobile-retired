@@ -14,7 +14,10 @@ import { AUTH, STATUS_CODE } from '../../app/app.enums';
 import { Log, LogsModel } from '../../modules/logs/logs.model';
 import * as logsActions from '../../modules/logs/logs.actions';
 import { Store } from '@ngrx/store';
-import { AppConfig } from '../../../config/app.config';
+// import { AppConfig } from '../../../config/app.config';
+
+import {default as hybridConfig} from '../../../config/application.hybrid';
+
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -23,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   constructor(public authService: AuthService, private store$: Store<LogsModel>) {
-    this.isProduction = AppConfig.IS_PRODUCTION === 'true';
+    this.isProduction = hybridConfig.options.IS_PRODUCTION === 'true';
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
@@ -118,7 +121,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   addAuthHeader(request: HttpRequest<any>, token) {
     const AUTH_HEADER = token;
-    if (AUTH_HEADER && request.url !== AppConfig.URL_LATEST_VERSION) {
+    if (AUTH_HEADER && request.url !== hybridConfig.options.URL_LATEST_VERSION) {
       return request.clone({
         setHeaders: {
           Authorization: `${AUTH_HEADER}`

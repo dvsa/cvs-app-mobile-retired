@@ -1,3 +1,6 @@
+// delete once application.*.ts files are loaded correctly
+// don't need getters also we can now use switch between web or hybrid
+// config files
 import * as app from "./application.json";
 
 export class AppConfig {

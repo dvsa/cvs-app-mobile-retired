@@ -11,7 +11,7 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CallNumber } from '@ionic-native/call-number';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
-import { AppConfig } from '../../../config/app.config';
+// import { AppConfig } from '../../../config/app.config';
 import { AppService } from './app.service';
 import { Firebase } from '@ionic-native/firebase';
 import { Log, LogsModel } from '../../modules/logs/logs.model';
@@ -20,6 +20,8 @@ import { AuthService } from './auth.service';
 import { Store } from '@ngrx/store';
 import { AppVersion } from '@ionic-native/app-version';
 import { AppVersionModel } from '../../models/latest-version.model';
+
+import {default as hybridConfig} from '../../../config/application.hybrid';
 
 declare let cordova: any;
 
@@ -174,7 +176,7 @@ export class SyncService {
         {
           text: 'Call Technical Support',
           handler: () => {
-            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
+            this.callNumber.callNumber(hybridConfig.options.KEY_PHONE_NUMBER, true).then(
               (data) => console.log(data),
               (err) => console.log(err)
             );

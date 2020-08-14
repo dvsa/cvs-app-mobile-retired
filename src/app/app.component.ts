@@ -84,6 +84,11 @@ export class MyApp {
   }
 
   initApp() {
+    // Init config here hybrid or web
+    this.authService.createAuthConfig();
+    console.log('this.authService.getAuthConfigOptions()');
+    console.log(this.authService.getAuthConfigOptions());
+
     this.authService.createAuthContext().then(() => {
       this.appService.manageAppInit().then(() => {
         this.startAuthProcess();
@@ -93,9 +98,10 @@ export class MyApp {
 
   private startAuthProcess(): void {
     if (this.appService.isCordova) {
-    // if (true) {
+      // if (true) {
       this.authService.login().subscribe((resp: string) => {
-        console.log({resp})
+        console.log('startAuthProcess() > authService.login() : token');
+        console.log({ resp });
         if (this.authService.isValidToken(resp)) {
           this.authService.setJWTToken(resp).then(() => {
             this.appService.isJwtTokenStored = true;

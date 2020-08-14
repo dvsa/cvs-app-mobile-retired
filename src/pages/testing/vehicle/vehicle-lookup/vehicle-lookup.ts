@@ -22,7 +22,7 @@ import {
 } from '../../../../app/app.enums';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { Observable, Observer } from 'rxjs';
-import { AppConfig } from '../../../../../config/app.config';
+// import { AppConfig } from '../../../../../config/app.config';
 import { _throw } from 'rxjs/observable/throw';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CallNumber } from '@ionic-native/call-number';
@@ -36,6 +36,8 @@ import * as logsActions from '../../../../modules/logs/logs.actions';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { AppService } from '../../../../providers/global/app.service';
 import { VehicleLookupSearchCriteriaData } from '../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
+
+import {default as hybridConfig} from '../../../../../config/application.hybrid';
 
 @IonicPage()
 @Component({
@@ -225,7 +227,7 @@ export class VehicleLookupPage {
         {
           text: 'Call Technical Support',
           handler: () => {
-            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
+            this.callNumber.callNumber(hybridConfig.options.KEY_PHONE_NUMBER, true).then(
               (data) => console.log(data),
               (err) => console.log(err)
             );

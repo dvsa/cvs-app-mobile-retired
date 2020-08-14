@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AppConfig } from '../../../config/app.config';
+// import { AppConfig } from '../../../config/app.config';
 import { APP, LOCAL_STORAGE, STORAGE } from '../../app/app.enums';
 import { Platform, ToastController } from 'ionic-angular';
 import { StorageService } from '../natives/storage.service';
 import { AuthService } from './auth.service';
+
+import {default as hybridConfig} from '../../../config/application.hybrid';
 
 @Injectable()
 export class AppService {
@@ -25,7 +27,8 @@ export class AppService {
     private authService: AuthService
   ) {
     this.isCordova = this.platform.is('cordova');
-    this.isProduction = AppConfig.IS_PRODUCTION == 'true';
+    // TODO - Replace by getter from suth.service
+    this.isProduction = hybridConfig.options.IS_PRODUCTION == 'true';
     this.isInitRunDone = !!localStorage.getItem(LOCAL_STORAGE.FIRST_INIT);
   }
 

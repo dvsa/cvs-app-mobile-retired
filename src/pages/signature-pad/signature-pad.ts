@@ -14,12 +14,14 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { SignatureService } from '../../providers/signature/signature.service';
 import { AppService } from '../../providers/global/app.service';
 import { CallNumber } from '@ionic-native/call-number';
-import { AppConfig } from '../../../config/app.config';
+// import { AppConfig } from '../../../config/app.config';
 import { Firebase } from '@ionic-native/firebase';
 import { Log, LogsModel } from '../../modules/logs/logs.model';
 import * as logsActions from '../../modules/logs/logs.actions';
 import { AuthService } from '../../providers/global/auth.service';
 import { Store } from '@ngrx/store';
+
+import {default as hybridConfig} from '../../../config/application.hybrid';
 
 @IonicPage()
 @Component({
@@ -99,7 +101,7 @@ export class SignaturePadPage implements OnInit {
         {
           text: APP_STRINGS.CALL_SUPP_BTN,
           handler: () => {
-            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true);
+            this.callNumber.callNumber(hybridConfig.options.KEY_PHONE_NUMBER, true);
           }
         },
         {
