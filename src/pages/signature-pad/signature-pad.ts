@@ -122,7 +122,7 @@ export class SignaturePadPage implements OnInit {
               },
               (error) => {
                 const log: Log = {
-                  type: 'error',
+                  type: 'error-signatureService.saveSignature-showConfirm in signature-pad.ts',
                   message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url}`,
                   timestamp: Date.now()
                 };

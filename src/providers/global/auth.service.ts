@@ -129,10 +129,9 @@ export class AuthService {
     this.store$.dispatch(new logsActions.SaveLog(log));
   }
 
-  setJWTToken(token): Promise<any> {
+  setJWTToken(token: string): void {
     this.jwtToken = token;
     localStorage.setItem(LOCAL_STORAGE.JWT_TOKEN, this.jwtToken);
-    return Promise.resolve();
   }
 
   getJWTToken() {

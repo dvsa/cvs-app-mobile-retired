@@ -388,7 +388,7 @@ export class TestReviewPage implements OnInit {
             },
             (error) => {
               const log: Log = {
-                type: LOG_TYPES.ERROR,
+                type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-review.ts`,
                 message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
                 timestamp: Date.now()
               };

@@ -124,7 +124,8 @@ export class VehicleLookupPage {
             },
             error: (error) => {
               const log: Log = {
-                type: 'error',
+                type:
+                  'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
                 message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
                 timestamp: Date.now()
               };
@@ -160,7 +161,7 @@ export class VehicleLookupPage {
         },
         (error) => {
           const log: Log = {
-            type: 'error',
+            type: 'error-vehicleService.getVehicleTechRecords-searchVehicle in vehicle-lookup.ts',
             message: `${this.oid} - ${error.status} ${error.error ||
               error.message} for API call to ${error.url}`,
             timestamp: Date.now()

@@ -125,7 +125,7 @@ export class SyncService {
       retryWhen(genericRetryStrategy()),
       catchError((error) => {
         const log: Log = {
-          type: 'error',
+          type: `error-${microservice}-getDataFromMicroservice in sync.service.ts`,
           message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url ||
             microservice + 'microservice'}`,
           timestamp: Date.now()
