@@ -68,7 +68,8 @@ export class MultipleTechRecordsSelectionPage {
       },
       error: (error) => {
         const log: Log = {
-          type: 'error',
+          type:
+            'error-vehicleService.getTestResultsHistory-openVehicleDetails in multiple-tech-records-selection.ts',
           message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
           timestamp: Date.now()
         };

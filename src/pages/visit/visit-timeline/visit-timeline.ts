@@ -108,7 +108,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
   ionViewDidEnter() {
     this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VISIT_TIMELINE);
-   // this.waitTimeHandler(); FIXME: Needs to be fixed separately.
+    // this.waitTimeHandler(); FIXME: Needs to be fixed separately.
   }
 
   have5MinutesPassedSinceLastActivity(): boolean {
@@ -261,7 +261,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
                 },
                 (error) => {
                   const log: Log = {
-                    type: LOG_TYPES.ERROR,
+                    type: `${LOG_TYPES.ERROR}-activityService.updateActivityReasons in visit-timeline.ts`,
                     message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
                     timestamp: Date.now()
                   };
@@ -275,7 +275,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           },
           (error) => {
             const log: Log = {
-              type: LOG_TYPES.ERROR,
+              type: `${LOG_TYPES.ERROR}-activityService.submitActivity in visit-timeline.ts`,
               message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
               timestamp: Date.now()
             };
@@ -290,7 +290,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       },
       (error) => {
         const log: Log = {
-          type: 'error',
+          type: 'error-visitService.endVisit-confirmEndVisit in visit-timeline.ts',
           message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
           timestamp: Date.now()
         };

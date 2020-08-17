@@ -35,8 +35,10 @@ export class MyApp {
   @ViewChild(Nav) navElem: Nav;
   rootPage: any = PAGE_NAMES.TEST_STATION_HOME_PAGE;
 
-  connected: Subscription;
-  disconnected: Subscription;
+  appResumeSub: Subscription;
+  authLogSub: Subscription;
+  connectedSub: Subscription;
+  disconnectedSub: Subscription;
 
   constructor(
     public platform: Platform,
@@ -70,7 +72,7 @@ export class MyApp {
       }
 
       // Resuming app from background Mobile Accessibility
-      this.platform.resume.subscribe(() => {
+      this.appResumeSub = this.platform.resume.subscribe(() => {
         this.accessibilityFeatures();
         this.syncService.checkForUpdate();
         this.splashScreen.show();
@@ -83,27 +85,22 @@ export class MyApp {
     });
   }
 
-  initApp() {
-    this.authService.createAuthContext().then(() => {
-      this.appService.manageAppInit().then(() => {
-        this.startAuthProcess();
-      });
-    });
+  private async initApp() {
+    await this.authService.createAuthContext();
+    await this.appService.manageAppInit();
+    this.startAuthProcess();
   }
 
-  private startAuthProcess(): void {
+  private startAuthProcess() {
     if (this.appService.isCordova) {
-      this.authService.login().subscribe((resp: string) => {
+      this.authLogSub = this.authService.login().subscribe((resp: string) => {
         if (this.authService.isValidToken(resp)) {
-          this.authService.setJWTToken(resp).then(() => {
-            this.appService.isJwtTokenStored = true;
-            this.navigateToSignature();
-            this.syncService.startSync();
-          });
+          this.authService.setJWTToken(resp);
+          this.appService.isJwtTokenStored = true;
+          this.navigateToSignature();
+          this.syncService.startSync();
         } else {
-          this.navElem.setRoot(this.rootPage).then(() => {
-            this.splashScreen.hide();
-          });
+          this.setRootPage();
           console.error(`Authentication failed due to: ${resp}`);
         }
       });
@@ -114,32 +111,39 @@ export class MyApp {
     }
   }
 
-  manageAppState(): void {
-    this.storageService.read(STORAGE.STATE).then((resp) => {
-      let stateResp = resp;
-      if (stateResp) {
-        //Is there an existing visit?
-        this.storageService.read(STORAGE.VISIT).then((resp) => {
-          if (resp) {
-            // Is that visit still open on the backend?
-            this.activityService.isVisitStillOpen().subscribe(async (visitStillOpenResponse) => {
-              const visitStillOpen = visitStillOpenResponse.body;
-              if (visitStillOpen) {
-                this.visitService.visit = resp;
-                let parsedArr = JSON.parse(stateResp);
-                this.navElem.setPages(parsedArr).then(() => this.splashScreen.hide());
-              } else {
-                await this.clearExpiredVisitData();
-                this.navElem.setRoot(this.rootPage).then(() => this.splashScreen.hide());
-              }
-            });
-          }
-        });
-        this.storageService.read(STORAGE.ACTIVITIES).then((resp) => {
-          if (resp) this.activityService.activities = resp;
-        });
+  async manageAppState() {
+    try {
+      const storageState = await this.storageService.read(STORAGE.STATE);
+      if (storageState) {
+        const storedVisit = await this.storageService.read(STORAGE.VISIT);
+        if (storedVisit) {
+          this.hasOpenVisit({ storageState, storedVisit });
+        }
+
+        const storedActivities = await this.storageService.read(STORAGE.ACTIVITIES);
+        if (storedActivities) {
+          this.activityService.activities = storedActivities;
+        }
       } else {
-        this.navElem.setRoot(this.rootPage).then(() => this.splashScreen.hide());
+        this.setRootPage();
+      }
+    } catch (error) {
+      this.splashScreen.hide();
+    }
+  }
+
+  private hasOpenVisit(params) {
+    const { storageState, storedVisit } = params;
+
+    this.activityService.isVisitStillOpen().subscribe(async (visitStillOpenResponse) => {
+      const visitStillOpen = visitStillOpenResponse.body;
+      if (visitStillOpen) {
+        this.visitService.visit = storedVisit;
+        await this.navElem.setPages(JSON.parse(storageState));
+        this.splashScreen.hide();
+      } else {
+        this.clearExpiredVisitData();
+        this.setRootPage();
       }
     });
   }
@@ -215,10 +219,10 @@ export class MyApp {
     }
   }
 
-  private setRootPage(): Promise<any> {
-    return this.navElem.setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE).then(() => {
-      return this.navElem.popToRoot();
-    });
+  private async setRootPage(): Promise<any> {
+    await this.navElem.setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE);
+    this.splashScreen.hide();
+    return await this.navElem.popToRoot();
   }
 
   private setupLogNetworkStatus(): void {
@@ -227,7 +231,7 @@ export class MyApp {
       timestamp: Date.now()
     } as Log;
 
-    this.connected = this.network.onDisconnect().subscribe(() => {
+    this.connectedSub = this.network.onDisconnect().subscribe(() => {
       log = {
         ...log,
         message: `User ${this.authService.getOid()} lost connection (connection type ${
@@ -237,7 +241,7 @@ export class MyApp {
       this.store$.dispatch(new logsActions.SaveLog(log));
     });
 
-    this.disconnected = this.network.onConnect().subscribe(() => {
+    this.disconnectedSub = this.network.onConnect().subscribe(() => {
       log = {
         ...log,
         message: `User ${this.authService.getOid()} connected (connection type ${
@@ -249,7 +253,9 @@ export class MyApp {
   }
 
   ionViewWillLeave() {
-    this.connected.unsubscribe();
-    this.disconnected.unsubscribe();
+    this.appResumeSub.unsubscribe();
+    this.authLogSub.unsubscribe();
+    this.connectedSub.unsubscribe();
+    this.disconnectedSub.unsubscribe();
   }
 }

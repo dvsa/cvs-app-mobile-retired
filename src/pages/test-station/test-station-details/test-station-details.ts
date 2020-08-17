@@ -83,7 +83,7 @@ export class TestStationDetailsPage {
       },
       (error) => {
         const log: Log = {
-          type: 'error',
+          type: 'error-visitService.startVisit-confirmStartVisit in test-station-details.ts',
           message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
           timestamp: Date.now()
         };

@@ -66,7 +66,7 @@ export class AuthInterceptor implements HttpInterceptor {
           // TOOD: Remove logging after the white screen bug is resolved
           // CVSB: 17584
           const log: Log = {
-            type: 'error',
+            type: 'error-next.handle-intercept in auth.interceptor.ts',
             message: `${oid} - ${error.status} ${error.message} for API call to ${error.url}`,
             timestamp: Date.now()
           };

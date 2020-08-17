@@ -63,7 +63,7 @@ export class SignaturePopoverComponent implements OnInit {
           },
           (error) => {
             const log: Log = {
-              type: 'error',
+              type: 'error-signatureService.saveSignature-confirmPop in signature-popover.ts',
               message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url}`,
               timestamp: Date.now()
             };
