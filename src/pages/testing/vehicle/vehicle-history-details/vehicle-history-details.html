@@ -327,41 +327,41 @@
               {{ defect.deficiencyText }}
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="defect.additionalInformation.location">
+          <ion-row *ngIf="defect?.additionalInformation?.location">
             <ion-col col-auto text-start text-wrap class="additional-info">
-              <span *ngIf="defect.additionalInformation.location.vertical" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.vertical" text-capitalize>
                 <span class="forward-slash">/</span>
-                {{ defect.additionalInformation.location.vertical }}
+                {{ defect.additionalInformation.location?.vertical }}
               </span>
-              <span *ngIf="defect.additionalInformation.location.horizontal" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.horizontal" text-capitalize>
                 <span class="forward-slash">/</span>
-                {{ defect.additionalInformation.location.horizontal }}
+                {{ defect.additionalInformation.location?.horizontal }}
               </span>
-              <span *ngIf="defect.additionalInformation.location.lateral" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.lateral" text-capitalize>
                 <span class="forward-slash">/</span>
-                {{ defect.additionalInformation.location.lateral }}
+                {{ defect.additionalInformation.location?.lateral }}
               </span>
-              <span *ngIf="defect.additionalInformation.location.longitudinal" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.longitudinal" text-capitalize>
                 <span class="forward-slash">/</span>
-                {{ defect.additionalInformation.location.longitudinal }}
+                {{ defect.additionalInformation.location?.longitudinal }}
               </span>
-              <span *ngIf="defect.additionalInformation.location.rowNumber" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.rowNumber" text-capitalize>
                 <span class="forward-slash">/</span>
-                {{ 'Row ' + defect.additionalInformation.location.rowNumber }}
+                {{ 'Row ' + defect.additionalInformation.location?.rowNumber }}
               </span>
-              <span *ngIf="defect.additionalInformation.location.seatNumber" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.seatNumber" text-capitalize>
                 <span class="forward-slash">/</span>
-                {{ 'Seat ' + defect.additionalInformation.location.seatNumber }}
+                {{ 'Seat ' + defect.additionalInformation.location?.seatNumber }}
               </span>
-              <span *ngIf="defect.additionalInformation.location.axleNumber" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.axleNumber" text-capitalize>
                 <span class="forward-slash">/</span>
-                {{ 'Axle ' + defect.additionalInformation.location.axleNumber }}
+                {{ 'Axle ' + defect.additionalInformation.location?.axleNumber }}
               </span>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col col-auto text-start text-wrap>
-              {{ defect.additionalInformation.notes || defaultValues.NONE }}
+              {{ defect?.additionalInformation?.notes || defaultValues.NONE }}
             </ion-col>
           </ion-row>
           <ion-row *ngIf="defect.prohibitionIssued">
