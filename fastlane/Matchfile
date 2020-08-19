@@ -2,7 +2,7 @@
 
 git_url('https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/cvs-mobile-certs')
 type('appstore') # The default type, can be: appstore, adhoc or development
-#clone_branch_directly('true')
+clone_branch_directly true
 app_identifier('uk.gov.dvsa.cvsmobile')
 readonly true
 verbose true
