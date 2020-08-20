@@ -44,7 +44,7 @@ import { AppVersion } from '@ionic-native/app-version';
 
 const IONIC_PROVIDERS = [
   StatusBar,
-  SplashScreen,
+  // SplashScreen,
   { provide: ErrorHandler, useClass: IonicErrorHandler }
 ];
 

@@ -1,7 +1,7 @@
 import { Component, Renderer2, ViewChild } from '@angular/core';
-import { Platform, AlertController, Nav, Events } from 'ionic-angular';
+import { Platform, Nav, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+// import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from '../providers/global/auth.service';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility';
 import { SyncService } from '../providers/global/sync.service';
@@ -43,13 +43,11 @@ export class MyApp {
   constructor(
     public platform: Platform,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen,
     public visitService: VisitService,
     public activityService: ActivityService,
     public storageService: StorageService,
     public appService: AppService,
     public events: Events,
-    private alertCtrl: AlertController,
     private syncService: SyncService,
     private authService: AuthService,
     private mobileAccessibility: MobileAccessibility,
@@ -75,7 +73,7 @@ export class MyApp {
       this.appResumeSub = this.platform.resume.subscribe(() => {
         this.accessibilityFeatures();
         this.syncService.checkForUpdate();
-        this.splashScreen.show();
+        // this.splashScreen.show();
         this.manageAppState();
       });
 
@@ -135,7 +133,7 @@ export class MyApp {
           error
         )}`
       });
-      this.splashScreen.hide();
+      // this.splashScreen.hide();
     }
   }
 
@@ -154,7 +152,7 @@ export class MyApp {
 
           this.visitService.visit = storedVisit;
           await this.navElem.setPages(JSON.parse(storageState));
-          this.splashScreen.hide();
+          // this.splashScreen.hide();
         } else {
           this.dispatchLog({
             type: 'info',
@@ -255,7 +253,7 @@ export class MyApp {
 
   private async setRootPage(): Promise<any> {
     await this.navElem.setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE);
-    this.splashScreen.hide();
+    // this.splashScreen.hide();
     return await this.navElem.popToRoot();
   }
 
