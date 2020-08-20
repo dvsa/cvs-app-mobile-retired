@@ -1,5 +1,5 @@
-import { Component, Renderer2, ViewChild } from '@angular/core';
-import { Platform, AlertController, Nav, Events } from 'ionic-angular';
+import { Component, Renderer2, ViewChild, OnDestroy } from '@angular/core';
+import { Platform, Nav, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from '../providers/global/auth.service';
@@ -31,25 +31,20 @@ import * as logsActions from '../modules/logs/logs.actions';
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class MyApp implements OnDestroy {
   @ViewChild(Nav) navElem: Nav;
   rootPage: any = PAGE_NAMES.TEST_STATION_HOME_PAGE;
 
-  appResumeSub: Subscription;
-  authLogSub: Subscription;
-  connectedSub: Subscription;
-  disconnectedSub: Subscription;
-
+  private subs = new Subscription();
   constructor(
     public platform: Platform,
     public statusBar: StatusBar,
-    public splashScreen: SplashScreen,
+    // public splashScreen: SplashScreen,
     public visitService: VisitService,
     public activityService: ActivityService,
     public storageService: StorageService,
     public appService: AppService,
     public events: Events,
-    private alertCtrl: AlertController,
     private syncService: SyncService,
     private authService: AuthService,
     private mobileAccessibility: MobileAccessibility,
@@ -72,12 +67,14 @@ export class MyApp {
       }
 
       // Resuming app from background Mobile Accessibility
-      this.appResumeSub = this.platform.resume.subscribe(() => {
-        this.accessibilityFeatures();
-        this.syncService.checkForUpdate();
-        this.splashScreen.show();
-        this.manageAppState();
-      });
+      this.subs.add(
+        this.platform.resume.subscribe(() => {
+          this.accessibilityFeatures();
+          this.syncService.checkForUpdate();
+          // this.splashScreen.show();
+          this.manageAppState();
+        })
+      );
 
       // TOOD: Remove logging after the white screen bug is resolved
       // CVSB: 17584
@@ -93,17 +90,19 @@ export class MyApp {
 
   private startAuthProcess() {
     if (this.appService.isCordova) {
-      this.authLogSub = this.authService.login().subscribe((resp: string) => {
-        if (this.authService.isValidToken(resp)) {
-          this.authService.setJWTToken(resp);
-          this.appService.isJwtTokenStored = true;
-          this.navigateToSignature();
-          this.syncService.startSync();
-        } else {
-          this.setRootPage();
-          console.error(`Authentication failed due to: ${resp}`);
-        }
-      });
+      this.subs.add(
+        this.authService.login().subscribe((resp: string) => {
+          if (this.authService.isValidToken(resp)) {
+            this.authService.setJWTToken(resp);
+            this.appService.isJwtTokenStored = true;
+            this.navigateToSignature();
+            this.syncService.startSync();
+          } else {
+            this.setRootPage();
+            console.error(`Authentication failed due to: ${resp}`);
+          }
+        })
+      );
     } else {
       this.manageAppState();
       this.generateUserDetails();
@@ -121,31 +120,37 @@ export class MyApp {
         }
 
         const storedActivities = await this.storageService.read(STORAGE.ACTIVITIES);
-        if (storedActivities) {
-          this.activityService.activities = storedActivities;
-        }
+        this.activityService.activities = storedActivities;
       } else {
         this.setRootPage();
       }
     } catch (error) {
-      this.splashScreen.hide();
+      // this.splashScreen.hide();
+      const log = {
+        type: `${LOG_TYPES.ERROR}-${error}`,
+        timestamp: Date.now(),
+        message: `User ${this.authService.getOid()} failed from manageAppState in app.component.ts`
+      };
+      this.store$.dispatch(new logsActions.SaveLog(log));
     }
   }
 
   private hasOpenVisit(params) {
     const { storageState, storedVisit } = params;
 
-    this.activityService.isVisitStillOpen().subscribe(async (visitStillOpenResponse) => {
+    const hasVisit = async (visitStillOpenResponse) => {
       const visitStillOpen = visitStillOpenResponse.body;
       if (visitStillOpen) {
         this.visitService.visit = storedVisit;
         await this.navElem.setPages(JSON.parse(storageState));
-        this.splashScreen.hide();
+        // this.splashScreen.hide();
       } else {
         this.clearExpiredVisitData();
         this.setRootPage();
       }
-    });
+    };
+
+    this.subs.add(this.activityService.isVisitStillOpen().subscribe(hasVisit));
   }
 
   clearExpiredVisitData() {
@@ -221,7 +226,7 @@ export class MyApp {
 
   private async setRootPage(): Promise<any> {
     await this.navElem.setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE);
-    this.splashScreen.hide();
+    // this.splashScreen.hide();
     return await this.navElem.popToRoot();
   }
 
@@ -231,31 +236,32 @@ export class MyApp {
       timestamp: Date.now()
     } as Log;
 
-    this.connectedSub = this.network.onDisconnect().subscribe(() => {
-      log = {
-        ...log,
-        message: `User ${this.authService.getOid()} lost connection (connection type ${
-          this.network.type
-        })`
-      };
-      this.store$.dispatch(new logsActions.SaveLog(log));
-    });
+    this.subs.add(
+      this.network.onDisconnect().subscribe(() => {
+        log = {
+          ...log,
+          message: `User ${this.authService.getOid()} lost connection (connection type ${
+            this.network.type
+          })`
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
+      })
+    );
 
-    this.disconnectedSub = this.network.onConnect().subscribe(() => {
-      log = {
-        ...log,
-        message: `User ${this.authService.getOid()} connected (connection type ${
-          this.network.type
-        })`
-      };
-      this.store$.dispatch(new logsActions.SaveLog(log));
-    });
+    this.subs.add(
+      this.network.onConnect().subscribe(() => {
+        log = {
+          ...log,
+          message: `User ${this.authService.getOid()} connected (connection type ${
+            this.network.type
+          })`
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
+      })
+    );
   }
 
-  ionViewWillLeave() {
-    this.appResumeSub.unsubscribe();
-    this.authLogSub.unsubscribe();
-    this.connectedSub.unsubscribe();
-    this.disconnectedSub.unsubscribe();
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
