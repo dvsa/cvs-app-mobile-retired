@@ -91,6 +91,7 @@ export class LogsEffects {
           return new logsActions.SendLogsSuccess(timestamps);
         }),
         catchError((err: any) => {
+          console.log('Error in sendLogsEffect ', err);
           return of(new logsActions.SendLogsFailure(err));
         })
       );
