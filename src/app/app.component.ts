@@ -8,7 +8,7 @@ import { SyncService } from '../providers/global/sync.service';
 import { StorageService } from '../providers/natives/storage.service';
 import { VisitService } from '../providers/visit/visit.service';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import {
   ACCESSIBILITY_DEFAULT_VALUES,
   FIREBASE,
@@ -27,6 +27,10 @@ import { Network } from '@ionic-native/network';
 import { LogsModel, Log } from '../modules/logs/logs.model';
 import { Store } from '@ngrx/store';
 import * as logsActions from '../modules/logs/logs.actions';
+import { tap, catchError } from 'rxjs/operators';
+import { _throw } from 'rxjs/observable/throw';
+import { of } from 'rxjs/observable/of';
+import { map } from 'rxjs/operator/map';
 
 @Component({
   templateUrl: 'app.html'
@@ -93,17 +97,14 @@ export class MyApp {
 
   private startAuthProcess() {
     if (this.appService.isCordova) {
-      this.authLogSub = this.authService.login().subscribe((resp: string) => {
-        if (this.authService.isValidToken(resp)) {
-          this.authService.setJWTToken(resp);
-          this.appService.isJwtTokenStored = true;
+      this.authLogSub = this.loginAndSetToken().subscribe(()=>{
           this.navigateToSignature();
           this.syncService.startSync();
-        } else {
+      },
+      (error) => {
           this.setRootPage();
-          console.error(`Authentication failed due to: ${resp}`);
-        }
-      });
+          console.error(`Authentication failed due to: ${error}`);//TODO log to backend
+        });
     } else {
       this.manageAppState();
       this.generateUserDetails();
@@ -257,5 +258,18 @@ export class MyApp {
     this.authLogSub.unsubscribe();
     this.connectedSub.unsubscribe();
     this.disconnectedSub.unsubscribe();
+  }
+
+
+  loginAndSetToken(): Observable<any>{
+    return this.authService.login().pipe(tap(
+      (resp: string) => {
+        if (!this.authService.isValidToken(resp)) _throw('invalid token');
+        this.authService.setJWTToken(resp);
+      }),
+      catchError((error) => {
+        console.log(error)//TODO send to backend
+        return _throw(error);
+      }));
   }
 }

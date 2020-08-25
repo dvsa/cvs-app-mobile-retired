@@ -92,7 +92,7 @@ describe(`AppService: `, () => {
     expect(appService.caching).toBeFalsy();
     expect(appService.easterEgg).toBeFalsy();
     expect(appService.isInitSyncDone).toBeFalsy();
-    expect(appService.isJwtTokenStored).toBeFalsy();
+    // expect(appService.isJwtTokenStored).toBeFalsy();
   });
 
   it("should set AppService's flags to true if on following runs", () => {
@@ -110,7 +110,7 @@ describe(`AppService: `, () => {
     expect(appService.caching).toBeTruthy();
     expect(appService.easterEgg).toBeTruthy();
     expect(appService.isInitSyncDone).toBeTruthy();
-    expect(appService.isJwtTokenStored).toBeTruthy();
+    // expect(appService.isJwtTokenStored).toBeTruthy();
   });
 
   it('should manage application initialization', () => {

@@ -81,13 +81,13 @@ export class TestStationHomePage implements OnInit {
 
   getStarted(): void {
     if (this.appService.isCordova) {
-      if (this.appService.isJwtTokenStored) {
+      // if (this.appService.isJwtTokenStored) {
         if (this.appService.isSignatureRegistered) {
           this.navCtrl.push(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
         } else {
           this.navCtrl.push(PAGE_NAMES.SIGNATURE_PAD_PAGE, { navController: this.navCtrl });
         }
-      }
+      // }
     } else {
       this.navCtrl.push(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
     }

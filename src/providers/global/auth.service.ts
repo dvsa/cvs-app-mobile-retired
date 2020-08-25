@@ -45,6 +45,9 @@ export class AuthService {
     return Observable.from(this.loginSilently());
   }
 
+  /**
+   * Returns the authentication header (including Bearer). If authentication fails, returns undefined or error code (in loginWithUI)
+   */
   private loginSilently(): Promise<string> {
     return this.authContext
       .acquireTokenSilentAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, '')

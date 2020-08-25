@@ -12,7 +12,7 @@ export class AppService {
   public readonly isInitRunDone: boolean;
   public isInitSyncDone: boolean;
   public isSignatureRegistered: boolean;
-  public isJwtTokenStored: boolean;
+  // public isJwtTokenStored: boolean;
   public easterEgg: boolean;
   public caching: boolean;
   count: number = 0;
@@ -34,7 +34,7 @@ export class AppService {
     this.caching = localStorage.getItem(LOCAL_STORAGE.CACHING) == 'true';
     this.easterEgg = localStorage.getItem(LOCAL_STORAGE.EASTER_EGG) == 'true';
     this.isInitSyncDone = localStorage.getItem(APP.INIT_SYNC) == 'true';
-    this.isJwtTokenStored = !!localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
+    // this.isJwtTokenStored = !!localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
   }
 
   manageAppInit(): Promise<any> {
@@ -69,7 +69,7 @@ export class AppService {
     return Promise.resolve(true);
   }
 
-  enableCache() {
+  enableCache() {//empties everything
     this.count++;
     if (this.easterEgg && this.count == 3) {
       if (this.caching) {
