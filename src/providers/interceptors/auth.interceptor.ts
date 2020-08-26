@@ -3,7 +3,8 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse
+  HttpResponse,
+  HttpEvent
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -19,12 +20,9 @@ import { AppConfig } from '../../../config/app.config';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   isRefreshingToken: boolean = false;
-  isProduction: boolean;
-  tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  refreshTokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
-  constructor(public authService: AuthService, private store$: Store<LogsModel>) {
-    this.isProduction = AppConfig.IS_PRODUCTION === 'true';
-  }
+  constructor(private authService: AuthService, private store$: Store<LogsModel>) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     if (!window.navigator.onLine) {
@@ -41,6 +39,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
       return Observable.throw(new HttpErrorResponse({ error: AUTH.INTERNET_REQUIRED }));
     }
+
     const oid = this.authService.getOid();
     const log: Log = {
       type: 'info',
@@ -74,7 +73,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
           switch ((<HttpErrorResponse>error).status) {
             case (STATUS_CODE.UNAUTHORIZED, STATUS_CODE.FORBIDDEN):
-              return this.handle401Error(req, next);
+              return this.handleResponseError(req, next);
             default:
               return _throw(error);
           }
@@ -83,43 +82,49 @@ export class AuthInterceptor implements HttpInterceptor {
     );
   }
 
-  handle401Error(req: HttpRequest<any>, next: HttpHandler) {
-    if (!this.isRefreshingToken) {
-      this.isRefreshingToken = true;
-      this.tokenSubject.next(null);
-
-      return this.authService.login().pipe(
-        switchMap((newToken: string) => {
-          if (newToken) {
-            this.tokenSubject.next(newToken);
-            return next.handle(this.addAuthHeader(req, newToken));
-          }
-          return this.logoutUser();
-        }),
-        catchError((error) => {
-          return this.logoutUser(error);
-        }),
-        finalize(() => {
-          this.isRefreshingToken = false;
-        })
-      );
-    } else {
-      return this.tokenSubject.pipe(
-        filter((token) => token != null),
+  handleResponseError(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (this.isRefreshingToken) {
+      return this.refreshTokenSubject.pipe(
+        filter((token) => token !== null),
         take(1),
         switchMap((token) => {
           return next.handle(this.addAuthHeader(req, token));
         })
       );
+    } else {
+      this.isRefreshingToken = true;
+      this.refreshTokenSubject.next(null);
+
+      return this.authService.login().pipe(
+        switchMap((newToken: string) => {
+          if (newToken) {
+            this.authService.setJWTToken(newToken);
+            this.refreshTokenSubject.next(newToken);
+            return next.handle(this.addAuthHeader(req, newToken));
+          }
+          return this.logoutUser();
+        }),
+        catchError((error) => {
+          const log: Log = {
+            type: 'error-handleResponseError in auth.interceptor.ts',
+            message: `${this.authService.getOid()} - ${JSON.stringify(error)}`,
+            timestamp: Date.now()
+          };
+          this.store$.dispatch(new logsActions.SaveLog(log));
+
+          return this.logoutUser(error);
+        }),
+        finalize(() => (this.isRefreshingToken = false))
+      );
     }
   }
 
-  addAuthHeader(request: HttpRequest<any>, token) {
-    const AUTH_HEADER = token;
-    if (AUTH_HEADER && request.url !== AppConfig.URL_LATEST_VERSION) {
+  addAuthHeader(request: HttpRequest<any>, token: string) {
+    const AUTH_TOKEN = token;
+    if (AUTH_TOKEN && request.url !== AppConfig.URL_LATEST_VERSION) {
       return request.clone({
         setHeaders: {
-          Authorization: `${AUTH_HEADER}`
+          Authorization: `${AUTH_TOKEN}`
         }
       });
     }

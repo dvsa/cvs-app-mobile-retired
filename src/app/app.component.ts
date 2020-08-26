@@ -27,10 +27,9 @@ import { Network } from '@ionic-native/network';
 import { LogsModel, Log } from '../modules/logs/logs.model';
 import { Store } from '@ngrx/store';
 import * as logsActions from '../modules/logs/logs.actions';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, mergeMap } from 'rxjs/operators';
 import { _throw } from 'rxjs/observable/throw';
 import { of } from 'rxjs/observable/of';
-import { map } from 'rxjs/operator/map';
 
 @Component({
   templateUrl: 'app.html'
@@ -76,12 +75,30 @@ export class MyApp {
       }
 
       // Resuming app from background Mobile Accessibility
-      this.appResumeSub = this.platform.resume.subscribe(() => {
-        this.accessibilityFeatures();
-        this.syncService.checkForUpdate();
-        this.splashScreen.show();
-        this.manageAppState();
-      });
+      // this.appResumeSub = this.platform.resume.subscribe(() => {
+      //   this.accessibilityFeatures();
+      //   this.syncService.checkForUpdate();
+      //   this.splashScreen.show();
+      //   this.manageAppState();
+      // });
+
+      this.appResumeSub = this.platform.resume
+        .pipe(
+          mergeMap(() => {
+            this.accessibilityFeatures();
+            this.splashScreen.show();
+            return this.loginAndSetToken();
+          }),
+          mergeMap(() => {
+            this.syncService.checkForUpdate();
+            this.manageAppState();
+            return of(true);
+          }),
+          catchError((error) => {
+            return error;
+          })
+        )
+        .subscribe();
 
       // TOOD: Remove logging after the white screen bug is resolved
       // CVSB: 17584
@@ -97,14 +114,16 @@ export class MyApp {
 
   private startAuthProcess() {
     if (this.appService.isCordova) {
-      this.authLogSub = this.loginAndSetToken().subscribe(()=>{
+      this.authLogSub = this.loginAndSetToken().subscribe(
+        () => {
           this.navigateToSignature();
           this.syncService.startSync();
-      },
-      (error) => {
+        },
+        (error) => {
           this.setRootPage();
-          console.error(`Authentication failed due to: ${error}`);//TODO log to backend
-        });
+          console.error(`Authentication failed due to: ${error}`); //TODO log to backend
+        }
+      );
     } else {
       this.manageAppState();
       this.generateUserDetails();
@@ -136,17 +155,27 @@ export class MyApp {
   private hasOpenVisit(params) {
     const { storageState, storedVisit } = params;
 
-    this.activityService.isVisitStillOpen().subscribe(async (visitStillOpenResponse) => {
-      const visitStillOpen = visitStillOpenResponse.body;
-      if (visitStillOpen) {
-        this.visitService.visit = storedVisit;
-        await this.navElem.setPages(JSON.parse(storageState));
-        this.splashScreen.hide();
-      } else {
-        this.clearExpiredVisitData();
-        this.setRootPage();
+    this.activityService.isVisitStillOpen().subscribe(
+      async (visitStillOpenResponse) => {
+        const visitStillOpen = visitStillOpenResponse.body;
+        if (visitStillOpen) {
+          this.visitService.visit = storedVisit;
+          await this.navElem.setPages(JSON.parse(storageState));
+          this.splashScreen.hide();
+        } else {
+          this.clearExpiredVisitData();
+          this.setRootPage();
+        }
+      },
+      (error) => {
+        const log: Log = {
+          type: 'error-hasOpenVisit in auth.interceptor.ts',
+          message: `User ${this.authService.getOid()} - ${JSON.stringify(error)}`,
+          timestamp: Date.now()
+        };
+        this.store$.dispatch(new logsActions.SaveLog(log));
       }
-    });
+    );
   }
 
   clearExpiredVisitData() {
@@ -260,16 +289,16 @@ export class MyApp {
     this.disconnectedSub.unsubscribe();
   }
 
-
-  loginAndSetToken(): Observable<any>{
-    return this.authService.login().pipe(tap(
-      (resp: string) => {
+  loginAndSetToken(): Observable<any> {
+    return this.authService.login().pipe(
+      tap((resp: string) => {
         if (!this.authService.isValidToken(resp)) _throw('invalid token');
         this.authService.setJWTToken(resp);
       }),
       catchError((error) => {
-        console.log(error)//TODO send to backend
+        console.log(error); //TODO send to backend
         return _throw(error);
-      }));
+      })
+    );
   }
 }
