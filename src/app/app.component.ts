@@ -128,6 +128,13 @@ export class MyApp {
         this.setRootPage();
       }
     } catch (error) {
+      this.dispatchLog({
+        type: `${LOG_TYPES.ERROR}`,
+        timestamp: Date.now(),
+        message: `User ${this.authService.getOid()} failed from manageAppState in app.component.ts - ${JSON.stringify(
+          error
+        )}`
+      });
       this.splashScreen.hide();
     }
   }
@@ -135,17 +142,44 @@ export class MyApp {
   private hasOpenVisit(params) {
     const { storageState, storedVisit } = params;
 
-    this.activityService.isVisitStillOpen().subscribe(async (visitStillOpenResponse) => {
-      const visitStillOpen = visitStillOpenResponse.body;
-      if (visitStillOpen) {
-        this.visitService.visit = storedVisit;
-        await this.navElem.setPages(JSON.parse(storageState));
-        this.splashScreen.hide();
-      } else {
-        this.clearExpiredVisitData();
-        this.setRootPage();
+    this.activityService.isVisitStillOpen().subscribe(
+      async (visitStillOpenResponse) => {
+        const visitStillOpen = visitStillOpenResponse.body;
+        if (visitStillOpen) {
+          this.dispatchLog({
+            type: 'info',
+            message: `User ${this.authService.getOid()} visit checked restoring page(s)`,
+            timestamp: Date.now()
+          });
+
+          this.visitService.visit = storedVisit;
+          await this.navElem.setPages(JSON.parse(storageState));
+          this.splashScreen.hide();
+        } else {
+          this.dispatchLog({
+            type: 'info',
+            message: `User ${this.authService.getOid()} visit not found. Reset to default state`,
+            timestamp: Date.now()
+          });
+
+          this.clearExpiredVisitData();
+          this.setRootPage();
+        }
+      },
+      (error) => {
+        this.dispatchLog({
+          type: `${LOG_TYPES.ERROR} in hasOpenVisit`,
+          timestamp: Date.now(),
+          message: `User ${this.authService.getOid()} open visit failed in app.component.ts - ${JSON.stringify(
+            error
+          )}`
+        });
       }
-    });
+    );
+  }
+
+  dispatchLog(log) {
+    this.store$.dispatch(new logsActions.SaveLog(log));
   }
 
   clearExpiredVisitData() {

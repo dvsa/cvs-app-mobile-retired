@@ -84,6 +84,15 @@ export class SyncService {
       }
     } catch (error) {
       console.log('Cannot perform check if app update is required');
+
+      const log: Log = {
+        type: `error - checkForUpdate in sync.service.ts`,
+        message: `User ${this.authService.getOid()} - Cannot perform check if app update is required - ${JSON.stringify(
+          error
+        )}`,
+        timestamp: Date.now()
+      };
+      this.store$.dispatch(new logsActions.SaveLog(log));
     }
   }
 
