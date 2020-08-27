@@ -91,8 +91,40 @@ export class AuthInterceptor implements HttpInterceptor {
       return this.authService.login().pipe(
         switchMap((newToken: string) => {
           if (newToken) {
+            const log: Log = {
+              type: 'info',
+              message: `${this.authService.getOid()} - retrying API call to ${req.url}`,
+              timestamp: Date.now()
+            };
+            this.store$.dispatch(new logsActions.SaveLog(log));
+
             this.tokenSubject.next(newToken);
-            return next.handle(this.addAuthHeader(req, newToken));
+
+            return next.handle(this.addAuthHeader(req, newToken)).pipe(
+              tap((response) => {
+                if (response instanceof HttpResponse) {
+                  const log: Log = {
+                    type: 'info',
+                    message: `${this.authService.getOid()} - ${
+                      response.status
+                    } retried Response for API call to ${response.url}`,
+                    timestamp: Date.now()
+                  };
+                  this.store$.dispatch(new logsActions.SaveLog(log));
+                }
+              }),
+              catchError((error: HttpErrorResponse) => {
+                const log: Log = {
+                  type: 'error-next.handle-handle401Error in auth.interceptor.ts',
+                  message: `User ${this.authService.getOid()} - new token request - Error: ${JSON.stringify(
+                    error
+                  )}`,
+                  timestamp: Date.now()
+                };
+                this.store$.dispatch(new logsActions.SaveLog(log));
+                return Observable.throw(error.message);
+              })
+            );
           }
           return this.logoutUser();
         }),
@@ -105,10 +137,22 @@ export class AuthInterceptor implements HttpInterceptor {
       );
     } else {
       return this.tokenSubject.pipe(
-        filter((token) => token != null),
+        filter((token) => token !== null),
         take(1),
         switchMap((token) => {
-          return next.handle(this.addAuthHeader(req, token));
+          return next.handle(this.addAuthHeader(req, token)).pipe(
+            catchError((error: HttpErrorResponse) => {
+              const log: Log = {
+                type: 'error-next.handle-handle401Error in auth.interceptor.ts',
+                message: `User ${this.authService.getOid()} - existing token request - Error: ${JSON.stringify(
+                  error
+                )}`,
+                timestamp: Date.now()
+              };
+              this.store$.dispatch(new logsActions.SaveLog(log));
+              return Observable.throw(error.message);
+            })
+          );
         })
       );
     }

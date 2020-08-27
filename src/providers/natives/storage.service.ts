@@ -27,9 +27,7 @@ export class StorageService {
       // CVSB: 17584
       const log: Log = {
         type: LOG_TYPES.INFO,
-        message: `User ${this.authService.getOid()} read storage key ${key}: ${JSON.stringify(
-          data
-        )}`,
+        message: `User ${this.authService.getOid()} read storage key ${key}`,
         timestamp: Date.now()
       };
       this.store$.dispatch(new logsActions.SaveLog(log));
@@ -45,9 +43,7 @@ export class StorageService {
         // CVSB: 17584
         const log: Log = {
           type: LOG_TYPES.INFO,
-          message: `User ${this.authService.getOid()} writing storage key ${key}: ${JSON.stringify(
-            data
-          )}`,
+          message: `User ${this.authService.getOid()} write storage key ${key}`,
           timestamp: Date.now()
         };
         this.store$.dispatch(new logsActions.SaveLog(log));
