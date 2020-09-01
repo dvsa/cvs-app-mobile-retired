@@ -71,12 +71,23 @@ export class AuthService {
     try {
       const config = await this.createAuthConfig()
       console.log('config')
-      console.log(config)
+      console.log({config})
+      // const azureWebConfig : IonicAuthOptions = {
+      //   authConfig: 'azure',
+      //   platform: 'web',
+      //   clientID: config.MSAL_CLIENT_ID,
+      //   discoveryUrl: `https://login.microsoftonline.com/${config}/v2.0/.well-known/openid-configuration?appid=${config.MSAL_CLIENT_ID}`,
+      //   redirectUri: 'http://localhost:8100/',
+      //   scope: 'openid offline_access profile email',
+      //   logoutUrl: 'http://localhost:8100/'
+      // };
+      // console.log({azureWebConfig})
       // TODO this throws an error with webpack trying bundle that to run the tests
       // This has to be explored as it could require a shim or @ionic-enterprise/auth
       // not supported, Ionic team support/Sanj can help with that perhaps or Matt Culliford
       // https://github.com/ionic-team/demo-authconnect-azureb2c/blob/master/completed/src/app/services/authentication.service.ts#L28
-      // const toto = this.ionicAuth = new IonicAuth(config)
+      // const toto = this.ionicAuth = new IonicAuth(azureWebConfig)
+      // console.log(toto)
     } catch(e) {
       throw new Error(e)
     }
