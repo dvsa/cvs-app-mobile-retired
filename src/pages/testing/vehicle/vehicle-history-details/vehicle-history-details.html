@@ -327,7 +327,10 @@
               {{ defect.deficiencyText }}
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="defect?.additionalInformation?.location">
+
+          <!-- feature/CVSB-17929 -->
+          <!-- Revert back code - Just to prove Sendtry crash information -->
+          <ion-row *ngIf="defect.additionalInformation.location">
             <ion-col col-auto text-start text-wrap class="additional-info">
               <span *ngIf="defect.additionalInformation.location?.vertical" text-capitalize>
                 <span class="forward-slash">/</span>

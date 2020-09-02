@@ -27,6 +27,7 @@ import { Network } from '@ionic-native/network';
 import { LogsModel, Log } from '../modules/logs/logs.model';
 import { Store } from '@ngrx/store';
 import * as logsActions from '../modules/logs/logs.actions';
+import * as Sentry from 'sentry-cordova';
 
 @Component({
   templateUrl: 'app.html'
@@ -60,6 +61,10 @@ export class MyApp {
     private store$: Store<LogsModel>
   ) {
     platform.ready().then(() => {
+      Sentry.init({
+        dsn: ''
+      });
+
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
 
