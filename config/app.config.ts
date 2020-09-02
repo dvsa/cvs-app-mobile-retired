@@ -1,4 +1,4 @@
-import * as app from "./application.json";
+import * as app from './application.json';
 
 export class AppConfig {
   public static get MSAL_CLIENT_ID() {
@@ -63,7 +63,7 @@ export class AppConfig {
 
   public static get BACKEND_URL_VISIT() {
     let jsonData = app;
-    return jsonData['BACKEND_URL_VISIT']
+    return jsonData['BACKEND_URL_VISIT'];
   }
 
   public static get BACKEND_URL_SIGNATURE() {
@@ -93,5 +93,33 @@ export class AppConfig {
 
   public static get URL_LATEST_VERSION() {
     return app['URL_LATEST_VERSION'];
+  }
+
+  public static get SENTRY_ENV() {
+    return app['SENTRY_ENV'];
+  }
+
+  public static get SENTRY_DSN() {
+    return app['SENTRY_DSN'];
+  }
+
+  public static get SENTRY_URL() {
+    return app['SENTRY_URL'];
+  }
+
+  public static get SENTRY_ORG() {
+    return app['SENTRY_ORG'];
+  }
+
+  public static get SENTRY_PROJECT() {
+    return app['SENTRY_PROJECT'];
+  }
+
+  public static get SENTRY_AUTH_TOKEN() {
+    return app['SENTRY_AUTH_TOKEN'];
+  }
+
+  public static get SENTRY_CLI_EXECUTABLE() {
+    return app['SENTRY_CLI_EXECUTABLE'];
   }
 }

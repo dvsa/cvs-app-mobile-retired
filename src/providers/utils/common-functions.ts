@@ -2,6 +2,7 @@ import { TEST_TYPE_RESULTS, ODOMETER_METRIC } from '../../app/app.enums';
 import { TestTypeModel } from '../../models/tests/test-type.model';
 import { VehicleModel } from '../../models/vehicle/vehicle.model';
 import { CountryOfRegistrationData } from '../../assets/app-data/country-of-registration/country-of-registration.data';
+import { CommonRegExp } from './common-regExp';
 
 export class CommonFunctionsService {
   public capitalizeString(string: string): string {
@@ -153,5 +154,22 @@ export class CommonFunctionsService {
         return elem.value.split(' -')[0];
       }
     }
+  }
+
+  getObfuscatedTesterOid(testerOid: string): string {
+    let obfuscated = '';
+    let obfuscatedCollecton = [];
+
+    if (testerOid.match(CommonRegExp.UUID_REGEX)) {
+      obfuscatedCollecton = testerOid.split('-').map((portion) => {
+        if (portion.match(CommonRegExp.UUID_REGEX_SUB)) {
+          return '****';
+        }
+        return portion;
+      });
+      obfuscated = obfuscatedCollecton.join('-');
+    }
+
+    return obfuscated;
   }
 }

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -41,11 +41,13 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
 import { AppVersion } from '@ionic-native/app-version';
+import { SentryIonicErrorHandler } from './sentry-ionic-errorhandler';
 
 const IONIC_PROVIDERS = [
   StatusBar,
   SplashScreen,
-  { provide: ErrorHandler, useClass: IonicErrorHandler }
+  // { provide: ErrorHandler, useClass: IonicErrorHandler }
+  { provide: ErrorHandler, useClass: SentryIonicErrorHandler }
 ];
 
 const CUSTOM_PROVIDERS = [

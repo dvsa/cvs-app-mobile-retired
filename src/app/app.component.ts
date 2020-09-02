@@ -27,6 +27,8 @@ import { Network } from '@ionic-native/network';
 import { LogsModel, Log } from '../modules/logs/logs.model';
 import { Store } from '@ngrx/store';
 import * as logsActions from '../modules/logs/logs.actions';
+import * as Sentry from 'sentry-cordova';
+import { AppConfig } from '../../config/app.config';
 
 @Component({
   templateUrl: 'app.html'
@@ -60,6 +62,12 @@ export class MyApp {
     private store$: Store<LogsModel>
   ) {
     platform.ready().then(() => {
+      Sentry.init({
+        enabled: !!AppConfig.SENTRY_DSN,
+        dsn: AppConfig.SENTRY_DSN,
+        environment: AppConfig.SENTRY_ENV
+      });
+
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
 
@@ -245,6 +253,7 @@ export class MyApp {
       this.authService.testerDetails = this.authService.setTesterDetails(
         null,
         localTesterDetails.testerId,
+        localTesterDetails.testerObfuscatedOid,
         localTesterDetails.testerName,
         localTesterDetails.testerEmail
       );
