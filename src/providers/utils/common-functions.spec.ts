@@ -182,4 +182,25 @@ describe('Provider: CommonFunctionsService', () => {
       'Great Britain and Northern Ireland'
     );
   });
+
+  describe('getObfuscatedTesterOid', () => {
+    it('should return empty string if no testerOid', () => {
+      const result = commonFunctionsService.getObfuscatedTesterOid('');
+      expect(result).toEqual('');
+    });
+
+    it('should return obfuscated testerOid if valid', () => {
+      const testerOid = '562b3b3a-1a87-41fd-9dd1-9d65c344e554';
+      const expectedOid = '562b3b3a-****-****-****-9d65c344e554';
+
+      const result = commonFunctionsService.getObfuscatedTesterOid(testerOid);
+      expect(result).toEqual(expectedOid);
+    });
+
+    it('should return empty string if testerOid is not valid', () => {
+      const testerOid = '562b3b3a-41fd-9dd1-9d65c344e554';
+      const result = commonFunctionsService.getObfuscatedTesterOid(testerOid);
+      expect(result).toEqual('');
+    });
+  });
 });

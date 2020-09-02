@@ -18,5 +18,12 @@
   "BACKEND_URL_VISIT": "http://localhost:3007/activities",
   "BACKEND_URL_LOGS": "http://localhost:3000/logs",
   "BACKEND_URL_UNAUTH_LOGS": "http://localhost:3000/unauth-logs",
-  "URL_LATEST_VERSION": ""
+  "URL_LATEST_VERSION": "",
+  "SENTRY_ENV": "",
+  "SENTRY_DSN": "",
+  "SENTRY_URL": "",
+  "SENTRY_ORG": "",
+  "SENTRY_PROJECT": "",
+  "SENTRY_AUTH_TOKEN": "",
+  "SENTRY_CLI_EXECUTABLE": "node_modules\\@sentry\\cli\\bin\\sentry-cli"
 }

@@ -31,6 +31,7 @@ describe(`AuthService`, () => {
   const JWT_TOKEN: string =
     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXBuIjoidGVzdEBlbWFpbC5jb20iLCJyb2xlcyI6WyJDVlNQc3ZUZXN0ZXIiXSwidGlkIjoiMTIzNDU2Nzg5MCJ9.9prTaDS-toi8z6HUbuhm5es1IcRp-BHVAqxjuu7C7-k';
   const JWT_TOKEN_EMPTY: string = '';
+  const obfuscatedOid = '83a674c6-****-****-****-ff96191058a5';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,6 +49,9 @@ describe(`AuthService`, () => {
     authService = TestBed.get(AuthService);
     store = TestBed.get(Store);
     authContext = TestBed.get(AuthenticationContext);
+    spyOn(TestBed.get(CommonFunctionsService), 'getObfuscatedTesterOid').and.returnValue(
+      obfuscatedOid
+    );
   });
 
   beforeEach(() => {
@@ -87,18 +91,20 @@ describe(`AuthService`, () => {
   });
 
   it('should set the default tester details', () => {
-    let details;
-    const expectedDetails = MOCK_UTILS.mockTesterDetails();
-    expect(details).toBeUndefined();
-    details = authService.setTesterDetails(
+    const expectedDetails = MOCK_UTILS.mockTesterDetails({
+      testerObfuscatedOid: 'default-1234-4567'
+    });
+    const details = authService.setTesterDetails(
       null,
       expectedDetails.testerId,
+      expectedDetails.testerObfuscatedOid,
       expectedDetails.testerName,
       expectedDetails.testerEmail,
       [TESTER_ROLES.PSV]
     );
     expect(details.testerName).toEqual('John Doe');
     expect(details.testerId).toEqual('1234567890');
+    expect(details.testerObfuscatedOid).toEqual('default-1234-4567');
     expect(details.testerEmail).toEqual('test@email.com');
     expect(details.testerRoles).toEqual([TESTER_ROLES.PSV]);
   });
@@ -118,6 +124,7 @@ describe(`AuthService`, () => {
   it('should set default tester details with no authResponse', () => {
     let result = authService.setTesterDetails(null);
     expect(result.testerId).toBeTruthy();
+    expect(result.testerObfuscatedOid).toBeTruthy();
     expect(result.testerEmail).toBeTruthy();
     expect(result.testerName).toBeTruthy();
     expect(result.testerRoles[0]).toBe(TESTER_ROLES.FULL_ACCESS);
@@ -130,6 +137,7 @@ describe(`AuthService`, () => {
 
     let result = authService.setTesterDetails(authResponse);
     expect(result.testerId).toBeTruthy();
+    expect(result.testerObfuscatedOid).toBeTruthy();
     expect(result.testerEmail).toBeTruthy();
     expect(result.testerName).toBeTruthy();
     expect(result.testerRoles[0]).toBe(TESTER_ROLES.PSV);
@@ -143,7 +151,11 @@ describe(`AuthService`, () => {
   it('should set the tester details in localStorage', () => {
     authService.setTesterDetails({ accessToken: JWT_TOKEN });
     expect(localStorage.getItem('tester-details')).toEqual(
-      JSON.stringify(MOCK_UTILS.mockTesterDetails())
+      JSON.stringify(
+        MOCK_UTILS.mockTesterDetails({
+          testerObfuscatedOid: obfuscatedOid
+        })
+      )
     );
   });
 

@@ -150,6 +150,7 @@ export class AuthService {
   setTesterDetails(
     authResponse: AuthenticationResult | any,
     testerId = this.commonFunc.randomString(9),
+    testerObfuscatedOid = this.commonFunc.randomString(9),
     testerName = this.commonFunc.randomString(9),
     testerEmail = `${testerName}.${testerId}@email.com`,
     testerRoles = [TESTER_ROLES.FULL_ACCESS]
@@ -158,12 +159,16 @@ export class AuthService {
       testerName,
       testerId,
       testerEmail,
-      testerRoles
+      testerRoles,
+      testerObfuscatedOid
     };
 
     if (authResponse) {
       let decodedToken = this.decodeJWT(authResponse.accessToken);
       details.testerId = decodedToken.employeeid || decodedToken.oid;
+      details.testerObfuscatedOid = this.commonFunc.getObfuscatedTesterOid(
+        decodedToken.oid ? decodedToken.oid : ''
+      );
       details.testerName = decodedToken['name'];
       details.testerEmail = decodedToken['upn'];
       details.testerRoles = decodedToken['roles'];
