@@ -75,8 +75,9 @@ export class MyApp {
       this.appResumeSub = this.platform.resume.subscribe(() => {
         this.accessibilityFeatures();
         this.syncService.checkForUpdate();
-        this.splashScreen.show();
-        this.manageAppState();
+        // TODO: CVSB-18229 Temporarily removing open visit check
+        // this.splashScreen.show();
+        // this.manageAppState();
       });
 
       // TOOD: Remove logging after the white screen bug is resolved
@@ -116,9 +117,13 @@ export class MyApp {
       const storageState = await this.storageService.read(STORAGE.STATE);
       if (storageState) {
         const storedVisit = await this.storageService.read(STORAGE.VISIT);
-        if (storedVisit) {
-          this.hasOpenVisit({ storageState, storedVisit });
-        }
+        // TODO: CVSB-18229 Temporarily removing open visit check
+        // if (storedVisit) {
+        //   this.hasOpenVisit({ storageState, storedVisit });
+        // }
+        if (storedVisit) this.visitService.visit = storedVisit;
+        let parsedArr = JSON.parse(storageState);
+        this.navElem.setPages(parsedArr).then(() => this.splashScreen.hide());
 
         const storedActivities = await this.storageService.read(STORAGE.ACTIVITIES);
         if (storedActivities) {
