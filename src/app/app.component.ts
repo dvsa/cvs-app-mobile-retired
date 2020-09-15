@@ -83,7 +83,7 @@ export class MyApp {
       this.appResumeSub = this.platform.resume.subscribe(() => {
         this.accessibilityFeatures();
         this.syncService.checkForUpdate();
-        this.splashScreen.show();
+        // this.splashScreen.show();
         this.manageAppState();
       });
 
@@ -113,6 +113,7 @@ export class MyApp {
         }
       });
     } else {
+      this.splashScreen.hide();
       this.manageAppState();
       this.generateUserDetails();
       this.syncService.startSync();
@@ -133,6 +134,7 @@ export class MyApp {
           this.activityService.activities = storedActivities;
         }
       } else {
+        this.splashScreen.hide();
         this.setRootPage();
       }
     } catch (error) {
@@ -169,7 +171,7 @@ export class MyApp {
             message: `User ${this.authService.getOid()} visit not found. Reset to default state`,
             timestamp: Date.now()
           });
-
+          this.splashScreen.hide();
           this.clearExpiredVisitData();
           this.setRootPage();
         }
