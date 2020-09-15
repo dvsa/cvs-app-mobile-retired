@@ -12,9 +12,12 @@ import { VehicleTechRecordModel } from '../../models/vehicle/tech-record.model';
 import { ActivityModel } from '../../models/visit/activity.model';
 import { Log } from '../../modules/logs/logs.model';
 import { LatestVersionModel } from '../../models/latest-version.model';
+import { timeout } from 'rxjs/operators';
 
 @Injectable()
 export class HTTPService {
+  readonly TIMEOUT:number = 3000;
+
   constructor(private http: HttpClient) {}
 
   getAtfs(): Observable<HttpResponse<TestStationReferenceDataModel[]>> {
@@ -90,10 +93,16 @@ export class HTTPService {
     });
   }
 
-  getOpenVisitCheck(testerStaffId): Observable<HttpResponse<any>> {
+  /**
+   * This request is used everytime you open or resume the app. Due to poor connectivity, this call needs an explicit timeout
+   * @param testerStaffId
+   */
+  getOpenVisitCheck(testerStaffId: string): Observable<HttpResponse<any>> {
     return this.http.get(`${AppConfig.BACKEND_URL_VISIT}/open?testerStaffId=${testerStaffId}`, {
       observe: 'response'
-    });
+    }).pipe(
+      timeout(this.TIMEOUT)
+    );
   }
 
   saveSignature(staffId: string, signatureString: string): Observable<HttpResponse<any>> {

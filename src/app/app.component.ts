@@ -138,7 +138,10 @@ export class MyApp {
       this.splashScreen.hide();
     }
   }
-
+  /**
+   * If this call goes wrong, assume visit is still open.
+   * @param params contains storageState and storedVisit which we know are present in the storage
+   */
   private hasOpenVisit(params) {
     const { storageState, storedVisit } = params;
 
@@ -152,9 +155,7 @@ export class MyApp {
             timestamp: Date.now()
           });
 
-          this.visitService.visit = storedVisit;
-          await this.navElem.setPages(JSON.parse(storageState));
-          this.splashScreen.hide();
+          this.navigateTo(storageState, storedVisit);
         } else {
           this.dispatchLog({
             type: 'info',
@@ -170,10 +171,13 @@ export class MyApp {
         this.dispatchLog({
           type: `${LOG_TYPES.ERROR} in hasOpenVisit`,
           timestamp: Date.now(),
-          message: `User ${this.authService.getOid()} open visit failed in app.component.ts - ${JSON.stringify(
+          message: `User ${this.authService.getOid()} open visit check failed in app.component.ts - ${JSON.stringify(
             error
           )}`
         });
+
+        //If an error occurs during the open visit check, assume it is open and proceed
+        this.navigateTo(storageState, storedVisit);
       }
     );
   }
@@ -257,6 +261,12 @@ export class MyApp {
     await this.navElem.setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE);
     this.splashScreen.hide();
     return await this.navElem.popToRoot();
+  }
+
+  private async navigateTo(storageState: string, storedVisit: VisitModel) {
+    this.visitService.visit = storedVisit;
+    await this.navElem.setPages(JSON.parse(storageState));
+    this.splashScreen.hide();
   }
 
   private setupLogNetworkStatus(): void {
