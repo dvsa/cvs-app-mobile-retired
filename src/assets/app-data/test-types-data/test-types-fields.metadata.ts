@@ -2158,6 +2158,13 @@ export class TestTypesFieldsMetadata {
         hasNotes: true
       },
       {
+        testTypeId: '199',
+        testTypeName: 'Free loaded retest',
+        sections: [],
+        hasDefects: true,
+        hasNotes: true
+      },
+      {
         testTypeId: '56',
         testTypeName: 'Paid TIR retest',
         sections: [
