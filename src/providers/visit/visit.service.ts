@@ -4,8 +4,8 @@ import { VisitModel } from '../../models/visit/visit.model';
 import { StorageService } from '../natives/storage.service';
 import { HTTPService } from '../global/http.service';
 import { ActivityModel } from '../../models/visit/activity.model';
-import { Events } from 'ionic-angular';
-import { STORAGE, VISIT } from '../../app/app.enums';
+import { Events, AlertController, App, Alert } from 'ionic-angular';
+import { STORAGE, VISIT, PAGE_NAMES, APP_STRINGS } from '../../app/app.enums';
 import { Observable } from 'rxjs';
 import { AuthService } from '../global/auth.service';
 import { AppService } from '../global/app.service';
@@ -21,7 +21,9 @@ export class VisitService {
     public authService: AuthService,
     public events: Events,
     private httpService: HTTPService,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private alertCtrl: AlertController,
+    public app: App,
   ) {
     this.visit = {} as VisitModel;
   }
@@ -97,5 +99,40 @@ export class VisitService {
 
   updateVisit() {
     if (this.appService.caching) this.storageService.update(STORAGE.VISIT, this.visit);
+  }
+
+  /**
+   * This method will display an alert notifying the user that the visit has been closed.
+   * When the alert is closed, the app will redirect the user to the root page
+   */
+  createDataClearingAlert(loadingToDismiss): Alert {
+    const clearingDataAlert = this.alertCtrl.create({
+      title: APP_STRINGS.SITE_VISIT_CLOSED_TITLE,
+      message: APP_STRINGS.SITE_VISIT_CLOSED_MESSAGE,
+      buttons: [APP_STRINGS.OK],
+      enableBackdropDismiss: false,
+    });
+    clearingDataAlert.onDidDismiss(async () => {
+      await this.setRootPage();
+      await loadingToDismiss.dismiss();
+    });
+
+    return clearingDataAlert;
+  }
+
+  private async setRootPage(): Promise<any> {
+    await this.clearExpiredVisitData();
+    await this.app.getActiveNav().setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE);
+    return await this.app.getActiveNav().popToRoot();
+  }
+
+  private async clearExpiredVisitData() {
+    await this.storageService.delete(STORAGE.ACTIVITIES);
+    await this.storageService.delete(STORAGE.VISIT);
+    await this.storageService.delete(STORAGE.STATE);
+    this.activityService.waitTimeStarted = false;
+    this.visit = {} as VisitModel;
+    this.activityService.activities = [];
+    clearTimeout(this.activityService.waitTimer);
   }
 }

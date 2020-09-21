@@ -41,6 +41,8 @@ import { VehicleLookupSearchCriteriaData } from '../../../../assets/app-data/veh
 import { _throw } from 'rxjs/observable/throw';
 import { of } from 'rxjs/observable/of';
 import { deepCopy } from 'ionic-angular/util/util';
+import { ActivityService } from '../../../../providers/activity/activity.service';
+import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -77,7 +79,8 @@ describe('Component: VehicleLookupPage', () => {
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: Store, useClass: TestStore },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: ActivityService, useClass: ActivityServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -146,7 +149,8 @@ describe('Component: VehicleLookupPage', () => {
     vehicleService.getTestResultsHistory = jasmine
       .createSpy()
       .and.callFake(() => _throw('Error'));
-    component.searchVehicle('TESTVIN');
+    component.searchVehicle('TESTVIN', loading);
+
     expect(storageService.update).toHaveBeenCalledTimes(1);
     expect(storageService.update).toHaveBeenCalledWith(
       STORAGE.TEST_HISTORY + VEHICLE.systemNumber,
@@ -164,7 +168,7 @@ describe('Component: VehicleLookupPage', () => {
       .createSpy()
       .and.callFake(() => _throw('Error'));
     vehicleService.createSkeletonAlert = jasmine.createSpy();
-    component.searchVehicle('TESTVIN');
+    component.searchVehicle('TESTVIN', loading);
 
     expect(vehicleService.createSkeletonAlert).toHaveBeenCalledTimes(1);
     expect(loading.dismiss).toHaveBeenCalledTimes(1);

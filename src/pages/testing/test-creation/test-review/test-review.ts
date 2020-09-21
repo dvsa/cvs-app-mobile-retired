@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  Alert,
   AlertController,
   IonicPage,
+  Loading,
   LoadingController,
   ModalController,
   NavController,
@@ -20,6 +22,7 @@ import {
   LOG_TYPES,
   ODOMETER_METRIC,
   PAGE_NAMES,
+  STORAGE,
   TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
@@ -36,8 +39,7 @@ import { TestService } from '../../../../providers/test/test.service';
 import { Observable } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { VisitService } from '../../../../providers/visit/visit.service';
-import { catchError } from 'rxjs/operators';
-import { StateReformingService } from '../../../../providers/global/state-reforming.service';
+import { catchError, map, tap } from 'rxjs/operators';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { DefectsService } from '../../../../providers/defects/defects.service';
 import { AuthService } from '../../../../providers/global/auth.service';
@@ -89,7 +91,6 @@ export class TestReviewPage implements OnInit {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private testResultService: TestResultService,
-    private stateReformingService: StateReformingService,
     private openNativeSettings: OpenNativeSettings,
     private testService: TestService,
     private loadingCtrl: LoadingController,
@@ -262,7 +263,7 @@ export class TestReviewPage implements OnInit {
         vehicleBeingReviewed: this.vehicleBeingReviewed + 1,
         backButtonText: this.title
       });
-    else this.submitTest();
+    else this.presentConfirmAlert();
   }
 
   goToTestCreatePage() {
@@ -271,8 +272,9 @@ export class TestReviewPage implements OnInit {
 
   /**
    * Handler for the submit button
+   * This will display the alert to confirm the test submission
    */
-  submitTest() {
+  presentConfirmAlert() {
     if (!this.submitInProgress) {
       const ALERT = this.alertCtrl.create({
         title: APP_STRINGS.SUBMIT_TEST,
@@ -291,7 +293,7 @@ export class TestReviewPage implements OnInit {
               this.submitInProgress = true;
               this.latestTest.status = TEST_REPORT_STATUSES.SUBMITTED;
               this.testService.endTestReport(this.latestTest);
-              this.submit(this.latestTest);
+              this.checkOpenVisit(this.latestTest);
             }
           }
         ]
@@ -301,11 +303,16 @@ export class TestReviewPage implements OnInit {
   }
 
   /**
-   * Algorithm to submit a test containing multiple vehicles
+   * Before submitting all the tests, check if the visit is still open or if it was closed from the backend.
+   * If the visit is open, proceed. If closed, show popup and clean up.
    */
-  submit(test) {
-    let stack: Observable<any>[] = [];
-    this.oid = this.authService.getOid();
+  checkOpenVisit(test: TestModel): void {
+
+    const LOADING = this.loadingCtrl.create({
+      content: 'Loading...'
+    });
+    LOADING.present();
+
     const TRY_AGAIN_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
       message: APP_STRINGS.NO_INTERNET_CONNECTION,
@@ -319,21 +326,34 @@ export class TestReviewPage implements OnInit {
         {
           text: APP_STRINGS.TRY_AGAIN_BTN,
           handler: () => {
-            this.submit(test);
+            this.checkOpenVisit(test);
           }
         }
       ]
     });
-
     TRY_AGAIN_ALERT.onDidDismiss(() => {
       this.submitInProgress = false;
     });
 
-    const LOADING = this.loadingCtrl.create({
-      content: 'Loading...'
+    this.activityService.isVisitStillOpen().subscribe((response) => {
+      if(response.body) this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
+      else this.visitService.createDataClearingAlert(LOADING).present();
+    },
+    (isVisitStillOpenError) => {
+      LOADING.dismiss();
+      TRY_AGAIN_ALERT.present();
     });
-    LOADING.present();
+  }
 
+  /**
+   * Algorithm to submit a test containing multiple vehicles.
+   * For each vehicle, this creates a separate call to test-results
+   * 
+   */
+  submitTests(test: TestModel, LOADING: Loading, TRY_AGAIN_ALERT: Alert): void{
+
+    this.oid = this.authService.getOid();
+    let stack: Observable<any>[] = [];
     let testResultsArr: TestResultModel[] = [];
 
     for (let vehicle of test.vehicles) {
@@ -355,6 +375,7 @@ export class TestReviewPage implements OnInit {
         )
       );
     }
+
     Observable.forkJoin(stack).subscribe(
       (response: any) => {
         const log: Log = {
@@ -444,5 +465,9 @@ export class TestReviewPage implements OnInit {
         ? ' (' + (this.vehicleBeingReviewed + 1) + ' of ' + this.latestTest.vehicles.length + ')'
         : ''
     }`;
+  }
+
+  dispatchLog(log: Log) {
+    this.store$.dispatch(new logsActions.SaveLog(log));
   }
 }

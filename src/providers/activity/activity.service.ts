@@ -8,6 +8,8 @@ import { AuthService } from '../global/auth.service';
 import { HTTPService } from '../global/http.service';
 import { TestResultModel } from '../../models/tests/test-result.model';
 import Timer = NodeJS.Timer;
+import { Observable } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 
 @Injectable()
 export class ActivityService {
@@ -56,7 +58,7 @@ export class ActivityService {
     this.activities.push(activity);
   }
 
-  isVisitStillOpen() {
+  isVisitStillOpen(): Observable<HttpResponse<boolean>> {
     return this.httpService.getOpenVisitCheck(this.authService.testerDetails.testerId);
   }
 

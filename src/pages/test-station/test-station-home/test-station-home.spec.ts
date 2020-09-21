@@ -19,6 +19,7 @@ import { TestStore } from '../../../providers/interceptors/auth.interceptor.spec
 import { AppServiceMock } from '../../../../test-config/services-mocks/app-service.mock';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { FirebaseLogsServiceMock } from '../../../../test-config/services-mocks/firebaseLogsService.mock';
+import { SyncService } from '../../../providers/global/sync.service';
 
 describe('Component: TestStationHomePage', () => {
   let comp: TestStationHomePage;
@@ -38,6 +39,8 @@ describe('Component: TestStationHomePage', () => {
   let networkStateProviderSpy: any;
   let $store: any;
   let firebaseLogsService: FirebaseLogsService;
+  let syncService: SyncService;
+  let syncServiceSpy: any;
 
   beforeEach(async(() => {
     navCtrlSpy = jasmine.createSpyObj('NavController', ['push']);
@@ -46,6 +49,9 @@ describe('Component: TestStationHomePage', () => {
     networkStateProviderSpy = jasmine.createSpyObj('NetworkStateProvider', [
       'initialiseNetworkState'
     ]);
+    syncServiceSpy = jasmine.createSpyObj('SyncService', {
+      startSync: [null, true]
+    });
 
     TestBed.configureTestingModule({
       declarations: [TestStationHomePage],
@@ -61,7 +67,8 @@ describe('Component: TestStationHomePage', () => {
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: CallNumber, useValue: callNumberSpy },
-        { provide: NetworkStateProvider, useValue: networkStateProviderSpy }
+        { provide: NetworkStateProvider, useValue: networkStateProviderSpy },
+        { provide: SyncService, useValue: syncServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -81,6 +88,7 @@ describe('Component: TestStationHomePage', () => {
     networkStateProvider = TestBed.get(NetworkStateProvider);
     // $store = TestBed.get(Store);
     firebaseLogsService = TestBed.get(FirebaseLogsService);
+    syncService = TestBed.get(SyncService);
   });
 
   afterEach(() => {
@@ -96,6 +104,7 @@ describe('Component: TestStationHomePage', () => {
     callNumberSpy = null;
     screenOrientationSpy = null;
     networkStateProvider = null;
+    syncService = null;
     // $store = null;
   });
 
@@ -125,11 +134,13 @@ describe('Component: TestStationHomePage', () => {
     expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
-  it('should test getStarted flow', () => {
-    comp.getStarted();
+  it('should test getStarted flow', async () => {
+    await comp.getStarted();
+
+    expect(syncService.startSync).toHaveBeenCalled();
     expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
+
     appService.isCordova = true;
-    appService.isJwtTokenStored = true;
     appService.isSignatureRegistered = true;
     comp.getStarted();
     expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);

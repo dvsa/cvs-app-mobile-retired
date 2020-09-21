@@ -25,6 +25,10 @@ describe(`Provider: HttpService`, () => {
     httpService = TestBed.get(HTTPService);
   });
 
+  afterEach(() => {
+    httpMock.verify();
+  });
+
   it('can test HttpClient.get', () => {
     const testData: Data = { name: 'Test Data' };
     httpClient.get<Data>(testUrl).subscribe((data) => expect(data).toEqual(testData));
@@ -138,9 +142,6 @@ describe(`Provider: HttpService`, () => {
     expect(data).toBeTruthy();
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
 
   it('should encode the search identifier', async(() => {
     const searchIdentifier = 'YV31ME00000 1/\\*-1';
@@ -154,4 +155,43 @@ describe(`Provider: HttpService`, () => {
     expect(testRequest.request.method).toEqual('GET');
     testRequest.flush(null, { status: 200, statusText: 'Ok' });
   }));
+
+
+  it('should fail when the open visit check takes more than the defined timeout (not flushing the request)', (done) => {
+    let testerStaffId: string = '1234567';
+    httpService.getOpenVisitCheck(testerStaffId).subscribe(
+      () => {
+        fail('The request should fail');
+      },
+      (error) => {
+        expect(error.message).toEqual('Timeout has occurred');
+        done();
+      }
+    );
+
+    const testRequest = httpMock.expectOne(`${AppConfig.BACKEND_URL_VISIT}/open?testerStaffId=${testerStaffId}`);
+    expect(testRequest.request.method).toEqual('GET');
+  }, 31000);
+
+  it('should succeed when the open visit check takes less than the defined timeout', (done) => {
+    let testerStaffId: string = '1234567';
+    httpService.getOpenVisitCheck(testerStaffId).subscribe(
+      (response)=>{
+        expect(response.status).toBe(200);
+        done();
+      },
+      ()=>{
+        fail('The request should complete successfully');
+
+      }
+    );
+
+    const testRequest = httpMock.expectOne(`${AppConfig.BACKEND_URL_VISIT}/open?testerStaffId=${testerStaffId}`);
+    expect(testRequest.request.method).toEqual('GET');
+
+    setTimeout(function() {
+      testRequest.flush(null, { status: 200, statusText: 'OK' });
+    }, 1000);
+  });
+
 });

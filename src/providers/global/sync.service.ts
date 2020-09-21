@@ -3,7 +3,7 @@ import { HTTPService } from './http.service';
 import { catchError, map, retryWhen } from 'rxjs/operators';
 import { genericRetryStrategy } from '../utils/rxjs.utils';
 import { TestStationReferenceDataModel } from '../../models/reference-data-models/test-station.model';
-import { APP, APP_STRINGS, APP_UPDATE, STORAGE } from '../../app/app.enums';
+import { APP_STRINGS, APP_UPDATE, STORAGE } from '../../app/app.enums';
 import { StorageService } from '../natives/storage.service';
 import { AlertController, Events, LoadingController } from 'ionic-angular';
 import { _throw } from 'rxjs/observable/throw';
@@ -46,22 +46,21 @@ export class SyncService {
     private store$: Store<LogsModel>,
     private appVersion: AppVersion
   ) {}
-  startSync(): void {
+
+  public async startSync(): Promise<any[]> {
     this.checkForUpdate();
 
-    if (!this.appService.isInitSyncDone) {
+    if (!this.appService.getRefDataSync()) {
       this.loading.present();
-      this.events.subscribe('initSyncDone', () => {
-        localStorage.setItem(APP.INIT_SYNC, 'true');
-        this.loading.dismissAll();
-      });
+
+      ['Atfs', 'Defects', 'TestTypes', 'Preparers'].forEach((elem) =>
+        this.loadOrder.push(this.getDataFromMicroservice(elem))
+      );
+
+      return await this.getAllData(this.loadOrder);
     }
 
-    const microservicesListArray: Array<string> = ['Atfs', 'Defects', 'TestTypes', 'Preparers'];
-    microservicesListArray.forEach((elem) => {
-      this.loadOrder.push(this.getDataFromMicroservice(elem));
-    });
-    this.getAllData();
+    return Promise.resolve([null, true]);
   }
 
   public async checkForUpdate() {
@@ -112,22 +111,21 @@ export class SyncService {
     });
   }
 
-  getAllData(): any {
-    return Observable.forkJoin(this.loadOrder).subscribe((data) => {
-      this.handleData(data);
-    });
+  private async getAllData(loadOrder: Observable<any>[]): Promise<any[]> {
+    return Observable.forkJoin(loadOrder)
+      .toPromise()
+      .then((result: any[]) => {
+        this.appService.setRefDataSync(true);
+        this.loading.dismissAll();
+        return [null, result.length === 4]; // ensure we have the exact and successful 4 apis call
+      })
+      .catch(() => [this.handleError()]);
   }
 
   getDataFromMicroservice(microservice): Observable<TestStationReferenceDataModel[]> {
     this.oid = this.authService.getOid();
     return this.httpService['get' + microservice]().pipe(
       map((data: any) => {
-        const log: Log = {
-          type: 'info',
-          message: `${this.oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,
-          timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
         this.storageService.update(STORAGE[microservice.toUpperCase()], data.body);
         return data.body;
       }),
@@ -144,27 +142,10 @@ export class SyncService {
           content_type: 'error',
           item_id: `Error at ${microservice} microservice`
         });
-        return of(undefined);
+
+        return _throw(error);
       })
     );
-  }
-
-  handleData(array: any[]): void {
-    array.forEach((elem, index) => {
-      if (elem) {
-        this.loadOrder[index] = null;
-      }
-    });
-    this.loadOrder = this.loadOrder.filter((elem) => {
-      if (elem) return elem;
-    });
-    if (this.loadOrder.length == 0) {
-      this.events.publish(APP.INIT_SYNC, true);
-    } else {
-      if (!this.initSyncDone) {
-        this.handleError();
-      }
-    }
   }
 
   handleError(): Observable<any> {
@@ -193,11 +174,12 @@ export class SyncService {
         {
           text: 'Try again',
           handler: () => {
-            this.getAllData();
+            this.getAllData(this.loadOrder);
           }
         }
       ]
     });
+
     alert.present();
     return _throw('Something bad happened; please try again later.');
   }

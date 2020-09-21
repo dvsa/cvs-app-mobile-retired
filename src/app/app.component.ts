@@ -83,8 +83,6 @@ export class MyApp {
       this.appResumeSub = this.platform.resume.subscribe(() => {
         this.accessibilityFeatures();
         this.syncService.checkForUpdate();
-        // this.splashScreen.show();
-        this.manageAppState();
       });
 
       // TOOD: Remove logging after the white screen bug is resolved
@@ -106,7 +104,6 @@ export class MyApp {
           this.authService.setJWTToken(resp);
           this.appService.isJwtTokenStored = true;
           this.navigateToSignature();
-          this.syncService.startSync();
         } else {
           this.setRootPage();
           console.error(`Authentication failed due to: ${resp}`);
@@ -116,7 +113,6 @@ export class MyApp {
       this.splashScreen.hide();
       this.manageAppState();
       this.generateUserDetails();
-      this.syncService.startSync();
     }
   }
 
@@ -125,9 +121,10 @@ export class MyApp {
       const storageState = await this.storageService.read(STORAGE.STATE);
       if (storageState) {
         const storedVisit = await this.storageService.read(STORAGE.VISIT);
-        if (storedVisit) {
-          this.hasOpenVisit({ storageState, storedVisit });
-        }
+
+        if (storedVisit) this.visitService.visit = storedVisit;
+        let parsedArr = JSON.parse(storageState);
+        this.navElem.setPages(parsedArr).then(() => this.splashScreen.hide());
 
         const storedActivities = await this.storageService.read(STORAGE.ACTIVITIES);
         if (storedActivities) {
@@ -149,57 +146,8 @@ export class MyApp {
     }
   }
 
-  private hasOpenVisit(params) {
-    const { storageState, storedVisit } = params;
-
-    this.activityService.isVisitStillOpen().subscribe(
-      async (visitStillOpenResponse) => {
-        const visitStillOpen = visitStillOpenResponse.body;
-        if (visitStillOpen) {
-          this.dispatchLog({
-            type: 'info',
-            message: `User ${this.authService.getOid()} visit checked restoring page(s)`,
-            timestamp: Date.now()
-          });
-
-          this.visitService.visit = storedVisit;
-          await this.navElem.setPages(JSON.parse(storageState));
-          this.splashScreen.hide();
-        } else {
-          this.dispatchLog({
-            type: 'info',
-            message: `User ${this.authService.getOid()} visit not found. Reset to default state`,
-            timestamp: Date.now()
-          });
-          this.splashScreen.hide();
-          this.clearExpiredVisitData();
-          this.setRootPage();
-        }
-      },
-      (error) => {
-        this.dispatchLog({
-          type: `${LOG_TYPES.ERROR} in hasOpenVisit`,
-          timestamp: Date.now(),
-          message: `User ${this.authService.getOid()} open visit failed in app.component.ts - ${JSON.stringify(
-            error
-          )}`
-        });
-      }
-    );
-  }
-
   dispatchLog(log) {
     this.store$.dispatch(new logsActions.SaveLog(log));
-  }
-
-  clearExpiredVisitData() {
-    this.storageService.delete(STORAGE.ACTIVITIES);
-    this.storageService.delete(STORAGE.VISIT);
-    this.storageService.delete(STORAGE.STATE);
-    this.activityService.waitTimeStarted = false;
-    this.visitService.visit = {} as VisitModel;
-    this.activityService.activities = [];
-    clearTimeout(this.activityService.waitTimer);
   }
 
   navigateToSignature(): void {
