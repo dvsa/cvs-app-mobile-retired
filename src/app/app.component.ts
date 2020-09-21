@@ -106,7 +106,6 @@ export class MyApp {
           this.authService.setJWTToken(resp);
           this.appService.isJwtTokenStored = true;
           this.navigateToSignature();
-          this.syncService.startSync();
         } else {
           this.setRootPage();
           console.error(`Authentication failed due to: ${resp}`);
@@ -116,7 +115,6 @@ export class MyApp {
       this.splashScreen.hide();
       this.manageAppState();
       this.generateUserDetails();
-      this.syncService.startSync();
     }
   }
 

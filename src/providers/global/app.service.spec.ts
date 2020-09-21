@@ -6,7 +6,7 @@ import { ToastControllerMock } from 'ionic-mocks';
 import { StorageService } from '../natives/storage.service';
 import { StorageServiceMock } from '../../../test-config/services-mocks/storage-service.mock';
 import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
-import { APP, LOCAL_STORAGE } from '../../app/app.enums';
+import { LOCAL_STORAGE } from '../../app/app.enums';
 
 describe(`AppService: `, () => {
   let appService: AppService;
@@ -91,7 +91,6 @@ describe(`AppService: `, () => {
     expect(appService.isSignatureRegistered).toBeFalsy();
     expect(appService.caching).toBeFalsy();
     expect(appService.easterEgg).toBeFalsy();
-    expect(appService.isInitSyncDone).toBeFalsy();
     expect(appService.isJwtTokenStored).toBeFalsy();
   });
 
@@ -101,7 +100,6 @@ describe(`AppService: `, () => {
     localStorage.setItem(LOCAL_STORAGE.SIGNATURE, 'true');
     localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
     localStorage.setItem(LOCAL_STORAGE.EASTER_EGG, 'true');
-    localStorage.setItem(APP.INIT_SYNC, 'true');
     localStorage.setItem(LOCAL_STORAGE.JWT_TOKEN, authService.getJWTToken());
 
     appService.setFlags();
@@ -109,8 +107,14 @@ describe(`AppService: `, () => {
     expect(appService.isSignatureRegistered).toBeTruthy();
     expect(appService.caching).toBeTruthy();
     expect(appService.easterEgg).toBeTruthy();
-    expect(appService.isInitSyncDone).toBeTruthy();
     expect(appService.isJwtTokenStored).toBeTruthy();
+  });
+
+  it('should get ref data initialization sync', () => {
+    appService = new AppService(platform, toast, storageService, authService);
+
+    appService.setRefDataSync(true);
+    expect(appService.getRefDataSync()).toBeTruthy();
   });
 
   it('should manage application initialization', () => {
