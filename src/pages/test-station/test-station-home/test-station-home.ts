@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController } from 'ionic-angular';
-import { StorageService } from '../../../providers/natives/storage.service';
-import { VisitService } from '../../../providers/visit/visit.service';
 import {
   APP_STRINGS,
   FIREBASE_SCREEN_NAMES,
+  LOG_TYPES,
   PAGE_NAMES,
   TESTER_ROLES
 } from '../../../app/app.enums';
@@ -18,6 +17,8 @@ import { Store } from '@ngrx/store';
 import { StartSendingLogs } from '../../../modules/logs/logs.actions';
 import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+import { SyncService } from '../../../providers/global/sync.service';
+import * as logsActions from '../../../modules/logs/logs.actions';
 
 @IonicPage()
 @Component({
@@ -30,10 +31,9 @@ export class TestStationHomePage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public appService: AppService,
-    private storageService: StorageService,
-    private visitService: VisitService,
     private screenOrientation: ScreenOrientation,
     public authService: AuthService,
+    private syncService: SyncService,
     private alertCtrl: AlertController,
     private callNumber: CallNumber,
     private store$: Store<LogsModel>,
@@ -79,14 +79,30 @@ export class TestStationHomePage implements OnInit {
     this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.GET_STARTED);
   }
 
-  getStarted(): void {
+  async getStarted() {
+    let err: Error, IsDataSynced: boolean;
+    [err, IsDataSynced] = await this.syncService.startSync();
+
+    if (IsDataSynced) {
+      this.setPage();
+    } else {
+      const log: Log = {
+        type: LOG_TYPES.ERROR,
+        message: `User ${this.authService.getOid()} having issue(s) with syncing data: Error ${JSON.stringify(
+          err
+        )}`,
+        timestamp: Date.now()
+      };
+      this.store$.dispatch(new logsActions.SaveLog(log));
+    }
+  }
+
+  setPage(): void {
     if (this.appService.isCordova) {
-      if (this.appService.isJwtTokenStored) {
-        if (this.appService.isSignatureRegistered) {
-          this.navCtrl.push(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
-        } else {
-          this.navCtrl.push(PAGE_NAMES.SIGNATURE_PAD_PAGE, { navController: this.navCtrl });
-        }
+      if (this.appService.isSignatureRegistered) {
+        this.navCtrl.push(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
+      } else {
+        this.navCtrl.push(PAGE_NAMES.SIGNATURE_PAD_PAGE, { navController: this.navCtrl });
       }
     } else {
       this.navCtrl.push(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
