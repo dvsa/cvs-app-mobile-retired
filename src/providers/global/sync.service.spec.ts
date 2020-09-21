@@ -98,17 +98,6 @@ describe('Provider: SyncService', () => {
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
-  it('should call events.publish from handleData method', () => {
-    let myArray = [];
-    myArray.push(DefectsReferenceDataMock.DefectsData);
-    myArray.push(PreparersDataMock.PreparersData);
-    myArray.push(TestStationDataMock.TestStationData);
-    myArray.push(TestTypesReferenceDataMock.TestTypesData);
-
-    syncService.handleData(myArray);
-    expect(events.publish).toHaveBeenCalled();
-  });
-
   it('should show the update popup if the version_checking flag is true, the app version is not the latest, and there is no current visit', () => {
     spyOn(appVersion, 'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
     latestAppVersion.body['mobile-app'].version_checking = 'true';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppConfig } from '../../../config/app.config';
-import { APP, LOCAL_STORAGE, STORAGE } from '../../app/app.enums';
+import { LOCAL_STORAGE, STORAGE } from '../../app/app.enums';
 import { Platform, ToastController } from 'ionic-angular';
 import { StorageService } from '../natives/storage.service';
 import { AuthService } from './auth.service';
@@ -10,13 +10,14 @@ export class AppService {
   public readonly isProduction: boolean;
   public readonly isCordova: boolean;
   public readonly isInitRunDone: boolean;
-  public isInitSyncDone: boolean;
   public isSignatureRegistered: boolean;
   public isJwtTokenStored: boolean;
   public easterEgg: boolean;
   public caching: boolean;
   count: number = 0;
+
   private accessibilityTextZoomEnabled: boolean;
+  private isInitSyncDone: boolean;
 
   constructor(
     private platform: Platform,
@@ -32,11 +33,18 @@ export class AppService {
     this.isInitRunDone = !!localStorage.getItem(LOCAL_STORAGE.FIRST_INIT);
   }
 
+  getRefDataSync(): boolean {
+    return this.isInitSyncDone;
+  }
+
+  setRefDataSync(syncData: boolean): void {
+    this.isInitSyncDone = syncData;
+  }
+
   setFlags() {
-    this.isSignatureRegistered = localStorage.getItem(LOCAL_STORAGE.SIGNATURE) == 'true';
-    this.caching = localStorage.getItem(LOCAL_STORAGE.CACHING) == 'true';
-    this.easterEgg = localStorage.getItem(LOCAL_STORAGE.EASTER_EGG) == 'true';
-    this.isInitSyncDone = localStorage.getItem(APP.INIT_SYNC) == 'true';
+    this.isSignatureRegistered = !!localStorage.getItem(LOCAL_STORAGE.SIGNATURE);
+    this.caching = !!localStorage.getItem(LOCAL_STORAGE.CACHING);
+    this.easterEgg = !!localStorage.getItem(LOCAL_STORAGE.EASTER_EGG);
     this.isJwtTokenStored = !!localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
   }
 
