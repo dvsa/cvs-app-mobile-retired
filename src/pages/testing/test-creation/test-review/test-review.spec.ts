@@ -149,7 +149,7 @@ describe('Component: TestReviewPage', () => {
 
   it('should test submitting a test', () => {
     visitService.visit = VisitDataMock.VisitData;
-    component.submit(VisitDataMock.VisitTestData);
+    component.onSubmit(VisitDataMock.VisitTestData);
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
@@ -157,7 +157,7 @@ describe('Component: TestReviewPage', () => {
     spyOn(store, 'dispatch');
     visitService.visit = VisitDataMock.VisitData;
     activityServiceMock.isSubmitError = true;
-    component.submit(VisitDataMock.VisitTestData);
+    component.onSubmit(VisitDataMock.VisitTestData);
     expect(store.dispatch).toHaveBeenCalled();
   });
 
@@ -205,7 +205,7 @@ describe('Component: TestReviewPage', () => {
       let submitButton = fixture.debugElement.query(By.css('.footer-cta-section>button'));
       expect(component.nextButtonText).toBe('Submit tests');
       submitButton.nativeElement.dispatchEvent(new Event('click'));
-      expect(component.submitTest).toHaveBeenCalled();
+      expect(component.submitTests).toHaveBeenCalled();
     });
   });
 

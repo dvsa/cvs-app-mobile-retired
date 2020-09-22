@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, tick, fakeAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Data } from '@angular/router';
@@ -23,6 +23,10 @@ describe(`Provider: HttpService`, () => {
     httpClient = TestBed.get(HttpClient);
     httpMock = TestBed.get(HttpTestingController);
     httpService = TestBed.get(HTTPService);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it('can test HttpClient.get', () => {
@@ -138,9 +142,6 @@ describe(`Provider: HttpService`, () => {
     expect(data).toBeTruthy();
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
 
   it('should encode the search identifier', async(() => {
     const searchIdentifier = 'YV31ME00000 1/\\*-1';
@@ -154,4 +155,49 @@ describe(`Provider: HttpService`, () => {
     expect(testRequest.request.method).toEqual('GET');
     testRequest.flush(null, { status: 200, statusText: 'Ok' });
   }));
+
+
+  it('should fail when the open visit check takes more than the defined timeout (not flushing the request)', fakeAsync(() => {
+    let testerStaffId: string = '1234567';
+    let timeout: number = 31000;
+    httpService.getOpenVisitCheck(testerStaffId).subscribe(
+      () => {
+        fail('The request should fail');
+      },
+      (error) => {
+        expect(error.message).toEqual('Timeout has occurred');
+      }
+    );
+
+    const testRequest = httpMock.expectOne(`${AppConfig.BACKEND_URL_VISIT}/open?testerStaffId=${testerStaffId}`);
+    expect(testRequest.request.method).toEqual('GET');
+
+    setTimeout(function() {
+      expect(testRequest.cancelled).toBe(true);
+    }, timeout);
+
+    tick(timeout);
+  }));
+
+  it('should succeed when the open visit check takes less than the defined timeout', (done) => {
+    let testerStaffId: string = '1234567';
+    httpService.getOpenVisitCheck(testerStaffId).subscribe(
+      (response)=>{
+        expect(response.status).toBe(200);
+        done();
+      },
+      ()=>{
+        fail('The request should complete successfully');
+
+      }
+    );
+
+    const testRequest = httpMock.expectOne(`${AppConfig.BACKEND_URL_VISIT}/open?testerStaffId=${testerStaffId}`);
+    expect(testRequest.request.method).toEqual('GET');
+
+    setTimeout(function() {
+      testRequest.flush(null, { status: 200, statusText: 'OK' });
+    }, 1000);
+  });
+
 });
