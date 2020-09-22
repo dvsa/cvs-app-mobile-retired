@@ -9,7 +9,7 @@
     "npm": "6.13.4"
   },
   "scripts": {
-    "start": "source .env && node_modules/.bin/ionic cordova emulate ios -lc --emulator --target=${IPHONE8_P_ID}",
+    "start": "source .env && ionic cordova emulate ios -lc --emulator --target=${IPHONE8_P_ID}",
     "clean": "ionic-app-scripts clean",
     "build-default": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
