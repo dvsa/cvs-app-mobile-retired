@@ -59,7 +59,7 @@ export class ActivityServiceMock {
   }
 
   isVisitStillOpen() {
-    return {body: this.isVisitOpen};
+    return Observable.of({body: this.isVisitOpen});
   }
 
   createActivityBodyForCall(visit, testResult?: TestResultModel, timeline?) {
