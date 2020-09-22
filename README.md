@@ -83,8 +83,8 @@ To get a working build running locally follow these steps:
    The below command will prepare your app to be used in xCode and load the necessary platform and plugins.
 
 ```
-node_modules/.bin/ionic cordova platform remove ios
-node_modules/.bin/ionic cordova platform add ios@5.0.1
+ionic cordova platform remove ios
+ionic cordova platform add ios@5.0.1
 ```
 
 ### Build in xCode
