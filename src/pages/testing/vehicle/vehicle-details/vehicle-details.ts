@@ -58,9 +58,7 @@ export class VehicleDetailsPage {
   ) {
     this.vehicleData = navParams.get('vehicle');
     this.testData = navParams.get('test');
-    this.navCtrl = undefined;
     this.previousPageName = this.navCtrl.last().name;
-    // this.previousPageName = undefined;
   }
 
   ionViewWillEnter() {

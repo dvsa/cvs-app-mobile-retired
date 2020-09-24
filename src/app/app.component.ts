@@ -84,6 +84,7 @@ export class MyApp {
         this.accessibilityFeatures();
         this.syncService.checkForUpdate();
         // this.splashScreen.show();
+
         this.manageAppState();
       });
 
@@ -123,13 +124,24 @@ export class MyApp {
   async manageAppState() {
     try {
       const storageState = await this.storageService.read(STORAGE.STATE);
+      console.log('storageState')
+      console.log(storageState, '\n')
+      //@ts-ignore
+      window._storageState = storageState
       if (storageState) {
         const storedVisit = await this.storageService.read(STORAGE.VISIT);
+        console.log('storedVisit')
+        console.log(JSON.stringify(storedVisit), '\n')
+        //@ts-ignore
+        window._storedVisit = storedVisit
         if (storedVisit) {
           this.hasOpenVisit({ storageState, storedVisit });
         }
-
         const storedActivities = await this.storageService.read(STORAGE.ACTIVITIES);
+        console.log('storedActivities')
+        //@ts-ignore
+        window._storedActivities = storedActivities
+        console.log(JSON.stringify(storedActivities), '\n')
         if (storedActivities) {
           this.activityService.activities = storedActivities;
         }

@@ -31,7 +31,11 @@ export class StorageService {
         timestamp: Date.now()
       };
       this.store$.dispatch(new logsActions.SaveLog(log));
-
+      console.log('data')
+      console.log(JSON.stringify(data), '\n')
+      // @ts-ignore
+      window._data = data
+      // debugger;
       return data;
     });
   }
