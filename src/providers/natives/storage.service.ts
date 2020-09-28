@@ -50,6 +50,7 @@ export class StorageService {
           console.log(`value ${JSON.stringify(value)}: \n`)
           console.log('****************************************************')
           console.log('****************************************************\n')
+          console.log('****************************************************\n')
           // TOOD: Remove logging after the white screen bug is resolved
           // CVSB: 17584
           const log: Log = {
@@ -61,7 +62,7 @@ export class StorageService {
   
           return data;
         });
-      }, 1000000)
+      }, 6000)
 
       // return this.storage.set(key, value).then((data: any) => {
       //   // TOOD: Remove logging after the white screen bug is resolved
