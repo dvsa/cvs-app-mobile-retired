@@ -42,18 +42,42 @@ export class StorageService {
 
   update(key, value): Promise<any> {
     return this.storage.remove(key).then((data: any) => {
-      return this.storage.set(key, value).then((data: any) => {
-        // TOOD: Remove logging after the white screen bug is resolved
-        // CVSB: 17584
-        const log: Log = {
-          type: LOG_TYPES.INFO,
-          message: `User ${this.authService.getOid()} write storage key ${key}`,
-          timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
+      
+      return setTimeout(() => {
+        return this.storage.set(key, value).then((data: any) => {
+          console.log('****************************************************\n')
+          console.log(`key ${key}: \n`)
+          console.log(`value ${JSON.stringify(value)}: \n`)
+          console.log('****************************************************')
+          console.log('****************************************************\n')
+          // TOOD: Remove logging after the white screen bug is resolved
+          // CVSB: 17584
+          const log: Log = {
+            type: LOG_TYPES.INFO,
+            message: `User ${this.authService.getOid()} write storage key ${key}`,
+            timestamp: Date.now()
+          };
+          this.store$.dispatch(new logsActions.SaveLog(log));
+  
+          return data;
+        });
+      }, 1000000)
 
-        return data;
-      });
+      // return this.storage.set(key, value).then((data: any) => {
+      //   // TOOD: Remove logging after the white screen bug is resolved
+      //   // CVSB: 17584
+      //   const log: Log = {
+      //     type: LOG_TYPES.INFO,
+      //     message: `User ${this.authService.getOid()} write storage key ${key}`,
+      //     timestamp: Date.now()
+      //   };
+      //   this.store$.dispatch(new logsActions.SaveLog(log));
+
+      //   return data;
+      // });
+
+
+
     });
   }
 

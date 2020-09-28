@@ -25,7 +25,10 @@ export class AppService {
     private authService: AuthService
   ) {
     this.isCordova = this.platform.is('cordova');
-    this.isProduction = AppConfig.IS_PRODUCTION == 'true';
+    // this.isProduction = AppConfig.IS_PRODUCTION == 'true';
+    this.isProduction = true
+    console.log('this.isProduction');
+    console.log(this.isProduction);
     this.isInitRunDone = !!localStorage.getItem(LOCAL_STORAGE.FIRST_INIT);
   }
 
