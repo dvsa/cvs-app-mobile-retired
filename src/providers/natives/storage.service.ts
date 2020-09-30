@@ -60,7 +60,8 @@ export class StorageService {
           };
           this.store$.dispatch(new logsActions.SaveLog(log));
   
-          return data;
+          // return data;
+          return [];
         });
       }, 6000)
 
