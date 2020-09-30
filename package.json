@@ -9,7 +9,7 @@
     "npm": "6.13.4"
   },
   "scripts": {
-    "start": "source .env && ionic cordova emulate ios -lc --emulator --target=${IPHONE8_P_ID}",
+    "start": "source .env && npm run config && ionic cordova emulate ios -lc --emulator --target=${IPHONE8_P_ID}",
     "clean": "ionic-app-scripts clean",
     "build-default": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
@@ -114,6 +114,7 @@
     "@types/debug": "^4.1.5",
     "@types/jasmine": "^2.5.41",
     "angular2-template-loader": "^0.6.2",
+    "cordova": "^8.1.2",
     "cordova-wheel-selector-plugin": "^1.1.1",
     "html-loader": "^0.5.1",
     "husky": "^3.0.9",

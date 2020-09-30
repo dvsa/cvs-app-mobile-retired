@@ -36,5 +36,7 @@ coverage/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+# used for env files on first setup
+env
 *.env
 sentry.properties
