@@ -82,9 +82,11 @@ To get a working build running locally follow these steps:
    You will have to remove the ios platform before you build and add ios@5.0.1
    The below command will prepare your app to be used in xCode and load the necessary platform and plugins.
 
+
+Before making the Cordova build make sure you have your config files set up (`GoogleService-Info.plist` and `application.json` files)</br>
 ```
-ionic cordova platform remove ios
-ionic cordova platform add ios@5.0.1
+./node_mopdules/.bin/ionic cordova platform remove ios (optional)
+./node_modules/.bin/ionic cordova platform add ios@5.0.1
 ```
 
 ### Build in xCode
@@ -100,7 +102,7 @@ ionic cordova platform add ios@5.0.1
 
 #### in the browser:
 
-The following script will allow you to run the app in your browser `ionic serve`.
+The following script will allow you to run the app in your browser `npm run ionic:serve`.
 
 If you are asked to install the missing dependencies please choose yes.
 You will also require the [environment configuration steps](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-Environmentfiles) as well as [local development mode](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-Runningtheappindevelopmentmode) and a [test user](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-Credentials).
