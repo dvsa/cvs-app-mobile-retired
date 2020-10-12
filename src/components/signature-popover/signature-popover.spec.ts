@@ -12,6 +12,7 @@ import { AuthService } from '../../providers/global/auth.service';
 import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../providers/interceptors/auth.interceptor.spec';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 describe('Component: SignaturePopoverComponent', () => {
   let fixture: ComponentFixture<SignaturePopoverComponent>;
@@ -22,8 +23,14 @@ describe('Component: SignaturePopoverComponent', () => {
   let events: Events;
   let appService: AppService;
   let store: Store<any>;
+  let logProvider: LogsProvider;
+  let logProviderSpy;
 
   beforeEach(async(() => {
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
+
     TestBed.configureTestingModule({
       declarations: [SignaturePopoverComponent],
       providers: [
@@ -33,7 +40,8 @@ describe('Component: SignaturePopoverComponent', () => {
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: AppService, useClass: AppServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
-        { provide: Store, useClass: TestStore }
+        { provide: Store, useClass: TestStore },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -48,6 +56,7 @@ describe('Component: SignaturePopoverComponent', () => {
     events = TestBed.get(Events);
     appService = TestBed.get(AppService);
     store = TestBed.get(Store);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   it('should create', () => {

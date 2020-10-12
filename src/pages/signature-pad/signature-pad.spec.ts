@@ -26,6 +26,7 @@ import { AuthService } from '../../providers/global/auth.service';
 import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../providers/interceptors/auth.interceptor.spec';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 describe('Component: SignaturePadPage', () => {
   let fixture: ComponentFixture<SignaturePadPage>;
@@ -45,6 +46,8 @@ describe('Component: SignaturePadPage', () => {
   let signaturePadSpy: any;
   let callNumber: CallNumber;
   let callNumberSpy: any;
+  let logProvider: LogsProvider;
+  let logProviderSpy;
 
   beforeEach(async(() => {
     signatureServiceSpy = jasmine.createSpyObj('SignatureService', [
@@ -52,6 +55,11 @@ describe('Component: SignaturePadPage', () => {
       'saveToStorage',
       'presentSuccessToast'
     ]);
+
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
+
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', ['open']);
     signaturePadSpy = jasmine.createSpyObj('SignaturePad', ['clear', 'toDataURL', 'isEmpty']);
@@ -73,7 +81,8 @@ describe('Component: SignaturePadPage', () => {
         { provide: SignaturePad, useValue: signaturePadSpy },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: Store, useClass: TestStore },
-        { provide: CallNumber, useValue: callNumberSpy }
+        { provide: CallNumber, useValue: callNumberSpy },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

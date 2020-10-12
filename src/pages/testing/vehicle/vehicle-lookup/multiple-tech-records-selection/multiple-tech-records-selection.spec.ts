@@ -28,6 +28,7 @@ import { TestStore } from '../../../../../providers/interceptors/auth.intercepto
 import { VehicleDataMock } from '../../../../../assets/data-mocks/vehicle-data.mock';
 import { PAGE_NAMES } from '../../../../../app/app.enums';
 import { Observable } from 'rxjs';
+import { LogsProvider } from '../../../../../modules/logs/logs.service';
 
 describe('Component: ', () => {
   let component: MultipleTechRecordsSelectionPage;
@@ -37,8 +38,14 @@ describe('Component: ', () => {
   let viewCtrl: ViewController;
   let vehicleService: VehicleService;
   let alertCtrl: AlertController;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
 
   beforeEach(async(() => {
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
+
     TestBed.configureTestingModule({
       declarations: [MultipleTechRecordsSelectionPage],
       imports: [IonicModule.forRoot(MultipleTechRecordsSelectionPage)],
@@ -55,7 +62,8 @@ describe('Component: ', () => {
         },
         { provide: Store, useClass: TestStore },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
-        { provide: AlertController, useFactory: () => AlertControllerMock.instance() }
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -69,6 +77,7 @@ describe('Component: ', () => {
     viewCtrl = TestBed.get(ViewController);
     vehicleService = TestBed.get(VehicleService);
     alertCtrl = TestBed.get(AlertController);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   afterEach(() => {

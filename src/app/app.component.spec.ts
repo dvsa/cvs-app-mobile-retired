@@ -24,10 +24,10 @@ import { FirebaseLogsServiceMock } from '../../test-config/services-mocks/fireba
 import { ActivityService } from '../providers/activity/activity.service';
 import { ActivityServiceMock } from '../../test-config/services-mocks/activity-service.mock';
 import { STORAGE } from './app.enums';
-import { Observable } from 'rxjs';
 import { Network } from '@ionic-native/network';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../providers/interceptors/auth.interceptor.spec';
+import { LogsProvider } from '../modules/logs/logs.service';
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -37,13 +37,21 @@ describe('Component: Root', () => {
   let appService;
   let activityService;
   let syncService;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
   let storageService;
   let visitService;
   let screenOrientation: ScreenOrientation;
   let firebaseLogsService: FirebaseLogsService;
 
   beforeEach(async(() => {
-    syncServiceSpy = jasmine.createSpy('SyncService', () => 'startSync');
+    syncServiceSpy = jasmine.createSpyObj('SyncService', {
+      checkForUpdate: () => true
+    });
+
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
 
     TestBed.configureTestingModule({
       declarations: [MyApp],
@@ -56,6 +64,7 @@ describe('Component: Root', () => {
         { provide: ActivityService, useClass: ActivityServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: SyncService, useValue: syncServiceSpy },
+        { provide: LogsProvider, useValue: logProviderSpy },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: AppService, useClass: AppServiceMock },
         CallNumber,
@@ -77,11 +86,17 @@ describe('Component: Root', () => {
   }));
 
   beforeEach(() => {
-    setup();
-  });
-
-  afterEach(() => {
-    teardown();
+    fixture = TestBed.createComponent(MyApp);
+    comp = fixture.componentInstance;
+    authService = TestBed.get(AuthService);
+    syncService = TestBed.get(SyncService);
+    storageService = TestBed.get(StorageService);
+    appService = TestBed.get(AppService);
+    visitService = TestBed.get(VisitService);
+    activityService = TestBed.get(ActivityService);
+    screenOrientation = TestBed.get(ScreenOrientation);
+    firebaseLogsService = TestBed.get(FirebaseLogsService);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   it('should create component', (done) => {
@@ -187,28 +202,4 @@ describe('Component: Root', () => {
     });
     comp.manageAppState();
   });
-
-  const setup = () => {
-    fixture = TestBed.createComponent(MyApp);
-    comp = fixture.componentInstance;
-    authService = TestBed.get(AuthService);
-    syncService = TestBed.get(SyncService);
-    storageService = TestBed.get(StorageService);
-    appService = TestBed.get(AppService);
-    visitService = TestBed.get(VisitService);
-    activityService = TestBed.get(ActivityService);
-    screenOrientation = TestBed.get(ScreenOrientation);
-    firebaseLogsService = TestBed.get(FirebaseLogsService);
-  };
-
-  const teardown = () => {
-    fixture.destroy();
-    comp = null;
-    authService = null;
-    syncService = null;
-    storageService = null;
-    visitService = null;
-    screenOrientation = null;
-    firebaseLogsService = null;
-  };
 });

@@ -22,7 +22,6 @@ import {
   LOG_TYPES,
   ODOMETER_METRIC,
   PAGE_NAMES,
-  STORAGE,
   TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
@@ -39,13 +38,10 @@ import { TestService } from '../../../../providers/test/test.service';
 import { Observable } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { VisitService } from '../../../../providers/visit/visit.service';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { DefectsService } from '../../../../providers/defects/defects.service';
 import { AuthService } from '../../../../providers/global/auth.service';
-import { Store } from '@ngrx/store';
-import { Log, LogsModel } from '../../../../modules/logs/logs.model';
-import * as logsActions from '../../../../modules/logs/logs.actions';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { ActivityService } from '../../../../providers/activity/activity.service';
 import { Firebase } from '@ionic-native/firebase';
@@ -55,6 +51,7 @@ import { AdrTestTypesData } from '../../../../assets/app-data/test-types-data/ad
 import { AppService } from '../../../../providers/global/app.service';
 import { TirTestTypesData } from '../../../../assets/app-data/test-types-data/tir-test-types.data';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
+import { LogsProvider } from '../../../../modules/logs/logs.service';
 
 @IonicPage()
 @Component({
@@ -97,11 +94,11 @@ export class TestReviewPage implements OnInit {
     private storageService: StorageService,
     private firebase: Firebase,
     private authService: AuthService,
-    private store$: Store<LogsModel>,
     private firebaseLogsService: FirebaseLogsService,
     private activityService: ActivityService,
     public appService: AppService,
-    private testTypeService: TestTypeService
+    private testTypeService: TestTypeService,
+    private logProvider: LogsProvider
   ) {
     this.visit = this.visitService.visit;
     this.latestTest = this.visitService.getLatestTest();
@@ -307,7 +304,6 @@ export class TestReviewPage implements OnInit {
    * If the visit is open, proceed. If closed, show popup and clean up.
    */
   onSubmit(test: TestModel): void {
-
     const LOADING = this.loadingCtrl.create({
       content: 'Loading...'
     });
@@ -335,23 +331,27 @@ export class TestReviewPage implements OnInit {
       this.submitInProgress = false;
     });
 
-    this.activityService.isVisitStillOpen().subscribe((response) => {
-      if(response.body) { this.submitTests(test, LOADING, TRY_AGAIN_ALERT); }
-      else { this.visitService.createDataClearingAlert(LOADING).present(); }
-    },
-    (isVisitStillOpenError) => {
-      LOADING.dismiss();
-      TRY_AGAIN_ALERT.present();
-    });
+    this.activityService.isVisitStillOpen().subscribe(
+      (response) => {
+        if (response.body) {
+          this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
+        } else {
+          this.visitService.createDataClearingAlert(LOADING).present();
+        }
+      },
+      (isVisitStillOpenError) => {
+        LOADING.dismiss();
+        TRY_AGAIN_ALERT.present();
+      }
+    );
   }
 
   /**
    * Algorithm to submit a test containing multiple vehicles.
    * For each vehicle, this creates a separate call to test-results
-   * 
+   *
    */
-  submitTests(test: TestModel, LOADING: Loading, TRY_AGAIN_ALERT: Alert): void{
-
+  submitTests(test: TestModel, LOADING: Loading, TRY_AGAIN_ALERT: Alert): void {
     this.oid = this.authService.getOid();
     let stack: Observable<any>[] = [];
     let testResultsArr: TestResultModel[] = [];
@@ -362,14 +362,14 @@ export class TestReviewPage implements OnInit {
       stack.push(
         this.testResultService.submitTestResult(testResult).pipe(
           catchError((error: any) => {
-            const log: Log = {
+            this.logProvider.dispatchLog({
               type: 'error',
-              message: `${this.oid} - ${error.status} ${
-                error.error.errors ? error.error.errors[0] : error.error
-              } for API call to ${error.url} with the body message ${JSON.stringify(testResult)}`,
+              message: `${this.oid} - ${JSON.stringify(
+                error
+              )} for API call with the body message ${JSON.stringify(testResult)}`,
               timestamp: Date.now()
-            };
-            this.store$.dispatch(new logsActions.SaveLog(log));
+            });
+
             return Observable.throw(error);
           })
         )
@@ -378,13 +378,14 @@ export class TestReviewPage implements OnInit {
 
     Observable.forkJoin(stack).subscribe(
       (response: any) => {
-        const log: Log = {
+        this.logProvider.dispatchLog({
           type: 'info',
           message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
           timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
+        });
+
         this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_TEST);
+
         for (let testResult of testResultsArr) {
           const activity = this.activityService.createActivityBodyForCall(
             this.visitService.visit,
@@ -393,12 +394,12 @@ export class TestReviewPage implements OnInit {
           );
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
-              const log: Log = {
+              this.logProvider.dispatchLog({
                 type: LOG_TYPES.INFO,
                 message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
                 timestamp: Date.now()
-              };
-              this.store$.dispatch(new logsActions.SaveLog(log));
+              });
+
               let activityIndex = this.activityService.activities
                 .map((activity) => activity.endTime)
                 .indexOf(testResult.testStartTimestamp);
@@ -408,12 +409,12 @@ export class TestReviewPage implements OnInit {
               this.visitService.updateVisit();
             },
             (error) => {
-              const log: Log = {
+              this.logProvider.dispatchLog({
                 type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-review.ts`,
-                message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+                message: `${this.oid} - ${JSON.stringify(error)}`,
                 timestamp: Date.now()
-              };
-              this.store$.dispatch(new logsActions.SaveLog(log));
+              });
+
               this.firebase.logEvent('test_error', {
                 content_type: 'error',
                 item_id: 'Wait activity submission failed'

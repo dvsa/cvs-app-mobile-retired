@@ -10,15 +10,13 @@ import {
 import { VehicleModel } from '../../../../../models/vehicle/vehicle.model';
 import { Observer } from 'rxjs';
 import { TestResultModel } from '../../../../../models/tests/test-result.model';
-import { Log, LogsModel } from '../../../../../modules/logs/logs.model';
-import * as logsActions from '../../../../../modules/logs/logs.actions';
 import { APP_STRINGS, PAGE_NAMES, STORAGE } from '../../../../../app/app.enums';
 import { AuthService } from '../../../../../providers/global/auth.service';
 import { VehicleService } from '../../../../../providers/vehicle/vehicle.service';
 import { StorageService } from '../../../../../providers/natives/storage.service';
 import { Firebase } from '@ionic-native/firebase';
-import { Store } from '@ngrx/store';
 import { TestModel } from '../../../../../models/tests/test.model';
+import { LogsProvider } from '../../../../../modules/logs/logs.service';
 
 @IonicPage()
 @Component({
@@ -41,8 +39,8 @@ export class MultipleTechRecordsSelectionPage {
     public vehicleService: VehicleService,
     public storageService: StorageService,
     private firebase: Firebase,
-    private store$: Store<LogsModel>,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private logProvider: LogsProvider
   ) {
     this.vehicles = this.navParams.get('vehicles');
     this.combinationTestData = navParams.get('test');
@@ -67,13 +65,13 @@ export class MultipleTechRecordsSelectionPage {
         this.goToVehicleDetails(selectedVehicle);
       },
       error: (error) => {
-        const log: Log = {
+        this.logProvider.dispatchLog({
           type:
             'error-vehicleService.getTestResultsHistory-openVehicleDetails in multiple-tech-records-selection.ts',
           message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
           timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
+        });
+
         this.firebase.logEvent('test_error', {
           content_type: 'error',
           item_id: 'Failed retrieving the testResultsHistory'

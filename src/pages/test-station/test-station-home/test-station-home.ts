@@ -12,13 +12,13 @@ import { AppService } from '../../../providers/global/app.service';
 import { AuthService } from '../../../providers/global/auth.service';
 import { AppConfig } from '../../../../config/app.config';
 import { CallNumber } from '@ionic-native/call-number';
-import { Log, LogsModel } from '../../../modules/logs/logs.model';
+import { LogsModel } from '../../../modules/logs/logs.model';
 import { Store } from '@ngrx/store';
 import { StartSendingLogs } from '../../../modules/logs/logs.actions';
 import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { SyncService } from '../../../providers/global/sync.service';
-import * as logsActions from '../../../modules/logs/logs.actions';
+import { LogsProvider } from '../../../modules/logs/logs.service';
 
 @IonicPage()
 @Component({
@@ -38,14 +38,18 @@ export class TestStationHomePage implements OnInit {
     private callNumber: CallNumber,
     private store$: Store<LogsModel>,
     private networkStateProvider: NetworkStateProvider,
-    private firebaseLogsService: FirebaseLogsService
+    private firebaseLogsService: FirebaseLogsService,
+    private logProvider: LogsProvider
   ) {}
 
   ngOnInit() {
     this.networkStateProvider.initialiseNetworkState();
     this.store$.dispatch(new StartSendingLogs());
-    if (this.appService.isCordova)
+
+    if (this.appService.isCordova) {
       this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
+    }
+
     let neededRoles: string[] = [
       TESTER_ROLES.FULL_ACCESS,
       TESTER_ROLES.PSV,
@@ -86,14 +90,13 @@ export class TestStationHomePage implements OnInit {
     if (IsDataSynced) {
       this.setPage();
     } else {
-      const log: Log = {
+      this.logProvider.dispatchLog({
         type: LOG_TYPES.ERROR,
         message: `User ${this.authService.getOid()} having issue(s) with syncing data: Error ${JSON.stringify(
           err
         )}`,
         timestamp: Date.now()
-      };
-      this.store$.dispatch(new logsActions.SaveLog(log));
+      });
     }
   }
 

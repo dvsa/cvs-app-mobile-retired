@@ -20,6 +20,7 @@ import { AppServiceMock } from '../../../../test-config/services-mocks/app-servi
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { FirebaseLogsServiceMock } from '../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { SyncService } from '../../../providers/global/sync.service';
+import { LogsProvider } from '../../../modules/logs/logs.service';
 
 describe('Component: TestStationHomePage', () => {
   let comp: TestStationHomePage;
@@ -37,10 +38,11 @@ describe('Component: TestStationHomePage', () => {
   let navCtrlSpy: any;
   let networkStateProvider: NetworkStateProvider;
   let networkStateProviderSpy: any;
-  let $store: any;
   let firebaseLogsService: FirebaseLogsService;
   let syncService: SyncService;
   let syncServiceSpy: any;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
 
   beforeEach(async(() => {
     navCtrlSpy = jasmine.createSpyObj('NavController', ['push']);
@@ -51,6 +53,10 @@ describe('Component: TestStationHomePage', () => {
     ]);
     syncServiceSpy = jasmine.createSpyObj('SyncService', {
       startSync: [null, true]
+    });
+
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
     });
 
     TestBed.configureTestingModule({
@@ -68,7 +74,8 @@ describe('Component: TestStationHomePage', () => {
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: CallNumber, useValue: callNumberSpy },
         { provide: NetworkStateProvider, useValue: networkStateProviderSpy },
-        { provide: SyncService, useValue: syncServiceSpy }
+        { provide: SyncService, useValue: syncServiceSpy },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -86,9 +93,9 @@ describe('Component: TestStationHomePage', () => {
     alertCtrl = TestBed.get(AlertController);
     callNumber = TestBed.get(CallNumber);
     networkStateProvider = TestBed.get(NetworkStateProvider);
-    // $store = TestBed.get(Store);
     firebaseLogsService = TestBed.get(FirebaseLogsService);
     syncService = TestBed.get(SyncService);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   afterEach(() => {
@@ -105,7 +112,6 @@ describe('Component: TestStationHomePage', () => {
     screenOrientationSpy = null;
     networkStateProvider = null;
     syncService = null;
-    // $store = null;
   });
 
   it('should create component', (done) => {

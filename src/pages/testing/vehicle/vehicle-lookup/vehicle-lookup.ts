@@ -11,8 +11,6 @@ import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { VisitService } from '../../../../providers/visit/visit.service';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
-import { map, tap } from 'rxjs/operators';
-import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
 import {
   APP_STRINGS,
   PAGE_NAMES,
@@ -28,15 +26,12 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CallNumber } from '@ionic-native/call-number';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { Firebase } from '@ionic-native/firebase';
-import { HttpResponse } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import { Log, LogsModel } from '../../../../modules/logs/logs.model';
 import { AuthService } from '../../../../providers/global/auth.service';
-import * as logsActions from '../../../../modules/logs/logs.actions';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { AppService } from '../../../../providers/global/app.service';
 import { VehicleLookupSearchCriteriaData } from '../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
 import { ActivityService } from '../../../../providers/activity/activity.service';
+import { LogsProvider } from '../../../../modules/logs/logs.service';
 
 @IonicPage()
 @Component({
@@ -65,10 +60,10 @@ export class VehicleLookupPage {
     private firebaseLogsService: FirebaseLogsService,
     private callNumber: CallNumber,
     private authService: AuthService,
-    private store$: Store<LogsModel>,
     public appService: AppService,
     private modalCtrl: ModalController,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private logProvider: LogsProvider
   ) {
     this.testData = navParams.get('test');
   }
@@ -106,7 +101,6 @@ export class VehicleLookupPage {
     this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VEHICLE_SEARCH);
   }
 
-
   /**
    * When clicking the search button, check if the visit is open
    */
@@ -117,75 +111,86 @@ export class VehicleLookupPage {
     LOADING.present();
     this.oid = this.authService.getOid();
 
-    this.activityService.isVisitStillOpen().subscribe((response) => {
-      if(response.body) { this.searchVehicle(searchedValue, LOADING); }
-      else { this.visitService.createDataClearingAlert(LOADING).present(); }
-    },
-    (isVisitStillOpenError) => {
-      this.searchVal = '';
-      LOADING.dismiss();
-      this.showAlert();
-    });
+    this.activityService.isVisitStillOpen().subscribe(
+      (response) => {
+        if (response.body) {
+          this.searchVehicle(searchedValue, LOADING);
+        } else {
+          this.visitService.createDataClearingAlert(LOADING).present();
+        }
+      },
+      (isVisitStillOpenError) => {
+        this.searchVal = '';
+        LOADING.dismiss();
+        this.showAlert();
+      }
+    );
   }
 
   searchVehicle(searchedValue: string, LOADING) {
     this.vehicleService
-      .getVehicleTechRecords(searchedValue.toUpperCase(), this.getTechRecordQueryParam().queryParam)
-      .subscribe((vehicleData) => {
-        const testHistoryResponseObserver: Observer<TestResultModel[]> = {
-          next: () => {
-            this.goToVehicleDetails(vehicleData[0]);
-          },
-          error: (error) => {
-            const log: Log = {
-              type: 'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
-              message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-              timestamp: Date.now()
-            };
-            this.store$.dispatch(new logsActions.SaveLog(log));
-            this.firebase.logEvent('test_error', {
-              content_type: 'error',
-              item_id: 'Failed retrieving the testResultsHistory'
-            });
-            this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
-            this.goToVehicleDetails(vehicleData[0]);
-          },
-          complete: function () { }
-        };
-        if (vehicleData.length > 1) {
-          this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
-            LOADING.dismiss();
-          });
-        }
-        else if (vehicleData.length === 1 &&
-          this.vehicleService.isVehicleSkeleton(vehicleData[0])) {
-          this.vehicleService.createSkeletonAlert(this.alertCtrl);
-          LOADING.dismiss();
-        }
-        else {
-          this.vehicleService
-            .getTestResultsHistory(vehicleData[0].systemNumber)
-            .subscribe(testHistoryResponseObserver)
-            .add(() => {
+      .getVehicleTechRecords(
+        searchedValue.toUpperCase(),
+        this.getTechRecordQueryParam().queryParam
+      )
+      .subscribe(
+        (vehicleData) => {
+          const testHistoryResponseObserver: Observer<TestResultModel[]> = {
+            next: () => {
+              this.goToVehicleDetails(vehicleData[0]);
+            },
+            error: (error) => {
+              this.logProvider.dispatchLog({
+                type:
+                  'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
+                message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
+                timestamp: Date.now()
+              });
+
+              this.firebase.logEvent('test_error', {
+                content_type: 'error',
+                item_id: 'Failed retrieving the testResultsHistory'
+              });
+              this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
+              this.goToVehicleDetails(vehicleData[0]);
+            },
+            complete: function() {}
+          };
+          if (vehicleData.length > 1) {
+            this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
               LOADING.dismiss();
             });
+          } else if (
+            vehicleData.length === 1 &&
+            this.vehicleService.isVehicleSkeleton(vehicleData[0])
+          ) {
+            this.vehicleService.createSkeletonAlert(this.alertCtrl);
+            LOADING.dismiss();
+          } else {
+            this.vehicleService
+              .getTestResultsHistory(vehicleData[0].systemNumber)
+              .subscribe(testHistoryResponseObserver)
+              .add(() => {
+                LOADING.dismiss();
+              });
+          }
+        },
+        (error) => {
+          this.logProvider.dispatchLog({
+            type: 'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
+            message: `${this.oid} - ${error.status} ${error.error} for API call to ${error.url}`,
+            timestamp: Date.now()
+          });
+
+          this.searchVal = '';
+          LOADING.dismiss();
+          this.showAlert();
+          this.firebase.logEvent('test_error', {
+            content_type: 'error',
+            item_id: 'Failed retrieving the techRecord'
+          });
         }
-      }, (error) => {
-        const log: Log = {
-          type: 'error-vehicleService.getVehicleTechRecords-searchVehicle in vehicle-lookup.ts',
-          message: `${this.oid} - ${error.status} ${error.error ||
-            error.message} for API call to ${error.url}`,
-          timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
-        this.searchVal = '';
-        LOADING.dismiss();
-        this.showAlert();
-        this.firebase.logEvent('test_error', {
-          content_type: 'error',
-          item_id: 'Failed retrieving the techRecord'
-        });
-      });
+      );
   }
 
   close(): void {

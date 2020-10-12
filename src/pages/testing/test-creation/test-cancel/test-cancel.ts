@@ -21,14 +21,12 @@ import { VisitService } from '../../../../providers/visit/visit.service';
 import { Observable } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { AuthService } from '../../../../providers/global/auth.service';
-import { Store } from '@ngrx/store';
-import { Log, LogsModel } from '../../../../modules/logs/logs.model';
-import * as logsActions from '../../../../modules/logs/logs.actions';
 import { catchError } from 'rxjs/operators';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { ActivityService } from '../../../../providers/activity/activity.service';
 import { Firebase } from '@ionic-native/firebase';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
+import { LogsProvider } from '../../../../modules/logs/logs.service';
 
 @IonicPage()
 @Component({
@@ -54,9 +52,9 @@ export class TestCancelPage {
     private loadingCtrl: LoadingController,
     private firebase: Firebase,
     private authService: AuthService,
-    private store$: Store<LogsModel>,
     private firebaseLogsService: FirebaseLogsService,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private logProvider: LogsProvider
   ) {
     this.testData = this.navParams.get('test');
   }
@@ -141,31 +139,34 @@ export class TestCancelPage {
         test,
         vehicle
       );
+
       testResultsArr.push(testResult);
+
       stack.push(
         this.testResultService.submitTestResult(testResult).pipe(
           catchError((error: any) => {
-            const log: Log = {
-              type: 'error',
-              message: `${this.oid} - ${error.status} ${
-                error.error.errors ? error.error.errors[0] : error.error
-              } for API call to ${error.url} with the body message ${JSON.stringify(testResult)}`,
+            this.logProvider.dispatchLog({
+              type: LOG_TYPES.ERROR,
+              message: `${this.oid} - ${JSON.stringify(
+                error
+              )} for API call to with the body message ${JSON.stringify(testResult)}`,
               timestamp: Date.now()
-            };
-            this.store$.dispatch(new logsActions.SaveLog(log));
+            });
+
             return Observable.throw(error);
           })
         )
       );
     }
+
     Observable.forkJoin(stack).subscribe(
       (response: any) => {
-        const log: Log = {
+        this.logProvider.dispatchLog({
           type: 'info',
           message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
           timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
+        });
+
         this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
         for (let testResult of testResultsArr) {
           const activity = this.activityService.createActivityBodyForCall(
@@ -175,27 +176,29 @@ export class TestCancelPage {
           );
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
-              const log: Log = {
+              this.logProvider.dispatchLog({
                 type: LOG_TYPES.INFO,
                 message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
                 timestamp: Date.now()
-              };
-              this.store$.dispatch(new logsActions.SaveLog(log));
+              });
+
               let activityIndex = this.activityService.activities
                 .map((activity) => activity.endTime)
                 .indexOf(testResult.testStartTimestamp);
-              if (activityIndex > -1)
+              if (activityIndex > -1) {
                 this.activityService.activities[activityIndex].id = resp.body.id;
+              }
+
               this.activityService.updateActivities();
               this.visitService.updateVisit();
             },
             (error) => {
-              const log: Log = {
+              this.logProvider.dispatchLog({
                 type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-cancel.ts`,
-                message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+                message: `${this.oid} - ${JSON.stringify(error)}`,
                 timestamp: Date.now()
-              };
-              this.store$.dispatch(new logsActions.SaveLog(log));
+              });
+
               this.firebase.logEvent('test_error', {
                 content_type: 'error',
                 item_id: 'Wait activity submission failed'

@@ -9,9 +9,8 @@ import { CommonRegExp } from '../utils/common-regExp';
 import { Platform } from 'ionic-angular';
 import { CommonFunctionsService } from '../utils/common-functions';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { Log, LogsModel } from '../../modules/logs/logs.model';
-import * as logsActions from '../../modules/logs/logs.actions';
-import { Store } from '@ngrx/store';
+import { Log } from '../../modules/logs/logs.model';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +24,7 @@ export class AuthService {
     private msAdal: MSAdal,
     public platform: Platform,
     private commonFunc: CommonFunctionsService,
-    private store$: Store<LogsModel>
+    private logProvider: LogsProvider
   ) {
     this.testerDetails = {} as TesterDetailsModel;
     this.jwtToken = localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
@@ -105,7 +104,8 @@ export class AuthService {
         unauthenticated: true
       };
     }
-    this.store$.dispatch(new logsActions.SaveLog(log));
+
+    this.logProvider.dispatchLog(log);
   }
 
   logLoginSuccessful() {
@@ -116,7 +116,8 @@ export class AuthService {
       }, tenant_id=${this.tenantId} with the user roles=${this.userRoles.toString()}`,
       timestamp: Date.now()
     };
-    this.store$.dispatch(new logsActions.SaveLog(log));
+
+    this.logProvider.dispatchLog(log);
   }
 
   logLoginUnsuccessful(errorMessage: string) {
@@ -126,7 +127,8 @@ export class AuthService {
       timestamp: Date.now(),
       unauthenticated: true
     };
-    this.store$.dispatch(new logsActions.SaveLog(log));
+
+    this.logProvider.dispatchLog(log);
   }
 
   setJWTToken(token: string): void {

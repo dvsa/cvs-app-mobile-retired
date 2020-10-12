@@ -7,6 +7,7 @@ import { CommonFunctionsService } from '../utils/common-functions';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../interceptors/auth.interceptor.spec';
 import { MOCK_UTILS } from '../../../test-config/mocks/mocks.utils';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 export class AuthenticationContextMock {
   tokenCache = {
@@ -26,6 +27,8 @@ describe(`AuthService`, () => {
   let authService: AuthService;
   let store;
   let authContext: AuthenticationContext;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
 
   // dummy hand crafted jwt token for testing purpose only
   const JWT_TOKEN: string =
@@ -34,6 +37,10 @@ describe(`AuthService`, () => {
   const obfuscatedOid = '83a674c6-****-****-****-ff96191058a5';
 
   beforeEach(() => {
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
+
     TestBed.configureTestingModule({
       imports: [],
       providers: [
@@ -42,7 +49,8 @@ describe(`AuthService`, () => {
         Platform,
         MSAdal,
         { provide: Store, useClass: TestStore },
-        { provide: AuthenticationContext, useClass: AuthenticationContextMock }
+        { provide: AuthenticationContext, useClass: AuthenticationContextMock },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ]
     });
 
@@ -52,6 +60,7 @@ describe(`AuthService`, () => {
     spyOn(TestBed.get(CommonFunctionsService), 'getObfuscatedTesterOid').and.returnValue(
       obfuscatedOid
     );
+    logProvider = TestBed.get(LogsProvider);
   });
 
   beforeEach(() => {
@@ -170,27 +179,23 @@ describe(`AuthService`, () => {
   });
 
   it('logLoginUnsuccessful', () => {
-    spyOn(store, 'dispatch');
     authService.logLoginUnsuccessful('testError');
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(logProvider.dispatchLog).toHaveBeenCalledTimes(1);
   });
 
   it('logLoginSuccessful', () => {
-    spyOn(store, 'dispatch');
     authService.logLoginSuccessful();
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(logProvider.dispatchLog).toHaveBeenCalledTimes(1);
   });
 
   it('it should dispatch the correct logs when silentLoginAttempt is true', () => {
-    spyOn(store, 'dispatch');
     authService.logLoginAttempt(true);
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(logProvider.dispatchLog).toHaveBeenCalledTimes(1);
   });
 
   it('it should dispatch the correct logs when silentLoginAttempt is false', () => {
-    spyOn(store, 'dispatch');
     authService.logLoginAttempt(false);
-    expect(store.dispatch).toHaveBeenCalled();
+    expect(logProvider.dispatchLog).toHaveBeenCalled();
   });
 
   it('resetTokenCache', () => {
