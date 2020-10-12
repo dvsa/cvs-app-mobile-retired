@@ -15,11 +15,9 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { Firebase } from '@ionic-native/firebase';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../providers/global/auth.service';
-import { Store } from '@ngrx/store';
-import { Log, LogsModel } from '../../../modules/logs/logs.model';
-import * as logsActions from '../../../modules/logs/logs.actions';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { AppService } from '../../../providers/global/app.service';
+import { LogsProvider } from '../../../modules/logs/logs.service';
 
 @IonicPage()
 @Component({
@@ -45,9 +43,9 @@ export class TestStationDetailsPage {
     private firebase: Firebase,
     private loadingCtrl: LoadingController,
     private authService: AuthService,
-    private store$: Store<LogsModel>,
     private firebaseLogsService: FirebaseLogsService,
-    private appService: AppService
+    private appService: AppService,
+    private logProvider: LogsProvider
   ) {
     this.testStation = navParams.get('testStation');
   }
@@ -69,12 +67,12 @@ export class TestStationDetailsPage {
     LOADING.present();
     this.startVisitSubscription = this.visitService.startVisit(this.testStation).subscribe(
       (data) => {
-        const log: Log = {
+        this.logProvider.dispatchLog({
           type: 'info',
           message: `${this.oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,
           timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
+        });
+
         this.isNextPageLoading = false;
         LOADING.dismiss();
         this.startVisitSubscription.unsubscribe();
@@ -82,19 +80,22 @@ export class TestStationDetailsPage {
         this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, { testStation: this.testStation });
       },
       (error) => {
-        const log: Log = {
+        this.logProvider.dispatchLog({
           type: 'error-visitService.startVisit-confirmStartVisit in test-station-details.ts',
-          message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+          message: `${this.oid} - failed making a call to start a visit - ${JSON.stringify(
+            error
+          )}`,
           timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
+        });
+
         this.isNextPageLoading = false;
         LOADING.dismiss();
-        console.error(`Starting activity failed due to: ${error.error.error}`);
+
         this.firebase.logEvent('test_error', {
           content_type: 'error',
           item_id: 'Starting activity failed'
         });
+
         if (error && error.error === AUTH.INTERNET_REQUIRED) {
           const TRY_AGAIN_ALERT = this.alertCtrl.create({
             title: APP_STRINGS.UNABLE_TO_START_VISIT,

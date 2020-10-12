@@ -11,10 +11,8 @@ import { AuthService } from '../global/auth.service';
 import { catchError, filter, finalize, switchMap, take, tap } from 'rxjs/operators';
 import { _throw } from 'rxjs/observable/throw';
 import { AUTH, STATUS_CODE } from '../../app/app.enums';
-import { Log, LogsModel } from '../../modules/logs/logs.model';
-import * as logsActions from '../../modules/logs/logs.actions';
-import { Store } from '@ngrx/store';
 import { AppConfig } from '../../../config/app.config';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -22,55 +20,48 @@ export class AuthInterceptor implements HttpInterceptor {
   isProduction: boolean;
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
-  constructor(public authService: AuthService, private store$: Store<LogsModel>) {
+  constructor(public authService: AuthService, private logProvider: LogsProvider) {
     this.isProduction = AppConfig.IS_PRODUCTION === 'true';
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     if (!window.navigator.onLine) {
-      // TOOD: Remove after the white screen bug is resolved
-      // CVSB: 17584
-      const log: Log = {
+      this.logProvider.dispatchLog({
         type: 'error',
         message: `${this.authService.getOid()} - Cannot perform call to ${
           req.url
         }. Currently offline`,
         timestamp: Date.now()
-      };
-      this.store$.dispatch(new logsActions.SaveLog(log));
+      });
 
       return Observable.throw(new HttpErrorResponse({ error: AUTH.INTERNET_REQUIRED }));
     }
+
     const oid = this.authService.getOid();
-    const log: Log = {
+
+    this.logProvider.dispatchLog({
       type: 'info',
       message: `${oid} - API call to ${req.url}`,
       timestamp: Date.now()
-    };
-    this.store$.dispatch(new logsActions.SaveLog(log));
+    });
+
     return next.handle(this.addAuthHeader(req, this.authService.getJWTToken())).pipe(
       tap((response) => {
-        // TOOD: Remove logging after the white screen bug is resolved
-        // CVSB: 17584
         if (response instanceof HttpResponse) {
-          const log: Log = {
+          this.logProvider.dispatchLog({
             type: 'info',
             message: `${oid} - ${response.status} Response for API call to ${response.url}`,
             timestamp: Date.now()
-          };
-          this.store$.dispatch(new logsActions.SaveLog(log));
+          });
         }
       }),
       catchError((error) => {
         if (error instanceof HttpErrorResponse) {
-          // TOOD: Remove logging after the white screen bug is resolved
-          // CVSB: 17584
-          const log: Log = {
+          this.logProvider.dispatchLog({
             type: 'error-next.handle-intercept in auth.interceptor.ts',
             message: `${oid} - ${error.status} ${error.message} for API call to ${error.url}`,
             timestamp: Date.now()
-          };
-          this.store$.dispatch(new logsActions.SaveLog(log));
+          });
 
           switch ((<HttpErrorResponse>error).status) {
             case (STATUS_CODE.UNAUTHORIZED, STATUS_CODE.FORBIDDEN):
@@ -91,37 +82,35 @@ export class AuthInterceptor implements HttpInterceptor {
       return this.authService.login().pipe(
         switchMap((newToken: string) => {
           if (newToken) {
-            const log: Log = {
+            this.logProvider.dispatchLog({
               type: 'info',
               message: `${this.authService.getOid()} - retrying API call to ${req.url}`,
               timestamp: Date.now()
-            };
-            this.store$.dispatch(new logsActions.SaveLog(log));
+            });
 
             this.tokenSubject.next(newToken);
 
             return next.handle(this.addAuthHeader(req, newToken)).pipe(
               tap((response) => {
                 if (response instanceof HttpResponse) {
-                  const log: Log = {
+                  this.logProvider.dispatchLog({
                     type: 'info',
                     message: `${this.authService.getOid()} - ${
                       response.status
                     } retried Response for API call to ${response.url}`,
                     timestamp: Date.now()
-                  };
-                  this.store$.dispatch(new logsActions.SaveLog(log));
+                  });
                 }
               }),
               catchError((error: HttpErrorResponse) => {
-                const log: Log = {
+                this.logProvider.dispatchLog({
                   type: 'error-next.handle-handle401Error in auth.interceptor.ts',
                   message: `User ${this.authService.getOid()} - new token request - Error: ${JSON.stringify(
                     error
                   )}`,
                   timestamp: Date.now()
-                };
-                this.store$.dispatch(new logsActions.SaveLog(log));
+                });
+
                 return Observable.throw(error.message);
               })
             );
@@ -142,14 +131,14 @@ export class AuthInterceptor implements HttpInterceptor {
         switchMap((token) => {
           return next.handle(this.addAuthHeader(req, token)).pipe(
             catchError((error: HttpErrorResponse) => {
-              const log: Log = {
+              this.logProvider.dispatchLog({
                 type: 'error-next.handle-handle401Error in auth.interceptor.ts',
                 message: `User ${this.authService.getOid()} - existing token request - Error: ${JSON.stringify(
                   error
                 )}`,
                 timestamp: Date.now()
-              };
-              this.store$.dispatch(new logsActions.SaveLog(log));
+              });
+
               return Observable.throw(error.message);
             })
           );

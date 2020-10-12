@@ -20,6 +20,7 @@ import { of } from 'rxjs/observable/of';
 import { HttpEventType, HttpHeaders } from '@angular/common/http';
 import { TestResultsHistoryDataMock } from '../../assets/data-mocks/test-results-history-data.mock';
 import { AlertController } from 'ionic-angular';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 describe('Provider: VehicleService', () => {
   let vehicleService: VehicleService;
@@ -28,6 +29,8 @@ describe('Provider: VehicleService', () => {
   let storageService: StorageService;
   let vehicle = VehicleDataMock.VehicleData;
   let alertCtrl: AlertController;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
 
   const VEHICLE_TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const TEST_TYPE: TestTypeModel = TestTypeDataModelMock.TestTypeData;
@@ -52,6 +55,11 @@ describe('Provider: VehicleService', () => {
         })
       )
     };
+
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
+
     TestBed.configureTestingModule({
       providers: [
         VehicleService,
@@ -59,13 +67,15 @@ describe('Provider: VehicleService', () => {
         { provide: HTTPService, useValue: httpServiceSpy },
         { provide: Store, useClass: TestStore },
         { provide: StorageService, useClass: StorageServiceMock },
-        { provide: AuthService, useClass: AuthServiceMock }
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ]
     });
     vehicleService = TestBed.get(VehicleService);
     visitService = TestBed.get(VisitService);
     httpService = TestBed.get(HTTPService);
     storageService = TestBed.get(StorageService);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   afterEach(() => {

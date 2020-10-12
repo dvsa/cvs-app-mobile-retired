@@ -10,16 +10,13 @@ import { _throw } from 'rxjs/observable/throw';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CallNumber } from '@ionic-native/call-number';
 import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
 import { AppConfig } from '../../../config/app.config';
 import { AppService } from './app.service';
 import { Firebase } from '@ionic-native/firebase';
-import { Log, LogsModel } from '../../modules/logs/logs.model';
-import * as logsActions from '../../modules/logs/logs.actions';
 import { AuthService } from './auth.service';
-import { Store } from '@ngrx/store';
 import { AppVersion } from '@ionic-native/app-version';
 import { AppVersionModel } from '../../models/latest-version.model';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 declare let cordova: any;
 
@@ -43,8 +40,8 @@ export class SyncService {
     private callNumber: CallNumber,
     private firebase: Firebase,
     public authService: AuthService,
-    private store$: Store<LogsModel>,
-    private appVersion: AppVersion
+    private appVersion: AppVersion,
+    private logProvider: LogsProvider
   ) {}
 
   public async startSync(): Promise<any[]> {
@@ -84,14 +81,13 @@ export class SyncService {
     } catch (error) {
       console.log('Cannot perform check if app update is required');
 
-      const log: Log = {
+      this.logProvider.dispatchLog({
         type: `error - checkForUpdate in sync.service.ts`,
         message: `User ${this.authService.getOid()} - Cannot perform check if app update is required - ${JSON.stringify(
           error
         )}`,
         timestamp: Date.now()
-      };
-      this.store$.dispatch(new logsActions.SaveLog(log));
+      });
     }
   }
 
@@ -131,13 +127,13 @@ export class SyncService {
       }),
       retryWhen(genericRetryStrategy()),
       catchError((error) => {
-        const log: Log = {
+        this.logProvider.dispatchLog({
           type: `error-${microservice}-getDataFromMicroservice in sync.service.ts`,
           message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url ||
             microservice + 'microservice'}`,
           timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
+        });
+
         this.firebase.logEvent('test_error', {
           content_type: 'error',
           item_id: `Error at ${microservice} microservice`

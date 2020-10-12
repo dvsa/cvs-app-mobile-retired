@@ -37,7 +37,6 @@ import { DefectsService } from '../../../../providers/defects/defects.service';
 import { VisitDataMock } from '../../../../assets/data-mocks/visit-data.mock';
 import { AuthService } from '../../../../providers/global/auth.service';
 import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
-import { Store } from '@ngrx/store';
 import { TestStore } from '../../../../providers/interceptors/auth.interceptor.spec';
 import { TestResultServiceMock } from '../../../../../test-config/services-mocks/test-result-service.mock';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
@@ -55,6 +54,7 @@ import { TestTypeDataModelMock } from '../../../../assets/data-mocks/data-model/
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
 import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
+import { LogsProvider } from '../../../../modules/logs/logs.service';
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -62,17 +62,22 @@ describe('Component: TestReviewPage', () => {
   let visitService: VisitServiceMock;
   let alertCtrl: AlertController;
   let activityServiceMock: ActivityServiceMock;
-  let store: Store<any>;
   let commonFuncService: CommonFunctionsService;
   let testService: TestService;
   let vehicleService: VehicleService;
   let modalCtrl: ModalController;
   let navCtrl: NavController;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
 
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(async(() => {
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
+
     TestBed.configureTestingModule({
       declarations: [TestReviewPage],
       imports: [IonicModule.forRoot(TestReviewPage)],
@@ -95,10 +100,10 @@ describe('Component: TestReviewPage', () => {
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
-        { provide: Store, useClass: TestStore },
         { provide: NavParams, useClass: NavParamsMock },
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -110,12 +115,12 @@ describe('Component: TestReviewPage', () => {
     visitService = TestBed.get(VisitService);
     alertCtrl = TestBed.get(AlertController);
     activityServiceMock = TestBed.get(ActivityService);
-    store = TestBed.get(Store);
     commonFuncService = TestBed.get(CommonFunctionsService);
     testService = TestBed.get(TestService);
     vehicleService = TestBed.get(VehicleService);
     modalCtrl = TestBed.get(ModalController);
     navCtrl = TestBed.get(NavController);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   beforeEach(() => {
@@ -130,7 +135,6 @@ describe('Component: TestReviewPage', () => {
     alertCtrl = null;
     visitService = null;
     activityServiceMock = null;
-    store = null;
     commonFuncService = null;
     testService = null;
     vehicleService = null;
@@ -154,11 +158,11 @@ describe('Component: TestReviewPage', () => {
   });
 
   it('should test submitting a test - error case on submitActivity', () => {
-    spyOn(store, 'dispatch');
     visitService.visit = VisitDataMock.VisitData;
     activityServiceMock.isSubmitError = true;
     component.onSubmit(VisitDataMock.VisitTestData);
-    expect(store.dispatch).toHaveBeenCalled();
+
+    expect(logProvider.dispatchLog).toHaveBeenCalled();
   });
 
   it('should test getCountryStringToBeDisplayed', () => {

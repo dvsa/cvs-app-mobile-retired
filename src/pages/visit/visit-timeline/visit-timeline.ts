@@ -31,9 +31,6 @@ import { StorageService } from '../../../providers/natives/storage.service';
 import { AppService } from '../../../providers/global/app.service';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { AuthService } from '../../../providers/global/auth.service';
-import { Store } from '@ngrx/store';
-import { Log, LogsModel } from '../../../modules/logs/logs.model';
-import * as logsActions from '../../../modules/logs/logs.actions';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { Firebase } from '@ionic-native/firebase';
 import { ActivityModel } from '../../../models/visit/activity.model';
@@ -41,6 +38,7 @@ import { ActivityService } from '../../../providers/activity/activity.service';
 import { FormatVrmPipe } from '../../../pipes/format-vrm/format-vrm.pipe';
 import { VehicleModel } from '../../../models/vehicle/vehicle.model';
 import { Subscription } from 'rxjs';
+import { LogsProvider } from '../../../modules/logs/logs.service';
 
 @IonicPage()
 @Component({
@@ -74,11 +72,10 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     private openNativeSettings: OpenNativeSettings,
     private firebase: Firebase,
     private authService: AuthService,
-    private store$: Store<LogsModel>,
     private firebaseLogsService: FirebaseLogsService,
     private modalCtrl: ModalController,
     private formatVrmPipe: FormatVrmPipe,
-    private platform: Platform
+    private logProvider: LogsProvider
   ) {
     this.timeline = [];
     // FIXME: Needs to be fixed separately.
@@ -216,12 +213,12 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     this.oid = this.authService.getOid();
     this.visitService.endVisit(this.visit.id).subscribe(
       (response) => {
-        const log: Log = {
-          type: 'info',
+        this.logProvider.dispatchLog({
+          type: LOG_TYPES.INFO,
           message: `${this.oid} - ${response.status} ${response.statusText} for API call to ${response.url}`,
           timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
+        });
+
         this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_VISIT);
         clearTimeout(this.activityService.waitTimer);
         let activity: ActivityModel = this.activityService.createActivityBodyForCall(
@@ -231,12 +228,12 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         );
         this.activityService.submitActivity(activity).subscribe(
           (resp) => {
-            const log: Log = {
+            this.logProvider.dispatchLog({
               type: LOG_TYPES.INFO,
               message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
               timestamp: Date.now()
-            };
-            this.store$.dispatch(new logsActions.SaveLog(log));
+            });
+
             if (this.timeline.length && this.timeline[this.timeline.length - 1].activityType) {
               this.activityService.activities[
                 this.activityService.activities.length - 1
@@ -251,21 +248,21 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
             if (updActivitiesARR.length) {
               this.activityService.updateActivityReasons(updActivitiesARR).subscribe(
                 (resp) => {
-                  const log: Log = {
+                  this.logProvider.dispatchLog({
                     type: LOG_TYPES.INFO,
                     message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
                     timestamp: Date.now()
-                  };
-                  this.store$.dispatch(new logsActions.SaveLog(log));
+                  });
+
                   this.onUpdateActivityReasonsSuccess(LOADING);
                 },
                 (error) => {
-                  const log: Log = {
+                  this.logProvider.dispatchLog({
                     type: `${LOG_TYPES.ERROR}-activityService.updateActivityReasons in visit-timeline.ts`,
-                    message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+                    message: `${this.oid} - ${JSON.stringify(error)}`,
                     timestamp: Date.now()
-                  };
-                  this.store$.dispatch(new logsActions.SaveLog(log));
+                  });
+
                   LOADING.dismiss();
                 }
               );
@@ -274,13 +271,14 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
             }
           },
           (error) => {
-            const log: Log = {
+            this.logProvider.dispatchLog({
               type: `${LOG_TYPES.ERROR}-activityService.submitActivity in visit-timeline.ts`,
-              message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+              message: `${this.oid} - ${JSON.stringify(error)}`,
               timestamp: Date.now()
-            };
-            this.store$.dispatch(new logsActions.SaveLog(log));
+            });
+
             LOADING.dismiss();
+
             this.firebase.logEvent('test_error', {
               content_type: 'error',
               item_id: 'Wait activity submission failed'
@@ -289,13 +287,14 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         );
       },
       (error) => {
-        const log: Log = {
+        this.logProvider.dispatchLog({
           type: 'error-visitService.endVisit-confirmEndVisit in visit-timeline.ts',
-          message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,
+          message: `${this.oid} - ${JSON.stringify(error)}`,
           timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
+        });
+
         LOADING.dismiss();
+
         this.firebaseLogsService.logEvent(
           FIREBASE.TEST_ERROR,
           FIREBASE.ERROR,

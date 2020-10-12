@@ -27,6 +27,7 @@ import { FirebaseLogsServiceMock } from '../../../../../test-config/services-moc
 import { Firebase } from '@ionic-native/firebase';
 import { ActivityService } from '../../../../providers/activity/activity.service';
 import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
+import { LogsProvider } from '../../../../modules/logs/logs.service';
 
 describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
@@ -41,6 +42,8 @@ describe('Component: TestCancelPage', () => {
   let activityServiceMock: ActivityServiceMock;
   let store: Store<any>;
   let firebaseLogsService: FirebaseLogsService;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
 
   let testReport: TestModel = {
     startTime: null,
@@ -63,6 +66,10 @@ describe('Component: TestCancelPage', () => {
       }
     ]);
 
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
+
     TestBed.configureTestingModule({
       declarations: [TestCancelPage],
       imports: [IonicModule.forRoot(TestCancelPage)],
@@ -79,7 +86,8 @@ describe('Component: TestCancelPage', () => {
         { provide: TestService, useValue: testReportServiceSpy },
         { provide: TestResultService, useClass: TestResultServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
-        { provide: Store, useClass: TestStore }
+        { provide: Store, useClass: TestStore },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -96,6 +104,7 @@ describe('Component: TestCancelPage', () => {
     testReportService = TestBed.get(TestService);
     store = TestBed.get(Store);
     firebaseLogsService = TestBed.get(FirebaseLogsService);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   beforeEach(() => {
@@ -151,11 +160,10 @@ describe('Component: TestCancelPage', () => {
   });
 
   it('should test submitting a test - error case on submitActivity', () => {
-    spyOn(store, 'dispatch');
     visitServiceMock.visit = VisitDataMock.VisitData;
     activityServiceMock.isSubmitError = true;
     component.submit(VisitDataMock.VisitTestData);
-    expect(store.dispatch).toHaveBeenCalled();
+    expect(logProvider.dispatchLog).toHaveBeenCalled();
   });
 
   it('should present onSubmit alert depending on cancellationReason', () => {

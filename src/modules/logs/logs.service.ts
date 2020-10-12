@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Log } from './logs.model';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
+import { Log, LogsModel } from './logs.model';
 import { HTTPService } from '../../providers/global/http.service';
+import { SaveLog } from './logs.actions';
 
 @Injectable()
 export class LogsProvider {
-  constructor(private httpService: HTTPService) {}
+  constructor(private httpService: HTTPService, private store$: Store<LogsModel>) {}
 
   public sendLogs = (logs: Log[]): Observable<any> => {
     let authLogs: Log[] = [];
@@ -22,4 +25,8 @@ export class LogsProvider {
     }
     return this.httpService.sendUnauthenticatedLogs(unauthLogs);
   };
+
+  public dispatchLog(log: Log): void {
+    this.store$.dispatch(new SaveLog(log));
+  }
 }

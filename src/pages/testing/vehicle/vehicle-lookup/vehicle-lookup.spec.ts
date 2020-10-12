@@ -43,6 +43,7 @@ import { of } from 'rxjs/observable/of';
 import { deepCopy } from 'ionic-angular/util/util';
 import { ActivityService } from '../../../../providers/activity/activity.service';
 import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
+import { LogsProvider } from '../../../../modules/logs/logs.service';
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -52,6 +53,8 @@ describe('Component: VehicleLookupPage', () => {
   let firebaseLogsService: FirebaseLogsService;
   let modalCtrl: ModalController;
   let vehicleService: VehicleService;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
 
   const TEST_DATA = TestDataModelMock.TestData;
   const VEHICLE = VehicleDataMock.VehicleData;
@@ -60,6 +63,10 @@ describe('Component: VehicleLookupPage', () => {
   beforeEach(async(() => {
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', ['open']);
     loading = jasmine.createSpyObj('Loading', ['dismiss', 'present']);
+
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
 
     TestBed.configureTestingModule({
       declarations: [VehicleLookupPage],
@@ -81,6 +88,7 @@ describe('Component: VehicleLookupPage', () => {
         { provide: Store, useClass: TestStore },
         { provide: AppService, useClass: AppServiceMock },
         { provide: ActivityService, useClass: ActivityServiceMock },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -93,6 +101,7 @@ describe('Component: VehicleLookupPage', () => {
     firebaseLogsService = TestBed.get(FirebaseLogsService);
     modalCtrl = TestBed.get(ModalController);
     vehicleService = TestBed.get(VehicleService);
+    logProvider = TestBed.get(LogsProvider);
 
     component.selectedSearchCriteria = 'Registration number, VIN or trailer ID';
   });

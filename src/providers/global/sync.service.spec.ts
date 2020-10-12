@@ -20,6 +20,7 @@ import { AuthServiceMock } from '../../../test-config/services-mocks/auth-servic
 import { Store } from '@ngrx/store';
 import { TestStore } from '../interceptors/auth.interceptor.spec';
 import { AppVersion } from '@ionic-native/app-version';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 describe('Provider: SyncService', () => {
   let syncService: SyncService;
@@ -32,6 +33,8 @@ describe('Provider: SyncService', () => {
   let loadingCtrl: LoadingController;
   let appService: AppService;
   let appVersion: AppVersion;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
   let latestAppVersion = {
     body: {
       'mobile-app': {
@@ -51,9 +54,14 @@ describe('Provider: SyncService', () => {
       'getPreparers',
       'getApplicationVersion'
     ]);
+
     httpServiceSpy.getApplicationVersion = jasmine
       .createSpy()
       .and.returnValue(Promise.resolve(latestAppVersion));
+
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
 
     TestBed.configureTestingModule({
       providers: [
@@ -69,6 +77,7 @@ describe('Provider: SyncService', () => {
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: Events, useFactory: () => EventsMock.instance() },
+        { provide: LogsProvider, useValue: logProviderSpy },
         AppVersion
       ]
     });
@@ -81,6 +90,7 @@ describe('Provider: SyncService', () => {
     loadingCtrl = TestBed.get(LoadingController);
     appService = TestBed.get(AppService);
     appVersion = TestBed.get(AppVersion);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   afterEach(() => {

@@ -22,11 +22,9 @@ import { TesterDetailsModel } from '../models/tester-details.model';
 import { AppService } from '../providers/global/app.service';
 import { ActivityService } from '../providers/activity/activity.service';
 import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
-import { VisitModel } from '../models/visit/visit.model';
 import { Network } from '@ionic-native/network';
-import { LogsModel, Log } from '../modules/logs/logs.model';
-import { Store } from '@ngrx/store';
-import * as logsActions from '../modules/logs/logs.actions';
+import { Log } from '../modules/logs/logs.model';
+import { LogsProvider } from './../modules/logs/logs.service';
 import * as Sentry from 'sentry-cordova';
 import { AppConfig } from '../../config/app.config';
 
@@ -59,7 +57,7 @@ export class MyApp {
     private firebaseLogsService: FirebaseLogsService,
     private screenOrientation: ScreenOrientation,
     private network: Network,
-    private store$: Store<LogsModel>
+    private logProvider: LogsProvider
   ) {
     platform.ready().then(() => {
       Sentry.init({
@@ -135,19 +133,16 @@ export class MyApp {
         this.setRootPage();
       }
     } catch (error) {
-      this.dispatchLog({
+      this.logProvider.dispatchLog({
         type: `${LOG_TYPES.ERROR}`,
         timestamp: Date.now(),
         message: `User ${this.authService.getOid()} failed from manageAppState in app.component.ts - ${JSON.stringify(
           error
         )}`
       });
+
       this.splashScreen.hide();
     }
-  }
-
-  dispatchLog(log) {
-    this.store$.dispatch(new logsActions.SaveLog(log));
   }
 
   navigateToSignature(): void {
@@ -231,7 +226,8 @@ export class MyApp {
           this.network.type
         })`
       };
-      this.store$.dispatch(new logsActions.SaveLog(log));
+
+      this.logProvider.dispatchLog(log);
     });
 
     this.disconnectedSub = this.network.onConnect().subscribe(() => {
@@ -241,7 +237,8 @@ export class MyApp {
           this.network.type
         })`
       };
-      this.store$.dispatch(new logsActions.SaveLog(log));
+
+      this.logProvider.dispatchLog(log);
     });
   }
 

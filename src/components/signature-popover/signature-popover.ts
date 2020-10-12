@@ -4,9 +4,7 @@ import { Events, Loading, LoadingController, ViewController } from 'ionic-angula
 import { SignatureService } from '../../providers/signature/signature.service';
 import { AppService } from '../../providers/global/app.service';
 import { AuthService } from '../../providers/global/auth.service';
-import { Store } from '@ngrx/store';
-import { Log, LogsModel } from '../../modules/logs/logs.model';
-import * as logsActions from '../../modules/logs/logs.actions';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 @Component({
   selector: 'signature-popover',
@@ -26,7 +24,7 @@ export class SignaturePopoverComponent implements OnInit {
     public loadingCtrl: LoadingController,
     public signatureService: SignatureService,
     private authService: AuthService,
-    private store$: Store<LogsModel>
+    private logProvider: LogsProvider
   ) {}
 
   ngOnInit(): void {
@@ -47,12 +45,12 @@ export class SignaturePopoverComponent implements OnInit {
       this.viewCtrl.dismiss().then(() => {
         this.signatureService.saveSignature().subscribe(
           (response) => {
-            const log: Log = {
+            this.logProvider.dispatchLog({
               type: 'info',
               message: `${this.oid} - ${response.status} ${response.body.message} for API call to ${response.url}`,
               timestamp: Date.now()
-            };
-            this.store$.dispatch(new logsActions.SaveLog(log));
+            });
+
             this.signatureService.saveToStorage().then(() => {
               this.signatureService.presentSuccessToast();
               localStorage.setItem(LOCAL_STORAGE.SIGNATURE, 'true');
@@ -62,12 +60,12 @@ export class SignaturePopoverComponent implements OnInit {
             });
           },
           (error) => {
-            const log: Log = {
+            this.logProvider.dispatchLog({
               type: 'error-signatureService.saveSignature-confirmPop in signature-popover.ts',
               message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url}`,
               timestamp: Date.now()
-            };
-            this.store$.dispatch(new logsActions.SaveLog(log));
+            });
+
             this.loading.dismissAll();
             this.events.publish(SIGNATURE_STATUS.ERROR);
           }

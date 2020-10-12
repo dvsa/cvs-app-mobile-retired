@@ -31,6 +31,7 @@ import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-l
 import { FirebaseLogsServiceMock } from '../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { AppService } from '../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../test-config/services-mocks/app-service.mock';
+import { LogsProvider } from '../../../modules/logs/logs.service';
 
 describe('Component: TestStationDetailsPage', () => {
   let component: TestStationDetailsPage;
@@ -43,11 +44,16 @@ describe('Component: TestStationDetailsPage', () => {
   let firebaseSpy: any;
   let alertCtrl: AlertController;
   let firebaseLogsService: FirebaseLogsService;
+  let logProvider: LogsProvider;
+  let logProviderSpy;
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', ['open']);
     firebaseSpy = jasmine.createSpyObj('Firebase', ['logEvent']);
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
 
     TestBed.configureTestingModule({
       declarations: [TestStationDetailsPage],
@@ -65,7 +71,8 @@ describe('Component: TestStationDetailsPage', () => {
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: Store, useClass: TestStore },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -79,6 +86,7 @@ describe('Component: TestStationDetailsPage', () => {
     firebase = TestBed.get(Firebase);
     alertCtrl = TestBed.get(AlertController);
     firebaseLogsService = TestBed.get(FirebaseLogsService);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   beforeEach(() => {

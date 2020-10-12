@@ -7,10 +7,13 @@ import { Store } from '@ngrx/store';
 import { TestStore } from '../interceptors/auth.interceptor.spec';
 import { AuthService } from '../global/auth.service';
 import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 describe('Provider: StorageService', () => {
   let storageService: StorageService;
   let storage: Storage;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,11 +21,13 @@ describe('Provider: StorageService', () => {
         StorageService,
         { provide: Storage, useFactory: () => StorageMock.instance() },
         { provide: Store, useClass: TestStore },
-        { provide: AuthService, useClass: AuthServiceMock }
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ]
     });
     storageService = TestBed.get(StorageService);
     storage = TestBed.get(Storage);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   beforeEach(() => {
@@ -35,6 +40,10 @@ describe('Provider: StorageService', () => {
     spyOn(window.localStorage, 'removeItem').and.callFake((key) => {
       delete store[key];
     });
+
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
   });
 
   afterEach(() => {
@@ -43,25 +52,36 @@ describe('Provider: StorageService', () => {
   });
 
   it('should call storage.set', () => {
-    let value: any;
+    let value = ['some data'];
     storageService.create('key', value);
-    expect(storage.set).toHaveBeenCalled();
+
+    expect(storage.set).toHaveBeenCalledWith('key', value);
   });
 
-  it('should call storage.get', () => {
+  it('should call storage.get', (done) => {
     storageService.read('key');
-    expect(storage.get).toHaveBeenCalled();
+
+    storage.get('key').then(() => {
+      expect(storage.get).toHaveBeenCalledWith('key');
+      expect(logProvider.dispatchLog).toHaveBeenCalled();
+      done();
+    });
   });
 
-  it('should call storage.remove + storage.set', () => {
-    let value: any;
+  it('should update the storage', (done) => {
+    let value = [1, 3];
     storageService.update('key', value);
-    expect(storage.remove).toHaveBeenCalled();
+
+    storage.remove('key').then(() => {
+      expect(storage.remove).toHaveBeenCalledWith('key');
+      expect(storage.set).toHaveBeenCalledWith('key', [1, 3]);
+      done();
+    });
   });
 
   it('should call storage.remove', () => {
     storageService.delete('key');
-    expect(storage.remove).toHaveBeenCalled();
+    expect(storage.remove).toHaveBeenCalledWith('key');
   });
 
   it('should call storage.clear', () => {

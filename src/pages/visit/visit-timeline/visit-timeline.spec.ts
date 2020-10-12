@@ -8,8 +8,7 @@ import {
   AlertController,
   NavParams,
   ToastController,
-  ModalController,
-  Platform
+  ModalController
 } from 'ionic-angular';
 import { PipesModule } from '../../../pipes/pipes.module';
 import { StateReformingService } from '../../../providers/global/state-reforming.service';
@@ -36,8 +35,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { VisitDataMock } from '../../../assets/data-mocks/visit-data.mock';
 import { AuthService } from '../../../providers/global/auth.service';
 import { AuthServiceMock } from '../../../../test-config/services-mocks/auth-service.mock';
-import { Store } from '@ngrx/store';
-import { TestStore } from '../../../providers/interceptors/auth.interceptor.spec';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { FirebaseLogsServiceMock } from '../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { ActivityService } from '../../../providers/activity/activity.service';
@@ -47,29 +44,29 @@ import { TestStationDataMock } from '../../../assets/data-mocks/reference-data-m
 import { TestModel } from '../../../models/tests/test.model';
 import { TEST_REPORT_STATUSES, VEHICLE_TYPE, VISIT } from '../../../app/app.enums';
 import { Firebase } from '@ionic-native/firebase';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { VehicleDataMock } from '../../../assets/data-mocks/vehicle-data.mock';
 import { VehicleModel } from '../../../models/vehicle/vehicle.model';
 import { FormatVrmPipe } from '../../../pipes/format-vrm/format-vrm.pipe';
 import { VisitModel } from '../../../models/visit/visit.model';
+import { LogsProvider } from '../../../modules/logs/logs.service';
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
   let fixture: ComponentFixture<VisitTimelinePage>;
-  let openNativeSettings: OpenNativeSettings;
   let openNativeSettingsSpy: any;
   let loadingCtrl: LoadingController;
   let firebaseLogsService: FirebaseLogsService;
   let visitService: VisitService;
   let visitServiceMock: VisitServiceMock;
-  let navCtrl: NavController;
   let modalCtrl: ModalController;
   let activityService: ActivityService;
   let activityServiceMock: ActivityServiceMock;
   let alertCtrl: AlertController;
   let storageService: StorageService;
   let storageServiceSpy: any;
-  let store: Store<any>;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
 
   let waitActivity = ActivityDataMock.WaitActivityData;
   let testStation = TestStationDataMock.TestStationData[0];
@@ -77,6 +74,10 @@ describe('Component: VisitTimelinePage', () => {
   beforeEach(() => {
     openNativeSettingsSpy = jasmine.createSpyObj('OpenNativeSettings', ['open']);
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['delete']);
+
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
 
     TestBed.configureTestingModule({
       declarations: [VisitTimelinePage],
@@ -98,8 +99,8 @@ describe('Component: VisitTimelinePage', () => {
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
-        { provide: Store, useClass: TestStore },
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
+        { provide: LogsProvider, useValue: logProviderSpy },
         FormatVrmPipe
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -117,8 +118,8 @@ describe('Component: VisitTimelinePage', () => {
     activityService = TestBed.get(ActivityService);
     alertCtrl = TestBed.get(AlertController);
     storageService = TestBed.get(StorageService);
-    store = TestBed.get(Store);
     activityServiceMock = TestBed.get(ActivityService);
+    logProvider = TestBed.get(LogsProvider);
   });
 
   afterEach(() => {
@@ -131,7 +132,6 @@ describe('Component: VisitTimelinePage', () => {
     activityService = null;
     alertCtrl = null;
     storageService = null;
-    store = null;
     activityServiceMock = null;
   });
 
@@ -321,20 +321,20 @@ describe('Component: VisitTimelinePage', () => {
   });
 
   it('should test error case on submitActivity', () => {
-    spyOn(store, 'dispatch');
     activityServiceMock.isSubmitError = true;
     component.visit = visitService.createVisit(testStation);
     component.confirmEndVisit();
-    expect(store.dispatch).toHaveBeenCalled();
+
+    expect(logProvider.dispatchLog).toHaveBeenCalled();
   });
 
   it('should test error case on updateActivityReasons', () => {
-    spyOn(store, 'dispatch');
     activityService.activities = ActivityDataMock.Activities;
     activityServiceMock.isUpdateError = true;
     component.visit = visitService.createVisit(testStation);
     component.confirmEndVisit();
-    expect(store.dispatch).toHaveBeenCalled();
+
+    expect(logProvider.dispatchLog).toHaveBeenCalled();
   });
 
   it('should return the VRM when the vehicle is a PSV', () => {

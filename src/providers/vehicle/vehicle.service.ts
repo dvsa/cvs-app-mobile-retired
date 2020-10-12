@@ -11,21 +11,19 @@ import { CountryOfRegistrationData } from '../../assets/app-data/country-of-regi
 import { APP_STRINGS, STORAGE, TEST_TYPE_INPUTS } from '../../app/app.enums';
 import { HttpResponse } from '@angular/common/http';
 import { TestResultModel } from '../../models/tests/test-result.model';
-import { Log, LogsModel } from '../../modules/logs/logs.model';
-import * as logsActions from '../../modules/logs/logs.actions';
-import { Store } from '@ngrx/store';
 import { StorageService } from '../natives/storage.service';
 import { AuthService } from '../global/auth.service';
 import { AlertController } from 'ionic-angular';
+import { LogsProvider } from '../../modules/logs/logs.service';
 
 @Injectable()
 export class VehicleService {
   constructor(
     private httpService: HTTPService,
     public visitService: VisitService,
-    private store$: Store<LogsModel>,
     public storageService: StorageService,
-    private authService: AuthService
+    private authService: AuthService,
+    private logProvider: LogsProvider
   ) {}
 
   createVehicle(vehicleTechRecord: VehicleTechRecordModel): VehicleModel {
@@ -74,14 +72,14 @@ export class VehicleService {
     return this.httpService
       .getTechRecords(searchedValue.toUpperCase(), searchCriteriaQueryParam)
       .map((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => {
-        const log: Log = {
+        this.logProvider.dispatchLog({
           type: 'info',
           message: `${this.authService.getOid()} - ${techRecordsResponse.status} ${
             techRecordsResponse.statusText
           } for API call to ${techRecordsResponse.url}`,
           timestamp: Date.now()
-        };
-        this.store$.dispatch(new logsActions.SaveLog(log));
+        });
+
         return techRecordsResponse.body.map(this.createVehicle);
       })
       .map((techRecords: VehicleModel[]) => {
@@ -91,14 +89,14 @@ export class VehicleService {
 
   getTestResultsHistory(systemNumber: string): Observable<TestResultModel[]> {
     return this.httpService.getTestResultsHistory(systemNumber).map((data) => {
-      const log: Log = {
+      this.logProvider.dispatchLog({
         type: 'info',
         message: `${this.authService.getOid()} - ${data.status} ${
           data.statusText
         } for API call to ${data.url}`,
         timestamp: Date.now()
-      };
-      this.store$.dispatch(new logsActions.SaveLog(log));
+      });
+
       this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
       return data.body;
     });
