@@ -543,6 +543,5 @@ export enum TEST_TYPES_IDS {
 
 export enum APP_UPDATE {
   TITLE = 'Update required',
-  MESSAGE = "A newer version of the Vehicle Testing app has been released. You must update using 'DVSA apps'.",
   BUTTON = 'Close Vehicle Testing app'
 }

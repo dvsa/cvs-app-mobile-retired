@@ -17,6 +17,7 @@ import { AuthService } from './auth.service';
 import { AppVersion } from '@ionic-native/app-version';
 import { AppVersionModel } from '../../models/latest-version.model';
 import { LogsProvider } from '../../modules/logs/logs.service';
+import { VERSION_POPUP_MSG } from '../../app/app.constants';
 
 declare let cordova: any;
 
@@ -68,15 +69,13 @@ export class SyncService {
 
     try {
       let results = await Promise.all(promises);
-      const currentAppVersion = results[0];
+      const currentAppVersion: string = results[0];
       const latestAppVersionModel: AppVersionModel = results[1].body['mobile-app'];
+      const { version_checking, version: latestVersion } = latestAppVersionModel;
       const visit = results[2];
-      if (
-        latestAppVersionModel.version_checking === 'true' &&
-        currentAppVersion !== latestAppVersionModel.version &&
-        !visit
-      ) {
-        this.createUpdatePopup().present();
+
+      if (version_checking === 'true' && currentAppVersion !== latestVersion && !visit) {
+        return this.createUpdatePopup({ currentAppVersion, latestVersion }).present();
       }
     } catch (error) {
       console.log('Cannot perform check if app update is required');
@@ -91,10 +90,12 @@ export class SyncService {
     }
   }
 
-  private createUpdatePopup() {
+  private createUpdatePopup(params: any) {
+    const { currentAppVersion, latestVersion } = params;
+
     return this.alertCtrl.create({
       title: APP_UPDATE.TITLE,
-      message: APP_UPDATE.MESSAGE,
+      message: VERSION_POPUP_MSG(currentAppVersion, latestVersion),
       buttons: [
         {
           text: APP_UPDATE.BUTTON,
