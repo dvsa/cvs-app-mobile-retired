@@ -17,10 +17,10 @@ import { AppServiceMock } from '../../../test-config/services-mocks/app-service.
 import { Firebase } from '@ionic-native/firebase';
 import { AuthService } from './auth.service';
 import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
-import { Store } from '@ngrx/store';
-import { TestStore } from '../interceptors/auth.interceptor.spec';
 import { AppVersion } from '@ionic-native/app-version';
 import { LogsProvider } from '../../modules/logs/logs.service';
+import { APP_UPDATE } from '../../app/app.enums';
+import { VERSION_POPUP_MSG } from '../../app/app.constants';
 
 describe('Provider: SyncService', () => {
   let syncService: SyncService;
@@ -73,7 +73,6 @@ describe('Provider: SyncService', () => {
         { provide: HTTPService, useValue: httpServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: AuthService, useClass: AuthServiceMock },
-        { provide: Store, useClass: TestStore },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: Events, useFactory: () => EventsMock.instance() },
@@ -109,11 +108,23 @@ describe('Provider: SyncService', () => {
   });
 
   it('should show the update popup if the version_checking flag is true, the app version is not the latest, and there is no current visit', () => {
-    spyOn(appVersion, 'getVersionNumber').and.returnValue(Promise.resolve('v1.0.0'));
-    latestAppVersion.body['mobile-app'].version_checking = 'true';
+    const currentAppVersion = `v1.0.0`;
+    spyOn(appVersion, 'getVersionNumber').and.returnValue(Promise.resolve(currentAppVersion));
+
+    const { version: latestVersion } = latestAppVersion.body['mobile-app'];
 
     return syncService.checkForUpdate().then(() => {
-      expect(alertCtrl.create).toHaveBeenCalledTimes(1);
+      expect(alertCtrl.create).toHaveBeenCalledWith({
+        title: APP_UPDATE.TITLE,
+        message: VERSION_POPUP_MSG(currentAppVersion, latestVersion),
+        buttons: [
+          {
+            text: APP_UPDATE.BUTTON,
+            handler: jasmine.any(Function)
+          }
+        ],
+        enableBackdropDismiss: false
+      });
     });
   });
 
