@@ -68,12 +68,14 @@ This repo does not contain references to API endpoints, and requires them to be 
 
 ### Running the project
 
-​
+It is recommended to use 10.x to run this project (supported versions up to 12) with the relevant node version(s), please refer to the package.json meta-data to find out about the version or `.nvmrc` file in the project.
+
 To get a working build running locally follow these steps:
 
 1. Clone the repository.
 
-2. Run `npm install`.
+2. Having the relevant node version.
+Run `npm install`.
 
 3. _(Optional)_ Set up the configuration for app's deeplinking using the following command after replacing "key", "https", "example.com" with your values:
    'ionic cordova plugin add ionic-plugin-deeplinks --variable URL_SCHEME=key --variable DEEPLINK_SCHEME=https --variable DEEPLINK_HOST=example.com'
