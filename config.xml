@@ -3,7 +3,7 @@
     <name>Vehicle Testing</name>
     <description>DVSA Alpha Test</description>
     <author email="" href="" />
-    <content src="index.html" />
+    <content original-src="index.html" src="http://localhost:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -108,5 +108,6 @@
     <plugin name="cordova-plugin-secure-storage" spec="^3.0.2" />
     <plugin name="cordova-plugin-app-version" spec="0.1.9" />
     <plugin name="cordova-plugin-exit" spec="1.0.3" />
-    <engine name="ios" spec="~5.0.1" />
+    <allow-navigation href="http://localhost:8100" sessionid="df9186b9" />
+    <engine name="ios" spec="^5.0.1" />
 </widget>

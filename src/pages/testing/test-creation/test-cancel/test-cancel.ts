@@ -106,6 +106,7 @@ export class TestCancelPage {
   }
 
   submit(test) {
+    console.log('called failed submit')
     let stack: Observable<any>[] = [];
     this.oid = this.authService.getOid();
     const TRY_AGAIN_ALERT = this.alertCtrl.create({

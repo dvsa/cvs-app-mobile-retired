@@ -27,6 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
+    console.log('\NINTERCEPTOR CALLED\n\n\n\n\n\n\n\n\n\n\n')
     if (!window.navigator.onLine) {
       // TOOD: Remove after the white screen bug is resolved
       // CVSB: 17584
@@ -71,7 +72,8 @@ export class AuthInterceptor implements HttpInterceptor {
             timestamp: Date.now()
           };
           this.store$.dispatch(new logsActions.SaveLog(log));
-
+          
+          console.log('\nCAUGHT ERROR STATUS\n\n\n\n\n')
           switch ((<HttpErrorResponse>error).status) {
             case (STATUS_CODE.UNAUTHORIZED, STATUS_CODE.FORBIDDEN):
               return this.handle401Error(req, next);
@@ -84,24 +86,28 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   handle401Error(req: HttpRequest<any>, next: HttpHandler) {
+    console.log('\nhandle401Error called\n');
     if (!this.isRefreshingToken) {
       this.isRefreshingToken = true;
       this.tokenSubject.next(null);
-
+      
       return this.authService.login().pipe(
         switchMap((newToken: string) => {
           if (newToken) {
+            console.log('\nnewToken in authService.login\n');
             const log: Log = {
               type: 'info',
               message: `${this.authService.getOid()} - retrying API call to ${req.url}`,
               timestamp: Date.now()
             };
             this.store$.dispatch(new logsActions.SaveLog(log));
-
+            
             this.tokenSubject.next(newToken);
-
+            
             return next.handle(this.addAuthHeader(req, newToken)).pipe(
               tap((response) => {
+                console.log('\naddAuthHeader\n');
+                
                 if (response instanceof HttpResponse) {
                   const log: Log = {
                     type: 'info',
@@ -114,6 +120,8 @@ export class AuthInterceptor implements HttpInterceptor {
                 }
               }),
               catchError((error: HttpErrorResponse) => {
+                console.log('error-next.handle-handle401Error')
+                console.log(JSON.stringify(error))
                 const log: Log = {
                   type: 'error-next.handle-handle401Error in auth.interceptor.ts',
                   message: `User ${this.authService.getOid()} - new token request - Error: ${JSON.stringify(
@@ -126,9 +134,14 @@ export class AuthInterceptor implements HttpInterceptor {
               })
             );
           }
+          console.log('logoutUser\n')
+          console.log('addAuthHeader in handle401 when authService.login()\n\n\n\n')
           return this.logoutUser();
         }),
         catchError((error) => {
+          console.log('logoutUser\n')
+          console.log('catchError in handle401 when authService.login()\n\n\n\n')
+          console.log(JSON.stringify(error))
           return this.logoutUser(error);
         }),
         finalize(() => {
@@ -142,6 +155,8 @@ export class AuthInterceptor implements HttpInterceptor {
         switchMap((token) => {
           return next.handle(this.addAuthHeader(req, token)).pipe(
             catchError((error: HttpErrorResponse) => {
+              console.log('error-next.handle-handle401Error in auth.interceptor.ts')
+                console.log(JSON.stringify(error))
               const log: Log = {
                 type: 'error-next.handle-handle401Error in auth.interceptor.ts',
                 message: `User ${this.authService.getOid()} - existing token request - Error: ${JSON.stringify(
@@ -160,10 +175,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
   addAuthHeader(request: HttpRequest<any>, token) {
     const AUTH_HEADER = token;
+    // const newToken = 'Bearer '
     if (AUTH_HEADER && request.url !== AppConfig.URL_LATEST_VERSION) {
       return request.clone({
         setHeaders: {
           Authorization: `${AUTH_HEADER}`
+          // Authorization: newToken
         }
       });
     }
@@ -171,6 +188,8 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   logoutUser(error?): Observable<any> {
+    console.log("\nLOGOUTUSER CALLED\n\n\n\n\n")
+    console.log(JSON.stringify(error))
     return _throw(error || AUTH.INVALID_TOKEN);
   }
 }

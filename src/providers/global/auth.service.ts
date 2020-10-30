@@ -42,13 +42,15 @@ export class AuthService {
   }
 
   login(): Observable<string | ErrorObservable> {
+    console.log('\ncalled login\n')
     return Observable.from(this.loginSilently());
   }
 
   private loginSilently(): Promise<string> {
     return this.authContext
-      .acquireTokenSilentAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, '')
-      .then((silentAuthResponse: AuthenticationResult) => {
+    .acquireTokenSilentAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, '')
+    .then((silentAuthResponse: AuthenticationResult) => {
+        console.log('\nsilentAuthResponse\n');
         this.logLoginAttempt(true);
         let authHeader = silentAuthResponse.createAuthorizationHeader();
         this.testerDetails = this.setTesterDetails(silentAuthResponse);
@@ -56,10 +58,13 @@ export class AuthService {
         return authHeader;
       })
       .catch((error) => {
+        console.log('error in loginSilently')
+        console.log(JSON.stringify(error))
         if (error.code == AUTH.MS_ADA_ERROR_USER_INPUT) {
           return this.loginWithUI();
         } else {
-          console.error(error);
+          console.log('acquireTokenSilentAsync error')
+          console.error(JSON.stringify(error));
           this.logLoginUnsuccessful(error['code']);
         }
       });

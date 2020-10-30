@@ -69,22 +69,36 @@ export class HTTPService {
 
   postTestResult(body): Observable<HttpResponse<any>> {
     return this.http.post<TestResultModel>(AppConfig.BACKEND_URL_TEST_RESULTS, body, {
+    // return this.http.post<TestResultModel>('AppConfig.BACKEND_URL_TEST_RESULTS', body, {
       observe: 'response'
     });
   }
 
+  
   startVisit(activities: ActivityModel): Observable<HttpResponse<any>> {
+    const newActivities = {...activities, id: "123"}
     return this.http.post(AppConfig.BACKEND_URL_VISIT, activities, { observe: 'response' });
+    // return this.http.post('http://localhost:3007/activities', activities, { observe: 'response' });
+    // return this.http.post('AppConfig.BACKEND_URL_VISIT', activities, { observe: 'response' });
   }
 
   endVisit(visitID: string): Observable<HttpResponse<any>> {
+    console.log('visitID')
+    console.log(visitID)
     return this.http.put(`${AppConfig.BACKEND_URL_VISIT}/${visitID}/end`, null, {
+    // return this.http.put(`http://localhost:3007/activities/${visitID}/end`, null, {
+    // return this.http.put(`http:sdfsdfdsds`, null, {
       observe: 'response'
     });
   }
 
+  
   postActivity(activities: ActivityModel): Observable<HttpResponse<any>> {
+    console.log('postActivity called')
+    console.log(JSON.stringify(activities))
     return this.http.post(AppConfig.BACKEND_URL_VISIT, activities, { observe: 'response' });
+    // return this.http.post('AppConfig.BACKEND_URL_VISIT', activities, { observe: 'response' });
+    // return this.http.post('http://localhost:3007/activities', activities, { observe: 'response' });
   }
 
   updateActivity(activities): Observable<HttpResponse<any>> {
@@ -107,6 +121,7 @@ export class HTTPService {
 
   saveSignature(staffId: string, signatureString: string): Observable<HttpResponse<any>> {
     return this.http.put(`${AppConfig.BACKEND_URL_SIGNATURE}${staffId}.base64`, signatureString, {
+    // return this.http.put(undefined, undefined, {
       observe: 'response'
     });
   }

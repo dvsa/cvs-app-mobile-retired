@@ -289,6 +289,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         );
       },
       (error) => {
+        console.log('')
+        console.log(JSON.stringify(error))
         const log: Log = {
           type: 'error-visitService.endVisit-confirmEndVisit in visit-timeline.ts',
           message: `${this.oid} - ${error.status} ${error.error.error} for API call to ${error.url}`,

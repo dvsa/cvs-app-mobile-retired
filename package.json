@@ -170,7 +170,9 @@
       "cordova-plugin-secure-storage": {},
       "cordova-plugin-app-version": {},
       "cordova-plugin-exit": {},
-      "sentry-cordova": {}
+      "sentry-cordova": {
+        "SENTRY_ANDROID_SDK_VERSION": "1+"
+      }
     },
     "platforms": [
       "ios"

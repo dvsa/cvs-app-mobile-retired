@@ -78,6 +78,7 @@ export class TestStationDetailsPage {
         this.isNextPageLoading = false;
         LOADING.dismiss();
         this.startVisitSubscription.unsubscribe();
+        // data.body.id = '123'
         this.visitService.createVisit(this.testStation, data.body.id);
         this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, { testStation: this.testStation });
       },

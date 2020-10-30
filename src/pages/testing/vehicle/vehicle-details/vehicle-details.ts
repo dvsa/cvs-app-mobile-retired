@@ -61,6 +61,7 @@ export class VehicleDetailsPage {
     this.previousPageName = this.navCtrl.last().name;
   }
 
+  
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(this.getBackButtonText());
   }
