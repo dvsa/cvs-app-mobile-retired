@@ -8,7 +8,8 @@ import {
   NavController,
   NavParams,
   ModalController,
-  Platform
+  Platform,
+  Alert
 } from 'ionic-angular';
 import { TestService } from '../../../providers/test/test.service';
 import { VisitService } from '../../../providers/visit/visit.service';
@@ -32,13 +33,14 @@ import { AppService } from '../../../providers/global/app.service';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { AuthService } from '../../../providers/global/auth.service';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
-import { Firebase } from '@ionic-native/firebase';
 import { ActivityModel } from '../../../models/visit/activity.model';
 import { ActivityService } from '../../../providers/activity/activity.service';
 import { FormatVrmPipe } from '../../../pipes/format-vrm/format-vrm.pipe';
 import { VehicleModel } from '../../../models/vehicle/vehicle.model';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LogsProvider } from '../../../modules/logs/logs.service';
+import { of } from 'rxjs/observable/of';
+import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
 @IonicPage()
 @Component({
@@ -57,6 +59,9 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   isCreateTestEnabled = true;
   platformSubscription: Subscription;
 
+  loading: Loading;
+  confirmVisit$: Observable<any>;
+
   constructor(
     public navCtrl: NavController,
     public stateReformingService: StateReformingService,
@@ -70,7 +75,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     private alertCtrl: AlertController,
     private storageService: StorageService,
     private openNativeSettings: OpenNativeSettings,
-    private firebase: Firebase,
     private authService: AuthService,
     private firebaseLogsService: FirebaseLogsService,
     private modalCtrl: ModalController,
@@ -191,173 +195,239 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     });
   }
 
-  onUpdateActivityReasonsSuccess(LOADING: Loading) {
-    this.storageService.delete(STORAGE.VISIT);
-    this.storageService.delete(STORAGE.STATE);
-    this.storageService.delete(STORAGE.ACTIVITIES);
-    this.activityService.waitTimeStarted = false;
-    this.visitService.visit = {} as VisitModel;
-    this.activityService.activities = [];
-    LOADING.dismiss();
-    this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
-      testStationName: this.visit.testStationName
-    });
+  showConfirm(visit: VisitModel): void {
+    this.changeOpacity = true;
+    let alert: Alert = null;
+
+    if (this.checkWaitTimeReasons(this.activityService.activities)) {
+      alert = this.alertCtrl.create({
+        title: APP_STRINGS.END_VISIT_WAITING_TITLE,
+        message: APP_STRINGS.END_VISIT_WAITING_MSG,
+        buttons: [APP_STRINGS.OK]
+      });
+    } else {
+      alert = this.alertCtrl.create({
+        title: APP_STRINGS.END_VISIT_TITLE,
+        message: `${APP_STRINGS.END_VISIT_MSG}${visit.testStationName}.`,
+        buttons: [
+          {
+            text: APP_STRINGS.CANCEL,
+            role: APP_STRINGS.CANCEL.toLowerCase()
+          },
+          {
+            text: APP_STRINGS.END_VISIT_TITLE,
+            handler: () => {
+              this.confirmVisit$ = this.confirmEndVisit$();
+            }
+          }
+        ]
+      });
+    }
+    alert.present();
+    alert.onDidDismiss(() => (this.changeOpacity = false));
   }
 
-  confirmEndVisit() {
-    this.isCreateTestEnabled = false;
-    const LOADING = this.loadingCtrl.create({
-      content: APP_STRINGS.END_VISIT_LOADING
+  checkWaitTimeReasons(activities: ActivityModel[]): boolean {
+    let checkReason: boolean = false;
+    activities.forEach((elem) => {
+      if (elem.waitReason.length == 0) checkReason = true;
     });
-    LOADING.present();
+    return checkReason;
+  }
+
+  showLoading(loadingText: string) {
+    if (loadingText) {
+      this.loading = this.loadingCtrl.create({
+        content: loadingText
+      });
+
+      this.loading.present();
+    } else {
+      this.loading.dismiss();
+    }
+  }
+
+  confirmEndVisit$(): Observable<any> {
+    this.isCreateTestEnabled = false;
+
+    this.showLoading(APP_STRINGS.END_VISIT_LOADING);
     this.oid = this.authService.getOid();
-    this.visitService.endVisit(this.visit.id).subscribe(
-      (response) => {
+
+    return this.visitService.endVisit(this.visit.id).pipe(
+      mergeMap((endVisitResp) => {
+        const { wasVisitAlreadyClosed } = endVisitResp.body;
+
         this.logProvider.dispatchLog({
           type: LOG_TYPES.INFO,
-          message: `${this.oid} - ${response.status} ${response.statusText} for API call to ${response.url}`,
+          message: `${this.oid} - ${endVisitResp.status} ${endVisitResp.statusText}
+          for API call to ${endVisitResp.url}. Visit closed automatically ${wasVisitAlreadyClosed}`,
           timestamp: Date.now()
         });
 
         this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_VISIT);
-        clearTimeout(this.activityService.waitTimer);
-        let activity: ActivityModel = this.activityService.createActivityBodyForCall(
-          this.visitService.visit,
-          null,
-          this.timeline
-        );
-        this.activityService.submitActivity(activity).subscribe(
-          (resp) => {
-            this.logProvider.dispatchLog({
-              type: LOG_TYPES.INFO,
-              message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
-              timestamp: Date.now()
-            });
+        // clearTimeout(this.activityService.waitTimer);
 
-            if (this.timeline.length && this.timeline[this.timeline.length - 1].activityType) {
-              this.activityService.activities[
-                this.activityService.activities.length - 1
-              ].endTime = new Date().toISOString();
-              this.activityService.activities[this.activityService.activities.length - 1].id =
-                resp.body.id;
-            }
-            this.activityService.updateActivities();
-            let updActivitiesARR = this.activityService.createActivitiesForUpdateCall(
-              this.activityService.activities
-            );
-            if (updActivitiesARR.length) {
-              this.activityService.updateActivityReasons(updActivitiesARR).subscribe(
-                (resp) => {
-                  this.logProvider.dispatchLog({
-                    type: LOG_TYPES.INFO,
-                    message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
-                    timestamp: Date.now()
-                  });
+        return wasVisitAlreadyClosed
+          ? this.siteAlreadyClosedAlert(wasVisitAlreadyClosed)
+          : of(wasVisitAlreadyClosed); /** false - manual intervention*/
+      }),
+      filter((closedState) => !closedState),
+      mergeMap(() => this.createActivityToPost$()),
+      mergeMap((activities: ActivityModel[]) => this.createActivityReasonsToPost$(activities)),
+      catchError((error) => {
+        this.showLoading('');
 
-                  this.onUpdateActivityReasonsSuccess(LOADING);
-                },
-                (error) => {
-                  this.logProvider.dispatchLog({
-                    type: `${LOG_TYPES.ERROR}-activityService.updateActivityReasons in visit-timeline.ts`,
-                    message: `${this.oid} - ${JSON.stringify(error)}`,
-                    timestamp: Date.now()
-                  });
-
-                  LOADING.dismiss();
-                }
-              );
-            } else {
-              this.onUpdateActivityReasonsSuccess(LOADING);
-            }
-          },
-          (error) => {
-            this.logProvider.dispatchLog({
-              type: `${LOG_TYPES.ERROR}-activityService.submitActivity in visit-timeline.ts`,
-              message: `${this.oid} - ${JSON.stringify(error)}`,
-              timestamp: Date.now()
-            });
-
-            LOADING.dismiss();
-
-            this.firebase.logEvent('test_error', {
-              content_type: 'error',
-              item_id: 'Wait activity submission failed'
-            });
-          }
-        );
-      },
-      (error) => {
         this.logProvider.dispatchLog({
           type: 'error-visitService.endVisit-confirmEndVisit in visit-timeline.ts',
           message: `${this.oid} - ${JSON.stringify(error)}`,
           timestamp: Date.now()
         });
 
-        LOADING.dismiss();
-
         this.firebaseLogsService.logEvent(
           FIREBASE.TEST_ERROR,
           FIREBASE.ERROR,
           FIREBASE.ENDING_ACTIVITY_FAILED
         );
-        if (error && error.error === AUTH.INTERNET_REQUIRED) {
-          const TRY_AGAIN_ALERT = this.alertCtrl.create({
-            title: APP_STRINGS.UNABLE_TO_END_VISIT,
-            message: APP_STRINGS.NO_INTERNET_CONNECTION,
-            buttons: [
-              {
-                text: APP_STRINGS.SETTINGS_BTN,
-                handler: () => {
-                  this.openNativeSettings.open('settings');
-                }
-              },
-              {
-                text: APP_STRINGS.TRY_AGAIN_BTN,
-                handler: () => {
-                  this.confirmEndVisit();
-                }
-              }
-            ]
-          });
-          TRY_AGAIN_ALERT.present();
-        } else if (error && error.error.error === VISIT.ALREADY_ENDED) {
-          this.onUpdateActivityReasonsSuccess(LOADING);
-        }
-      }
+
+        return this.endVisitError$(error);
+      })
     );
   }
 
-  showConfirm(visit: VisitModel): void {
-    this.changeOpacity = true;
+  siteAlreadyClosedAlert(status: boolean): Observable<boolean> {
+    const NOTIFICATION_ALERT = this.alertCtrl.create({
+      title: APP_STRINGS.SITE_VISIT_CLOSED_TITLE,
+      message: APP_STRINGS.SITE_VISIT_CLOSED_MESSAGE,
+      buttons: [
+        {
+          text: APP_STRINGS.OK,
+          handler: () => {
+            this.onUpdateActivityReasonsSuccess$();
+          }
+        }
+      ]
+    });
 
-    if (this.checkWaitTimeReasons(this.activityService.activities)) {
-      const CONFIRM_WAITING = this.alertCtrl.create({
-        title: APP_STRINGS.END_VISIT_WAITING_TITLE,
-        message: APP_STRINGS.END_VISIT_WAITING_MSG,
-        buttons: [APP_STRINGS.OK]
-      });
-      CONFIRM_WAITING.present();
-      CONFIRM_WAITING.onDidDismiss(() => (this.changeOpacity = false));
+    NOTIFICATION_ALERT.present();
+    return of(status);
+  }
+
+  createActivityToPost$(): Observable<any> {
+    const activity: ActivityModel = this.activityService.createActivityBodyForCall(
+      this.visitService.visit,
+      null,
+      this.timeline
+    );
+
+    return this.activityService.submitActivity(activity).pipe(
+      map((submitActivityResp) => {
+        let activities: ActivityModel[];
+
+        this.logProvider.dispatchLog({
+          type: LOG_TYPES.INFO,
+          message: `${this.oid} - ${submitActivityResp.status} ${submitActivityResp.statusText} for API call to ${submitActivityResp.url}`,
+          timestamp: Date.now()
+        });
+
+        if (this.timeline.length && this.timeline[this.timeline.length - 1].activityType) {
+          activities = this.activityService.getActivities();
+          const lastestActivityPos = activities.length - 1;
+
+          activities[lastestActivityPos].endTime = new Date().toISOString();
+          activities[lastestActivityPos].id = submitActivityResp.body.id;
+        }
+        this.activityService.updateActiviesArgs(activities);
+        return of(activities);
+      }),
+      catchError((error) => {
+        this.showLoading('');
+
+        this.logProvider.dispatchLog({
+          type: `${LOG_TYPES.ERROR}-activityService.submitActivity in visit-timeline.ts`,
+          message: `${this.oid} -${JSON.stringify(error)}`,
+          timestamp: Date.now()
+        });
+
+        this.firebaseLogsService.logEvent(
+          FIREBASE.TEST_ERROR,
+          FIREBASE.ERROR,
+          FIREBASE.WAIT_ACTIVITY_SUBMISSION_FAILED
+        );
+
+        return of(null);
+      })
+    );
+  }
+
+  createActivityReasonsToPost$(activities: ActivityModel[]): Observable<any> {
+    const activityWithReasons = this.activityService.createActivitiesForUpdateCall(activities);
+    if (activityWithReasons.length > 0) {
+      return this.activityService.updateActivityReasons(activityWithReasons).pipe(
+        map((activityReasonResp) => {
+          this.logProvider.dispatchLog({
+            type: LOG_TYPES.INFO,
+            message: `${this.oid} - ${activityReasonResp.status} ${activityReasonResp.statusText} for API call to ${activityReasonResp.url}`,
+            timestamp: Date.now()
+          });
+
+          return this.onUpdateActivityReasonsSuccess$();
+        }),
+        catchError((error) => {
+          this.showLoading('');
+
+          this.logProvider.dispatchLog({
+            type: `${LOG_TYPES.ERROR}-activityService.updateActivityReasons in visit-timeline.ts`,
+            message: `${this.oid} - ${JSON.stringify(error)}`,
+            timestamp: Date.now()
+          });
+
+          return of(null);
+        })
+      );
     } else {
-      const CONFIRM = this.alertCtrl.create({
-        title: APP_STRINGS.END_VISIT_TITLE,
-        message: `${APP_STRINGS.END_VISIT_MSG}${visit.testStationName}.`,
+      return this.onUpdateActivityReasonsSuccess$();
+    }
+  }
+
+  private endVisitError$(receivedErr: any): Observable<any> {
+    if (receivedErr && receivedErr.error === AUTH.INTERNET_REQUIRED) {
+      const TRY_AGAIN_ALERT = this.alertCtrl.create({
+        title: APP_STRINGS.UNABLE_TO_END_VISIT,
+        message: APP_STRINGS.NO_INTERNET_CONNECTION,
         buttons: [
           {
-            text: APP_STRINGS.CANCEL,
-            role: 'cancel'
+            text: APP_STRINGS.SETTINGS_BTN,
+            handler: () => {
+              this.openNativeSettings.open('settings');
+            }
           },
           {
-            text: APP_STRINGS.END_VISIT_TITLE,
+            text: APP_STRINGS.TRY_AGAIN_BTN,
             handler: () => {
-              this.confirmEndVisit();
+              this.confirmVisit$ = this.confirmEndVisit$();
             }
           }
         ]
       });
-      CONFIRM.present();
-      CONFIRM.onDidDismiss(() => (this.changeOpacity = false));
+
+      return of(TRY_AGAIN_ALERT.present());
     }
+  }
+
+  onUpdateActivityReasonsSuccess$(): Observable<boolean> {
+    this.storageService.delete(STORAGE.VISIT);
+    this.storageService.delete(STORAGE.STATE);
+    this.storageService.delete(STORAGE.ACTIVITIES);
+    this.activityService.waitTimeStarted = false;
+    this.visitService.visit = {} as VisitModel;
+    this.activityService.activities = [];
+    this.showLoading('');
+
+    this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
+      testStationName: this.visit.testStationName
+    });
+
+    return of(true);
   }
 
   editWaitTime(activity: ActivityModel) {
@@ -372,14 +442,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     if (activity.activityType === VISIT.ACTIVITY_TYPE_WAIT) {
       MODAL.present();
     }
-  }
-
-  checkWaitTimeReasons(activities: ActivityModel[]): boolean {
-    let checkReason: boolean = false;
-    activities.forEach((elem) => {
-      if (elem.waitReason.length == 0) checkReason = true;
-    });
-    return checkReason;
   }
 
   canAddOtherWaitingTime(timeline): boolean {

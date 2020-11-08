@@ -438,6 +438,7 @@ export enum FIREBASE {
   TEST_ERROR = 'test_error',
   ERROR = 'error',
   ENDING_ACTIVITY_FAILED = 'Ending activity failed',
+  WAIT_ACTIVITY_SUBMISSION_FAILED = 'wait_activity_submission_failed',
   TEST_SUBMISSION_FAILED = 'Test submission failed',
   ADD_ODOMETER_READING_TIME_TAKEN = 'add_odometer_reading_time_taken',
   ADD_ODOMETER_READING_START_TIME = 'add_odometer_reading_start_time',

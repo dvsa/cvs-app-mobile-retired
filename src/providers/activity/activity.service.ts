@@ -62,8 +62,20 @@ export class ActivityService {
     return this.httpService.getOpenVisitCheck(this.authService.testerDetails.testerId);
   }
 
+  /**
+   * @deprecated stop using in favour of equivalent method taken a @param activities as parameter
+   */
   updateActivities() {
     if (this.appService.caching) this.storageService.update(STORAGE.ACTIVITIES, this.activities);
+  }
+
+  /**
+   * @description use by passing in @param activities
+   */
+  updateActiviesArgs(activities: ActivityModel[]) {
+    if (this.appService.caching) {
+      this.storageService.update(STORAGE.ACTIVITIES, activities);
+    }
   }
 
   submitActivity(activity: ActivityModel) {
