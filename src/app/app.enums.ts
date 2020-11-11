@@ -241,7 +241,7 @@ export enum APP_STRINGS {
   CONFIRMATION_MESSAGE_END_VISIT = 'Site visit has been submitted and sent to DVSA and ',
   CONFIRMATION_MESSAGE_SUBMIT_TEST = 'The tests have been submitted and will be emailed to ',
   CONFIRMATION_ADDITIONAL_MESSAGE_SUBMIT_TEST = 'If you do not receive the email, ',
-  CONFIRMATION_ADDITIONAL_MESSAGE_BUTTON_SUBMIT_TEST = 'call central support',
+  CONFIRMATION_ADDITIONAL_MESSAGE_BUTTON_SUBMIT_TEST = 'contact the Help Desk',
   PROVISIONAL_LABEL_TEXT = 'This is a provisional record.',
   TEST_CREATE_ERROR_BANNER = 'You must complete all vehicle and test type details before reviewing.',
   SKELETON = 'skeleton',
