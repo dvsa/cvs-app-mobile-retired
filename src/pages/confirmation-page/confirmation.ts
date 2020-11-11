@@ -15,7 +15,7 @@ export class ConfirmationPage {
   testerEmailAddress: string;
   message: string;
   additionalMessage: string;
-  additionalMessageButton: any;
+  additionalMessageButton: string;
 
   constructor(
     public navCtrl: NavController,
