@@ -22,7 +22,9 @@ end
 def upload_ipa
   environment = ENV['ENVIRONMENT']
   environment = "feature/#{ENV['BRANCH']}" if environment == 'feature'
-  aws_s3(bucket: 'dvsa-cvs-mobile-artefacts',
+  aws_s3(access_key: ENV['AWS_ACCESS_KEY_ID'],
+         secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+         bucket: 'dvsa-cvs-mobile-artefacts',
          path: "#{environment}/v{CFBundleShortVersionString}/",
          html_in_folder: true, html_file_name: "#{ENV['BRANCH']}.html",
          region: 'eu-west-1',
