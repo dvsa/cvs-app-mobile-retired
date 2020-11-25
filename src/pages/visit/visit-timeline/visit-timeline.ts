@@ -8,7 +8,6 @@ import {
   NavController,
   NavParams,
   ModalController,
-  Platform,
   Alert
 } from 'ionic-angular';
 import { TestService } from '../../../providers/test/test.service';
@@ -31,7 +30,7 @@ import {
 import { StorageService } from '../../../providers/natives/storage.service';
 import { AppService } from '../../../providers/global/app.service';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-import { AuthService } from '../../../providers/global/auth.service';
+import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { ActivityModel } from '../../../models/visit/activity.model';
 import { ActivityService } from '../../../providers/activity/activity.service';
@@ -54,7 +53,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   TEST_TYPE_RESULT = TEST_TYPE_RESULTS;
   VISIT_TYPE = VISIT;
   changeOpacity: boolean = false;
-  oid: string;
+  testerId: string;
   timeout;
   isCreateTestEnabled = true;
   platformSubscription: Subscription;
@@ -73,9 +72,9 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     public visitService: VisitService,
     private activityService: ActivityService,
     private alertCtrl: AlertController,
+    private authenticationService: AuthenticationService,
     private storageService: StorageService,
     private openNativeSettings: OpenNativeSettings,
-    private authService: AuthService,
     private firebaseLogsService: FirebaseLogsService,
     private modalCtrl: ModalController,
     private formatVrmPipe: FormatVrmPipe,
@@ -159,9 +158,13 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
               (1000 * 60);
         }
         clearTimeout(this.activityService.waitTimer);
-        this.activityService.waitTimer = setTimeout(() => {
-          this.createWaitTime();
-        }, counterTime * 1000 * 60);
+        this.activityService.waitTimer = window.setTimeout(
+          () => {
+            this.createWaitTime();
+          },
+          counterTime * 1000 * 60,
+          []
+        );
       }
     }
   }
@@ -251,7 +254,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     this.isCreateTestEnabled = false;
 
     this.showLoading(APP_STRINGS.END_VISIT_LOADING);
-    this.oid = this.authService.getOid();
+
+    this.testerId = this.authenticationService.tokenInfo.testerId;
 
     return this.visitService.endVisit(this.visit.id).pipe(
       mergeMap((endVisitResp) => {
@@ -259,7 +263,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
         this.logProvider.dispatchLog({
           type: LOG_TYPES.INFO,
-          message: `${this.oid} - ${endVisitResp.status} ${endVisitResp.statusText}
+          message: `${this.testerId} - ${endVisitResp.status} ${endVisitResp.statusText}
           for API call to ${endVisitResp.url}. Visit closed automatically ${wasVisitAlreadyClosed}`,
           timestamp: Date.now()
         });
@@ -279,7 +283,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
         this.logProvider.dispatchLog({
           type: 'error-visitService.endVisit-confirmEndVisit in visit-timeline.ts',
-          message: `${this.oid} - ${JSON.stringify(error)}`,
+          message: `${this.testerId} - ${JSON.stringify(error)}`,
           timestamp: Date.now()
         });
 
@@ -302,7 +306,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         {
           text: APP_STRINGS.OK,
           handler: () => {
-            this.onUpdateActivityReasonsSuccess$();
+            this.onUpdateActivityReasonsSuccess();
           }
         }
       ]
@@ -321,11 +325,11 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
     return this.activityService.submitActivity(activity).pipe(
       map((submitActivityResp) => {
-        let activities: ActivityModel[];
+        let activities: ActivityModel[] = [] as ActivityModel[];
 
         this.logProvider.dispatchLog({
           type: LOG_TYPES.INFO,
-          message: `${this.oid} - ${submitActivityResp.status} ${submitActivityResp.statusText} for API call to ${submitActivityResp.url}`,
+          message: `${this.testerId} - ${submitActivityResp.status} ${submitActivityResp.statusText} for API call to ${submitActivityResp.url}`,
           timestamp: Date.now()
         });
 
@@ -337,14 +341,14 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           activities[lastestActivityPos].id = submitActivityResp.body.id;
         }
         this.activityService.updateActiviesArgs(activities);
-        return of(activities);
+        return activities;
       }),
       catchError((error) => {
         this.showLoading('');
 
         this.logProvider.dispatchLog({
           type: `${LOG_TYPES.ERROR}-activityService.submitActivity in visit-timeline.ts`,
-          message: `${this.oid} -${JSON.stringify(error)}`,
+          message: `${this.testerId} -${JSON.stringify(error)}`,
           timestamp: Date.now()
         });
 
@@ -366,18 +370,18 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         map((activityReasonResp) => {
           this.logProvider.dispatchLog({
             type: LOG_TYPES.INFO,
-            message: `${this.oid} - ${activityReasonResp.status} ${activityReasonResp.statusText} for API call to ${activityReasonResp.url}`,
+            message: `${this.testerId} - ${activityReasonResp.status} ${activityReasonResp.statusText} for API call to ${activityReasonResp.url}`,
             timestamp: Date.now()
           });
 
-          return this.onUpdateActivityReasonsSuccess$();
+          return this.onUpdateActivityReasonsSuccess();
         }),
         catchError((error) => {
           this.showLoading('');
 
           this.logProvider.dispatchLog({
             type: `${LOG_TYPES.ERROR}-activityService.updateActivityReasons in visit-timeline.ts`,
-            message: `${this.oid} - ${JSON.stringify(error)}`,
+            message: `${this.testerId} - ${JSON.stringify(error)}`,
             timestamp: Date.now()
           });
 
@@ -385,7 +389,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         })
       );
     } else {
-      return this.onUpdateActivityReasonsSuccess$();
+      return of(this.onUpdateActivityReasonsSuccess());
     }
   }
 
@@ -414,7 +418,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     }
   }
 
-  onUpdateActivityReasonsSuccess$(): Observable<boolean> {
+  onUpdateActivityReasonsSuccess(): boolean {
     this.storageService.delete(STORAGE.VISIT);
     this.storageService.delete(STORAGE.STATE);
     this.storageService.delete(STORAGE.ACTIVITIES);
@@ -427,7 +431,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       testStationName: this.visit.testStationName
     });
 
-    return of(true);
+    return true;
   }
 
   editWaitTime(activity: ActivityModel) {

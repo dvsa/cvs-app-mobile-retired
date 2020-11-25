@@ -10,8 +10,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthService } from '../global/auth.service';
 import { catchError, filter, finalize, switchMap, take, tap } from 'rxjs/operators';
 import { _throw } from 'rxjs/observable/throw';
+
 import { AUTH, STATUS_CODE } from '../../app/app.enums';
-import { AppConfig } from '../../../config/app.config';
+import {default as AppConfig} from '../../../config/application.hybrid';
 import { LogsProvider } from '../../modules/logs/logs.service';
 
 @Injectable()
@@ -149,7 +150,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   addAuthHeader(request: HttpRequest<any>, token) {
     const AUTH_HEADER = token;
-    if (AUTH_HEADER && request.url !== AppConfig.URL_LATEST_VERSION) {
+    if (AUTH_HEADER && request.url !== AppConfig.app.URL_LATEST_VERSION) {
       return request.clone({
         setHeaders: {
           Authorization: `${AUTH_HEADER}`

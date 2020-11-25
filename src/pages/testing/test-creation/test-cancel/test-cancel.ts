@@ -20,7 +20,7 @@ import { TestResultService } from '../../../../providers/test-result/test-result
 import { VisitService } from '../../../../providers/visit/visit.service';
 import { Observable } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-import { AuthService } from '../../../../providers/global/auth.service';
+import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
 import { catchError } from 'rxjs/operators';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { ActivityService } from '../../../../providers/activity/activity.service';
@@ -39,7 +39,6 @@ export class TestCancelPage {
   changeOpacity;
   nextAlert;
   tryAgain: boolean = false;
-  oid: string;
 
   constructor(
     public navCtrl: NavController,
@@ -51,7 +50,7 @@ export class TestCancelPage {
     private visitService: VisitService,
     private loadingCtrl: LoadingController,
     private firebase: Firebase,
-    private authService: AuthService,
+    private authenticationService: AuthenticationService,
     private firebaseLogsService: FirebaseLogsService,
     private activityService: ActivityService,
     private logProvider: LogsProvider
@@ -105,7 +104,8 @@ export class TestCancelPage {
 
   submit(test) {
     let stack: Observable<any>[] = [];
-    this.oid = this.authService.getOid();
+    const { testerId } = this.authenticationService.tokenInfo;
+
     const TRY_AGAIN_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
       message: APP_STRINGS.NO_INTERNET_CONNECTION,
@@ -147,7 +147,7 @@ export class TestCancelPage {
           catchError((error: any) => {
             this.logProvider.dispatchLog({
               type: LOG_TYPES.ERROR,
-              message: `${this.oid} - ${JSON.stringify(
+              message: `${testerId} - ${JSON.stringify(
                 error
               )} for API call to with the body message ${JSON.stringify(testResult)}`,
               timestamp: Date.now()
@@ -163,7 +163,7 @@ export class TestCancelPage {
       (response: any) => {
         this.logProvider.dispatchLog({
           type: 'info',
-          message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
+          message: `${testerId} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
           timestamp: Date.now()
         });
 
@@ -178,7 +178,7 @@ export class TestCancelPage {
             (resp) => {
               this.logProvider.dispatchLog({
                 type: LOG_TYPES.INFO,
-                message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
+                message: `${testerId} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
                 timestamp: Date.now()
               });
 
@@ -195,7 +195,7 @@ export class TestCancelPage {
             (error) => {
               this.logProvider.dispatchLog({
                 type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-cancel.ts`,
-                message: `${this.oid} - ${JSON.stringify(error)}`,
+                message: `${testerId} - ${JSON.stringify(error)}`,
                 timestamp: Date.now()
               });
 

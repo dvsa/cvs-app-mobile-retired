@@ -70,13 +70,14 @@ describe(`AppService: `, () => {
   it('should start AppService', () => {
     expect(appService).toBeFalsy();
 
-    appService = new AppService(platform, toast, storageService, authService);
+    // appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
 
     expect(appService).toBeTruthy();
   });
 
   it("should set AppServices's readonly flags", () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
 
     expect(appService.isCordova).toBeTruthy();
     expect(appService.isProduction).toBeFalsy();
@@ -84,7 +85,7 @@ describe(`AppService: `, () => {
   });
 
   it("should set AppService's flags to false if on first run", () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
     localStorage.clear();
     appService.setFlags();
 
@@ -95,7 +96,7 @@ describe(`AppService: `, () => {
   });
 
   it("should set AppService's flags to true if on following runs", () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
 
     localStorage.setItem(LOCAL_STORAGE.SIGNATURE, 'true');
     localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
@@ -111,14 +112,14 @@ describe(`AppService: `, () => {
   });
 
   it('should get ref data initialization sync', () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
 
     appService.setRefDataSync(true);
     expect(appService.getRefDataSync()).toBeTruthy();
   });
 
   it('should manage application initialization', () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
 
     appService.manageAppInit().then((data) => {
       expect(data).toBeTruthy();
@@ -126,13 +127,13 @@ describe(`AppService: `, () => {
   });
 
   it('should clear localStorage', () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
 
     appService.clearLocalStorage().then((data) => expect(data).toBeTruthy());
   });
 
   it("should set app's easter egg", () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
     appService.setEasterEgg();
 
     expect(localStorage.getItem(LOCAL_STORAGE.EASTER_EGG)).toBe('true');
@@ -140,7 +141,7 @@ describe(`AppService: `, () => {
   });
 
   it('testing enableCache method: easterEgg = true, caching = true', () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
     appService.count = 0;
     appService.easterEgg = true;
     appService.caching = true;
@@ -156,7 +157,7 @@ describe(`AppService: `, () => {
   });
 
   it('testing enableCache method: easterEgg = true, caching = false', () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
     appService.count = 0;
     appService.easterEgg = true;
     appService.caching = false;
@@ -172,14 +173,14 @@ describe(`AppService: `, () => {
   });
 
   it('should test setEasterEgg method with isProduction = true', () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
     appService.setEasterEgg();
     expect(localStorage.setItem).toHaveBeenCalledWith(LOCAL_STORAGE.EASTER_EGG, 'true');
     expect(localStorage.setItem).toHaveBeenCalledWith(LOCAL_STORAGE.CACHING, 'true');
   });
 
   it('should be false if mobileAccessibility font size is below or equal to iOS default 106%', () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
 
     appService.setAccessibilityTextZoom(106);
     expect(appService.isAccessibilityTextZoomEnabled()).toBeFalsy();
@@ -189,7 +190,7 @@ describe(`AppService: `, () => {
   });
 
   it('should be true if mobileAccessibility font size is higher than 106%', () => {
-    appService = new AppService(platform, toast, storageService, authService);
+    appService = new AppService(platform, toast, storageService);
 
     appService.setAccessibilityTextZoom(107);
     expect(appService.isAccessibilityTextZoomEnabled()).toBeTruthy();

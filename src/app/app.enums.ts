@@ -373,6 +373,8 @@ export enum TECH_RECORD_STATUS {
 export enum AUTH {
   INVALID_TOKEN = 'Invalid Token',
   INTERNET_REQUIRED = 'Internet is required.',
+  RE_LOGIN = 'Allow user to log in again',
+  CONTINUE = 'Token is active, continue the flow',
   MS_ADAL_ERROR_CODE = 'AD_ERROR_UI_USER_CANCEL',
   MS_ADA_ERROR_USER_INPUT = 'AD_ERROR_SERVER_USER_INPUT_NEEDED'
 }

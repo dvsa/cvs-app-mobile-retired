@@ -6,6 +6,8 @@ import {
   NavParams,
   ViewController
 } from 'ionic-angular';
+import { CallNumber } from '@ionic-native/call-number';
+
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
@@ -20,8 +22,7 @@ import {
   VEHICLE_TYPE
 } from '../../../../app/app.enums';
 import { StorageService } from '../../../../providers/natives/storage.service';
-import { AppConfig } from '../../../../../config/app.config';
-import { CallNumber } from '@ionic-native/call-number';
+import {default as AppConfig} from '../../../../../config/application.hybrid';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { AppService } from '../../../../providers/global/app.service';
 
@@ -118,7 +119,7 @@ export class VehicleDetailsPage {
                       {
                         text: APP_STRINGS.CALL,
                         handler: () => {
-                          this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
+                          this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
                             (data) => console.log(data),
                             (err) => console.log(err)
                           );
