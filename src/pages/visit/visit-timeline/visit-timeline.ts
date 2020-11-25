@@ -8,7 +8,6 @@ import {
   NavController,
   NavParams,
   ModalController,
-  Platform,
   Alert
 } from 'ionic-angular';
 import { TestService } from '../../../providers/test/test.service';
@@ -31,8 +30,8 @@ import {
 import { StorageService } from '../../../providers/natives/storage.service';
 import { AppService } from '../../../providers/global/app.service';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-import { AuthService } from '../../../providers/global/auth.service';
-import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
+// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { ActivityModel } from '../../../models/visit/activity.model';
 import { ActivityService } from '../../../providers/activity/activity.service';
 import { FormatVrmPipe } from '../../../pipes/format-vrm/format-vrm.pipe';
@@ -73,10 +72,10 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     public visitService: VisitService,
     private activityService: ActivityService,
     private alertCtrl: AlertController,
+    private authenticationService: AuthenticationService,
     private storageService: StorageService,
     private openNativeSettings: OpenNativeSettings,
-    private authService: AuthService,
-    private firebaseLogsService: FirebaseLogsService,
+    // private firebaseLogsService: FirebaseLogsService,
     private modalCtrl: ModalController,
     private formatVrmPipe: FormatVrmPipe,
     private logProvider: LogsProvider
@@ -108,7 +107,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VISIT_TIMELINE);
+    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VISIT_TIMELINE);
     // this.waitTimeHandler(); FIXME: Needs to be fixed separately.
   }
 
@@ -159,9 +158,13 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
               (1000 * 60);
         }
         clearTimeout(this.activityService.waitTimer);
-        this.activityService.waitTimer = setTimeout(() => {
-          this.createWaitTime();
-        }, counterTime * 1000 * 60);
+        this.activityService.waitTimer = window.setTimeout(
+          () => {
+            this.createWaitTime();
+          },
+          counterTime * 1000 * 60,
+          []
+        );
       }
     }
   }
@@ -171,7 +174,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   createNewTestReport(): void {
-    this.firebaseLogsService.search_vehicle_time.search_vehicle_start_time = Date.now();
+    // this.firebaseLogsService.search_vehicle_time.search_vehicle_start_time = Date.now();
     let test = this.testReportService.createTest();
     this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, { test: test });
     clearTimeout(this.activityService.waitTimer);
@@ -251,7 +254,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     this.isCreateTestEnabled = false;
 
     this.showLoading(APP_STRINGS.END_VISIT_LOADING);
-    this.oid = this.authService.getOid();
+
+    this.oid = this.authenticationService.tokenInfo.oid;
 
     return this.visitService.endVisit(this.visit.id).pipe(
       mergeMap((endVisitResp) => {
@@ -264,7 +268,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_VISIT);
+        // this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_VISIT);
         // clearTimeout(this.activityService.waitTimer);
 
         return wasVisitAlreadyClosed
@@ -283,11 +287,11 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        this.firebaseLogsService.logEvent(
-          FIREBASE.TEST_ERROR,
-          FIREBASE.ERROR,
-          FIREBASE.ENDING_ACTIVITY_FAILED
-        );
+        // this.firebaseLogsService.logEvent(
+        //   FIREBASE.TEST_ERROR,
+        //   FIREBASE.ERROR,
+        //   FIREBASE.ENDING_ACTIVITY_FAILED
+        // );
 
         return this.endVisitError$(error);
       })
@@ -302,7 +306,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         {
           text: APP_STRINGS.OK,
           handler: () => {
-            this.onUpdateActivityReasonsSuccess$();
+            this.onUpdateActivityReasonsSuccess();
           }
         }
       ]
@@ -321,7 +325,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
     return this.activityService.submitActivity(activity).pipe(
       map((submitActivityResp) => {
-        let activities: ActivityModel[];
+        let activities: ActivityModel[] = [] as ActivityModel[];
 
         this.logProvider.dispatchLog({
           type: LOG_TYPES.INFO,
@@ -337,7 +341,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           activities[lastestActivityPos].id = submitActivityResp.body.id;
         }
         this.activityService.updateActiviesArgs(activities);
-        return of(activities);
+        return activities;
       }),
       catchError((error) => {
         this.showLoading('');
@@ -348,11 +352,11 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        this.firebaseLogsService.logEvent(
-          FIREBASE.TEST_ERROR,
-          FIREBASE.ERROR,
-          FIREBASE.WAIT_ACTIVITY_SUBMISSION_FAILED
-        );
+        // this.firebaseLogsService.logEvent(
+        //   FIREBASE.TEST_ERROR,
+        //   FIREBASE.ERROR,
+        //   FIREBASE.WAIT_ACTIVITY_SUBMISSION_FAILED
+        // );
 
         return of(null);
       })
@@ -370,7 +374,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
             timestamp: Date.now()
           });
 
-          return this.onUpdateActivityReasonsSuccess$();
+          return this.onUpdateActivityReasonsSuccess();
         }),
         catchError((error) => {
           this.showLoading('');
@@ -385,36 +389,40 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         })
       );
     } else {
-      return this.onUpdateActivityReasonsSuccess$();
+      return of(this.onUpdateActivityReasonsSuccess());
     }
   }
 
   private endVisitError$(receivedErr: any): Observable<any> {
-    if (receivedErr && receivedErr.error === AUTH.INTERNET_REQUIRED) {
-      const TRY_AGAIN_ALERT = this.alertCtrl.create({
-        title: APP_STRINGS.UNABLE_TO_END_VISIT,
-        message: APP_STRINGS.NO_INTERNET_CONNECTION,
-        buttons: [
-          {
-            text: APP_STRINGS.SETTINGS_BTN,
-            handler: () => {
-              this.openNativeSettings.open('settings');
+    if (receivedErr) {
+      if (receivedErr.error === AUTH.INTERNET_REQUIRED) {
+        const TRY_AGAIN_ALERT = this.alertCtrl.create({
+          title: APP_STRINGS.UNABLE_TO_END_VISIT,
+          message: APP_STRINGS.NO_INTERNET_CONNECTION,
+          buttons: [
+            {
+              text: APP_STRINGS.SETTINGS_BTN,
+              handler: () => {
+                this.openNativeSettings.open('settings');
+              }
+            },
+            {
+              text: APP_STRINGS.TRY_AGAIN_BTN,
+              handler: () => {
+                this.confirmVisit$ = this.confirmEndVisit$();
+              }
             }
-          },
-          {
-            text: APP_STRINGS.TRY_AGAIN_BTN,
-            handler: () => {
-              this.confirmVisit$ = this.confirmEndVisit$();
-            }
-          }
-        ]
-      });
+          ]
+        });
 
-      return of(TRY_AGAIN_ALERT.present());
+        return of(TRY_AGAIN_ALERT.present());
+      } else {
+        return of(this.onUpdateActivityReasonsSuccess());
+      }
     }
   }
 
-  onUpdateActivityReasonsSuccess$(): Observable<boolean> {
+  onUpdateActivityReasonsSuccess(): boolean {
     this.storageService.delete(STORAGE.VISIT);
     this.storageService.delete(STORAGE.STATE);
     this.storageService.delete(STORAGE.ACTIVITIES);
@@ -427,7 +435,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       testStationName: this.visit.testStationName
     });
 
-    return of(true);
+    return true;
   }
 
   editWaitTime(activity: ActivityModel) {
