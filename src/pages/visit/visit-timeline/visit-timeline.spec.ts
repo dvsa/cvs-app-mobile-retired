@@ -32,7 +32,6 @@ import { StorageServiceMock } from '../../../../test-config/services-mocks/stora
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { VisitDataMock } from '../../../assets/data-mocks/visit-data.mock';
-import { AuthService } from '../../../providers/global/auth.service';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { FirebaseLogsServiceMock } from '../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { ActivityService } from '../../../providers/activity/activity.service';
@@ -45,9 +44,7 @@ import {
   FIREBASE,
   PAGE_NAMES,
   STORAGE,
-  TEST_REPORT_STATUSES,
-  VEHICLE_TYPE,
-  VISIT
+  VEHICLE_TYPE
 } from '../../../app/app.enums';
 import { Firebase } from '@ionic-native/firebase';
 import { Observable } from 'rxjs';
@@ -70,10 +67,8 @@ describe('Component: VisitTimelinePage', () => {
   let navCtrl: NavController;
   let storageService: StorageService;
   let storageServiceSpy: any;
-  let authService: AuthService;
   let activityService: ActivityService;
   let activityServiceSpy: jasmine.SpyObj<ActivityService>;
-  let authServiceSpy: any;
   let visitService: VisitService;
   let visitServiceSpy: jasmine.SpyObj<VisitService>;
   let logProvider: LogsProvider;
@@ -116,10 +111,6 @@ describe('Component: VisitTimelinePage', () => {
       dispatchLog: () => true
     });
 
-    authServiceSpy = jasmine.createSpyObj('AuthService', {
-      getOid: () => 'user_oid'
-    });
-
     activityServiceSpy = jasmine.createSpyObj('ActivityService', [
       'createActivity',
       'getActivities',
@@ -151,7 +142,6 @@ describe('Component: VisitTimelinePage', () => {
         { provide: ActivityService, useValue: activityServiceSpy },
         { provide: VisitService, useValue: visitServiceSpy },
         { provide: StorageService, useClass: StorageServiceMock },
-        { provide: AuthService, useValue: authServiceSpy },
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
         FormatVrmPipe
@@ -171,7 +161,6 @@ describe('Component: VisitTimelinePage', () => {
     alertCtrl = TestBed.get(AlertController);
     navCtrl = TestBed.get(NavController);
     storageService = TestBed.get(StorageService);
-    authService = TestBed.get(AuthService);
     logProvider = TestBed.get(LogsProvider);
   });
 

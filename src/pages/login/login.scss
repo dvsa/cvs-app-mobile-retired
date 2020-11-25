@@ -1,0 +1,38 @@
+ion-content {
+  height: 100%;
+}
+
+ion-card {
+  --background: white;
+  margin-top: -55px;
+  ion-card-header {
+    --background: white;
+    ion-card-title {
+      text-align: center;
+    }
+  }
+
+  ion-card-content.md {
+    padding-bottom: 50px;
+  }
+  ion-card-content.ios {
+    padding-bottom: 65px;
+  }
+}
+
+.button-container {
+  text-align: center;
+  button.ios {
+    margin-top: 20px;
+  }
+  button.md {
+    margin-top: 20px;
+  }
+  button {
+    --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --padding-top: 30px;
+    --padding-bottom: 30px;
+    margin: 0 auto;
+    width: 75%;
+  }
+}

@@ -16,8 +16,6 @@ import {
   NavControllerMock,
   ViewControllerMock
 } from 'ionic-mocks';
-import { AuthService } from '../../../../../providers/global/auth.service';
-import { AuthServiceMock } from '../../../../../../test-config/services-mocks/auth-service.mock';
 import { VehicleService } from '../../../../../providers/vehicle/vehicle.service';
 import { VehicleServiceMock } from '../../../../../../test-config/services-mocks/vehicle-service.mock';
 import { StorageService } from '../../../../../providers/natives/storage.service';
@@ -53,7 +51,6 @@ describe('Component: ', () => {
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
-        { provide: AuthService, useClass: AuthServiceMock },
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: StorageService, useClass: StorageServiceMock },
         {

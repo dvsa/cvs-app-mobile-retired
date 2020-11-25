@@ -199,6 +199,7 @@ export enum APP_STRINGS {
   UNABLE_TO_START_VISIT = 'Unable to start visit',
   UNABLE_TO_END_VISIT = 'Unable to end visit',
   NO_INTERNET_CONNECTION = 'Make sure you are connected to the Internet and try again.',
+  PLUGIN_FAILURE = 'Login failed, please try again',
   SETTINGS_BTN = 'Settings',
   TRY_AGAIN_BTN = 'Try again',
   CALL_SUPP_BTN = 'Call technical support',
@@ -373,6 +374,9 @@ export enum TECH_RECORD_STATUS {
 export enum AUTH {
   INVALID_TOKEN = 'Invalid Token',
   INTERNET_REQUIRED = 'Internet is required.',
+  RE_LOGIN = 'Allow user to log in again',
+  CONTINUE = 'Token is active, continue the flow',
+  FAILED = 'Login failed',
   MS_ADAL_ERROR_CODE = 'AD_ERROR_UI_USER_CANCEL',
   MS_ADA_ERROR_USER_INPUT = 'AD_ERROR_SERVER_USER_INPUT_NEEDED'
 }
@@ -380,7 +384,8 @@ export enum AUTH {
 export enum SIGNATURE_STATUS {
   SAVED = 'signature:saved',
   ERROR = 'signature:error',
-  SAVED_EVENT = 'signature-saved'
+  SAVED_EVENT = 'signature-saved',
+  PRE_REGISTERED = 'signature-previously-set'
 }
 
 export enum VISIT {
@@ -413,7 +418,8 @@ export enum PAGE_NAMES {
   VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION = 'VehicleLookupSearchCriteriaSelectionPage',
   WAIT_TIME_REASONS_PAGE = 'WaitTimeReasonsPage',
   MULTIPLE_TECH_RECORDS_SELECTION = 'MultipleTechRecordsSelectionPage',
-  DEFECT_DETAILS_SPECIALIST_TESTING = 'DefectDetailsSpecialistTestingPage'
+  DEFECT_DETAILS_SPECIALIST_TESTING = 'DefectDetailsSpecialistTestingPage',
+  LOGIN_PAGE = 'LoginPage'
 }
 
 export enum WAIT_TIME_REASONS {

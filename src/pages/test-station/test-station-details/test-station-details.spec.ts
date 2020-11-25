@@ -23,8 +23,6 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
 import { NavParamsMock } from '../../../../test-config/ionic-mocks/nav-params.mock';
-import { AuthService } from '../../../providers/global/auth.service';
-import { AuthServiceMock } from '../../../../test-config/services-mocks/auth-service.mock';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../../providers/interceptors/auth.interceptor.spec';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
@@ -32,6 +30,8 @@ import { FirebaseLogsServiceMock } from '../../../../test-config/services-mocks/
 import { AppService } from '../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../test-config/services-mocks/app-service.mock';
 import { LogsProvider } from '../../../modules/logs/logs.service';
+import { AuthenticationService } from '../../../providers/auth';
+import { AuthenticationServiceMock } from '../../../../test-config/services-mocks/authentication-service.mock';
 
 describe('Component: TestStationDetailsPage', () => {
   let component: TestStationDetailsPage;
@@ -69,7 +69,7 @@ describe('Component: TestStationDetailsPage', () => {
         { provide: CallNumber, useValue: callNumberSpy },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
-        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: Store, useClass: TestStore },
         { provide: AppService, useClass: AppServiceMock },
         { provide: LogsProvider, useValue: logProviderSpy }
