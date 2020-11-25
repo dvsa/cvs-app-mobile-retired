@@ -21,6 +21,11 @@ export enum STATUS_CODE {
   FORBIDDEN = 403
 }
 
+export enum CONNECTION_STATUS {
+  OFFLINE = 0,
+  ONLINE = 1
+}
+
 export enum LOCAL_STORAGE {
   INIT_SYNC = 'initSyncDone',
   FIRST_INIT = 'firstInit',
@@ -29,7 +34,8 @@ export enum LOCAL_STORAGE {
   TESTER_DETAILS = 'tester-details',
   JWT_TOKEN = 'jwt-token',
   SIGNATURE = 'signature-image',
-  IS_TEST_SUBMITTED = 'is-test-submitted'
+  IS_TEST_SUBMITTED = 'is-test-submitted',
+  OBSFUCATED_TESTER = 'obs-tester-oid'
 }
 
 export enum APP {
@@ -199,6 +205,7 @@ export enum APP_STRINGS {
   UNABLE_TO_START_VISIT = 'Unable to start visit',
   UNABLE_TO_END_VISIT = 'Unable to end visit',
   NO_INTERNET_CONNECTION = 'Make sure you are connected to the Internet and try again.',
+  PLUGIN_FAILURE = 'Login failed, please try again',
   SETTINGS_BTN = 'Settings',
   TRY_AGAIN_BTN = 'Try again',
   CALL_SUPP_BTN = 'Call technical support',
@@ -222,7 +229,7 @@ export enum APP_STRINGS {
   SIGN_TOAST_MSG = 'Your Signature has been saved and will be used each time you need to sign a certificate',
   SIGN_NOT_ENTERED = 'Signature not entered',
   SIGN_ENTER = 'You must enter your signature before saving.',
-  SIGN_UNABLE_LOAD_DATA = 'Unable to load data',
+  UNABLE_LOAD_DATA = 'Unable to load data',
   CACHING_ENABLED_STORAGE_CLEARED = 'Storage was cleared and caching was disabled. Ride on',
   CACHING_ENABLED = 'Caching was enabled',
   UNAUTHORISED = 'Unable to authorise',
@@ -373,8 +380,9 @@ export enum TECH_RECORD_STATUS {
 export enum AUTH {
   INVALID_TOKEN = 'Invalid Token',
   INTERNET_REQUIRED = 'Internet is required.',
-  MS_ADAL_ERROR_CODE = 'AD_ERROR_UI_USER_CANCEL',
-  MS_ADA_ERROR_USER_INPUT = 'AD_ERROR_SERVER_USER_INPUT_NEEDED'
+  RE_LOGIN = 'Allow user to log in again',
+  CONTINUE = 'Token is active, continue the flow',
+  FAILED = 'Login failed'
 }
 
 export enum SIGNATURE_STATUS {

@@ -1,23 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, IonicPage, NavController } from 'ionic-angular';
-import {
-  APP_STRINGS,
-  FIREBASE_SCREEN_NAMES,
-  LOG_TYPES,
-  PAGE_NAMES,
-  TESTER_ROLES
-} from '../../../app/app.enums';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { AppService } from '../../../providers/global/app.service';
-import { AuthService } from '../../../providers/global/auth.service';
-import { AppConfig } from '../../../../config/app.config';
-import { CallNumber } from '@ionic-native/call-number';
-import { LogsModel } from '../../../modules/logs/logs.model';
 import { Store } from '@ngrx/store';
+import { IonicPage, NavController } from 'ionic-angular';
+
+import { APP_STRINGS, LOG_TYPES, PAGE_NAMES, TESTER_ROLES } from '../../../app/app.enums';
+import { AppService, SyncService, AppAlertService } from '../../../providers/global';
+import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
+import { LogsModel } from '../../../modules/logs/logs.model';
 import { StartSendingLogs } from '../../../modules/logs/logs.actions';
-import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
-import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
-import { SyncService } from '../../../providers/global/sync.service';
+// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 
 @IonicPage()
@@ -32,55 +23,36 @@ export class TestStationHomePage implements OnInit {
     public navCtrl: NavController,
     public appService: AppService,
     private screenOrientation: ScreenOrientation,
-    public authService: AuthService,
+    private authenticationService: AuthenticationService,
     private syncService: SyncService,
-    private alertCtrl: AlertController,
-    private callNumber: CallNumber,
+    private alertService: AppAlertService,
     private store$: Store<LogsModel>,
-    private networkStateProvider: NetworkStateProvider,
-    private firebaseLogsService: FirebaseLogsService,
+    // private firebaseLogsService: FirebaseLogsService,
     private logProvider: LogsProvider
   ) {}
 
+  neededRoles: string[] = [
+    TESTER_ROLES.FULL_ACCESS,
+    TESTER_ROLES.PSV,
+    TESTER_ROLES.HGV,
+    TESTER_ROLES.ADR,
+    TESTER_ROLES.TIR
+  ];
+
   ngOnInit() {
-    this.networkStateProvider.initialiseNetworkState();
     this.store$.dispatch(new StartSendingLogs());
 
     if (this.appService.isCordova) {
       this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
     }
 
-    let neededRoles: string[] = [
-      TESTER_ROLES.FULL_ACCESS,
-      TESTER_ROLES.PSV,
-      TESTER_ROLES.HGV,
-      TESTER_ROLES.ADR,
-      TESTER_ROLES.TIR
-    ];
-    if (!this.authService.hasRights(this.authService.userRoles, neededRoles)) {
-      const alert = this.alertCtrl.create({
-        title: APP_STRINGS.UNAUTHORISED,
-        message: APP_STRINGS.UNAUTHORISED_MSG,
-        buttons: [
-          {
-            text: APP_STRINGS.CALL,
-            handler: () => {
-              this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
-                (data) => console.log(data),
-                (err) => console.log(err)
-              );
-              return false;
-            }
-          }
-        ],
-        enableBackdropDismiss: false
-      });
-      alert.present();
-    }
+    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.GET_STARTED);
   }
 
-  ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.GET_STARTED);
+  async ionViewDidEnter() {
+    if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
+      this.alertService.alertUnAuthorise();
+    }
   }
 
   async getStarted() {
@@ -92,9 +64,9 @@ export class TestStationHomePage implements OnInit {
     } else {
       this.logProvider.dispatchLog({
         type: LOG_TYPES.ERROR,
-        message: `User ${this.authService.getOid()} having issue(s) with syncing data: Error ${JSON.stringify(
-          err
-        )}`,
+        message: `User ${
+          this.authenticationService.tokenInfo.oid
+        } having issue(s) with syncing data: Error ${JSON.stringify(err)}`,
         timestamp: Date.now()
       });
     }

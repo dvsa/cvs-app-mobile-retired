@@ -1,18 +1,12 @@
 import { Injectable } from '@angular/core';
 import { SecureStorageObject, SecureStorage } from '@ionic-native/secure-storage';
-import { Platform } from 'ionic-angular';
-import { NetworkStateProvider } from './network-state.service';
 
 @Injectable()
 export class DataStoreProvider {
   defaultStoreName: string = 'MES';
   secureContainer: SecureStorageObject = null;
 
-  constructor(
-    public platform: Platform,
-    public secureStorage: SecureStorage,
-    public networkState: NetworkStateProvider
-  ) {}
+  constructor(private secureStorage: SecureStorage) {}
 
   setSecureContainer(container: SecureStorageObject): void {
     this.secureContainer = container;
