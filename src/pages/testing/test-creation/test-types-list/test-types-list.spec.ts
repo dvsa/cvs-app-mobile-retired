@@ -19,8 +19,8 @@ import { APP_STRINGS, TEST_TYPE_RESULTS } from '../../../../app/app.enums';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { NavControllerMock, ViewControllerMock } from 'ionic-mocks';
-import { AuthService } from '../../../../providers/global/auth.service';
-import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
+import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
+import { AuthenticationServiceMock } from '../../../../../test-config/services-mocks/authentication-service.mock';
 
 describe('Component: TestTypesListPage', () => {
   let comp: TestTypesListPage;
@@ -59,7 +59,7 @@ describe('Component: TestTypesListPage', () => {
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: TestTypeService, useClass: TestTypeServiceMock },
         { provide: VehicleService, useValue: vehicleServiceSpy },
-        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() }
       ],

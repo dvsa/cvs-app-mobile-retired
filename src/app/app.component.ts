@@ -1,8 +1,8 @@
-import { Component, Renderer2, ViewChild } from '@angular/core';
-import { Platform, AlertController, Nav, Events } from 'ionic-angular';
+import { Component, Renderer2, ViewChild, OnInit } from '@angular/core';
+import { Platform, Nav, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { AuthService } from '../providers/global/auth.service';
+import { AuthenticationService } from '../providers/auth/authentication/authentication.service';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility';
 import { SyncService } from '../providers/global/sync.service';
 import { StorageService } from '../providers/natives/storage.service';
@@ -12,13 +12,12 @@ import { Subscription } from 'rxjs';
 import {
   ACCESSIBILITY_DEFAULT_VALUES,
   FIREBASE,
-  LOCAL_STORAGE,
   PAGE_NAMES,
   SIGNATURE_STATUS,
   STORAGE,
-  LOG_TYPES
+  LOG_TYPES,
+  AUTH
 } from './app.enums';
-import { TesterDetailsModel } from '../models/tester-details.model';
 import { AppService } from '../providers/global/app.service';
 import { ActivityService } from '../providers/activity/activity.service';
 import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
@@ -26,12 +25,15 @@ import { Network } from '@ionic-native/network';
 import { Log } from '../modules/logs/logs.model';
 import { LogsProvider } from './../modules/logs/logs.service';
 import * as Sentry from 'sentry-cordova';
-import { AppConfig } from '../../config/app.config';
+import { default as AppConfig } from '../../config/application.hybrid';
+import to from 'await-to-js';
+import { ActivityModel } from '../models/visit/activity.model';
+import { VisitModel } from '../models/visit/visit.model';
 
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class MyApp implements OnInit {
   @ViewChild(Nav) navElem: Nav;
   rootPage: any = PAGE_NAMES.TEST_STATION_HOME_PAGE;
 
@@ -44,14 +46,13 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
+    public events: Events,
     public visitService: VisitService,
     public activityService: ActivityService,
     public storageService: StorageService,
-    public appService: AppService,
-    public events: Events,
-    private alertCtrl: AlertController,
+    private appService: AppService,
     private syncService: SyncService,
-    private authService: AuthService,
+    private authenticationService: AuthenticationService,
     private mobileAccessibility: MobileAccessibility,
     private renderer: Renderer2,
     private firebaseLogsService: FirebaseLogsService,
@@ -61,15 +62,14 @@ export class MyApp {
   ) {
     platform.ready().then(() => {
       Sentry.init({
-        enabled: !!AppConfig.SENTRY_DSN,
-        dsn: AppConfig.SENTRY_DSN,
-        environment: AppConfig.SENTRY_ENV
+        enabled: !!AppConfig.sentry.SENTRY_DSN,
+        dsn: AppConfig.sentry.SENTRY_DSN,
+        environment: AppConfig.sentry.SENTRY_ENV
       });
 
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
-
-      this.initApp();
+      splashScreen.hide();
 
       // Mobile accessibility
       if (this.appService.isCordova) {
@@ -89,77 +89,73 @@ export class MyApp {
     });
   }
 
-  private async initApp() {
-    await this.authService.createAuthContext();
+  // async ngOnInit() {
+  //   // await this.authenticationService.auth.logout();
+  //   await this.appService.manageAppInit();
+
+  //   try {
+  //     await this.authenticationService.login();
+  //     await this.navigateToSignature();
+  //   } catch (error) {
+  //     await this.setRootPage();
+  //     console.error(`Authentication failed due to: ${JSON.stringify(error)}`);
+  //   } finally {
+  //     // loadingIndicator.dismiss();
+  //   }
+  // }
+
+  async ngOnInit() {
+    // await this.authenticationService.auth.logout();
+    await this.authenticationService.expireTokens();
     await this.appService.manageAppInit();
-    this.startAuthProcess();
+
+    const authStatus = await this.authenticationService.checkUserAuthStatus();
+    if (authStatus) {
+      if (!this.appService.isSignatureRegistered) {
+        await this.navElem.setRoot(PAGE_NAMES.SIGNATURE_PAD_PAGE);
+        this.manageAppStateListeners();
+      } else {
+        this.manageAppState();
+      }
+    } else {
+      this.manageAppState();
+    }
   }
 
-  private startAuthProcess() {
-    if (this.appService.isCordova) {
-      this.authLogSub = this.authService.login().subscribe((resp: string) => {
-        if (this.authService.isValidToken(resp)) {
-          this.authService.setJWTToken(resp);
-          this.appService.isJwtTokenStored = true;
-          this.navigateToSignature();
-        } else {
-          this.setRootPage();
-          console.error(`Authentication failed due to: ${resp}`);
-        }
-      });
-    } else {
-      this.splashScreen.hide();
-      this.manageAppState();
-      this.generateUserDetails();
-    }
+  manageAppStateListeners() {
+    this.events.subscribe(SIGNATURE_STATUS.SAVED_EVENT, async () => {
+      this.events.unsubscribe(SIGNATURE_STATUS.SAVED_EVENT);
+      await this.manageAppState();
+    });
   }
 
   async manageAppState() {
-    try {
-      const storageState = await this.storageService.read(STORAGE.STATE);
-      if (storageState) {
-        const storedVisit = await this.storageService.read(STORAGE.VISIT);
+    let error, storageState, storedVisit, storedActivities;
 
-        if (storedVisit) this.visitService.visit = storedVisit;
-        let parsedArr = JSON.parse(storageState);
-        this.navElem.setPages(parsedArr).then(() => this.splashScreen.hide());
-
-        const storedActivities = await this.storageService.read(STORAGE.ACTIVITIES);
-        if (storedActivities) {
-          this.activityService.activities = storedActivities;
-        }
-      } else {
-        this.splashScreen.hide();
-        this.setRootPage();
-      }
-    } catch (error) {
-      this.logProvider.dispatchLog({
-        type: `${LOG_TYPES.ERROR}`,
-        timestamp: Date.now(),
-        message: `User ${this.authService.getOid()} failed from manageAppState in app.component.ts - ${JSON.stringify(
-          error
-        )}`
-      });
-
-      this.splashScreen.hide();
-    }
-  }
-
-  navigateToSignature(): void {
-    if (!this.appService.isSignatureRegistered) {
-      this.navElem
-        .push(PAGE_NAMES.SIGNATURE_PAD_PAGE, { navController: this.navElem })
-        .then(() => {
-          this.events.subscribe(SIGNATURE_STATUS.SAVED_EVENT, () => {
-            this.events.unsubscribe(SIGNATURE_STATUS.SAVED_EVENT);
-            this.setRootPage().then(() => {
-              this.manageAppState();
-            });
-          });
-        });
+    [error, storageState] = await to(this.storageService.read(STORAGE.STATE));
+    if (storageState) {
+      let parsedArr = JSON.parse(storageState);
+      this.navElem.setPages(parsedArr).then(() => this.splashScreen.hide());
     } else {
-      this.manageAppState();
+      this.setRootPage();
     }
+
+    [error, storedVisit] = await to(this.storageService.read(STORAGE.VISIT));
+    this.visitService.visit = storedVisit || ({} as VisitModel);
+
+    [error, storedActivities] = await to(this.storageService.read(STORAGE.ACTIVITIES));
+    this.activityService.activities = storedActivities || ([] as ActivityModel[]);
+
+    // if (error) {
+    //   const { testerId } = this.authenticationService.tokenInfo;
+    //   this.logProvider.dispatchLog({
+    //     type: `${LOG_TYPES.ERROR}`,
+    //     timestamp: Date.now(),
+    //     message: `User ${testerId} failed from manageAppState in app.component.ts - ${JSON.stringify(
+    //       error
+    //     )}`
+    //   });
+    // }
   }
 
   private accessibilityFeatures(): void {
@@ -190,27 +186,10 @@ export class MyApp {
     });
   }
 
-  private generateUserDetails(): void {
-    let localTesterDetails: TesterDetailsModel = JSON.parse(
-      localStorage.getItem(LOCAL_STORAGE.TESTER_DETAILS)
-    );
-    if (localTesterDetails) {
-      this.authService.testerDetails = this.authService.setTesterDetails(
-        null,
-        localTesterDetails.testerId,
-        localTesterDetails.testerObfuscatedOid,
-        localTesterDetails.testerName,
-        localTesterDetails.testerEmail
-      );
-    } else {
-      this.authService.testerDetails = this.authService.setTesterDetails(null);
-    }
-  }
-
   private async setRootPage(): Promise<any> {
     await this.navElem.setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE);
     this.splashScreen.hide();
-    return await this.navElem.popToRoot();
+    return this.navElem.popToRoot();
   }
 
   private setupLogNetworkStatus(): void {
@@ -222,9 +201,9 @@ export class MyApp {
     this.connectedSub = this.network.onDisconnect().subscribe(() => {
       log = {
         ...log,
-        message: `User ${this.authService.getOid()} lost connection (connection type ${
-          this.network.type
-        })`
+        message: `User ${this.authenticationService.tokenInfo.testerId}
+        lost connection (connection type ${this.network.type})
+        `
       };
 
       this.logProvider.dispatchLog(log);
@@ -233,9 +212,9 @@ export class MyApp {
     this.disconnectedSub = this.network.onConnect().subscribe(() => {
       log = {
         ...log,
-        message: `User ${this.authService.getOid()} connected (connection type ${
-          this.network.type
-        })`
+        message: `User ${this.authenticationService.tokenInfo.testerId}
+        connected (connection type ${this.network.type})
+        `
       };
 
       this.logProvider.dispatchLog(log);

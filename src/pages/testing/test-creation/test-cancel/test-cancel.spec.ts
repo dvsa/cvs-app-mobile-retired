@@ -17,8 +17,8 @@ import { VisitDataMock } from '../../../../assets/data-mocks/visit-data.mock';
 import { TestResultService } from '../../../../providers/test-result/test-result.service';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { AlertControllerMock, LoadingControllerMock, NavControllerMock } from 'ionic-mocks';
-import { AuthService } from '../../../../providers/global/auth.service';
-import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
+import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
+import { AuthenticationServiceMock } from '../../../../../test-config/services-mocks/authentication-service.mock';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../../../providers/interceptors/auth.interceptor.spec';
 import { TestResultServiceMock } from '../../../../../test-config/services-mocks/test-result-service.mock';
@@ -85,7 +85,7 @@ describe('Component: TestCancelPage', () => {
         { provide: ActivityService, useClass: ActivityServiceMock },
         { provide: TestService, useValue: testReportServiceSpy },
         { provide: TestResultService, useClass: TestResultServiceMock },
-        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: Store, useClass: TestStore },
         { provide: LogsProvider, useValue: logProviderSpy }
       ],

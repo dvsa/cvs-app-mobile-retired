@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
-import { AppConfig } from '../../../config/app.config';
-import { AuthenticationContext, AuthenticationResult, MSAdal } from '@ionic-native/ms-adal';
+import { Platform } from 'ionic-angular';
+import { Observable } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
+import { Injectable } from '@angular/core';
+// import { AuthenticationContext, AuthenticationResult, MSAdal } from '@ionic-native/ms-adal';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+
+import { default as AppConfig } from '../../../config/application.hybrid';
 import { TesterDetailsModel } from '../../models/tester-details.model';
 import { AUTH, LOCAL_STORAGE, TESTER_ROLES, LOG_TYPES } from '../../app/app.enums';
-import { Observable } from 'rxjs';
 import { CommonRegExp } from '../utils/common-regExp';
-import { Platform } from 'ionic-angular';
 import { CommonFunctionsService } from '../utils/common-functions';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Log } from '../../modules/logs/logs.model';
 import { LogsProvider } from '../../modules/logs/logs.service';
 
@@ -16,12 +17,13 @@ import { LogsProvider } from '../../modules/logs/logs.service';
 export class AuthService {
   testerDetails: TesterDetailsModel;
   jwtToken: string;
-  authContext: AuthenticationContext;
+  // authContext: AuthenticationContext;
+  authContext: any;
   userRoles: string[] = [];
   tenantId: string;
 
   constructor(
-    private msAdal: MSAdal,
+    // private msAdal: MSAdal,
     public platform: Platform,
     private commonFunc: CommonFunctionsService,
     private logProvider: LogsProvider
@@ -31,7 +33,8 @@ export class AuthService {
   }
 
   createAuthContext(): Promise<any> {
-    this.authContext = this.msAdal.createAuthenticationContext(AppConfig.MSAL_AUTHORITY);
+    // this.authContext = this.msAdal.createAuthenticationContext(AppConfig.app.MSAL_AUTHORITY);
+    this.authContext = {};
     return Promise.resolve();
   }
 
@@ -46,8 +49,8 @@ export class AuthService {
 
   private loginSilently(): Promise<string> {
     return this.authContext
-      .acquireTokenSilentAsync(AppConfig.MSAL_RESOURCE_URL, AppConfig.MSAL_CLIENT_ID, '')
-      .then((silentAuthResponse: AuthenticationResult) => {
+      .acquireTokenSilentAsync(AppConfig.app.MSAL_RESOURCE_URL, AppConfig.app.MSAL_CLIENT_ID, '')
+      .then((silentAuthResponse: any) => {
         this.logLoginAttempt(true);
         let authHeader = silentAuthResponse.createAuthorizationHeader();
         this.testerDetails = this.setTesterDetails(silentAuthResponse);
@@ -68,13 +71,13 @@ export class AuthService {
     this.logLoginAttempt(false);
     return this.authContext
       .acquireTokenAsync(
-        AppConfig.MSAL_RESOURCE_URL,
-        AppConfig.MSAL_CLIENT_ID,
-        AppConfig.MSAL_REDIRECT_URL,
+        AppConfig.app.MSAL_RESOURCE_URL,
+        AppConfig.app.MSAL_CLIENT_ID,
+        AppConfig.app.MSAL_REDIRECT_URL,
         '',
         ''
       )
-      .then((authResponse: AuthenticationResult) => {
+      .then((authResponse: any) => {
         let authHeader = authResponse.createAuthorizationHeader();
         this.testerDetails = this.setTesterDetails(authResponse);
         this.logLoginSuccessful();
@@ -92,14 +95,14 @@ export class AuthService {
     if (silentLoginAttempt) {
       log = {
         type: LOG_TYPES.INFO,
-        message: `Silent login attempt, token present for client_id=${AppConfig.MSAL_CLIENT_ID}, resource_url=${AppConfig.MSAL_RESOURCE_URL}`,
+        message: `Silent login attempt, token present for client_id=${AppConfig.app.MSAL_CLIENT_ID}, resource_url=${AppConfig.app.MSAL_RESOURCE_URL}`,
         timestamp: Date.now(),
         unauthenticated: true
       };
     } else {
       log = {
         type: LOG_TYPES.INFO,
-        message: `Login attempt, token not present for client_id=${AppConfig.MSAL_CLIENT_ID}, redirect_url=${AppConfig.MSAL_REDIRECT_URL}, resource_url=${AppConfig.MSAL_RESOURCE_URL}`,
+        message: `Login attempt, token not present for client_id=${AppConfig.app.MSAL_CLIENT_ID}, redirect_url=${AppConfig.app.MSAL_REDIRECT_URL}, resource_url=${AppConfig.app.MSAL_RESOURCE_URL}`,
         timestamp: Date.now(),
         unauthenticated: true
       };
@@ -112,7 +115,7 @@ export class AuthService {
     const log: Log = {
       type: LOG_TYPES.INFO,
       message: `${this.testerDetails.testerId} - Login successful for client_id=${
-        AppConfig.MSAL_CLIENT_ID
+        AppConfig.app.MSAL_CLIENT_ID
       }, tenant_id=${this.tenantId} with the user roles=${this.userRoles.toString()}`,
       timestamp: Date.now()
     };
@@ -123,7 +126,7 @@ export class AuthService {
   logLoginUnsuccessful(errorMessage: string) {
     const log: Log = {
       type: LOG_TYPES.ERROR,
-      message: `Login unsuccessful for client_id=${AppConfig.MSAL_CLIENT_ID} with the error message ${errorMessage}`,
+      message: `Login unsuccessful for client_id=${AppConfig.app.MSAL_CLIENT_ID} with the error message ${errorMessage}`,
       timestamp: Date.now(),
       unauthenticated: true
     };
@@ -150,7 +153,7 @@ export class AuthService {
   }
 
   setTesterDetails(
-    authResponse: AuthenticationResult | any,
+    authResponse: any,
     testerId = this.commonFunc.randomString(9),
     testerObfuscatedOid = this.commonFunc.randomString(9),
     testerName = this.commonFunc.randomString(9),

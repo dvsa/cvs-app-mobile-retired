@@ -5,9 +5,9 @@ import { StorageMock } from 'ionic-mocks';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../interceptors/auth.interceptor.spec';
-import { AuthService } from '../global/auth.service';
-import { AuthServiceMock } from '../../../test-config/services-mocks/auth-service.mock';
 import { LogsProvider } from '../../modules/logs/logs.service';
+import { AuthenticationServiceMock } from './../../../test-config/services-mocks/authentication-service.mock';
+import { AuthenticationService } from '../auth/authentication/authentication.service';
 
 describe('Provider: StorageService', () => {
   let storageService: StorageService;
@@ -21,7 +21,7 @@ describe('Provider: StorageService', () => {
         StorageService,
         { provide: Storage, useFactory: () => StorageMock.instance() },
         { provide: Store, useClass: TestStore },
-        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: LogsProvider, useValue: logProviderSpy }
       ]
     });

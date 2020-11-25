@@ -41,7 +41,7 @@ import { VisitService } from '../../../../providers/visit/visit.service';
 import { catchError } from 'rxjs/operators';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { DefectsService } from '../../../../providers/defects/defects.service';
-import { AuthService } from '../../../../providers/global/auth.service';
+import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { ActivityService } from '../../../../providers/activity/activity.service';
 import { Firebase } from '@ionic-native/firebase';
@@ -69,7 +69,6 @@ export class TestReviewPage implements OnInit {
   deficiencyCategory;
   submitInProgress: boolean = false;
   isTestSubmitted: string;
-  oid: string;
   vehicleBeingReviewed: number;
   vehicle: VehicleModel;
   roadworthinessTestTypesIds: string[] = RoadworthinessTestTypesData.RoadworthinessTestTypesIds;
@@ -93,7 +92,7 @@ export class TestReviewPage implements OnInit {
     private loadingCtrl: LoadingController,
     private storageService: StorageService,
     private firebase: Firebase,
-    private authService: AuthService,
+    private authenticationService: AuthenticationService,
     private firebaseLogsService: FirebaseLogsService,
     private activityService: ActivityService,
     public appService: AppService,
@@ -352,7 +351,7 @@ export class TestReviewPage implements OnInit {
    *
    */
   submitTests(test: TestModel, LOADING: Loading, TRY_AGAIN_ALERT: Alert): void {
-    this.oid = this.authService.getOid();
+    const { testerId } = this.authenticationService.tokenInfo;
     let stack: Observable<any>[] = [];
     let testResultsArr: TestResultModel[] = [];
 
@@ -364,7 +363,7 @@ export class TestReviewPage implements OnInit {
           catchError((error: any) => {
             this.logProvider.dispatchLog({
               type: 'error',
-              message: `${this.oid} - ${JSON.stringify(
+              message: `${testerId} - ${JSON.stringify(
                 error
               )} for API call with the body message ${JSON.stringify(testResult)}`,
               timestamp: Date.now()
@@ -380,7 +379,7 @@ export class TestReviewPage implements OnInit {
       (response: any) => {
         this.logProvider.dispatchLog({
           type: 'info',
-          message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
+          message: `${testerId} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
           timestamp: Date.now()
         });
 
@@ -396,7 +395,7 @@ export class TestReviewPage implements OnInit {
             (resp) => {
               this.logProvider.dispatchLog({
                 type: LOG_TYPES.INFO,
-                message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
+                message: `${testerId} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
                 timestamp: Date.now()
               });
 
@@ -411,7 +410,7 @@ export class TestReviewPage implements OnInit {
             (error) => {
               this.logProvider.dispatchLog({
                 type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-review.ts`,
-                message: `${this.oid} - ${JSON.stringify(error)}`,
+                message: `${testerId} - ${JSON.stringify(error)}`,
                 timestamp: Date.now()
               });
 

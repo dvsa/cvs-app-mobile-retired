@@ -29,8 +29,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestDataModelMock } from '../../../../assets/data-mocks/data-model/test-data-model.mock';
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
 import { APP_STRINGS, STORAGE, VEHICLE_TYPE } from '../../../../app/app.enums';
-import { AuthService } from '../../../../providers/global/auth.service';
-import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
+import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
+import { AuthenticationServiceMock } from './../../../../../test-config/services-mocks/authentication-service.mock';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../../../providers/interceptors/auth.interceptor.spec';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
@@ -84,7 +84,7 @@ describe('Component: VehicleLookupPage', () => {
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
         { provide: VehicleService, useClass: VehicleServiceMock },
-        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: Store, useClass: TestStore },
         { provide: AppService, useClass: AppServiceMock },
         { provide: ActivityService, useClass: ActivityServiceMock },
