@@ -1,4 +1,24 @@
 ######################
+#######  ENV  ########
+######################
+ENVIRONMENT
+BASE_URL=
+END_ENV=
+AZURE_CLIENT_ID=
+AZURE_TENANT_ID=
+APP_KEY_PHONE_NUMBER=
+AUTH_REDIRECT_URL=
+
+
+#########################
+#######  SENTRY  ########
+#########################
+SENTRY_DSN=
+SENTRY_AUTH_TOKEN=
+SENTRY_ORG=
+
+
+######################
 ####### DEVICE #######
 ######################
 export IPHONE8_P_ID=
