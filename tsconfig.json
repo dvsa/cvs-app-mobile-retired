@@ -8,8 +8,7 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es5",
-    "resolveJsonModule": true
+    "target": "ES2017"
   },
   "ts-node": {
     "transpileOnly": true
