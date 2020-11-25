@@ -7,6 +7,12 @@ import {
   NavController,
   NavParams
 } from 'ionic-angular';
+import { _throw } from 'rxjs/observable/throw';
+import { Observable, Observer } from 'rxjs';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { CallNumber } from '@ionic-native/call-number';
+import { Firebase } from '@ionic-native/firebase';
+
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { VisitService } from '../../../../providers/visit/visit.service';
@@ -19,13 +25,8 @@ import {
   FIREBASE_SCREEN_NAMES
 } from '../../../../app/app.enums';
 import { StorageService } from '../../../../providers/natives/storage.service';
-import { Observable, Observer } from 'rxjs';
-import { AppConfig } from '../../../../../config/app.config';
-import { _throw } from 'rxjs/observable/throw';
-import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-import { CallNumber } from '@ionic-native/call-number';
+import {default as AppConfig} from '../../../../../config/application.hybrid';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
-import { Firebase } from '@ionic-native/firebase';
 import { AuthService } from '../../../../providers/global/auth.service';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { AppService } from '../../../../providers/global/app.service';
@@ -241,7 +242,7 @@ export class VehicleLookupPage {
         {
           text: 'Call Technical Support',
           handler: () => {
-            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
+            this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
               (data) => console.log(data),
               (err) => console.log(err)
             );

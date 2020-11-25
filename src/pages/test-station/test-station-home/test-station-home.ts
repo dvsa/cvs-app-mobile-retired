@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { Store } from '@ngrx/store';
+import { CallNumber } from '@ionic-native/call-number';
+
 import { AlertController, IonicPage, NavController } from 'ionic-angular';
 import {
   APP_STRINGS,
@@ -7,13 +11,10 @@ import {
   PAGE_NAMES,
   TESTER_ROLES
 } from '../../../app/app.enums';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AppService } from '../../../providers/global/app.service';
 import { AuthService } from '../../../providers/global/auth.service';
-import { AppConfig } from '../../../../config/app.config';
-import { CallNumber } from '@ionic-native/call-number';
+import {default as AppConfig} from '../../../../config/application.hybrid';
 import { LogsModel } from '../../../modules/logs/logs.model';
-import { Store } from '@ngrx/store';
 import { StartSendingLogs } from '../../../modules/logs/logs.actions';
 import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
 import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
@@ -65,7 +66,7 @@ export class TestStationHomePage implements OnInit {
           {
             text: APP_STRINGS.CALL,
             handler: () => {
-              this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true).then(
+              this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
                 (data) => console.log(data),
                 (err) => console.log(err)
               );

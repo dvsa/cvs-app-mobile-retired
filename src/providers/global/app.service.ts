@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AppConfig } from '../../../config/app.config';
-import { LOCAL_STORAGE, STORAGE } from '../../app/app.enums';
 import { Platform, ToastController } from 'ionic-angular';
+
+import {default as AppConfig} from '../../../config/application.hybrid';
+import { LOCAL_STORAGE, STORAGE } from '../../app/app.enums';
 import { StorageService } from '../natives/storage.service';
 import { AuthService } from './auth.service';
 

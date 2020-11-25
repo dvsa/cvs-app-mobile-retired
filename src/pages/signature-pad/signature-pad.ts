@@ -8,14 +8,15 @@ import {
 } from 'ionic-angular';
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { CallNumber } from '@ionic-native/call-number';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { Firebase } from '@ionic-native/firebase';
+
 import { APP_STRINGS, LOCAL_STORAGE, SIGNATURE_STATUS } from '../../app/app.enums';
 import { SignaturePopoverComponent } from '../../components/signature-popover/signature-popover';
-import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { SignatureService } from '../../providers/signature/signature.service';
 import { AppService } from '../../providers/global/app.service';
-import { CallNumber } from '@ionic-native/call-number';
-import { AppConfig } from '../../../config/app.config';
-import { Firebase } from '@ionic-native/firebase';
+import {default as AppConfig} from '../../../config/application.hybrid';
 import { AuthService } from '../../providers/global/auth.service';
 import { LogsProvider } from '../../modules/logs/logs.service';
 
@@ -97,7 +98,7 @@ export class SignaturePadPage implements OnInit {
         {
           text: APP_STRINGS.CALL_SUPP_BTN,
           handler: () => {
-            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true);
+            this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true);
           }
         },
         {

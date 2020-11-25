@@ -26,7 +26,7 @@ import { Network } from '@ionic-native/network';
 import { Log } from '../modules/logs/logs.model';
 import { LogsProvider } from './../modules/logs/logs.service';
 import * as Sentry from 'sentry-cordova';
-import { AppConfig } from '../../config/app.config';
+import { default as AppConfig } from '../../config/application.hybrid';
 
 @Component({
   templateUrl: 'app.html'
@@ -61,9 +61,9 @@ export class MyApp {
   ) {
     platform.ready().then(() => {
       Sentry.init({
-        enabled: !!AppConfig.SENTRY_DSN,
-        dsn: AppConfig.SENTRY_DSN,
-        environment: AppConfig.SENTRY_ENV
+        enabled: !!AppConfig.sentry.SENTRY_DSN,
+        dsn: AppConfig.sentry.SENTRY_DSN,
+        environment: AppConfig.sentry.SENTRY_ENV
       });
 
       statusBar.overlaysWebView(true);
