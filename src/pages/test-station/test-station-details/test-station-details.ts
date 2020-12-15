@@ -12,10 +12,10 @@ import { APP_STRINGS, PAGE_NAMES, AUTH, FIREBASE_SCREEN_NAMES } from '../../../a
 import { VisitService } from '../../../providers/visit/visit.service';
 import { CallNumber } from '@ionic-native/call-number';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../providers/global/auth.service';
-import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { AppService } from '../../../providers/global/app.service';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 
@@ -40,10 +40,10 @@ export class TestStationDetailsPage {
     private callNumber: CallNumber,
     private visitService: VisitService,
     private openNativeSettings: OpenNativeSettings,
-    private firebase: Firebase,
+    // private firebase: Firebase,
     private loadingCtrl: LoadingController,
     private authService: AuthService,
-    private firebaseLogsService: FirebaseLogsService,
+    // private firebaseLogsService: FirebaseLogsService,
     private appService: AppService,
     private logProvider: LogsProvider
   ) {
@@ -51,7 +51,7 @@ export class TestStationDetailsPage {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_STATION_DETAILS);
+    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_STATION_DETAILS);
   }
 
   ionViewDidLoad() {
@@ -91,10 +91,10 @@ export class TestStationDetailsPage {
         this.isNextPageLoading = false;
         LOADING.dismiss();
 
-        this.firebase.logEvent('test_error', {
-          content_type: 'error',
-          item_id: 'Starting activity failed'
-        });
+        // this.firebase.logEvent('test_error', {
+        //   content_type: 'error',
+        //   item_id: 'Starting activity failed'
+        // });
 
         if (error && error.error === AUTH.INTERNET_REQUIRED) {
           const TRY_AGAIN_ALERT = this.alertCtrl.create({

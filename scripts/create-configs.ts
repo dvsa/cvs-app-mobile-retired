@@ -4,9 +4,9 @@
  * Please don't forget to rename your env file to .env with the appropriate env vars
  */
 import { config } from 'dotenv';
-config()
+config();
 import { log } from 'debug';
-import { existsSync, writeFileSync } from 'fs-extra';
+import { existsSync, outputFileSync } from 'fs-extra';
 
 import * as fromConfigFiles from './config/';
 
@@ -22,8 +22,12 @@ if (existsSync('./.env')) {
 const createFile = (path: string, data: any): Promise<void> =>
   new Promise((resolve, reject) => {
     try {
-      resolve(writeFileSync(path, data));
+      resolve(outputFileSync(path, data));
     } catch (e) {
+      log('\n=============================================================');
+      log(`* Failed to create file in path ${path} *`);
+      log('\n=============================================================');
+
       reject(e);
     }
   });
@@ -32,8 +36,7 @@ const createFile = (path: string, data: any): Promise<void> =>
   try {
     await Promise.all([
       createFile('config/application.hybrid.ts', fromConfigFiles.hybridConfig),
-      // TODO ADD webconfig file here
-      createFile('sentry.properties', fromConfigFiles.sentryFile),
+      createFile('sentry.properties', fromConfigFiles.sentryFile)
     ]);
     log('\n=============================================================');
     log('Files written to path!');

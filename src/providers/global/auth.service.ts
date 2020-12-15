@@ -2,7 +2,7 @@ import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 import { Injectable } from '@angular/core';
-import { AuthenticationContext, AuthenticationResult, MSAdal } from '@ionic-native/ms-adal';
+// import { AuthenticationContext, AuthenticationResult, MSAdal } from '@ionic-native/ms-adal';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 import { default as AppConfig } from '../../../config/application.hybrid';
@@ -17,12 +17,12 @@ import { LogsProvider } from '../../modules/logs/logs.service';
 export class AuthService {
   testerDetails: TesterDetailsModel;
   jwtToken: string;
-  authContext: AuthenticationContext;
+  // authContext: AuthenticationContext;
   userRoles: string[] = [];
   tenantId: string;
 
   constructor(
-    private msAdal: MSAdal,
+    // private msAdal: MSAdal,
     public platform: Platform,
     private commonFunc: CommonFunctionsService,
     private logProvider: LogsProvider
@@ -32,12 +32,12 @@ export class AuthService {
   }
 
   createAuthContext(): Promise<any> {
-    this.authContext = this.msAdal.createAuthenticationContext(AppConfig.app.MSAL_AUTHORITY);
+    // this.authContext = this.msAdal.createAuthenticationContext(AppConfig.app.MSAL_AUTHORITY);
     return Promise.resolve();
   }
 
   resetTokenCache(): Promise<any> {
-    this.authContext.tokenCache.clear();
+    // this.authContext.tokenCache.clear();
     return Promise.resolve();
   }
 
@@ -45,47 +45,49 @@ export class AuthService {
     return Observable.from(this.loginSilently());
   }
 
-  private loginSilently(): Promise<string> {
-    return this.authContext
-      .acquireTokenSilentAsync(AppConfig.app.MSAL_RESOURCE_URL, AppConfig.app.MSAL_CLIENT_ID, '')
-      .then((silentAuthResponse: AuthenticationResult) => {
-        this.logLoginAttempt(true);
-        let authHeader = silentAuthResponse.createAuthorizationHeader();
-        this.testerDetails = this.setTesterDetails(silentAuthResponse);
-        this.logLoginSuccessful();
-        return authHeader;
-      })
-      .catch((error) => {
-        if (error.code == AUTH.MS_ADA_ERROR_USER_INPUT) {
-          return this.loginWithUI();
-        } else {
-          console.error(error);
-          this.logLoginUnsuccessful(error['code']);
-        }
-      });
+  private loginSilently(): Promise<any> {
+    // return this.authContext
+    //   .acquireTokenSilentAsync(AppConfig.app.MSAL_RESOURCE_URL, AppConfig.app.MSAL_CLIENT_ID, '')
+    //   .then((silentAuthResponse: any) => {
+    //     this.logLoginAttempt(true);
+    //     let authHeader = silentAuthResponse.createAuthorizationHeader();
+    //     this.testerDetails = this.setTesterDetails(silentAuthResponse);
+    //     this.logLoginSuccessful();
+    //     return authHeader;
+    //   })
+    //   .catch((error) => {
+    //     if (error.code == AUTH.MS_ADA_ERROR_USER_INPUT) {
+    //       return this.loginWithUI();
+    //     } else {
+    //       console.error(error);
+    //       this.logLoginUnsuccessful(error['code']);
+    //     }
+    //   });
+    return Promise.resolve();
   }
 
-  private loginWithUI(): Promise<string> {
+  private loginWithUI(): Promise<any> {
     this.logLoginAttempt(false);
-    return this.authContext
-      .acquireTokenAsync(
-        AppConfig.app.MSAL_RESOURCE_URL,
-        AppConfig.app.MSAL_CLIENT_ID,
-        AppConfig.app.MSAL_REDIRECT_URL,
-        '',
-        ''
-      )
-      .then((authResponse: AuthenticationResult) => {
-        let authHeader = authResponse.createAuthorizationHeader();
-        this.testerDetails = this.setTesterDetails(authResponse);
-        this.logLoginSuccessful();
-        return authHeader;
-      })
-      .catch((error) => {
-        console.log(error);
-        this.logLoginUnsuccessful(error['code']);
-        return error['code'];
-      });
+    // return this.authContext
+    //   .acquireTokenAsync(
+    //     AppConfig.app.MSAL_RESOURCE_URL,
+    //     AppConfig.app.MSAL_CLIENT_ID,
+    //     AppConfig.app.MSAL_REDIRECT_URL,
+    //     '',
+    //     ''
+    //   )
+    //   .then((authResponse: any) => {
+    //     let authHeader = authResponse.createAuthorizationHeader();
+    //     this.testerDetails = this.setTesterDetails(authResponse);
+    //     this.logLoginSuccessful();
+    //     return authHeader;
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     this.logLoginUnsuccessful(error['code']);
+    //     return error['code'];
+    //   });
+    return Promise.resolve();
   }
 
   logLoginAttempt(silentLoginAttempt: boolean) {
@@ -151,7 +153,7 @@ export class AuthService {
   }
 
   setTesterDetails(
-    authResponse: AuthenticationResult | any,
+    authResponse: any | any,
     testerId = this.commonFunc.randomString(9),
     testerObfuscatedOid = this.commonFunc.randomString(9),
     testerName = this.commonFunc.randomString(9),

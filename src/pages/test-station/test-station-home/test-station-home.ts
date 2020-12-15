@@ -13,11 +13,11 @@ import {
 } from '../../../app/app.enums';
 import { AppService } from '../../../providers/global/app.service';
 import { AuthService } from '../../../providers/global/auth.service';
-import {default as AppConfig} from '../../../../config/application.hybrid';
+import { default as AppConfig } from '../../../../config/application.hybrid';
 import { LogsModel } from '../../../modules/logs/logs.model';
 import { StartSendingLogs } from '../../../modules/logs/logs.actions';
 import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
-import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { SyncService } from '../../../providers/global/sync.service';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 
@@ -39,7 +39,7 @@ export class TestStationHomePage implements OnInit {
     private callNumber: CallNumber,
     private store$: Store<LogsModel>,
     private networkStateProvider: NetworkStateProvider,
-    private firebaseLogsService: FirebaseLogsService,
+    // private firebaseLogsService: FirebaseLogsService,
     private logProvider: LogsProvider
   ) {}
 
@@ -81,7 +81,7 @@ export class TestStationHomePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.GET_STARTED);
+    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.GET_STARTED);
   }
 
   async getStarted() {

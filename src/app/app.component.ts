@@ -3,6 +3,7 @@ import { Platform, AlertController, Nav, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from '../providers/global/auth.service';
+import { AuthenticationService } from '../providers/auth/authentication/authentication.service';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility';
 import { SyncService } from '../providers/global/sync.service';
 import { StorageService } from '../providers/natives/storage.service';
@@ -21,7 +22,7 @@ import {
 import { TesterDetailsModel } from '../models/tester-details.model';
 import { AppService } from '../providers/global/app.service';
 import { ActivityService } from '../providers/activity/activity.service';
-import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
 import { Network } from '@ionic-native/network';
 import { Log } from '../modules/logs/logs.model';
 import { LogsProvider } from './../modules/logs/logs.service';
@@ -52,9 +53,10 @@ export class MyApp {
     private alertCtrl: AlertController,
     private syncService: SyncService,
     private authService: AuthService,
+    private authenticationService: AuthenticationService,
     private mobileAccessibility: MobileAccessibility,
     private renderer: Renderer2,
-    private firebaseLogsService: FirebaseLogsService,
+    // private firebaseLogsService: FirebaseLogsService,
     private screenOrientation: ScreenOrientation,
     private network: Network,
     private logProvider: LogsProvider
@@ -89,28 +91,42 @@ export class MyApp {
     });
   }
 
-  private async initApp() {
-    await this.authService.createAuthContext();
-    await this.appService.manageAppInit();
-    this.startAuthProcess();
-  }
+  // private async initApp() {
+  //   await this.authService.createAuthContext();
+  //   await this.appService.manageAppInit();
+  //   this.startAuthProcess();
+  // }
 
-  private startAuthProcess() {
-    if (this.appService.isCordova) {
-      this.authLogSub = this.authService.login().subscribe((resp: string) => {
-        if (this.authService.isValidToken(resp)) {
-          this.authService.setJWTToken(resp);
-          this.appService.isJwtTokenStored = true;
-          this.navigateToSignature();
-        } else {
-          this.setRootPage();
-          console.error(`Authentication failed due to: ${resp}`);
-        }
-      });
-    } else {
-      this.splashScreen.hide();
-      this.manageAppState();
-      this.generateUserDetails();
+  // private startAuthProcess() {
+  //   if (this.appService.isCordova) {
+  //     this.authLogSub = this.authService.login().subscribe((resp: string) => {
+  //       if (this.authService.isValidToken(resp)) {
+  //         this.authService.setJWTToken(resp);
+  //         this.appService.isJwtTokenStored = true;
+  //         this.navigateToSignature();
+  //       } else {
+  //         this.setRootPage();
+  //         console.error(`Authentication failed due to: ${resp}`);
+  //       }
+  //     });
+  //   } else {
+  //     this.splashScreen.hide();
+  //     this.manageAppState();
+  //     this.generateUserDetails();
+  //   }
+  // }
+
+  private async initApp() {
+    await this.appService.manageAppInit();
+
+    try {
+      await this.authenticationService.login();
+      this.navigateToSignature();
+    } catch (error) {
+      this.setRootPage();
+      console.error(`Authentication failed due to: ${JSON.stringify(error)}`);
+    } finally {
+      // loadingIndicator.dismiss();
     }
   }
 
@@ -168,14 +184,14 @@ export class MyApp {
       .getTextZoom()
       .then((result) => {
         if (result !== ACCESSIBILITY_DEFAULT_VALUES.TEXT_SIZE) {
-          this.firebaseLogsService.logEvent(FIREBASE.IOS_FONT_SIZE_USAGE);
+          // this.firebaseLogsService.logEvent(FIREBASE.IOS_FONT_SIZE_USAGE);
         }
         this.appService.setAccessibilityTextZoom(result);
       })
       .catch(() => this.appService.setAccessibilityTextZoom(106));
     this.mobileAccessibility.isVoiceOverRunning().then((result) => {
       if (result) {
-        this.firebaseLogsService.logEvent(FIREBASE.IOS_VOICEOVER_USAGE);
+        // this.firebaseLogsService.logEvent(FIREBASE.IOS_VOICEOVER_USAGE);
       }
     });
     this.mobileAccessibility.isInvertColorsEnabled().then((result) => {

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Platform, ToastController } from 'ionic-angular';
 
-import {default as AppConfig} from '../../../config/application.hybrid';
+import { default as AppConfig } from '../../../config/application.hybrid';
 import { LOCAL_STORAGE, STORAGE } from '../../app/app.enums';
 import { StorageService } from '../natives/storage.service';
-import { AuthService } from './auth.service';
+// import { AuthService } from './auth.service';
 
 @Injectable()
 export class AppService {
@@ -23,9 +23,9 @@ export class AppService {
   constructor(
     private platform: Platform,
     private toastController: ToastController,
-    private storageService: StorageService,
-    private authService: AuthService
-  ) {
+    private storageService: StorageService
+  ) // private authService: AuthService
+  {
     this.isCordova = this.platform.is('cordova');
     this.isProduction = AppConfig.IS_PRODUCTION == 'true';
     this.isInitRunDone = !!localStorage.getItem(LOCAL_STORAGE.FIRST_INIT);
@@ -46,6 +46,33 @@ export class AppService {
     this.isJwtTokenStored = !!localStorage.getItem(LOCAL_STORAGE.JWT_TOKEN);
   }
 
+  // manageAppInit(): Promise<any> {
+  //   if (this.isCordova) {
+  //     if (this.isInitRunDone) {
+  //       this.setEasterEgg();
+  //       this.setFlags();
+  //       return Promise.resolve();
+  //     } else {
+  //       let arr = [
+  //         this.authService.resetTokenCache(),
+  //         this.storageService.clearStorage(),
+  //         this.clearLocalStorage()
+  //       ];
+
+  //       return Promise.all(arr).then(() => {
+  //         localStorage.setItem(LOCAL_STORAGE.FIRST_INIT, 'done');
+  //         this.setEasterEgg();
+  //         this.setFlags();
+  //         return Promise.resolve(true);
+  //       });
+  //     }
+  //   } else {
+  //     this.setEasterEgg();
+  //     this.setFlags();
+  //     return Promise.resolve(true);
+  //   }
+  // }
+
   manageAppInit(): Promise<any> {
     if (this.isCordova) {
       if (this.isInitRunDone) {
@@ -54,7 +81,7 @@ export class AppService {
         return Promise.resolve();
       } else {
         let arr = [
-          this.authService.resetTokenCache(),
+          // this.authService.resetTokenCache(),
           this.storageService.clearStorage(),
           this.clearLocalStorage()
         ];

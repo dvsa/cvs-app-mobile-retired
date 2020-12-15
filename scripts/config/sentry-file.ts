@@ -1,4 +1,4 @@
-const {SENTRY_ORG, SENTRY_AUTH_TOKEN} = process.env
+const { SENTRY_ORG, SENTRY_AUTH_TOKEN } = process.env;
 
 export const sentryFile = `
 defaults.url=https://sentry.io/

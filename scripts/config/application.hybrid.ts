@@ -1,18 +1,25 @@
 // TODO: Once web config is implemented, move env logic/variables into create-script to dynamically hybrid and web based on --environment provided at runtime by merging base config file
 const { argv } = require('yargs');
 
-const {BASE_URL, ENV, AZURE_CLIENT_ID, MSAL_HOST, MSAL_REDIRECT_URL, APP_KEY_PHONE_NUMBER, SENTRY_DSN} = process.env
-const {environment} = argv;
+const {
+  BASE_URL,
+  ENV,
+  AZURE_CLIENT_ID,
+  AZURE_TENANT_ID,
+  MSAL_HOST,
+  MSAL_REDIRECT_URL,
+  APP_KEY_PHONE_NUMBER,
+  SENTRY_DSN
+} = process.env;
+const { environment } = argv;
 
-const isProduction = environment === 'production'
+const isProduction = environment === 'production';
 
 export const hybridConfig = `export default {
   "IS_PRODUCTION": "${isProduction}",
   "app": {
-    "authConfig": 'azure',
-    "platform": 'cordova',
-    "tokenStorageProvider": "localStorage",
-    "clientID": "",
+    "CLIENT_ID": "${AZURE_CLIENT_ID}",
+    "TENANT_ID": "${AZURE_TENANT_ID}",
     "logoutUrl": "",
     "STAFF_ID_KEY": "extn.StaffId",
     "KEY_PHONE_NUMBER": "${APP_KEY_PHONE_NUMBER}",
@@ -38,4 +45,4 @@ export const hybridConfig = `export default {
     "SENTRY_ENV": "${environment}",
     "SENTRY_DSN": "${SENTRY_DSN}",
   }
-}`
+}`;
