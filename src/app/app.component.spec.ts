@@ -14,7 +14,7 @@ import { SyncService } from '../providers/global/sync.service';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility';
 import { VisitService } from '../providers/visit/visit.service';
 import { VisitServiceMock } from '../../test-config/services-mocks/visit-service.mock';
-import { MSAdal } from '@ionic-native/ms-adal';
+// import { MSAdal } from '@ionic-native/ms-adal';
 import { AuthServiceMock } from '../../test-config/services-mocks/auth-service.mock';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AppService } from '../providers/global/app.service';
@@ -59,7 +59,7 @@ describe('Component: Root', () => {
         StatusBar,
         SplashScreen,
         StorageService,
-        MSAdal,
+        // MSAdal,
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: ActivityService, useClass: ActivityServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },

@@ -9,7 +9,7 @@ import {
   LoadingController
 } from 'ionic-angular';
 import { PipesModule } from '../../../pipes/pipes.module';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import {
   NavControllerMock,
   AlertControllerMock,
@@ -40,7 +40,7 @@ describe('Component: TestStationDetailsPage', () => {
   let openNativeSettingsSpy: any;
   let navParams: NavParams;
   let visitServiceMock: VisitServiceMock;
-  let firebase: Firebase;
+  // let firebase: Firebase;
   let firebaseSpy: any;
   let alertCtrl: AlertController;
   let firebaseLogsService: FirebaseLogsService;
@@ -59,7 +59,7 @@ describe('Component: TestStationDetailsPage', () => {
       declarations: [TestStationDetailsPage],
       imports: [IonicModule.forRoot(TestStationDetailsPage), PipesModule],
       providers: [
-        { provide: Firebase, useValue: firebaseSpy },
+        // { provide: Firebase, useValue: firebaseSpy },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: NavParams, useClass: NavParamsMock },
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
@@ -83,7 +83,7 @@ describe('Component: TestStationDetailsPage', () => {
     component = fixture.componentInstance;
     navParams = TestBed.get(NavParams);
     visitServiceMock = TestBed.get(VisitService);
-    firebase = TestBed.get(Firebase);
+    // firebase = TestBed.get(Firebase);
     alertCtrl = TestBed.get(AlertController);
     firebaseLogsService = TestBed.get(FirebaseLogsService);
     logProvider = TestBed.get(LogsProvider);
@@ -108,7 +108,7 @@ describe('Component: TestStationDetailsPage', () => {
     fixture.destroy();
     component = null;
     navParams = null;
-    firebase = null;
+    // firebase = null;
   });
 
   it('should create component', () => {
@@ -125,7 +125,7 @@ describe('Component: TestStationDetailsPage', () => {
   it('should test confirmStartVisit', () => {
     visitServiceMock.isError = true;
     component.confirmStartVisit();
-    expect(firebase.logEvent).toHaveBeenCalled();
+    // expect(firebase.logEvent).toHaveBeenCalled();
     visitServiceMock.isError = false;
     component.confirmStartVisit();
     expect(component.isNextPageLoading).toBeFalsy();

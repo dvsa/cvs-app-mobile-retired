@@ -19,7 +19,7 @@ import {
 } from './app.enums';
 import { AppService } from '../providers/global/app.service';
 import { ActivityService } from '../providers/activity/activity.service';
-import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
 import { Network } from '@ionic-native/network';
 import { Log } from '../modules/logs/logs.model';
 import { LogsProvider } from './../modules/logs/logs.service';
@@ -54,7 +54,7 @@ export class MyApp implements OnInit {
     private authenticationService: AuthenticationService,
     private mobileAccessibility: MobileAccessibility,
     private renderer: Renderer2,
-    private firebaseLogsService: FirebaseLogsService,
+    // private firebaseLogsService: FirebaseLogsService,
     private screenOrientation: ScreenOrientation,
     private network: Network,
     private logProvider: LogsProvider
@@ -155,14 +155,14 @@ export class MyApp implements OnInit {
       .getTextZoom()
       .then((result) => {
         if (result !== ACCESSIBILITY_DEFAULT_VALUES.TEXT_SIZE) {
-          this.firebaseLogsService.logEvent(FIREBASE.IOS_FONT_SIZE_USAGE);
+          // this.firebaseLogsService.logEvent(FIREBASE.IOS_FONT_SIZE_USAGE);
         }
         this.appService.setAccessibilityTextZoom(result);
       })
       .catch(() => this.appService.setAccessibilityTextZoom(106));
     this.mobileAccessibility.isVoiceOverRunning().then((result) => {
       if (result) {
-        this.firebaseLogsService.logEvent(FIREBASE.IOS_VOICEOVER_USAGE);
+        // this.firebaseLogsService.logEvent(FIREBASE.IOS_VOICEOVER_USAGE);
       }
     });
     this.mobileAccessibility.isInvertColorsEnabled().then((result) => {

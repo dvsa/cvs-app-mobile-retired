@@ -15,7 +15,7 @@ import { AuthenticationService } from '../../../providers/auth/authentication/au
 import { LogsModel } from '../../../modules/logs/logs.model';
 import { StartSendingLogs } from '../../../modules/logs/logs.actions';
 import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
-import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { SyncService } from '../../../providers/global/sync.service';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 import { AppAlertService } from '../../../providers/global/app-alert.service';
@@ -37,7 +37,7 @@ export class TestStationHomePage implements OnInit {
     private alertService: AppAlertService,
     private store$: Store<LogsModel>,
     private networkStateProvider: NetworkStateProvider,
-    private firebaseLogsService: FirebaseLogsService,
+    // private firebaseLogsService: FirebaseLogsService,
     private logProvider: LogsProvider
   ) {}
 
@@ -63,7 +63,7 @@ export class TestStationHomePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.GET_STARTED);
+    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.GET_STARTED);
   }
 
   async getStarted() {

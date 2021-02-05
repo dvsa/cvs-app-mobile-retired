@@ -23,7 +23,7 @@ import { StorageServiceMock } from '../../../../../test-config/services-mocks/st
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { VehicleServiceMock } from '../../../../../test-config/services-mocks/vehicle-service.mock';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import { CallNumber } from '@ionic-native/call-number';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestDataModelMock } from '../../../../assets/data-mocks/data-model/test-data-model.mock';
@@ -72,7 +72,7 @@ describe('Component: VehicleLookupPage', () => {
       declarations: [VehicleLookupPage],
       imports: [IonicModule.forRoot(VehicleLookupPage)],
       providers: [
-        Firebase,
+        // Firebase,
         CallNumber,
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: NavParams, useClass: NavParamsMock },

@@ -10,7 +10,7 @@ import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { CallNumber } from '@ionic-native/call-number';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 
 import { APP_STRINGS, LOCAL_STORAGE, SIGNATURE_STATUS } from '../../app/app.enums';
 import { SignaturePopoverComponent } from '../../components/signature-popover/signature-popover';
@@ -47,7 +47,7 @@ export class SignaturePadPage implements OnInit {
     private screenOrientation: ScreenOrientation,
     private openNativeSettings: OpenNativeSettings,
     private signatureService: SignatureService,
-    private firebase: Firebase,
+    // private firebase: Firebase,
     private authenticationService: AuthenticationService,
     private callNumber: CallNumber,
     private logProvider: LogsProvider
@@ -126,10 +126,10 @@ export class SignaturePadPage implements OnInit {
                   timestamp: Date.now()
                 });
 
-                this.firebase.logEvent('test_error', {
-                  content_type: 'error',
-                  item_id: 'Saving signature failed'
-                });
+                // this.firebase.logEvent('test_error', {
+                //   content_type: 'error',
+                //   item_id: 'Saving signature failed'
+                // });
                 this.showConfirm();
               }
             );

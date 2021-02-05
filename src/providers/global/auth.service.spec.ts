@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { LOCAL_STORAGE, TESTER_ROLES } from '../../app/app.enums';
-import { AuthenticationContext, MSAdal } from '@ionic-native/ms-adal';
+// import { AuthenticationContext, MSAdal } from '@ionic-native/ms-adal';
 import { Platform } from 'ionic-angular';
 import { CommonFunctionsService } from '../utils/common-functions';
 import { Store } from '@ngrx/store';
@@ -26,7 +26,7 @@ export class AuthenticationContextMock {
 describe(`AuthService`, () => {
   let authService: AuthService;
   let store;
-  let authContext: AuthenticationContext;
+  // let authContext: AuthenticationContext;
   let logProvider: LogsProvider;
   let logProviderSpy: any;
 
@@ -47,16 +47,16 @@ describe(`AuthService`, () => {
         AuthService,
         CommonFunctionsService,
         Platform,
-        MSAdal,
+        // MSAdal,
         { provide: Store, useClass: TestStore },
-        { provide: AuthenticationContext, useClass: AuthenticationContextMock },
+        // { provide: AuthenticationContext, useClass: AuthenticationContextMock },
         { provide: LogsProvider, useValue: logProviderSpy }
       ]
     });
 
     authService = TestBed.get(AuthService);
     store = TestBed.get(Store);
-    authContext = TestBed.get(AuthenticationContext);
+    // authContext = TestBed.get(AuthenticationContext);
     spyOn(TestBed.get(CommonFunctionsService), 'getObfuscatedTesterOid').and.returnValue(
       obfuscatedOid
     );
@@ -199,7 +199,7 @@ describe(`AuthService`, () => {
   });
 
   it('resetTokenCache', () => {
-    authService.authContext = authContext;
+    // authService.authContext = authContext;
     expect(authService.resetTokenCache()).toBeTruthy();
   });
 
@@ -208,7 +208,7 @@ describe(`AuthService`, () => {
   });
 
   it('login', () => {
-    authService.authContext = authContext;
+    // authService.authContext = authContext;
     expect(authService.login()).toBeTruthy();
   });
 });

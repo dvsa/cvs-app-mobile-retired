@@ -24,7 +24,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { SignaturePopoverComponent } from '../components/signature-popover/signature-popover';
 import { SignatureService } from '../providers/signature/signature.service';
 import { ActivityService } from '../providers/activity/activity.service';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import { LogsModule } from '../modules/logs/logs.module';
 import { DataStoreProvider } from '../modules/logs/data-store.service';
 import { Network } from '@ionic-native/network';
@@ -33,7 +33,7 @@ import { LogsProvider } from '../modules/logs/logs.service';
 import { SecureStorage } from '@ionic-native/secure-storage';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
 import { AppVersion } from '@ionic-native/app-version';
 import { SentryIonicErrorHandler } from './sentry-ionic-errorhandler';
 import {
@@ -77,8 +77,8 @@ const CUSTOM_PROVIDERS = [
   ActivityService,
   StateReformingService,
   CommonFunctionsService,
-  SignatureService,
-  FirebaseLogsService
+  SignatureService
+  // FirebaseLogsService
 ];
 
 const IONIC_NATIVE_PROVIDERS = [
@@ -92,7 +92,7 @@ const IONIC_NATIVE_PROVIDERS = [
   AppVersion,
   Keyboard,
   ScreenOrientation,
-  Firebase,
+  // Firebase,
   DataStoreProvider,
   Network,
   NetworkStateProvider,

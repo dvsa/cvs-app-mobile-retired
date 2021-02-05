@@ -11,7 +11,7 @@ import { _throw } from 'rxjs/observable/throw';
 import { Observable, Observer } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CallNumber } from '@ionic-native/call-number';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
@@ -28,7 +28,7 @@ import { StorageService } from '../../../../providers/natives/storage.service';
 import { default as AppConfig } from '../../../../../config/application.hybrid';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { AppService } from '../../../../providers/global/app.service';
 import { VehicleLookupSearchCriteriaData } from '../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
 import { ActivityService } from '../../../../providers/activity/activity.service';
@@ -56,8 +56,8 @@ export class VehicleLookupPage {
     public storageService: StorageService,
     private openNativeSettings: OpenNativeSettings,
     private vehicleService: VehicleService,
-    private firebase: Firebase,
-    private firebaseLogsService: FirebaseLogsService,
+    // private firebase: Firebase,
+    // private firebaseLogsService: FirebaseLogsService,
     private authenticationService: AuthenticationService,
     private callNumber: CallNumber,
     public appService: AppService,
@@ -98,7 +98,7 @@ export class VehicleLookupPage {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VEHICLE_SEARCH);
+    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VEHICLE_SEARCH);
   }
 
   /**
@@ -148,10 +148,10 @@ export class VehicleLookupPage {
                 timestamp: Date.now()
               });
 
-              this.firebase.logEvent('test_error', {
-                content_type: 'error',
-                item_id: 'Failed retrieving the testResultsHistory'
-              });
+              // this.firebase.logEvent('test_error', {
+              //   content_type: 'error',
+              //   item_id: 'Failed retrieving the testResultsHistory'
+              // });
               this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
               this.goToVehicleDetails(vehicleData[0]);
             },
@@ -186,10 +186,10 @@ export class VehicleLookupPage {
           this.searchVal = '';
           LOADING.dismiss();
           this.showAlert();
-          this.firebase.logEvent('test_error', {
-            content_type: 'error',
-            item_id: 'Failed retrieving the techRecord'
-          });
+          // this.firebase.logEvent('test_error', {
+          //   content_type: 'error',
+          //   item_id: 'Failed retrieving the techRecord'
+          // });
         }
       );
   }
@@ -209,7 +209,7 @@ export class VehicleLookupPage {
       buttons: ['OK']
     });
     alert.present();
-    this.firebase.logEvent('test_error', { content_type: 'error', item_id: 'Vehicle not found' });
+    // this.firebase.logEvent('test_error', { content_type: 'error', item_id: 'Vehicle not found' });
   }
 
   goToVehicleDetails(vehicleData: VehicleModel) {

@@ -14,7 +14,7 @@ import { APP_STRINGS, PAGE_NAMES, STORAGE } from '../../../../../app/app.enums';
 import { AuthenticationService } from '../../../../../providers/auth/authentication/authentication.service';
 import { VehicleService } from '../../../../../providers/vehicle/vehicle.service';
 import { StorageService } from '../../../../../providers/natives/storage.service';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import { TestModel } from '../../../../../models/tests/test.model';
 import { LogsProvider } from '../../../../../modules/logs/logs.service';
 
@@ -37,7 +37,7 @@ export class MultipleTechRecordsSelectionPage {
     private authenticationService: AuthenticationService,
     public vehicleService: VehicleService,
     public storageService: StorageService,
-    private firebase: Firebase,
+    // private firebase: Firebase,
     private alertCtrl: AlertController,
     private logProvider: LogsProvider
   ) {
@@ -72,10 +72,10 @@ export class MultipleTechRecordsSelectionPage {
           timestamp: Date.now()
         });
 
-        this.firebase.logEvent('test_error', {
-          content_type: 'error',
-          item_id: 'Failed retrieving the testResultsHistory'
-        });
+        // this.firebase.logEvent('test_error', {
+        //   content_type: 'error',
+        //   item_id: 'Failed retrieving the testResultsHistory'
+        // });
         this.storageService.update(STORAGE.TEST_HISTORY + selectedVehicle.systemNumber, []);
         this.goToVehicleDetails(selectedVehicle);
       },

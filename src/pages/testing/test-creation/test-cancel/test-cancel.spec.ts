@@ -24,7 +24,7 @@ import { TestStore } from '../../../../providers/interceptors/auth.interceptor.s
 import { TestResultServiceMock } from '../../../../../test-config/services-mocks/test-result-service.mock';
 import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import { ActivityService } from '../../../../providers/activity/activity.service';
 import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
@@ -74,7 +74,7 @@ describe('Component: TestCancelPage', () => {
       declarations: [TestCancelPage],
       imports: [IonicModule.forRoot(TestCancelPage)],
       providers: [
-        Firebase,
+        // Firebase,
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },

@@ -17,7 +17,7 @@ import {
 import { VisitService } from '../visit/visit.service';
 import { TestTypesReferenceDataModel } from '../../models/reference-data-models/test-types.model';
 import { CommonFunctionsService } from '../utils/common-functions';
-import { FirebaseLogsService } from '../firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../firebase-logs/firebase-logs.service';
 import { VehicleModel } from '../../models/vehicle/vehicle.model';
 import { AdrTestTypesData } from '../../assets/app-data/test-types-data/adr-test-types.data';
 import { TirTestTypesData } from '../../assets/app-data/test-types-data/tir-test-types.data';
@@ -30,9 +30,9 @@ export class TestTypeService {
   constructor(
     private storageService: StorageService,
     public visitService: VisitService,
-    public commonFunctions: CommonFunctionsService,
-    private firebaseLogsService: FirebaseLogsService
-  ) {}
+    public commonFunctions: CommonFunctionsService
+  ) // private firebaseLogsService: FirebaseLogsService
+  {}
 
   createTestType(testType: TestTypesReferenceDataModel, vehicleType: string): TestTypeModel {
     let newTestType = {} as TestTypeModel;
@@ -84,29 +84,28 @@ export class TestTypeService {
   }
 
   private logFirebaseAddDefect(deficiencyRef: string) {
-    this.firebaseLogsService.logEvent(
-      FIREBASE_DEFECTS.ADD_DEFECT,
-      FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
-      deficiencyRef
-    );
-
-    let parameters = this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN];
-    parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME] = Date.now();
-    parameters[
-      FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN
-    ] = this.firebaseLogsService.differenceInSeconds(
-      parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],
-      parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME]
-    );
-    this.firebaseLogsService.logEvent(
-      FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN,
-      FIREBASE_DEFECTS.ADD_DEFECT_START_TIME,
-      parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],
-      FIREBASE_DEFECTS.ADD_DEFECT_END_TIME,
-      parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME],
-      FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN,
-      parameters[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN]
-    );
+    // this.firebaseLogsService.logEvent(
+    //   FIREBASE_DEFECTS.ADD_DEFECT,
+    //   FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
+    //   deficiencyRef
+    // );
+    // let parameters = this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN];
+    // parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME] = Date.now();
+    // parameters[
+    //   FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN
+    // ] = this.firebaseLogsService.differenceInSeconds(
+    //   parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],
+    //   parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME]
+    // );
+    // this.firebaseLogsService.logEvent(
+    //   FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN,
+    //   FIREBASE_DEFECTS.ADD_DEFECT_START_TIME,
+    //   parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],
+    //   FIREBASE_DEFECTS.ADD_DEFECT_END_TIME,
+    //   parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME],
+    //   FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN,
+    //   parameters[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN]
+    // );
   }
 
   removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
@@ -129,11 +128,11 @@ export class TestTypeService {
   }
 
   private logFirebaseRemoveDefect(deficiencyRef: string) {
-    this.firebaseLogsService.logEvent(
-      FIREBASE_DEFECTS.REMOVE_DEFECT,
-      FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
-      deficiencyRef
-    );
+    // this.firebaseLogsService.logEvent(
+    //   FIREBASE_DEFECTS.REMOVE_DEFECT,
+    //   FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
+    //   deficiencyRef
+    // );
   }
 
   getTestTypesFromStorage(): Observable<any> {
