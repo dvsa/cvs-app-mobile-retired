@@ -13,8 +13,8 @@ platform :ios do
 end
 
 def build_app
-  ionic(platform: 'ios', type: 'enterprise', team_id: 'K84TL26V3P',
-        provisioning_profile: '2b73282a-ccaf-4464-b1fa-eb63a3efe1ee',
+  ionic(platform: 'ios', type: 'enterprise', team_id: ENV['CVS_APP_TEAM'],
+        provisioning_profile: ENV['CVS_APP_PP'],
         build_flag: ['-UseModernBuildSystem=0'])
   zip(path: './platforms/ios/build/device/Vehicle Testing.app.dSYM')
 end
