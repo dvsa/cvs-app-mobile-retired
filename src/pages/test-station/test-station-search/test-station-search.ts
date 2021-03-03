@@ -3,7 +3,7 @@ import { Events, IonicPage, NavController } from 'ionic-angular';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
 import { TestStationService } from '../../../providers/test-station/test-station.service';
 import { APP, FIREBASE_SCREEN_NAMES } from '../../../app/app.enums';
-import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 
 @IonicPage()
 @Component({
@@ -20,9 +20,9 @@ export class TestStationSearchPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public events: Events,
-    private testStationService: TestStationService,
-    private firebaseLogsService: FirebaseLogsService
-  ) {}
+    private testStationService: TestStationService
+  ) // private firebaseLogsService: FirebaseLogsService
+  {}
 
   ngOnInit() {
     this.getTestStations();
@@ -30,7 +30,7 @@ export class TestStationSearchPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_STATION_SEARCH);
+    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_STATION_SEARCH);
   }
 
   getTestStations(): void {

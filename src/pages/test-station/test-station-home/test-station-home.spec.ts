@@ -14,7 +14,7 @@ import { Store } from '@ngrx/store';
 import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
 import { TestStore } from '../../../providers/interceptors/auth.interceptor.spec';
 import { AppServiceMock } from '../../../../test-config/services-mocks/app-service.mock';
-import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { FirebaseLogsServiceMock } from '../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { SyncService } from '../../../providers/global/sync.service';
 import { LogsProvider } from '../../../modules/logs/logs.service';
@@ -32,7 +32,7 @@ describe('Component: TestStationHomePage', () => {
   let navCtrlSpy: any;
   let networkStateProvider: NetworkStateProvider;
   let networkStateProviderSpy: any;
-  let firebaseLogsService: FirebaseLogsService;
+  // let firebaseLogsService: FirebaseLogsService;
   let syncService: SyncService;
   let syncServiceSpy: any;
   let logProviderSpy: any;
@@ -68,7 +68,7 @@ describe('Component: TestStationHomePage', () => {
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: AppAlertService, useValue: appAlertSpy },
         { provide: Store, useClass: TestStore },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        // { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: NetworkStateProvider, useValue: networkStateProviderSpy },
         { provide: SyncService, useValue: syncServiceSpy },
@@ -85,7 +85,7 @@ describe('Component: TestStationHomePage', () => {
     appService = TestBed.get(AppService);
     screenOrientation = TestBed.get(ScreenOrientation);
     networkStateProvider = TestBed.get(NetworkStateProvider);
-    firebaseLogsService = TestBed.get(FirebaseLogsService);
+    // firebaseLogsService = TestBed.get(FirebaseLogsService);
     syncService = TestBed.get(SyncService);
     authenticationService = TestBed.get(AuthenticationService);
     appAlertService = TestBed.get(AppAlertService);
@@ -131,9 +131,9 @@ describe('Component: TestStationHomePage', () => {
   });
 
   it('should test ionViewDidEnter logic', () => {
-    spyOn(firebaseLogsService, 'setScreenName');
+    // spyOn(firebaseLogsService, 'setScreenName');
     comp.ionViewDidEnter();
-    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
+    // expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
   it('should test getStarted flow', async () => {

@@ -22,9 +22,9 @@ import { Observable } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
 import { catchError } from 'rxjs/operators';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { ActivityService } from '../../../../providers/activity/activity.service';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
 
@@ -49,9 +49,9 @@ export class TestCancelPage {
     private openNativeSettings: OpenNativeSettings,
     private visitService: VisitService,
     private loadingCtrl: LoadingController,
-    private firebase: Firebase,
+    // private firebase: Firebase,
     private authenticationService: AuthenticationService,
-    private firebaseLogsService: FirebaseLogsService,
+    // private firebaseLogsService: FirebaseLogsService,
     private activityService: ActivityService,
     private logProvider: LogsProvider
   ) {
@@ -59,7 +59,7 @@ export class TestCancelPage {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_CANCEL);
+    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_CANCEL);
   }
 
   submitHandler() {
@@ -167,7 +167,7 @@ export class TestCancelPage {
           timestamp: Date.now()
         });
 
-        this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
+        // this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
         for (let testResult of testResultsArr) {
           const activity = this.activityService.createActivityBodyForCall(
             this.visitService.visit,
@@ -199,10 +199,10 @@ export class TestCancelPage {
                 timestamp: Date.now()
               });
 
-              this.firebase.logEvent('test_error', {
-                content_type: 'error',
-                item_id: 'Wait activity submission failed'
-              });
+              // this.firebase.logEvent('test_error', {
+              //   content_type: 'error',
+              //   item_id: 'Wait activity submission failed'
+              // });
             }
           );
         }
@@ -217,11 +217,11 @@ export class TestCancelPage {
       (error) => {
         LOADING.dismiss();
         TRY_AGAIN_ALERT.present();
-        this.firebaseLogsService.logEvent(
-          FIREBASE.TEST_ERROR,
-          FIREBASE.ERROR,
-          FIREBASE.TEST_SUBMISSION_FAILED
-        );
+        // this.firebaseLogsService.logEvent(
+        //   FIREBASE.TEST_ERROR,
+        //   FIREBASE.ERROR,
+        //   FIREBASE.TEST_SUBMISSION_FAILED
+        // );
         TRY_AGAIN_ALERT.onDidDismiss(() => {
           if (!this.tryAgain) {
             this.nextAlert = this.changeOpacity = false;

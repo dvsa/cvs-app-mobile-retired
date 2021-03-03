@@ -20,7 +20,7 @@ import { AppServiceMock } from '../../test-config/services-mocks/app-service.moc
 import { VisitServiceMock } from '../../test-config/services-mocks/visit-service.mock';
 import { AuthenticationService } from '../providers/auth';
 import { AuthenticationServiceMock } from '../../test-config/services-mocks/authentication-service.mock';
-import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
 import { FirebaseLogsServiceMock } from '../../test-config/services-mocks/firebaseLogsService.mock';
 import { ActivityService } from '../providers/activity/activity.service';
 import { ActivityServiceMock } from '../../test-config/services-mocks/activity-service.mock';
@@ -43,7 +43,7 @@ fdescribe('Component: Root', () => {
   let visitService;
   let screenOrientation: ScreenOrientation;
   let screenOrientationSpy: any;
-  let firebaseLogsService: FirebaseLogsService;
+  // let firebaseLogsService: FirebaseLogsService;
   let authenticationService: AuthenticationService;
   let navSpy: any;
   let navElem: Nav;
@@ -82,7 +82,7 @@ fdescribe('Component: Root', () => {
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: Events, useValue: eventsSpy },
         { provide: Nav, useValue: navSpy },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        // { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: ActivityService, useClass: ActivityServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: SyncService, useValue: syncServiceSpy },
@@ -107,11 +107,11 @@ fdescribe('Component: Root', () => {
     visitService = TestBed.get(VisitService);
     activityService = TestBed.get(ActivityService);
     screenOrientation = TestBed.get(ScreenOrientation);
-    firebaseLogsService = TestBed.get(FirebaseLogsService);
+    // firebaseLogsService = TestBed.get(FirebaseLogsService);
     logProvider = TestBed.get(LogsProvider);
     navElem = TestBed.get(Nav);
 
-    spyOn(firebaseLogsService, 'logEvent');
+    // spyOn(firebaseLogsService, 'logEvent');
   });
 
   afterEach(() => {

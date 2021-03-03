@@ -21,7 +21,7 @@ import {
 import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { CallNumber } from '@ionic-native/call-number';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../providers/interceptors/auth.interceptor.spec';
 import { LogsProvider } from '../../modules/logs/logs.service';
@@ -69,7 +69,7 @@ describe('Component: SignaturePadPage', () => {
       declarations: [SignaturePadPage],
       imports: [IonicModule.forRoot(SignaturePadPage)],
       providers: [
-        Firebase,
+        // Firebase,
         { provide: AppService, useClass: AppServiceMock },
         { provide: SignatureService, useValue: signatureServiceSpy },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },

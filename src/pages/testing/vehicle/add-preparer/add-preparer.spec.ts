@@ -27,7 +27,7 @@ import { of } from 'rxjs/observable/of';
 import { AuthService } from '../../../../providers/global/auth.service';
 import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
 import { APP_STRINGS, TESTER_ROLES, VEHICLE_TYPE } from '../../../../app/app.enums';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
@@ -42,7 +42,7 @@ describe('Component: AddPreparerPage', () => {
   let vehicleService: VehicleService;
   let visitService: VisitService;
   let preparerServiceSpy: any;
-  let firebaseLogsService: FirebaseLogsService;
+  // let firebaseLogsService: FirebaseLogsService;
 
   const TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
@@ -58,7 +58,7 @@ describe('Component: AddPreparerPage', () => {
         NavController,
         TestService,
         CommonFunctionsService,
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        // { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
@@ -80,7 +80,7 @@ describe('Component: AddPreparerPage', () => {
     navCtrl = TestBed.get(NavController);
     vehicleService = TestBed.get(VehicleService);
     visitService = TestBed.get(VisitService);
-    firebaseLogsService = TestBed.get(FirebaseLogsService);
+    // firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   beforeEach(() => {
@@ -102,7 +102,7 @@ describe('Component: AddPreparerPage', () => {
     testService = null;
     vehicleService = null;
     visitService = null;
-    firebaseLogsService = null;
+    // firebaseLogsService = null;
   });
 
   it('should create the component', () => {
@@ -114,9 +114,9 @@ describe('Component: AddPreparerPage', () => {
   });
 
   it('should test ionViewDidEnterLogic', () => {
-    spyOn(firebaseLogsService, 'setScreenName');
+    // spyOn(firebaseLogsService, 'setScreenName');
     comp.ionViewDidEnter();
-    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
+    // expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
   });
 
   it('should VehicleService and TestCancelPage Component share the same instance', inject(
@@ -210,9 +210,9 @@ describe('Component: AddPreparerPage', () => {
   });
 
   it('should check if firebase.logEvent was called', () => {
-    spyOn(firebaseLogsService, 'logEvent');
+    // spyOn(firebaseLogsService, 'logEvent');
     comp.logIntoFirebase();
-    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+    // expect(firebaseLogsService.logEvent).toHaveBeenCalled();
   });
 
   it('should check if searchValue is updated or not', () => {

@@ -20,7 +20,7 @@ import { VehicleService } from '../../../../../providers/vehicle/vehicle.service
 import { VehicleServiceMock } from '../../../../../../test-config/services-mocks/vehicle-service.mock';
 import { StorageService } from '../../../../../providers/natives/storage.service';
 import { StorageServiceMock } from '../../../../../../test-config/services-mocks/storage-service.mock';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../../../../providers/interceptors/auth.interceptor.spec';
 import { VehicleDataMock } from '../../../../../assets/data-mocks/vehicle-data.mock';
@@ -53,10 +53,10 @@ describe('Component: ', () => {
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: StorageService, useClass: StorageServiceMock },
-        {
-          provide: Firebase,
-          useValue: jasmine.createSpyObj<Firebase>(['logEvent', 'setScreenName'])
-        },
+        // {
+        // provide: Firebase,
+        // useValue: jasmine.createSpyObj<Firebase>(['logEvent', 'setScreenName'])
+        // },
         { provide: Store, useClass: TestStore },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },

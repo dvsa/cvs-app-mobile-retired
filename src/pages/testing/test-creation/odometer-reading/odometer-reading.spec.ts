@@ -8,7 +8,7 @@ import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { OdometerReadingPage } from './odometer-reading';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { VehicleServiceMock } from '../../../../../test-config/services-mocks/vehicle-service.mock';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
@@ -18,7 +18,7 @@ describe('Component: OdometerReadingPage', () => {
   let component: OdometerReadingPage;
   let fixture: ComponentFixture<OdometerReadingPage>;
   let vehicleService: VehicleService;
-  let firebaseLogsService: FirebaseLogsService;
+  // let firebaseLogsService: FirebaseLogsService;
   let navParams: NavParams;
 
   let VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
@@ -31,8 +31,8 @@ describe('Component: OdometerReadingPage', () => {
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
         { provide: VisitService, useClass: VisitServiceMock },
-        { provide: VehicleService, useClass: VehicleServiceMock },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
+        { provide: VehicleService, useClass: VehicleServiceMock }
+        // { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -41,7 +41,7 @@ describe('Component: OdometerReadingPage', () => {
     component = fixture.componentInstance;
     navParams = TestBed.get(NavParams);
     vehicleService = TestBed.get(VehicleService);
-    firebaseLogsService = TestBed.get(FirebaseLogsService);
+    // firebaseLogsService = TestBed.get(FirebaseLogsService);
   });
 
   beforeEach(() => {
@@ -62,7 +62,7 @@ describe('Component: OdometerReadingPage', () => {
     component = null;
     navParams = null;
     vehicleService = null;
-    firebaseLogsService = null;
+    // firebaseLogsService = null;
   });
 
   it('should create component', () => {
@@ -82,9 +82,9 @@ describe('Component: OdometerReadingPage', () => {
   });
 
   it('should check if logEvent was triggered', () => {
-    spyOn(firebaseLogsService, 'logEvent');
+    // spyOn(firebaseLogsService, 'logEvent');
     component.onSave();
-    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+    // expect(firebaseLogsService.logEvent).toHaveBeenCalled();
   });
 
   it('should test ngOnInit logic', () => {

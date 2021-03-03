@@ -14,7 +14,7 @@ import { TestStationDataMock } from '../../assets/data-mocks/reference-data-mock
 import { TestTypesReferenceDataMock } from '../../assets/data-mocks/reference-data-mocks/test-types.mock';
 import { AppService } from './app.service';
 import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import { AppVersion } from '@ionic-native/app-version';
 import { LogsProvider } from '../../modules/logs/logs.service';
 import { APP_UPDATE } from '../../app/app.enums';
@@ -65,7 +65,7 @@ describe('Provider: SyncService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        Firebase,
+        // Firebase,
         SyncService,
         OpenNativeSettings,
         CallNumber,
@@ -119,8 +119,8 @@ describe('Provider: SyncService', () => {
         message: VERSION_POPUP_MSG(currentAppVersion, latestVersion),
         buttons: [
           {
-            text: APP_UPDATE.BUTTON,
-            handler: jasmine.any(Function)
+            text: APP_UPDATE.BUTTON
+            // handler: jasmine.any(Function)
           }
         ],
         enableBackdropDismiss: false

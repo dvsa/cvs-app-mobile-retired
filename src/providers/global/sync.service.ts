@@ -6,7 +6,7 @@ import { _throw } from 'rxjs/observable/throw';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CallNumber } from '@ionic-native/call-number';
 import { Observable } from 'rxjs';
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 import { AppVersion } from '@ionic-native/app-version';
 
 import { TestStationReferenceDataModel } from '../../models/reference-data-models/test-station.model';
@@ -39,7 +39,7 @@ export class SyncService {
     private alertCtrl: AlertController,
     private openNativeSettings: OpenNativeSettings,
     private callNumber: CallNumber,
-    private firebase: Firebase,
+    // private firebase: Firebase,
     private authenticationService: AuthenticationService,
     private appVersion: AppVersion,
     private logProvider: LogsProvider
@@ -137,10 +137,10 @@ export class SyncService {
           timestamp: Date.now()
         });
 
-        this.firebase.logEvent('test_error', {
-          content_type: 'error',
-          item_id: `Error at ${microservice} microservice`
-        });
+        // this.firebase.logEvent('test_error', {
+        //   content_type: 'error',
+        //   item_id: `Error at ${microservice} microservice`
+        // });
 
         return _throw(error);
       })
