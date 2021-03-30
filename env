@@ -22,3 +22,9 @@ SENTRY_ORG=
 ####### DEVICE #######
 ######################
 export IPHONE8_P_ID=
+
+
+##############################
+####### IONIC REGISTRY #######
+##############################
+export IONIC_HUB_PRODUCT_KEY=

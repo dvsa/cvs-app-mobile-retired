@@ -76,17 +76,15 @@ To get a working build running locally follow these steps:
 
 1. Clone the repository.
 
-2. Add a .npmrc file to the root of the project.
+2. Rename the `env` to `.env`. Go to [.env](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-.env) section and under the subheading .env copy and paste the content into the `.env` file.
+   Source your `.env` file by running `source .env` (Mac users).
 
-3 Rename the env to `.env`. Go to (https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App) and under the subheading .env copy and paste the content into the `.env` file
-
-4. Go to (https://wiki.dvsacloud.uk/pages/viewpage.action?spaceKey=HVT&title=Getting+started+with+the+Mobile+App) and under the subheading .npmrc copy the content and paste it into the `.npmrc` file created in step 2 above
-
-5. You can use `nvm use` to switch to the supported version of 10.x if you have more than one version of node installed
+3. You can use `nvm use` to switch to the supported version of 10.x if you have more than one version of node installed
    Run `npm install`.
 
-6. You can launch the app in the web browser of choice at this stage. Run `npm run emulate:web` to start.
-   `Gotcha` The authentication process requires a new tab to be opened so that the user name and password can be entered. Most browsers block this by default. So you should allow the browser pop up option
+4. You can launch the app in the web browser of choice at this stage: <br>
+   Run `npm run start` or `npm run emulate:web` to start.
+   **Gotcha:** ⚠️ The authentication process requires a new tab to be opened so that the user name and password can be entered. Most browsers block this by default. So you should allow the browser pop up option ⚠️ .
 
 <!-- Before making the Cordova build make sure you have your config files set up (`GoogleService-Info.plist` and `application.json` files)</br> -->
 
@@ -96,14 +94,17 @@ The application runs on [Xcode 11](https://developer.apple.com/xcode/resources/)
 Once the platform is successfully installed, you can run the following script:
 
 ```shell
-`npm run prepare:ios:remove` - use this to cleanup previously generated cordova platorm files and folders. Only needed for clean up to aid native build re-installation
-`npm run prepare:ios` - use this to install and build the supported cordova-ios version 5 for native execution
+# use this to cleanup previously generated cordova platorm files and folders. Only needed for clean up to aid native build re-installation
+npm run prepare:ios:remove
+# use this to install and build the supported cordova-ios version 5 for native execution
+npm run prepare:ios
 ```
 
 You can then go to `platforms/ios/Vehicle Testing.xcodeproj` and open with xcode and run the app using IPhone 8 (our target device).
 
 ```shell
-`npm run build:ios` - use this in development mode to build any file changes for reloading
+# use this in development mode to build any file changes for reloading
+npm run build:ios
 ```
 
 #### Known issues
@@ -132,10 +133,10 @@ You can run the following script - `npm run emulate:ios` to run the application 
 
 You will first need to get your iPhone 8 Plus that you can find under `Simulator > Hardware menu > Devices > Manage devices`.
 The ID will be shown on the `Identifier` key.
-You can then copy paste the value in the `env` file to the following variable:
+You can then copy paste the value in the `env` file to the following variable to your `.env` (Please see placeholder `env` file in project):
 
 ```
-IPHONE8_P_ID=
+export IPHONE8_P_ID=
 ```
 
 ## For testing on an iOS device:
@@ -187,9 +188,9 @@ For the CI/CD and automation please refer to the following pages for further det
 The app would have been fully integrated with Sentry at this stage in the setup process. However if you wish to create a different sentry account you would need to follow these steps:
 
 - Create an account in https://sentry.io/signup/ and create a default project to receive mobile app generated errors
-- `npm install --save sentry-cordova` for sentry app/cordova integration
 - `npm install --save-dev @sentry/wizard` to help in configuring the mobile app with Sentry.io for the first time i.e. when the app does not exist in Sentry
-- `npm run config` when used locally or in the pipeline will create
-  `sentry.properties` file provided that `.env` file already exist with required key/value pairs
-  This file would have also being generated during @sentry/wizard integration setup
-- `SENTRY_DNS` when set to blank in the `.env` file will disable sentry integration with the mobile app. Hence no logs will be sent to sentry for analysis.
+- Add the relevant Sentry keys to your `.env` file.
+- Run `npm run config` when used locally or in the pipeline will create:
+  - `sentry.properties` file provided that `.env` file already exist with required key/value pairs
+    This file would have also being generated during @sentry/wizard integration setup
+  - `SENTRY_DNS` when set to blank in the `.env` file will disable sentry integration with the mobile app. Hence no logs will be sent to sentry for analysis.
