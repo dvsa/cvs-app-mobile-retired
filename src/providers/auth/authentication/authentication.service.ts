@@ -96,7 +96,7 @@ export class AuthenticationService {
     return {
       id: decodedToken.sub,
       testerName: decodedToken.name,
-      testerEmail: decodedToken.email,
+      testerEmail: decodedToken.email || decodedToken.preferred_username,
       testerRoles: decodedToken.roles,
       oid: decodedToken.oid || '',
       employeeId: decodedToken.employeeid || '',
