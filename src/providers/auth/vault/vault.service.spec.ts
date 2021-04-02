@@ -42,6 +42,10 @@ describe('VaultService', () => {
     vaultService = service;
   }));
 
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('injects', () => {
     expect(vaultService).toBeTruthy();
   });

@@ -9,16 +9,13 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { StorageServiceMock } from '../../../../test-config/services-mocks/storage-service.mock';
 import { VisitServiceMock } from '../../../../test-config/services-mocks/visit-service.mock';
 import { AlertControllerMock } from 'ionic-mocks';
-import { PAGE_NAMES, TESTER_ROLES } from '../../../app/app.enums';
+import { ANALYTICS_SCREEN_NAMES, PAGE_NAMES, TESTER_ROLES } from '../../../app/app.enums';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../../modules/logs/data-store.service.mock';
-import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
 import { AppServiceMock } from '../../../../test-config/services-mocks/app-service.mock';
-// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
-// import { FirebaseLogsServiceMock } from '../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { SyncService } from '../../../providers/global/sync.service';
 import { LogsProvider } from '../../../modules/logs/logs.service';
-import { AppAlertService } from '../../../providers/global';
+import { AnalyticsService, AppAlertService } from '../../../providers/global';
 import { AuthenticationService } from '../../../providers/auth';
 import { AuthenticationServiceMock } from '../../../../test-config/services-mocks/authentication-service.mock';
 
@@ -30,22 +27,17 @@ describe('Component: TestStationHomePage', () => {
   let screenOrientation: ScreenOrientation;
   let screenOrientationSpy: ScreenOrientation;
   let navCtrlSpy: any;
-  let networkStateProvider: NetworkStateProvider;
-  let networkStateProviderSpy: any;
-  // let firebaseLogsService: FirebaseLogsService;
   let syncService: SyncService;
   let syncServiceSpy: any;
   let logProviderSpy: any;
   let appAlertSpy: any;
   let appAlertService: AppAlertService;
   let authenticationService: AuthenticationService;
+  let analyticsService: AnalyticsService;
+  let analyticsServiceSpy: any;
 
   beforeEach(async(() => {
     navCtrlSpy = jasmine.createSpyObj('NavController', ['push']);
-
-    networkStateProviderSpy = jasmine.createSpyObj('NetworkStateProvider', [
-      'initialiseNetworkState'
-    ]);
 
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', {
       lock: () => {},
@@ -62,6 +54,8 @@ describe('Component: TestStationHomePage', () => {
 
     appAlertSpy = jasmine.createSpyObj('AppAlertService', ['alertUnAuthorise']);
 
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', ['setCurrentPage']);
+
     TestBed.configureTestingModule({
       declarations: [TestStationHomePage],
       imports: [IonicModule.forRoot(TestStationHomePage)],
@@ -74,11 +68,10 @@ describe('Component: TestStationHomePage', () => {
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: AppAlertService, useValue: appAlertSpy },
         { provide: Store, useClass: TestStore },
-        // { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
-        { provide: NetworkStateProvider, useValue: networkStateProviderSpy },
         { provide: SyncService, useValue: syncServiceSpy },
-        { provide: LogsProvider, useValue: logProviderSpy }
+        { provide: LogsProvider, useValue: logProviderSpy },
+        { provide: AnalyticsService, useValue: analyticsServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -90,11 +83,10 @@ describe('Component: TestStationHomePage', () => {
     navCtrl = TestBed.get(NavController);
     appService = TestBed.get(AppService);
     screenOrientation = TestBed.get(ScreenOrientation);
-    networkStateProvider = TestBed.get(NetworkStateProvider);
-    // firebaseLogsService = TestBed.get(FirebaseLogsService);
     syncService = TestBed.get(SyncService);
     authenticationService = TestBed.get(AuthenticationService);
     appAlertService = TestBed.get(AppAlertService);
+    analyticsService = TestBed.get(AnalyticsService);
   });
 
   afterEach(() => {
@@ -103,7 +95,6 @@ describe('Component: TestStationHomePage', () => {
     appService = null;
     screenOrientation = null;
     screenOrientationSpy = null;
-    networkStateProvider = null;
     syncService = null;
   });
 
@@ -121,15 +112,15 @@ describe('Component: TestStationHomePage', () => {
 
   it('should set app orientation on initialization', () => {
     spyOn(appService, 'isCordova').and.returnValue(true);
-    // spyOn(firebaseLogsService, 'setScreenName');
 
     comp.ngOnInit();
 
-    expect(networkStateProvider.initialiseNetworkState).toHaveBeenCalled();
     expect(screenOrientation.lock).toHaveBeenCalledWith(
       screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY
     );
-    // expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
+    expect(analyticsService.setCurrentPage).toHaveBeenCalledWith(
+      ANALYTICS_SCREEN_NAMES.GET_STARTED
+    );
   });
 
   describe('ionViewDidEnter', () => {

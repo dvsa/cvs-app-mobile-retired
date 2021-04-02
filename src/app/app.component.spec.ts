@@ -1,30 +1,26 @@
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { IonicModule, Events, Nav } from 'ionic-angular';
+import { IonicModule, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { IonicStorageModule } from '@ionic/storage';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility';
 import { Network } from '@ionic-native/network';
 import { Store } from '@ngrx/store';
+import { EventsMock, SplashScreenMock, StatusBarMock, NetworkMock } from 'ionic-mocks';
 
 import { MyApp } from './app.component';
 import { StorageService } from '../providers/natives/storage.service';
 import { StorageServiceMock } from '../../test-config/services-mocks/storage-service.mock';
-import { SyncService } from '../providers/global/sync.service';
+import { AppService, SyncService, AnalyticsService, NetworkService } from '../providers/global';
 import { VisitService } from '../providers/visit/visit.service';
-import { AppService } from '../providers/global/app.service';
 import { AppServiceMock } from '../../test-config/services-mocks/app-service.mock';
 import { VisitServiceMock } from '../../test-config/services-mocks/visit-service.mock';
 import { AuthenticationService } from '../providers/auth';
-import { AuthenticationServiceMock } from '../../test-config/services-mocks/authentication-service.mock';
-// import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
-// import { FirebaseLogsServiceMock } from '../../test-config/services-mocks/firebaseLogsService.mock';
 import { ActivityService } from '../providers/activity/activity.service';
 import { ActivityServiceMock } from '../../test-config/services-mocks/activity-service.mock';
-import { STORAGE, PAGE_NAMES } from './app.enums';
+import { STORAGE, PAGE_NAMES, CONNECTION_STATUS } from './app.enums';
 import { LogsProvider } from '../modules/logs/logs.service';
 import { TestStore } from '../modules/logs/data-store.service.mock';
 
@@ -33,7 +29,7 @@ describe('Component: Root', () => {
   let fixture: ComponentFixture<MyApp>;
   let appService: AppService;
   let events: Events;
-  let eventsSpy: any;
+  let splashScreen: SplashScreen;
   let activityService;
   let syncService;
   let syncServiceSpy: any;
@@ -43,10 +39,11 @@ describe('Component: Root', () => {
   let visitService;
   let screenOrientation: ScreenOrientation;
   let screenOrientationSpy: any;
-  // let firebaseLogsService: FirebaseLogsService;
   let authenticationService: AuthenticationService;
-  let navSpy: any;
-  let navElem: Nav;
+  let authenticationSpy: any;
+  let analyticsService: AnalyticsService;
+  let analyticsServiceSpy: any;
+  let networkService: NetworkService;
 
   beforeEach(async(() => {
     syncServiceSpy = jasmine.createSpyObj('SyncService', {
@@ -57,40 +54,37 @@ describe('Component: Root', () => {
       dispatchLog: () => true
     });
 
-    // authenticationSpy = jasmine.createSpyObj('AuthenticationService', ['login']);
-    navSpy = jasmine.createSpyObj('Nav', ['push']);
-    eventsSpy = jasmine.createSpyObj('Events', ['subscribe', 'unsubscribe']);
+    authenticationSpy = jasmine.createSpyObj('AuthenticationService', [
+      'expireTokens',
+      'checkUserAuthStatus'
+    ]);
+
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
+
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
+      'logEvent',
+      'addCustomDimension'
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [MyApp],
-      imports: [
-        BrowserModule,
-        HttpClientModule,
-        IonicModule.forRoot(MyApp),
-        IonicStorageModule.forRoot({
-          driverOrder: ['sqlite', 'websql', 'indexeddb']
-        })
-      ],
+      imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
       providers: [
-        StatusBar,
-        SplashScreen,
-        // StorageService,
-        // AppService,
-        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
+        MobileAccessibility,
+        NetworkService,
+        { provide: AuthenticationService, useValue: authenticationSpy },
         { provide: AppService, useClass: AppServiceMock },
         { provide: StorageService, useClass: StorageServiceMock },
-        { provide: Events, useValue: eventsSpy },
-        { provide: Nav, useValue: navSpy },
-        // { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        { provide: StatusBar, useFactory: () => StatusBarMock.instance() },
+        { provide: Events, useFactory: () => EventsMock.instance() },
+        { provide: Network, useFactory: () => NetworkMock.instance('wifi') },
+        { provide: SplashScreen, useFactory: () => SplashScreenMock.instance() },
+        { provide: ScreenOrientation, useValue: screenOrientationSpy },
+        { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: ActivityService, useClass: ActivityServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: SyncService, useValue: syncServiceSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: ScreenOrientation, useValue: screenOrientationSpy },
-        MobileAccessibility,
-        // ScreenOrientation,
-        Network,
         { provide: Store, useClass: TestStore }
       ]
     }).compileComponents();
@@ -100,6 +94,7 @@ describe('Component: Root', () => {
     fixture = TestBed.createComponent(MyApp);
     comp = fixture.componentInstance;
     events = TestBed.get(Events);
+    splashScreen = TestBed.get(SplashScreen);
     authenticationService = TestBed.get(AuthenticationService);
     syncService = TestBed.get(SyncService);
     storageService = TestBed.get(StorageService);
@@ -107,19 +102,13 @@ describe('Component: Root', () => {
     visitService = TestBed.get(VisitService);
     activityService = TestBed.get(ActivityService);
     screenOrientation = TestBed.get(ScreenOrientation);
-    // firebaseLogsService = TestBed.get(FirebaseLogsService);
+    analyticsService = TestBed.get(AnalyticsService);
     logProvider = TestBed.get(LogsProvider);
-    navElem = TestBed.get(Nav);
-
-    // spyOn(firebaseLogsService, 'logEvent');
+    networkService = TestBed.get(NetworkService);
   });
 
   afterEach(() => {
-    fixture.destroy();
-    comp = null;
-    appService = null;
-    screenOrientation = null;
-    syncService = null;
+    TestBed.resetTestingModule();
   });
 
   it('should create component', () => {
@@ -130,28 +119,27 @@ describe('Component: Root', () => {
 
   describe('when loading app', () => {
     beforeEach(() => {
-      // authenticationService.login = jasmine.createSpy('login').and.returnValue(Promise.resolve());
-      // authenticationService.login = jasmine.createSpy('login').and.callThrough();
+      spyOn(networkService, 'initialiseNetworkStatus');
+      spyOn(networkService, 'getNetworkState').and.returnValue(CONNECTION_STATUS.ONLINE);
       spyOn(appService, 'manageAppInit').and.callFake(() => Promise.resolve());
-      spyOn(authenticationService, 'login').and.returnValue(() => Promise.resolve());
     });
 
-    it('should set app default data and call login', () => {
-      // comp.navElem = navSpy;
-      // navSpy.push(PAGE_NAMES.SIGNATURE_PAD_PAGE);
-      // eventsSpy.subscribe();
-      // authenticationSpy.login();
-      // spyOnProperty(appService, 'isSignatureRegistered', 'get').and.returnValue(false);
-      // comp.ngOnInit();
+    it('should set app defaults and navigate to signature page', async () => {
+      spyOn(comp.navElem, 'setRoot');
 
-      fixture.detectChanges();
+      authenticationService.checkUserAuthStatus = jasmine
+        .createSpy('authenticationService.checkUserAuthStatus')
+        .and.returnValue(true);
 
-      // expect(appService.manageAppInit).toHaveBeenCalled();
-      //expect(authenticationService.login).toHaveBeenCalled();
+      await comp.initApp();
 
-      // expect(AuthenticationService.prototype.login).toHaveBeenCalled();
-      // expect(comp.navElem.push).toHaveBeenCalledWith(PAGE_NAMES.SIGNATURE_PAD_PAGE);
-      // expect(events.subscribe).toHaveBeenCalled();
+      expect(authenticationService.expireTokens).toHaveBeenCalledWith();
+      expect(networkService.initialiseNetworkStatus).toHaveBeenCalled();
+      expect(appService.manageAppInit).toHaveBeenCalled();
+
+      expect(networkService.getNetworkState).toHaveBeenCalled();
+      expect(splashScreen.hide).toHaveBeenCalled();
+      expect(comp.navElem.setRoot).toHaveBeenCalledWith(PAGE_NAMES.SIGNATURE_PAD_PAGE);
     });
   });
 

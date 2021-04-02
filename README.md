@@ -36,7 +36,7 @@ VTA uses the following AWS backend microservices:
 
 This project using Ionic, if you don't have ionic follow [these steps](https://ionicframework.com/docs/v1/guide/installation.html).
 Please install and configure [nvm](https://github.com/nvm-sh/nvm) with this node version so it can be used during installation 10.x.
-The application currently run on 10.18.1, please run `npm use` once the correct node(s) versions have been downloaded with nvm.
+The application currently run on 10.18.1, please run `nvm use` once the correct node(s) versions have been downloaded with nvm.
 
 ### Security
 
@@ -122,7 +122,6 @@ npm run prepare:ios
 - Github issues:
 
   - Xcode backward compatibility: [Cordova.h and Info.plist missing files](https://github.com/apache/cordova-ios/issues/760).
-  - Firebasex cordova plugin: will require [Cocoapods](https://guides.cocoapods.org/using/getting-started.html#sudo-less-installation) installed.
   - cordova-plugin-statusbar: [Github](https://github.com/apache/cordova-plugin-statusbar)
   - cordova-plugin-inappbrowser: [Github](https://github.com/apache/cordova-plugin-inappbrowser/issues/709)
   - cordova-plugin-ionic-webview: [Github](https://github.com/ionic-team/cordova-plugin-ionic-webview)

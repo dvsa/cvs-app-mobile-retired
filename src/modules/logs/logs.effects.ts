@@ -5,15 +5,16 @@ import { Store, select } from '@ngrx/store';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { interval } from 'rxjs/observable/interval';
+import { Observable } from 'rxjs/Observable';
+import { from } from 'rxjs/observable/from';
 
 import * as logsActions from './logs.actions';
 import { getLogsState } from './logs.reducer';
-import { Observable } from 'rxjs/Observable';
-import { from } from 'rxjs/observable/from';
 import { LogsProvider } from './logs.service';
 import { Log, LogsModel } from './logs.model';
-import { ConnectionStatus, NetworkStateProvider } from './network-state.service';
 import { DataStoreProvider } from './data-store.service';
+import { NetworkService } from '../../providers/global';
+import { CONNECTION_STATUS } from '../../app/app.enums';
 
 type LogCache = {
   dateStored: string;
@@ -27,7 +28,7 @@ export class LogsEffects {
     private store$: Store<LogsModel>,
     private logsProvider: LogsProvider,
     private dataStore: DataStoreProvider,
-    private networkStateProvider: NetworkStateProvider
+    private networkService: NetworkService
   ) {}
 
   @Effect()
@@ -79,9 +80,10 @@ export class LogsEffects {
     ofType(logsActions.SEND_LOGS),
     withLatestFrom(this.store$.pipe(select(getLogsState))),
     switchMap(([action, logs]) => {
-      if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
+      if (this.networkService.getNetworkState() === CONNECTION_STATUS.OFFLINE) {
         return of();
       }
+
       return Observable.forkJoin([
         this.logsProvider.sendLogs(logs),
         this.logsProvider.sendUnauthLogs(logs)
