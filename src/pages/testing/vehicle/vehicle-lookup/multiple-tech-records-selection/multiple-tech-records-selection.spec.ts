@@ -1,5 +1,5 @@
-import { MultipleTechRecordsSelectionPage } from './multiple-tech-records-selection';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   AlertController,
   IonicModule,
@@ -8,27 +8,27 @@ import {
   NavParams,
   ViewController
 } from 'ionic-angular';
+import { Observable } from 'rxjs';
 import { NavParamsMock } from '../../../../../../test-config/ionic-mocks/nav-params.mock';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   AlertControllerMock,
   LoadingControllerMock,
   NavControllerMock,
   ViewControllerMock
 } from 'ionic-mocks';
+import { MultipleTechRecordsSelectionPage } from './multiple-tech-records-selection';
 import { VehicleService } from '../../../../../providers/vehicle/vehicle.service';
 import { VehicleServiceMock } from '../../../../../../test-config/services-mocks/vehicle-service.mock';
 import { StorageService } from '../../../../../providers/natives/storage.service';
 import { StorageServiceMock } from '../../../../../../test-config/services-mocks/storage-service.mock';
-// import { Firebase } from '@ionic-native/firebase';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../../../../modules/logs/data-store.service.mock';
 import { VehicleDataMock } from '../../../../../assets/data-mocks/vehicle-data.mock';
 import { PAGE_NAMES } from '../../../../../app/app.enums';
-import { Observable } from 'rxjs';
 import { LogsProvider } from '../../../../../modules/logs/logs.service';
 import { AuthenticationService } from '../../../../../providers/auth/authentication/authentication.service';
 import { AuthenticationServiceMock } from '../../../../../../test-config/services-mocks/authentication-service.mock';
+import { AnalyticsService } from '../../../../../providers/global';
 
 describe('Component: ', () => {
   let component: MultipleTechRecordsSelectionPage;
@@ -40,11 +40,18 @@ describe('Component: ', () => {
   let alertCtrl: AlertController;
   let logProvider: LogsProvider;
   let logProviderSpy: any;
+  let analyticsService: AnalyticsService;
+  let analyticsServiceSpy: any;
 
   beforeEach(async(() => {
     logProviderSpy = jasmine.createSpyObj('LogsProvider', {
       dispatchLog: () => true
     });
+
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
+      'logEvent',
+      'addCustomDimension'
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [MultipleTechRecordsSelectionPage],
@@ -56,10 +63,7 @@ describe('Component: ', () => {
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
-        // {
-        //   provide: Firebase,
-        //   useValue: jasmine.createSpyObj<Firebase>(['logEvent', 'setScreenName'])
-        // },
+        { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: Store, useClass: TestStore },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
@@ -78,6 +82,7 @@ describe('Component: ', () => {
     vehicleService = TestBed.get(VehicleService);
     alertCtrl = TestBed.get(AlertController);
     logProvider = TestBed.get(LogsProvider);
+    analyticsService = TestBed.get(AnalyticsService);
   });
 
   afterEach(() => {

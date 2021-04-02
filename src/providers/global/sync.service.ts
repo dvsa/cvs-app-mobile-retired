@@ -137,11 +137,6 @@ export class SyncService {
           timestamp: Date.now()
         });
 
-        // this.firebase.logEvent('test_error', {
-        //   content_type: 'error',
-        //   item_id: `Error at ${microservice} microservice`
-        // });
-
         return _throw(error);
       })
     );

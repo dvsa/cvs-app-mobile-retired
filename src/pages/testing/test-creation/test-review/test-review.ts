@@ -13,11 +13,14 @@ import {
 import { VisitModel } from '../../../../models/visit/visit.model';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import {
+  ANALYTICS_SCREEN_NAMES,
+  ANALYTICS_EVENTS,
+  AnalyticsEventCategories,
+  ANALYTICS_LABEL,
+  ANALYTICS_VALUE,
   APP_STRINGS,
   DATE_FORMAT,
   DEFICIENCY_CATEGORY,
-  FIREBASE,
-  FIREBASE_SCREEN_NAMES,
   LOCAL_STORAGE,
   LOG_TYPES,
   ODOMETER_METRIC,
@@ -48,7 +51,7 @@ import { ActivityService } from '../../../../providers/activity/activity.service
 import { TestResultModel } from '../../../../models/tests/test-result.model';
 import { RoadworthinessTestTypesData } from '../../../../assets/app-data/test-types-data/roadworthiness-test-types.data';
 import { AdrTestTypesData } from '../../../../assets/app-data/test-types-data/adr-test-types.data';
-import { AppService } from '../../../../providers/global/app.service';
+import { AppService, AnalyticsService } from '../../../../providers/global';
 import { TirTestTypesData } from '../../../../assets/app-data/test-types-data/tir-test-types.data';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
@@ -94,6 +97,7 @@ export class TestReviewPage implements OnInit {
     // private firebase: Firebase,
     private authenticationService: AuthenticationService,
     // private firebaseLogsService: FirebaseLogsService,
+    private analyticsService: AnalyticsService,
     private activityService: ActivityService,
     public appService: AppService,
     private testTypeService: TestTypeService,
@@ -123,6 +127,7 @@ export class TestReviewPage implements OnInit {
 
   ionViewDidEnter() {
     // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_REVIEW);
+    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_REVIEW);
   }
 
   getVehicleTypeIconToShow(vehicle: VehicleModel) {
@@ -385,6 +390,11 @@ export class TestReviewPage implements OnInit {
 
         // this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_TEST);
 
+        this.analyticsService.logEvent({
+          category: AnalyticsEventCategories.TEST,
+          event: ANALYTICS_EVENTS.SUBMIT_TEST
+        });
+
         for (let testResult of testResultsArr) {
           const activity = this.activityService.createActivityBodyForCall(
             this.visitService.visit,
@@ -418,6 +428,8 @@ export class TestReviewPage implements OnInit {
               //   content_type: 'error',
               //   item_id: 'Wait activity submission failed'
               // });
+
+              this.trackErrorOnTestSubmission(ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED);
             }
           );
         }
@@ -436,7 +448,22 @@ export class TestReviewPage implements OnInit {
         //   FIREBASE.ERROR,
         //   FIREBASE.TEST_SUBMISSION_FAILED
         // );
+
+        this.trackErrorOnTestSubmission(ANALYTICS_VALUE.TEST_SUBMISSION_FAILED);
       }
+    );
+  }
+
+  private async trackErrorOnTestSubmission(value: string) {
+    await this.analyticsService.logEvent({
+      category: AnalyticsEventCategories.ERRORS,
+      event: ANALYTICS_EVENTS.TEST_ERROR,
+      label: ANALYTICS_LABEL.ERROR
+    });
+
+    await this.analyticsService.addCustomDimension(
+      Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
+      value
     );
   }
 

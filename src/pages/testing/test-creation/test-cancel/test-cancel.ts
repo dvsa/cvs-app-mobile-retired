@@ -1,3 +1,9 @@
+import {
+  AnalyticsEventCategories,
+  ANALYTICS_EVENTS,
+  ANALYTICS_LABEL,
+  ANALYTICS_VALUE
+} from './../../../../app/app.enums';
 import { Component } from '@angular/core';
 import {
   AlertController,
@@ -9,6 +15,7 @@ import {
 import { TestModel } from '../../../../models/tests/test.model';
 import { TestService } from '../../../../providers/test/test.service';
 import {
+  ANALYTICS_SCREEN_NAMES,
   APP_STRINGS,
   LOG_TYPES,
   PAGE_NAMES,
@@ -25,6 +32,7 @@ import { ActivityService } from '../../../../providers/activity/activity.service
 // import { Firebase } from '@ionic-native/firebase';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
+import { AnalyticsService } from '../../../../providers/global';
 
 @IonicPage()
 @Component({
@@ -50,6 +58,7 @@ export class TestCancelPage {
     // private firebase: Firebase,
     private authenticationService: AuthenticationService,
     // private firebaseLogsService: FirebaseLogsService,
+    private analyticsService: AnalyticsService,
     private activityService: ActivityService,
     private logProvider: LogsProvider
   ) {
@@ -58,6 +67,7 @@ export class TestCancelPage {
 
   ionViewDidEnter() {
     // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_CANCEL);
+    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_CANCEL);
   }
 
   submitHandler() {
@@ -166,6 +176,12 @@ export class TestCancelPage {
         });
 
         // this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
+
+        this.analyticsService.logEvent({
+          category: AnalyticsEventCategories.TEST_TYPES,
+          event: ANALYTICS_EVENTS.CANCEL_TEST
+        });
+
         for (let testResult of testResultsArr) {
           const activity = this.activityService.createActivityBodyForCall(
             this.visitService.visit,
@@ -201,6 +217,17 @@ export class TestCancelPage {
               //   content_type: 'error',
               //   item_id: 'Wait activity submission failed'
               // });
+
+              this.analyticsService.logEvent({
+                category: AnalyticsEventCategories.ERRORS,
+                event: ANALYTICS_EVENTS.TEST_ERROR,
+                label: ANALYTICS_LABEL.ERROR
+              });
+
+              this.analyticsService.addCustomDimension(
+                Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
+                ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
+              );
             }
           );
         }
@@ -220,6 +247,18 @@ export class TestCancelPage {
         //   FIREBASE.ERROR,
         //   FIREBASE.TEST_SUBMISSION_FAILED
         // );
+
+        this.analyticsService.logEvent({
+          category: AnalyticsEventCategories.ERRORS,
+          event: ANALYTICS_EVENTS.TEST_ERROR,
+          label: ANALYTICS_LABEL.ERROR
+        });
+
+        this.analyticsService.addCustomDimension(
+          Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
+          ANALYTICS_VALUE.TEST_SUBMISSION_FAILED
+        );
+
         TRY_AGAIN_ALERT.onDidDismiss(() => {
           if (!this.tryAgain) {
             this.nextAlert = this.changeOpacity = false;
