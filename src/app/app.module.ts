@@ -20,6 +20,7 @@ import { CommonFunctionsService } from '../providers/utils/common-functions';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { SignaturePopoverComponent } from '../components/signature-popover/signature-popover';
 import { SignatureService } from '../providers/signature/signature.service';
 import { ActivityService } from '../providers/activity/activity.service';
@@ -40,7 +41,8 @@ import {
   AppService,
   StateReformingService,
   SyncService,
-  HTTPService
+  HTTPService,
+  AnalyticsService
 } from '../providers/global';
 
 import {
@@ -70,7 +72,8 @@ const CUSTOM_PROVIDERS = [
   ActivityService,
   StateReformingService,
   CommonFunctionsService,
-  SignatureService
+  SignatureService,
+  AnalyticsService
   // FirebaseLogsService
 ];
 
@@ -85,6 +88,7 @@ const IONIC_NATIVE_PROVIDERS = [
   AppVersion,
   Keyboard,
   ScreenOrientation,
+  GoogleAnalytics,
   // Firebase,
   DataStoreProvider,
   Network,

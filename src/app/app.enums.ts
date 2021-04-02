@@ -428,6 +428,15 @@ export enum WAIT_TIME_REASONS {
   OTHER = 'Other'
 }
 
+export enum AnalyticsEventCategories {
+  MOBILE_ACCESSIBILITY = 'accessibility'
+}
+
+export enum AnalyticsEvents {
+  IOS_FONT_SIZE_USAGE = 'ios_font_size_usage',
+  IOS_VOICEOVER_USAGE = 'ios_voiceover_usage'
+}
+
 export enum FIREBASE {
   TEST_REVIEW_UNSUCCESSFUL = 'test_review_unsuccessful',
   MISSING_MADATORY_FIELD = 'missing_mandatory_field',
@@ -461,9 +470,7 @@ export enum FIREBASE {
   ADD_TEST_TYPE_END_TIME = 'add_test_type_end_time',
   REMOVE_TEST_TYPE = 'remove_test_type',
   ABANDON_TEST_TYPE = 'abandon_test_type',
-  TEST_TYPE_NAME = 'test_type_name',
-  IOS_FONT_SIZE_USAGE = 'ios_font_size_usage',
-  IOS_VOICEOVER_USAGE = 'ios_voiceover_usage'
+  TEST_TYPE_NAME = 'test_type_name'
 }
 
 export enum FIREBASE_AUTH {

@@ -4,7 +4,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthenticationService } from '../providers/auth/authentication/authentication.service';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility';
-import { SyncService } from '../providers/global/sync.service';
 import { StorageService } from '../providers/natives/storage.service';
 import { VisitService } from '../providers/visit/visit.service';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
@@ -14,9 +13,11 @@ import {
   PAGE_NAMES,
   SIGNATURE_STATUS,
   STORAGE,
-  LOG_TYPES
+  LOG_TYPES,
+  AnalyticsEventCategories,
+  AnalyticsEvents
 } from './app.enums';
-import { AppService } from '../providers/global/app.service';
+import { AppService, AnalyticsService, SyncService } from '../providers/global';
 import { ActivityService } from '../providers/activity/activity.service';
 // import { FirebaseLogsService } from '../providers/firebase-logs/firebase-logs.service';
 import { Network } from '@ionic-native/network';
@@ -55,6 +56,7 @@ export class MyApp {
     private renderer: Renderer2,
     // private firebaseLogsService: FirebaseLogsService,
     private screenOrientation: ScreenOrientation,
+    private analysticsService: AnalyticsService,
     private network: Network,
     private logProvider: LogsProvider
   ) {
@@ -105,6 +107,11 @@ export class MyApp {
     } else {
       this.manageAppState();
     }
+
+    this.analysticsService.logEvent(
+      AnalyticsEventCategories.MOBILE_ACCESSIBILITY,
+      AnalyticsEvents.IOS_FONT_SIZE_USAGE
+    );
   }
 
   manageAppStateListeners() {
@@ -145,25 +152,33 @@ export class MyApp {
 
   private accessibilityFeatures(): void {
     this.mobileAccessibility.updateTextZoom();
+
     this.mobileAccessibility
       .getTextZoom()
       .then((result) => {
         if (result !== ACCESSIBILITY_DEFAULT_VALUES.TEXT_SIZE) {
           // this.firebaseLogsService.logEvent(FIREBASE.IOS_FONT_SIZE_USAGE);
+          this.analysticsService.logEvent(
+            AnalyticsEventCategories.MOBILE_ACCESSIBILITY,
+            AnalyticsEvents.IOS_FONT_SIZE_USAGE
+          );
         }
         this.appService.setAccessibilityTextZoom(result);
       })
       .catch(() => this.appService.setAccessibilityTextZoom(106));
+
     this.mobileAccessibility.isVoiceOverRunning().then((result) => {
       if (result) {
         // this.firebaseLogsService.logEvent(FIREBASE.IOS_VOICEOVER_USAGE);
       }
     });
+
     this.mobileAccessibility.isInvertColorsEnabled().then((result) => {
       result
         ? this.renderer.setStyle(document.body, 'filter', 'invert(100%)')
         : this.renderer.removeStyle(document.body, 'filter');
     });
+
     this.mobileAccessibility.isBoldTextEnabled().then((result) => {
       result
         ? this.renderer.addClass(document.body, 'accessibility-bold-text')
