@@ -8,7 +8,8 @@ const {
   AZURE_TENANT_ID,
   AUTH_REDIRECT_URL,
   APP_KEY_PHONE_NUMBER,
-  SENTRY_DSN
+  SENTRY_DSN,
+  UNAUTH_LOGS_API_KEY
 } = process.env;
 
 const isProduction = ENVIRONMENT === 'production';
@@ -21,7 +22,7 @@ export const hybridConfig = `export default {
     "STAFF_ID_KEY": "extn.StaffId",
     "KEY_PHONE_NUMBER": "${APP_KEY_PHONE_NUMBER}",
     "AUTH_REDIRECT_URL": "${AUTH_REDIRECT_URL}",
-    "UNAUTH_LOGS_API_KEY": "",
+    "UNAUTH_LOGS_API_KEY": "${UNAUTH_LOGS_API_KEY}",
     "BACKEND_URL_SIGNATURE": "${BASE_URL}/${END_ENV}/cvs-signature-nonprod/${END_ENV}%2F",
     "BACKEND_URL":"${BASE_URL}/${END_ENV}",
     "URL_LATEST_VERSION": ""
