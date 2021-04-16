@@ -3,12 +3,14 @@ import { Platform } from 'ionic-angular';
 import {
   AuthMode,
   DefaultSession,
+  IdentityVault,
   IonicIdentityVaultUser,
   IonicNativeAuthPlugin
 } from '@ionic-enterprise/identity-vault';
 import { Subject, Observable } from 'rxjs';
 
 import { BrowserAuthPlugin } from '../browser-auth/brower-auth.plugin';
+import { LOCAL_STORAGE } from '../../../app/app.enums';
 
 @Injectable()
 export class VaultService extends IonicIdentityVaultUser<DefaultSession> {
@@ -39,6 +41,16 @@ export class VaultService extends IonicIdentityVaultUser<DefaultSession> {
   async isLocked(): Promise<boolean> {
     const vault = await this.getVault();
     return vault.isLocked();
+  }
+
+  async storeTesterObfuscatedId(obsTesterId: string) {
+    const vault: IdentityVault = await this.getVault();
+    vault.storeValue(LOCAL_STORAGE.OBSFUCATED_TESTER, obsTesterId);
+  }
+
+  async getTesterObsfuscatedId(): Promise<string> {
+    const vault: IdentityVault = await this.getVault();
+    return vault.getValue(LOCAL_STORAGE.OBSFUCATED_TESTER);
   }
 
   onVaultUnlocked() {

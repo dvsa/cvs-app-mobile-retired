@@ -29,7 +29,8 @@ export enum LOCAL_STORAGE {
   TESTER_DETAILS = 'tester-details',
   JWT_TOKEN = 'jwt-token',
   SIGNATURE = 'signature-image',
-  IS_TEST_SUBMITTED = 'is-test-submitted'
+  IS_TEST_SUBMITTED = 'is-test-submitted',
+  OBSFUCATED_TESTER = 'obs-tester-oid'
 }
 
 export enum APP {
@@ -376,9 +377,7 @@ export enum AUTH {
   INTERNET_REQUIRED = 'Internet is required.',
   RE_LOGIN = 'Allow user to log in again',
   CONTINUE = 'Token is active, continue the flow',
-  FAILED = 'Login failed',
-  MS_ADAL_ERROR_CODE = 'AD_ERROR_UI_USER_CANCEL',
-  MS_ADA_ERROR_USER_INPUT = 'AD_ERROR_SERVER_USER_INPUT_NEEDED'
+  FAILED = 'Login failed'
 }
 
 export enum SIGNATURE_STATUS {

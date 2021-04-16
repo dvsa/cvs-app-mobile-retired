@@ -28,7 +28,11 @@ describe('AuthenticationService', () => {
   GYtNDBhZS1hNWJhLTQxNjhhNDgwOGMzNSJ9.zW_4CbBPTbEq-OeV7McuGEXTrZLTwhFYvV6KNMc2cQE`;
 
   vaultServiceSpy = {
-    ...jasmine.createSpyObj('VaultService', ['logout', 'setDesiredAuthMode']),
+    ...jasmine.createSpyObj('VaultService', [
+      'logout',
+      'storeTesterObfuscatedId',
+      'setDesiredAuthMode'
+    ]),
     lockChanged: of(true)
   } as jasmine.SpyObj<VaultService>;
 
@@ -38,7 +42,7 @@ describe('AuthenticationService', () => {
 
   commonFuncSpy = jasmine.createSpyObj('CommonFunctionsService', {
     randomString: randomStr,
-    getObfuscatedTesterOid: () => obsStr
+    getObfuscatedTesterOid: obsStr
   });
 
   beforeEach(() => {
@@ -90,7 +94,6 @@ describe('AuthenticationService', () => {
     describe('login', () => {
       beforeEach(() => {
         getAuthResponseSpy.and.returnValue(Promise.resolve(undefined));
-        spyOn(authenticationService, 'storeTesterObfuscatedId');
       });
 
       it('should call through to ionic auth login() method', async () => {
@@ -100,7 +103,7 @@ describe('AuthenticationService', () => {
         expect(vaultService.logout).toHaveBeenCalled();
         expect(vaultService.setDesiredAuthMode).toHaveBeenCalled();
         expect(authenticationService.auth.login).toHaveBeenCalled();
-        expect(authenticationService.storeTesterObfuscatedId).toHaveBeenCalledWith(randomStr);
+        expect(vaultService.storeTesterObfuscatedId).toHaveBeenCalledWith(obsStr);
       });
     });
 

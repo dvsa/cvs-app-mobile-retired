@@ -67,7 +67,9 @@ export class AuthenticationService {
       const tkInfo: TokenInfo = await this.updateTokenInfo();
       const testerOid = tkInfo && tkInfo.oid ? tkInfo.oid : this.commonFunc.randomString(9);
 
-      this.storeTesterObfuscatedId(testerOid);
+      await this.vaultService.storeTesterObfuscatedId(
+        this.commonFunc.getObfuscatedTesterOid(testerOid)
+      );
     } catch (error) {
       console.log(error || error.message);
       throw error;
@@ -103,11 +105,6 @@ export class AuthenticationService {
       testerId: decodedToken.employeeid || decodedToken.oid,
       token: token
     };
-  }
-
-  storeTesterObfuscatedId(testerOid: string) {
-    const obsTesterId = testerOid;
-    localStorage.setItem('obs-tester-oid', this.commonFunc.getObfuscatedTesterOid(obsTesterId));
   }
 
   async isUserAuthenticated(): Promise<TokenStatus> {
