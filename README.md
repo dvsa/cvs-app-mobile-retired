@@ -77,7 +77,7 @@ To get a working build running locally follow these steps:
 1. Clone the repository.
 
 2. Rename the `env` to `.env`. Go to [.env](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-.env) section and under the subheading .env copy and paste the content into the `.env` file.
-   Source your `.env` file by running `source .env` (**Linux users**).
+   Source your `.env` file by running `source .env` (**Linux users**)
 
 3. You can use `nvm use` to switch to the supported version of 10.x if you have more than one version of node installed
    Run `npm install`.

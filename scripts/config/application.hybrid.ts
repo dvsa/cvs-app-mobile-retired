@@ -9,7 +9,8 @@ const {
   AUTH_REDIRECT_URL,
   APP_KEY_PHONE_NUMBER,
   SENTRY_DSN,
-  UNAUTH_LOGS_API_KEY
+  UNAUTH_LOGS_API_KEY,
+  URL_LATEST_VERSION
 } = process.env;
 
 const isProduction = ENVIRONMENT === 'production';
@@ -25,7 +26,7 @@ export const hybridConfig = `export default {
     "UNAUTH_LOGS_API_KEY": "${UNAUTH_LOGS_API_KEY}",
     "BACKEND_URL_SIGNATURE": "${BASE_URL}/${END_ENV}/cvs-signature-nonprod/${END_ENV}%2F",
     "BACKEND_URL":"${BASE_URL}/${END_ENV}",
-    "URL_LATEST_VERSION": ""
+    "URL_LATEST_VERSION": "${URL_LATEST_VERSION}"
   },
   "sentry": {
     "SENTRY_ENV": "${END_ENV}",
