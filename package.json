@@ -132,7 +132,7 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.3",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "native-run": "^0.2.9",
     "null-loader": "^0.1.1",
     "prettier": "^1.19.1",
