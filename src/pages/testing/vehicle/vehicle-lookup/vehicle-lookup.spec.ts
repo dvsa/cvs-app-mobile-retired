@@ -28,7 +28,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestDataModelMock } from '../../../../assets/data-mocks/data-model/test-data-model.mock';
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
 import {
+  AnalyticsEventCategories,
+  ANALYTICS_EVENTS,
+  ANALYTICS_LABEL,
   ANALYTICS_SCREEN_NAMES,
+  ANALYTICS_VALUE,
   APP_STRINGS,
   STORAGE,
   VEHICLE_TYPE
@@ -163,18 +167,28 @@ describe('Component: VehicleLookupPage', () => {
     expect(component.getTechRecordQueryParam().queryParam).toEqual('trailerId');
   });
 
-  it('should empty ionic storage if the test history cannot be retrieved', () => {
+  it('should empty ionic storage if the test history cannot be retrieved', async () => {
     spyOn(storageService, 'update');
     vehicleService.getVehicleTechRecords = jasmine.createSpy().and.callFake(() => of([VEHICLE]));
     vehicleService.getTestResultsHistory = jasmine
       .createSpy()
       .and.callFake(() => _throw('Error'));
-    component.searchVehicle('TESTVIN', loading);
+
+    await component.searchVehicle('TESTVIN', loading);
 
     expect(storageService.update).toHaveBeenCalledTimes(1);
     expect(storageService.update).toHaveBeenCalledWith(
       STORAGE.TEST_HISTORY + VEHICLE.systemNumber,
       []
+    );
+    expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      category: AnalyticsEventCategories.ERRORS,
+      event: ANALYTICS_EVENTS.TEST_ERROR,
+      label: ANALYTICS_LABEL.ERROR
+    });
+    expect(analyticsService.addCustomDimension).toHaveBeenCalledWith(
+      Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
+      ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
     );
   });
 

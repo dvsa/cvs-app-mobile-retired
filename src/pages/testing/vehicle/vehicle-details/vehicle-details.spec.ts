@@ -20,6 +20,7 @@ import { TechRecordDataMock } from '../../../../assets/data-mocks/tech-record-da
 import { TestTypeArrayDataMock } from '../../../../assets/data-mocks/test-type-array-data.mock';
 import { PipesModule } from '../../../../pipes/pipes.module';
 import {
+  AnalyticsEventCategories,
   ANALYTICS_SCREEN_NAMES,
   APP_STRINGS,
   DURATION_TYPE,
@@ -153,6 +154,26 @@ describe('Component: VehicleDetailsPage', () => {
   it('should check if alertCtrl was called', () => {
     component.goToPreparerPage();
     expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should track vehicle duration when goToPreparerPage is confirmed ', async () => {
+    const timeStart = 1620242516913;
+    const timeEnd = 1620243020205;
+    spyOn(Date, 'now').and.returnValue(timeEnd);
+
+    const strType: string = DURATION_TYPE[DURATION_TYPE.CONFIRM_VEHICLE];
+    const duration: Duration = { start: timeStart, end: timeEnd };
+
+    spyOn(durationService, 'setDuration');
+    spyOn(durationService, 'getDuration').and.returnValue(duration);
+    spyOn(durationService, 'getTakenDuration').and.returnValue(timeEnd);
+
+    component.trackConfirmVehicleDuration();
+
+    expect(durationService.setDuration).toHaveBeenCalledWith({ end: timeEnd }, strType);
+    expect(durationService.getDuration).toHaveBeenCalledWith(strType);
+    expect(durationService.getTakenDuration).toHaveBeenCalledWith(duration);
+    expect(analyticsService.logEvent).toHaveBeenCalled();
   });
 
   it('should not display the provisional label if the techRecord is current', () => {

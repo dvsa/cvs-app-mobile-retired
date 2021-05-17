@@ -218,11 +218,13 @@ export class VehicleDetailsPage {
       'CONFIRM_VEHICLE_START_TIME',
       duration.start.toString()
     );
+
     await this.trackDuration(
       ANALYTICS_EVENTS.CONFIRM_VEHICLE_TIME_TAKEN,
       'CONFIRM_VEHICLE_END_TIME',
       duration.end.toString()
     );
+
     await this.trackDuration(
       ANALYTICS_EVENTS.CONFIRM_VEHICLE_TIME_TAKEN,
       'CONFIRM_VEHICLE_TIME_TAKEN',

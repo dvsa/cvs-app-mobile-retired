@@ -24,7 +24,13 @@ import { StorageServiceMock } from '../../../../../../test-config/services-mocks
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../../../../modules/logs/data-store.service.mock';
 import { VehicleDataMock } from '../../../../../assets/data-mocks/vehicle-data.mock';
-import { PAGE_NAMES } from '../../../../../app/app.enums';
+import {
+  AnalyticsEventCategories,
+  ANALYTICS_EVENTS,
+  ANALYTICS_LABEL,
+  ANALYTICS_VALUE,
+  PAGE_NAMES
+} from '../../../../../app/app.enums';
 import { LogsProvider } from '../../../../../modules/logs/logs.service';
 import { AuthenticationService } from '../../../../../providers/auth/authentication/authentication.service';
 import { AuthenticationServiceMock } from '../../../../../../test-config/services-mocks/authentication-service.mock';
@@ -113,16 +119,24 @@ describe('Component: ', () => {
     });
   });
 
-  it('should open the vehicle details page if the call to test-results is failing', () => {
+  it('should open the vehicle details page if the call to test-results is failing', async () => {
     spyOn(vehicleService, 'getTestResultsHistory').and.returnValue(Observable.throw('error'));
-    component.openVehicleDetails(VehicleDataMock.VehicleData);
+    spyOn(vehicleService, 'isVehicleSkeleton').and.returnValue(false);
+
+    await component.openVehicleDetails(VehicleDataMock.VehicleData);
+
+    expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      category: AnalyticsEventCategories.ERRORS,
+      event: ANALYTICS_EVENTS.TEST_ERROR,
+      label: ANALYTICS_LABEL.ERROR
+    });
+    expect(analyticsService.addCustomDimension).toHaveBeenCalledWith(
+      Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
+      ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
+    );
     expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
       test: undefined,
       vehicle: VehicleDataMock.VehicleData
     });
-    let skeletonVehicle = { ...VehicleDataMock.VehicleData };
-    skeletonVehicle.techRecord.recordCompleteness = 'skeleton';
-    component.openVehicleDetails(skeletonVehicle);
-    expect(alertCtrl.create).toHaveBeenCalled();
   });
 });

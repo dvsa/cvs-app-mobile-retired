@@ -10,7 +10,13 @@ import { Observable } from 'rxjs';
 import { AppVersion } from '@ionic-native/app-version';
 
 import { TestStationReferenceDataModel } from '../../models/reference-data-models/test-station.model';
-import { APP_STRINGS, APP_UPDATE, STORAGE } from '../../app/app.enums';
+import {
+  AnalyticsEventCategories,
+  ANALYTICS_EVENTS,
+  APP_STRINGS,
+  APP_UPDATE,
+  STORAGE
+} from '../../app/app.enums';
 import { StorageService } from '../natives/storage.service';
 import { default as AppConfig } from '../../../config/application.hybrid';
 import { AppService } from './app.service';
@@ -18,17 +24,21 @@ import { AuthenticationService } from '../auth/authentication/authentication.ser
 import { AppVersionModel } from '../../models/latest-version.model';
 import { LogsProvider } from '../../modules/logs/logs.service';
 import { VERSION_POPUP_MSG } from '../../app/app.constants';
+import { AnalyticsService } from './analytics.service';
 
 declare let cordova: any;
 
 @Injectable()
 export class SyncService {
-  initSyncDone: boolean;
   loading = this.loadingCtrl.create({
     content: 'Loading...'
   });
   loadOrder: Observable<any>[] = [];
   oid: string;
+
+  currentAppVersion: string;
+  latestAppVersion: string;
+  isVersionCheckedError: boolean;
 
   constructor(
     public events: Events,
@@ -40,6 +50,7 @@ export class SyncService {
     private openNativeSettings: OpenNativeSettings,
     private callNumber: CallNumber,
     // private firebase: Firebase,
+    private analyticsService: AnalyticsService,
     private authenticationService: AuthenticationService,
     private appVersion: AppVersion,
     private logProvider: LogsProvider
@@ -48,6 +59,7 @@ export class SyncService {
   public async startSync(): Promise<any[]> {
     if (this.appService.isCordova) {
       this.checkForUpdate();
+      this.trackUpdatedApp(this.currentAppVersion, this.latestAppVersion);
     }
 
     if (!this.appService.getRefDataSync()) {
@@ -64,6 +76,8 @@ export class SyncService {
   }
 
   public async checkForUpdate() {
+    this.isVersionCheckedError = false;
+
     let promises = [];
     promises.push(this.appVersion.getVersionNumber());
     promises.push(this.httpService.getApplicationVersion());
@@ -71,15 +85,21 @@ export class SyncService {
 
     try {
       let results = await Promise.all(promises);
-      const currentAppVersion: string = results[0];
+      this.currentAppVersion = results[0];
       const latestAppVersionModel: AppVersionModel = results[1].body['mobile-app'];
-      const { version_checking, version: latestVersion } = latestAppVersionModel;
+      const version_checking = latestAppVersionModel.version_checking;
+      this.latestAppVersion = latestAppVersionModel.version;
       const visit = results[2];
 
-      if (version_checking === 'true' && currentAppVersion !== latestVersion && !visit) {
-        return this.createUpdatePopup({ currentAppVersion, latestVersion }).present();
+      if (
+        version_checking === 'true' &&
+        this.currentAppVersion !== this.latestAppVersion &&
+        !visit
+      ) {
+        return this.createUpdatePopup(this.currentAppVersion, this.latestAppVersion).present();
       }
     } catch (error) {
+      this.isVersionCheckedError = true;
       console.log('Cannot perform check if app update is required');
 
       this.logProvider.dispatchLog({
@@ -92,8 +112,8 @@ export class SyncService {
     }
   }
 
-  private createUpdatePopup(params: any) {
-    const { currentAppVersion, latestVersion } = params;
+  private createUpdatePopup(...params: string[]) {
+    const [currentAppVersion, latestVersion] = params;
 
     return this.alertCtrl.create({
       title: APP_UPDATE.TITLE,
@@ -119,6 +139,17 @@ export class SyncService {
         return [null, result.length === 4]; // ensure we have the exact and successful 4 apis call
       })
       .catch(() => [this.handleError()]);
+  }
+
+  async trackUpdatedApp(...params: string[]) {
+    const [currentAppVersion, latestAppVersion] = params;
+
+    if (!this.isVersionCheckedError && currentAppVersion === latestAppVersion) {
+      await this.analyticsService.logEvent({
+        category: AnalyticsEventCategories.APP_UPDATE,
+        event: ANALYTICS_EVENTS.OS_UPDATE
+      });
+    }
   }
 
   getDataFromMicroservice(microservice): Observable<TestStationReferenceDataModel[]> {

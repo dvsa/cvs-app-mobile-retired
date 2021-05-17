@@ -438,6 +438,7 @@ export enum DURATION_TYPE {
 
 export enum AnalyticsEventCategories {
   MOBILE_ACCESSIBILITY = 'accessibility',
+  APP_UPDATE = 'app_update',
   DEFECTS = 'defects',
   TEST_TYPES = 'test_types',
   ERRORS = 'errors',
@@ -448,6 +449,7 @@ export enum AnalyticsEventCategories {
 }
 
 export enum ANALYTICS_EVENTS {
+  OS_UPDATE = 'os_update',
   IOS_FONT_SIZE_USAGE = 'ios_font_size_usage',
   IOS_VOICEOVER_USAGE = 'ios_voiceover_usage',
   DEFECT_NOTES_USAGE = 'defect_notes_usage',
