@@ -3,19 +3,37 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Platform } from 'ionic-angular';
 import { PlatformMock, GoogleAnalyticsMock } from 'ionic-mocks';
 
+import { AuthenticationService } from './../auth/authentication/authentication.service';
+import { AuthenticationServiceMock } from './../../../test-config/services-mocks/authentication-service.mock';
+import { LogsProvider } from '../../modules/logs/logs.service';
 import { AnalyticsService, EventDetails } from './analytics.service';
+import { LOG_TYPES } from '../../app/app.enums';
 
 describe('AnalyticsService', () => {
   let platform: Platform;
   let analyticsService: AnalyticsService;
   let googleAnalytics: GoogleAnalytics;
+  let authService: AuthenticationService;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
+
+  const testerOid = 'tester_oid';
+  const dateNow: number = 1621429040275;
 
   beforeEach(() => {
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
+
+    spyOn(Date, 'now').and.returnValue(dateNow);
+
     TestBed.configureTestingModule({
       providers: [
         AnalyticsService,
         { provide: GoogleAnalytics, useFactory: () => GoogleAnalyticsMock.instance() },
-        { provide: Platform, useFactory: () => PlatformMock.instance() }
+        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
+        { provide: LogsProvider, useValue: logProviderSpy }
       ]
     });
   });
@@ -24,6 +42,10 @@ describe('AnalyticsService', () => {
     platform = TestBed.get(Platform);
     analyticsService = TestBed.get(AnalyticsService);
     googleAnalytics = TestBed.get(GoogleAnalytics);
+    logProvider = TestBed.get(LogsProvider);
+    authService = TestBed.get(AuthenticationService);
+
+    authService.tokenInfo.oid = testerOid;
   });
 
   const allowAction = () => {
@@ -50,7 +72,7 @@ describe('AnalyticsService', () => {
       expect(analyticsService.hasTrackingStarted).toBeTruthy();
     });
 
-    it('should not start analytics tracking if tracking id not available', async () => {
+    it('should not start analytics tracking if tracking id is not available', async () => {
       await analyticsService.startAnalyticsTracking('');
 
       expect(googleAnalytics.startTrackerWithId).toHaveBeenCalled();
@@ -66,9 +88,11 @@ describe('AnalyticsService', () => {
 
       expect(googleAnalytics.startTrackerWithId).toHaveBeenCalled();
       expect(analyticsService.hasTrackingStarted).toBeFalsy();
-      expect(analyticsService.analyticsErrStr).toEqual(
-        'startAnalyticsTracking: Error starting Google Analytics'
-      );
+      expect(logProvider.dispatchLog).toHaveBeenCalledWith({
+        type: LOG_TYPES.ERROR,
+        message: `${testerOid} - startAnalyticsTracking: Error starting Google Analytics`,
+        timestamp: dateNow
+      });
     });
   });
 
@@ -103,6 +127,22 @@ describe('AnalyticsService', () => {
 
       expect(googleAnalytics.trackEvent).not.toHaveBeenCalled();
     });
+
+    it('should not track event if errored', async () => {
+      googleAnalytics.trackEvent = jasmine
+        .createSpy('googleAnalytics.trackEvent')
+        .and.returnValue(Promise.reject('track error!'));
+
+      allowAction();
+      await analyticsService.logEvent(details);
+
+      expect(googleAnalytics.trackEvent).toHaveBeenCalled();
+      expect(logProvider.dispatchLog).toHaveBeenCalledWith({
+        type: LOG_TYPES.ERROR,
+        message: `${testerOid} - logEvent: Error tracking event`,
+        timestamp: dateNow
+      });
+    });
   });
 
   describe('setCurrentPage', () => {
@@ -130,6 +170,7 @@ describe('AnalyticsService', () => {
 
       const key = 1,
         value = 'some-value';
+
       await analyticsService.addCustomDimension(key, value);
 
       expect(googleAnalytics.addCustomDimension).toHaveBeenCalledWith(key, value);
@@ -141,6 +182,22 @@ describe('AnalyticsService', () => {
       await analyticsService.addCustomDimension(1, 'value');
 
       expect(googleAnalytics.addCustomDimension).not.toHaveBeenCalled();
+    });
+
+    it('should not add custome dimension if errored', async () => {
+      googleAnalytics.addCustomDimension = jasmine
+        .createSpy('googleAnalytics.addCustomDimension')
+        .and.returnValue(Promise.reject('track error!'));
+
+      allowAction();
+      await analyticsService.addCustomDimension(1, 'value');
+
+      expect(googleAnalytics.addCustomDimension).toHaveBeenCalled();
+      expect(logProvider.dispatchLog).toHaveBeenCalledWith({
+        type: LOG_TYPES.ERROR,
+        message: `${testerOid} - addCustomDimension: Error adding custom dimension`,
+        timestamp: dateNow
+      });
     });
   });
 });

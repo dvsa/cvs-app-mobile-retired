@@ -22,7 +22,7 @@ import {
   DEFICIENCY_CATEGORY,
   ANALYTICS_SCREEN_NAMES,
   DURATION_TYPE,
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   ANALYTICS_VALUE
@@ -439,7 +439,7 @@ describe('Component: TestCreatePage', () => {
     await component.removeVehicleTest(vehicleService.createVehicle(vehicle), ADDED_VEHICLE_TEST);
 
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: AnalyticsEventCategories.TEST_TYPES,
+      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
       event: ANALYTICS_EVENTS.REMOVE_TEST_TYPE,
       label: ANALYTICS_LABEL.TEST_TYPE_NAME
     });
@@ -511,7 +511,7 @@ describe('Component: TestCreatePage', () => {
 
   function expectedCheck(value: string) {
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: AnalyticsEventCategories.REVIEWS,
+      category: ANALYTICS_EVENT_CATEGORIES.REVIEWS,
       event: ANALYTICS_EVENTS.TEST_REVIEW_UNSUCCESSFUL,
       label: ANALYTICS_LABEL.MISSING_MADATORY_FIELD
     });

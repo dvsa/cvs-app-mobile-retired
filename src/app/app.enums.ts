@@ -436,7 +436,7 @@ export enum DURATION_TYPE {
   TEST_TYPE
 }
 
-export enum AnalyticsEventCategories {
+export enum ANALYTICS_EVENT_CATEGORIES {
   MOBILE_ACCESSIBILITY = 'accessibility',
   APP_UPDATE = 'app_update',
   DEFECTS = 'defects',
@@ -532,80 +532,6 @@ export enum ANALYTICS_SCREEN_NAMES {
   TEST_REVIEW = 'Test Review Screen',
   TEST_CANCEL = 'Test Cancel Screen'
 }
-
-export enum FIREBASE {}
-// TEST_REVIEW_UNSUCCESSFUL = 'test_review_unsuccessful',
-// MISSING_MADATORY_FIELD = 'missing_mandatory_field',
-// COUNTRY_OF_REGISTRATION = 'countryOfRegistration',
-// EU_VEHICLE_CATEGORY = 'euVehicleCategory',
-// ODOMETER_READING = 'odometerReading',
-// NOT_ALL_TESTS_COMPLETED = 'Not all tests completed before review',
-// NO_TEST_ADDED = 'No test added before review',
-// SUBMIT_TEST = 'submit_test',
-// SUBMIT_VISIT = 'submit_visit',
-// CANCEL_TEST = 'cancel_test',
-// TEST_ERROR = 'test_error',
-// ERROR = 'error',
-// ENDING_ACTIVITY_FAILED = 'Ending activity failed',
-// WAIT_ACTIVITY_SUBMISSION_FAILED = 'wait_activity_submission_failed',
-// TEST_SUBMISSION_FAILED = 'Test submission failed',
-// ADD_ODOMETER_READING_TIME_TAKEN = 'add_odometer_reading_time_taken',
-// ADD_ODOMETER_READING_START_TIME = 'add_odometer_reading_start_time',
-// ADD_ODOMETER_READING_END_TIME = 'add_odometer_reading_end_time',
-// CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken',
-// CONFIRM_PREPARER_START_TIME = 'confirm_preparer_start_time',
-// CONFIRM_PREPARER_END_TIME = 'confirm_preparer_end_time'
-// SEARCH_VEHICLE_TIME_TAKEN = 'search_vehicle_time_taken',
-// SEARCH_VEHICLE_START_TIME = 'search_vehicle_start_time',
-// SEARCH_VEHICLE_END_TIME = 'search_vehicle_end_time',
-// CONFIRM_VEHICLE_TIME_TAKEN = 'confirm_vehicle_time_taken',
-// CONFIRM_VEHICLE_START_TIME = 'confirm_vehicle_start_time',
-// CONFIRM_VEHICLE_END_TIME = 'confirm_vehicle_end_time'
-// ADD_TEST_TYPE_TIME_TAKEN = 'add_test_type_time_taken',
-// ADD_TEST_TYPE_START_TIME = 'add_test_type_start_time',
-// ADD_TEST_TYPE_END_TIME = 'add_test_type_end_time'
-// REMOVE_TEST_TYPE = 'remove_test_type'
-// ABANDON_TEST_TYPE = 'abandon_test_type',
-// TEST_TYPE_NAME = 'test_type_name'
-
-// export enum FIREBASE_AUTH {
-//   LOGIN_ATTEMPT = 'login_attempt',
-//   LOGIN_UNSUCCESSFUL = 'login_unsuccessful',
-//   LOGIN_SUCCESSFUL = 'login_successful',
-
-//   CLIENT_ID = 'client_id',
-//   REDIRECT_URL = 'redirect_url',
-//   RESOURCE_URL = 'resource_url',
-//   TENANT_ID = 'tenant_id',
-//   OID = 'OID',
-//   USER_ROLES = 'user_roles',
-//   ERROR_MESSAGE = 'error_message'
-// }
-
-export enum FIREBASE_DEFECTS {}
-// ADD_DEFECT = 'add_defect',
-// REMOVE_DEFECT = 'remove_defect',
-// DEFECT_NOTES_USAGE = 'defect_notes_usage',
-// ADD_DEFECT_TIME_TAKEN = 'add_defect_time_taken',
-// DEFICIENCY_REFERENCE = 'deficiency_reference',
-// ADD_DEFECT_START_TIME = 'add_defect_start_time',
-// ADD_DEFECT_END_TIME = 'add_defect_end_time'
-
-// export enum FIREBASE_SCREEN_NAMES {
-//   GET_STARTED = 'Get Started Screen',
-//   TEST_STATION_SEARCH = 'Test Station Search Screen',
-//   TEST_STATION_DETAILS = 'Test Station Details Screen',
-//   VISIT_TIMELINE = 'Visit Timeline Screen',
-//   VEHICLE_SEARCH = 'Vehicle Search Screen',
-//   VEHICLE_DETAILS = 'Vehicle Details Screen',
-//   VEHICLE_TEST_HISTORY = 'Vehicle Test History Screen',
-//   VEHICLE_TEST_HISTORY_DETAILS = 'Vehicle Test History Details Screen',
-//   ENTER_PREPARER = 'Enter Preparer Screen',
-//   TEST_OVERVIEW = 'Test Overview Screen',
-//   TEST_TYPE_DETAILS = 'Test Type Details Screen',
-//   TEST_REVIEW = 'Test Review Screen',
-//   TEST_CANCEL = 'Test Cancel Screen'
-// }
 
 export enum ACCESSIBILITY_DEFAULT_VALUES {
   TEXT_SIZE = 106

@@ -13,7 +13,7 @@ import { CommonFunctionsService } from '../utils/common-functions';
 import { TestTypeModel } from '../../models/tests/test-type.model';
 import { TestTypeDataModelMock } from '../../assets/data-mocks/data-model/test-type-data-model.mock';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   DURATION_TYPE,
@@ -119,7 +119,7 @@ describe('Provider: TestTypeService', () => {
       await testTypeService.trackAddDefect(deficiencyRef);
 
       expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: AnalyticsEventCategories.DEFECTS,
+        category: ANALYTICS_EVENT_CATEGORIES.DEFECTS,
         event: ANALYTICS_EVENTS.ADD_DEFECT,
         label: ANALYTICS_LABEL.DEFICIENCY_REFERENCE
       });
@@ -161,7 +161,7 @@ describe('Provider: TestTypeService', () => {
     await testTypeService.trackRemoveDefect(deficiencyRef);
 
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: AnalyticsEventCategories.DEFECTS,
+      category: ANALYTICS_EVENT_CATEGORIES.DEFECTS,
       event: ANALYTICS_EVENTS.REMOVE_DEFECT,
       label: ANALYTICS_LABEL[strRemoveLabel]
     });

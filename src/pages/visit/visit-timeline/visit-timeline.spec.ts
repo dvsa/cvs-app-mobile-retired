@@ -40,7 +40,7 @@ import { ActivityDataMock } from '../../../assets/data-mocks/activity.data.mock'
 import { TestStationDataMock } from '../../../assets/data-mocks/reference-data-mocks/test-station-data.mock';
 import { TestModel } from '../../../models/tests/test.model';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   ANALYTICS_VALUE,
@@ -345,7 +345,7 @@ describe('Component: VisitTimelinePage', () => {
       expect(component.showLoading).toHaveBeenCalledWith(APP_STRINGS.END_VISIT_LOADING);
       expect(visitService.endVisit).toHaveBeenCalledWith(getMockVisit().id);
       expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: AnalyticsEventCategories.VISIT,
+        category: ANALYTICS_EVENT_CATEGORIES.VISIT,
         event: ANALYTICS_EVENTS.SUBMIT_VISIT
       });
       expect(logProvider.dispatchLog).toHaveBeenCalled();
@@ -373,7 +373,7 @@ describe('Component: VisitTimelinePage', () => {
       expect(logProvider.dispatchLog).toHaveBeenCalled();
 
       expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: AnalyticsEventCategories.ERRORS,
+        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
         event: ANALYTICS_EVENTS.TEST_ERROR,
         label: ANALYTICS_LABEL.ERROR
       });
@@ -429,7 +429,7 @@ describe('Component: VisitTimelinePage', () => {
         expect(logProvider.dispatchLog).toHaveBeenCalled();
 
         expect(analyticsService.logEvent).toHaveBeenCalledWith({
-          category: AnalyticsEventCategories.ERRORS,
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
           label: ANALYTICS_LABEL.ERROR
         });

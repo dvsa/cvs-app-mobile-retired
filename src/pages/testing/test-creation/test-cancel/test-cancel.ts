@@ -1,5 +1,5 @@
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   ANALYTICS_VALUE
@@ -27,9 +27,7 @@ import { Observable } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
 import { catchError } from 'rxjs/operators';
-// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { ActivityService } from '../../../../providers/activity/activity.service';
-// import { Firebase } from '@ionic-native/firebase';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
 import { AnalyticsService } from '../../../../providers/global';
@@ -55,9 +53,7 @@ export class TestCancelPage {
     private openNativeSettings: OpenNativeSettings,
     private visitService: VisitService,
     private loadingCtrl: LoadingController,
-    // private firebase: Firebase,
     private authenticationService: AuthenticationService,
-    // private firebaseLogsService: FirebaseLogsService,
     private analyticsService: AnalyticsService,
     private activityService: ActivityService,
     private logProvider: LogsProvider
@@ -66,7 +62,6 @@ export class TestCancelPage {
   }
 
   ionViewDidEnter() {
-    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_CANCEL);
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_CANCEL);
   }
 
@@ -175,10 +170,8 @@ export class TestCancelPage {
           timestamp: Date.now()
         });
 
-        // this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
-
         this.analyticsService.logEvent({
-          category: AnalyticsEventCategories.TEST_TYPES,
+          category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
           event: ANALYTICS_EVENTS.CANCEL_TEST
         });
 
@@ -213,13 +206,8 @@ export class TestCancelPage {
                 timestamp: Date.now()
               });
 
-              // this.firebase.logEvent('test_error', {
-              //   content_type: 'error',
-              //   item_id: 'Wait activity submission failed'
-              // });
-
               this.analyticsService.logEvent({
-                category: AnalyticsEventCategories.ERRORS,
+                category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
                 event: ANALYTICS_EVENTS.TEST_ERROR,
                 label: ANALYTICS_LABEL.ERROR
               });
@@ -242,14 +230,9 @@ export class TestCancelPage {
       (error) => {
         LOADING.dismiss();
         TRY_AGAIN_ALERT.present();
-        // this.firebaseLogsService.logEvent(
-        //   FIREBASE.TEST_ERROR,
-        //   FIREBASE.ERROR,
-        //   FIREBASE.TEST_SUBMISSION_FAILED
-        // );
 
         this.analyticsService.logEvent({
-          category: AnalyticsEventCategories.ERRORS,
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
           label: ANALYTICS_LABEL.ERROR
         });

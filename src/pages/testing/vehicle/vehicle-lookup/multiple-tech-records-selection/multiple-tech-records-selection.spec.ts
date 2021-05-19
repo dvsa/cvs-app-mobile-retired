@@ -25,7 +25,7 @@ import { Store } from '@ngrx/store';
 import { TestStore } from '../../../../../modules/logs/data-store.service.mock';
 import { VehicleDataMock } from '../../../../../assets/data-mocks/vehicle-data.mock';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   ANALYTICS_VALUE,
@@ -126,7 +126,7 @@ describe('Component: ', () => {
     await component.openVehicleDetails(VehicleDataMock.VehicleData);
 
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: AnalyticsEventCategories.ERRORS,
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
       label: ANALYTICS_LABEL.ERROR
     });

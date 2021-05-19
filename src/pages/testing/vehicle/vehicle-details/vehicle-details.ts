@@ -12,7 +12,7 @@ import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_SCREEN_NAMES,
   DURATION_TYPE,
   APP_STRINGS,
@@ -26,7 +26,6 @@ import {
 } from '../../../../app/app.enums';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { default as AppConfig } from '../../../../../config/application.hybrid';
-// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { AppService } from '../../../../providers/global/app.service';
 import { AnalyticsService, DurationService } from '../../../../providers/global';
 
@@ -58,7 +57,6 @@ export class VehicleDetailsPage {
     public storageService: StorageService,
     public commonFunc: CommonFunctionsService,
     private callNumber: CallNumber,
-    // private firebaseLogsService: FirebaseLogsService,
     private analyticsService: AnalyticsService,
     private durationService: DurationService,
     public appService: AppService
@@ -71,30 +69,10 @@ export class VehicleDetailsPage {
   ionViewWillEnter() {
     this.viewCtrl.setBackButtonText(this.getBackButtonText());
 
-    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VEHICLE_DETAILS);
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_DETAILS);
   }
 
   async ionViewDidEnter() {
-    // this.firebaseLogsService.search_vehicle_time.search_vehicle_end_time = Date.now();
-    // this.firebaseLogsService.search_vehicle_time.search_vehicle_time_taken = this.firebaseLogsService.differenceInSeconds(
-    //   this.firebaseLogsService.search_vehicle_time.search_vehicle_start_time,
-    //   this.firebaseLogsService.search_vehicle_time.search_vehicle_end_time
-    // );
-    // this.firebaseLogsService.logEvent(
-    //   FIREBASE.SEARCH_VEHICLE_TIME_TAKEN,
-
-    //   FIREBASE.SEARCH_VEHICLE_START_TIME,
-    //   this.firebaseLogsService.search_vehicle_time.search_vehicle_start_time.toString(),
-
-    //   FIREBASE.SEARCH_VEHICLE_END_TIME,
-    //   this.firebaseLogsService.search_vehicle_time.search_vehicle_end_time.toString(),
-
-    //   FIREBASE.SEARCH_VEHICLE_TIME_TAKEN,
-    //   this.firebaseLogsService.search_vehicle_time.search_vehicle_time_taken
-    // );
-    // this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_start_time = Date.now();
-
     const type: string = DURATION_TYPE[DURATION_TYPE.SEARCH_VEHICLE];
     this.durationService.setDuration({ end: Date.now() }, type);
     const duration = this.durationService.getDuration(type);
@@ -124,7 +102,7 @@ export class VehicleDetailsPage {
 
   private async trackDuration(event: string, label: string, value: string) {
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.DURATION,
+      category: ANALYTICS_EVENT_CATEGORIES.DURATION,
       event: event,
       label: ANALYTICS_LABEL[label]
     });
@@ -188,24 +166,6 @@ export class VehicleDetailsPage {
     confirm.present();
     confirm.onDidDismiss(() => (this.changeOpacity = false));
   }
-
-  // loggingInAlertHandler() {
-  //   this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_end_time = Date.now();
-  //   this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_time_taken = this.firebaseLogsService.differenceInSeconds(
-  //     this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_start_time,
-  //     this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_end_time
-  //   );
-  //   this.firebaseLogsService.logEvent(
-  //     FIREBASE.CONFIRM_VEHICLE_TIME_TAKEN,
-  //     FIREBASE.CONFIRM_VEHICLE_START_TIME,
-  //     this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_start_time.toString(),
-  //     FIREBASE.CONFIRM_VEHICLE_END_TIME,
-  //     this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_end_time.toString(),
-  //     FIREBASE.CONFIRM_VEHICLE_TIME_TAKEN,
-  //     this.firebaseLogsService.confirm_vehicle_time.confirm_vehicle_time_taken
-  //   );
-  //   this.firebaseLogsService.confirm_preparer_time.confirm_preparer_start_time = Date.now();
-  // }
 
   async trackConfirmVehicleDuration() {
     const type: string = DURATION_TYPE[DURATION_TYPE.CONFIRM_VEHICLE];

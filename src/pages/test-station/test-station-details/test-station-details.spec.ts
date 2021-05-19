@@ -30,7 +30,7 @@ import { LogsProvider } from '../../../modules/logs/logs.service';
 import { AuthenticationService } from '../../../providers/auth';
 import { AuthenticationServiceMock } from '../../../../test-config/services-mocks/authentication-service.mock';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   ANALYTICS_SCREEN_NAMES,
@@ -132,7 +132,7 @@ describe('Component: TestStationDetailsPage', () => {
     visitServiceMock.isError = true;
     component.confirmStartVisit();
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: AnalyticsEventCategories.ERRORS,
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
       label: ANALYTICS_LABEL.ERROR
     });

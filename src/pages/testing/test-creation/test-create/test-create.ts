@@ -15,7 +15,7 @@ import { StateReformingService } from '../../../../providers/global/state-reform
 import { VisitService } from '../../../../providers/visit/visit.service';
 import { TestTypeModel } from '../../../../models/tests/test-type.model';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   ANALYTICS_SCREEN_NAMES,
@@ -33,7 +33,6 @@ import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import { CallNumber } from '@ionic-native/call-number';
 import { AppService, AnalyticsService, DurationService } from '../../../../providers/global';
-// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category';
 
@@ -69,7 +68,6 @@ export class TestCreatePage implements OnInit {
     private events: Events,
     private commonFunctions: CommonFunctionsService,
     private modalCtrl: ModalController,
-    // private firebaseLogsService: FirebaseLogsService
     private analyticsService: AnalyticsService,
     private durationService: DurationService,
     private testTypeService: TestTypeService
@@ -112,7 +110,6 @@ export class TestCreatePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_OVERVIEW);
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_OVERVIEW);
   }
 
@@ -299,8 +296,6 @@ export class TestCreatePage implements OnInit {
   }
 
   addVehicleTest(vehicle: VehicleModel): void {
-    // this.firebaseLogsService.add_test_type_time.add_test_type_start_time = Date.now();
-
     this.durationService.setDuration(
       { start: Date.now() },
       DURATION_TYPE[DURATION_TYPE.TEST_TYPE]
@@ -331,8 +326,6 @@ export class TestCreatePage implements OnInit {
   }
 
   onOdometer(index: number) {
-    // this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time = Date.now();
-
     this.durationService.setDuration(
       { start: Date.now() },
       DURATION_TYPE[DURATION_TYPE.ODOMETER_READING]
@@ -399,14 +392,8 @@ export class TestCreatePage implements OnInit {
   }
 
   async removeVehicleTest(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
-    // this.firebaseLogsService.logEvent(
-    //   FIREBASE.REMOVE_TEST_TYPE,
-    //   FIREBASE.TEST_TYPE_NAME,
-    //   vehicleTest.testTypeName
-    // );
-
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.TEST_TYPES,
+      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
       event: ANALYTICS_EVENTS.REMOVE_TEST_TYPE,
       label: ANALYTICS_LABEL.TEST_TYPE_NAME
     });
@@ -507,14 +494,9 @@ export class TestCreatePage implements OnInit {
         buttons: [APP_STRINGS.OK]
       });
       alert.present();
-      // this.firebaseLogsService.logEvent(
-      //   FIREBASE.TEST_ERROR,
-      //   FIREBASE.ERROR,
-      //   FIREBASE.NO_TEST_ADDED
-      // );
 
       await this.analyticsService.logEvent({
-        category: AnalyticsEventCategories.ERRORS,
+        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
         event: ANALYTICS_EVENTS.TEST_ERROR,
         label: ANALYTICS_LABEL.ERROR
       });
@@ -524,26 +506,15 @@ export class TestCreatePage implements OnInit {
         ANALYTICS_VALUE.NO_TEST_ADDED
       );
 
-      // this.firebaseLogsService.logEvent(
-      //   FIREBASE.TEST_REVIEW_UNSUCCESSFUL,
-      //   FIREBASE.MISSING_MADATORY_FIELD,
-      //   FIREBASE.NO_TEST_ADDED
-      // );
-
       await this.trackTestReviewFailure(ANALYTICS_VALUE.NO_TEST_ADDED);
 
       alert.onDidDismiss(() => (this.changeOpacity = false));
     } else if (!finishedTest || !requiredFieldsCompleted) {
       this.changeOpacity = false;
       this.errorIncomplete = true;
-      // this.firebaseLogsService.logEvent(
-      //   FIREBASE.TEST_ERROR,
-      //   FIREBASE.ERROR,
-      //   FIREBASE.NOT_ALL_TESTS_COMPLETED
-      // );
 
       await this.analyticsService.logEvent({
-        category: AnalyticsEventCategories.ERRORS,
+        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
         event: ANALYTICS_EVENTS.TEST_ERROR,
         label: ANALYTICS_LABEL.ERROR
       });
@@ -554,13 +525,8 @@ export class TestCreatePage implements OnInit {
       );
 
       if (!finishedTest) {
-        // this.firebaseLogsService.logEvent(
-        //   FIREBASE.TEST_REVIEW_UNSUCCESSFUL,
-        //   FIREBASE.NOT_ALL_TESTS_COMPLETED  - // TODO:not sure with this line
-        // );
-
         await this.analyticsService.logEvent({
-          category: AnalyticsEventCategories.REVIEWS,
+          category: ANALYTICS_EVENT_CATEGORIES.REVIEWS,
           event: ANALYTICS_EVENTS.TEST_REVIEW_UNSUCCESSFUL
         });
       }
@@ -577,7 +543,7 @@ export class TestCreatePage implements OnInit {
 
   async trackTestReviewFailure(value: string): Promise<void> {
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.REVIEWS,
+      category: ANALYTICS_EVENT_CATEGORIES.REVIEWS,
       event: ANALYTICS_EVENTS.TEST_REVIEW_UNSUCCESSFUL,
       label: ANALYTICS_LABEL.MISSING_MADATORY_FIELD
     });
@@ -587,27 +553,6 @@ export class TestCreatePage implements OnInit {
       value
     );
   }
-
-  // logMissingFields(vehicle) {
-  //   if (!vehicle.countryOfRegistration)
-  //   this.firebaseLogsService.logEvent(
-  //     FIREBASE.TEST_REVIEW_UNSUCCESSFUL,
-  //     FIREBASE.MISSING_MADATORY_FIELD,
-  //     FIREBASE.COUNTRY_OF_REGISTRATION
-  //   );
-  //   if (!vehicle.euVehicleCategory)
-  //   this.firebaseLogsService.logEvent(
-  //     FIREBASE.TEST_REVIEW_UNSUCCESSFUL,
-  //     FIREBASE.MISSING_MADATORY_FIELD,
-  //     FIREBASE.EU_VEHICLE_CATEGORY
-  //   );
-  //   if (!vehicle.odometerReading)
-  //   this.firebaseLogsService.logEvent(
-  //     FIREBASE.TEST_REVIEW_UNSUCCESSFUL,
-  //     FIREBASE.MISSING_MADATORY_FIELD,
-  //     FIREBASE.ODOMETER_READING
-  //   );
-  // }
 
   async logMissingFields(vehicle: VehicleModel) {
     if (!vehicle.countryOfRegistration) {

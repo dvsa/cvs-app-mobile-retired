@@ -4,7 +4,6 @@ import { TestStationReferenceDataModel } from '../../../models/reference-data-mo
 import { TestStationService } from '../../../providers/test-station/test-station.service';
 import { ANALYTICS_SCREEN_NAMES, APP } from '../../../app/app.enums';
 import { AnalyticsService } from '../../../providers/global';
-// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 
 @IonicPage()
 @Component({
@@ -21,7 +20,6 @@ export class TestStationSearchPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public events: Events,
-    // private firebaseLogsService: FirebaseLogsService
     private testStationService: TestStationService,
     private analyticsService: AnalyticsService
   ) {}
@@ -32,7 +30,6 @@ export class TestStationSearchPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_STATION_SEARCH);
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_STATION_SEARCH);
   }
 

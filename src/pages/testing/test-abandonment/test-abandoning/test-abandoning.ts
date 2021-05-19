@@ -6,11 +6,10 @@ import { VisitService } from '../../../../providers/visit/visit.service';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 import { AnalyticsService } from '../../../../providers/global';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL
 } from '../../../../app/app.enums';
-// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 
 @IonicPage()
 @Component({
@@ -31,7 +30,6 @@ export class TestAbandoningPage implements OnInit {
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     public visitService: VisitService,
-    // private firebaseLogsService: FirebaseLogsService
     private analyticsService: AnalyticsService,
     private testTypeService: TestTypeService
   ) {
@@ -83,14 +81,8 @@ export class TestAbandoningPage implements OnInit {
   }
 
   async updateVehicleTestModel() {
-    // this.firebaseLogsService.logEvent(
-    //   FIREBASE.ABANDON_TEST_TYPE,
-    //   FIREBASE.TEST_TYPE_NAME,
-    //   this.vehicleTest.testTypeName
-    // );
-
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.TEST_TYPES,
+      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
       event: ANALYTICS_EVENTS.ABANDON_TEST_TYPE,
       label: ANALYTICS_LABEL.TEST_TYPE_NAME
     });

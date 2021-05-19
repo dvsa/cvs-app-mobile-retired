@@ -20,7 +20,6 @@ import { AuthenticationService } from '../../../providers/auth/authentication/au
 import { LogsModel } from '../../../modules/logs/logs.model';
 import { StartSendingLogs } from '../../../modules/logs/logs.actions';
 import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
-// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 
 @IonicPage()
@@ -41,7 +40,6 @@ export class TestStationHomePage implements OnInit {
     private store$: Store<LogsModel>,
     private networkStateProvider: NetworkStateProvider,
     private analyticsService: AnalyticsService,
-    // private firebaseLogsService: FirebaseLogsService,
     private logProvider: LogsProvider
   ) {}
 
@@ -62,8 +60,6 @@ export class TestStationHomePage implements OnInit {
 
       this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.GET_STARTED);
     }
-
-    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.GET_STARTED);
   }
 
   async ionViewDidEnter() {

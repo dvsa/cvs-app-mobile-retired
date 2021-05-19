@@ -16,7 +16,7 @@ import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.m
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   APP_STRINGS,
@@ -230,7 +230,7 @@ describe('Component: TestTypesListPage', () => {
       await comp.trackAddTestTypeDuration(label, value);
 
       expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: AnalyticsEventCategories.TEST_TYPES,
+        category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
         event: ANALYTICS_EVENTS.ADD_TEST_TYPE_TIME_TAKEN,
         label: ANALYTICS_LABEL[label]
       });

@@ -17,7 +17,7 @@ import { StateReformingService } from '../../../providers/global/state-reforming
 import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_EVENTS,
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_LABEL,
   ANALYTICS_VALUE,
   APP_STRINGS,
@@ -35,7 +35,6 @@ import { StorageService } from '../../../providers/natives/storage.service';
 import { AppService, AnalyticsService, DurationService } from '../../../providers/global';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
-// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { ActivityModel } from '../../../models/visit/activity.model';
 import { ActivityService } from '../../../providers/activity/activity.service';
 import { FormatVrmPipe } from '../../../pipes/format-vrm/format-vrm.pipe';
@@ -79,7 +78,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private storageService: StorageService,
     private openNativeSettings: OpenNativeSettings,
-    // private firebaseLogsService: FirebaseLogsService,
     private analyticsService: AnalyticsService,
     private durationService: DurationService,
     private modalCtrl: ModalController,
@@ -113,7 +111,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   ionViewDidEnter() {
-    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VISIT_TIMELINE);
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VISIT_TIMELINE);
     // this.waitTimeHandler(); FIXME: Needs to be fixed separately.
   }
@@ -181,8 +178,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   createNewTestReport(): void {
-    // this.firebaseLogsService.search_vehicle_time.search_vehicle_start_time = Date.now();
-
     this.durationService.setDuration(
       { start: Date.now() },
       DURATION_TYPE[DURATION_TYPE.SEARCH_VEHICLE]
@@ -281,9 +276,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        // this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_VISIT);
         this.analyticsService.logEvent({
-          category: AnalyticsEventCategories.VISIT,
+          category: ANALYTICS_EVENT_CATEGORIES.VISIT,
           event: ANALYTICS_EVENTS.SUBMIT_VISIT
         });
 
@@ -305,14 +299,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        // this.firebaseLogsService.logEvent(
-        //   FIREBASE.TEST_ERROR,
-        //   FIREBASE.ERROR,
-        //   FIREBASE.ENDING_ACTIVITY_FAILED
-        // );
-
         this.analyticsService.logEvent({
-          category: AnalyticsEventCategories.ERRORS,
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
           label: ANALYTICS_LABEL.ERROR
         });
@@ -381,14 +369,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        // this.firebaseLogsService.logEvent(
-        //   FIREBASE.TEST_ERROR,
-        //   FIREBASE.ERROR,
-        //   FIREBASE.WAIT_ACTIVITY_SUBMISSION_FAILED
-        // );
-
         this.analyticsService.logEvent({
-          category: AnalyticsEventCategories.ERRORS,
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
           label: ANALYTICS_LABEL.ERROR
         });

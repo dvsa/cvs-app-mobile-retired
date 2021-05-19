@@ -16,7 +16,7 @@ import { AppService } from './app.service';
 import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
 import { AppVersion } from '@ionic-native/app-version';
 import { LogsProvider } from '../../modules/logs/logs.service';
-import { AnalyticsEventCategories, ANALYTICS_EVENTS, APP_UPDATE } from '../../app/app.enums';
+import { ANALYTICS_EVENT_CATEGORIES, ANALYTICS_EVENTS, APP_UPDATE } from '../../app/app.enums';
 import { VERSION_POPUP_MSG } from '../../app/app.constants';
 import { AuthenticationService } from '../auth';
 import { AuthenticationServiceMock } from '../../../test-config/services-mocks/authentication-service.mock';
@@ -168,7 +168,7 @@ describe('Provider: SyncService', () => {
     await syncService.trackUpdatedApp(currentVer, latestAppVer);
 
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: AnalyticsEventCategories.APP_UPDATE,
+      category: ANALYTICS_EVENT_CATEGORIES.APP_UPDATE,
       event: ANALYTICS_EVENTS.OS_UPDATE
     });
   });

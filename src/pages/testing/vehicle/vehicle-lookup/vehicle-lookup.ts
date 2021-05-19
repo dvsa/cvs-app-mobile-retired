@@ -1,5 +1,5 @@
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   ANALYTICS_SCREEN_NAMES,
@@ -18,7 +18,6 @@ import { _throw } from 'rxjs/observable/throw';
 import { Observable, Observer } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CallNumber } from '@ionic-native/call-number';
-// import { Firebase } from '@ionic-native/firebase';
 
 import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
@@ -29,7 +28,6 @@ import { StorageService } from '../../../../providers/natives/storage.service';
 import { default as AppConfig } from '../../../../../config/application.hybrid';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
-// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { AnalyticsService } from '../../../../providers/global';
 import { AppService } from '../../../../providers/global/app.service';
 import { VehicleLookupSearchCriteriaData } from '../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
@@ -58,8 +56,6 @@ export class VehicleLookupPage {
     public storageService: StorageService,
     private openNativeSettings: OpenNativeSettings,
     private vehicleService: VehicleService,
-    // private firebase: Firebase,
-    // private firebaseLogsService: FirebaseLogsService,
     private analyticsService: AnalyticsService,
     private authenticationService: AuthenticationService,
     private callNumber: CallNumber,
@@ -101,7 +97,6 @@ export class VehicleLookupPage {
   }
 
   ionViewDidEnter() {
-    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VEHICLE_SEARCH);
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_SEARCH);
   }
 
@@ -152,11 +147,6 @@ export class VehicleLookupPage {
                 timestamp: Date.now()
               });
 
-              // this.firebase.logEvent('test_error', {
-              //   content_type: 'error',
-              //   item_id: 'Failed retrieving the testResultsHistory'
-              // });
-
               this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED);
 
               this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
@@ -193,11 +183,6 @@ export class VehicleLookupPage {
           this.searchVal = '';
           LOADING.dismiss();
           this.showAlert();
-          // this.firebase.logEvent('test_error', {
-          //   content_type: 'error',
-          //   item_id: 'Failed retrieving the techRecord'
-          // });
-
           this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RECORD_FAILED);
         }
       );
@@ -205,7 +190,7 @@ export class VehicleLookupPage {
 
   private async trackErrorOnSearchRecord(value: string) {
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.ERRORS,
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
       label: ANALYTICS_LABEL.ERROR
     });
@@ -231,8 +216,6 @@ export class VehicleLookupPage {
       buttons: ['OK']
     });
     alert.present();
-    // this.firebase.logEvent('test_error', { content_type: 'error', item_id: 'Vehicle not found' });
-
     this.trackErrorOnSearchRecord(ANALYTICS_VALUE.VEHICLE_NOT_FOUND);
   }
 

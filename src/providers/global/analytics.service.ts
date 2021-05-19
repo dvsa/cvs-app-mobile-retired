@@ -3,6 +3,10 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Platform } from 'ionic-angular';
 import to from 'await-to-js';
 
+import { AuthenticationService } from '../auth';
+import { LogsProvider } from '../../modules/logs/logs.service';
+import { LOG_TYPES } from '../../app/app.enums';
+
 export interface EventDetails {
   category: string;
   event: string;
@@ -13,16 +17,27 @@ export interface EventDetails {
 
 @Injectable()
 export class AnalyticsService {
-  analyticsErrStr: string;
   hasTrackingStarted: boolean;
 
-  constructor(private platform: Platform, private ga: GoogleAnalytics) {}
+  constructor(
+    private platform: Platform,
+    private ga: GoogleAnalytics,
+    private authenticationService: AuthenticationService,
+    private logProvider: LogsProvider
+  ) {}
 
   async startAnalyticsTracking(trackId: string): Promise<void> {
     const [err, success] = await to(this.ga.startTrackerWithId(trackId));
+
     if (err) {
-      this.analyticsErrStr = 'startAnalyticsTracking: Error starting Google Analytics';
-      console.log(this.analyticsErrStr, err);
+      const { oid } = this.authenticationService.tokenInfo;
+
+      this.logProvider.dispatchLog({
+        type: LOG_TYPES.ERROR,
+        message: `${oid} - startAnalyticsTracking: Error starting Google Analytics`,
+        timestamp: Date.now()
+      });
+
       return;
     }
 
@@ -37,9 +52,15 @@ export class AnalyticsService {
     if (this.isActionAllowed()) {
       const { category, event, label, value } = eventParams;
       const [err, success] = await to(this.ga.trackEvent(category, event, label, value));
+
       if (err) {
-        this.analyticsErrStr = 'logEvent: Error tracking event';
-        console.log(this.analyticsErrStr, err);
+        const { oid } = this.authenticationService.tokenInfo;
+
+        this.logProvider.dispatchLog({
+          type: LOG_TYPES.ERROR,
+          message: `${oid} - logEvent: Error tracking event`,
+          timestamp: Date.now()
+        });
       }
     }
   }
@@ -48,8 +69,13 @@ export class AnalyticsService {
     if (this.isActionAllowed()) {
       const [err, success] = await to(this.ga.trackView(pageName));
       if (err) {
-        this.analyticsErrStr = 'setCurrentPage: Error setting page';
-        console.log(this.analyticsErrStr, err);
+        const { oid } = this.authenticationService.tokenInfo;
+
+        this.logProvider.dispatchLog({
+          type: LOG_TYPES.ERROR,
+          message: `${oid} - setCurrentPage: Error setting page`,
+          timestamp: Date.now()
+        });
       }
     }
   }
@@ -58,8 +84,13 @@ export class AnalyticsService {
     if (this.isActionAllowed()) {
       const [err, success] = await to(this.ga.addCustomDimension(key, value));
       if (err) {
-        this.analyticsErrStr = 'addCustomDimension: Error adding custom dimension';
-        console.log(this.analyticsErrStr, err);
+        const { oid } = this.authenticationService.tokenInfo;
+
+        this.logProvider.dispatchLog({
+          type: LOG_TYPES.ERROR,
+          message: `${oid} - addCustomDimension: Error adding custom dimension`,
+          timestamp: Date.now()
+        });
       }
     }
   }

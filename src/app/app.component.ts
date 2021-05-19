@@ -14,7 +14,7 @@ import {
   SIGNATURE_STATUS,
   STORAGE,
   LOG_TYPES,
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS
 } from './app.enums';
 import { AppService, AnalyticsService, SyncService } from '../providers/global';
@@ -93,16 +93,16 @@ export class MyApp {
       ? this.navigateToSignaturePage()
       : this.manageAppState();
 
-    await this.activateNativeFeatures();
+    if (authStatus && this.appService.isCordova) {
+      await this.activateNativeFeatures();
+    }
   }
 
   async activateNativeFeatures(): Promise<void> {
-    if (this.appService.isCordova) {
-      await this.analyticsService.startAnalyticsTracking(AppConfig.ga.GOOGLE_ANALYTICS_ID);
+    await this.analyticsService.startAnalyticsTracking(AppConfig.ga.GOOGLE_ANALYTICS_ID);
 
-      this.accessibilityFeatures();
-      await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
-    }
+    this.accessibilityFeatures();
+    await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
   }
 
   async navigateToSignaturePage(): Promise<void> {
@@ -154,10 +154,8 @@ export class MyApp {
       .getTextZoom()
       .then((result) => {
         if (result !== ACCESSIBILITY_DEFAULT_VALUES.TEXT_SIZE) {
-          // this.firebaseLogsService.logEvent(FIREBASE.IOS_FONT_SIZE_USAGE);
-
           this.analyticsService.logEvent({
-            category: AnalyticsEventCategories.MOBILE_ACCESSIBILITY,
+            category: ANALYTICS_EVENT_CATEGORIES.MOBILE_ACCESSIBILITY,
             event: ANALYTICS_EVENTS.IOS_FONT_SIZE_USAGE
           });
         }
@@ -167,10 +165,8 @@ export class MyApp {
 
     this.mobileAccessibility.isVoiceOverRunning().then((result) => {
       if (result) {
-        // this.firebaseLogsService.logEvent(FIREBASE.IOS_VOICEOVER_USAGE);
-
         this.analyticsService.logEvent({
-          category: AnalyticsEventCategories.MOBILE_ACCESSIBILITY,
+          category: ANALYTICS_EVENT_CATEGORIES.MOBILE_ACCESSIBILITY,
           event: ANALYTICS_EVENTS.IOS_VOICEOVER_USAGE
         });
       }

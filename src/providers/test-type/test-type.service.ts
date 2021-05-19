@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { StorageService } from '../natives/storage.service';
 import { from } from 'rxjs/observable/from';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   DEFICIENCY_CATEGORY,
@@ -20,7 +20,6 @@ import {
 import { VisitService } from '../visit/visit.service';
 import { TestTypesReferenceDataModel } from '../../models/reference-data-models/test-types.model';
 import { CommonFunctionsService } from '../utils/common-functions';
-// import { FirebaseLogsService } from '../firebase-logs/firebase-logs.service';
 import { AnalyticsService, DurationService } from '../global';
 import { VehicleModel } from '../../models/vehicle/vehicle.model';
 import { AdrTestTypesData } from '../../assets/app-data/test-types-data/adr-test-types.data';
@@ -34,7 +33,6 @@ export class TestTypeService {
   constructor(
     private storageService: StorageService,
     public visitService: VisitService,
-    // private firebaseLogsService: FirebaseLogsService
     private analyticsService: AnalyticsService,
     private durationService: DurationService,
     public commonFunctions: CommonFunctionsService
@@ -91,14 +89,8 @@ export class TestTypeService {
   }
 
   async trackAddDefect(deficiencyRef: string) {
-    // this.firebaseLogsService.logEvent(
-    //   FIREBASE_DEFECTS.ADD_DEFECT,
-    //   FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
-    //   deficiencyRef
-    // );
-
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.DEFECTS,
+      category: ANALYTICS_EVENT_CATEGORIES.DEFECTS,
       event: ANALYTICS_EVENTS.ADD_DEFECT,
       label: ANALYTICS_LABEL.DEFICIENCY_REFERENCE
     });
@@ -107,24 +99,6 @@ export class TestTypeService {
       Object.keys(ANALYTICS_LABEL).indexOf('DEFICIENCY_REFERENCE') + 1,
       deficiencyRef
     );
-
-    // let parameters = this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN];
-    // parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME] = Date.now();
-    // parameters[
-    //   FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN
-    // ] = this.firebaseLogsService.differenceInSeconds(
-    //   parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],
-    //   parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME]
-    // );
-    // this.firebaseLogsService.logEvent(
-    //   FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN,
-    //   FIREBASE_DEFECTS.ADD_DEFECT_START_TIME,
-    //   parameters[FIREBASE_DEFECTS.ADD_DEFECT_START_TIME],
-    //   FIREBASE_DEFECTS.ADD_DEFECT_END_TIME,
-    //   parameters[FIREBASE_DEFECTS.ADD_DEFECT_END_TIME],
-    //   FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN,
-    //   parameters[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN]
-    // );
   }
 
   async trackDefectDuration() {
@@ -140,7 +114,7 @@ export class TestTypeService {
 
   private async trackDuration(label: string, value: string) {
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.DURATION,
+      category: ANALYTICS_EVENT_CATEGORIES.DURATION,
       event: ANALYTICS_EVENTS.ADD_DEFECT_TIME_TAKEN,
       label: ANALYTICS_LABEL[label]
     });
@@ -171,14 +145,8 @@ export class TestTypeService {
   }
 
   async trackRemoveDefect(deficiencyRef: string) {
-    // this.firebaseLogsService.logEvent(
-    //   FIREBASE_DEFECTS.REMOVE_DEFECT,
-    //   FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
-    //   deficiencyRef
-    // );
-
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.DEFECTS,
+      category: ANALYTICS_EVENT_CATEGORIES.DEFECTS,
       event: ANALYTICS_EVENTS.REMOVE_DEFECT,
       label: ANALYTICS_LABEL.DEFICIENCY_REFERENCE
     });

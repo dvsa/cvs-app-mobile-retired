@@ -12,7 +12,7 @@ import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { AnalyticsService, DurationService } from '../../../../providers/global';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   DURATION_TYPE
@@ -126,7 +126,7 @@ describe('Component: OdometerReadingPage', () => {
       await component.trackOdometerReadingDuration(label, timeStart.toString());
 
       expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: AnalyticsEventCategories.DURATION,
+        category: ANALYTICS_EVENT_CATEGORIES.DURATION,
         event: ANALYTICS_EVENTS.ADD_ODOMETER_READING_TIME_TAKEN,
         label: ANALYTICS_LABEL[label]
       });

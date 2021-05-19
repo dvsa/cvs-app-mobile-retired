@@ -5,7 +5,7 @@ import { TestTypesReferenceDataModel } from '../../../../models/reference-data-m
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   APP_STRINGS,
@@ -14,7 +14,6 @@ import {
 } from '../../../../app/app.enums';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import { AnalyticsService, DurationService } from '../../../../providers/global';
-// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 
 @IonicPage()
 @Component({
@@ -38,7 +37,7 @@ export class TestTypesListPage implements OnInit {
     private viewCtrl: ViewController,
     public commonFunctions: CommonFunctionsService,
     private analyticsService: AnalyticsService,
-    private durationService: DurationService // private firebaseLogsService: FirebaseLogsService
+    private durationService: DurationService
   ) {
     this.vehicleData = navParams.get('vehicleData');
     this.testTypeReferenceData = navParams.get('testTypeData');
@@ -94,21 +93,6 @@ export class TestTypesListPage implements OnInit {
         backBtn: this.previousPage || APP_STRINGS.TEST_TYPE
       });
     } else {
-      // this.firebaseLogsService.add_test_type_time.add_test_type_end_time = Date.now();
-      // this.firebaseLogsService.add_test_type_time.add_test_type_time_taken = this.firebaseLogsService.differenceInSeconds(
-      //   this.firebaseLogsService.add_test_type_time.add_test_type_start_time,
-      //   this.firebaseLogsService.add_test_type_time.add_test_type_end_time
-      // );
-      // this.firebaseLogsService.logEvent(
-      //   FIREBASE.ADD_TEST_TYPE_TIME_TAKEN,
-      //   FIREBASE.ADD_TEST_TYPE_START_TIME,
-      //   this.firebaseLogsService.add_test_type_time.add_test_type_start_time.toString(),
-      //   FIREBASE.ADD_TEST_TYPE_END_TIME,
-      //   this.firebaseLogsService.add_test_type_time.add_test_type_end_time.toString(),
-      //   FIREBASE.ADD_TEST_TYPE_TIME_TAKEN,
-      //   this.firebaseLogsService.add_test_type_time.add_test_type_time_taken
-      // );
-
       const type: string = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];
       this.durationService.setDuration({ end: Date.now() }, type);
       const duration = this.durationService.getDuration(type);
@@ -137,7 +121,7 @@ export class TestTypesListPage implements OnInit {
 
   async trackAddTestTypeDuration(label: string, value: string) {
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.TEST_TYPES,
+      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
       event: ANALYTICS_EVENTS.ADD_TEST_TYPE_TIME_TAKEN,
       label: ANALYTICS_LABEL[label]
     });

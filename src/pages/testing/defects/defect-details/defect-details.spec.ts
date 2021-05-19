@@ -15,7 +15,7 @@ import {
   TEST_TYPE_RESULTS,
   DEFICIENCY_CATEGORY,
   APP_STRINGS,
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL
 } from '../../../../app/app.enums';
@@ -239,7 +239,7 @@ describe('Component: DefectDetailsPage', () => {
     await comp.addDefect();
 
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: AnalyticsEventCategories.DEFECTS,
+      category: ANALYTICS_EVENT_CATEGORIES.DEFECTS,
       event: ANALYTICS_EVENTS.DEFECT_NOTES_USAGE,
       label: ANALYTICS_LABEL.DEFICIENCY_REFERENCE
     });

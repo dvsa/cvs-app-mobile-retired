@@ -10,10 +10,9 @@ import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { CallNumber } from '@ionic-native/call-number';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-// import { Firebase } from '@ionic-native/firebase';
 
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   ANALYTICS_VALUE,
@@ -56,7 +55,6 @@ export class SignaturePadPage implements OnInit {
     private screenOrientation: ScreenOrientation,
     private openNativeSettings: OpenNativeSettings,
     private signatureService: SignatureService,
-    // private firebase: Firebase,
     private analyticsService: AnalyticsService,
     private authenticationService: AuthenticationService,
     private callNumber: CallNumber,
@@ -136,11 +134,6 @@ export class SignaturePadPage implements OnInit {
                   timestamp: Date.now()
                 });
 
-                // this.firebase.logEvent('test_error', {
-                //   content_type: 'error',
-                //   item_id: 'Saving signature failed'
-                // });
-
                 this.trackErrorOnSavingSignature(ANALYTICS_VALUE.SAVING_SIGNATURE_FAILED);
 
                 this.showConfirm();
@@ -155,7 +148,7 @@ export class SignaturePadPage implements OnInit {
 
   private async trackErrorOnSavingSignature(value: string) {
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.ERRORS,
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
       label: ANALYTICS_LABEL.ERROR
     });

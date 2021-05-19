@@ -9,7 +9,7 @@ import {
 } from 'ionic-angular';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   DURATION_TYPE,
@@ -20,7 +20,6 @@ import {
 import { VisitService } from '../../../../providers/visit/visit.service';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { AnalyticsService, DurationService } from '../../../../providers/global';
-// import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 
 @IonicPage()
 @Component({
@@ -43,7 +42,6 @@ export class OdometerReadingPage implements OnInit {
     private navParams: NavParams,
     private vehicleService: VehicleService,
     private cdRef: ChangeDetectorRef,
-    // private firebaseLogsService: FirebaseLogsService
     private analyticsService: AnalyticsService,
     private durationService: DurationService
   ) {
@@ -80,22 +78,6 @@ export class OdometerReadingPage implements OnInit {
   }
 
   async onSave() {
-    // this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_end_time = Date.now();
-
-    // this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_time_taken = this.firebaseLogsService.differenceInSeconds(
-    //   this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time,
-    //   this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_end_time
-    // );
-    // this.firebaseLogsService.logEvent(
-    //   FIREBASE.ADD_ODOMETER_READING_TIME_TAKEN,
-    //   FIREBASE.ADD_ODOMETER_READING_START_TIME,
-    //   this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time.toString(),
-    //   FIREBASE.ADD_ODOMETER_READING_END_TIME,
-    //   this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_end_time.toString(),
-    //   FIREBASE.ADD_ODOMETER_READING_TIME_TAKEN,
-    //   this.firebaseLogsService.add_odometer_reading_time.add_odometer_reading_time_taken
-    // );
-
     const type: string = DURATION_TYPE[DURATION_TYPE.ODOMETER_READING];
     this.durationService.setDuration({ end: Date.now() }, type);
     const duration = this.durationService.getDuration(type);
@@ -125,7 +107,7 @@ export class OdometerReadingPage implements OnInit {
 
   async trackOdometerReadingDuration(label: string, value: string) {
     await this.analyticsService.logEvent({
-      category: AnalyticsEventCategories.DURATION,
+      category: ANALYTICS_EVENT_CATEGORIES.DURATION,
       event: ANALYTICS_EVENTS.ADD_ODOMETER_READING_TIME_TAKEN,
       label: ANALYTICS_LABEL[label]
     });

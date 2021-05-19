@@ -8,7 +8,6 @@ import {
   TEST_REPORT_STATUSES,
   VEHICLE_TYPE,
   ANALYTICS_SCREEN_NAMES
-  // FIREBASE_SCREEN_NAMES
 } from '../../../../app/app.enums';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
 import { AnalyticsService } from '../../../../providers/global';
@@ -33,8 +32,7 @@ export class VehicleHistoryPage {
     public viewCtrl: ViewController,
     public commonFunc: CommonFunctionsService,
     private analyticsService: AnalyticsService
-  ) // private firebaseLogsService: FirebaseLogsService
-  {
+  ) {
     this.vehicleData = navParams.get('vehicleData');
     this.testResultHistory = navParams.get('testResultsHistory');
   }
@@ -51,7 +49,6 @@ export class VehicleHistoryPage {
   }
 
   ionViewDidEnter() {
-    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.VEHICLE_TEST_HISTORY);
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_TEST_HISTORY);
   }
 

@@ -20,7 +20,7 @@ import { TechRecordDataMock } from '../../../../assets/data-mocks/tech-record-da
 import { TestTypeArrayDataMock } from '../../../../assets/data-mocks/test-type-array-data.mock';
 import { PipesModule } from '../../../../pipes/pipes.module';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_SCREEN_NAMES,
   APP_STRINGS,
   DURATION_TYPE,

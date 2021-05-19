@@ -122,7 +122,6 @@ npm run prepare:ios
 - Github issues:
 
   - Xcode backward compatibility: [Cordova.h and Info.plist missing files](https://github.com/apache/cordova-ios/issues/760).
-  - Firebasex cordova plugin: will require [Cocoapods](https://guides.cocoapods.org/using/getting-started.html#sudo-less-installation) installed.
   - cordova-plugin-statusbar: [Github](https://github.com/apache/cordova-plugin-statusbar)
   - cordova-plugin-inappbrowser: [Github](https://github.com/apache/cordova-plugin-inappbrowser/issues/709)
   - cordova-plugin-ionic-webview: [Github](https://github.com/ionic-team/cordova-plugin-ionic-webview)

@@ -6,12 +6,11 @@ import { _throw } from 'rxjs/observable/throw';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CallNumber } from '@ionic-native/call-number';
 import { Observable } from 'rxjs';
-// import { Firebase } from '@ionic-native/firebase';
 import { AppVersion } from '@ionic-native/app-version';
 
 import { TestStationReferenceDataModel } from '../../models/reference-data-models/test-station.model';
 import {
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   APP_STRINGS,
   APP_UPDATE,
@@ -49,7 +48,6 @@ export class SyncService {
     private alertCtrl: AlertController,
     private openNativeSettings: OpenNativeSettings,
     private callNumber: CallNumber,
-    // private firebase: Firebase,
     private analyticsService: AnalyticsService,
     private authenticationService: AuthenticationService,
     private appVersion: AppVersion,
@@ -146,7 +144,7 @@ export class SyncService {
 
     if (!this.isVersionCheckedError && currentAppVersion === latestAppVersion) {
       await this.analyticsService.logEvent({
-        category: AnalyticsEventCategories.APP_UPDATE,
+        category: ANALYTICS_EVENT_CATEGORIES.APP_UPDATE,
         event: ANALYTICS_EVENTS.OS_UPDATE
       });
     }

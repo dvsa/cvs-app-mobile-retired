@@ -13,7 +13,7 @@ import {
   PAGE_NAMES,
   AUTH,
   ANALYTICS_SCREEN_NAMES,
-  AnalyticsEventCategories,
+  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   ANALYTICS_VALUE
@@ -21,10 +21,8 @@ import {
 import { VisitService } from '../../../providers/visit/visit.service';
 import { CallNumber } from '@ionic-native/call-number';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-// import { Firebase } from '@ionic-native/firebase';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
-// import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
 import { AppService, AnalyticsService } from '../../../providers/global';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 
@@ -48,10 +46,8 @@ export class TestStationDetailsPage {
     private callNumber: CallNumber,
     private visitService: VisitService,
     private openNativeSettings: OpenNativeSettings,
-    // private firebase: Firebase,
     private loadingCtrl: LoadingController,
     private authenticationService: AuthenticationService,
-    // private firebaseLogsService: FirebaseLogsService,
     private analyticsService: AnalyticsService,
     private appService: AppService,
     private logProvider: LogsProvider
@@ -60,7 +56,6 @@ export class TestStationDetailsPage {
   }
 
   ionViewDidEnter() {
-    // this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_STATION_DETAILS);
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_STATION_DETAILS);
   }
 
@@ -100,13 +95,8 @@ export class TestStationDetailsPage {
         this.isNextPageLoading = false;
         LOADING.dismiss();
 
-        // this.firebase.logEvent('test_error', {
-        //   content_type: 'error',
-        //   item_id: 'Starting activity failed'
-        // });
-
         this.analyticsService.logEvent({
-          category: AnalyticsEventCategories.ERRORS,
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
           label: ANALYTICS_LABEL.ERROR
         });
