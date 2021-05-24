@@ -128,22 +128,7 @@ describe('AuthenticationService', () => {
     });
 
     describe('isUserAuthenticated', () => {
-      let navigatorSpy: jasmine.Spy;
-
-      beforeEach(() => {
-        navigatorSpy = spyOnProperty(window.navigator, 'onLine');
-      });
-
-      it('should return token status as internet required if not online', async () => {
-        navigatorSpy.and.returnValue(false);
-
-        const authResult = await authenticationService.isUserAuthenticated();
-
-        expect(authResult).toEqual({ active: false, action: AUTH.INTERNET_REQUIRED });
-      });
-
-      it('should return token status as re-login if token is not available via auth isAccessTokenAvailable', async () => {
-        navigatorSpy.and.returnValue(true);
+      it('should return token status as "re-login" if token is not available via auth isAccessTokenAvailable', async () => {
         spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(false);
 
         const authResult = await authenticationService.isUserAuthenticated();
@@ -151,9 +136,8 @@ describe('AuthenticationService', () => {
         expect(authResult).toEqual({ active: false, action: AUTH.RE_LOGIN });
       });
 
-      it(`should return token status as re-login if token has expired and cannot be
+      it(`should return token status as "re-login" if token has expired and cannot be
       refreshed via auth refreshSession`, async () => {
-        navigatorSpy.and.returnValue(true);
         spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(true);
         spyOn(authenticationService.auth, 'isAccessTokenExpired').and.returnValue(true);
         spyOn(authenticationService.auth, 'refreshSession').and.throwError('smth');
@@ -164,7 +148,6 @@ describe('AuthenticationService', () => {
       });
 
       it(`should return token status as continue if token has not expired`, async () => {
-        navigatorSpy.and.returnValue(true);
         spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(true);
         spyOn(authenticationService.auth, 'isAccessTokenExpired').and.returnValue(false);
 
@@ -180,17 +163,20 @@ describe('AuthenticationService', () => {
         authStatus = spyOn(authenticationService, 'isUserAuthenticated');
       });
 
-      it('should return falsy if user auth status has no internet', async () => {
-        spyOn(authenticationService, 'login');
-        authStatus.and.returnValue({ active: false, action: AUTH.INTERNET_REQUIRED });
+      it('should return falsy on error if user auth status is to "re-login"', async () => {
+        spyOn(authenticationService, 'login').and.returnValue(
+          Promise.reject(new Error('something'))
+        );
+        authStatus.and.returnValue({ active: false, action: AUTH.RE_LOGIN });
 
         const result = await authenticationService.checkUserAuthStatus();
+
+        expect(logProvider.dispatchLog).toHaveBeenCalled();
         expect(result).toBeFalsy();
       });
 
       it('should return truthy if user auth status is active', async () => {
-        spyOn(authenticationService, 'login');
-        authStatus.and.returnValue({ active: false, action: AUTH.CONTINUE });
+        authStatus.and.returnValue({ active: true, action: AUTH.CONTINUE });
 
         const result = await authenticationService.checkUserAuthStatus();
         expect(result).toBeTruthy();

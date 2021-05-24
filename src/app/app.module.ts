@@ -27,7 +27,6 @@ import { ActivityService } from '../providers/activity/activity.service';
 import { LogsModule } from '../modules/logs/logs.module';
 import { DataStoreProvider } from '../modules/logs/data-store.service';
 import { Network } from '@ionic-native/network';
-import { NetworkStateProvider } from '../modules/logs/network-state.service';
 import { LogsProvider } from '../modules/logs/logs.service';
 import { SecureStorage } from '@ionic-native/secure-storage';
 import { StoreModule } from '@ngrx/store';
@@ -41,7 +40,8 @@ import {
   SyncService,
   HTTPService,
   AnalyticsService,
-  DurationService
+  DurationService,
+  NetworkService
 } from '../providers/global';
 
 import {
@@ -55,6 +55,23 @@ import {
 } from '../providers/auth';
 
 const IONIC_PROVIDERS = [StatusBar, SplashScreen];
+
+const IONIC_NATIVE_PROVIDERS = [
+  SocialSharing,
+  InAppBrowser,
+  Camera,
+  CallNumber,
+  OpenNativeSettings,
+  WheelSelector,
+  MobileAccessibility,
+  AppVersion,
+  Keyboard,
+  ScreenOrientation,
+  GoogleAnalytics,
+  DataStoreProvider,
+  Network,
+  SecureStorage
+];
 
 const CUSTOM_PROVIDERS = [
   AppService,
@@ -71,28 +88,11 @@ const CUSTOM_PROVIDERS = [
   ActivityService,
   StateReformingService,
   CommonFunctionsService,
+  LogsProvider,
   SignatureService,
   AnalyticsService,
-  DurationService
-];
-
-const IONIC_NATIVE_PROVIDERS = [
-  SocialSharing,
-  InAppBrowser,
-  Camera,
-  CallNumber,
-  OpenNativeSettings,
-  WheelSelector,
-  MobileAccessibility,
-  AppVersion,
-  Keyboard,
-  ScreenOrientation,
-  GoogleAnalytics,
-  DataStoreProvider,
-  Network,
-  NetworkStateProvider,
-  LogsProvider,
-  SecureStorage
+  DurationService,
+  NetworkService
 ];
 
 const INTERCEPTOR_PROVIDERS = [

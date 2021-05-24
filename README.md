@@ -36,7 +36,7 @@ VTA uses the following AWS backend microservices:
 
 This project using Ionic, if you don't have ionic follow [these steps](https://ionicframework.com/docs/v1/guide/installation.html).
 Please install and configure [nvm](https://github.com/nvm-sh/nvm) with this node version so it can be used during installation 10.x.
-The application currently run on 10.18.1, please run `npm use` once the correct node(s) versions have been downloaded with nvm.
+The application currently run on 10.18.1, please run `nvm use` once the correct node(s) versions have been downloaded with nvm.
 
 ### Security
 

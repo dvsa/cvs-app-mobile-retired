@@ -19,7 +19,6 @@ import {
 import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
 import { LogsModel } from '../../../modules/logs/logs.model';
 import { StartSendingLogs } from '../../../modules/logs/logs.actions';
-import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 
 @IonicPage()
@@ -38,7 +37,6 @@ export class TestStationHomePage implements OnInit {
     private syncService: SyncService,
     private alertService: AppAlertService,
     private store$: Store<LogsModel>,
-    private networkStateProvider: NetworkStateProvider,
     private analyticsService: AnalyticsService,
     private logProvider: LogsProvider
   ) {}
@@ -52,7 +50,6 @@ export class TestStationHomePage implements OnInit {
   ];
 
   ngOnInit() {
-    this.networkStateProvider.initialiseNetworkState();
     this.store$.dispatch(new StartSendingLogs());
 
     if (this.appService.isCordova) {

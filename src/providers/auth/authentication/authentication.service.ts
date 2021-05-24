@@ -5,12 +5,12 @@ import { Observable, Subject } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 import to from 'await-to-js';
 
+import { AUTH, LOG_TYPES } from '../../../app/app.enums';
 import { default as AppConfig } from '../../../../config/application.hybrid';
 import { VaultService } from '../vault/vault.service';
 import { CommonFunctionsService } from '../../utils/common-functions';
 import { TokenInfo, TokenStatus } from '../authentication/auth-model';
 import { cordovaAzureConfig, webAzureConfig } from '../authentication/auth-options';
-import { AUTH, LOG_TYPES } from '../../../app/app.enums';
 import { Log } from '../../../modules/logs/logs.model';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 
@@ -108,25 +108,21 @@ export class AuthenticationService {
   }
 
   async isUserAuthenticated(): Promise<TokenStatus> {
-    if (window.navigator.onLine) {
-      if (!(await this._auth.isAccessTokenAvailable())) {
+    if (!(await this._auth.isAccessTokenAvailable())) {
+      return { active: false, action: AUTH.RE_LOGIN };
+    }
+
+    if (await this._auth.isAccessTokenExpired()) {
+      try {
+        await this._auth.refreshSession();
+      } catch (error) {
         return { active: false, action: AUTH.RE_LOGIN };
       }
-
-      if (await this._auth.isAccessTokenExpired()) {
-        try {
-          await this._auth.refreshSession();
-        } catch (error) {
-          return { active: false, action: AUTH.RE_LOGIN };
-        }
-      }
-
-      await this.updateTokenInfo();
-
-      return { active: true, action: AUTH.CONTINUE };
-    } else {
-      return { active: false, action: AUTH.INTERNET_REQUIRED };
     }
+
+    await this.updateTokenInfo();
+
+    return { active: true, action: AUTH.CONTINUE };
   }
 
   async checkUserAuthStatus(): Promise<boolean> {
@@ -142,11 +138,6 @@ export class AuthenticationService {
       } else {
         this._loginStatusChanged.next(true);
       }
-    }
-
-    if (action === AUTH.INTERNET_REQUIRED) {
-      // this.alertService.alertInternetRequired();
-      return Promise.resolve(false);
     }
 
     return Promise.resolve(true);

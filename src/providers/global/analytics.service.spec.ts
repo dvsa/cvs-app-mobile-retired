@@ -48,6 +48,10 @@ describe('AnalyticsService', () => {
     authService.tokenInfo.oid = testerOid;
   });
 
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   const allowAction = () => {
     platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
     analyticsService.hasTrackingStarted = true;
@@ -184,7 +188,7 @@ describe('AnalyticsService', () => {
       expect(googleAnalytics.addCustomDimension).not.toHaveBeenCalled();
     });
 
-    it('should not add custome dimension if errored', async () => {
+    it('should not add custom dimension if errored', async () => {
       googleAnalytics.addCustomDimension = jasmine
         .createSpy('googleAnalytics.addCustomDimension')
         .and.returnValue(Promise.reject('track error!'));

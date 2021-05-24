@@ -94,7 +94,7 @@ export class SignaturePadPage implements OnInit {
 
   showConfirm() {
     const CONFIRM_ALERT = this.alertCtrl.create({
-      title: APP_STRINGS.SIGN_UNABLE_LOAD_DATA,
+      title: APP_STRINGS.UNABLE_LOAD_DATA,
       message: '',
       buttons: [
         {

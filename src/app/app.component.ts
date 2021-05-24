@@ -7,7 +7,10 @@ import { MobileAccessibility } from '@ionic-native/mobile-accessibility';
 import { StorageService } from '../providers/natives/storage.service';
 import { VisitService } from '../providers/visit/visit.service';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import * as Sentry from 'sentry-cordova';
 import { Subscription } from 'rxjs';
+import to from 'await-to-js';
+
 import {
   ACCESSIBILITY_DEFAULT_VALUES,
   PAGE_NAMES,
@@ -15,18 +18,17 @@ import {
   STORAGE,
   LOG_TYPES,
   ANALYTICS_EVENT_CATEGORIES,
-  ANALYTICS_EVENTS
+  ANALYTICS_EVENTS,
+  CONNECTION_STATUS
 } from './app.enums';
 import { AppService, AnalyticsService, SyncService } from '../providers/global';
 import { ActivityService } from '../providers/activity/activity.service';
-import { Network } from '@ionic-native/network';
 import { Log } from '../modules/logs/logs.model';
 import { LogsProvider } from './../modules/logs/logs.service';
-import * as Sentry from 'sentry-cordova';
 import { default as AppConfig } from '../../config/application.hybrid';
-import to from 'await-to-js';
 import { ActivityModel } from '../models/visit/activity.model';
 import { VisitModel } from '../models/visit/visit.model';
+import { NetworkService } from '../providers/global/network.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -38,7 +40,6 @@ export class MyApp {
   appResumeSub: Subscription;
   authLogSub: Subscription;
   connectedSub: Subscription;
-  disconnectedSub: Subscription;
 
   constructor(
     public platform: Platform,
@@ -50,12 +51,12 @@ export class MyApp {
     public storageService: StorageService,
     private appService: AppService,
     private syncService: SyncService,
+    private networkService: NetworkService,
     private authenticationService: AuthenticationService,
     private mobileAccessibility: MobileAccessibility,
     private renderer: Renderer2,
     private screenOrientation: ScreenOrientation,
     private analyticsService: AnalyticsService,
-    private network: Network,
     private logProvider: LogsProvider
   ) {
     platform.ready().then(() => {
@@ -84,9 +85,18 @@ export class MyApp {
 
   async initApp() {
     // await this.authenticationService.auth.logout();
+
+    this.networkService.initialiseNetworkStatus();
+
     await this.authenticationService.expireTokens();
 
     await this.appService.manageAppInit();
+
+    const netWorkStatus: CONNECTION_STATUS = this.networkService.getNetworkState();
+    if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {
+      this.manageAppState();
+      return;
+    }
 
     const authStatus = await this.authenticationService.checkUserAuthStatus();
     authStatus && !this.appService.isSignatureRegistered
@@ -197,33 +207,23 @@ export class MyApp {
       timestamp: Date.now()
     } as Log;
 
-    this.connectedSub = this.network.onDisconnect().subscribe(() => {
-      log = {
-        ...log,
-        message: `User ${this.authenticationService.tokenInfo.oid}
-        lost connection (connection type ${this.network.type})
+    this.connectedSub = this.networkService
+      .onNetworkChange()
+      .subscribe((status: CONNECTION_STATUS) => {
+        log = {
+          ...log,
+          message: `User ${this.authenticationService.tokenInfo.oid}
+        connection ${CONNECTION_STATUS[status]} (connection type ${this.networkService.networkType})
         `
-      };
+        };
 
-      this.logProvider.dispatchLog(log);
-    });
-
-    this.disconnectedSub = this.network.onConnect().subscribe(() => {
-      log = {
-        ...log,
-        message: `User ${this.authenticationService.tokenInfo.oid}
-        connected (connection type ${this.network.type})
-        `
-      };
-
-      this.logProvider.dispatchLog(log);
-    });
+        this.logProvider.dispatchLog(log);
+      });
   }
 
   ionViewWillLeave() {
     this.appResumeSub.unsubscribe();
     this.authLogSub.unsubscribe();
     this.connectedSub.unsubscribe();
-    this.disconnectedSub.unsubscribe();
   }
 }

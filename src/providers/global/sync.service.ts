@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HTTPService } from './http.service';
 import { catchError, map } from 'rxjs/operators';
-import { AlertController, Events, LoadingController } from 'ionic-angular';
+import { AlertController, Events, Loading, LoadingController } from 'ionic-angular';
 import { _throw } from 'rxjs/observable/throw';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CallNumber } from '@ionic-native/call-number';
@@ -29,9 +29,7 @@ declare let cordova: any;
 
 @Injectable()
 export class SyncService {
-  loading = this.loadingCtrl.create({
-    content: 'Loading...'
-  });
+  loading: Loading;
   loadOrder: Observable<any>[] = [];
   oid: string;
 
@@ -55,14 +53,17 @@ export class SyncService {
   ) {}
 
   public async startSync(): Promise<any[]> {
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading...'
+    });
+    await this.loading.present();
+
     if (this.appService.isCordova) {
-      this.checkForUpdate();
-      this.trackUpdatedApp(this.currentAppVersion, this.latestAppVersion);
+      await this.checkForUpdate();
+      await this.trackUpdatedApp(this.currentAppVersion, this.latestAppVersion);
     }
 
     if (!this.appService.getRefDataSync()) {
-      this.loading.present();
-
       ['Atfs', 'Defects', 'TestTypes', 'Preparers'].forEach((elem) =>
         this.loadOrder.push(this.getDataFromMicroservice(elem))
       );
@@ -70,6 +71,7 @@ export class SyncService {
       return await this.getAllData(this.loadOrder);
     }
 
+    this.loading.dismissAll();
     return Promise.resolve([null, true]);
   }
 
@@ -173,9 +175,9 @@ export class SyncService {
 
   handleError(): Observable<any> {
     let alert = this.alertCtrl.create({
-      title: 'Unable to load data',
+      title: APP_STRINGS.UNABLE_LOAD_DATA,
       enableBackdropDismiss: false,
-      message: 'Make sure you are connected to the internet and try again',
+      message: APP_STRINGS.NO_INTERNET_CONNECTION,
       buttons: [
         {
           text: APP_STRINGS.SETTINGS_BTN,
@@ -185,7 +187,7 @@ export class SyncService {
           }
         },
         {
-          text: 'Call Technical Support',
+          text: APP_STRINGS.CALL_SUPP_BTN,
           handler: () => {
             this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
               (data) => console.log(data),
@@ -195,7 +197,7 @@ export class SyncService {
           }
         },
         {
-          text: 'Try again',
+          text: APP_STRINGS.TRY_AGAIN_BTN,
           handler: () => {
             this.getAllData(this.loadOrder);
           }

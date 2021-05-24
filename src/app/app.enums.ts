@@ -21,6 +21,11 @@ export enum STATUS_CODE {
   FORBIDDEN = 403
 }
 
+export enum CONNECTION_STATUS {
+  OFFLINE = 0,
+  ONLINE = 1
+}
+
 export enum LOCAL_STORAGE {
   INIT_SYNC = 'initSyncDone',
   FIRST_INIT = 'firstInit',
@@ -224,7 +229,7 @@ export enum APP_STRINGS {
   SIGN_TOAST_MSG = 'Your Signature has been saved and will be used each time you need to sign a certificate',
   SIGN_NOT_ENTERED = 'Signature not entered',
   SIGN_ENTER = 'You must enter your signature before saving.',
-  SIGN_UNABLE_LOAD_DATA = 'Unable to load data',
+  UNABLE_LOAD_DATA = 'Unable to load data',
   CACHING_ENABLED_STORAGE_CLEARED = 'Storage was cleared and caching was disabled. Ride on',
   CACHING_ENABLED = 'Caching was enabled',
   UNAUTHORISED = 'Unable to authorise',

@@ -12,7 +12,6 @@ import { AlertControllerMock } from 'ionic-mocks';
 import { ANALYTICS_SCREEN_NAMES, PAGE_NAMES, TESTER_ROLES } from '../../../app/app.enums';
 import { Store } from '@ngrx/store';
 import { TestStore } from '../../../modules/logs/data-store.service.mock';
-import { NetworkStateProvider } from '../../../modules/logs/network-state.service';
 import { AppServiceMock } from '../../../../test-config/services-mocks/app-service.mock';
 import { SyncService } from '../../../providers/global/sync.service';
 import { LogsProvider } from '../../../modules/logs/logs.service';
@@ -28,8 +27,6 @@ describe('Component: TestStationHomePage', () => {
   let screenOrientation: ScreenOrientation;
   let screenOrientationSpy: ScreenOrientation;
   let navCtrlSpy: any;
-  let networkStateProvider: NetworkStateProvider;
-  let networkStateProviderSpy: any;
   let syncService: SyncService;
   let syncServiceSpy: any;
   let logProviderSpy: any;
@@ -41,10 +38,6 @@ describe('Component: TestStationHomePage', () => {
 
   beforeEach(async(() => {
     navCtrlSpy = jasmine.createSpyObj('NavController', ['push']);
-
-    networkStateProviderSpy = jasmine.createSpyObj('NetworkStateProvider', [
-      'initialiseNetworkState'
-    ]);
 
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', {
       lock: () => {},
@@ -76,7 +69,6 @@ describe('Component: TestStationHomePage', () => {
         { provide: AppAlertService, useValue: appAlertSpy },
         { provide: Store, useClass: TestStore },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
-        { provide: NetworkStateProvider, useValue: networkStateProviderSpy },
         { provide: SyncService, useValue: syncServiceSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy }
@@ -91,7 +83,6 @@ describe('Component: TestStationHomePage', () => {
     navCtrl = TestBed.get(NavController);
     appService = TestBed.get(AppService);
     screenOrientation = TestBed.get(ScreenOrientation);
-    networkStateProvider = TestBed.get(NetworkStateProvider);
     syncService = TestBed.get(SyncService);
     authenticationService = TestBed.get(AuthenticationService);
     appAlertService = TestBed.get(AppAlertService);
@@ -104,7 +95,6 @@ describe('Component: TestStationHomePage', () => {
     appService = null;
     screenOrientation = null;
     screenOrientationSpy = null;
-    networkStateProvider = null;
     syncService = null;
   });
 
@@ -125,7 +115,6 @@ describe('Component: TestStationHomePage', () => {
 
     comp.ngOnInit();
 
-    expect(networkStateProvider.initialiseNetworkState).toHaveBeenCalled();
     expect(screenOrientation.lock).toHaveBeenCalledWith(
       screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY
     );

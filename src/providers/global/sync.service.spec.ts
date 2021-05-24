@@ -99,13 +99,7 @@ describe('Provider: SyncService', () => {
   });
 
   afterEach(() => {
-    syncService = null;
-    httpService = null;
-    storageService = null;
-    events = null;
-    alertCtrl = null;
-    loadingCtrl = null;
-    appService = null;
+    TestBed.resetTestingModule();
   });
 
   it('testing handleError() function', () => {

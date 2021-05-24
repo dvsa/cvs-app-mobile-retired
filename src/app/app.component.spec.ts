@@ -8,23 +8,21 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility';
 import { Network } from '@ionic-native/network';
 import { Store } from '@ngrx/store';
-import { EventsMock, SplashScreenMock, StatusBarMock } from 'ionic-mocks';
+import { EventsMock, SplashScreenMock, StatusBarMock, NetworkMock } from 'ionic-mocks';
 
 import { MyApp } from './app.component';
 import { StorageService } from '../providers/natives/storage.service';
 import { StorageServiceMock } from '../../test-config/services-mocks/storage-service.mock';
-import { SyncService } from '../providers/global/sync.service';
+import { AppService, SyncService, AnalyticsService, NetworkService } from '../providers/global';
 import { VisitService } from '../providers/visit/visit.service';
-import { AppService } from '../providers/global/app.service';
 import { AppServiceMock } from '../../test-config/services-mocks/app-service.mock';
 import { VisitServiceMock } from '../../test-config/services-mocks/visit-service.mock';
 import { AuthenticationService } from '../providers/auth';
 import { ActivityService } from '../providers/activity/activity.service';
 import { ActivityServiceMock } from '../../test-config/services-mocks/activity-service.mock';
-import { STORAGE, PAGE_NAMES } from './app.enums';
+import { STORAGE, PAGE_NAMES, CONNECTION_STATUS } from './app.enums';
 import { LogsProvider } from '../modules/logs/logs.service';
 import { TestStore } from '../modules/logs/data-store.service.mock';
-import { AnalyticsService } from '../providers/global';
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -45,6 +43,7 @@ describe('Component: Root', () => {
   let authenticationSpy: any;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
+  let networkService: NetworkService;
 
   beforeEach(async(() => {
     syncServiceSpy = jasmine.createSpyObj('SyncService', {
@@ -71,11 +70,14 @@ describe('Component: Root', () => {
       declarations: [MyApp],
       imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
       providers: [
+        MobileAccessibility,
+        NetworkService,
         { provide: AuthenticationService, useValue: authenticationSpy },
         { provide: AppService, useClass: AppServiceMock },
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: StatusBar, useFactory: () => StatusBarMock.instance() },
         { provide: Events, useFactory: () => EventsMock.instance() },
+        { provide: Network, useFactory: () => NetworkMock.instance('wifi') },
         { provide: SplashScreen, useFactory: () => SplashScreenMock.instance() },
         { provide: ScreenOrientation, useValue: screenOrientationSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
@@ -83,8 +85,6 @@ describe('Component: Root', () => {
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: SyncService, useValue: syncServiceSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
-        MobileAccessibility,
-        Network,
         { provide: Store, useClass: TestStore }
       ]
     }).compileComponents();
@@ -104,14 +104,11 @@ describe('Component: Root', () => {
     screenOrientation = TestBed.get(ScreenOrientation);
     analyticsService = TestBed.get(AnalyticsService);
     logProvider = TestBed.get(LogsProvider);
+    networkService = TestBed.get(NetworkService);
   });
 
   afterEach(() => {
-    fixture.destroy();
-    comp = null;
-    appService = null;
-    screenOrientation = null;
-    syncService = null;
+    TestBed.resetTestingModule();
   });
 
   it('should create component', () => {
@@ -122,11 +119,14 @@ describe('Component: Root', () => {
 
   describe('when loading app', () => {
     beforeEach(() => {
+      spyOn(networkService, 'initialiseNetworkStatus');
+      spyOn(networkService, 'getNetworkState').and.returnValue(CONNECTION_STATUS.ONLINE);
       spyOn(appService, 'manageAppInit').and.callFake(() => Promise.resolve());
     });
 
     it('should set app defaults and navigate to signature page', async () => {
       spyOn(comp.navElem, 'setRoot');
+
       authenticationService.checkUserAuthStatus = jasmine
         .createSpy('authenticationService.checkUserAuthStatus')
         .and.returnValue(true);
@@ -134,7 +134,10 @@ describe('Component: Root', () => {
       await comp.initApp();
 
       expect(authenticationService.expireTokens).toHaveBeenCalledWith();
+      expect(networkService.initialiseNetworkStatus).toHaveBeenCalled();
       expect(appService.manageAppInit).toHaveBeenCalled();
+
+      expect(networkService.getNetworkState).toHaveBeenCalled();
       expect(splashScreen.hide).toHaveBeenCalled();
       expect(comp.navElem.setRoot).toHaveBeenCalledWith(PAGE_NAMES.SIGNATURE_PAD_PAGE);
     });
