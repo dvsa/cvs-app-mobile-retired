@@ -159,7 +159,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
               (1000 * 60);
         }
         clearTimeout(this.activityService.waitTimer);
-        this.activityService.waitTimer = setTimeout(() => {
+        this.activityService.waitTimer = window.setTimeout(() => {
           this.createWaitTime();
         }, counterTime * 1000 * 60);
       }

@@ -8,13 +8,14 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es5"
+    "target": "es5",
+    "resolveJsonModule": true
   },
   "ts-node": {
     "transpileOnly": true
   },
-  "include": ["src/**/*.ts", "typings/*.d.ts"],
-  "exclude": ["node_modules"],
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "typings/*.d.ts"],
   "compileOnSave": false,
   "atom": {
     "rewriteTsconfig": false
