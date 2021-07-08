@@ -14,9 +14,9 @@ import {
   AppService,
   AnalyticsService,
   SyncService,
-  AppAlertService
+  AppAlertService,
 } from '../../../providers/global';
-import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
+import { AuthenticationService } from '../../../providers/auth';
 import { LogsModel } from '../../../modules/logs/logs.model';
 import { StartSendingLogs } from '../../../modules/logs/logs.actions';
 import { LogsProvider } from '../../../modules/logs/logs.service';
@@ -27,7 +27,7 @@ import { LogsProvider } from '../../../modules/logs/logs.service';
   templateUrl: 'test-station-home.html'
 })
 export class TestStationHomePage implements OnInit {
-  appStrings: object = APP_STRINGS;
+  appStrings: typeof APP_STRINGS = APP_STRINGS;
 
   constructor(
     public navCtrl: NavController,
@@ -49,13 +49,12 @@ export class TestStationHomePage implements OnInit {
     TESTER_ROLES.TIR
   ];
 
-  ngOnInit() {
+  async ngOnInit() {
     this.store$.dispatch(new StartSendingLogs());
 
     if (this.appService.isCordova) {
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
-
-      this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.GET_STARTED);
+      await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
+      await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.GET_STARTED);
     }
   }
 
@@ -70,7 +69,7 @@ export class TestStationHomePage implements OnInit {
     [err, IsDataSynced] = await this.syncService.startSync();
 
     if (IsDataSynced) {
-      this.setPage();
+      await this.setPage();
     } else {
       this.logProvider.dispatchLog({
         type: LOG_TYPES.ERROR,
@@ -82,15 +81,15 @@ export class TestStationHomePage implements OnInit {
     }
   }
 
-  setPage(): void {
+  async setPage(): Promise<void> {
     if (this.appService.isCordova) {
       if (this.appService.isSignatureRegistered) {
-        this.navCtrl.push(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
+        await this.navCtrl.push(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
       } else {
-        this.navCtrl.push(PAGE_NAMES.SIGNATURE_PAD_PAGE, { navController: this.navCtrl });
+        await this.navCtrl.push(PAGE_NAMES.SIGNATURE_PAD_PAGE, { navController: this.navCtrl });
       }
     } else {
-      this.navCtrl.push(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
+      await this.navCtrl.push(PAGE_NAMES.TEST_STATION_SEARCH_PAGE);
     }
   }
 

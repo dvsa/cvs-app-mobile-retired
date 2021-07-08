@@ -9,7 +9,6 @@ import { TestTypesReferenceDataModel } from '../../models/reference-data-models/
 import { PreparersReferenceDataModel } from '../../models/reference-data-models/preparers.model';
 import { PATHS } from '../../app/app.enums';
 import { TestResultModel } from '../../models/tests/test-result.model';
-import { DefectItemReferenceDataModel } from '../../models/reference-data-models/defects.reference-model';
 import { VehicleTechRecordModel } from '../../models/vehicle/tech-record.model';
 import { ActivityModel } from '../../models/visit/activity.model';
 import { Log } from '../../modules/logs/logs.model';

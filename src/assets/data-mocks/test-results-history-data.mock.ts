@@ -4,7 +4,7 @@ export class TestResultsHistoryDataMock {
   public static get TestResultHistoryData(): TestResultModel[] {
     return [
       {
-        systemNumber: '1000000',
+        systemNumber: '10000000',
         reasonForCancellation: null,
         testerStaffId: '123',
         testerName: 'test',

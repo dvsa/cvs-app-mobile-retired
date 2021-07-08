@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
 import {
   AlertController,
   IonicPage,
+  Loading,
   LoadingController,
   ModalController,
   NavController,
@@ -103,11 +104,11 @@ export class VehicleLookupPage {
   /**
    * When clicking the search button, check if the visit is open
    */
-  onSearchVehicle(searchedValue: string): void {
-    const LOADING = this.loadingCtrl.create({
+  async onSearchVehicle(searchedValue: string) {
+    const LOADING: Loading = this.loadingCtrl.create({
       content: 'Loading...'
     });
-    LOADING.present();
+    await LOADING.present();
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
@@ -125,7 +126,7 @@ export class VehicleLookupPage {
     );
   }
 
-  searchVehicle(searchedValue: string, LOADING) {
+  async searchVehicle(searchedValue: string, LOADING: Loading) {
     const { oid } = this.authenticationService.tokenInfo;
 
     this.vehicleService
@@ -152,12 +153,12 @@ export class VehicleLookupPage {
               this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
               this.goToVehicleDetails(vehicleData[0]);
             },
-            complete: function() {}
+            complete: function() {
+            }
           };
           if (vehicleData.length > 1) {
-            this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
-              LOADING.dismiss();
-            });
+            this.goToMultipleTechRecordsSelection(vehicleData);
+            LOADING.dismiss();
           } else if (
             vehicleData.length === 1 &&
             this.vehicleService.isVehicleSkeleton(vehicleData[0])

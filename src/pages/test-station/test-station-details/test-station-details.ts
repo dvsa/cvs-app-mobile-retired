@@ -25,6 +25,7 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
 import { AppService, AnalyticsService } from '../../../providers/global';
 import { LogsProvider } from '../../../modules/logs/logs.service';
+import { HttpResponse } from '@angular/common/http';
 
 @IonicPage()
 @Component({
@@ -72,7 +73,8 @@ export class TestStationDetailsPage {
     const { oid } = this.authenticationService.tokenInfo;
     LOADING.present();
     this.startVisitSubscription = this.visitService.startVisit(this.testStation).subscribe(
-      (data) => {
+      (data: HttpResponse<{ id: string; }>) => {
+        console.log('id data', data);
         this.logProvider.dispatchLog({
           type: 'info',
           message: `${oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,
@@ -81,7 +83,9 @@ export class TestStationDetailsPage {
 
         this.isNextPageLoading = false;
         LOADING.dismiss();
-        this.startVisitSubscription.unsubscribe();
+        if (this.startVisitSubscription) {
+          this.startVisitSubscription.unsubscribe();
+        }
         this.visitService.createVisit(this.testStation, data.body.id);
         this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, { testStation: this.testStation });
       },

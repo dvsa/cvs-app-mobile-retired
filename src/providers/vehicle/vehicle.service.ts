@@ -2,6 +2,7 @@ import { VehicleModel } from '../../models/vehicle/vehicle.model';
 import { CommonRegExp } from '../utils/common-regExp';
 import { HTTPService } from '../global/http.service';
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { VisitService } from '../visit/visit.service';
 import { TestTypeModel } from '../../models/tests/test-type.model';
@@ -24,7 +25,8 @@ export class VehicleService {
     public storageService: StorageService,
     private authenticationService: AuthenticationService,
     private logProvider: LogsProvider
-  ) {}
+  ) {
+  }
 
   createVehicle(vehicleTechRecord: VehicleTechRecordModel): VehicleModel {
     let newVehicle: VehicleModel = {} as VehicleModel;
@@ -71,31 +73,33 @@ export class VehicleService {
   ): Observable<VehicleModel[]> {
     return this.httpService
       .getTechRecords(searchedValue.toUpperCase(), searchCriteriaQueryParam)
-      .map((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => {
-        this.logProvider.dispatchLog({
-          type: 'info',
-          message: `${this.authenticationService.tokenInfo.oid} - ${techRecordsResponse.status} ${techRecordsResponse.statusText} for API call to ${techRecordsResponse.url}`,
-          timestamp: Date.now()
-        });
-
-        return techRecordsResponse.body.map(this.createVehicle);
-      })
-      .map((techRecords: VehicleModel[]) => {
-        return techRecords.sort((a, b) => this.compareVehicles(a, b));
-      });
+      .pipe(
+        tap((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => (
+          this.logProvider.dispatchLog({
+            type: 'info',
+            message: `${this.authenticationService.tokenInfo.oid} - ${techRecordsResponse.status} ${techRecordsResponse.statusText} for API call to ${techRecordsResponse.url}`,
+            timestamp: Date.now()
+          })
+        )),
+        map((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => techRecordsResponse.body.map(this.createVehicle)),
+        map((techRecords: VehicleModel[]) => techRecords.sort((a, b) => this.compareVehicles(a, b)))
+      );
   }
 
   getTestResultsHistory(systemNumber: string): Observable<TestResultModel[]> {
-    return this.httpService.getTestResultsHistory(systemNumber).map((data) => {
-      this.logProvider.dispatchLog({
-        type: 'info',
-        message: `${this.authenticationService.tokenInfo.oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,
-        timestamp: Date.now()
-      });
-
-      this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
-      return data.body;
-    });
+    return this.httpService
+      .getTestResultsHistory(systemNumber)
+      .pipe(
+        tap(async (data: HttpResponse<TestResultModel[]>) => {
+          this.logProvider.dispatchLog({
+            type: 'info',
+            message: `${this.authenticationService.tokenInfo.oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,
+            timestamp: Date.now()
+          });
+          await this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
+        }),
+        map((data) => data.body),
+      );
   }
 
   setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string): VehicleModel {

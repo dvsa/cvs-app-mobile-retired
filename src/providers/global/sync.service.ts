@@ -24,6 +24,7 @@ import { AppVersionModel } from '../../models/latest-version.model';
 import { LogsProvider } from '../../modules/logs/logs.service';
 import { VERSION_POPUP_MSG } from '../../app/app.constants';
 import { AnalyticsService } from './analytics.service';
+import { HttpResponse } from '@angular/common/http';
 
 declare let cordova: any;
 
@@ -64,6 +65,7 @@ export class SyncService {
     }
 
     if (!this.appService.getRefDataSync()) {
+      console.log('getRefDataSync');
       ['Atfs', 'Defects', 'TestTypes', 'Preparers'].forEach((elem) =>
         this.loadOrder.push(this.getDataFromMicroservice(elem))
       );
@@ -156,8 +158,8 @@ export class SyncService {
     this.oid = this.authenticationService.tokenInfo.oid;
 
     return this.httpService['get' + microservice]().pipe(
-      map((data: any) => {
-        this.storageService.update(STORAGE[microservice.toUpperCase()], data.body);
+      map(async (data: HttpResponse<any>) => {
+        await this.storageService.update(STORAGE[microservice.toUpperCase()], data.body);
         return data.body;
       }),
       catchError((error) => {

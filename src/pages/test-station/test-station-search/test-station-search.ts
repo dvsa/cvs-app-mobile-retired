@@ -29,8 +29,8 @@ export class TestStationSearchPage implements OnInit {
     document.querySelector('.back-button-icon').setAttribute('aria-hidden', 'true');
   }
 
-  ionViewDidEnter() {
-    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_STATION_SEARCH);
+  async ionViewDidEnter() {
+    await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_STATION_SEARCH);
   }
 
   getTestStations(): void {

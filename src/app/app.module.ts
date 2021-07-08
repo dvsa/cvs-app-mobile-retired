@@ -43,7 +43,6 @@ import {
   DurationService,
   NetworkService
 } from '../providers/global';
-
 import {
   AuthenticationService,
   VaultService,
@@ -51,7 +50,8 @@ import {
   BrowserAuthService,
   AuthInterceptor,
   UnauthInterceptor,
-  RetryInterceptor
+  RetryInterceptor,
+  LocalMockInterceptor,
 } from '../providers/auth';
 
 const IONIC_PROVIDERS = [StatusBar, SplashScreen];
@@ -96,6 +96,7 @@ const CUSTOM_PROVIDERS = [
 ];
 
 const INTERCEPTOR_PROVIDERS = [
+  { provide: HTTP_INTERCEPTORS, useClass: LocalMockInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: UnauthInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: RetryInterceptor, multi: true }

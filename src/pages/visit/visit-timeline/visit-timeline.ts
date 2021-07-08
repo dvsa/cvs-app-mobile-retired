@@ -110,8 +110,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     this.createTimeline();
   }
 
-  ionViewDidEnter() {
-    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VISIT_TIMELINE);
+  async ionViewDidEnter() {
+    await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VISIT_TIMELINE);
     // this.waitTimeHandler(); FIXME: Needs to be fixed separately.
   }
 
