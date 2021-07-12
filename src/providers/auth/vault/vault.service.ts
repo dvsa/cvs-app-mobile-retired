@@ -45,7 +45,7 @@ export class VaultService extends IonicIdentityVaultUser<DefaultSession> {
 
   async storeTesterObfuscatedId(obsTesterId: string) {
     const vault: IdentityVault = await this.getVault();
-    vault.storeValue(LOCAL_STORAGE.OBSFUCATED_TESTER, obsTesterId);
+    await vault.storeValue(LOCAL_STORAGE.OBSFUCATED_TESTER, obsTesterId);
   }
 
   async getTesterObsfuscatedId(): Promise<string> {

@@ -13,7 +13,7 @@ import { TestResultsHistoryDataMock } from '../../../assets/data-mocks/test-resu
 export class LocalMockInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (request.url.includes('assets/offline-stubs')) {
+    if (request.url.includes('offline-stub')) {
       return of(new HttpResponse({
         status: 200,
         url: request.url,

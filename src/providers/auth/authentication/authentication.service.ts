@@ -66,10 +66,7 @@ export class AuthenticationService {
 
       const tkInfo: TokenInfo = await this.updateTokenInfo();
       const testerOid = tkInfo && tkInfo.oid ? tkInfo.oid : this.commonFunc.randomString(9);
-
-      await this.vaultService.storeTesterObfuscatedId(
-        this.commonFunc.getObfuscatedTesterOid(testerOid)
-      );
+      await this.vaultService.storeTesterObfuscatedId(this.commonFunc.getObfuscatedTesterOid(testerOid));
     } catch (error) {
       console.log(error || error.message);
       throw error;
