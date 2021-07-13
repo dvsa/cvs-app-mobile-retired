@@ -85,8 +85,25 @@ describe('Component: TestStationSearchPage', () => {
   });
 
   it('should test searchList logic', () => {
-    comp.searchList({ target: { value: 'searchValue' } });
-    expect(comp.searchVal).toEqual('searchValue');
+    const value = 'searchValue';
+    const mockTestStations = [
+      {
+        testStationId: '1',
+        testStationPNumber: 'p123',
+        testStationName: 'ashirbe'
+      }
+    ] as TestStationReferenceDataModel[];
+    const searchProperties = ['testStationName', 'testStationPNumber', 'testStationAddress'];
+    comp.testStations = mockTestStations;
+
+    comp.searchList({ target: { value: value } });
+
+    expect(comp.searchVal).toEqual(value);
+    expect(testStationService.sortAndSearchTestStation).toHaveBeenCalledWith(
+      mockTestStations,
+      value,
+      searchProperties
+    );
   });
 
   it('should clear search', () => {
