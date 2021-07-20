@@ -516,18 +516,14 @@ export class TestCreatePage implements OnInit {
       await this.analyticsService.logEvent({
         category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
         event: ANALYTICS_EVENTS.TEST_ERROR,
-        label: ANALYTICS_LABEL.ERROR
+        label: ANALYTICS_VALUE.NOT_ALL_TESTS_COMPLETED
       });
-
-      await this.analyticsService.addCustomDimension(
-        Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
-        ANALYTICS_VALUE.NOT_ALL_TESTS_COMPLETED
-      );
 
       if (!finishedTest) {
         await this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.REVIEWS,
-          event: ANALYTICS_EVENTS.TEST_REVIEW_UNSUCCESSFUL
+          event: ANALYTICS_EVENTS.TEST_REVIEW_UNSUCCESSFUL,
+          label: ANALYTICS_VALUE.NOT_ALL_TESTS_COMPLETED
         });
       }
     } else {

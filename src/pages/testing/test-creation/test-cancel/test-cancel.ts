@@ -209,13 +209,8 @@ export class TestCancelPage {
               this.analyticsService.logEvent({
                 category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
                 event: ANALYTICS_EVENTS.TEST_ERROR,
-                label: ANALYTICS_LABEL.ERROR
+                label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
               });
-
-              this.analyticsService.addCustomDimension(
-                Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
-                ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
-              );
             }
           );
         }
@@ -234,13 +229,8 @@ export class TestCancelPage {
         this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
-          label: ANALYTICS_LABEL.ERROR
+          label: ANALYTICS_VALUE.TEST_SUBMISSION_FAILED
         });
-
-        this.analyticsService.addCustomDimension(
-          Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
-          ANALYTICS_VALUE.TEST_SUBMISSION_FAILED
-        );
 
         TRY_AGAIN_ALERT.onDidDismiss(() => {
           if (!this.tryAgain) {

@@ -54,10 +54,7 @@ describe('Component: ', () => {
       dispatchLog: () => true
     });
 
-    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
-      'logEvent',
-      'addCustomDimension'
-    ]);
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', ['logEvent']);
 
     TestBed.configureTestingModule({
       declarations: [MultipleTechRecordsSelectionPage],
@@ -128,12 +125,9 @@ describe('Component: ', () => {
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
-      label: ANALYTICS_LABEL.ERROR
+      label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
     });
-    expect(analyticsService.addCustomDimension).toHaveBeenCalledWith(
-      Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
-      ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
-    );
+
     expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
       test: undefined,
       vehicle: VehicleDataMock.VehicleData

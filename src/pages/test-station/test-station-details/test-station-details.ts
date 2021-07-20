@@ -98,13 +98,8 @@ export class TestStationDetailsPage {
         this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
-          label: ANALYTICS_LABEL.ERROR
+          label: ANALYTICS_VALUE.START_ACTIVITY_FAILED
         });
-
-        this.analyticsService.addCustomDimension(
-          Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
-          ANALYTICS_VALUE.START_ACTIVITY_FAILED
-        );
 
         if (error && error.error === AUTH.INTERNET_REQUIRED) {
           const TRY_AGAIN_ALERT = this.alertCtrl.create({

@@ -105,13 +105,8 @@ export class MultipleTechRecordsSelectionPage {
     await this.analyticsService.logEvent({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
-      label: ANALYTICS_LABEL.ERROR
+      label: value
     });
-
-    await this.analyticsService.addCustomDimension(
-      Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
-      value
-    );
   }
 
   goToVehicleDetails(selectedVehicle: VehicleModel) {

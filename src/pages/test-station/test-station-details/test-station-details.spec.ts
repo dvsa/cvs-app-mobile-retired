@@ -32,7 +32,6 @@ import { AuthenticationServiceMock } from '../../../../test-config/services-mock
 import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_LABEL,
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_VALUE
 } from '../../../app/app.enums';
@@ -58,8 +57,7 @@ describe('Component: TestStationDetailsPage', () => {
     });
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
       'logEvent',
-      'setCurrentPage',
-      'addCustomDimension'
+      'setCurrentPage'
     ]);
 
     TestBed.configureTestingModule({
@@ -134,14 +132,8 @@ describe('Component: TestStationDetailsPage', () => {
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
-      label: ANALYTICS_LABEL.ERROR
+      label: ANALYTICS_VALUE.START_ACTIVITY_FAILED
     });
-
-    const key = Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1;
-    expect(analyticsService.addCustomDimension).toHaveBeenCalledWith(
-      key,
-      ANALYTICS_VALUE.START_ACTIVITY_FAILED
-    );
   });
 
   it('should create reportIssue alert', () => {

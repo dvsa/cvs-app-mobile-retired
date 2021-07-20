@@ -302,13 +302,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
-          label: ANALYTICS_LABEL.ERROR
+          label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
         });
-
-        this.analyticsService.addCustomDimension(
-          Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
-          ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
-        );
 
         return this.endVisitError$(error);
       })
@@ -372,13 +367,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
-          label: ANALYTICS_LABEL.ERROR
+          label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
         });
-
-        this.analyticsService.addCustomDimension(
-          Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
-          ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
-        );
 
         return of(null);
       })

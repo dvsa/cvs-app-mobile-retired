@@ -78,8 +78,7 @@ describe('Component: VehicleLookupPage', () => {
 
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
       'logEvent',
-      'setCurrentPage',
-      'addCustomDimension'
+      'setCurrentPage'
     ]);
 
     TestBed.configureTestingModule({
@@ -184,12 +183,8 @@ describe('Component: VehicleLookupPage', () => {
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
-      label: ANALYTICS_LABEL.ERROR
+      label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
     });
-    expect(analyticsService.addCustomDimension).toHaveBeenCalledWith(
-      Object.keys(ANALYTICS_LABEL).indexOf('ERROR') + 1,
-      ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
-    );
   });
 
   it('should dismiss the loading when the skeleton alert is displayed', async(() => {
