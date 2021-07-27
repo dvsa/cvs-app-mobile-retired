@@ -9,6 +9,7 @@ const {
   AUTH_REDIRECT_URL,
   APP_KEY_PHONE_NUMBER,
   SENTRY_DSN,
+  SENTRY_PROJ,
   UNAUTH_LOGS_API_KEY,
   URL_LATEST_VERSION,
   GOOGLE_ANALYTICS_ID
@@ -32,6 +33,7 @@ export const hybridConfig = `export default {
   "sentry": {
     "SENTRY_ENV": "${END_ENV}",
     "SENTRY_DSN": "${SENTRY_DSN}",
+    "SENTRY_PROJ": "${SENTRY_PROJ}",
   },
   "ga": {
     "GOOGLE_ANALYTICS_ID": "${GOOGLE_ANALYTICS_ID}"

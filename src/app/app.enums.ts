@@ -1,5 +1,6 @@
 export enum STORAGE {
   ATFS = 'atfs',
+  APP_VERSION = 'app-version',
   DEFECTS = 'defects',
   TESTTYPES = 'test-types',
   PREPARERS = 'preparers',

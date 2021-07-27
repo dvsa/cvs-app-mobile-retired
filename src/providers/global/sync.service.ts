@@ -19,10 +19,11 @@ import {
 import { StorageService } from '../natives/storage.service';
 import { default as AppConfig } from '../../../config/application.hybrid';
 import { AppService } from './app.service';
-import { AuthenticationService } from '../auth/authentication/authentication.service';
-import { AppVersionModel } from '../../models/latest-version.model';
+import { AuthenticationService } from '../auth';
+import { AppVersionModel, LatestVersionModel } from '../../models/latest-version.model';
 import { LogsProvider } from '../../modules/logs/logs.service';
 import { VERSION_POPUP_MSG } from '../../app/app.constants';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AnalyticsService } from './analytics.service';
 
 declare let cordova: any;
@@ -164,7 +165,7 @@ export class SyncService {
         this.logProvider.dispatchLog({
           type: `error-${microservice}-getDataFromMicroservice in sync.service.ts`,
           message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url ||
-            microservice + 'microservice'}`,
+          microservice + 'microservice'}`,
           timestamp: Date.now()
         });
 
@@ -208,4 +209,19 @@ export class SyncService {
     alert.present();
     return _throw('Something bad happened; please try again later.');
   }
+
+  public async setAppVersion(): Promise<void> {
+    try {
+      const response: HttpResponse<LatestVersionModel> = await this.httpService.getApplicationVersion();
+      const latestVersion: LatestVersionModel = response.body;
+      await this.storageService.update(STORAGE.APP_VERSION, latestVersion['mobile-app']);
+    } catch (err) {
+      this.logProvider.dispatchLog({
+        type: `ERROR - setAppVersion`,
+        message: `${err.status} - ${err.message}`,
+        timestamp: Date.now(),
+      });
+      await this.storageService.update(STORAGE.APP_VERSION, null);
+    }
+  };
 }

@@ -29,6 +29,8 @@ import { default as AppConfig } from '../../config/application.hybrid';
 import { ActivityModel } from '../models/visit/activity.model';
 import { VisitModel } from '../models/visit/visit.model';
 import { NetworkService } from '../providers/global/network.service';
+import { AppVersionModel } from '../models/latest-version.model';
+import { CordovaOptions } from 'sentry-cordova/dist/js/backend';
 
 @Component({
   templateUrl: 'app.html'
@@ -60,12 +62,6 @@ export class MyApp {
     private logProvider: LogsProvider
   ) {
     platform.ready().then(() => {
-      Sentry.init({
-        enabled: !!AppConfig.sentry.SENTRY_DSN,
-        dsn: AppConfig.sentry.SENTRY_DSN,
-        environment: AppConfig.sentry.SENTRY_ENV
-      });
-
       statusBar.overlaysWebView(true);
       statusBar.styleLightContent();
 
@@ -88,6 +84,8 @@ export class MyApp {
 
     this.networkService.initialiseNetworkStatus();
 
+    await this.initialiseSentry();
+
     await this.authenticationService.expireTokens();
 
     await this.appService.manageAppInit();
@@ -106,6 +104,25 @@ export class MyApp {
     if (authStatus && this.appService.isCordova) {
       await this.activateNativeFeatures();
     }
+  }
+
+  async initialiseSentry() {
+    await this.syncService.setAppVersion();
+
+    let sentryConfig: CordovaOptions = {
+      enabled: !!AppConfig.sentry.SENTRY_DSN,
+      dsn: AppConfig.sentry.SENTRY_DSN,
+      environment: AppConfig.sentry.SENTRY_ENV
+    };
+
+    const appVersion: AppVersionModel = await this.storageService.read(STORAGE.APP_VERSION);
+    if (appVersion) {
+      sentryConfig = {
+        ...sentryConfig,
+        release: `${AppConfig.sentry.SENTRY_PROJ}@${appVersion?.version}`
+      };
+    }
+    Sentry.init(sentryConfig);
   }
 
   async activateNativeFeatures(): Promise<void> {

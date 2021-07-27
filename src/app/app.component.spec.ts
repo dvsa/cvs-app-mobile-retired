@@ -23,6 +23,9 @@ import { ActivityServiceMock } from '../../test-config/services-mocks/activity-s
 import { STORAGE, PAGE_NAMES, CONNECTION_STATUS } from './app.enums';
 import { LogsProvider } from '../modules/logs/logs.service';
 import { TestStore } from '../modules/logs/data-store.service.mock';
+import { AppVersionModel } from '../models/latest-version.model';
+import * as Sentry from 'sentry-cordova';
+import { default as AppConfig } from '../../config/application.hybrid';
 
 describe('Component: Root', () => {
   let comp: MyApp;
@@ -47,7 +50,8 @@ describe('Component: Root', () => {
 
   beforeEach(async(() => {
     syncServiceSpy = jasmine.createSpyObj('SyncService', {
-      checkForUpdate: () => true
+      checkForUpdate: () => true,
+      setAppVersion: async () => {}
     });
 
     logProviderSpy = jasmine.createSpyObj('LogsProvider', {
@@ -105,6 +109,8 @@ describe('Component: Root', () => {
     analyticsService = TestBed.get(AnalyticsService);
     logProvider = TestBed.get(LogsProvider);
     networkService = TestBed.get(NetworkService);
+
+    spyOn(Sentry, 'init').and.returnValue(jasmine.createSpy('init'));
   });
 
   afterEach(() => {
@@ -126,6 +132,7 @@ describe('Component: Root', () => {
 
     it('should set app defaults and navigate to signature page', async () => {
       spyOn(comp.navElem, 'setRoot');
+      spyOn(comp, 'initialiseSentry');
 
       authenticationService.checkUserAuthStatus = jasmine
         .createSpy('authenticationService.checkUserAuthStatus')
@@ -133,6 +140,7 @@ describe('Component: Root', () => {
 
       await comp.initApp();
 
+      expect(comp.initialiseSentry).toHaveBeenCalled();
       expect(authenticationService.expireTokens).toHaveBeenCalledWith();
       expect(networkService.initialiseNetworkStatus).toHaveBeenCalled();
       expect(appService.manageAppInit).toHaveBeenCalled();
@@ -230,5 +238,35 @@ describe('Component: Root', () => {
       return new Promise((resolve) => resolve(keyReturn));
     });
     comp.manageAppState();
+  });
+
+  describe('initialiseSentry', () => {
+    it('should init Sentry without a release version when none set in storage', async () => {
+      spyOn(storageService, 'read').and.returnValue(Promise.resolve(null));
+      await comp.initialiseSentry();
+      expect(syncService.setAppVersion).toHaveBeenCalled();
+      expect(storageService.read).toHaveBeenCalledWith(STORAGE.APP_VERSION);
+      expect(Sentry.init).toHaveBeenCalledWith({
+        enabled: !!AppConfig.sentry.SENTRY_DSN,
+        dsn: AppConfig.sentry.SENTRY_DSN,
+        environment: AppConfig.sentry.SENTRY_ENV
+      });
+    });
+    it('should init Sentry with a release version if exists', async () => {
+      spyOn(storageService, 'read').and.returnValue(
+        Promise.resolve({
+          version: '1.2.3'
+        } as AppVersionModel)
+      );
+      await comp.initialiseSentry();
+      expect(syncService.setAppVersion).toHaveBeenCalled();
+      expect(storageService.read).toHaveBeenCalledWith(STORAGE.APP_VERSION);
+      expect(Sentry.init).toHaveBeenCalledWith({
+        enabled: !!AppConfig.sentry.SENTRY_DSN,
+        dsn: AppConfig.sentry.SENTRY_DSN,
+        environment: AppConfig.sentry.SENTRY_ENV,
+        release: `${AppConfig.sentry.SENTRY_PROJ}@1.2.3`
+      });
+    });
   });
 });
