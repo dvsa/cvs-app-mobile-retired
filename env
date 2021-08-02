@@ -1,8 +1,9 @@
 ######################
 #######  ENV  ########
 ######################
-ENVIRONMENT
+ENVIRONMENT=
 BASE_URL=
+BUCKET=
 END_ENV=
 AZURE_CLIENT_ID=
 AZURE_TENANT_ID=
