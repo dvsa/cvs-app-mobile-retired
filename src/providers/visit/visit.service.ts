@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '../auth/authentication/authentication.service';
 import { AppService } from '../global/app.service';
 import { ActivityService } from '../activity/activity.service';
+import { VehicleModel } from '../../models/vehicle/vehicle.model';
 
 @Injectable()
 export class VisitService {
@@ -63,7 +64,15 @@ export class VisitService {
   }
 
   getLatestTest(): TestModel {
-    return this.visit.tests[this.visit.tests.length - 1];
+    if (this.visit.tests) {
+      return this.visit.tests.slice(-1)[0];
+    }
+  }
+
+  getLatestVehicle(): VehicleModel {
+    if (this.getLatestTest().vehicles) {
+      return this.getLatestTest().vehicles.slice(-1)[0];
+    }
   }
 
   addTest(test: TestModel) {
@@ -101,6 +110,20 @@ export class VisitService {
     if (this.appService.caching) {
       this.storageService.update(STORAGE.VISIT, this.visit);
     }
+  }
+
+  getCurrentATF(): string {
+    return this.visit.testStationName ? this.visit.testStationName : 'N/A';
+  }
+
+  getCurrentVIN(): string {
+    const test = this.getLatestTest();
+    let vehicle;
+    if (test) {
+      vehicle = this.getLatestVehicle();
+    }
+
+    return vehicle && !test.status ? vehicle.vin : 'N/A';
   }
 
   /**

@@ -14,6 +14,8 @@ import { AppServiceMock } from '../../../test-config/services-mocks/app-service.
 import { ActivityService } from '../activity/activity.service';
 import { ActivityServiceMock } from '../../../test-config/services-mocks/activity-service.mock';
 import { AuthenticationServiceMock } from './../../../test-config/services-mocks/authentication-service.mock';
+import { VehicleModel } from '../../models/vehicle/vehicle.model';
+import { VehicleDataMock } from '../../assets/data-mocks/vehicle-data.mock';
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
@@ -27,6 +29,14 @@ describe('Provider: VisitService', () => {
 
   const TEST_STATION: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
   let TEST: TestModel = TestDataModelMock.TestData;
+  let VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
+  let aTest: TestModel = {
+    startTime: null,
+    endTime: '14 March',
+    status: null,
+    reasonForCancellation: '',
+    vehicles: [VEHICLE]
+  };
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['update', 'delete']);
@@ -90,16 +100,35 @@ describe('Provider: VisitService', () => {
 
   it('should return the latest test', () => {
     visitService.createVisit(TEST_STATION);
-    let aTest: TestModel = {
-      startTime: null,
-      endTime: '14 March',
-      status: null,
-      reasonForCancellation: '',
-      vehicles: []
-    };
     visitService.visit.tests.push(aTest);
     let lateTest = visitService.getLatestTest();
     expect(lateTest.endTime).toMatch('14 March');
+  });
+
+  it('should return the latest vehicle', () => {
+    visitService.createVisit(TEST_STATION);
+    visitService.visit.tests.push(aTest);
+    let lateTest = visitService.getLatestVehicle();
+    expect(lateTest.vrm).toMatch('BQ91YHQ');
+  });
+
+  it('should return the current ATF if possible', () => {
+    let atfTest = visitService.getCurrentATF();
+    expect(atfTest).toMatch('N/A');
+
+    visitService.createVisit(TEST_STATION);
+    atfTest = visitService.getCurrentATF();
+    expect(atfTest).toMatch('An Test Station Name');
+  });
+
+  it('should return the current VIN if possible', () => {
+    let vinTest = visitService.getCurrentVIN();
+    expect(vinTest).toMatch('N/A');
+
+    visitService.createVisit(TEST_STATION);
+    visitService.visit.tests.push(aTest);
+    vinTest = visitService.getCurrentVIN();
+    expect(vinTest).toMatch('1B7GG36N12S678410');
   });
 
   it('should add test to visit.tests array', () => {
