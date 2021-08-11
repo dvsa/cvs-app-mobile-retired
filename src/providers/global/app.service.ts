@@ -117,7 +117,7 @@ export class AppService {
 
   /**
    * Function used to add accessibility css classes to html templates.
-   * This value is set by setAccessibilityTextZoom on app initialisation/resume
+   * This value is set by setAccessibilityTextZoom on app initialisation/resume.
    */
   public isAccessibilityTextZoomEnabled(): boolean {
     return this.accessibilityTextZoomEnabled;
