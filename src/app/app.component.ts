@@ -29,6 +29,8 @@ import { default as AppConfig } from '../../config/application.hybrid';
 import { ActivityModel } from '../models/visit/activity.model';
 import { VisitModel } from '../models/visit/visit.model';
 import { NetworkService } from '../providers/global/network.service';
+import { Integration } from '@sentry/types';
+import { BrowserTracing } from '@sentry/tracing/dist/browser';
 
 @Component({
   templateUrl: 'app.html'
@@ -63,7 +65,20 @@ export class MyApp {
       Sentry.init({
         enabled: !!AppConfig.sentry.SENTRY_DSN,
         dsn: AppConfig.sentry.SENTRY_DSN,
-        environment: AppConfig.sentry.SENTRY_ENV
+        environment: AppConfig.sentry.SENTRY_ENV,
+        integrations: [
+          new BrowserTracing({
+            tracingOrigins: ['localhost', /^\//, /^https:\/\//],
+            beforeNavigate: (context) => {
+              let views = this.navElem._views;
+              return {
+                ...context,
+                name: views.length > 0 ? views.slice(-1)[0].id : context.name
+              };
+            }
+          }) as Integration
+        ],
+        tracesSampleRate: 1.0
       });
 
       statusBar.overlaysWebView(true);
