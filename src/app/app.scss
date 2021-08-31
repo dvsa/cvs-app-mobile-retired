@@ -142,8 +142,14 @@ span[text-left] {
 .ios ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child,
 .ios ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child {
   padding-top: 24px;
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
   padding-left: calc(constant(safe-area-inset-left) + 4px);
+  padding-left: calc(env(safe-area-inset-left) + 4px);
   padding-right: calc(constant(safe-area-inset-right) + 4px);
+  padding-right: calc(env(safe-area-inset-right) + 4px);
+  padding-bottom: constant(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-top);
   min-height: 116px;
 
   .title-ios {
@@ -154,6 +160,8 @@ span[text-left] {
 }
 
 .ios ion-footer {
+  margin-bottom: constant(safe-area-inset-bottom);
+  margin-bottom: env(safe-area-inset-bottom);
   .footer-cta-section {
     padding: 0 16px;
 
