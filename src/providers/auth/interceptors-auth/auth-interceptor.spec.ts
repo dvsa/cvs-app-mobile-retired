@@ -10,6 +10,7 @@ import { AuthenticationService } from './../authentication/authentication.servic
 import { AuthenticationServiceMock } from '../../../../test-config/services-mocks/authentication-service.mock';
 import { NetworkService } from './../../global/network.service';
 import { AUTH, CONNECTION_STATUS } from '../../../app/app.enums';
+import { default as AppConfig } from '../../../../config/application.hybrid';
 
 describe('AuthInterceptor', () => {
   let authInterceptor: AuthInterceptor;
@@ -121,6 +122,26 @@ describe('AuthInterceptor', () => {
       tick();
 
       expect(nextMock.handle).not.toHaveBeenCalled();
+    }));
+
+    it('should not attach token for URL_LATEST_VERSION endpoint', fakeAsync(() => {
+      netWorkService.getNetworkState = jasmine
+        .createSpy('netWorkService.getNetworkState')
+        .and.returnValue(CONNECTION_STATUS.ONLINE);
+
+      const requestMock: HttpRequest<any> = new HttpRequest<any>('GET', AppConfig.app.URL_LATEST_VERSION);
+      spyOn(nextMock, 'handle').and.returnValue(of());
+      spyOn(authenticateService, 'checkUserAuthStatus');
+
+      authInterceptor
+        .intercept(requestMock, nextMock)
+        .pipe(take(1))
+        .subscribe();
+
+      tick();
+
+      expect(nextMock.handle).toHaveBeenCalled();
+      expect(authenticateService.checkUserAuthStatus).not.toHaveBeenCalled();
     }));
   });
 });
