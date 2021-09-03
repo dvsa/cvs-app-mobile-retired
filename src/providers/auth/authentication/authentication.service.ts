@@ -5,14 +5,15 @@ import { Observable, Subject } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 import to from 'await-to-js';
 
-import { AUTH, LOG_TYPES } from '../../../app/app.enums';
+import { AUTH, CONNECTION_STATUS, LOG_TYPES } from '../../../app/app.enums';
 import { default as AppConfig } from '../../../../config/application.hybrid';
 import { VaultService } from '../vault/vault.service';
 import { CommonFunctionsService } from '../../utils/common-functions';
-import { TokenInfo, TokenStatus } from '../authentication/auth-model';
-import { cordovaAzureConfig, webAzureConfig } from '../authentication/auth-options';
+import { TokenInfo, TokenStatus } from './auth-model';
+import { cordovaAzureConfig, webAzureConfig } from './auth-options';
 import { Log } from '../../../modules/logs/logs.model';
 import { LogsProvider } from '../../../modules/logs/logs.service';
+import { NetworkService } from '../../global/network.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -37,7 +38,8 @@ export class AuthenticationService {
     private vaultService: VaultService,
     // private alertService: AppAlertService,
     private commonFunc: CommonFunctionsService,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    private networkService: NetworkService,
   ) {
     this.initialiseAuth();
   }
@@ -108,18 +110,36 @@ export class AuthenticationService {
   }
 
   async isUserAuthenticated(): Promise<TokenStatus> {
+    console.log('*** CALLING `isUserAuthenticated`', new Date().toISOString());
+    console.log('*** NETWORK STATUS - ',
+      this.networkService.getNetworkState() === CONNECTION_STATUS.OFFLINE ? 'OFFLINE' : 'ONLINE'
+    );
+    // when offline dont attempt to refreshSession or updateTokenInfo;
+    if (this.networkService.getNetworkState() === CONNECTION_STATUS.OFFLINE) {
+      return { active: true, action: AUTH.CONTINUE };
+    }
+
     if (!(await this._auth.isAccessTokenAvailable())) {
+      console.log('*** NO ACCESS TOKEN AVAILABLE', new Date().toISOString());
       return { active: false, action: AUTH.RE_LOGIN };
+    } else {
+      console.log('*** ACCESS TOKEN AVAILABLE', new Date().toISOString());
     }
 
     if (await this._auth.isAccessTokenExpired()) {
+      console.log('*** ACCESS TOKEN EXPIRED', new Date().toISOString());
       try {
+        console.log('*** ATTEMPTING REFRESH', new Date().toISOString());
         await this._auth.refreshSession();
       } catch (error) {
+        console.log('*** REFRESH THREW ERROR - ' + error, new Date().toISOString());
         return { active: false, action: AUTH.RE_LOGIN };
       }
+    } else {
+      console.log('*** ACCESS TOKEN NOT EXPIRED', new Date().toISOString());
     }
 
+    console.log('*** CALLING `updateTokenInfo`', new Date().toISOString());
     await this.updateTokenInfo();
 
     return { active: true, action: AUTH.CONTINUE };
