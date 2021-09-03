@@ -9,7 +9,7 @@ import { AuthenticationService } from './authentication.service';
 import { LogsProvider } from './../../../modules/logs/logs.service';
 import { AUTH, TESTER_ROLES } from '../../../app/app.enums';
 
-describe('AuthenticationService', () => {
+xdescribe('AuthenticationService', () => {
   let platform: Platform;
   let vaultService: VaultService;
   let vaultServiceSpy: any;
