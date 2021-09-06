@@ -13,6 +13,7 @@ import { from } from 'rxjs/observable/from';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { NetworkService } from './../../global/network.service';
 import { AUTH, CONNECTION_STATUS } from './../../../app/app.enums';
+import { default as AppConfig } from '../../../../config/application.hybrid';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
