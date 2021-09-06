@@ -79,7 +79,10 @@ export class AuthenticationService {
   }
 
   async updateTokenInfo(): Promise<TokenInfo> {
-    this._tokenInfo = await this.getTokenDetails();
+    const tokenInfo: TokenInfo = await this.getTokenDetails();
+    if (tokenInfo) {
+      this._tokenInfo = tokenInfo;
+    }
     return this._tokenInfo;
   }
 
@@ -110,36 +113,23 @@ export class AuthenticationService {
   }
 
   async isUserAuthenticated(): Promise<TokenStatus> {
-    console.log('*** CALLING `isUserAuthenticated`', new Date().toISOString());
-    console.log('*** NETWORK STATUS - ',
-      this.networkService.getNetworkState() === CONNECTION_STATUS.OFFLINE ? 'OFFLINE' : 'ONLINE'
-    );
     // when offline dont attempt to refreshSession or updateTokenInfo;
     if (this.networkService.getNetworkState() === CONNECTION_STATUS.OFFLINE) {
       return { active: true, action: AUTH.CONTINUE };
     }
 
     if (!(await this._auth.isAccessTokenAvailable())) {
-      console.log('*** NO ACCESS TOKEN AVAILABLE', new Date().toISOString());
       return { active: false, action: AUTH.RE_LOGIN };
-    } else {
-      console.log('*** ACCESS TOKEN AVAILABLE', new Date().toISOString());
     }
 
     if (await this._auth.isAccessTokenExpired()) {
-      console.log('*** ACCESS TOKEN EXPIRED', new Date().toISOString());
       try {
-        console.log('*** ATTEMPTING REFRESH', new Date().toISOString());
         await this._auth.refreshSession();
       } catch (error) {
-        console.log('*** REFRESH THREW ERROR - ' + error, new Date().toISOString());
         return { active: false, action: AUTH.RE_LOGIN };
       }
-    } else {
-      console.log('*** ACCESS TOKEN NOT EXPIRED', new Date().toISOString());
     }
 
-    console.log('*** CALLING `updateTokenInfo`', new Date().toISOString());
     await this.updateTokenInfo();
 
     return { active: true, action: AUTH.CONTINUE };

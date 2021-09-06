@@ -176,7 +176,8 @@
         "SENTRY_ANDROID_SDK_VERSION": "1+"
       },
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-google-analytics": {}
     },
     "platforms": [
       "ios"
