@@ -28,6 +28,11 @@ export class AuthInterceptor implements HttpInterceptor {
       return Observable.throw(new HttpErrorResponse({ error: AUTH.INTERNET_REQUIRED }));
     }
 
+    // don't mutate request for this EP
+    if (req.url === AppConfig.app.URL_LATEST_VERSION) {
+      return next.handle(req);
+    }
+
     return from(this.authentication.checkUserAuthStatus()).pipe(
       filter((authStatus: boolean) => !!req.url && authStatus),
       map((_) => this.addTokenToRequest(req)),

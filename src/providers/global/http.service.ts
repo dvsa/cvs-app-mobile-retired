@@ -145,8 +145,12 @@ export class HTTPService {
   }
 
   getApplicationVersion(): Promise<HttpResponse<LatestVersionModel>> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http
-      .get<LatestVersionModel>(AppConfig.app.URL_LATEST_VERSION, { observe: 'response' })
+      .get<LatestVersionModel>(AppConfig.app.URL_LATEST_VERSION, {
+        headers,
+        observe: 'response',
+      })
       .toPromise();
   }
 }
