@@ -24,7 +24,6 @@ import {
   DURATION_TYPE,
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_LABEL,
   ANALYTICS_VALUE
 } from '../../../../app/app.enums';
 import { TestService } from '../../../../providers/test/test.service';
@@ -49,12 +48,13 @@ import {
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
 import { TestDataModelMock } from '../../../../assets/data-mocks/data-model/test-data-model.mock';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
-import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
 import { DefectDetailsDataMock } from '../../../../assets/data-mocks/defect-details-data.mock';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category';
 import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
 import { AnalyticsService, DurationService } from '../../../../providers/global';
+import { StorageService } from '../../../../providers/natives/storage.service';
+import { StorageServiceMock } from '../../../../../test-config/services-mocks/storage-service.mock';
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -72,10 +72,13 @@ describe('Component: TestCreatePage', () => {
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
   let durationService: DurationService;
+  let storageService: StorageService;
+  let testTypeService: TestTypeService;
 
   const ADDED_VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const TEST_DATA = TestDataModelMock.TestData;
+  const TEST_TYPES = TestDataModelMock.getTestTypes();
   const VEHICLE = VehicleDataMock.VehicleData;
   const DEFECTS = DefectDetailsDataMock.DefectDetails;
 
@@ -104,8 +107,9 @@ describe('Component: TestCreatePage', () => {
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestService, useClass: TestServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: TestTypeService, useClass: TestTypeServiceMock },
-        { provide: AnalyticsService, useValue: analyticsServiceSpy }
+        { provide: TestTypeService, useClass: TestTypeService },
+        { provide: AnalyticsService, useValue: analyticsServiceSpy },
+        { provide: StorageService, useClass: StorageServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -123,6 +127,8 @@ describe('Component: TestCreatePage', () => {
     commonFuncService = TestBed.get(CommonFunctionsService);
     analyticsService = TestBed.get(AnalyticsService);
     durationService = TestBed.get(DurationService);
+    storageService = TestBed.get(StorageService);
+    testTypeService = TestBed.get(TestTypeService);
   }));
 
   beforeEach(() => {
@@ -146,6 +152,7 @@ describe('Component: TestCreatePage', () => {
     modalctrl = null;
     navCtrl = null;
     commonFuncService = null;
+    storageService = null;
   });
 
   it('should create the component', () => {
@@ -442,7 +449,7 @@ describe('Component: TestCreatePage', () => {
     spyOn(durationService, 'setDuration');
     spyOn(Date, 'now').and.returnValue(dateNow);
 
-    component.addVehicleTest(vehicleService.createVehicle(vehicle));
+    component.onAddNewTestType(vehicleService.createVehicle(vehicle));
     expect(durationService.setDuration).toHaveBeenCalledWith(
       { start: dateNow },
       DURATION_TYPE[DURATION_TYPE.TEST_TYPE]
@@ -604,5 +611,31 @@ describe('Component: TestCreatePage', () => {
     vehicle.techRecord.vehicleType = VEHICLE_TYPE.LGV;
     component.autoAssignVehicleCategoryOnlyWhenOneCategoryAvailable(vehicle);
     expect(vehicle.euVehicleCategory).toEqual(EuVehicleCategoryData.EuCategoryLgvData[0].key);
+  });
+
+  it('should flatten the test types array', () => {
+    const testTypes = TEST_TYPES;
+    expect(testTypes.length).toEqual(2);
+    const flattened = testTypeService.flattenTestTypesData(testTypes);
+    expect(flattened.length).toEqual(4);
+    flattened.forEach((test => {
+      expect(test.nextTestTypesOrCategories).toBeFalsy();
+    }));
+  });
+
+  it('should return the suggested test type ids', () => {
+    const testTypes = TEST_TYPES;
+    expect(testTypeService.getSuggestedTestTypeIds('1', testTypeService.flattenTestTypesData(testTypes)))
+      .toEqual(["1", "7", "10"]);
+  });
+
+  it('should return the suggested test types', () => {
+    const testTypes = TEST_TYPES;
+    const flattened = testTypeService.flattenTestTypesData(testTypes);
+    const suggestedTestTypeIds = testTypeService.getSuggestedTestTypeIds('1', flattened);
+    const suggestedTestTypes = testTypeService.determineAssociatedTestTypes(flattened, suggestedTestTypeIds);
+    suggestedTestTypes.forEach((type => {
+      expect(['Annual Test', 'Paid retest', 'Part-paid retest'].includes(type.testTypeName));
+    }))
   });
 });

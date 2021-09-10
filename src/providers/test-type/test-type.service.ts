@@ -269,4 +269,23 @@ export class TestTypeService {
       ) !== -1
     );
   }
+
+  flattenTestTypesData(array: TestTypesReferenceDataModel[]) {
+    return array.reduce((innerArr, { nextTestTypesOrCategories, ...rest }) => {
+      if (nextTestTypesOrCategories) {
+        innerArr.push(...this.flattenTestTypesData(nextTestTypesOrCategories));
+      }
+      innerArr.push(rest);
+      return innerArr;
+    }, [])
+  }
+
+  getSuggestedTestTypeIds(id: string, flattenedTestTypes: any[]) {
+    const result = flattenedTestTypes.find((testType) => testType.id === id) || {};
+    return result.suggestedTestTypeIds || [];
+  };
+
+  determineAssociatedTestTypes(flattenedTestTypes: any[], suggested: string[]) {
+    return flattenedTestTypes.filter((testType) => suggested.includes(testType.id));
+  }
 }

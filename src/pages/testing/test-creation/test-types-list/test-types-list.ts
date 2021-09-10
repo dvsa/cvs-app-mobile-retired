@@ -94,13 +94,7 @@ export class TestTypesListPage implements OnInit {
       });
     } else {
       const type: string = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];
-      this.durationService.setDuration({ end: Date.now() }, type);
-      const duration = this.durationService.getDuration(type);
-      const takenDuration = this.durationService.getTakenDuration(duration);
-
-      this.trackAddTestTypeDuration('ADD_TEST_TYPE_START_TIME', duration.start.toString());
-      this.trackAddTestTypeDuration('ADD_TEST_TYPE_END_TIME', duration.end.toString());
-      this.trackAddTestTypeDuration('ADD_TEST_TYPE_TIME_TAKEN', takenDuration.toString());
+      this.durationService.completeDuration(type, this);
 
       let views = this.navCtrl.getViews();
       for (let i = views.length - 1; i >= 0; i--) {

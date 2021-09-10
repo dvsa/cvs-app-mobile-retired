@@ -259,9 +259,9 @@ export enum APP_STRINGS {
   SKELETON_ALERT_MESSAGE = 'This vehicle does not have enough data to be tested. Call Technical Support to correct this record and use SAR to test this vehicle.',
   SKELETON_INFO = 'Requires more data to be tested',
   SKELETON_BANNER = 'Some vehicles matching this search do not have enough data to be tested. Call Technical Support to correct these records and use SAR to test this vehicle.',
-
   SITE_VISIT_CLOSED_TITLE = 'Site Visit is closed',
-  SITE_VISIT_CLOSED_MESSAGE = 'This Site Visit has been closed. Open a new Site Visit to continue testing.'
+  SITE_VISIT_CLOSED_MESSAGE = 'This Site Visit has been closed. Open a new Site Visit to continue testing.',
+  RECENTLY_FAILED_TEST_TITLE = 'Suggested test types'
 }
 
 export enum ODOMETER_METRIC {
