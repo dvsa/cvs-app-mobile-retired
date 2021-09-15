@@ -147,12 +147,12 @@ span[text-left] {
   padding-left: calc(env(safe-area-inset-left) + 4px);
   padding-right: calc(constant(safe-area-inset-right) + 4px);
   padding-right: calc(env(safe-area-inset-right) + 4px);
-  padding-bottom: calc(constant(safe-area-inset-bottom) + 4px);
-  padding-bottom: calc(env(safe-area-inset-bottom) + 4px);
+  padding-bottom: calc(constant(safe-area-inset-bottom) + 20px);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
   min-height: 116px;
 
   .title-ios {
-    margin-top: 46px;
+    margin-top: 50px;
     padding-top: 20px;
     min-height: 64px;
   }
