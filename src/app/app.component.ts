@@ -77,9 +77,9 @@ export class MyApp {
         this.syncService.checkForUpdate();
       });
 
-      // TOOD: Remove logging after the white screen bug is resolved
-      // CVSB: 17584
-      this.setupLogNetworkStatus();
+      // // TOOD: Remove logging after the white screen bug is resolved
+      // // CVSB: 17584
+      // this.setupLogNetworkStatus();
     });
   }
 
@@ -102,6 +102,8 @@ export class MyApp {
     authStatus && !this.appService.isSignatureRegistered
       ? this.navigateToSignaturePage()
       : this.manageAppState();
+
+      this.setupLogNetworkStatus();
 
     if (authStatus && this.appService.isCordova) {
       await this.activateNativeFeatures();
@@ -202,16 +204,13 @@ export class MyApp {
   }
 
   private setupLogNetworkStatus(): void {
-    let log: Log = {
-      type: LOG_TYPES.INFO,
-      timestamp: Date.now()
-    } as Log;
-
-    this.connectedSub = this.networkService
+    this.connectedSub = this
+      .networkService
       .onNetworkChange()
       .subscribe((status: CONNECTION_STATUS) => {
-        log = {
-          ...log,
+        const log: Log = {
+          type: LOG_TYPES.INFO,
+          timestamp: Date.now(),
           message: `User ${this.authenticationService.tokenInfo.oid}
         connection ${CONNECTION_STATUS[status]} (connection type ${this.networkService.networkType})
         `
