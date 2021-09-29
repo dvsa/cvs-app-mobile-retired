@@ -35,7 +35,7 @@ export class LogsEffects {
   startSendingLogsEffect$ = this.actions$.pipe(
     ofType(logsActions.START_SENDING_LOGS),
     switchMap(() => {
-      return interval(60 * 1000).pipe(map(() => new logsActions.SendLogs()));
+      return interval(10 * 1000).pipe(map(() => new logsActions.SendLogs()));
     })
   );
 
