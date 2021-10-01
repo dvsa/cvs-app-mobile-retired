@@ -28,7 +28,7 @@ export class SendLogs implements Action {
 export class SendLogsSuccess implements Action {
   readonly type = SEND_LOGS_SUCCESS;
 
-  constructor(public timestamps: number[]) {}
+  // constructor(public timestamps: number[]) {}
 }
 
 export class SendLogsFailure implements Action {
