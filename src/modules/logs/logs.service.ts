@@ -27,6 +27,7 @@ export class LogsProvider {
   };
 
   public dispatchLog(log: Log): void {
+    console.log('dispatchLog', log);
     this.store$.dispatch(new SaveLog(log));
   }
 }
