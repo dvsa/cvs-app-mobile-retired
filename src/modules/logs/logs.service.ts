@@ -5,12 +5,17 @@ import { Observable } from 'rxjs';
 import { Log, LogsModel } from './logs.model';
 import { HTTPService } from '../../providers/global/http.service';
 import { SaveLog } from './logs.actions';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class LogsProvider {
   constructor(private httpService: HTTPService, private store$: Store<LogsModel>) {}
 
   public sendLogs = (logs: Log[]): Observable<any> => {
+    if (logs && logs.length === 0) {
+      return of()
+    }
+
     let authLogs: Log[] = [];
     for (let log of logs) {
       if (!log.unauthenticated) authLogs.push(log);
@@ -19,6 +24,10 @@ export class LogsProvider {
   };
 
   public sendUnauthLogs = (logs: Log[]): Observable<any> => {
+    if (logs && logs.length === 0) {
+      return of()
+    }
+
     let unauthLogs: Log[] = [];
     for (let log of logs) {
       if (log.unauthenticated) unauthLogs.push(log);
