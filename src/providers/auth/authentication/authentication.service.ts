@@ -4,8 +4,9 @@ import { IonicAuth } from '@ionic-enterprise/auth';
 import { Observable, Subject } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 import to from 'await-to-js';
+import { Storage } from '@ionic/storage';
 
-import { AUTH, CONNECTION_STATUS, LOG_TYPES } from '../../../app/app.enums';
+import { AUTH, CONNECTION_STATUS, LOG_TYPES, STORAGE } from '../../../app/app.enums';
 import { default as AppConfig } from '../../../../config/application.hybrid';
 import { VaultService } from '../vault/vault.service';
 import { CommonFunctionsService } from '../../utils/common-functions';
@@ -40,6 +41,7 @@ export class AuthenticationService {
     private commonFunc: CommonFunctionsService,
     private logProvider: LogsProvider,
     private networkService: NetworkService,
+    private storage: Storage,
   ) {
     this.initialiseAuth();
   }
@@ -100,13 +102,16 @@ export class AuthenticationService {
     const { id_token: token } = authResponse;
     const decodedToken: any = jwt_decode(token);
 
+    const employeeId = decodedToken.employeeid || '';
+    await this.storage.set(STORAGE.EMPLOYEE_ID, employeeId);
+
     return {
       id: decodedToken.sub,
       testerName: decodedToken.name,
       testerEmail: decodedToken.email || decodedToken.preferred_username,
       testerRoles: decodedToken.roles,
       oid: decodedToken.oid || '',
-      employeeId: decodedToken.employeeid || '',
+      employeeId: employeeId,
       testerId: decodedToken.employeeid || decodedToken.oid,
       token: token
     };

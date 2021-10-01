@@ -22,7 +22,7 @@ export class UnauthInterceptor implements HttpInterceptor {
         (event: HttpEvent<any>) => {},
         (err: HttpErrorResponse) => {
           if (err.status === STATUS_CODE.UNAUTHORIZED) {
-            this.alertService.alertUnAuthorise();
+            // this.alertService.alertUnAuthorise();
           }
         }
       )

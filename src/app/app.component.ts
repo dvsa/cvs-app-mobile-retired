@@ -93,12 +93,16 @@ export class MyApp {
     await this.appService.manageAppInit();
 
     const netWorkStatus: CONNECTION_STATUS = this.networkService.getNetworkState();
-    if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {
-      this.manageAppState();
-      return;
-    }
+
+    // console.log(netWorkStatus)
+
+    // if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {
+    //   this.manageAppState();
+    //   return;
+    // }
 
     const authStatus = await this.authenticationService.checkUserAuthStatus();
+    console.log('authStatus', authStatus);
     authStatus && !this.appService.isSignatureRegistered
       ? this.navigateToSignaturePage()
       : this.manageAppState();

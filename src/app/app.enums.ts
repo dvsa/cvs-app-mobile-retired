@@ -10,7 +10,9 @@ export enum STORAGE {
   TEST_HISTORY = 'test-history',
   JWT_TOKEN = 'jwt-token',
   SIGNATURE = 'signature-image',
-  APP_VERSION = 'app-version'
+  APP_VERSION = 'app-version',
+  LATEST_VERSION = 'latest-version',
+  EMPLOYEE_ID = 'employeeId'
 }
 
 export enum PATHS {

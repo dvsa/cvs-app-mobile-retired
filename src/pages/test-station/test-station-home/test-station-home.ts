@@ -27,7 +27,7 @@ import { LogsProvider } from '../../../modules/logs/logs.service';
   templateUrl: 'test-station-home.html'
 })
 export class TestStationHomePage implements OnInit {
-  appStrings: object = APP_STRINGS;
+  appStrings: typeof APP_STRINGS = APP_STRINGS;
 
   constructor(
     public navCtrl: NavController,
@@ -61,7 +61,7 @@ export class TestStationHomePage implements OnInit {
 
   async ionViewDidEnter() {
     if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
-      this.alertService.alertUnAuthorise();
+      // this.alertService.alertUnAuthorise();
     }
   }
 

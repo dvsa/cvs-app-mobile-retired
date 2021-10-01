@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
-import { map, switchMap, withLatestFrom, toArray, tap, filter, delay } from "rxjs/operators";
+import { map, switchMap, toArray, filter, combineLatest } from "rxjs/operators";
 
 import { Storage } from '@ionic/storage';
 
@@ -11,8 +10,6 @@ import { Log, LogsModel } from './logs.model';
 import { HTTPService } from '../../providers/global/http.service';
 import { SaveLog } from './logs.actions';
 import { STORAGE } from '../../app/app.enums';
-import { AuthenticationService } from '../../providers/auth/authentication/authentication.service';
-// import { STORAGE } from '../../app/app.enums';
 
 @Injectable()
 export class LogsProvider {
@@ -21,34 +18,47 @@ export class LogsProvider {
     private httpService: HTTPService,
     private store$: Store<LogsModel>,
     private storage: Storage,
-    // private authenticationService: AuthenticationService,
   ) { }
 
   public sendLogs = (logs: Log[]): Observable<any> => {
     return from(logs)
       .pipe(
-        tap((s) => console.log('from logs pipe', s)),
-        filter((log) => !log.unauthenticated),
-        tap((g) => console.log('passed filter', g)),
-        withLatestFrom(
+        filter((log: Log) => !log.unauthenticated),
+        // filter((log: Log) => !timestamps.includes(log.timestamp)),
+        combineLatest(
+          from(this.storage.get(STORAGE.LATEST_VERSION)),
           from(this.storage.get(STORAGE.APP_VERSION)),
-          from('c'), // this.authenticationService.tokenInfo.employeeId,
+          from(this.storage.get(STORAGE.EMPLOYEE_ID)),
         ),
-        tap((a) => console.log('latest from', a)),
-        map(([log, appVersion, employeeId]: [Log, string, string]) => ({ ...log, appVersion, employeeId })),
+        map(([log, latestVersion, appVersion, employeeId]: [Log, string, string, string]) => ({
+          ...log,
+          latestVersion,
+          appVersion,
+          employeeId,
+        })),
         toArray(),
-        tap((e) => console.log('result', e)),
-        // switchMap((authLogs: Log[]) => this.httpService.sendAuthenticatedLogs(authLogs)),
-        switchMap((authLogs: Log[]) => of()),
+        switchMap((authLogs: Log[]) => this.httpService.sendAuthenticatedLogs(authLogs)),
       );
   };
 
   public sendUnauthLogs = (logs: Log[]): Observable<any> => {
-    let unauthLogs: Log[] = [];
-    for (let log of logs) {
-      if (log.unauthenticated) unauthLogs.push(log);
-    }
-    return this.httpService.sendUnauthenticatedLogs(unauthLogs);
+    return from(logs)
+      .pipe(
+        filter((log: Log) => log.unauthenticated),
+        combineLatest(
+          from(this.storage.get(STORAGE.LATEST_VERSION)),
+          from(this.storage.get(STORAGE.APP_VERSION)),
+          from(this.storage.get(STORAGE.EMPLOYEE_ID)),
+        ),
+        map(([log, latestVersion, appVersion, employeeId]: [Log, string, string, string]) => ({
+          ...log,
+          latestVersion,
+          appVersion,
+          employeeId,
+        })),
+        toArray(),
+        switchMap((unAuthLogs: Log[]) => this.httpService.sendUnauthenticatedLogs(unAuthLogs)),
+      );
   };
 
   public dispatchLog(log: Log): void {

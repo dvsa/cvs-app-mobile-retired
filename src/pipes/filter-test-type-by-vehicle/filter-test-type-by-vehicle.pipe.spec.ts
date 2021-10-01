@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 import { AuthenticationService } from '../../providers/auth';
 
 describe('FilterTestTypeByVehiclePipe', () => {
-  let pipe = new FilterTestTypeByVehiclePipe(new AuthenticationService(null, null, null, null, null));
+  let pipe = new FilterTestTypeByVehiclePipe(new AuthenticationService(null, null, null, null, null, null));
   let testTypeData: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
   let vehicle = VehicleDataMock.VehicleData;
 
