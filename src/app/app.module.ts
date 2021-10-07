@@ -100,7 +100,7 @@ const INTERCEPTOR_PROVIDERS = [
   { provide: HTTP_INTERCEPTORS, useClass: RetryInterceptor, multi: true }
 ];
 
-const enableDevTools: boolean = (AppConfig.IS_PRODUCTION === 'false');
+const enableDevTools: boolean = AppConfig.IS_PRODUCTION === 'false';
 
 @NgModule({
   declarations: [MyApp, SignaturePopoverComponent],

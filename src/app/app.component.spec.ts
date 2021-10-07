@@ -122,6 +122,7 @@ describe('Component: Root', () => {
       spyOn(networkService, 'initialiseNetworkStatus');
       spyOn(networkService, 'getNetworkState').and.returnValue(CONNECTION_STATUS.ONLINE);
       spyOn(appService, 'manageAppInit').and.callFake(() => Promise.resolve());
+      spyOn(comp, 'setupLogNetworkStatus');
     });
 
     it('should set app defaults and navigate to signature page', async () => {

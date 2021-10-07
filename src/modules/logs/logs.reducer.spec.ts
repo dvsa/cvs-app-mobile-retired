@@ -50,24 +50,13 @@ describe('Logs Reducer', () => {
       lastLog
     ];
 
-    it('should delete all logs if every one of them has been sent', () => {
+    it('should delete all logs on success', () => {
       const state = logs;
-      const action = new logsActions.SendLogsSuccess(timestamps);
+      const action = new logsActions.SendLogsSuccess();
 
       const result = logsReducer(state, action);
 
       expect(result).toEqual([]);
-    });
-
-    it('should not delete the logs which have not yet been sent', () => {
-      const state = logs;
-
-      // let's say that only the first 2 logs got sent to the logs service
-      const action = new logsActions.SendLogsSuccess(timestamps.slice(0, 2));
-
-      const result = logsReducer(state, action);
-
-      expect(result).toEqual([lastLog]);
     });
   });
 });

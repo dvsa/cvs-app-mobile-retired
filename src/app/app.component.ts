@@ -94,20 +94,17 @@ export class MyApp {
 
     const netWorkStatus: CONNECTION_STATUS = this.networkService.getNetworkState();
 
-    // console.log(netWorkStatus)
-
-    // if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {
-    //   this.manageAppState();
-    //   return;
-    // }
+    if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {
+      this.manageAppState();
+      return;
+    }
 
     const authStatus = await this.authenticationService.checkUserAuthStatus();
-    console.log('authStatus', authStatus);
     authStatus && !this.appService.isSignatureRegistered
       ? this.navigateToSignaturePage()
       : this.manageAppState();
 
-      this.setupLogNetworkStatus();
+    this.setupLogNetworkStatus();
 
     if (authStatus && this.appService.isCordova) {
       await this.activateNativeFeatures();
@@ -207,9 +204,8 @@ export class MyApp {
     return this.navElem.popToRoot();
   }
 
-  private setupLogNetworkStatus(): void {
-    this.connectedSub = this
-      .networkService
+  setupLogNetworkStatus(): void {
+    this.connectedSub = this.networkService
       .onNetworkChange()
       .subscribe((status: CONNECTION_STATUS) => {
         const log: Log = {

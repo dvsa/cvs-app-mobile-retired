@@ -43,11 +43,9 @@ export class NetworkService {
       fromEvent(window, 'online').pipe(mapTo(true)),
       fromEvent(window, 'offline').pipe(mapTo(false))
     ).subscribe((status) => {
-      // status
-      //   ? this.updateNetworkStatus(CONNECTION_STATUS.ONLINE)
-      //   : this.updateNetworkStatus(CONNECTION_STATUS.OFFLINE);
-
-      this.updateNetworkStatus(CONNECTION_STATUS.ONLINE);
+      status
+        ? this.updateNetworkStatus(CONNECTION_STATUS.ONLINE)
+        : this.updateNetworkStatus(CONNECTION_STATUS.OFFLINE);
     });
   }
 
