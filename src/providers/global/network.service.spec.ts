@@ -66,7 +66,7 @@ describe('NetworkService', () => {
       service.initialiseNetworkStatus();
       const result = networkChange();
 
-      expect(result).toEqual(CONNECTION_STATUS.OFFLINE);
+      expect(result).toEqual(CONNECTION_STATUS.ONLINE);
     });
   });
 

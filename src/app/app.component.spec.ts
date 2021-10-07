@@ -126,7 +126,6 @@ describe('Component: Root', () => {
 
     it('should set app defaults and navigate to signature page', async () => {
       spyOn(comp.navElem, 'setRoot');
-
       authenticationService.checkUserAuthStatus = jasmine
         .createSpy('authenticationService.checkUserAuthStatus')
         .and.returnValue(true);

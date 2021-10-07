@@ -10,6 +10,7 @@ import { Log, LogsModel } from './logs.model';
 import { HTTPService } from '../../providers/global/http.service';
 import { SaveLog } from './logs.actions';
 import { STORAGE } from '../../app/app.enums';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class LogsProvider {
@@ -21,10 +22,12 @@ export class LogsProvider {
   ) { }
 
   public sendLogs = (logs: Log[]): Observable<any> => {
+    if (logs && logs.length === 0) {
+      return of()
+    }
     return from(logs)
       .pipe(
         filter((log: Log) => !log.unauthenticated),
-        // filter((log: Log) => !timestamps.includes(log.timestamp)),
         combineLatest(
           from(this.storage.get(STORAGE.LATEST_VERSION)),
           from(this.storage.get(STORAGE.APP_VERSION)),
@@ -42,6 +45,9 @@ export class LogsProvider {
   };
 
   public sendUnauthLogs = (logs: Log[]): Observable<any> => {
+    if (logs && logs.length === 0) {
+      return of()
+    }
     return from(logs)
       .pipe(
         filter((log: Log) => log.unauthenticated),

@@ -94,12 +94,10 @@ export class MyApp {
 
     const netWorkStatus: CONNECTION_STATUS = this.networkService.getNetworkState();
 
-    // console.log(netWorkStatus)
-
-    // if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {
-    //   this.manageAppState();
-    //   return;
-    // }
+    if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {
+      await this.manageAppState();
+      return;
+    }
 
     const authStatus = await this.authenticationService.checkUserAuthStatus();
     console.log('authStatus', authStatus);

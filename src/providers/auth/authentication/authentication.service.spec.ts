@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock, StorageMock } from 'ionic-mocks';
 import { Platform } from 'ionic-angular';
 import { of } from 'rxjs/observable/of';
+import { Storage } from '@ionic/storage';
 
-import { VaultService } from './../vault/vault.service';
+import { VaultService } from '../vault/vault.service';
 import { CommonFunctionsService } from '../../utils/common-functions';
 import { AuthenticationService } from './authentication.service';
-import { LogsProvider } from './../../../modules/logs/logs.service';
+import { LogsProvider } from '../../../modules/logs/logs.service';
 import { AUTH, CONNECTION_STATUS, TESTER_ROLES } from '../../../app/app.enums';
 import { NetworkService } from '../../global';
 
@@ -61,7 +62,8 @@ describe('AuthenticationService', () => {
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: VaultService, useValue: vaultServiceSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: CommonFunctionsService, useValue: commonFuncSpy }
+        { provide: CommonFunctionsService, useValue: commonFuncSpy },
+        { provide: Storage, useValue: StorageMock.instance() }
       ]
     });
 

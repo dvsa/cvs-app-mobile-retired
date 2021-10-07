@@ -61,7 +61,7 @@ export class TestStationHomePage implements OnInit {
 
   async ionViewDidEnter() {
     if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
-      // this.alertService.alertUnAuthorise();
+      this.alertService.alertUnAuthorise();
     }
   }
 

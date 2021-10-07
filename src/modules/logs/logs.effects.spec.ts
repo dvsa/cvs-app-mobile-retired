@@ -68,7 +68,7 @@ describe('Logs Effects', () => {
     // ARRANGE
     const timeStamps: number[] = [12345678];
     // ACT
-    actions$.next(new logsActions.SendLogsSuccess(timeStamps));
+    actions$.next(new logsActions.SendLogsSuccess());
     // ASSERT
     effects.sendLogsSuccessEffect$.subscribe((result) => {
       expect(result instanceof logsActions.PersistLog).toBe(true);

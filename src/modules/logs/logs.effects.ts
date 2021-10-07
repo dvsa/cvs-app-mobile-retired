@@ -88,13 +88,9 @@ export class LogsEffects {
         this.logsProvider.sendLogs(logs),
         this.logsProvider.sendUnauthLogs(logs)
       ]).pipe(
-        map((response: any) => {
-          const timestamps = logs.map((log) => log.timestamp);
-          return new logsActions.SendLogsSuccess(timestamps);
-        }),
-        catchError((err: any) => {
-          return of(new logsActions.SendLogsFailure(err));
-        })
+        switchMap(() => from(this.dataStore.setItem('LOGS', []))),
+        map(() => new logsActions.SendLogsSuccess()),
+        catchError((err: any) => of(new logsActions.SendLogsFailure(err))),
       );
     })
   );
