@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { from } from 'rxjs/observable/from';
 import { map, switchMap, toArray, filter, combineLatest } from "rxjs/operators";
+import { of } from 'rxjs/observable/of';
 
 import { Storage } from '@ionic/storage';
 
@@ -21,10 +22,13 @@ export class LogsProvider {
   ) { }
 
   public sendLogs = (logs: Log[]): Observable<any> => {
+    if (logs && logs.length === 0) {
+      return of();
+    }
+
     return from(logs)
       .pipe(
         filter((log: Log) => !log.unauthenticated),
-        // filter((log: Log) => !timestamps.includes(log.timestamp)),
         combineLatest(
           from(this.storage.get(STORAGE.LATEST_VERSION)),
           from(this.storage.get(STORAGE.APP_VERSION)),
@@ -42,6 +46,10 @@ export class LogsProvider {
   };
 
   public sendUnauthLogs = (logs: Log[]): Observable<any> => {
+    if (logs && logs.length === 0) {
+      return of();
+    }
+    
     return from(logs)
       .pipe(
         filter((log: Log) => log.unauthenticated),
