@@ -13,7 +13,7 @@ export const webAzureConfig: IonicAuthOptions = {
   platform: 'web',
   redirectUri: 'http://localhost:8100',
   logoutUrl: 'http://localhost:8100',
-  // logLevel: 'DEBUG',
+  logLevel: 'DEBUG',
   webAuthFlow: 'PKCE'
 } as IonicAuthOptions;
 

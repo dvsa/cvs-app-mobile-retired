@@ -76,10 +76,6 @@ export class MyApp {
         this.accessibilityFeatures();
         this.syncService.checkForUpdate();
       });
-
-      // // TOOD: Remove logging after the white screen bug is resolved
-      // // CVSB: 17584
-      // this.setupLogNetworkStatus();
     });
   }
 
