@@ -52,7 +52,7 @@ import { DefectDetailsDataMock } from '../../../../assets/data-mocks/defect-deta
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category';
 import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
-import { AnalyticsService, DurationService } from '../../../../providers/global';
+import { AnalyticsService, AppAlertService, DurationService } from '../../../../providers/global';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { StorageServiceMock } from '../../../../../test-config/services-mocks/storage-service.mock';
 
@@ -74,6 +74,7 @@ describe('Component: TestCreatePage', () => {
   let durationService: DurationService;
   let storageService: StorageService;
   let testTypeService: TestTypeService;
+  let alertService: AppAlertService;
 
   const ADDED_VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
@@ -109,7 +110,8 @@ describe('Component: TestCreatePage', () => {
         { provide: NavParams, useClass: NavParamsMock },
         { provide: TestTypeService, useClass: TestTypeService },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
-        { provide: StorageService, useClass: StorageServiceMock }
+        { provide: StorageService, useClass: StorageServiceMock },
+        { provide: AppAlertService, useClass: AppAlertService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -129,6 +131,7 @@ describe('Component: TestCreatePage', () => {
     durationService = TestBed.get(DurationService);
     storageService = TestBed.get(StorageService);
     testTypeService = TestBed.get(TestTypeService);
+    alertService = TestBed.get(AppAlertService);
   }));
 
   beforeEach(() => {
@@ -153,6 +156,7 @@ describe('Component: TestCreatePage', () => {
     navCtrl = null;
     commonFuncService = null;
     storageService = null;
+    alertService = null;
   });
 
   it('should create the component', () => {
