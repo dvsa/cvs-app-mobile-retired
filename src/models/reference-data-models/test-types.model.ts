@@ -20,4 +20,5 @@ export interface TestTypesReferenceDataModel {
   forVehicleWheels: number[] | null;
   nextTestTypesOrCategories?: TestTypesReferenceDataModel[];
   linkedIds?: string[] | null;
+  suggestedTestTypeIds?: string[] | null;
 }
