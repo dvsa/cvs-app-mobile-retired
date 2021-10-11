@@ -73,9 +73,11 @@ export class TestStationService {
     let newArr = [],
       arrGroup = [];
     for (let i = 0; i < sectionsArr.length; i++) {
-      for (let j = 0; j < array.length; j++) {
-        if (array[j][groupBy].charAt(0).toLowerCase() == sectionsArr[i]) {
-          arrGroup.push(array[j]);
+      if (Array.isArray(array) && array.length) {
+        for (let j = 0; j < array.length; j++) {
+          if (array[j][groupBy].charAt(0).toLowerCase() == sectionsArr[i]) {
+            arrGroup.push(array[j]);
+          }
         }
       }
       if (arrGroup.length) {

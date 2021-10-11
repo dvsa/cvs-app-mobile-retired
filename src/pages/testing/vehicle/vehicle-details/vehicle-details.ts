@@ -78,21 +78,23 @@ export class VehicleDetailsPage {
     const duration = this.durationService.getDuration(type);
     const takenDuration = this.durationService.getTakenDuration(duration);
 
-    await this.trackDuration(
-      ANALYTICS_EVENTS.SEARCH_VEHICLE_TIME_TAKEN,
-      'SEARCH_VEHICLE_START_TIME',
-      duration.start.toString()
-    );
-    await this.trackDuration(
-      ANALYTICS_EVENTS.SEARCH_VEHICLE_TIME_TAKEN,
-      'SEARCH_VEHICLE_END_TIME',
-      duration.end.toString()
-    );
-    await this.trackDuration(
-      ANALYTICS_EVENTS.SEARCH_VEHICLE_TIME_TAKEN,
-      'SEARCH_VEHICLE_TIME_TAKEN',
-      takenDuration.toString()
-    );
+    if (duration.start && duration.end && takenDuration){
+      await this.trackDuration(
+        ANALYTICS_EVENTS.SEARCH_VEHICLE_TIME_TAKEN,
+        'SEARCH_VEHICLE_START_TIME',
+        duration.start.toString()
+      );
+      await this.trackDuration(
+        ANALYTICS_EVENTS.SEARCH_VEHICLE_TIME_TAKEN,
+        'SEARCH_VEHICLE_END_TIME',
+        duration.end.toString()
+      );
+      await this.trackDuration(
+        ANALYTICS_EVENTS.SEARCH_VEHICLE_TIME_TAKEN,
+        'SEARCH_VEHICLE_TIME_TAKEN',
+        takenDuration.toString()
+      );
+    }
 
     this.durationService.setDuration(
       { start: Date.now() },
