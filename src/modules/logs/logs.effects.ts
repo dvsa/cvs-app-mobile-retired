@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 
-import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { interval } from 'rxjs/observable/interval';
 import { Observable } from 'rxjs/Observable';
@@ -88,7 +88,7 @@ export class LogsEffects {
         this.logsProvider.sendLogs(logs),
         this.logsProvider.sendUnauthLogs(logs)
       ]).pipe(
-        switchMap(() => from(this.dataStore.setItem('LOGS', []))),
+        tap(async() => await this.dataStore.setItem('LOGS', [])),
         map(() => new logsActions.SendLogsSuccess()),
         catchError((err: any) => of(new logsActions.SendLogsFailure(err))),
       );

@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { from } from 'rxjs/observable/from';
-import { map, switchMap, toArray, filter, combineLatest } from "rxjs/operators";
+import {
+  switchMap,
+  toArray,
+  filter,
+  mergeMap
+} from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { Storage } from '@ionic/storage';
@@ -29,16 +34,11 @@ export class LogsProvider {
     return from(logs)
       .pipe(
         filter((log: Log) => !log.unauthenticated),
-        combineLatest(
-          from(this.storage.get(STORAGE.LATEST_VERSION)),
-          from(this.storage.get(STORAGE.APP_VERSION)),
-          from(this.storage.get(STORAGE.EMPLOYEE_ID)),
-        ),
-        map(([log, latestVersion, appVersion, employeeId]: [Log, string, string, string]) => ({
+        mergeMap(async(log) => ({
           ...log,
-          latestVersion,
-          appVersion,
-          employeeId,
+          latestVersion: await this.storage.get(STORAGE.LATEST_VERSION),
+          appVersion: await this.storage.get(STORAGE.APP_VERSION),
+          employeeId: await this.storage.get(STORAGE.EMPLOYEE_ID),
         })),
         toArray(),
         switchMap((authLogs: Log[]) => this.httpService.sendAuthenticatedLogs(authLogs)),
@@ -49,20 +49,15 @@ export class LogsProvider {
     if (logs && logs.length === 0) {
       return of();
     }
-    
+
     return from(logs)
       .pipe(
         filter((log: Log) => log.unauthenticated),
-        combineLatest(
-          from(this.storage.get(STORAGE.LATEST_VERSION)),
-          from(this.storage.get(STORAGE.APP_VERSION)),
-          from(this.storage.get(STORAGE.EMPLOYEE_ID)),
-        ),
-        map(([log, latestVersion, appVersion, employeeId]: [Log, string, string, string]) => ({
+        mergeMap(async(log) => ({
           ...log,
-          latestVersion,
-          appVersion,
-          employeeId,
+          latestVersion: await this.storage.get(STORAGE.LATEST_VERSION),
+          appVersion: await this.storage.get(STORAGE.APP_VERSION),
+          employeeId: await this.storage.get(STORAGE.EMPLOYEE_ID),
         })),
         toArray(),
         switchMap((unAuthLogs: Log[]) => this.httpService.sendUnauthenticatedLogs(unAuthLogs)),

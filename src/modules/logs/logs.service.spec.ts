@@ -3,16 +3,13 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 
 import { Log, LogsModel } from './logs.model';
-import { HTTPService } from '../../providers/global';
+import { HTTPService } from '../../providers/global/http.service';
 import { LogsProvider } from './logs.service';
 import { SaveLog } from './logs.actions';
 import { MockStore } from './logs.service.mock';
-import { LOG_TYPES } from '../../app/app.enums';
-// import { AuthenticationService } from '../../providers/auth/authentication/authentication.service';
-import { AuthenticationServiceMock } from '../../../test-config/services-mocks/authentication-service.mock';
-import { StorageService } from '../../providers/natives/storage.service';
-import { StorageServiceMock } from '../../../test-config/services-mocks/storage-service.mock';
+import { LOG_TYPES, STORAGE } from '../../app/app.enums';
 import { Storage } from '@ionic/storage';
+import { StorageServiceMock } from '../../../test-config/services-mocks/storage-service.mock';
 
 const mockLog = () => {
   return {
@@ -22,78 +19,69 @@ const mockLog = () => {
   } as Log;
 };
 
-
 describe('LogsProvider', () => {
-  let httpServiceSpy: jasmine.SpyObj<HTTPService>;
+  let httpServiceSpy: any;
   let httpService: HTTPService;
   let logProvider: LogsProvider;
-  let storageService: Storage;
-  let storageServiceSpy: jasmine.SpyObj<Storage>;
+  let storage: Storage;
   const store: MockStore<LogsModel> = new MockStore<LogsModel>();
+  const additionalInfo = {latestVersion: '2.0', appVersion: '1.0', employeeId: '123456'};
+
   beforeEach(() => {
-    storageServiceSpy = jasmine.createSpyObj('StorageService', ['read']);
-    storageServiceSpy = jasmine.createSpyObj('StorageService', ['get']);
     httpServiceSpy = jasmine.createSpyObj('HTTPService', {
       sendAuthenticatedLogs: () => of('authenticated logs sent'),
       sendUnauthenticatedLogs: () => of('unauthenticated logs sent')
     });
+
     TestBed.configureTestingModule({
-      providers: [LogsProvider, {
-        provide: HTTPService,
-        useValue: httpServiceSpy
-      }, { provide: Store, useValue: store }, { provide: Storage, useValue: storageServiceSpy }]
+      providers: [
+        LogsProvider,
+        { provide: HTTPService, useValue: httpServiceSpy },
+        { provide: Store, useValue: store },
+        { provide: Storage, useClass: StorageServiceMock }
+      ]
     });
+
     httpService = TestBed.get(HTTPService);
     logProvider = TestBed.get(LogsProvider);
-    spyOn(store, 'dispatch');
-  });
-  afterEach(() => {
-    storageService = null;
-  });
+    storage = TestBed.get(Storage);
 
+    spyOn(store, 'dispatch');
+    spyOn(storage, 'get').and.callFake((key: string) => {
+      if(key === STORAGE.LATEST_VERSION) {return Promise.resolve('2.0')}
+      if(key === STORAGE.APP_VERSION) {return Promise.resolve('1.0')}
+      if(key === STORAGE.EMPLOYEE_ID) {return Promise.resolve('123456')}
+      return Promise.resolve('')
+    })
+  });
 
   describe('sendLogs', () => {
-    // const appVersion = '3';
-    // const employeeId = '1234';
-    // it('should send authenticated logs', () => {
-    //   spyOn(storageService, 'get').and.returnValue('1.2.3');
-    //   const logs: Log[] = [mockLog(), mockLog()];
 
-
-
-      // spyOn(storageService, 'read').and.returnValue(Promise.resolve(true));
-      //
-      // // spyOn(storageService, 'read').and.returnValue('1.2.3');
-      // const logs: Log[] = [mockLog(), mockLog()];
-      //
-      // logProvider.sendLogs(logs).subscribe();
-      //
-      // const r = logs.map((log) => ({ ...log, appVersion, employeeId }));
-
-      // spy.calls.mostRecent().returnValue.then((res) => {
-      //   console.log(res);
-      //   expect(httpService.sendAuthenticatedLogs).toHaveBeenCalledWith(r);
-      // });
-    // });
+    it('should send authenticated logs', async() => {
+      const logs: Log[] = [{ ...mockLog() }, mockLog()];
+      const expectedCallArgs = [{...mockLog(), ...additionalInfo}, {...mockLog(), ...additionalInfo}]
+      await logProvider.sendLogs(logs).toPromise();
+      expect(httpService.sendAuthenticatedLogs).toHaveBeenCalledWith(expectedCallArgs);
+    });
   });
 
   describe('sendUnauthLogs', () => {
-    // it('should send unauthenticated logs', () => {
-    //   const unAuthLog: Log = {
-    //     ...mockLog(),
-    //     unauthenticated: true
-    //   };
-    //   const logs: Log[] = [unAuthLog, mockLog()];
-    //
-    //   logProvider.sendUnauthLogs(logs);
-    //
-    //   expect(httpService.sendUnauthenticatedLogs).toHaveBeenCalledWith([unAuthLog]);
-    // });
+    it('should send unauthenticated logs', async() => {
+      const unAuthLog: Log = {
+        ...mockLog(),
+        unauthenticated: true
+      };
+      const expectedArgs = [{...unAuthLog, ...additionalInfo}];
+      const logs: Log[] = [unAuthLog, mockLog()];
+      await logProvider.sendUnauthLogs(logs).toPromise();
+      expect(httpService.sendUnauthenticatedLogs).toHaveBeenCalledWith(expectedArgs);
+    });
   });
 
   describe('dispatchLog', () => {
     it('should dispatch the SaveLog action', () => {
       logProvider.dispatchLog(mockLog());
+
       expect(store.dispatch).toHaveBeenCalledWith(new SaveLog(mockLog()));
     });
   });
