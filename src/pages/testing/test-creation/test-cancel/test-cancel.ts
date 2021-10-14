@@ -2,7 +2,7 @@ import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
-  ANALYTICS_VALUE
+  ANALYTICS_VALUE, VISIT
 } from './../../../../app/app.enums';
 import { Component } from '@angular/core';
 import {
@@ -105,7 +105,7 @@ export class TestCancelPage {
     alert.onDidDismiss(() => (this.changeOpacity = this.nextAlert));
   }
 
-  submit(test) {
+  submit(test): void {
     let stack: Observable<any>[] = [];
     const { oid } = this.authenticationService.tokenInfo;
 
@@ -181,38 +181,42 @@ export class TestCancelPage {
             testResult,
             false
           );
-          this.activityService.submitActivity(activity).subscribe(
-            (resp) => {
-              this.logProvider.dispatchLog({
-                type: LOG_TYPES.INFO,
-                message: `${oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
-                timestamp: Date.now()
-              });
+          // only submit activities with type of 'visit' to exclude wait and unaccountable time for now
+          if (activity.activityType === VISIT.ACTIVITY_TYPE_VISIT) {
+            this.activityService.submitActivity(activity).subscribe(
+              (resp) => {
+                this.logProvider.dispatchLog({
+                  type: LOG_TYPES.INFO,
+                  message: `${oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
+                  timestamp: Date.now()
+                });
 
-              let activityIndex = this.activityService.activities
-                .map((activity) => activity.endTime)
-                .indexOf(testResult.testStartTimestamp);
-              if (activityIndex > -1) {
-                this.activityService.activities[activityIndex].id = resp.body.id;
+                let activityIndex = this.activityService.activities
+                  .map((activity) => activity.endTime)
+                  .indexOf(testResult.testStartTimestamp);
+                if (activityIndex > -1) {
+                  this.activityService.activities[activityIndex].id = resp.body.id;
+                }
+
+                this.activityService.updateActivities();
+                this.visitService.updateVisit();
+              },
+              (error) => {
+                this.logProvider.dispatchLog({
+                  type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-cancel.ts`,
+                  message: `${oid} - ${JSON.stringify(error)}`,
+                  timestamp: Date.now()
+                });
+
+                this.analyticsService.logEvent({
+                  category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+                  event: ANALYTICS_EVENTS.TEST_ERROR,
+                  label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
+                });
               }
+            );
+          }
 
-              this.activityService.updateActivities();
-              this.visitService.updateVisit();
-            },
-            (error) => {
-              this.logProvider.dispatchLog({
-                type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-cancel.ts`,
-                message: `${oid} - ${JSON.stringify(error)}`,
-                timestamp: Date.now()
-              });
-
-              this.analyticsService.logEvent({
-                category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-                event: ANALYTICS_EVENTS.TEST_ERROR,
-                label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
-              });
-            }
-          );
         }
         LOADING.dismiss();
         let views = this.navCtrl.getViews();

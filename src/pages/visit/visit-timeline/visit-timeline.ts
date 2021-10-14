@@ -335,44 +335,49 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       this.timeline
     );
 
-    return this.activityService.submitActivity(activity).pipe(
-      map((submitActivityResp) => {
-        let activities: ActivityModel[] = [] as ActivityModel[];
+    // only submit activities with type of 'visit' to exclude wait and unaccountable time for now
+    if (activity.activityType === VISIT.ACTIVITY_TYPE_VISIT) {
+      return this.activityService.submitActivity(activity).pipe(
+        map((submitActivityResp) => {
+          let activities: ActivityModel[] = [] as ActivityModel[];
 
-        this.logProvider.dispatchLog({
-          type: LOG_TYPES.INFO,
-          message: `${this.oid} - ${submitActivityResp.status} ${submitActivityResp.statusText} for API call to ${submitActivityResp.url}`,
-          timestamp: Date.now()
-        });
+          this.logProvider.dispatchLog({
+            type: LOG_TYPES.INFO,
+            message: `${this.oid} - ${submitActivityResp.status} ${submitActivityResp.statusText} for API call to ${submitActivityResp.url}`,
+            timestamp: Date.now()
+          });
 
-        if (this.timeline.length && this.timeline[this.timeline.length - 1].activityType) {
-          activities = this.activityService.getActivities();
-          const lastestActivityPos = activities.length - 1;
+          if (this.timeline.length && this.timeline[this.timeline.length - 1].activityType) {
+            activities = this.activityService.getActivities();
+            const lastestActivityPos = activities.length - 1;
 
-          activities[lastestActivityPos].endTime = new Date().toISOString();
-          activities[lastestActivityPos].id = submitActivityResp.body.id;
-        }
-        this.activityService.updateActiviesArgs(activities);
-        return activities;
-      }),
-      catchError((error) => {
-        this.showLoading('');
+            activities[lastestActivityPos].endTime = new Date().toISOString();
+            activities[lastestActivityPos].id = submitActivityResp.body.id;
+          }
+          this.activityService.updateActiviesArgs(activities);
+          return activities;
+        }),
+        catchError((error) => {
+          this.showLoading('');
 
-        this.logProvider.dispatchLog({
-          type: `${LOG_TYPES.ERROR}-activityService.submitActivity in visit-timeline.ts`,
-          message: `${this.oid} -${JSON.stringify(error)}`,
-          timestamp: Date.now()
-        });
+          this.logProvider.dispatchLog({
+            type: `${LOG_TYPES.ERROR}-activityService.submitActivity in visit-timeline.ts`,
+            message: `${this.oid} -${JSON.stringify(error)}`,
+            timestamp: Date.now()
+          });
 
-        this.analyticsService.logEvent({
-          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-          event: ANALYTICS_EVENTS.TEST_ERROR,
-          label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
-        });
+          this.analyticsService.logEvent({
+            category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+            event: ANALYTICS_EVENTS.TEST_ERROR,
+            label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
+          });
 
-        return of(null);
-      })
-    );
+          return of(null);
+        })
+      );
+    } else {
+      return of(null)
+    }
   }
 
   createActivityReasonsToPost$(activities: ActivityModel[]): Observable<any> {

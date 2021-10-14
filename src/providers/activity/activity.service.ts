@@ -77,7 +77,7 @@ export class ActivityService {
     }
   }
 
-  submitActivity(activity: ActivityModel) {
+  submitActivity(activity: ActivityModel): Observable<HttpResponse<any>> {
     return this.httpService.postActivity(activity);
   }
 
@@ -148,6 +148,7 @@ export class ActivityService {
     }
     activity.notes = null;
     return activity;
+    // return activity.activityType === VISIT.ACTIVITY_TYPE_WAIT || activity.activityType === VISIT.ACTIVITY_TYPE_UNACCOUNTABLE_TIME ? null : activity;
   }
 
   createActivitiesForUpdateCall(activitiesArr: ActivityModel[]) {
