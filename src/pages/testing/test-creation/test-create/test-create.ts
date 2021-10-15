@@ -377,21 +377,21 @@ constructor(
   }
 
   handleRecentlyFailedTest(failedTest: TestTypeModel, vehicle: VehicleModel) {
-    const suggestedTestTypes = this.getSuggestedTestTypes(failedTest);
+    const suggestedTestTypes: TestTypesReferenceDataModel[] = this.getSuggestedTestTypes(failedTest);
 
     let buttons = [];
     for (let i = 0; i < suggestedTestTypes.length; i++) {
       buttons.push({
-        text: suggestedTestTypes[i].name,
+        text: suggestedTestTypes[i].testTypeName,
         handler: () => {
           this.addSuggestedTestType(suggestedTestTypes[i], vehicle);
         }
       });
-    };
+    }
 
     const failedTestDate = new Date(failedTest.testTypeStartTimestamp);
     const RECENTLY_FAILED_TEST_MESSAGE = `This vehicle failed its ${failedTest.name.toLocaleLowerCase()} on `
-      + `${failedTestDate.toLocaleDateString()}`.bold() + `<br><br> It may be eligible for retest if within `
+      + `${failedTestDate.toLocaleDateString('en-GB')}`.bold() + `<br><br> It may be eligible for retest if within `
       + `14 working days.`.bold() + `<br><br> Check the ` + `date and failure items in test history`.bold()
       + ` to correctly select one of the following test types.`;
 
