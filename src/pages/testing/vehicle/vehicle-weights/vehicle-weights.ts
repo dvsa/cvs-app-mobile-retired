@@ -3,6 +3,8 @@ import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import { APP_STRINGS, VEHICLE_TYPE, TECH_RECORD_STATUS } from '../../../../app/app.enums';
+import { get, orderBy } from 'lodash'
+import { AxelsModel } from '../../../../models/vehicle/tech-record.model';
 
 @IonicPage()
 @Component({
@@ -21,11 +23,16 @@ export class VehicleWeightsPage {
     public viewCtrl: ViewController,
     public commonFunc: CommonFunctionsService
   ) {
-    this.vehicleData = navParams.get('vehicleData');
+
     this.viewCtrl = viewCtrl;
   }
 
   ionViewWillEnter() {
+    this.vehicleData = this.navParams.get('vehicleData');
+    const axleData: AxelsModel[] = get(this.vehicleData, 'techRecord.axles', null)
+    if(axleData && axleData.length) {
+      this.vehicleData.techRecord.axles = orderBy(axleData, ['axleNumber'], ['asc'])
+    }
     this.viewCtrl.setBackButtonText(APP_STRINGS.VEHICLE_DETAILS);
   }
 }
