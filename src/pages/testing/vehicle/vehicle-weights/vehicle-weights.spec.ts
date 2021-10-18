@@ -41,7 +41,7 @@ describe('Component: VehicleWeightsPage', () => {
   });
 
   it('should not display the provisional label if the techRecord is current', () => {
-    component.ionViewWillEnter();
+    component.ngOnInit();
     component.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.CURRENT;
 
     componentFixture.detectChanges();
@@ -54,7 +54,7 @@ describe('Component: VehicleWeightsPage', () => {
   });
 
   it('should display the provisional label if the techRecord is provisional', () => {
-    component.ionViewWillEnter();
+    component.ngOnInit();
     component.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.PROVISIONAL;
 
     componentFixture.detectChanges();
@@ -66,7 +66,7 @@ describe('Component: VehicleWeightsPage', () => {
     });
   });
 
-  it('should sort the axles on page entry', () => {
+  it('should sort the axles on initialisation', () => {
     const multiAxleVehicle = {
       techRecord: {
         axles: [
@@ -77,7 +77,7 @@ describe('Component: VehicleWeightsPage', () => {
       }
     } as VehicleModel;
     (component.navParams.get as Spy).and.returnValue(multiAxleVehicle);
-    component.ionViewWillEnter();
+    component.ngOnInit();
     const axleData = component.vehicleData.techRecord.axles;
     expect(axleData.length).toEqual(3);
     expect(axleData[0].axleNumber).toEqual(1);

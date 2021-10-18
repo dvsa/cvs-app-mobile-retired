@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
@@ -11,7 +11,7 @@ import { AxelsModel } from '../../../../models/vehicle/tech-record.model';
   selector: 'page-vehicle-weights',
   templateUrl: 'vehicle-weights.html'
 })
-export class VehicleWeightsPage {
+export class VehicleWeightsPage implements OnInit {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   TECH_RECORD_STATUS: typeof TECH_RECORD_STATUS = TECH_RECORD_STATUS;
   APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
@@ -27,9 +27,9 @@ export class VehicleWeightsPage {
     this.viewCtrl = viewCtrl;
   }
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.vehicleData = this.navParams.get('vehicleData');
-    const axleData: AxelsModel[] = get(this.vehicleData, 'techRecord.axles', null)
+    const axleData: AxelsModel[] = get(this.vehicleData, 'techRecord.axles', null);
     if(axleData && axleData.length) {
       this.vehicleData.techRecord.axles = orderBy(axleData, ['axleNumber'], ['asc'])
     }
