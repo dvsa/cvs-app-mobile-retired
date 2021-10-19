@@ -56,6 +56,8 @@ describe('Provider: VisitService', () => {
     storageService = TestBed.get(StorageService);
     httpService = TestBed.get(HTTPService);
     activityService = TestBed.get(ActivityService);
+    jasmine.clock().uninstall();
+    jasmine.clock().install();
   });
 
   afterEach(() => {
@@ -63,6 +65,20 @@ describe('Provider: VisitService', () => {
     appService = null;
     activityService = null;
     storageService = null;
+    jasmine.clock().uninstall();
+  });
+
+  it('startVisit() should set visit start time using time method is called', () => {
+    jasmine.clock().mockDate(new Date(2020, 1, 1));
+    visitService.startVisit({
+      testStationName: 'test ATF',
+      testStationPNumber: 'P56034',
+      testStationEmails: ['testemail@testemail.com'],
+      testStationType: 'any'
+    });
+    const httpServiceParams = JSON.stringify((httpService.startVisit as jasmine.Spy).calls.mostRecent().args[0])
+    expect(httpService.startVisit).toHaveBeenCalled();
+    expect(httpServiceParams).toContain('"startTime":"2020-02-01T00:00:00.000Z"')
   });
 
   it('should start a new visit', () => {
