@@ -8,10 +8,6 @@ import { EventsMock } from '../../../test-config/ionic-mocks/events.mock';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { CallNumber } from '@ionic-native/call-number';
 import { LoadingControllerMock } from '../../../test-config/ionic-mocks/loading-controller.mock';
-import { DefectsReferenceDataMock } from '../../assets/data-mocks/reference-data-mocks/defects-data.mock';
-import { PreparersDataMock } from '../../assets/data-mocks/reference-data-mocks/preparers-data.mock';
-import { TestStationDataMock } from '../../assets/data-mocks/reference-data-mocks/test-station-data.mock';
-import { TestTypesReferenceDataMock } from '../../assets/data-mocks/reference-data-mocks/test-types.mock';
 import { AppService } from './app.service';
 import { AppServiceMock } from '../../../test-config/services-mocks/app-service.mock';
 import { AppVersion } from '@ionic-native/app-version';
@@ -48,7 +44,7 @@ describe('Provider: SyncService', () => {
   };
 
   beforeEach(() => {
-    storageServiceSpy = jasmine.createSpyObj('StorageService', ['read']);
+    storageServiceSpy = jasmine.createSpyObj('StorageService', ['read', 'update']);
     httpServiceSpy = jasmine.createSpyObj('HTTPService', [
       'get',
       'getAtfs',
@@ -61,6 +57,10 @@ describe('Provider: SyncService', () => {
     httpServiceSpy.getApplicationVersion = jasmine
       .createSpy()
       .and.returnValue(Promise.resolve(latestAppVersion));
+
+    storageServiceSpy.update = jasmine
+      .createSpy()
+      .and.returnValue(Promise.resolve());
 
     logProviderSpy = jasmine.createSpyObj('LogsProvider', {
       dispatchLog: () => true
@@ -107,26 +107,25 @@ describe('Provider: SyncService', () => {
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
-  it('should show the update popup if the version_checking flag is true, the app version is not the latest, and there is no current visit', () => {
+  it('should show the update popup if the version_checking flag is true, the app version is not the latest, and there is no current visit', async () => {
     const currentAppVersion = `v1.0.0`;
     spyOn(appVersion, 'getVersionNumber').and.returnValue(Promise.resolve(currentAppVersion));
 
     const { version: latestVersion } = latestAppVersion.body['mobile-app'];
 
-    return syncService.checkForUpdate().then(() => {
-      expect(alertCtrl.create).toHaveBeenCalledWith({
-        title: APP_UPDATE.TITLE,
-        message: VERSION_POPUP_MSG(currentAppVersion, latestVersion),
-        buttons: [
-          {
-            text: APP_UPDATE.BUTTON,
-            handler: jasmine.any(Function)
-          }
-        ],
-        enableBackdropDismiss: false
-      });
+    await syncService.checkForUpdate();
+    expect(alertCtrl.create).toHaveBeenCalledWith({
+      title: APP_UPDATE.TITLE,
+      message: VERSION_POPUP_MSG(currentAppVersion, latestVersion),
+      buttons: [
+        {
+          text: APP_UPDATE.BUTTON,
+          handler: jasmine.any(Function)
+        }
+      ],
+      enableBackdropDismiss: false
     });
-  });
+  })
 
   it('should not show the update popup if the app is updated', () => {
     spyOn(appVersion, 'getVersionNumber').and.returnValue(Promise.resolve('v2.0.0'));

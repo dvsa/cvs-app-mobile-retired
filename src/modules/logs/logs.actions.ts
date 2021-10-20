@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Log } from './logs.model';
 
 export const SAVE_LOG = '[GLOBAL] Save Log';
+export const SAVE_APP_VERSION_TO_LOG = '[GLOBAL] Save App version to Log';
 export const START_SENDING_LOGS = '[AppComponent] Start Sending Logs';
 export const SEND_LOGS = '[LogsEffects] Send Logs';
 export const SEND_LOGS_SUCCESS = '[LogsEffects] Send Logs Success';
@@ -16,6 +17,9 @@ export class SaveLog implements Action {
 
   constructor(public payload: Log) {}
 }
+export class SaveAppVersionToLog implements Action {
+  readonly type = SAVE_APP_VERSION_TO_LOG;
+}
 
 export class StartSendingLogs implements Action {
   readonly type = START_SENDING_LOGS;
@@ -27,8 +31,6 @@ export class SendLogs implements Action {
 
 export class SendLogsSuccess implements Action {
   readonly type = SEND_LOGS_SUCCESS;
-
-  constructor(public timestamps: number[]) {}
 }
 
 export class SendLogsFailure implements Action {
@@ -53,6 +55,7 @@ export class LoadLogState implements Action {
 
 export type Types =
   | SaveLog
+  | SaveAppVersionToLog
   | StartSendingLogs
   | SendLogs
   | SendLogsSuccess

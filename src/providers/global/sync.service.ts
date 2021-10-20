@@ -91,6 +91,9 @@ export class SyncService {
       this.latestAppVersion = latestAppVersionModel.version;
       const visit = results[2];
 
+      await this.storageService.update(STORAGE.LATEST_VERSION, latestAppVersionModel.version);
+      await this.storageService.update(STORAGE.APP_VERSION, results[0]);
+
       if (
         version_checking === 'true' &&
         this.currentAppVersion !== this.latestAppVersion &&

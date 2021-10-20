@@ -10,7 +10,8 @@ export class AuthenticationServiceMock {
       testerEmail: 'jack@dvsa.gov.uk',
       testerName: 'jack',
       token: 'eyJhbGciOiJIUzI1NiIsIn',
-      testerRoles: [TESTER_ROLES.FULL_ACCESS]
+      testerRoles: [TESTER_ROLES.FULL_ACCESS],
+      employeeId: '1234567',
     } as TokenInfo;
   }
 

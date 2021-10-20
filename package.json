@@ -115,6 +115,7 @@
     "@ionic-enterprise/cordova": "^9.0.3",
     "@ionic/app-scripts": "3.2.4",
     "@ionic/cli": "^6.12.2",
+    "@ngrx/store-devtools": "^5.2.0",
     "@types/debug": "^4.1.5",
     "@types/jasmine": "^2.5.41",
     "@types/node": "14.6.2",
