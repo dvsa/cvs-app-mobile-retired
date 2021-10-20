@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
 import { PlatformMock } from 'ionic-mocks';
 import { Platform } from 'ionic-angular';
 import { of } from 'rxjs/observable/of';
@@ -178,17 +178,20 @@ describe('AuthenticationService', () => {
         authStatus = spyOn(authenticationService, 'isUserAuthenticated');
       });
 
-      it('should return falsy on error if user auth status is to "re-login"', async () => {
-        spyOn(authenticationService, 'login').and.returnValue(
-          Promise.reject(new Error('something'))
-        );
-        authStatus.and.returnValue({ active: false, action: AUTH.RE_LOGIN });
-
-        const result = await authenticationService.checkUserAuthStatus();
-
-        expect(logProvider.dispatchLog).toHaveBeenCalled();
-        expect(result).toBeFalsy();
-      });
+      it('should return falsy on error if user auth status is to "re-login"', fakeAsync(
+        async () => {
+          spyOn(authenticationService, 'login').and.returnValue(
+            Promise.reject(new Error('something'))
+          );
+          authStatus.and.returnValue({ active: false, action: AUTH.RE_LOGIN });
+          try {
+            flushMicrotasks();
+            await authenticationService.checkUserAuthStatus();
+            expect(logProvider.dispatchLog).toHaveBeenCalled();
+            flushMicrotasks();
+          } catch {}
+        }
+      ));
 
       it('should return truthy if user auth status is active', async () => {
         authStatus.and.returnValue({ active: true, action: AUTH.CONTINUE });

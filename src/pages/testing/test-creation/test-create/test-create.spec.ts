@@ -24,7 +24,7 @@ import {
   DURATION_TYPE,
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_VALUE
+  ANALYTICS_VALUE, TEST_REPORT_STATUSES
 } from '../../../../app/app.enums';
 import { TestService } from '../../../../providers/test/test.service';
 import { TestServiceMock } from '../../../../../test-config/services-mocks/test-service.mock';
@@ -642,4 +642,40 @@ describe('Component: TestCreatePage', () => {
       expect(['Annual Test', 'Paid retest', 'Part-paid retest'].includes(type.testTypeName));
     }))
   });
+
+  describe('onAddNewTestType()', () => {
+    beforeEach(() => {
+      jasmine.clock().uninstall();
+      jasmine.clock().install();
+      const mockTest = [
+        {
+          testStartTimestamp: new Date('2021-09-01T00:00:00.000Z'),
+          testStatus: TEST_REPORT_STATUSES.SUBMITTED,
+          testTypes: [
+            {
+              testResult: TEST_TYPE_RESULTS.FAIL,
+              testTypeStartTimestamp: '2021-09-01T00:00:00.000Z',
+              name: 'anything',
+            }
+          ],
+        }
+      ];
+      spyOn(storageService, 'read').and.returnValue(Promise.resolve(mockTest));
+      spyOn(component, 'getSuggestedTestTypes').and.returnValue([{testTypeName: 'anything'}]);
+      spyOn(alertService, 'alertSuggestedTestTypes').and.callFake(() => {});
+    });
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    })
+    it('should inform the user if a test was failed within the last 20 days', async() => {
+      jasmine.clock().mockDate(new Date('2021-09-20T13:00:00.000Z'));
+      await component.onAddNewTestType({systemNumber: '123456'} as VehicleModel);
+      expect(alertService.alertSuggestedTestTypes).toHaveBeenCalled();
+    });
+    it('should NOT inform the user if a test was failed over 20 days', async() => {
+      jasmine.clock().mockDate(new Date('2021-09-21T13:00:00.000Z'));
+      await component.onAddNewTestType({systemNumber: '123456'} as VehicleModel);
+      expect(alertService.alertSuggestedTestTypes).not.toHaveBeenCalled();
+    });
+  })
 });
