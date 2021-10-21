@@ -40,6 +40,7 @@ export class DefectDetailsPage implements OnInit {
   isLocation: boolean;
   tempDefectLocation: DefectLocationModel;
   tempDefectNotes: string;
+  tempPrs: boolean;
   fromTestReview: boolean;
   showPrs: boolean = true;
   notesChanged: boolean = false;
@@ -69,6 +70,7 @@ export class DefectDetailsPage implements OnInit {
     this.tempDefectLocation = Object.assign({}, this.defect.additionalInformation.location);
     this.tempDefectNotes = this.defect.additionalInformation.notes;
     this.defectMetadata = this.defect.metadata.category.additionalInfo;
+    this.tempPrs = this.defect.prs;
     this.isLocation =
       this.defectMetadata && this.defectMetadata.location
         ? this.checkForLocation(this.defectMetadata.location)
@@ -87,6 +89,7 @@ export class DefectDetailsPage implements OnInit {
     this.navBar.backButtonClick = () => {
       this.defect.additionalInformation.location = Object.assign({}, this.tempDefectLocation);
       this.defect.additionalInformation.notes = this.tempDefectNotes;
+      this.defect.prs = this.tempPrs;
       this.navCtrl.pop();
     };
   }
