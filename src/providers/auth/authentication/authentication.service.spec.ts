@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock, StorageMock } from 'ionic-mocks';
 import { Platform } from 'ionic-angular';
 import { of } from 'rxjs/observable/of';
+import { Storage } from '@ionic/storage';
 
 import { VaultService } from './../vault/vault.service';
 import { CommonFunctionsService } from '../../utils/common-functions';
 import { AuthenticationService } from './authentication.service';
 import { LogsProvider } from './../../../modules/logs/logs.service';
-import { AUTH, TESTER_ROLES } from '../../../app/app.enums';
+import { AUTH, CONNECTION_STATUS, TESTER_ROLES } from '../../../app/app.enums';
+import { NetworkService } from '../../global';
 
 describe('AuthenticationService', () => {
   let platform: Platform;
@@ -18,6 +20,8 @@ describe('AuthenticationService', () => {
   let commFunc: CommonFunctionsService;
   let commonFuncSpy: any;
   let authenticationService: AuthenticationService;
+  let networkService: NetworkService;
+  let networkServiceSpy: jasmine.SpyObj<NetworkService>;
 
   const randomStr = 'xs@o';
   const obsStr = '***-nerd';
@@ -45,15 +49,21 @@ describe('AuthenticationService', () => {
     getObfuscatedTesterOid: obsStr
   });
 
+  networkServiceSpy = jasmine.createSpyObj('NetworkService', [
+    'getNetworkState',
+  ]);
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
         AuthenticationService,
+        { provide: NetworkService, useValue: networkServiceSpy },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: VaultService, useValue: vaultServiceSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: CommonFunctionsService, useValue: commonFuncSpy }
+        { provide: CommonFunctionsService, useValue: commonFuncSpy },
+        { provide: Storage, useFactory: () => StorageMock.instance() },
       ]
     });
 
@@ -62,6 +72,7 @@ describe('AuthenticationService', () => {
     logProvider = TestBed.get(LogsProvider);
     commFunc = TestBed.get(CommonFunctionsService);
     authenticationService = TestBed.get(AuthenticationService);
+    networkService = TestBed.get(NetworkService);
   });
 
   afterEach(() => {
@@ -128,6 +139,15 @@ describe('AuthenticationService', () => {
     });
 
     describe('isUserAuthenticated', () => {
+      it('should not attempt a new login when connection status is OFFLINE', async () => {
+        networkService.getNetworkState = jasmine
+          .createSpy('netWorkService.getNetworkState')
+          .and.returnValue(CONNECTION_STATUS.OFFLINE);
+        const authResult = await authenticationService.isUserAuthenticated();
+
+        expect(authResult).toEqual({ active: true, action: AUTH.CONTINUE });
+      });
+
       it('should return token status as "re-login" if token is not available via auth isAccessTokenAvailable', async () => {
         spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(false);
 

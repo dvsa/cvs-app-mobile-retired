@@ -4,15 +4,17 @@ import { IonicAuth } from '@ionic-enterprise/auth';
 import { Observable, Subject } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 import to from 'await-to-js';
+import { Storage } from '@ionic/storage';
 
-import { AUTH, LOG_TYPES } from '../../../app/app.enums';
+import { AUTH, CONNECTION_STATUS, LOG_TYPES, STORAGE } from '../../../app/app.enums';
 import { default as AppConfig } from '../../../../config/application.hybrid';
 import { VaultService } from '../vault/vault.service';
 import { CommonFunctionsService } from '../../utils/common-functions';
-import { TokenInfo, TokenStatus } from '../authentication/auth-model';
-import { cordovaAzureConfig, webAzureConfig } from '../authentication/auth-options';
+import { TokenInfo, TokenStatus } from './auth-model';
+import { cordovaAzureConfig, webAzureConfig } from './auth-options';
 import { Log } from '../../../modules/logs/logs.model';
 import { LogsProvider } from '../../../modules/logs/logs.service';
+import { NetworkService } from '../../global/network.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -37,7 +39,9 @@ export class AuthenticationService {
     private vaultService: VaultService,
     // private alertService: AppAlertService,
     private commonFunc: CommonFunctionsService,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    private networkService: NetworkService,
+    private storage: Storage,
   ) {
     this.initialiseAuth();
   }
@@ -77,7 +81,10 @@ export class AuthenticationService {
   }
 
   async updateTokenInfo(): Promise<TokenInfo> {
-    this._tokenInfo = await this.getTokenDetails();
+    const tokenInfo: TokenInfo = await this.getTokenDetails();
+    if (tokenInfo) {
+      this._tokenInfo = tokenInfo;
+    }
     return this._tokenInfo;
   }
 
@@ -95,19 +102,27 @@ export class AuthenticationService {
     const { id_token: token } = authResponse;
     const decodedToken: any = jwt_decode(token);
 
+    const employeeId = decodedToken.employeeid || '';
+    await this.storage.set(STORAGE.EMPLOYEE_ID, employeeId);
+
     return {
       id: decodedToken.sub,
       testerName: decodedToken.name,
       testerEmail: decodedToken.email || decodedToken.preferred_username,
       testerRoles: decodedToken.roles,
       oid: decodedToken.oid || '',
-      employeeId: decodedToken.employeeid || '',
+      employeeId: employeeId,
       testerId: decodedToken.employeeid || decodedToken.oid,
       token: token
     };
   }
 
   async isUserAuthenticated(): Promise<TokenStatus> {
+    // when offline dont attempt to refreshSession or updateTokenInfo;
+    if (this.networkService.getNetworkState() === CONNECTION_STATUS.OFFLINE) {
+      return { active: true, action: AUTH.CONTINUE };
+    }
+
     if (!(await this._auth.isAccessTokenAvailable())) {
       return { active: false, action: AUTH.RE_LOGIN };
     }

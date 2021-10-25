@@ -42,7 +42,7 @@ import {
   DurationService,
   NetworkService
 } from '../providers/global';
-
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {
   AuthenticationService,
   VaultService,
@@ -52,6 +52,7 @@ import {
   UnauthInterceptor,
   RetryInterceptor
 } from '../providers/auth';
+import { default as AppConfig } from '../../config/application.hybrid';
 
 const IONIC_NATIVE_PROVIDERS = [
   StatusBar,
@@ -99,6 +100,8 @@ const INTERCEPTOR_PROVIDERS = [
   { provide: HTTP_INTERCEPTORS, useClass: RetryInterceptor, multi: true }
 ];
 
+const enableDevTools: boolean = AppConfig.IS_PRODUCTION === 'false';
+
 @NgModule({
   declarations: [MyApp, SignaturePopoverComponent],
   imports: [
@@ -110,6 +113,7 @@ const INTERCEPTOR_PROVIDERS = [
     }),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
+    ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
     SignaturePadModule,
     LogsModule
   ],

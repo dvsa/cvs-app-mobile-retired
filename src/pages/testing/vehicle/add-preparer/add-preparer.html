@@ -11,17 +11,12 @@
 
 <ion-content no-padding>
   <ion-grid no-padding>
-    <ion-row justify-content-center>
-      <ion-col col-6>
-        <div text-uppercase text-center class="vehicle-header-vrm-number">
-          <ng-container
-            *ngIf="checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle"
-            >{{ vehicleData.trailerId }}</ng-container
-          >
+     <div text-uppercase text-center class="vehicle-header-vrm-number">
+          <ng-container *ngIf="checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle">
+            {{ vehicleData.trailerId }}
+          </ng-container>
           <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
         </div>
-      </ion-col>
-    </ion-row>
     <ion-row no-border>
       <ion-item padding-left class="srch-preparer-input">
         <ion-input

@@ -13,6 +13,7 @@ import { from } from 'rxjs/observable/from';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { NetworkService } from './../../global/network.service';
 import { AUTH, CONNECTION_STATUS } from './../../../app/app.enums';
+import { default as AppConfig } from '../../../../config/application.hybrid';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -26,6 +27,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {
       return Observable.throw(new HttpErrorResponse({ error: AUTH.INTERNET_REQUIRED }));
+    }
+
+    // don't mutate request for this EP
+    if (req.url === AppConfig.app.URL_LATEST_VERSION) {
+      return next.handle(req);
     }
 
     return from(this.authentication.checkUserAuthStatus()).pipe(

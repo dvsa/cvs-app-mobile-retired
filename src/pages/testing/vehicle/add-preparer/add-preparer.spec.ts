@@ -30,6 +30,7 @@ import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { AppService, AnalyticsService, DurationService } from '../../../../providers/global';
+import { TestServiceMock } from '../../../../../test-config/services-mocks/test-service.mock';
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -56,7 +57,7 @@ describe('Component: AddPreparerPage', () => {
       imports: [IonicModule.forRoot(AddPreparerPage), PipesModule],
       providers: [
         NavController,
-        TestService,
+        { provide: TestService, useClass: TestServiceMock },
         CommonFunctionsService,
         DurationService,
         // { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },

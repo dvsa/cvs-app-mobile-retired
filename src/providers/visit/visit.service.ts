@@ -53,7 +53,8 @@ export class VisitService {
       testStationType: testStation.testStationType,
       testerName: this.authenticationService.tokenInfo.testerName,
       testerStaffId: this.authenticationService.tokenInfo.testerId,
-      testerEmail: this.authenticationService.tokenInfo.testerEmail
+      testerEmail: this.authenticationService.tokenInfo.testerEmail,
+      startTime: new Date().toISOString(),
     };
     return this.httpService.startVisit(activities);
   }

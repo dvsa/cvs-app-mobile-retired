@@ -118,7 +118,7 @@ export class SignaturePadPage implements OnInit {
                 this.logProvider.dispatchLog({
                   type: 'info',
                   message: `${this.oid} - ${response.status} ${response.body.message} for API call to ${response.url}`,
-                  timestamp: Date.now()
+                  timestamp: Date.now(),
                 });
 
                 this.signatureService.presentSuccessToast();
