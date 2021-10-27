@@ -111,10 +111,17 @@ export class VehicleLookupPage {
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
-        if (response.body) {
-          this.searchVehicle(searchedValue, LOADING);
-        } else {
+        if(response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
+
+          // this.logProvider.dispatchLog({
+          //   type:
+          //     'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
+          //   message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
+          //   timestamp: Date.now()
+          // });
+        } else {
+          this.searchVehicle(searchedValue, LOADING);
         }
       },
       (isVisitStillOpenError) => {
