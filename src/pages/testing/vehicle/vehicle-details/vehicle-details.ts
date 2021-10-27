@@ -153,6 +153,7 @@ export class VehicleDetailsPage {
                             (data) => console.log(data),
                             (err) => console.log(err)
                           );
+                          alert.dismiss();
                           return false;
                         }
                       }
