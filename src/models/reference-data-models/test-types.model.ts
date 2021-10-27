@@ -7,6 +7,7 @@ import {
 
 export interface TestTypesReferenceDataModel {
   id: string;
+  sortId: string;
   name: string;
   testTypeName?: string | null;
   forVehicleType: string[] | VEHICLE_TYPE;
