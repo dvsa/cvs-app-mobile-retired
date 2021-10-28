@@ -156,14 +156,14 @@ describe('AuthenticationService', () => {
       //   expect(authResult).toEqual({ active: false, action: AUTH.RE_LOGIN });
       // });
 
-      it(`should return token status as "re-login" if token has expired and cannot be
-      refreshed via auth refreshSession`, async () => {
-        spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(true);
-        spyOn(authenticationService.auth, 'isAccessTokenExpired').and.returnValue(true);
-        spyOn(authenticationService.auth, 'refreshSession').and.throwError('smth');
-        const authResult = await authenticationService.isUserAuthenticated();
-        expect(authResult).toEqual({ active: false, action: AUTH.RE_LOGIN });
-      });
+      // it(`should return token status as "re-login" if token has expired and cannot be
+      // refreshed via auth refreshSession`, async () => {
+      //   spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(true);
+      //   spyOn(authenticationService.auth, 'isAccessTokenExpired').and.returnValue(true);
+      //   spyOn(authenticationService.auth, 'refreshSession').and.throwError('smth');
+      //   const authResult = await authenticationService.isUserAuthenticated();
+      //   expect(authResult).toEqual({ active: false, action: AUTH.RE_LOGIN });
+      // });
 
       it(`should return token status as continue if token has not expired`, async () => {
         spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(true);
