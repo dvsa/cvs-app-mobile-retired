@@ -28,6 +28,7 @@ export class AuthenticationService {
 
   get tokenInfo(): TokenInfo {
     return this._tokenInfo || ({} as TokenInfo);
+
   }
 
   get auth(): IonicAuth {
@@ -41,7 +42,7 @@ export class AuthenticationService {
     private commonFunc: CommonFunctionsService,
     private logProvider: LogsProvider,
     private networkService: NetworkService,
-    private storage: Storage,
+    private storage: Storage
   ) {
     this.initialiseAuth();
   }
@@ -113,7 +114,8 @@ export class AuthenticationService {
       oid: decodedToken.oid || '',
       employeeId: employeeId,
       testerId: decodedToken.employeeid || decodedToken.oid,
-      token: token
+      token: token,
+      exp: decodedToken.exp
     };
   }
 
@@ -126,8 +128,13 @@ export class AuthenticationService {
     if (!(await this._auth.isAccessTokenAvailable())) {
       return { active: false, action: AUTH.RE_LOGIN };
     }
-
-    if (await this._auth.isAccessTokenExpired()) {
+    console.log('***************************************');
+    console.log(this.tokenInfo);
+    console.log('***************************************');
+    console.log('***************************************');
+    console.log(this.isTokenExpired(this.tokenInfo.exp));
+    console.log('***************************************');
+    if (this.isTokenExpired(this.tokenInfo.exp)) {
       try {
         await this._auth.refreshSession();
       } catch (error) {
@@ -141,6 +148,7 @@ export class AuthenticationService {
   }
 
   async checkUserAuthStatus(): Promise<boolean> {
+    await this.updateTokenInfo()
     const { action } = await this.isUserAuthenticated();
 
     if (action === AUTH.RE_LOGIN) {
@@ -168,4 +176,12 @@ export class AuthenticationService {
 
     this.logProvider.dispatchLog(log);
   }
+
+  isTokenExpired(tokenExp: number): boolean {
+    console.log('~~~~~~~~~~~~~~~~~~~~');
+    console.log(tokenExp && new Date(tokenExp * 1000));
+    console.log('~~~~~~~~~~~~~~~~~~~~');
+    return tokenExp && new Date(tokenExp * 1000) < new Date();
+  }
+
 }

@@ -7,6 +7,7 @@ export interface TokenInfo {
   employeeId: string;
   testerId: string;
   token: string;
+  exp: number;
 }
 
 export interface TokenStatus {
