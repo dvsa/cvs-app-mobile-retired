@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+
 import { TestTypeModel } from '../../../../models/tests/test-type.model';
 import { VisitService } from '../../../../providers/visit/visit.service';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
-import { FIREBASE } from '../../../../app/app.enums';
+import { AnalyticsService } from '../../../../providers/global';
+import {
+  ANALYTICS_EVENT_CATEGORIES,
+  ANALYTICS_EVENTS,
+  ANALYTICS_LABEL
+} from '../../../../app/app.enums';
 
 @IonicPage()
 @Component({
@@ -25,8 +30,8 @@ export class TestAbandoningPage implements OnInit {
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     public visitService: VisitService,
-    private testTypeService: TestTypeService,
-    private firebaseLogsService: FirebaseLogsService
+    private analyticsService: AnalyticsService,
+    private testTypeService: TestTypeService
   ) {
     this.vehicleTest = this.navParams.get('vehicleTest');
     this.selectedReasons = this.navParams.get('selectedReasons');
@@ -75,12 +80,18 @@ export class TestAbandoningPage implements OnInit {
     alert.present();
   }
 
-  updateVehicleTestModel() {
-    this.firebaseLogsService.logEvent(
-      FIREBASE.ABANDON_TEST_TYPE,
-      FIREBASE.TEST_TYPE_NAME,
+  async updateVehicleTestModel() {
+    await this.analyticsService.logEvent({
+      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
+      event: ANALYTICS_EVENTS.ABANDON_TEST_TYPE,
+      label: ANALYTICS_LABEL.TEST_TYPE_NAME
+    });
+
+    await this.analyticsService.addCustomDimension(
+      Object.keys(ANALYTICS_LABEL).indexOf('TEST_TYPE_NAME') + 1,
       this.vehicleTest.testTypeName
     );
+
     this.vehicleTest.reasons.push(...this.selectedReasons);
     if (this.additionalComment && this.additionalComment.length) {
       this.vehicleTest.additionalCommentsForAbandon = this.additionalComment;

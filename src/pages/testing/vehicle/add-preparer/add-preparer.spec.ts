@@ -1,5 +1,4 @@
 import { AppServiceMock } from './../../../../../test-config/services-mocks/app-service.mock';
-import { AppService } from './../../../../providers/global/app.service';
 import { AddPreparerPage } from './add-preparer';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { PreparerService } from '../../../../providers/preparer/preparer.service';
@@ -24,14 +23,14 @@ import { PipesModule } from '../../../../pipes/pipes.module';
 import { PreparersDataMock } from '../../../../assets/data-mocks/reference-data-mocks/preparers-data.mock';
 import { AlertControllerMock } from 'ionic-mocks';
 import { of } from 'rxjs/observable/of';
-import { AuthService } from '../../../../providers/global/auth.service';
-import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
-import { APP_STRINGS, TESTER_ROLES, VEHICLE_TYPE } from '../../../../app/app.enums';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
-import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
+import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
+import { AuthenticationServiceMock } from '../../../../../test-config/services-mocks/authentication-service.mock';
+import { ANALYTICS_SCREEN_NAMES, APP_STRINGS, VEHICLE_TYPE } from '../../../../app/app.enums';
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { AppService, AnalyticsService, DurationService } from '../../../../providers/global';
+import { TestServiceMock } from '../../../../../test-config/services-mocks/test-service.mock';
 
 describe('Component: AddPreparerPage', () => {
   let comp: AddPreparerPage;
@@ -42,7 +41,9 @@ describe('Component: AddPreparerPage', () => {
   let vehicleService: VehicleService;
   let visitService: VisitService;
   let preparerServiceSpy: any;
-  let firebaseLogsService: FirebaseLogsService;
+  let analyticsService: AnalyticsService;
+  let analyticsServiceSpy: any;
+  let durationService: DurationService;
 
   const TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
@@ -56,17 +57,19 @@ describe('Component: AddPreparerPage', () => {
       imports: [IonicModule.forRoot(AddPreparerPage), PipesModule],
       providers: [
         NavController,
-        TestService,
+        { provide: TestService, useClass: TestServiceMock },
         CommonFunctionsService,
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        DurationService,
+        // { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
-        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
         { provide: PreparerService, useValue: preparerServiceSpy },
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: ViewController, useClass: ViewControllerMock },
         { provide: VisitService, useClass: VisitDataMock },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: AnalyticsService, useValue: analyticsServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -80,7 +83,8 @@ describe('Component: AddPreparerPage', () => {
     navCtrl = TestBed.get(NavController);
     vehicleService = TestBed.get(VehicleService);
     visitService = TestBed.get(VisitService);
-    firebaseLogsService = TestBed.get(FirebaseLogsService);
+    analyticsService = TestBed.get(AnalyticsService);
+    durationService = TestBed.get(DurationService);
   });
 
   beforeEach(() => {
@@ -93,6 +97,8 @@ describe('Component: AddPreparerPage', () => {
       };
       return params[param];
     });
+
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', ['setCurrentPage']);
   });
 
   afterEach(() => {
@@ -102,7 +108,6 @@ describe('Component: AddPreparerPage', () => {
     testService = null;
     vehicleService = null;
     visitService = null;
-    firebaseLogsService = null;
   });
 
   it('should create the component', () => {
@@ -114,9 +119,10 @@ describe('Component: AddPreparerPage', () => {
   });
 
   it('should test ionViewDidEnterLogic', () => {
-    spyOn(firebaseLogsService, 'setScreenName');
     comp.ionViewDidEnter();
-    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
+    expect(analyticsService.setCurrentPage).toHaveBeenCalledWith(
+      ANALYTICS_SCREEN_NAMES.ENTER_PREPARER
+    );
   });
 
   it('should VehicleService and TestCancelPage Component share the same instance', inject(
@@ -180,39 +186,31 @@ describe('Component: AddPreparerPage', () => {
   });
 
   it('should check if user has rights to test selected vehicle', () => {
-    let neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    let testerRoles = [TESTER_ROLES.HGV];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'psv')).toBeFalsy();
-    neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    testerRoles = [TESTER_ROLES.PSV];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'psv')).toBeTruthy();
+    let result: boolean;
 
-    neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    testerRoles = [TESTER_ROLES.PSV];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'hgv')).toBeFalsy();
-    neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    testerRoles = [TESTER_ROLES.HGV];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'hgv')).toBeTruthy();
+    comp.vehicleData = {
+      techRecord: {
+        vehicleType: VEHICLE_TYPE.PSV
+      }
+    } as VehicleModel;
 
-    neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    testerRoles = [TESTER_ROLES.PSV];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'trl')).toBeFalsy();
-    neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    testerRoles = [TESTER_ROLES.HGV];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, 'trl')).toBeTruthy();
+    result = comp.ionViewCanEnter();
+    expect(result).toBeTruthy();
 
-    neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    testerRoles = [TESTER_ROLES.PSV];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, '')).toBeFalsy();
-    neededRoles = [TESTER_ROLES.FULL_ACCESS];
-    testerRoles = [TESTER_ROLES.HGV];
-    expect(comp.hasRightsToTestVechicle(neededRoles, testerRoles, '')).toBeFalsy();
+    comp.vehicleData = {
+      techRecord: {
+        vehicleType: VEHICLE_TYPE.HGV
+      }
+    } as VehicleModel;
+
+    result = comp.ionViewCanEnter();
+    expect(result).toBeTruthy();
   });
 
   it('should check if firebase.logEvent was called', () => {
-    spyOn(firebaseLogsService, 'logEvent');
-    comp.logIntoFirebase();
-    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+    // spyOn(firebaseLogsService, 'logEvent');
+    // comp.logIntoFirebase();
+    // expect(firebaseLogsService.logEvent).toHaveBeenCalled();
   });
 
   it('should check if searchValue is updated or not', () => {

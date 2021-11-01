@@ -9,7 +9,8 @@ import {
   ViewController,
   AlertController,
   LoadingController,
-  ModalController
+  ModalController,
+  Loading
 } from 'ionic-angular';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import {
@@ -35,18 +36,14 @@ import { TestServiceMock } from '../../../../../test-config/services-mocks/test-
 import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
 import { DefectsService } from '../../../../providers/defects/defects.service';
 import { VisitDataMock } from '../../../../assets/data-mocks/visit-data.mock';
-import { AuthService } from '../../../../providers/global/auth.service';
-import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
-import { TestStore } from '../../../../providers/interceptors/auth.interceptor.spec';
+import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
+import { AuthenticationServiceMock } from '../../../../../test-config/services-mocks/authentication-service.mock';
 import { TestResultServiceMock } from '../../../../../test-config/services-mocks/test-result-service.mock';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
-import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
-import { Firebase } from '@ionic-native/firebase';
 import { ActivityService } from '../../../../providers/activity/activity.service';
 import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
-import { TEST_TYPE_RESULTS, VEHICLE_TYPE } from '../../../../app/app.enums';
+import { APP_STRINGS, TEST_TYPE_RESULTS, VEHICLE_TYPE } from '../../../../app/app.enums';
 import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
 import { TechRecordDataMock } from '../../../../assets/data-mocks/tech-record-data.mock';
 import { By } from '../../../../../node_modules/@angular/platform-browser';
@@ -55,6 +52,9 @@ import { TestTypeService } from '../../../../providers/test-type/test-type.servi
 import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
 import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
+import { AnalyticsService } from '../../../../providers/global';
+import { TestModel } from '../../../../models/tests/test.model';
+import { of } from 'rxjs/observable/of';
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -67,8 +67,12 @@ describe('Component: TestReviewPage', () => {
   let vehicleService: VehicleService;
   let modalCtrl: ModalController;
   let navCtrl: NavController;
+  let loadingCtrl: LoadingController;
+  let openNativeSettings: OpenNativeSettings;
   let logProvider: LogsProvider;
   let logProviderSpy: any;
+  let analyticsService: AnalyticsService;
+  let analyticsServiceSpy: any;
 
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
@@ -78,11 +82,15 @@ describe('Component: TestReviewPage', () => {
       dispatchLog: () => true
     });
 
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
+      'logEvent',
+      'setCurrentPage'
+    ]);
+
     TestBed.configureTestingModule({
       declarations: [TestReviewPage],
       imports: [IonicModule.forRoot(TestReviewPage)],
       providers: [
-        Firebase,
         CommonFunctionsService,
         OpenNativeSettings,
         DefectsService,
@@ -96,12 +104,13 @@ describe('Component: TestReviewPage', () => {
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: StateReformingService, useClass: StateReformingServiceMock },
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
-        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: AppService, useClass: AppServiceMock },
         { provide: LogsProvider, useValue: logProviderSpy }
       ],
@@ -121,6 +130,9 @@ describe('Component: TestReviewPage', () => {
     modalCtrl = TestBed.get(ModalController);
     navCtrl = TestBed.get(NavController);
     logProvider = TestBed.get(LogsProvider);
+    analyticsService = TestBed.get(AnalyticsService);
+    loadingCtrl = TestBed.get(LoadingController);
+    openNativeSettings = TestBed.get(OpenNativeSettings)
   });
 
   beforeEach(() => {
@@ -301,5 +313,80 @@ describe('Component: TestReviewPage', () => {
     expect(
       component.isSpecialistTestTypeCompleted(changedTestType, initialTestType)
     ).toBeTruthy();
+  });
+
+  describe('onSubmit', () => {
+
+    const testModelParam: TestModel = {
+      startTime: '',
+      endTime: '',
+      status: null,
+      reasonForCancellation: '',
+      vehicles: [],
+    };
+
+    it('should call submitTests() if a valid response is returned with a body of true', () => {
+      activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: true }));
+      component.submitTests = jasmine.createSpy().and.callFake(() => {});
+
+      const TRY_AGAIN_ALERT = alertCtrl.create({
+        title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
+        message: APP_STRINGS.NO_INTERNET_CONNECTION,
+        buttons: [
+          {
+            text: APP_STRINGS.SETTINGS_BTN,
+            handler: () => {
+              openNativeSettings.open('settings');
+            }
+          },
+          {
+            text: APP_STRINGS.TRY_AGAIN_BTN,
+            handler: () => {
+              component.onSubmit(testModelParam);
+            }
+          }
+        ]
+      });
+
+      const LOADING = loadingCtrl.create({
+        content: 'Loading...'
+      });
+
+      component.onSubmit(testModelParam);
+
+      expect(component.submitTests).toHaveBeenCalledTimes(1);
+      expect(component.submitTests).toHaveBeenCalledWith(testModelParam, LOADING, TRY_AGAIN_ALERT);
+    });
+
+    it('should call visitService.createDataClearingAlert if a valid response is returned with a body of false', () => {
+      const presentSpy = jasmine.createSpy();
+      const LOADING = loadingCtrl.create({
+        content: 'Loading...'
+      });
+
+      activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: false }));
+      logProvider.dispatchLog = jasmine.createSpy().and.callFake(() => {});
+      component.visitService.createDataClearingAlert = jasmine.createSpy().and.returnValue({
+        present: presentSpy,
+      });
+
+      component.onSubmit(testModelParam);
+
+      expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(1);
+      expect(component.visitService.createDataClearingAlert).toHaveBeenCalledWith(LOADING);
+      expect(presentSpy).toHaveBeenCalledTimes(1);
+      expect(logProvider.dispatchLog).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not call submitTests or createDataClearingAlert if no response is returned', () => {
+      activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of());
+      component.submitTests = jasmine.createSpy().and.callFake(() => {});
+      component.visitService.createDataClearingAlert = jasmine.createSpy().and.callFake(() => {});
+      
+      component.onSubmit(testModelParam);
+
+      expect(component.submitTests).toHaveBeenCalledTimes(0);
+      expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(0);
+    });
   });
 });

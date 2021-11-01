@@ -8,16 +8,25 @@ import {
 } from 'ionic-angular';
 import { SignaturePad } from 'angular2-signaturepad/signature-pad';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { APP_STRINGS, LOCAL_STORAGE, SIGNATURE_STATUS } from '../../app/app.enums';
-import { SignaturePopoverComponent } from '../../components/signature-popover/signature-popover';
+import { CallNumber } from '@ionic-native/call-number';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+
+import {
+  ANALYTICS_EVENT_CATEGORIES,
+  ANALYTICS_EVENTS,
+  ANALYTICS_LABEL,
+  ANALYTICS_VALUE,
+  APP_STRINGS,
+  LOCAL_STORAGE,
+  SIGNATURE_STATUS
+} from '../../app/app.enums';
+import { SignaturePopoverComponent } from '../../components/signature-popover/signature-popover';
 import { SignatureService } from '../../providers/signature/signature.service';
 import { AppService } from '../../providers/global/app.service';
-import { CallNumber } from '@ionic-native/call-number';
-import { AppConfig } from '../../../config/app.config';
-import { Firebase } from '@ionic-native/firebase';
-import { AuthService } from '../../providers/global/auth.service';
+import { default as AppConfig } from '../../../config/application.hybrid';
+import { AuthenticationService } from '../../providers/auth/authentication/authentication.service';
 import { LogsProvider } from '../../modules/logs/logs.service';
+import { AnalyticsService } from '../../providers/global';
 
 @IonicPage()
 @Component({
@@ -46,8 +55,8 @@ export class SignaturePadPage implements OnInit {
     private screenOrientation: ScreenOrientation,
     private openNativeSettings: OpenNativeSettings,
     private signatureService: SignatureService,
-    private firebase: Firebase,
-    private authService: AuthService,
+    private analyticsService: AnalyticsService,
+    private authenticationService: AuthenticationService,
     private callNumber: CallNumber,
     private logProvider: LogsProvider
   ) {
@@ -85,7 +94,7 @@ export class SignaturePadPage implements OnInit {
 
   showConfirm() {
     const CONFIRM_ALERT = this.alertCtrl.create({
-      title: APP_STRINGS.SIGN_UNABLE_LOAD_DATA,
+      title: APP_STRINGS.UNABLE_LOAD_DATA,
       message: '',
       buttons: [
         {
@@ -97,19 +106,19 @@ export class SignaturePadPage implements OnInit {
         {
           text: APP_STRINGS.CALL_SUPP_BTN,
           handler: () => {
-            this.callNumber.callNumber(AppConfig.KEY_PHONE_NUMBER, true);
+            this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true);
           }
         },
         {
           text: APP_STRINGS.TRY_AGAIN_BTN,
           handler: () => {
-            this.oid = this.authService.getOid();
+            this.oid = this.authenticationService.tokenInfo.oid;
             this.signatureService.saveSignature().subscribe(
               (response) => {
                 this.logProvider.dispatchLog({
                   type: 'info',
                   message: `${this.oid} - ${response.status} ${response.body.message} for API call to ${response.url}`,
-                  timestamp: Date.now()
+                  timestamp: Date.now(),
                 });
 
                 this.signatureService.presentSuccessToast();
@@ -125,10 +134,8 @@ export class SignaturePadPage implements OnInit {
                   timestamp: Date.now()
                 });
 
-                this.firebase.logEvent('test_error', {
-                  content_type: 'error',
-                  item_id: 'Saving signature failed'
-                });
+                this.trackErrorOnSavingSignature(ANALYTICS_VALUE.SAVING_SIGNATURE_FAILED);
+
                 this.showConfirm();
               }
             );
@@ -139,21 +146,30 @@ export class SignaturePadPage implements OnInit {
     CONFIRM_ALERT.present();
   }
 
+  private async trackErrorOnSavingSignature(value: string) {
+    await this.analyticsService.logEvent({
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+      event: ANALYTICS_EVENTS.TEST_ERROR,
+      label: value
+    });
+  }
+
   /**
    * A popover that should look like an alert
    * Alerts do not allow images
    */
   presentPopover() {
-    if (!this.signaturePad.isEmpty()) {
-      const POPOVER = this.popoverCtrl.create(SignaturePopoverComponent);
-      POPOVER.present();
-    } else {
+    if (this.signaturePad.isEmpty()) {
       const EMPTY_SIGNATURE = this.alertCtrl.create({
         title: APP_STRINGS.SIGN_NOT_ENTERED,
         message: APP_STRINGS.SIGN_ENTER,
         buttons: [APP_STRINGS.OK]
       });
       EMPTY_SIGNATURE.present();
+
+      return;
     }
+
+    this.popoverCtrl.create(SignaturePopoverComponent).present();
   }
 }

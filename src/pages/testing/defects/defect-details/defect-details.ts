@@ -7,6 +7,7 @@ import {
   NavParams,
   ViewController
 } from 'ionic-angular';
+
 import {
   AdditionalInfoMetadataModel,
   DefectDetailsModel,
@@ -18,12 +19,13 @@ import { TestTypeService } from '../../../../providers/test-type/test-type.servi
 import {
   APP_STRINGS,
   DEFICIENCY_CATEGORY,
-  FIREBASE_DEFECTS,
-  TEST_TYPE_RESULTS
-} from '../../../../app/app.enums';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+  ANALYTICS_EVENT_CATEGORIES,
+  ANALYTICS_EVENTS,
+  ANALYTICS_LABEL
+} from './../../../../app/app.enums';
 import { ProhibitionClearanceTestTypesData } from '../../../../assets/app-data/test-types-data/prohibition-clearance-test-types.data';
 import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-data/test-types-fields.metadata';
+import { AnalyticsService } from '../../../../providers/global';
 
 @IonicPage()
 @Component({
@@ -38,6 +40,7 @@ export class DefectDetailsPage implements OnInit {
   isLocation: boolean;
   tempDefectLocation: DefectLocationModel;
   tempDefectNotes: string;
+  tempPrs: boolean;
   fromTestReview: boolean;
   showPrs: boolean = true;
   notesChanged: boolean = false;
@@ -54,8 +57,8 @@ export class DefectDetailsPage implements OnInit {
     public viewCtrl: ViewController,
     public defectsService: DefectsService,
     private testTypeService: TestTypeService,
-    private alertCtrl: AlertController,
-    private firebaseLogsService: FirebaseLogsService
+    private analyticsService: AnalyticsService,
+    private alertCtrl: AlertController
   ) {
     this.vehicleTest = navParams.get('vehicleTest');
     this.defect = navParams.get('deficiency');
@@ -67,6 +70,7 @@ export class DefectDetailsPage implements OnInit {
     this.tempDefectLocation = Object.assign({}, this.defect.additionalInformation.location);
     this.tempDefectNotes = this.defect.additionalInformation.notes;
     this.defectMetadata = this.defect.metadata.category.additionalInfo;
+    this.tempPrs = this.defect.prs;
     this.isLocation =
       this.defectMetadata && this.defectMetadata.location
         ? this.checkForLocation(this.defectMetadata.location)
@@ -85,6 +89,7 @@ export class DefectDetailsPage implements OnInit {
     this.navBar.backButtonClick = () => {
       this.defect.additionalInformation.location = Object.assign({}, this.tempDefectLocation);
       this.defect.additionalInformation.notes = this.tempDefectNotes;
+      this.defect.prs = this.tempPrs;
       this.navCtrl.pop();
     };
   }
@@ -102,15 +107,22 @@ export class DefectDetailsPage implements OnInit {
       let views = this.navCtrl.getViews();
       for (let i = views.length - 1; i >= 0; i--) {
         if (views[i].component.name == 'CompleteTestPage') {
-          if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
+          if (!this.isEdit) {
+            this.testTypeService.addDefect(this.vehicleTest, this.defect);
+          }
           this.navCtrl.popTo(views[i]);
         }
       }
     } else {
-      if (!this.isEdit) this.testTypeService.addDefect(this.vehicleTest, this.defect);
+      if (!this.isEdit) {
+        this.testTypeService.addDefect(this.vehicleTest, this.defect);
+      }
       this.navCtrl.popToRoot();
     }
-    if (this.notesChanged) this.logFirebaseNotesChanged();
+
+    if (this.notesChanged) {
+      this.onNotesChanged();
+    }
   }
 
   private getTestTypeDetailsFromFieldsMetadata(testTypeModel: TestTypeModel) {
@@ -202,10 +214,15 @@ export class DefectDetailsPage implements OnInit {
     this.navCtrl.pop();
   }
 
-  private logFirebaseNotesChanged() {
-    this.firebaseLogsService.logEvent(
-      FIREBASE_DEFECTS.DEFECT_NOTES_USAGE,
-      FIREBASE_DEFECTS.DEFICIENCY_REFERENCE,
+  private async onNotesChanged() {
+    await this.analyticsService.logEvent({
+      category: ANALYTICS_EVENT_CATEGORIES.DEFECTS,
+      event: ANALYTICS_EVENTS.DEFECT_NOTES_USAGE,
+      label: ANALYTICS_LABEL.DEFICIENCY_REFERENCE
+    });
+
+    await this.analyticsService.addCustomDimension(
+      Object.keys(ANALYTICS_LABEL).indexOf('DEFICIENCY_REFERENCE') + 1,
       this.defect.deficiencyRef
     );
   }

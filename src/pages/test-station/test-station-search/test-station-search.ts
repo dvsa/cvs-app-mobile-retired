@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Events, IonicPage, NavController } from 'ionic-angular';
 import { TestStationReferenceDataModel } from '../../../models/reference-data-models/test-station.model';
 import { TestStationService } from '../../../providers/test-station/test-station.service';
-import { APP, FIREBASE_SCREEN_NAMES } from '../../../app/app.enums';
-import { FirebaseLogsService } from '../../../providers/firebase-logs/firebase-logs.service';
+import { ANALYTICS_SCREEN_NAMES, APP } from '../../../app/app.enums';
+import { AnalyticsService } from '../../../providers/global';
 
 @IonicPage()
 @Component({
@@ -21,7 +21,8 @@ export class TestStationSearchPage implements OnInit {
     public navCtrl: NavController,
     public events: Events,
     private testStationService: TestStationService,
-    private firebaseLogsService: FirebaseLogsService
+    private analyticsService: AnalyticsService,
+    private zone: NgZone
   ) {}
 
   ngOnInit() {
@@ -30,7 +31,7 @@ export class TestStationSearchPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_STATION_SEARCH);
+    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_STATION_SEARCH);
   }
 
   getTestStations(): void {
@@ -58,11 +59,13 @@ export class TestStationSearchPage implements OnInit {
 
   searchList(e): void {
     this.searchVal = e.target.value;
-    this.filteredTestStations = this.testStationService.sortAndSearchTestStation(
-      this.testStations,
-      this.searchVal,
-      ['testStationName', 'testStationPNumber', 'testStationAddress']
-    );
+    this.zone.run(() => {
+      this.filteredTestStations = this.testStationService.sortAndSearchTestStation(
+        this.testStations,
+        this.searchVal,
+        ['testStationName', 'testStationPNumber', 'testStationAddress']
+      );
+    });
   }
 
   clearSearch(): void {
@@ -76,6 +79,6 @@ export class TestStationSearchPage implements OnInit {
   }
 
   keepCancelOn(ev, hideCancel?: boolean) {
-    this.focusOut = !hideCancel;
+    this.zone.run(() => (this.focusOut = !hideCancel));
   }
 }

@@ -1,3 +1,9 @@
+import {
+  ANALYTICS_EVENT_CATEGORIES,
+  ANALYTICS_EVENTS,
+  ANALYTICS_LABEL,
+  ANALYTICS_VALUE
+} from './../../../../app/app.enums';
 import { Component } from '@angular/core';
 import {
   AlertController,
@@ -9,9 +15,8 @@ import {
 import { TestModel } from '../../../../models/tests/test.model';
 import { TestService } from '../../../../providers/test/test.service';
 import {
+  ANALYTICS_SCREEN_NAMES,
   APP_STRINGS,
-  FIREBASE,
-  FIREBASE_SCREEN_NAMES,
   LOG_TYPES,
   PAGE_NAMES,
   TEST_REPORT_STATUSES
@@ -20,13 +25,12 @@ import { TestResultService } from '../../../../providers/test-result/test-result
 import { VisitService } from '../../../../providers/visit/visit.service';
 import { Observable } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-import { AuthService } from '../../../../providers/global/auth.service';
+import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
 import { catchError } from 'rxjs/operators';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { ActivityService } from '../../../../providers/activity/activity.service';
-import { Firebase } from '@ionic-native/firebase';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
+import { AnalyticsService } from '../../../../providers/global';
 
 @IonicPage()
 @Component({
@@ -39,7 +43,6 @@ export class TestCancelPage {
   changeOpacity;
   nextAlert;
   tryAgain: boolean = false;
-  oid: string;
 
   constructor(
     public navCtrl: NavController,
@@ -50,9 +53,8 @@ export class TestCancelPage {
     private openNativeSettings: OpenNativeSettings,
     private visitService: VisitService,
     private loadingCtrl: LoadingController,
-    private firebase: Firebase,
-    private authService: AuthService,
-    private firebaseLogsService: FirebaseLogsService,
+    private authenticationService: AuthenticationService,
+    private analyticsService: AnalyticsService,
     private activityService: ActivityService,
     private logProvider: LogsProvider
   ) {
@@ -60,7 +62,7 @@ export class TestCancelPage {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_CANCEL);
+    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_CANCEL);
   }
 
   submitHandler() {
@@ -105,7 +107,8 @@ export class TestCancelPage {
 
   submit(test) {
     let stack: Observable<any>[] = [];
-    this.oid = this.authService.getOid();
+    const { oid } = this.authenticationService.tokenInfo;
+
     const TRY_AGAIN_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
       message: APP_STRINGS.NO_INTERNET_CONNECTION,
@@ -147,7 +150,7 @@ export class TestCancelPage {
           catchError((error: any) => {
             this.logProvider.dispatchLog({
               type: LOG_TYPES.ERROR,
-              message: `${this.oid} - ${JSON.stringify(
+              message: `${oid} - ${JSON.stringify(
                 error
               )} for API call to with the body message ${JSON.stringify(testResult)}`,
               timestamp: Date.now()
@@ -163,11 +166,15 @@ export class TestCancelPage {
       (response: any) => {
         this.logProvider.dispatchLog({
           type: 'info',
-          message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
+          message: `${oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
           timestamp: Date.now()
         });
 
-        this.firebaseLogsService.logEvent(FIREBASE.CANCEL_TEST);
+        this.analyticsService.logEvent({
+          category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
+          event: ANALYTICS_EVENTS.CANCEL_TEST
+        });
+
         for (let testResult of testResultsArr) {
           const activity = this.activityService.createActivityBodyForCall(
             this.visitService.visit,
@@ -178,7 +185,7 @@ export class TestCancelPage {
             (resp) => {
               this.logProvider.dispatchLog({
                 type: LOG_TYPES.INFO,
-                message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
+                message: `${oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
                 timestamp: Date.now()
               });
 
@@ -195,13 +202,14 @@ export class TestCancelPage {
             (error) => {
               this.logProvider.dispatchLog({
                 type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-cancel.ts`,
-                message: `${this.oid} - ${JSON.stringify(error)}`,
+                message: `${oid} - ${JSON.stringify(error)}`,
                 timestamp: Date.now()
               });
 
-              this.firebase.logEvent('test_error', {
-                content_type: 'error',
-                item_id: 'Wait activity submission failed'
+              this.analyticsService.logEvent({
+                category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+                event: ANALYTICS_EVENTS.TEST_ERROR,
+                label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
               });
             }
           );
@@ -217,11 +225,13 @@ export class TestCancelPage {
       (error) => {
         LOADING.dismiss();
         TRY_AGAIN_ALERT.present();
-        this.firebaseLogsService.logEvent(
-          FIREBASE.TEST_ERROR,
-          FIREBASE.ERROR,
-          FIREBASE.TEST_SUBMISSION_FAILED
-        );
+
+        this.analyticsService.logEvent({
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+          event: ANALYTICS_EVENTS.TEST_ERROR,
+          label: ANALYTICS_VALUE.TEST_SUBMISSION_FAILED
+        });
+
         TRY_AGAIN_ALERT.onDidDismiss(() => {
           if (!this.tryAgain) {
             this.nextAlert = this.changeOpacity = false;

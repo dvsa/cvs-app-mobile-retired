@@ -290,8 +290,10 @@ ion-item-group {
 .vehicle-header-vrm-number {
   -webkit-text-size-adjust: $disable-accessibility-text-scaling;
   background: $color-reg-plate;
-  width: 194px;
-  height: 50px;
+  min-width: 200px;
+  width: fit-content;
+  min-height: 50px;
+  height: fit-content;
   font-size: $font-size-extra-large;
   font-weight: $font-weight-bold;
   line-height: 42px;

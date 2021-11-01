@@ -13,11 +13,14 @@ import {
 import { VisitModel } from '../../../../models/visit/visit.model';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import {
+  ANALYTICS_SCREEN_NAMES,
+  ANALYTICS_EVENTS,
+  ANALYTICS_EVENT_CATEGORIES,
+  ANALYTICS_LABEL,
+  ANALYTICS_VALUE,
   APP_STRINGS,
   DATE_FORMAT,
   DEFICIENCY_CATEGORY,
-  FIREBASE,
-  FIREBASE_SCREEN_NAMES,
   LOCAL_STORAGE,
   LOG_TYPES,
   ODOMETER_METRIC,
@@ -41,14 +44,12 @@ import { VisitService } from '../../../../providers/visit/visit.service';
 import { catchError } from 'rxjs/operators';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { DefectsService } from '../../../../providers/defects/defects.service';
-import { AuthService } from '../../../../providers/global/auth.service';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
+import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
 import { ActivityService } from '../../../../providers/activity/activity.service';
-import { Firebase } from '@ionic-native/firebase';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
 import { RoadworthinessTestTypesData } from '../../../../assets/app-data/test-types-data/roadworthiness-test-types.data';
 import { AdrTestTypesData } from '../../../../assets/app-data/test-types-data/adr-test-types.data';
-import { AppService } from '../../../../providers/global/app.service';
+import { AppService, AnalyticsService } from '../../../../providers/global';
 import { TirTestTypesData } from '../../../../assets/app-data/test-types-data/tir-test-types.data';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
@@ -69,7 +70,6 @@ export class TestReviewPage implements OnInit {
   deficiencyCategory;
   submitInProgress: boolean = false;
   isTestSubmitted: string;
-  oid: string;
   vehicleBeingReviewed: number;
   vehicle: VehicleModel;
   roadworthinessTestTypesIds: string[] = RoadworthinessTestTypesData.RoadworthinessTestTypesIds;
@@ -92,9 +92,8 @@ export class TestReviewPage implements OnInit {
     private testService: TestService,
     private loadingCtrl: LoadingController,
     private storageService: StorageService,
-    private firebase: Firebase,
-    private authService: AuthService,
-    private firebaseLogsService: FirebaseLogsService,
+    private authenticationService: AuthenticationService,
+    private analyticsService: AnalyticsService,
     private activityService: ActivityService,
     public appService: AppService,
     private testTypeService: TestTypeService,
@@ -123,7 +122,7 @@ export class TestReviewPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_REVIEW);
+    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_REVIEW);
   }
 
   getVehicleTypeIconToShow(vehicle: VehicleModel) {
@@ -333,10 +332,16 @@ export class TestReviewPage implements OnInit {
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
-        if (response.body) {
-          this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
-        } else {
+        if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
+          const { oid } = this.authenticationService.tokenInfo;
+          this.logProvider.dispatchLog({
+            type: 'activityService.isVisitStillOpen in test-review.ts',
+            message: `${oid} - attempted to submit tests when visit no longer open - response was: ${response}`,
+            timestamp: Date.now()
+          });
+        } else {
+          this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
         }
       },
       (isVisitStillOpenError) => {
@@ -352,7 +357,7 @@ export class TestReviewPage implements OnInit {
    *
    */
   submitTests(test: TestModel, LOADING: Loading, TRY_AGAIN_ALERT: Alert): void {
-    this.oid = this.authService.getOid();
+    const { oid } = this.authenticationService.tokenInfo;
     let stack: Observable<any>[] = [];
     let testResultsArr: TestResultModel[] = [];
 
@@ -364,7 +369,7 @@ export class TestReviewPage implements OnInit {
           catchError((error: any) => {
             this.logProvider.dispatchLog({
               type: 'error',
-              message: `${this.oid} - ${JSON.stringify(
+              message: `${oid} - ${JSON.stringify(
                 error
               )} for API call with the body message ${JSON.stringify(testResult)}`,
               timestamp: Date.now()
@@ -380,11 +385,14 @@ export class TestReviewPage implements OnInit {
       (response: any) => {
         this.logProvider.dispatchLog({
           type: 'info',
-          message: `${this.oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
+          message: `${oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
           timestamp: Date.now()
         });
 
-        this.firebaseLogsService.logEvent(FIREBASE.SUBMIT_TEST);
+        this.analyticsService.logEvent({
+          category: ANALYTICS_EVENT_CATEGORIES.TEST,
+          event: ANALYTICS_EVENTS.SUBMIT_TEST
+        });
 
         for (let testResult of testResultsArr) {
           const activity = this.activityService.createActivityBodyForCall(
@@ -396,7 +404,7 @@ export class TestReviewPage implements OnInit {
             (resp) => {
               this.logProvider.dispatchLog({
                 type: LOG_TYPES.INFO,
-                message: `${this.oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
+                message: `${oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
                 timestamp: Date.now()
               });
 
@@ -411,14 +419,11 @@ export class TestReviewPage implements OnInit {
             (error) => {
               this.logProvider.dispatchLog({
                 type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-review.ts`,
-                message: `${this.oid} - ${JSON.stringify(error)}`,
+                message: `${oid} - ${JSON.stringify(error)}`,
                 timestamp: Date.now()
               });
 
-              this.firebase.logEvent('test_error', {
-                content_type: 'error',
-                item_id: 'Wait activity submission failed'
-              });
+              this.trackErrorOnTestSubmission(ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED);
             }
           );
         }
@@ -432,13 +437,18 @@ export class TestReviewPage implements OnInit {
       (error) => {
         LOADING.dismiss();
         TRY_AGAIN_ALERT.present();
-        this.firebaseLogsService.logEvent(
-          FIREBASE.TEST_ERROR,
-          FIREBASE.ERROR,
-          FIREBASE.TEST_SUBMISSION_FAILED
-        );
+
+        this.trackErrorOnTestSubmission(ANALYTICS_VALUE.TEST_SUBMISSION_FAILED);
       }
     );
+  }
+
+  private async trackErrorOnTestSubmission(value: string) {
+    await this.analyticsService.logEvent({
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+      event: ANALYTICS_EVENTS.TEST_ERROR,
+      label: value
+    });
   }
 
   getCountryStringToBeDisplayed(vehicle: VehicleModel) {

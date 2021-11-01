@@ -16,11 +16,13 @@ import {
 } from '../../../../models/defects/defect-details.model';
 import { DefectsService } from '../../../../providers/defects/defects.service';
 import {
+  ANALYTICS_EVENT_CATEGORIES,
+  ANALYTICS_EVENTS,
+  ANALYTICS_LABEL,
+  ANALYTICS_SCREEN_NAMES,
   APP,
   DEFICIENCY_CATEGORY,
-  FIREBASE,
-  FIREBASE_DEFECTS,
-  FIREBASE_SCREEN_NAMES,
+  DURATION_TYPE,
   MOD_TYPES,
   PAGE_NAMES,
   REG_EX_PATTERNS,
@@ -38,8 +40,8 @@ import { VisitService } from '../../../../providers/visit/visit.service';
 import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-data/test-types-fields.metadata';
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { DefectCategoryReferenceDataModel } from '../../../../models/reference-data-models/defects.reference-model';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
 import { NotifiableAlterationTestTypesData } from '../../../../assets/app-data/test-types-data/notifiable-alteration-test-types.data';
+import { AnalyticsService, DurationService } from '../../../../providers/global';
 
 @IonicPage()
 @Component({
@@ -83,7 +85,8 @@ export class CompleteTestPage implements OnInit {
     private cdRef: ChangeDetectorRef,
     private vehicleService: VehicleService,
     private viewCtrl: ViewController,
-    private firebaseLogsService: FirebaseLogsService
+    private durationService: DurationService,
+    private analyticsService: AnalyticsService
   ) {
     this.vehicle = navParams.get('vehicle');
     this.vehicleTest = navParams.get('vehicleTest');
@@ -132,7 +135,8 @@ export class CompleteTestPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.firebaseLogsService.setScreenName(FIREBASE_SCREEN_NAMES.TEST_TYPE_DETAILS);
+    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_TYPE_DETAILS);
+
     if (this.fromTestReview && this.vehicleTest.testResult === TEST_TYPE_RESULTS.ABANDONED) {
       this.viewCtrl.dismiss(this.vehicleTest);
     }
@@ -314,6 +318,16 @@ export class CompleteTestPage implements OnInit {
     ) {
       return false;
     }
+
+    // Specialist Test IVA/Retest and vehicle failed.
+    if (
+      this.testTypeService.isSpecialistIvaTestAndRetestTestType(this.vehicleTest.testTypeId) &&
+      this.vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL &&
+      section.inputs[0].type === TEST_TYPE_FIELDS.CERTIFICATE_NUMBER
+    ) {
+      return true;
+    }
+
     // -----TO HERE-----
     // for Specialist test-types with certificate number and Notifiable Alteration for PSVs
     // -----FROM HERE-----
@@ -359,7 +373,12 @@ export class CompleteTestPage implements OnInit {
     }
     if (input.dependentOn && input.dependentOn.length) {
       for (let dep of input.dependentOn) {
-        if (this.vehicleTest[dep.testTypePropertyName] === dep.valueToBeDifferentFrom) {
+        if (
+          !this.testTypeService.isSpecialistIvaTestAndRetestTestType(
+            this.vehicleTest.testTypeId
+          ) &&
+          this.vehicleTest[dep.testTypePropertyName] === dep.valueToBeDifferentFrom
+        ) {
           return false;
         }
       }
@@ -435,9 +454,11 @@ export class CompleteTestPage implements OnInit {
       defects: this.defectsCategories,
       fromTestReview: this.fromTestReview
     });
-    this.firebaseLogsService[FIREBASE_DEFECTS.ADD_DEFECT_TIME_TAKEN][
-      FIREBASE_DEFECTS.ADD_DEFECT_START_TIME
-    ] = Date.now();
+
+    this.durationService.setDuration(
+      { start: Date.now() },
+      DURATION_TYPE[DURATION_TYPE.DEFECT_TIME]
+    );
   }
 
   openDefect(defect: DefectDetailsModel): void {
@@ -514,12 +535,18 @@ export class CompleteTestPage implements OnInit {
     this.testTypeService.removeSpecialistCustomDefect(this.vehicleTest, index);
   }
 
-  removeTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
-    this.firebaseLogsService.logEvent(
-      FIREBASE.REMOVE_TEST_TYPE,
-      FIREBASE.TEST_TYPE_NAME,
-      vehicleTest.testTypeName
+  async removeTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
+    await this.analyticsService.logEvent({
+      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
+      event: ANALYTICS_EVENTS.REMOVE_TEST_TYPE,
+      label: ANALYTICS_LABEL.TEST_TYPE_NAME
+    });
+
+    await this.analyticsService.addCustomDimension(
+      Object.keys(ANALYTICS_LABEL).indexOf('TEST_TYPE_NAME') + 1,
+      this.vehicleTest.testTypeName
     );
+
     this.vehicleService.removeSicFields(vehicle, this.completedFields);
     this.vehicleService.removeTestType(vehicle, vehicleTest);
     this.navCtrl.pop();

@@ -38,10 +38,9 @@ import { of } from 'rxjs/observable/of';
 import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
 import { DefectCategoryReferenceDataModel } from '../../../../models/reference-data-models/defects.reference-model';
 import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
-import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
 import { DefectDetailsDataMock } from '../../../../assets/data-mocks/defect-details-data.mock';
 import { ActionSheetControllerMock, ModalControllerMock, ViewControllerMock } from 'ionic-mocks';
+import { AnalyticsService, DurationService } from '../../../../providers/global';
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -57,6 +56,9 @@ describe('Component: CompleteTestPage', () => {
   let visitService: VisitService;
   let vehicleService: VehicleService;
   let modalCtrl: ModalController;
+  let analyticsService: AnalyticsService;
+  let analyticsServiceSpy: any;
+  let durationService: DurationService;
 
   const DEFECTS: DefectCategoryReferenceDataModel[] = DefectsReferenceDataMock.DefectsData;
   const ADDED_DEFECT: DefectDetailsModel = {
@@ -98,13 +100,19 @@ describe('Component: CompleteTestPage', () => {
       getDefectsFromStorage: of(DEFECTS)
     });
 
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
+      'logEvent',
+      'setCurrentPage',
+      'addCustomDimension'
+    ]);
+
     TestBed.configureTestingModule({
       declarations: [CompleteTestPage],
       imports: [IonicModule.forRoot(CompleteTestPage)],
       providers: [
         NavController,
         ChangeDetectorRef,
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
+        DurationService,
         { provide: NavParams, useClass: NavParamsMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestTypeService, useClass: TestTypeServiceMock },
@@ -117,7 +125,7 @@ describe('Component: CompleteTestPage', () => {
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: DefectsService, useValue: defectsServiceSpy },
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock }
+        { provide: AnalyticsService, useValue: analyticsServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -135,6 +143,8 @@ describe('Component: CompleteTestPage', () => {
     vehicleService = TestBed.get(VehicleService);
     modalCtrl = TestBed.get(ModalController);
     actionSheetCtrl = TestBed.get(ActionSheetController);
+    analyticsService = TestBed.get(AnalyticsService);
+    durationService = TestBed.get(DurationService);
   });
 
   beforeEach(() => {
@@ -275,7 +285,7 @@ describe('Component: CompleteTestPage', () => {
     section.inputs[0].type = TEST_TYPE_FIELDS.CERTIFICATE_NUMBER_CUSTOM;
     expect(comp.canDisplaySection(section)).toBeFalsy();
 
-    comp.vehicleTest.testTypeId = '125';
+    comp.vehicleTest.testTypeId = '133'; // specialist test only
     section.inputs[0].type = TEST_TYPE_FIELDS.CERTIFICATE_NUMBER;
     expect(comp.canDisplaySection(section)).toBeFalsy();
 
@@ -284,17 +294,51 @@ describe('Component: CompleteTestPage', () => {
 
     comp.vehicleTest.testTypeId = '38';
     expect(comp.canDisplaySection(section)).toBeFalsy();
+
+    comp.vehicleTest.testTypeId = '130'; //specialist IVA/Retest
+    comp.vehicleTest.testResult = TEST_TYPE_RESULTS.FAIL;
+    section.inputs[0].type = TEST_TYPE_FIELDS.CERTIFICATE_NUMBER;
+    expect(comp.canDisplaySection(section)).toBeTruthy();
   });
 
-  it('should tell if an input can be displayed', () => {
-    comp.vehicleTest = navParams.get('vehicleTest');
-    comp.testTypeDetails = comp.getTestTypeDetails();
-    let input = TEST_TYPES_METADATA.sections[2].inputs[2];
-    comp.completedFields = {};
-    comp.completedFields.seatbeltInstallationCheckDate = false;
-    expect(comp.canDisplayInput(input)).toBeTruthy();
-    comp.completedFields.seatbeltInstallationCheckDate = true;
-    expect(comp.canDisplayInput(input)).toBeFalsy();
+  describe('canDisplayInput', () => {
+    let inputMeta;
+
+    beforeEach(() => {
+      comp.vehicleTest = navParams.get('vehicleTest');
+      comp.testTypeDetails = comp.getTestTypeDetails();
+      inputMeta = TEST_TYPES_METADATA.sections[2].inputs[2];
+      comp.completedFields = {
+        seatbeltInstallationCheckDate: false
+      };
+    });
+
+    it('should be truthy when seatbeltInstallationCheckDate is false', () => {
+      expect(comp.canDisplayInput(inputMeta)).toBeTruthy();
+    });
+
+    it('should be falsy when seatbeltInstallationCheckDate is true', () => {
+      comp.completedFields.seatbeltInstallationCheckDate = true;
+      expect(comp.canDisplayInput(inputMeta)).toBeFalsy();
+    });
+
+    it('should show Certificate field when test fail for specialist IVA or Retest', () => {
+      comp.vehicleTest.testTypeId = '130';
+      comp.completedFields = {};
+      inputMeta = TEST_TYPES_METADATA.sections[1].inputs[1];
+      inputMeta = {
+        ...inputMeta,
+        type: TEST_TYPE_FIELDS.CERTIFICATE_NUMBER,
+        dependentOn: [
+          {
+            testTypePropertyName: 'testResult',
+            valueToBeDifferentFrom: TEST_TYPE_RESULTS.FAIL
+          }
+        ]
+      };
+
+      expect(comp.canDisplayInput(inputMeta)).toBeTruthy();
+    });
   });
 
   it('should create a handler for a DDL button', () => {

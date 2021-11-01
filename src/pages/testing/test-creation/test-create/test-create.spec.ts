@@ -17,35 +17,44 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   ODOMETER_METRIC,
   VEHICLE_TYPE,
-  TEST_COMPLETION_STATUS,
   TEST_TYPE_RESULTS,
   MOD_TYPES,
-  DEFICIENCY_CATEGORY
-} from "../../../../app/app.enums";
-import { TestService } from "../../../../providers/test/test.service";
-import { TestServiceMock } from "../../../../../test-config/services-mocks/test-service.mock";
-import { VehicleServiceMock } from "../../../../../test-config/services-mocks/vehicle-service.mock";
-import { VisitService } from "../../../../providers/visit/visit.service";
-import { VisitServiceMock } from "../../../../../test-config/services-mocks/visit-service.mock";
-import { StateReformingService } from "../../../../providers/global/state-reforming.service";
-import { StateReformingServiceMock } from "../../../../../test-config/services-mocks/state-reforming-service.mock";
-import { VisitDataMock } from "../../../../assets/data-mocks/visit-data.mock";
-import { VehicleTechRecordModel } from "../../../../models/vehicle/tech-record.model";
-import { CommonFunctionsService } from "../../../../providers/utils/common-functions";
-import { CallNumber } from "@ionic-native/call-number";
-import { AppService } from "../../../../providers/global/app.service";
-import { AppServiceMock } from "../../../../../test-config/services-mocks/app-service.mock";
-import { AlertControllerMock, EventsMock, ModalControllerMock, NavControllerMock } from "ionic-mocks";
-import { FirebaseLogsService } from "../../../../providers/firebase-logs/firebase-logs.service";
-import { FirebaseLogsServiceMock } from "../../../../../test-config/services-mocks/firebaseLogsService.mock";
-import { VehicleDataMock } from "../../../../assets/data-mocks/vehicle-data.mock";
-import { TestDataModelMock } from "../../../../assets/data-mocks/data-model/test-data-model.mock";
-import { TestTypeService } from "../../../../providers/test-type/test-type.service";
-import { TestTypeServiceMock } from "../../../../../test-config/services-mocks/test-type-service.mock";
-import { DefectDetailsDataMock } from "../../../../assets/data-mocks/defect-details-data.mock";
-import { VehicleModel } from "../../../../models/vehicle/vehicle.model";
-import { EuVehicleCategoryData } from "../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category";
-import { SpecialistCustomDefectModel } from "../../../../models/defects/defect-details.model";
+  DEFICIENCY_CATEGORY,
+  ANALYTICS_SCREEN_NAMES,
+  DURATION_TYPE,
+  ANALYTICS_EVENT_CATEGORIES,
+  ANALYTICS_EVENTS,
+  ANALYTICS_LABEL,
+  ANALYTICS_VALUE
+} from '../../../../app/app.enums';
+import { TestService } from '../../../../providers/test/test.service';
+import { TestServiceMock } from '../../../../../test-config/services-mocks/test-service.mock';
+import { VehicleServiceMock } from '../../../../../test-config/services-mocks/vehicle-service.mock';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { VisitServiceMock } from '../../../../../test-config/services-mocks/visit-service.mock';
+import { StateReformingService } from '../../../../providers/global/state-reforming.service';
+import { StateReformingServiceMock } from '../../../../../test-config/services-mocks/state-reforming-service.mock';
+import { VisitDataMock } from '../../../../assets/data-mocks/visit-data.mock';
+import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
+import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
+import { CallNumber } from '@ionic-native/call-number';
+import { AppService } from '../../../../providers/global/app.service';
+import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
+import {
+  AlertControllerMock,
+  EventsMock,
+  ModalControllerMock,
+  NavControllerMock
+} from 'ionic-mocks';
+import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
+import { TestDataModelMock } from '../../../../assets/data-mocks/data-model/test-data-model.mock';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
+import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
+import { DefectDetailsDataMock } from '../../../../assets/data-mocks/defect-details-data.mock';
+import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
+import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category';
+import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
+import { AnalyticsService, DurationService } from '../../../../providers/global';
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -58,9 +67,11 @@ describe('Component: TestCreatePage', () => {
   let testService: TestService;
   let stateReformingService: StateReformingService;
   let callNumberSpy: any;
-  let firebaseLogsService: FirebaseLogsService;
   let modalctrl: ModalController;
   let commonFuncService: CommonFunctionsService;
+  let analyticsService: AnalyticsService;
+  let analyticsServiceSpy: any;
+  let durationService: DurationService;
 
   const ADDED_VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
@@ -71,12 +82,17 @@ describe('Component: TestCreatePage', () => {
   beforeEach(async(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callPhoneNumber']);
 
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
+      'logEvent',
+      'setCurrentPage'
+    ]);
+
     TestBed.configureTestingModule({
       declarations: [TestCreatePage],
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         CommonFunctionsService,
+        DurationService,
         { provide: Events, useFactory: () => EventsMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
@@ -88,7 +104,8 @@ describe('Component: TestCreatePage', () => {
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestService, useClass: TestServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: TestTypeService, useClass: TestTypeServiceMock }
+        { provide: TestTypeService, useClass: TestTypeServiceMock },
+        { provide: AnalyticsService, useValue: analyticsServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -102,9 +119,10 @@ describe('Component: TestCreatePage', () => {
     appService = TestBed.get(AppService);
     visitService = TestBed.get(VisitService);
     stateReformingService = TestBed.get(StateReformingService);
-    firebaseLogsService = TestBed.get(FirebaseLogsService);
     modalctrl = TestBed.get(ModalController);
     commonFuncService = TestBed.get(CommonFunctionsService);
+    analyticsService = TestBed.get(AnalyticsService);
+    durationService = TestBed.get(DurationService);
   }));
 
   beforeEach(() => {
@@ -125,7 +143,6 @@ describe('Component: TestCreatePage', () => {
     vehicleService = null;
     visitService = null;
     stateReformingService = null;
-    firebaseLogsService = null;
     modalctrl = null;
     navCtrl = null;
     commonFuncService = null;
@@ -149,9 +166,10 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should test ionViewDidEnterLogic', () => {
-    spyOn(firebaseLogsService, 'setScreenName');
     component.ionViewDidEnter();
-    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
+    expect(analyticsService.setCurrentPage).toHaveBeenCalledWith(
+      ANALYTICS_SCREEN_NAMES.TEST_OVERVIEW
+    );
   });
 
   it('should say either a test is abandoned or not', () => {
@@ -208,8 +226,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to FAIL when a PASS test with sections has major defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testResult = TEST_TYPE_RESULTS.PASS;
     testType.defects.push(DefectDetailsDataMock.DefectData);
 
@@ -219,8 +237,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to PRS when a PASS test with sections has repaired major defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testResult = TEST_TYPE_RESULTS.PASS;
     let defect = DefectDetailsDataMock.DefectData;
     defect.prs = true;
@@ -232,8 +250,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should not change the testResult when a PASS test with sections has minor defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testResult = TEST_TYPE_RESULTS.PASS;
     let defect = DefectDetailsDataMock.DefectData;
     defect.deficiencyCategory = DEFICIENCY_CATEGORY.MINOR;
@@ -245,8 +263,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to FAIL when a test with sections has major defects but does not have a testResult', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testResult = undefined;
     testType.defects.push(DefectDetailsDataMock.DefectData);
 
@@ -256,8 +274,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to FAIL when a PASS test without sections has major defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '94';
     testType.testResult = TEST_TYPE_RESULTS.PASS;
     testType.defects.push(DefectDetailsDataMock.DefectData);
@@ -268,8 +286,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to PRS when a PASS test without sections has repaired major defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '94';
     testType.testResult = TEST_TYPE_RESULTS.PASS;
     let defect = DefectDetailsDataMock.DefectData;
@@ -282,8 +300,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should not change the testResult when a PASS test without sections has minor defects', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '94';
     testType.testResult = TEST_TYPE_RESULTS.PASS;
     let defect = DefectDetailsDataMock.DefectData;
@@ -296,8 +314,8 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should set the testResult to FAIL when a test without sections has major defects but does not have a testResult', () => {
-    let testType: TestTypeModel = {...TestTypeDataModelMock.TestTypeData};
-    let vehicle: VehicleModel = {...VEHICLE};
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
     testType.testTypeId = '94';
     testType.testResult = undefined;
     testType.defects.push(DefectDetailsDataMock.DefectData);
@@ -347,6 +365,22 @@ describe('Component: TestCreatePage', () => {
     testType.customDefects[0].referenceNumber = '12345';
     testType.customDefects[0].defectName = 'customDefect';
     testType.customDefects[0].hasAllMandatoryFields = true;
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('Edit');
+  });
+
+  it('should have "In progress" status if a Specialist test (IVA/Retest) has certificate field incomplete', () => {
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
+    testType.testTypeId = '130';
+    testType.certificateNumber = '';
+    expect(component.getTestTypeStatus(vehicle, testType)).toEqual('In progress');
+  });
+
+  it('should have "Edit" status if a Specialist test (IVA/Retest) has all fields completed', () => {
+    let testType: TestTypeModel = { ...TestTypeDataModelMock.TestTypeData };
+    let vehicle: VehicleModel = { ...VEHICLE };
+    testType.testTypeId = '130';
+    testType.certificateNumber = '7374348';
     expect(component.getTestTypeStatus(vehicle, testType)).toEqual('Edit');
   });
 
@@ -403,28 +437,46 @@ describe('Component: TestCreatePage', () => {
     expect(navCtrl.push).not.toHaveBeenCalled();
   });
 
-  it('should test firebase logging when adding a test type', () => {
+  it('should set duration for adding a test type', () => {
+    const dateNow: number = 1620242516913;
+    spyOn(durationService, 'setDuration');
+    spyOn(Date, 'now').and.returnValue(dateNow);
+
     component.addVehicleTest(vehicleService.createVehicle(vehicle));
-    expect(firebaseLogsService.add_test_type_time.add_test_type_start_time).toBeTruthy();
+    expect(durationService.setDuration).toHaveBeenCalledWith(
+      { start: dateNow },
+      DURATION_TYPE[DURATION_TYPE.TEST_TYPE]
+    );
   });
 
-  it('should test firebase logging when removing a test type', () => {
-    spyOn(firebaseLogsService, 'logEvent');
+  it('should track log event when removing a test type', async () => {
     component.completedFields = {};
-    component.removeVehicleTest(vehicleService.createVehicle(vehicle), ADDED_VEHICLE_TEST);
-    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+    await component.removeVehicleTest(vehicleService.createVehicle(vehicle), ADDED_VEHICLE_TEST);
+
+    expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
+      event: ANALYTICS_EVENTS.REMOVE_TEST_TYPE,
+      label: ADDED_VEHICLE_TEST.testTypeName
+    });
   });
 
   it('should test onOdometer logic', () => {
+    const dateNow: number = 1620242516913;
+    spyOn(durationService, 'setDuration');
+    spyOn(Date, 'now').and.returnValue(dateNow);
+
     let newTest = testService.createTest();
     let newVehicle = vehicleService.createVehicle(vehicle);
     newTest.vehicles.push(newVehicle);
     component.testData = newTest;
+
     component.onOdometer(0);
+
+    expect(durationService.setDuration).toHaveBeenCalledWith(
+      { start: dateNow },
+      DURATION_TYPE[DURATION_TYPE.ODOMETER_READING]
+    );
     expect(modalctrl.create).toHaveBeenCalled();
-    expect(
-      firebaseLogsService.add_odometer_reading_time.add_odometer_reading_start_time
-    ).toBeTruthy();
   });
 
   it('should test onVehicleCategory logic', () => {
@@ -448,19 +500,31 @@ describe('Component: TestCreatePage', () => {
     expect(component.errorIncomplete).toBeFalsy();
   });
 
-  it('should check if logEvent was called', () => {
-    spyOn(firebaseLogsService, 'logEvent');
+  it('should track log event for missing fields', async () => {
     let vehicle = VehicleDataMock.VehicleData;
     vehicle.countryOfRegistration = '';
-    component.logMissingFields(vehicle);
-    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+    await component.logMissingFields(vehicle);
+    expectedCheck(ANALYTICS_VALUE.COUNTRY_OF_REGISTRATION);
+
+    vehicle.countryOfRegistration = 'gb';
+    vehicle.euVehicleCategory = '';
+    await component.logMissingFields(vehicle);
+    expectedCheck(ANALYTICS_VALUE.EU_VEHICLE_CATEGORY);
 
     vehicle.countryOfRegistration = 'gb';
     vehicle.euVehicleCategory = 'something';
-    vehicle.odometerReading = '1233';
-    component.logMissingFields(vehicle);
-    expect(firebaseLogsService.logEvent).toHaveBeenCalled();
+    vehicle.odometerReading = '';
+    await component.logMissingFields(vehicle);
+    expectedCheck(ANALYTICS_VALUE.ODOMETER_READING);
   });
+
+  function expectedCheck(value: string) {
+    expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      category: ANALYTICS_EVENT_CATEGORIES.REVIEWS,
+      event: ANALYTICS_EVENTS.TEST_REVIEW_UNSUCCESSFUL,
+      label: value
+    });
+  }
 
   it('should test getCountryStringToBeDisplayed', () => {
     spyOn(commonFuncService, 'getCountryStringToBeDisplayed');

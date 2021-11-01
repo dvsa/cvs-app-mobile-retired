@@ -17,17 +17,16 @@ import { VisitDataMock } from '../../../../assets/data-mocks/visit-data.mock';
 import { TestResultService } from '../../../../providers/test-result/test-result.service';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { AlertControllerMock, LoadingControllerMock, NavControllerMock } from 'ionic-mocks';
-import { AuthService } from '../../../../providers/global/auth.service';
-import { AuthServiceMock } from '../../../../../test-config/services-mocks/auth-service.mock';
+import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
+import { AuthenticationServiceMock } from '../../../../../test-config/services-mocks/authentication-service.mock';
 import { Store } from '@ngrx/store';
-import { TestStore } from '../../../../providers/interceptors/auth.interceptor.spec';
+import { TestStore } from '../../../../modules/logs/data-store.service.mock';
 import { TestResultServiceMock } from '../../../../../test-config/services-mocks/test-result-service.mock';
-import { FirebaseLogsService } from '../../../../providers/firebase-logs/firebase-logs.service';
-import { FirebaseLogsServiceMock } from '../../../../../test-config/services-mocks/firebaseLogsService.mock';
-import { Firebase } from '@ionic-native/firebase';
 import { ActivityService } from '../../../../providers/activity/activity.service';
 import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
+import { AnalyticsService } from '../../../../providers/global';
+import { ANALYTICS_SCREEN_NAMES } from '../../../../app/app.enums';
 
 describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
@@ -41,9 +40,10 @@ describe('Component: TestCancelPage', () => {
   let alertCtrl: AlertController;
   let activityServiceMock: ActivityServiceMock;
   let store: Store<any>;
-  let firebaseLogsService: FirebaseLogsService;
   let logProvider: LogsProvider;
   let logProviderSpy: any;
+  let analyticsService: AnalyticsService;
+  let analyticsServiceSpy: any;
 
   let testReport: TestModel = {
     startTime: null,
@@ -70,13 +70,17 @@ describe('Component: TestCancelPage', () => {
       dispatchLog: () => true
     });
 
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
+      'setCurrentPage',
+      'logEvent',
+      'addCustomDimension'
+    ]);
+
     TestBed.configureTestingModule({
       declarations: [TestCancelPage],
       imports: [IonicModule.forRoot(TestCancelPage)],
       providers: [
-        Firebase,
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
-        { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
@@ -85,9 +89,10 @@ describe('Component: TestCancelPage', () => {
         { provide: ActivityService, useClass: ActivityServiceMock },
         { provide: TestService, useValue: testReportServiceSpy },
         { provide: TestResultService, useClass: TestResultServiceMock },
-        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: Store, useClass: TestStore },
-        { provide: LogsProvider, useValue: logProviderSpy }
+        { provide: LogsProvider, useValue: logProviderSpy },
+        { provide: AnalyticsService, useValue: analyticsServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -103,7 +108,7 @@ describe('Component: TestCancelPage', () => {
     activityServiceMock = TestBed.get(ActivityService);
     testReportService = TestBed.get(TestService);
     store = TestBed.get(Store);
-    firebaseLogsService = TestBed.get(FirebaseLogsService);
+    analyticsService = TestBed.get(AnalyticsService);
     logProvider = TestBed.get(LogsProvider);
   });
 
@@ -134,9 +139,10 @@ describe('Component: TestCancelPage', () => {
   });
 
   it('should test ionViewDidEnterLogic', () => {
-    spyOn(firebaseLogsService, 'setScreenName');
     component.ionViewDidEnter();
-    expect(firebaseLogsService.setScreenName).toHaveBeenCalled();
+    expect(analyticsService.setCurrentPage).toHaveBeenCalledWith(
+      ANALYTICS_SCREEN_NAMES.TEST_CANCEL
+    );
   });
 
   it('should VisitService and TestCancelPage Component share the same instance', inject(

@@ -1,11 +1,15 @@
 import { TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { Platform } from 'ionic-angular';
+import { Network } from '@ionic-native/network';
+import { NetworkMock, PlatformMock } from 'ionic-mocks';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { LogsEffects } from './logs.effects';
 import { Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 import { StoreModule, Store } from '@ngrx/store';
+
+import { LogsEffects } from './logs.effects';
 import * as logsActions from './logs.actions';
 import { of } from 'rxjs/observable/of';
 import { Log, LogType } from './logs.model';
@@ -13,9 +17,8 @@ import { LogsProviderMock } from './logs.service.mock';
 import { LogsProvider } from './logs.service';
 import { logsReducer } from './logs.reducer';
 import { DataStoreProvider } from './data-store.service';
-import { NetworkStateProvider } from './network-state.service';
 import { DataStoreProviderMock } from './data-store.service.mock';
-import { NetworkStateProviderMock } from './network-state.service.mock';
+import { NetworkService } from './../../providers/global/network.service';
 
 export class TestActions extends Actions {
   constructor() {
@@ -44,8 +47,10 @@ describe('Logs Effects', () => {
       ],
       providers: [
         LogsEffects,
+        NetworkService,
         provideMockActions(() => actions$),
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
+        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Network, useFactory: () => NetworkMock.instance('wifi') },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: LogsProvider, useClass: LogsProviderMock },
         Store
@@ -60,10 +65,8 @@ describe('Logs Effects', () => {
   });
 
   it('should dispatch the persist logs action when the logs post successfully', (done) => {
-    // ARRANGE
-    const timeStamps: number[] = [12345678];
     // ACT
-    actions$.next(new logsActions.SendLogsSuccess(timeStamps));
+    actions$.next(new logsActions.SendLogsSuccess());
     // ASSERT
     effects.sendLogsSuccessEffect$.subscribe((result) => {
       expect(result instanceof logsActions.PersistLog).toBe(true);
