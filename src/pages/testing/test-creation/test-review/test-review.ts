@@ -88,9 +88,9 @@ export class TestReviewPage implements OnInit {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private testResultService: TestResultService,
-    private openNativeSettings: OpenNativeSettings,
+    public openNativeSettings: OpenNativeSettings,
     private testService: TestService,
-    private loadingCtrl: LoadingController,
+    public loadingCtrl: LoadingController,
     private storageService: StorageService,
     private authenticationService: AuthenticationService,
     private analyticsService: AnalyticsService,
@@ -332,10 +332,11 @@ export class TestReviewPage implements OnInit {
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
-        if (response.body) {
-          this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
-        } else {
+        console.log('response', response);
+        if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
+        } else {
+          this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
         }
       },
       (isVisitStillOpenError) => {

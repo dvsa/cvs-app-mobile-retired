@@ -58,4 +58,10 @@ export class VisitServiceMock {
   public updateVisit() {
     return new Promise((resolve) => (resolve(true)));
   }
+
+  public createDataClearingAlert() {
+    return of({
+      present() {}
+    })
+  }
 }

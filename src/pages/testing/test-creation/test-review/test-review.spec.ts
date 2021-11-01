@@ -42,7 +42,7 @@ import { ActivityService } from '../../../../providers/activity/activity.service
 import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
-import { TEST_TYPE_RESULTS, VEHICLE_TYPE } from '../../../../app/app.enums';
+import { APP_STRINGS, TEST_TYPE_RESULTS, VEHICLE_TYPE } from '../../../../app/app.enums';
 import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
 import { TechRecordDataMock } from '../../../../assets/data-mocks/tech-record-data.mock';
 import { By } from '../../../../../node_modules/@angular/platform-browser';
@@ -52,6 +52,8 @@ import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/t
 import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
 import { AnalyticsService } from '../../../../providers/global';
+import { TestModel } from '../../../../models/tests/test.model';
+import { of } from 'rxjs/observable/of';
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -305,5 +307,74 @@ describe('Component: TestReviewPage', () => {
     expect(
       component.isSpecialistTestTypeCompleted(changedTestType, initialTestType)
     ).toBeTruthy();
+  });
+
+  fdescribe('onSubmit', () => {
+
+    const testModelParam: TestModel = {
+      startTime: '',
+      endTime: '',
+      status: null,
+      reasonForCancellation: '',
+      vehicles: [],
+    };
+
+    it('should call submitTests() if a valid response is returned with a body of true', () => {
+      activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: true }));
+      component.submitTests = jasmine.createSpy().and.callFake(() => {});
+
+      const TRY_AGAIN_ALERT = alertCtrl.create({
+        title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
+        message: APP_STRINGS.NO_INTERNET_CONNECTION,
+        buttons: [
+          {
+            text: APP_STRINGS.SETTINGS_BTN,
+            handler: () => {
+              component.openNativeSettings.open('settings');
+            }
+          },
+          {
+            text: APP_STRINGS.TRY_AGAIN_BTN,
+            handler: () => {
+              component.onSubmit(testModelParam);
+            }
+          }
+        ]
+      });
+
+      const LOADING = component.loadingCtrl.create({
+        content: 'Loading...'
+      });
+
+      component.onSubmit(testModelParam);
+
+      expect(component.submitTests).toHaveBeenCalledTimes(1);
+      expect(component.submitTests).toHaveBeenCalledWith(testModelParam, LOADING, TRY_AGAIN_ALERT);
+    });
+
+    xit('should call visitService.createDataClearingAlert if a valid response is returned with a body of false', () => {
+      activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: false }));
+      component.visitService.createDataClearingAlert = jasmine.createSpy().and.callThrough();
+
+      const LOADING = component.loadingCtrl.create({
+        content: 'Loading...'
+      });
+
+      component.onSubmit(testModelParam);
+
+      expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(1);
+      expect(component.visitService.createDataClearingAlert).toHaveBeenCalledWith(LOADING);
+    });
+
+    it('should not call submitTests or createDataClearingAlert if no response is returned', () => {
+      activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of());
+      component.submitTests = jasmine.createSpy().and.callFake(() => {});
+      component.visitService.createDataClearingAlert = jasmine.createSpy().and.callFake(() => {});
+      
+      component.onSubmit(testModelParam);
+
+      expect(component.submitTests).toHaveBeenCalledTimes(0);
+      expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(0);
+    });
   });
 });

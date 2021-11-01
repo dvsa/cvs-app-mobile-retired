@@ -119,7 +119,6 @@ export class VisitService {
       await this.setRootPage();
       await loadingToDismiss.dismiss();
     });
-
     return clearingDataAlert;
   }
 

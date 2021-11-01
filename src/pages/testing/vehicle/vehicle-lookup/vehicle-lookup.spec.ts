@@ -51,6 +51,7 @@ import { ActivityService } from '../../../../providers/activity/activity.service
 import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
 import { AnalyticsService } from '../../../../providers/global';
+import { componentRefresh } from '@angular/core/src/render3/instructions';
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -58,7 +59,9 @@ describe('Component: VehicleLookupPage', () => {
   let openNativeSettingsSpy: any;
   let storageService: StorageServiceMock;
   let modalCtrl: ModalController;
+  let activityService: ActivityService;
   let vehicleService: VehicleService;
+  let visitService: VisitService;
   let logProvider: LogsProvider;
   let logProviderSpy: any;
   let analyticsService: AnalyticsService;
@@ -114,6 +117,8 @@ describe('Component: VehicleLookupPage', () => {
     modalCtrl = TestBed.get(ModalController);
     vehicleService = TestBed.get(VehicleService);
     logProvider = TestBed.get(LogsProvider);
+    activityService = TestBed.get(ActivityService);
+    visitService = TestBed.get(VisitService);
 
     component.selectedSearchCriteria = 'Registration number, VIN or trailer ID';
   });
@@ -203,4 +208,48 @@ describe('Component: VehicleLookupPage', () => {
     expect(vehicleService.createSkeletonAlert).toHaveBeenCalledTimes(1);
     expect(loading.dismiss).toHaveBeenCalledTimes(1);
   }));
+
+  fdescribe('onSearchVehicle', () => {
+    it('should call searchVehicle if a valid response is returned which contains a body of true', () => {
+      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({body: true}));
+      component.searchVehicle = jasmine.createSpy().and.callFake(() => {});
+
+      const searchValue = 'P012301230123';
+      const LOADING = component.loadingCtrl.create({
+        content: 'Loading...'
+      });
+
+      component.onSearchVehicle(searchValue);
+
+      expect(component.searchVehicle).toHaveBeenCalledTimes(1);
+      expect(component.searchVehicle).toHaveBeenCalledWith(searchValue, LOADING);
+    });
+    xit('should call createDataClearingAlert if a response is returned which contains a body of false', () => {
+      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({body: false}));
+      component.visitService.createDataClearingAlert = jasmine.createSpy().and.callThrough();
+
+      const searchValue = 'P012301230123';
+      const LOADING = component.loadingCtrl.create({
+        content: 'Loading...'
+      });
+
+      component.onSearchVehicle(searchValue);
+
+      expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(1);
+      expect(component.visitService.createDataClearingAlert).toHaveBeenCalledWith(LOADING);
+
+    });
+    it('should not call either searchVehicle or createDataClearingAlert if there is no response', () => {
+      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of());
+      component.visitService.createDataClearingAlert = jasmine.createSpy().and.callFake(() => {});
+      component.searchVehicle = jasmine.createSpy().and.callFake(() => {});
+
+      const searchValue = 'P012301230123';
+
+      component.onSearchVehicle(searchValue);
+
+      expect(component.searchVehicle).toHaveBeenCalledTimes(0);
+      expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(0);
+    });
+  });
 });

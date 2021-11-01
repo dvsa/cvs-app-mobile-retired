@@ -61,7 +61,7 @@ export class VehicleLookupPage {
     private callNumber: CallNumber,
     public appService: AppService,
     private modalCtrl: ModalController,
-    private activityService: ActivityService,
+    public activityService: ActivityService,
     private logProvider: LogsProvider
   ) {
     this.testData = navParams.get('test');
@@ -111,10 +111,10 @@ export class VehicleLookupPage {
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
-        if (response.body) {
-          this.searchVehicle(searchedValue, LOADING);
-        } else {
+        if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
+        } else {
+          this.searchVehicle(searchedValue, LOADING);
         }
       },
       (isVisitStillOpenError) => {
