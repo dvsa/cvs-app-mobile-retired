@@ -88,9 +88,9 @@ export class TestReviewPage implements OnInit {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private testResultService: TestResultService,
-    public openNativeSettings: OpenNativeSettings,
+    private openNativeSettings: OpenNativeSettings,
     private testService: TestService,
-    public loadingCtrl: LoadingController,
+    private loadingCtrl: LoadingController,
     private storageService: StorageService,
     private authenticationService: AuthenticationService,
     private analyticsService: AnalyticsService,
@@ -334,6 +334,12 @@ export class TestReviewPage implements OnInit {
       (response) => {
         if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
+          const { oid } = this.authenticationService.tokenInfo;
+          this.logProvider.dispatchLog({
+            type: 'activityService.isVisitStillOpen in test-review.ts',
+            message: `${oid} - attempted to submit tests when visit no longer open - response was: ${response}`,
+            timestamp: Date.now()
+          });
         } else {
           this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
         }

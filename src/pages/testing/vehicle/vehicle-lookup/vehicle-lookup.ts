@@ -61,7 +61,7 @@ export class VehicleLookupPage {
     private callNumber: CallNumber,
     public appService: AppService,
     private modalCtrl: ModalController,
-    public activityService: ActivityService,
+    private activityService: ActivityService,
     private logProvider: LogsProvider
   ) {
     this.testData = navParams.get('test');
@@ -113,6 +113,12 @@ export class VehicleLookupPage {
       (response) => {
         if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
+          const { oid } = this.authenticationService.tokenInfo;
+          this.logProvider.dispatchLog({
+            type: 'activityService.isVisitStillOpen in vehicle-lookup.ts',
+            message: `${oid} - attempted to search vehicle when visit no longer open - response was: ${response}`,
+            timestamp: Date.now()
+          });
         } else {
           this.searchVehicle(searchedValue, LOADING);
         }

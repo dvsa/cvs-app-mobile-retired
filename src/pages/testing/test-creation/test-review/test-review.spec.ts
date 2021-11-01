@@ -66,6 +66,8 @@ describe('Component: TestReviewPage', () => {
   let vehicleService: VehicleService;
   let modalCtrl: ModalController;
   let navCtrl: NavController;
+  let loadingCtrl: LoadingController;
+  let openNativeSettings: OpenNativeSettings;
   let logProvider: LogsProvider;
   let logProviderSpy: any;
   let analyticsService: AnalyticsService;
@@ -100,6 +102,7 @@ describe('Component: TestReviewPage', () => {
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
         { provide: StateReformingService, useClass: StateReformingServiceMock },
         { provide: VehicleService, useClass: VehicleServiceMock },
@@ -127,6 +130,8 @@ describe('Component: TestReviewPage', () => {
     navCtrl = TestBed.get(NavController);
     logProvider = TestBed.get(LogsProvider);
     analyticsService = TestBed.get(AnalyticsService);
+    loadingCtrl = TestBed.get(LoadingController);
+    openNativeSettings = TestBed.get(OpenNativeSettings);
   });
 
   beforeEach(() => {
@@ -330,7 +335,7 @@ describe('Component: TestReviewPage', () => {
           {
             text: APP_STRINGS.SETTINGS_BTN,
             handler: () => {
-              component.openNativeSettings.open('settings');
+              openNativeSettings.open('settings');
             }
           },
           {
@@ -342,7 +347,7 @@ describe('Component: TestReviewPage', () => {
         ]
       });
 
-      const LOADING = component.loadingCtrl.create({
+      const LOADING = loadingCtrl.create({
         content: 'Loading...'
       });
 
@@ -355,11 +360,12 @@ describe('Component: TestReviewPage', () => {
     it('should call visitService.createDataClearingAlert if a valid response is returned with a body of false', () => {
       const presentSpy = jasmine.createSpy();
 
-      const LOADING = component.loadingCtrl.create({
+      const LOADING = loadingCtrl.create({
         content: 'Loading...'
       });
 
       activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: false }));
+      logProvider.dispatchLog = jasmine.createSpy().and.callFake(() => {});
       component.visitService.createDataClearingAlert = jasmine.createSpy().and.returnValue({
         present: presentSpy,
       });
@@ -368,6 +374,8 @@ describe('Component: TestReviewPage', () => {
 
       expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(1);
       expect(component.visitService.createDataClearingAlert).toHaveBeenCalledWith(LOADING);
+      expect(presentSpy).toHaveBeenCalledTimes(1);
+      expect(logProvider.dispatchLog).toHaveBeenCalledTimes(1);
     });
 
     it('should not call submitTests or createDataClearingAlert if no response is returned', () => {

@@ -51,8 +51,6 @@ import { ActivityService } from '../../../../providers/activity/activity.service
 import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
 import { AnalyticsService } from '../../../../providers/global';
-import { componentRefresh } from '@angular/core/src/render3/instructions';
-import { SpawnSyncOptions } from 'child_process';
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -226,15 +224,14 @@ describe('Component: VehicleLookupPage', () => {
       expect(component.searchVehicle).toHaveBeenCalledWith(searchValue, LOADING);
     });
     it('should call createDataClearingAlert if a response is returned which contains a body of false', () => {
-      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({body: false}));
-      const presentSpy = jasmine.createSpy();
-      component.visitService.createDataClearingAlert = jasmine.createSpy().and.returnValue({
-        present: presentSpy,
-      });
-
-      const searchValue = 'P012301230123';
+      const presentSpy = jasmine.createSpy();const searchValue = 'P012301230123';
       const LOADING = component.loadingCtrl.create({
         content: 'Loading...'
+      });
+      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({body: false}));
+      logProvider.dispatchLog = jasmine.createSpy().and.callFake(() => {});
+      component.visitService.createDataClearingAlert = jasmine.createSpy().and.returnValue({
+        present: presentSpy,
       });
 
       component.onSearchVehicle(searchValue);
@@ -242,7 +239,7 @@ describe('Component: VehicleLookupPage', () => {
       expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(1);
       expect(component.visitService.createDataClearingAlert).toHaveBeenCalledWith(LOADING);
       expect(presentSpy).toHaveBeenCalledTimes(1);
-
+      expect(logProvider.dispatchLog).toHaveBeenCalledTimes(1);
     });
     it('should not call either searchVehicle or createDataClearingAlert if there is no response', () => {
       activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of());
