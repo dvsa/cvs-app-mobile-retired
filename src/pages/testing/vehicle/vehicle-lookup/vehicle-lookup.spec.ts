@@ -210,7 +210,7 @@ describe('Component: VehicleLookupPage', () => {
     expect(loading.dismiss).toHaveBeenCalledTimes(1);
   }));
 
-  fdescribe('onSearchVehicle', () => {
+  describe('onSearchVehicle', () => {
     it('should call searchVehicle if a valid response is returned which contains a body of true', () => {
       activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({body: true}));
       component.searchVehicle = jasmine.createSpy().and.callFake(() => {});

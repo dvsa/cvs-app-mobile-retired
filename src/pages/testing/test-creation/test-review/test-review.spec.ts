@@ -309,7 +309,7 @@ describe('Component: TestReviewPage', () => {
     ).toBeTruthy();
   });
 
-  fdescribe('onSubmit', () => {
+  describe('onSubmit', () => {
 
     const testModelParam: TestModel = {
       startTime: '',
