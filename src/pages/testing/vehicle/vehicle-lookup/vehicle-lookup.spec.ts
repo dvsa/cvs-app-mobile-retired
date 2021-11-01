@@ -224,7 +224,8 @@ describe('Component: VehicleLookupPage', () => {
       expect(component.searchVehicle).toHaveBeenCalledWith(searchValue, LOADING);
     });
     it('should call createDataClearingAlert if a response is returned which contains a body of false', () => {
-      const presentSpy = jasmine.createSpy();const searchValue = 'P012301230123';
+      const presentSpy = jasmine.createSpy();
+      const searchValue = 'P012301230123';
       const LOADING = component.loadingCtrl.create({
         content: 'Loading...'
       });
