@@ -59,9 +59,5 @@ export class VisitServiceMock {
     return new Promise((resolve) => (resolve(true)));
   }
 
-  public createDataClearingAlert() {
-    return of({
-      present() {}
-    })
-  }
+  public createDataClearingAlert() {}
 }
