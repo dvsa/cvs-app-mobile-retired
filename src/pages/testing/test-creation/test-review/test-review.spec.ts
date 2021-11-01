@@ -352,12 +352,16 @@ describe('Component: TestReviewPage', () => {
       expect(component.submitTests).toHaveBeenCalledWith(testModelParam, LOADING, TRY_AGAIN_ALERT);
     });
 
-    xit('should call visitService.createDataClearingAlert if a valid response is returned with a body of false', () => {
-      activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: false }));
-      component.visitService.createDataClearingAlert = jasmine.createSpy().and.callThrough();
+    it('should call visitService.createDataClearingAlert if a valid response is returned with a body of false', () => {
+      const presentSpy = jasmine.createSpy();
 
       const LOADING = component.loadingCtrl.create({
         content: 'Loading...'
+      });
+
+      activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: false }));
+      component.visitService.createDataClearingAlert = jasmine.createSpy().and.returnValue({
+        present: presentSpy,
       });
 
       component.onSubmit(testModelParam);
