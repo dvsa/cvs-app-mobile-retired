@@ -332,7 +332,6 @@ export class TestReviewPage implements OnInit {
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
-        console.log('response', response);
         if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
         } else {
