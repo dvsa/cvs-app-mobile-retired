@@ -44,6 +44,7 @@ export class AuthenticationService {
     private storage: Storage,
   ) {
     this.initialiseAuth();
+    this.updateTokenInfo();
   }
 
   async initialiseAuth() {
@@ -129,8 +130,7 @@ export class AuthenticationService {
 
     // need to manually check token validity and expiry here to workaround issues
     // with ionic auth isTokenExpired method
-    if (!await this.hasValidToken()) {
-
+    if (await this.isTokenExpired()) {
       try {
         await this._auth.refreshSession();
       } catch (error) {
@@ -172,22 +172,9 @@ export class AuthenticationService {
     this.logProvider.dispatchLog(log);
   }
 
-  async hasValidToken(): Promise<boolean> {
-    // refresh token if required
+  async isTokenExpired(): Promise<boolean> {
     await this._auth.isAuthenticated();
-    await this.refreshTokenIfExpired();
     const token: AzureIDToken = await this._auth.getIdToken();
-    return !this.isTokenExpired(token);
-  }
-
-  async refreshTokenIfExpired(): Promise<void> {
-    const token: AzureIDToken = await this._auth.getIdToken();
-    if (this.isTokenExpired(token)) {
-      await this._auth.refreshSession();
-    }
-  }
-
-  isTokenExpired(token: AzureIDToken): boolean {
     // token expiry is in seconds so convert to milliseconds
     const tokenExpiry: Date = (token && token.exp) ? new Date(token.exp *1000) : new Date(0);
     const now = new Date();

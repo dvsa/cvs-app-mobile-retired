@@ -337,7 +337,7 @@ export class TestReviewPage implements OnInit {
           const { oid } = this.authenticationService.tokenInfo;
           this.logProvider.dispatchLog({
             type: 'activityService.isVisitStillOpen in test-review.ts',
-            message: `${oid} - attempted to submit tests when visit no longer open - response was: ${response}`,
+            message: `${oid} - attempted to submit tests when visit no longer open - response was: ${JSON.stringify(response)}`,
             timestamp: Date.now()
           });
         } else {

@@ -24,4 +24,8 @@ export class AuthenticationServiceMock {
   checkUserAuthStatus(): Promise<boolean> {
     return Promise.resolve(true);
   }
+
+  updateTokenInfo() {
+    return Promise.resolve();
+  }
 }

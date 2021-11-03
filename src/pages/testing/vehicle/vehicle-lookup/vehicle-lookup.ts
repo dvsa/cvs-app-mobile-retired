@@ -116,7 +116,7 @@ export class VehicleLookupPage {
           const { oid } = this.authenticationService.tokenInfo;
           this.logProvider.dispatchLog({
             type: 'activityService.isVisitStillOpen in vehicle-lookup.ts',
-            message: `${oid} - attempted to search vehicle when visit no longer open - response was: ${response}`,
+            message: `${oid} - attempted to search vehicle when visit no longer open - response was: ${JSON.stringify(response)}`,
             timestamp: Date.now()
           });
         } else {
