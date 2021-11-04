@@ -1,7 +1,8 @@
 import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock, StorageMock } from 'ionic-mocks';
 import { Platform } from 'ionic-angular';
 import { of } from 'rxjs/observable/of';
+import { Storage } from '@ionic/storage';
 
 import { VaultService } from './../vault/vault.service';
 import { CommonFunctionsService } from '../../utils/common-functions';
@@ -61,7 +62,8 @@ describe('AuthenticationService', () => {
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: VaultService, useValue: vaultServiceSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: CommonFunctionsService, useValue: commonFuncSpy }
+        { provide: CommonFunctionsService, useValue: commonFuncSpy },
+        { provide: Storage, useFactory: () => StorageMock.instance() },
       ]
     });
 

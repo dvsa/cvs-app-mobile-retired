@@ -5,6 +5,10 @@ export class StorageServiceMock {
   constructor() {
   }
 
+  get(): Promise<string>{
+    return Promise.resolve('some value');
+  }
+
   create(isError: boolean): Promise<any> {
     return Promise.resolve();
   }
