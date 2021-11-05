@@ -10,7 +10,7 @@ import { AUTH, CONNECTION_STATUS, LOG_TYPES, STORAGE } from '../../../app/app.en
 import { default as AppConfig } from '../../../../config/application.hybrid';
 import { VaultService } from '../vault/vault.service';
 import { CommonFunctionsService } from '../../utils/common-functions';
-import { TokenInfo, TokenStatus } from './auth-model';
+import { AzureIDToken, TokenInfo, TokenStatus } from './auth-model';
 import { cordovaAzureConfig, webAzureConfig } from './auth-options';
 import { Log } from '../../../modules/logs/logs.model';
 import { LogsProvider } from '../../../modules/logs/logs.service';
@@ -44,6 +44,7 @@ export class AuthenticationService {
     private storage: Storage,
   ) {
     this.initialiseAuth();
+    this.updateTokenInfo();
   }
 
   async initialiseAuth() {
@@ -127,7 +128,9 @@ export class AuthenticationService {
       return { active: false, action: AUTH.RE_LOGIN };
     }
 
-    if (await this._auth.isAccessTokenExpired()) {
+    // need to manually check token validity and expiry here to workaround issues
+    // with ionic auth isTokenExpired method
+    if (await this.isTokenExpired()) {
       try {
         await this._auth.refreshSession();
       } catch (error) {
@@ -167,5 +170,14 @@ export class AuthenticationService {
     };
 
     this.logProvider.dispatchLog(log);
+  }
+
+  async isTokenExpired(): Promise<boolean> {
+    await this._auth.isAuthenticated();
+    const token: AzureIDToken = await this._auth.getIdToken();
+    // token expiry is in seconds so convert to milliseconds
+    const tokenExpiry: Date = (token && token.exp) ? new Date(token.exp *1000) : new Date(0);
+    const now = new Date();
+    return tokenExpiry < now;
   }
 }

@@ -332,10 +332,16 @@ export class TestReviewPage implements OnInit {
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
-        if (response.body) {
-          this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
-        } else {
+        if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
+          const { oid } = this.authenticationService.tokenInfo;
+          this.logProvider.dispatchLog({
+            type: 'activityService.isVisitStillOpen in test-review.ts',
+            message: `${oid} - attempted to submit tests when visit no longer open - response was: ${JSON.stringify(response)}`,
+            timestamp: Date.now()
+          });
+        } else {
+          this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
         }
       },
       (isVisitStillOpenError) => {

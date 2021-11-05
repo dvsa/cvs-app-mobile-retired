@@ -159,7 +159,7 @@ describe('AuthenticationService', () => {
       it(`should return token status as "re-login" if token has expired and cannot be
       refreshed via auth refreshSession`, async () => {
         spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(true);
-        spyOn(authenticationService.auth, 'isAccessTokenExpired').and.returnValue(true);
+        spyOn(authenticationService, 'isTokenExpired').and.returnValue(Promise.resolve(true));
         spyOn(authenticationService.auth, 'refreshSession').and.throwError('smth');
         const authResult = await authenticationService.isUserAuthenticated();
         expect(authResult).toEqual({ active: false, action: AUTH.RE_LOGIN });
@@ -167,7 +167,7 @@ describe('AuthenticationService', () => {
 
       it(`should return token status as continue if token has not expired`, async () => {
         spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(true);
-        spyOn(authenticationService.auth, 'isAccessTokenExpired').and.returnValue(false);
+        spyOn(authenticationService, 'isTokenExpired').and.returnValue(Promise.resolve(false));
 
         const authResult = await authenticationService.isUserAuthenticated();
         expect(authResult).toEqual({ active: true, action: AUTH.CONTINUE });
@@ -197,6 +197,24 @@ describe('AuthenticationService', () => {
 
         const result = await authenticationService.checkUserAuthStatus();
         expect(result).toBeTruthy();
+      });
+    });
+
+    describe('isTokenExpired()', () => {
+      it('should return true if token is invalid', async() => {
+        spyOn(authenticationService.auth, 'isAuthenticated').and.returnValue(Promise.resolve(true));
+        spyOn(authenticationService.auth, 'getIdToken').and.returnValue(Promise.resolve(null));
+        const isExpired = await authenticationService.isTokenExpired();
+        expect(isExpired).toEqual(true);
+      });
+      it('should return false if token is valid', async() => {
+        spyOn(authenticationService.auth, 'isAuthenticated').and.returnValue(Promise.resolve(true));
+        spyOn(authenticationService.auth, 'getIdToken').and.returnValue(Promise.resolve({
+          exp: 1919506719
+        }));
+        spyOn(authenticationService.auth, 'refreshSession').and.returnValue(Promise.resolve(true));
+        const isExpired = await authenticationService.isTokenExpired();
+        expect(isExpired).toEqual(false);
       });
     });
   });

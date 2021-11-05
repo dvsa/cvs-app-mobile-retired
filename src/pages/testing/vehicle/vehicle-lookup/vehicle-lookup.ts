@@ -111,10 +111,16 @@ export class VehicleLookupPage {
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
-        if (response.body) {
-          this.searchVehicle(searchedValue, LOADING);
-        } else {
+        if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
+          const { oid } = this.authenticationService.tokenInfo;
+          this.logProvider.dispatchLog({
+            type: 'activityService.isVisitStillOpen in vehicle-lookup.ts',
+            message: `${oid} - attempted to search vehicle when visit no longer open - response was: ${JSON.stringify(response)}`,
+            timestamp: Date.now()
+          });
+        } else {
+          this.searchVehicle(searchedValue, LOADING);
         }
       },
       (isVisitStillOpenError) => {

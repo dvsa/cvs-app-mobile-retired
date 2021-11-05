@@ -12,6 +12,9 @@ import { WaitTimeReasonsData } from '../../assets/app-data/wait-time-data/wait-t
 import { VISIT } from '../../app/app.enums';
 import { AuthenticationService } from '../auth';
 import { AuthenticationServiceMock } from '../../../test-config/services-mocks/authentication-service.mock';
+import Spy = jasmine.Spy;
+import { of } from 'rxjs/observable/of';
+import { HttpResponse } from '@angular/common/http';
 
 describe('Provider: ActivityService', () => {
   let activityService: ActivityService;
@@ -20,6 +23,7 @@ describe('Provider: ActivityService', () => {
   let appService: AppService;
   let httpService: HTTPService;
   let httpServiceSpy: any;
+  let authService: AuthenticationService;
 
   let waitreasonsData = WaitTimeReasonsData.WaitTimeReasonsData;
   let activity = ActivityDataMock.WaitActivityData;
@@ -333,7 +337,7 @@ describe('Provider: ActivityService', () => {
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['update']);
-    httpServiceSpy = jasmine.createSpyObj('HTTPService', ['postActivity', 'updateActivity']);
+    httpServiceSpy = jasmine.createSpyObj('HTTPService', ['postActivity', 'updateActivity', 'getOpenVisitCheck']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -349,12 +353,12 @@ describe('Provider: ActivityService', () => {
     storageService = TestBed.get(StorageService);
     appService = TestBed.get(AppService);
     httpService = TestBed.get(HTTPService);
+    authService = TestBed.get(AuthenticationService);
   });
 
   afterEach(() => {
     storageService = null;
     appService = null;
-    httpService = null;
   });
 
   it('should create an activity', () => {
@@ -433,4 +437,19 @@ describe('Provider: ActivityService', () => {
     activityService.addActivity(activity);
     expect(activityService.activities).toBeTruthy();
   });
+
+  describe('isVisitStillOpen()', () => {
+    it('should refresh token info before attempting to check if visit still open', () => {
+      (httpService.getOpenVisitCheck as Spy).and.returnValue(of(new HttpResponse()));
+      spyOn(authService, 'updateTokenInfo').and.returnValue(Promise.resolve());
+      activityService.isVisitStillOpen().subscribe(
+        (response) => {
+          expect(authService.updateTokenInfo).toHaveBeenCalled();
+          expect(httpService.getOpenVisitCheck).toHaveBeenCalled();
+      },
+        (error) => {
+          expect(error).toBeFalsy()
+        })
+    });
+  })
 });

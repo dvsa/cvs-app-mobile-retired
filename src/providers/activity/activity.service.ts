@@ -9,6 +9,8 @@ import { HTTPService } from '../global/http.service';
 import { TestResultModel } from '../../models/tests/test-result.model';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
+import { switchMap } from 'rxjs/operators';
+import { fromPromise } from 'rxjs/observable/fromPromise';
 
 @Injectable()
 export class ActivityService {
@@ -58,7 +60,13 @@ export class ActivityService {
   }
 
   isVisitStillOpen(): Observable<HttpResponse<boolean>> {
-    return this.httpService.getOpenVisitCheck(this.authenticationService.tokenInfo.testerId);
+    //  make sure token object is re-hydrated before checking for open visits
+    return fromPromise(this.authenticationService.updateTokenInfo())
+      .pipe(
+        switchMap(() => {
+          return this.httpService.getOpenVisitCheck(this.authenticationService.tokenInfo.testerId)
+        })
+      )
   }
 
   /**
