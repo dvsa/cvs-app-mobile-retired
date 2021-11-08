@@ -120,118 +120,66 @@ export class VehicleDetailsPage {
     );
   }
 
+  confirmAndStartTest(): void {
+    this.changeOpacity = true;
+    let confirm = this.alertCtrl.create({
+      title: APP_STRINGS.START_TEST,
+      message: APP_STRINGS.CONFIRM_VEHICLE_AND_START_TEST_MSG,
+      buttons: [
+        {
+          text: APP_STRINGS.CANCEL
+        },
+        {
+          text: APP_STRINGS.START_TEST,
+          handler: () => { this.goToTestCreatePage() }
+        }
+      ]
+    });
+    confirm.present();
+    confirm.onDidDismiss(() => (this.changeOpacity = false));
+  }
+
   goToTestCreatePage(): void {
-    this.changeOpacity = true;
-    let confirm = this.alertCtrl.create({
-      title: APP_STRINGS.CONFIRM_VEHICLE,
-      message: APP_STRINGS.CONFIRM_VEHICLE_MSG,
-      buttons: [
-        {
-          text: APP_STRINGS.CANCEL
-        },
-        {
-          text: APP_STRINGS.CONFIRM,
-          handler: () => {
-            // this.loggingInAlertHandler();
+    // this.loggingInAlertHandler();
 
-            this.trackConfirmVehicleDuration();
+    this.trackConfirmVehicleDuration();
 
-            if (
-              !this.visitService.visit.tests.length ||
-              this.visitService.getLatestTest().endTime
-            )
-              this.visitService.addTest(this.testData);
-            this.testReportService.addVehicle(this.testData, this.vehicleData);
-            this.navCtrl
-              .push(PAGE_NAMES.TEST_CREATE_PAGE, {
-                test: this.testData
-              })
-              .then((resp) => {
-                if (!resp) {
-                  const alert = this.alertCtrl.create({
-                    title: APP_STRINGS.UNAUTHORISED,
-                    message: APP_STRINGS.UNAUTHORISED_TEST_MSG,
-                    buttons: [
-                      {
-                        text: APP_STRINGS.CANCEL,
-                        role: 'cancel'
-                      },
-                      {
-                        text: APP_STRINGS.CALL,
-                        handler: () => {
-                          this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
-                            (data) => console.log(data),
-                            (err) => console.log(err)
-                          );
-                          return false;
-                        }
-                      }
-                    ]
-                  });
-                  alert.present();
+    if (!this.visitService.visit.tests.length ||
+       this.visitService.getLatestTest().endTime)
+      this.visitService.addTest(this.testData);
+
+    this.testReportService.addVehicle(this.testData, this.vehicleData);
+
+    this.navCtrl
+      .push(PAGE_NAMES.TEST_CREATE_PAGE, {
+        test: this.testData
+      })
+      .then((resp) => { 
+        if (!resp) {
+          const alert = this.alertCtrl.create({
+            title: APP_STRINGS.UNAUTHORISED,
+            message: APP_STRINGS.UNAUTHORISED_TEST_MSG,
+            buttons: [
+              {
+                text: APP_STRINGS.CANCEL,
+                role: 'cancel'
+              },
+              {
+                text: APP_STRINGS.CALL,
+                handler: () => {
+                  this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
+                    (data) => console.log(data),
+                    (err) => console.log(err)
+                  );
+                  return false;
                 }
-              });
-          }
+              }
+            ]
+          });
+        alert.present();
         }
-      ]
-    });
-    confirm.present();
-    confirm.onDidDismiss(() => (this.changeOpacity = false));
-  }
-
-  goToPreparerPage(): void {
-    this.changeOpacity = true;
-    let confirm = this.alertCtrl.create({
-      title: APP_STRINGS.CONFIRM_VEHICLE,
-      message: APP_STRINGS.CONFIRM_VEHICLE_MSG,
-      buttons: [
-        {
-          text: APP_STRINGS.CANCEL
-        },
-        {
-          text: APP_STRINGS.CONFIRM,
-          handler: () => {
-            // this.loggingInAlertHandler();
-
-            this.trackConfirmVehicleDuration();
-
-            this.navCtrl
-              .push(PAGE_NAMES.ADD_PREPARER_PAGE, {
-                vehicle: this.vehicleData,
-                test: this.testData
-              })
-              .then((resp) => {
-                if (!resp) {
-                  const alert = this.alertCtrl.create({
-                    title: APP_STRINGS.UNAUTHORISED,
-                    message: APP_STRINGS.UNAUTHORISED_TEST_MSG,
-                    buttons: [
-                      {
-                        text: APP_STRINGS.CANCEL,
-                        role: 'cancel'
-                      },
-                      {
-                        text: APP_STRINGS.CALL,
-                        handler: () => {
-                          this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
-                            (data) => console.log(data),
-                            (err) => console.log(err)
-                          );
-                          return false;
-                        }
-                      }
-                    ]
-                  });
-                  alert.present();
-                }
-              });
-          }
-        }
-      ]
-    });
-    confirm.present();
-    confirm.onDidDismiss(() => (this.changeOpacity = false));
-  }
+      });
+    }
 
   async trackConfirmVehicleDuration() {
     const type: string = DURATION_TYPE[DURATION_TYPE.CONFIRM_VEHICLE];

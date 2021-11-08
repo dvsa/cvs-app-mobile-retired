@@ -51,6 +51,8 @@ export class VisitServiceMock {
     return this.visit.tests;
   }
 
+  public goToTestCreatePage() {}
+
   getLatestTest(): TestModel {
     return VisitDataMock.VisitTestDataArray[VisitDataMock.VisitTestDataArray.length - 1];
   }

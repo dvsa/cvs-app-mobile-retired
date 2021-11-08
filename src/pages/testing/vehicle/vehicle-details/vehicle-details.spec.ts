@@ -38,6 +38,7 @@ import { VisitService } from '../../../../providers/visit/visit.service';
 import { VisitServiceMock } from '../../../../../test-config/services-mocks/visit-service.mock';
 import { TestService } from '../../../../providers/test/test.service';
 import { TestServiceMock } from '../../../../../test-config/services-mocks/test-service.mock';
+import { TestModel } from '../../../../models/tests/test.model';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -50,6 +51,8 @@ describe('Component: VehicleDetailsPage', () => {
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
   let durationService: DurationService;
+  let testReportService: TestService;
+  let visitService: VisitService;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   let test = TestTypeArrayDataMock.TestTypeArrayData[0];
@@ -98,6 +101,8 @@ describe('Component: VehicleDetailsPage', () => {
     viewController = TestBed.get(ViewController);
     analyticsService = TestBed.get(AnalyticsService);
     durationService = TestBed.get(DurationService);
+    testReportService = TestBed.get(TestService);
+    visitService = TestBed.get(VisitService);
 
     fixture = TestBed.createComponent(VehicleDetailsPage);
     component = fixture.componentInstance;
@@ -157,12 +162,68 @@ describe('Component: VehicleDetailsPage', () => {
     });
   });
 
-  it('should check if alertCtrl was called', () => {
-    component.goToPreparerPage();
-    expect(alertCtrl.create).toHaveBeenCalled();
-  });
+  describe('confirmAndStartTest', () => {
 
-  it('should track vehicle duration when goToPreparerPage is confirmed ', async () => {
+    it('should call alertCtrl.create', () => {
+      component.confirmAndStartTest();
+
+      expect(alertCtrl.create).toHaveBeenCalled();
+    });
+
+  })
+
+  describe('goToTestCreatePage', () => {
+    beforeEach(() => {
+      spyOn(testReportService, 'addVehicle').and.callFake(() => {});
+
+      visitService.visit = {
+        tests: [
+          {
+            startTime: null,
+            endTime: null,
+            status: null,
+            reasonForCancellation: null,
+            vehicles: null,
+          },
+        ],
+        startTime: null,
+        endTime: null,
+        testStationName: null,
+        testStationEmail: null,
+        testStationPNumber: null,
+        testStationType: null,
+        testerEmail: null,
+        testerId: null,
+        testerName: null,
+      }
+    });
+
+    it('should call testReportService.addVehicle', () => {
+      component.goToTestCreatePage();
+
+      expect(testReportService.addVehicle).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call visitService.addTest if the latest test has an end time', () => {
+      const mockData: TestModel = {
+        startTime: null,
+        endTime: 'something',
+        status: null,
+        reasonForCancellation: null,
+        vehicles: null,
+      }
+
+      spyOn(visitService, 'addTest').and.callFake(() => {});
+      spyOn(visitService, 'getLatestTest').and.returnValue(mockData);
+
+      component.goToTestCreatePage();
+
+      expect(visitService.addTest).toHaveBeenCalledTimes(1);
+    });
+
+  })
+
+  it('should track vehicle duration when vehicle details are confirmed ', async () => {
     const timeStart = 1620242516913;
     const timeEnd = 1620243020205;
     spyOn(Date, 'now').and.returnValue(timeEnd);
