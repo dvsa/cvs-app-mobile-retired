@@ -34,6 +34,10 @@ import { AppService } from '../../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
 import { AnalyticsService, DurationService } from '../../../../providers/global';
 import { Duration } from '../../../../models/duration.model';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { VisitServiceMock } from '../../../../../test-config/services-mocks/visit-service.mock';
+import { TestService } from '../../../../providers/test/test.service';
+import { TestServiceMock } from '../../../../../test-config/services-mocks/test-service.mock';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -72,7 +76,9 @@ describe('Component: VehicleDetailsPage', () => {
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: CallNumber, useValue: callNumberSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: TestService, useClass: TestServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
