@@ -28,6 +28,8 @@ import { StorageService } from '../../../../providers/natives/storage.service';
 import { default as AppConfig } from '../../../../../config/application.hybrid';
 import { AppService } from '../../../../providers/global/app.service';
 import { AnalyticsService, DurationService } from '../../../../providers/global';
+import { VisitService } from '../../../../providers/visit/visit.service';
+import { TestService } from '../../../../providers/test/test.service';
 
 @IonicPage()
 @Component({
@@ -59,7 +61,10 @@ export class VehicleDetailsPage {
     private callNumber: CallNumber,
     private analyticsService: AnalyticsService,
     private durationService: DurationService,
-    public appService: AppService
+    public appService: AppService,
+    private visitService: VisitService,
+    private testReportService: TestService,
+
   ) {
     this.vehicleData = navParams.get('vehicle');
     this.testData = navParams.get('test');
@@ -113,6 +118,65 @@ export class VehicleDetailsPage {
       Object.keys(ANALYTICS_LABEL).indexOf(label) + 1,
       value
     );
+  }
+
+  goToTestCreatePage(): void {
+    this.changeOpacity = true;
+    let confirm = this.alertCtrl.create({
+      title: APP_STRINGS.CONFIRM_VEHICLE,
+      message: APP_STRINGS.CONFIRM_VEHICLE_MSG,
+      buttons: [
+        {
+          text: APP_STRINGS.CANCEL
+        },
+        {
+          text: APP_STRINGS.CONFIRM,
+          handler: () => {
+            // this.loggingInAlertHandler();
+
+            this.trackConfirmVehicleDuration();
+
+            if (
+              !this.visitService.visit.tests.length ||
+              this.visitService.getLatestTest().endTime
+            )
+              this.visitService.addTest(this.testData);
+            this.testReportService.addVehicle(this.testData, this.vehicleData);
+            this.navCtrl
+              .push(PAGE_NAMES.TEST_CREATE_PAGE, {
+                test: this.testData
+              })
+              .then((resp) => {
+                if (!resp) {
+                  const alert = this.alertCtrl.create({
+                    title: APP_STRINGS.UNAUTHORISED,
+                    message: APP_STRINGS.UNAUTHORISED_TEST_MSG,
+                    buttons: [
+                      {
+                        text: APP_STRINGS.CANCEL,
+                        role: 'cancel'
+                      },
+                      {
+                        text: APP_STRINGS.CALL,
+                        handler: () => {
+                          this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
+                            (data) => console.log(data),
+                            (err) => console.log(err)
+                          );
+                          return false;
+                        }
+                      }
+                    ]
+                  });
+                  alert.present();
+                }
+              });
+          }
+        }
+      ]
+    });
+    confirm.present();
+    confirm.onDidDismiss(() => (this.changeOpacity = false));
   }
 
   goToPreparerPage(): void {
