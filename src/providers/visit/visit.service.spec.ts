@@ -179,6 +179,7 @@ describe('Provider: VisitService', () => {
     expect(httpService.startVisit).toHaveBeenCalledTimes(1);
     expect(httpServiceSpy.startVisit.calls.mostRecent().args[0].testerEmail).toBe(emailExample);
   });
+  
 
   it('should update the storage', () => {
     visitService.updateVisit();

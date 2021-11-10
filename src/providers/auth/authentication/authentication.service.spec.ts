@@ -1,8 +1,7 @@
 import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
-import { PlatformMock, StorageMock } from 'ionic-mocks';
+import { PlatformMock } from 'ionic-mocks';
 import { Platform } from 'ionic-angular';
 import { of } from 'rxjs/observable/of';
-import { Storage } from '@ionic/storage';
 
 import { VaultService } from './../vault/vault.service';
 import { CommonFunctionsService } from '../../utils/common-functions';
@@ -30,18 +29,6 @@ describe('AuthenticationService', () => {
   tIiwic3ViIjoiZjllNjQwOGUiLCJuYW1lIjoiY3ZzLXRlc3RpbmciLCJlbWFpbCI6ImphbWluZUB0ZXN0LmNvbSIsIn
   JvbGVzIjpbIkNWU0Z1bGxBY2Nlc3MiLCJDVlNQc3ZUZXN0ZXIiXSwiZW1wbG95ZWVJZCI6ImY5ZTY0MDhlLTc1Z
   GYtNDBhZS1hNWJhLTQxNjhhNDgwOGMzNSJ9.zW_4CbBPTbEq-OeV7McuGEXTrZLTwhFYvV6KNMc2cQE`;
-
-  const ID_TOKEN_MOCK = {
-    sub: '',
-    name: 'A Tester',
-    email: 'a.tester@dvsa.gov.uk',
-    roles: [
-      TESTER_ROLES.FULL_ACCESS,
-      TESTER_ROLES.HGV
-    ],
-    oid: 'dfjfjhjdfgkgghjh',
-    employeeid: '123456'
-  }
 
   vaultServiceSpy = {
     ...jasmine.createSpyObj('VaultService', [
@@ -74,8 +61,7 @@ describe('AuthenticationService', () => {
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: VaultService, useValue: vaultServiceSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: CommonFunctionsService, useValue: commonFuncSpy },
-        { provide: Storage, useFactory: () => StorageMock.instance() },
+        { provide: CommonFunctionsService, useValue: commonFuncSpy }
       ]
     });
 
@@ -93,13 +79,9 @@ describe('AuthenticationService', () => {
 
   describe('execute', () => {
     let getAuthResponseSpy: jasmine.Spy;
-    let getIdTokenSpy: jasmine.Spy;
 
     beforeEach(() => {
       platform.is = jasmine.createSpy('platform.is').and.returnValue(false);
-
-      getIdTokenSpy = spyOn(authenticationService.auth, 'getIdToken');
-      getIdTokenSpy.and.returnValue(Promise.resolve(ID_TOKEN_MOCK));
 
       getAuthResponseSpy = spyOn(authenticationService.auth, 'getAuthResponse');
       getAuthResponseSpy.and.returnValue(Promise.resolve({ id_token: JWT_TOKEN_MOCK }));
@@ -113,11 +95,15 @@ describe('AuthenticationService', () => {
       it('should call through to ionic auth expire() method', async () => {
         spyOn(authenticationService.auth, 'expire').and.returnValue(Promise.resolve());
         await authenticationService.expireTokens();
+
         expect(authenticationService.auth.expire).toHaveBeenCalled();
       });
     });
 
     describe('login', () => {
+      beforeEach(() => {
+        getAuthResponseSpy.and.returnValue(Promise.resolve(undefined));
+      });
 
       it('should call through to ionic auth login() method', async () => {
         spyOn(authenticationService.auth, 'login').and.returnValue(Promise.resolve());
@@ -133,15 +119,18 @@ describe('AuthenticationService', () => {
     describe('hasUserRights', () => {
       it('should return truthy if user has access rights', async () => {
         await authenticationService.updateTokenInfo();
+
         const hasAccess = await authenticationService.hasUserRights([
           TESTER_ROLES.FULL_ACCESS,
           TESTER_ROLES.HGV
         ]);
+
         expect(hasAccess).toBeTruthy();
       });
 
       it('should return falsy if user do not have access rights', async () => {
         await authenticationService.updateTokenInfo();
+
         const hasAccess = await authenticationService.hasUserRights([TESTER_ROLES.TIR]);
         expect(hasAccess).toBeFalsy();
       });
@@ -168,7 +157,7 @@ describe('AuthenticationService', () => {
       it(`should return token status as "re-login" if token has expired and cannot be
       refreshed via auth refreshSession`, async () => {
         spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(true);
-        spyOn(authenticationService, 'isTokenExpired').and.returnValue(Promise.resolve(true));
+        spyOn(authenticationService.auth, 'isAccessTokenExpired').and.returnValue(true);
         spyOn(authenticationService.auth, 'refreshSession').and.throwError('smth');
         const authResult = await authenticationService.isUserAuthenticated();
         expect(authResult).toEqual({ active: false, action: AUTH.RE_LOGIN });
@@ -176,7 +165,7 @@ describe('AuthenticationService', () => {
 
       it(`should return token status as continue if token has not expired`, async () => {
         spyOn(authenticationService.auth, 'isAccessTokenAvailable').and.returnValue(true);
-        spyOn(authenticationService, 'isTokenExpired').and.returnValue(Promise.resolve(false));
+        spyOn(authenticationService.auth, 'isAccessTokenExpired').and.returnValue(false);
 
         const authResult = await authenticationService.isUserAuthenticated();
         expect(authResult).toEqual({ active: true, action: AUTH.CONTINUE });
@@ -209,24 +198,6 @@ describe('AuthenticationService', () => {
 
         const result = await authenticationService.checkUserAuthStatus();
         expect(result).toBeTruthy();
-      });
-    });
-
-    describe('isTokenExpired()', () => {
-      it('should return true if token is invalid', async() => {
-        spyOn(authenticationService.auth, 'isAuthenticated').and.returnValue(Promise.resolve(true));
-        getIdTokenSpy.and.returnValue(Promise.resolve(null));
-        const isExpired = await authenticationService.isTokenExpired();
-        expect(isExpired).toEqual(true);
-      });
-      it('should return false if token is valid', async() => {
-        spyOn(authenticationService.auth, 'isAuthenticated').and.returnValue(Promise.resolve(true));
-        getIdTokenSpy.and.returnValue(Promise.resolve({
-          exp: 1919506719
-        }));
-        spyOn(authenticationService.auth, 'refreshSession').and.returnValue(Promise.resolve(true));
-        const isExpired = await authenticationService.isTokenExpired();
-        expect(isExpired).toEqual(false);
       });
     });
   });

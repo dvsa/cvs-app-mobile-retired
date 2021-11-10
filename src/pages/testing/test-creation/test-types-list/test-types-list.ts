@@ -46,17 +46,14 @@ export class TestTypesListPage implements OnInit {
   }
 
   ngOnInit() {
-    if (this.testTypeReferenceData) {
+    if (this.testTypeReferenceData)
       this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(
         this.testTypeReferenceData,
-        'sortId',
+        'id',
         'asc'
       );
-    } else {
-      this.getTestTypeRefByStorage();
-    }
-
     this.backBtn = this.navParams.get('backBtn');
+    this.getTestTypeReferenceData();
     let previousView = this.navCtrl.getPrevious();
     this.firstPage = previousView.id != PAGE_NAMES.TEST_TYPES_LIST_PAGE;
   }
@@ -70,16 +67,18 @@ export class TestTypesListPage implements OnInit {
     }
   }
 
-  getTestTypeRefByStorage(): void {
-    this.testTypeService
-      .getTestTypesFromStorage()
-      .subscribe((data: TestTypesReferenceDataModel[]) => {
-        this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(
-          data,
-          'sortId',
-          'asc'
-        );
-      });
+  getTestTypeReferenceData(): void {
+    if (!this.testTypeReferenceData) {
+      this.testTypeService
+        .getTestTypesFromStorage()
+        .subscribe((data: TestTypesReferenceDataModel[]) => {
+          this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(
+            data,
+            'id',
+            'asc'
+          );
+        });
+    } 
   }
 
   selectedItem(testType: TestTypesReferenceDataModel, vehicleData: VehicleModel): void {
@@ -95,13 +94,7 @@ export class TestTypesListPage implements OnInit {
       });
     } else {
       const type: string = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];
-      this.durationService.setDuration({ end: Date.now() }, type);
-      const duration = this.durationService.getDuration(type);
-      const takenDuration = this.durationService.getTakenDuration(duration);
-
-      this.trackAddTestTypeDuration('ADD_TEST_TYPE_START_TIME', duration.start.toString());
-      this.trackAddTestTypeDuration('ADD_TEST_TYPE_END_TIME', duration.end.toString());
-      this.trackAddTestTypeDuration('ADD_TEST_TYPE_TIME_TAKEN', takenDuration.toString());
+      this.durationService.completeDuration(type, this);
 
       let views = this.navCtrl.getViews();
       for (let i = views.length - 1; i >= 0; i--) {
