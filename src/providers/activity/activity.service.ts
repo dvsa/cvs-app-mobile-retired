@@ -60,11 +60,11 @@ export class ActivityService {
   }
 
   isVisitStillOpen(): Observable<HttpResponse<boolean>> {
-    //  make sure token object is re-hydrated before checking for open visits
-    return fromPromise(this.authenticationService.updateTokenInfo())
+    //  get tester ID before checking for open visits
+    return fromPromise(this.authenticationService.getTesterID())
       .pipe(
-        switchMap(() => {
-          return this.httpService.getOpenVisitCheck(this.authenticationService.tokenInfo.testerId)
+        switchMap((testerId) => {
+          return this.httpService.getOpenVisitCheck(testerId)
         })
       )
   }

@@ -94,26 +94,38 @@ export class AuthenticationService {
     return roles && roles.some((role) => checkRoles.indexOf(role) >= 0);
   }
 
+  async getTesterID(): Promise<string> {
+    // prioritise value in storage for employee id, fall back to ionic auth token values
+    const employeeId = await this.storage.get(STORAGE.EMPLOYEE_ID);
+    const idToken = await this._auth.getIdToken();
+    alert(`got the tester id the value was ${employeeId || idToken.employeeId || idToken.oid || null}`)
+    return employeeId || idToken.employeeId || idToken.oid || null;
+  }
+
   async getTokenDetails(): Promise<TokenInfo> {
     const authResponse = await this._auth.getAuthResponse();
+    const idToken = await this._auth.getIdToken();
     if (!authResponse) {
       return;
     }
 
     const { id_token: token } = authResponse;
-    const decodedToken: any = jwt_decode(token);
 
-    const employeeId = decodedToken.employeeid || '';
-    await this.storage.set(STORAGE.EMPLOYEE_ID, employeeId);
+    // set the stored value for employee id only if the idToken is valid (has one or more props)
+    if(Object.keys(idToken).length) {
+      const value = idToken.employeeid || null
+      alert(`setting the employee id to ${value}`)
+      await this.storage.set(STORAGE.EMPLOYEE_ID, idToken.employeeid || null);
+    }
 
     return {
-      id: decodedToken.sub,
-      testerName: decodedToken.name,
-      testerEmail: decodedToken.email || decodedToken.preferred_username,
-      testerRoles: decodedToken.roles,
-      oid: decodedToken.oid || '',
-      employeeId: employeeId,
-      testerId: decodedToken.employeeid || decodedToken.oid,
+      id: idToken.sub,
+      testerName: idToken.name,
+      testerEmail: idToken.email || idToken.preferred_username,
+      testerRoles: idToken.roles,
+      oid: idToken.oid || '',
+      employeeId: idToken.employeeId,
+      testerId: idToken.employeeId || idToken.oid,
       token: token
     };
   }
