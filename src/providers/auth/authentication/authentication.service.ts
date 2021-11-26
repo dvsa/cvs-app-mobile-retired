@@ -97,14 +97,13 @@ export class AuthenticationService {
   async getTokenDetails(): Promise<TokenInfo> {
     const authResponse = await this._auth.getAuthResponse();
     const idToken = await this._auth.getIdToken();
-    if (!authResponse) {
+    if (!idToken) {
       return;
     }
 
     const { id_token: token } = authResponse;
     // set the stored value for employee id only if the idToken is valid (has one or more props)
-    if(Object.keys(idToken).length) {
-      const value = idToken.employeeid || null
+    if(typeof idToken === 'object' && Object.keys(idToken).length) {
       await this.storage.set(STORAGE.EMPLOYEE_ID, idToken.employeeid || null);
     }
 
@@ -114,7 +113,7 @@ export class AuthenticationService {
       testerEmail: idToken.email || idToken.preferred_username,
       testerRoles: idToken.roles,
       oid: idToken.oid || '',
-      employeeId: idToken,
+      employeeId: idToken.employeeid,
       testerId: idToken.employeeid || idToken.oid,
       token: token
     };
