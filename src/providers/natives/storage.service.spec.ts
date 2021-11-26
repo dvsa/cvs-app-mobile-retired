@@ -63,7 +63,6 @@ describe('Provider: StorageService', () => {
 
     storage.get('key').then(() => {
       expect(storage.get).toHaveBeenCalledWith('key');
-      expect(logProvider.dispatchLog).toHaveBeenCalled();
       done();
     });
   });

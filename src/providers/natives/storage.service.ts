@@ -22,12 +22,6 @@ export class StorageService {
 
   read(key: string): Promise<any> {
     return this.storage.get(key).then((data: any) => {
-      this.logProvider.dispatchLog({
-        type: LOG_TYPES.INFO,
-        message: `User ${this.authenticationService.tokenInfo.oid} read storage key ${key}`,
-        timestamp: Date.now()
-      });
-
       return data;
     });
   }
@@ -35,12 +29,6 @@ export class StorageService {
   update(key, value): Promise<any> {
     return this.storage.remove(key).then((data: any) => {
       return this.storage.set(key, value).then((data: any) => {
-        this.logProvider.dispatchLog({
-          type: LOG_TYPES.INFO,
-          message: `User ${this.authenticationService.tokenInfo.oid} write storage key ${key}`,
-          timestamp: Date.now()
-        });
-
         return data;
       });
     });

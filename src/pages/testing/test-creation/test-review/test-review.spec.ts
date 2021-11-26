@@ -76,7 +76,7 @@ describe('Component: TestReviewPage', () => {
   let vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
-  beforeEach(async(() => {
+  beforeEach(async() => {
     logProviderSpy = jasmine.createSpyObj('LogsProvider', {
       dispatchLog: () => true
     });
@@ -86,7 +86,7 @@ describe('Component: TestReviewPage', () => {
       'setCurrentPage'
     ]);
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [TestReviewPage],
       imports: [IonicModule.forRoot(TestReviewPage)],
       providers: [
@@ -115,9 +115,7 @@ describe('Component: TestReviewPage', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TestReviewPage);
     component = fixture.componentInstance;
     visitService = TestBed.get(VisitService);
@@ -132,9 +130,7 @@ describe('Component: TestReviewPage', () => {
     analyticsService = TestBed.get(AnalyticsService);
     loadingCtrl = TestBed.get(LoadingController);
     openNativeSettings = TestBed.get(OpenNativeSettings);
-  });
 
-  beforeEach(() => {
     spyOn(window.localStorage, 'getItem').and.callFake(function() {
       return JSON.stringify({ test: 'test' });
     });
@@ -196,7 +192,7 @@ describe('Component: TestReviewPage', () => {
     expect(component.isVehicleOfType(vehicle, VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV)).toBeFalsy();
   });
 
-  it('display the submit button if the currently reviewed vehicle is the last one', () => {
+  it('display the submit button if the currently reviewed vehicle is the last one', async()  => {
     let newTest = testService.createTest();
     let firstVehicle = vehicleService.createVehicle(vehicle);
     let secondVehicle = vehicleService.createVehicle(vehicle);
@@ -214,14 +210,16 @@ describe('Component: TestReviewPage', () => {
 
     component.latestTest = newTest;
     component.vehicleBeingReviewed = component.latestTest.vehicles.length - 1;
+    spyOn(component, 'goToNextPage');
 
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      let submitButton = fixture.debugElement.query(By.css('.footer-cta-section>button'));
-      expect(component.nextButtonText).toBe('Submit tests');
-      submitButton.nativeElement.dispatchEvent(new Event('click'));
-      expect(component.submitTests).toHaveBeenCalled();
-    });
+    await fixture.whenStable();
+    let submitButton = fixture.debugElement.query(By.css('.footer-cta-section>button'));
+    expect(component.nextButtonText).toBe('Submit tests');
+    submitButton.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.goToNextPage).toHaveBeenCalled();
   });
 
   it('should update completeFields with the values on the current testType', () => {
@@ -382,7 +380,7 @@ describe('Component: TestReviewPage', () => {
       activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of());
       component.submitTests = jasmine.createSpy().and.callFake(() => {});
       component.visitService.createDataClearingAlert = jasmine.createSpy().and.callFake(() => {});
-      
+
       component.onSubmit(testModelParam);
 
       expect(component.submitTests).toHaveBeenCalledTimes(0);
