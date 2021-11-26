@@ -151,7 +151,6 @@ export class AuthenticationService {
       const [error] = await to(this.login());
 
       if (error) {
-        // this.alertService.alertLoginFailed();
         this.logLoginUnsuccessful(error.message);
         return Promise.resolve(false);
       } else {
@@ -186,7 +185,6 @@ export class AuthenticationService {
     // prioritise value in storage for employee id, fall back to ionic auth token values
     const employeeId = await this.storage.get(STORAGE.EMPLOYEE_ID);
     const idToken = await this._auth.getIdToken();
-    alert(`got the tester id the value was ${employeeId || idToken.employeeId || idToken.oid || null}`)
     return employeeId || idToken.employeeId || idToken.oid || null;
   }
 
