@@ -28,4 +28,8 @@ export class AuthenticationServiceMock {
   updateTokenInfo() {
     return Promise.resolve();
   }
+
+  getTesterID(){
+    return Promise.resolve()
+  }
 }

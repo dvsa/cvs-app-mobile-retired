@@ -10,17 +10,14 @@ export class StorageServiceMock {
   }
 
   create(isError: boolean): Promise<any> {
-    if(isError) return Promise.reject();
     return Promise.resolve();
   }
 
   read(isError: boolean): Promise<any> {
-    if(isError) return Promise.reject();
     return Promise.resolve();
   }
 
   update(isError: boolean): Promise<any> {
-    if(isError) return Promise.reject();
     return Promise.resolve();
   }
 
@@ -29,22 +26,18 @@ export class StorageServiceMock {
   }
 
   setItem(isError: boolean): Promise<any> {
-    if(isError) return Promise.reject();
     return Promise.resolve();
   }
 
   removeItem(isError: boolean): Promise<any> {
-    if(isError) return Promise.reject();
     return Promise.resolve();
   }
 
   delete(isError: boolean): Promise<any> {
-    if(isError) return Promise.reject();
     return Promise.resolve();
   }
 
   clearStorage(isError: boolean): Promise<any> {
-    if(isError) return Promise.reject();
     return Promise.resolve();
   }
 }

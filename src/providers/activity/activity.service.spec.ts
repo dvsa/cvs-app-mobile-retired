@@ -441,10 +441,10 @@ describe('Provider: ActivityService', () => {
   describe('isVisitStillOpen()', () => {
     it('should refresh token info before attempting to check if visit still open', () => {
       (httpService.getOpenVisitCheck as Spy).and.returnValue(of(new HttpResponse()));
-      spyOn(authService, 'updateTokenInfo').and.returnValue(Promise.resolve());
+      spyOn(authService, 'getTesterID').and.returnValue(Promise.resolve());
       activityService.isVisitStillOpen().subscribe(
         (response) => {
-          expect(authService.updateTokenInfo).toHaveBeenCalled();
+          expect(authService.getTesterID).toHaveBeenCalled();
           expect(httpService.getOpenVisitCheck).toHaveBeenCalled();
       },
         (error) => {

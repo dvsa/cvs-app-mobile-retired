@@ -68,6 +68,8 @@ describe("Component: TestTypeDetailsInputPage", () => {
     navParams = TestBed.get(NavParams);
     alertCtrl = TestBed.get(AlertController);
     viewCtrl = TestBed.get(ViewController);
+    jasmine.clock().uninstall();
+    jasmine.clock().install();
   });
 
   afterEach(() => {
@@ -75,6 +77,7 @@ describe("Component: TestTypeDetailsInputPage", () => {
     comp = null;
     alertCtrl = null;
     viewCtrl = null;
+    jasmine.clock().uninstall();
   });
 
   it("should create the component", () => {
@@ -106,24 +109,23 @@ describe("Component: TestTypeDetailsInputPage", () => {
     expect(viewCtrl.dismiss).toHaveBeenCalled();
   });
 
-  it("should call setFocus on valueInput on ionViewDidEnter action ", fakeAsync(() => {
+  it("should call setFocus on valueInput on ionViewDidEnter action ", () => {
     const spyValueInput = spyOn(comp.valueInput, "setFocus").and.callThrough();
-
     comp.ionViewDidEnter();
-    tick(150);
+    jasmine.clock().tick(150)
     expect(spyValueInput).toHaveBeenCalled();
-  }));
 
-  it("should call setFocus on customValueInput ionViewDidEnter action", fakeAsync(() => {
+  });
+
+  it("should call setFocus on customValueInput ionViewDidEnter action", () => {
     const spyCustomValueInput = spyOn(
       comp.customValueInput,
       "setFocus"
     ).and.callThrough();
-
     comp.ionViewDidEnter();
-    tick(150);
+    jasmine.clock().tick(150)
     expect(spyCustomValueInput).toHaveBeenCalled();
-  }));
+  });
 
   it("should update inputValue with given value on valueInputChange action", () => {
     comp.valueInputChange("test");

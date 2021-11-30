@@ -141,19 +141,26 @@ span[text-left] {
 .ios ion-tabs > .ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child,
 .ios ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child,
 .ios ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child {
-  padding-top: 24px;
+  padding-top: calc(constant(safe-area-inset-top) + 4px);
+  padding-top: calc(env(safe-area-inset-top) + 4px);
   padding-left: calc(constant(safe-area-inset-left) + 4px);
+  padding-left: calc(env(safe-area-inset-left) + 4px);
   padding-right: calc(constant(safe-area-inset-right) + 4px);
+  padding-right: calc(env(safe-area-inset-right) + 4px);
+  padding-bottom: calc(constant(safe-area-inset-bottom) + 20px);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
   min-height: 116px;
 
   .title-ios {
-    margin-top: 46px;
+    margin-top: 50px;
     padding-top: 20px;
     min-height: 64px;
   }
 }
 
 .ios ion-footer {
+  margin-bottom: constant(safe-area-inset-bottom);
+  margin-bottom: env(safe-area-inset-bottom);
   .footer-cta-section {
     padding: 0 16px;
 
