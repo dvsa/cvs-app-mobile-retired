@@ -39,7 +39,6 @@
     "@angular/animations": "5.2.11",
     "@angular/common": "5.2.11",
     "@angular/compiler": "5.2.11",
-    "@angular/compiler-cli": "^9.0.6",
     "@angular/core": "5.2.11",
     "@angular/forms": "5.2.11",
     "@angular/platform-browser": "5.2.11",
@@ -110,6 +109,7 @@
   },
   "devDependencies": {
     "@angular/cli": "^6.2.9",
+    "@angular/compiler-cli": "^9.0.6",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@ionic-enterprise/cordova": "^9.0.3",
