@@ -172,4 +172,12 @@ export class CommonFunctionsService {
 
     return obfuscated;
   }
+
+  millisecondsIntoMinutes(milliseconds: number): number {
+    return milliseconds / 60000;
+  }
+
+  minutesIntoMilliseconds(minutes: number): number {
+    return minutes / 1000 / 60;
+  }
 }
