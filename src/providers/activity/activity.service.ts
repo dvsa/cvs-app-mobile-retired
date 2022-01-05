@@ -4,7 +4,7 @@ import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_VALUE,
-  LOG_TYPES, PAGE_NAMES,
+  LOG_TYPES,
   STORAGE,
   VISIT
 } from '../../app/app.enums';
@@ -110,8 +110,15 @@ export class ActivityService {
     return this.httpService.updateActivity(activities);
   }
 
-  createActivityBodyForCall(visit, testResult?: TestResultModel, timeline?) {
-    let activity;
+  /**
+   * creates an activity based on the current timeline
+   * @param visit the current visit
+   * @param testResult test result if available
+   * @param timeline the current timeline
+   * @return {ActivityModel} wait or unaccountable time
+   */
+  createActivityBodyForCall(visit, testResult?: TestResultModel, timeline?): ActivityModel {
+    let activity: ActivityModel;
     let timeNotTesting = 0;
 
     if (testResult) {
@@ -169,22 +176,38 @@ export class ActivityService {
     return activity;
   }
 
+  /**
+   * creates a wait time if time not testing is above 5 minutes or unaccountable time if less
+   * @param timeNotTesting time since last test in milliseconds
+   * @param visit the current visit
+   * @return {ActivityModel} wait or unaccountable time
+   */
   createWaitOrUnaccountableTime(timeNotTesting: number, visit: VisitModel): ActivityModel {
     if (timeNotTesting < this.counterTime) {
-      // unaccountable time
       return this.createActivity(visit, null, false, false);
     } else {
       return this.createActivity(visit, VISIT.ACTIVITY_TYPE_WAIT, false, false);
     }
   }
 
-  getWaitTimeBetween(start: string, end: string) {
+  /**
+   * returns the number of milliseconds between the two time strings
+   * @param start start time string
+   * @param end end time string
+   * @return {number} milliseconds
+   */
+  getWaitTimeBetween(start: string, end: string): number {
     return this.commonFunc.minutesIntoMilliseconds(
       (Date.parse(start) - Date.parse(end))
     );
   }
 
-  createActivitiesForUpdateCall(activitiesArr: ActivityModel[]) {
+  /**
+   * returns a list of objects containing the id, waitReason and notes for each wait time
+   * @param activitiesArr the current list of activities
+   * @return {any[]} list of objects containing id, waitReason and notes for wait times
+   */
+  createActivitiesForUpdateCall(activitiesArr: ActivityModel[]): any[] {
     let activitiesForUpdate = [];
     for (let activity of activitiesArr) {
         let updActivity = {
@@ -197,7 +220,12 @@ export class ActivityService {
     return activitiesForUpdate;
   }
 
-  minutesPassedSinceLastActivity(visit: VisitModel): number {
+  /**
+   * calculates the time since the beginning of the visit or the last test if available in minutes
+   * @param visit the current visit
+   * @return {number} minutes
+   */
+  minutesPassedSinceVisitOrLastTest(visit: VisitModel): number {
     if (!visit.tests.length) {
       return this.commonFunc.millisecondsIntoMinutes(
         Date.now() - Date.parse(visit.startTime)
@@ -209,10 +237,20 @@ export class ActivityService {
     }
   }
 
-  have5MinutesPassedSinceLastActivity(visit: VisitModel): boolean {
-    return (this.minutesPassedSinceLastActivity(visit) > this.counterTime);
+  /**
+   * returns true if 5 minutes have passed since the test start or the last test if available
+   * @param visit the current visit
+   * @return {boolean} have 5 minutes passed?
+   */
+  have5MinutesPassedSinceVisitOrLastTest(visit: VisitModel): boolean {
+    return (this.minutesPassedSinceVisitOrLastTest(visit) > this.counterTime);
   }
 
+  /**
+   * returns true if timeline is empty or if last thing in the timeline isn't a wait time
+   * @param timeline the current timeline
+   * @return {boolean} can another wait time be added?
+   */
   canAddOtherWaitingTime(timeline: any[]): boolean {
     if (timeline.length === 0) {
       return true;
@@ -220,14 +258,24 @@ export class ActivityService {
     return !timeline[timeline.length - 1].activityType;
   }
 
+  /**
+   * returns true if any of the activities are missing a wait reason
+   * @param activities the current activities
+   * @return {boolean} are wait reasons missing from any activity?
+   */
   checkWaitTimeReasons(activities: ActivityModel[]): boolean {
     let checkReason: boolean = false;
-    activities.forEach((elem) => {
-      if (elem.waitReason.length == 0) checkReason = true;
+    activities.forEach((activity) => {
+      if (activity.waitReason.length == 0) checkReason = true;
     });
     return checkReason;
   }
 
+  /**
+   * creates a wait time using the current timeline and visit
+   * @param timeline the current timeline
+   * @param visit the current visit
+   */
   createWaitTime(timeline: any[], visit: VisitModel): void {
     let waitActivity: ActivityModel = this.createActivity(
       visit,
@@ -244,6 +292,13 @@ export class ActivityService {
     timeline.push(waitActivity);
   }
 
+  /**
+   * creates the final activity for the visit and returns all activities to be updated
+   * @param timeline the current timeline
+   * @param visit the current visit
+   * @param oid the oid for authentication
+   * @return {Observable<any>}
+   */
   createActivityToPost$(timeline: any[], visit: VisitModel, oid: string): Observable<any> {
     const activity: ActivityModel = this.createActivityBodyForCall(
       visit,

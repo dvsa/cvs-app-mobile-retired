@@ -302,12 +302,12 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
   waitTimeHandler(): void {
     if (this.activityService.canAddOtherWaitingTime(this.timeline)) {
-      if (this.activityService.have5MinutesPassedSinceLastActivity(this.visit)) {
+      if (this.activityService.have5MinutesPassedSinceVisitOrLastTest(this.visit)) {
         this.activityService.createWaitTime(this.timeline, this.visit);
       }
       else if (!this.activityService.waitTimeStarted) {
         let counterTime: number = this.activityService.counterTime -
-          this.activityService.minutesPassedSinceLastActivity(this.visit);
+          this.activityService.minutesPassedSinceVisitOrLastTest(this.visit);
         clearTimeout(this.activityService.waitTimer);
         this.activityService.waitTimer = window.setTimeout(
           () => {
@@ -320,6 +320,10 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * displays a modal to allow the editing of a wait time
+   * @param activity the wait time being clicked
+   */
   async editWaitTime(activity: ActivityModel) {
     const MODAL = this.modalCtrl.create(PAGE_NAMES.WAIT_TIME_REASONS_PAGE, {
       waitActivity: activity
@@ -334,6 +338,10 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * removes items from local storage and navigates to the confirmation page
+   * @return {boolean} true when function has finished
+   */
   onUpdateActivityReasonsSuccess(): boolean {
     this.storageService.delete(STORAGE.VISIT);
     this.storageService.delete(STORAGE.STATE);
@@ -350,6 +358,11 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     return true;
   }
 
+  /**
+   * updates each wait time with the wait reason that was selected by the user
+   * @param activities
+   * @return {Observable<any>}
+   */
   createActivityReasonsToPost$(activities: ActivityModel[]): Observable<any> {
     const activityWithReasons = this.activityService.createActivitiesForUpdateCall(activities);
     if (activityWithReasons.length > 0) {

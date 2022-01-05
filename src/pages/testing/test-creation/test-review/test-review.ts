@@ -360,6 +360,7 @@ export class TestReviewPage implements OnInit {
     const { oid } = this.authenticationService.tokenInfo;
     let stack: Observable<any>[] = [];
     let testResultsArr: TestResultModel[] = [];
+    let activitiesSubmitted = true;
 
     for (let vehicle of test.vehicles) {
       let testResult = this.testResultService.createTestResult(this.visit, test, vehicle);
@@ -422,17 +423,21 @@ export class TestReviewPage implements OnInit {
                 message: `${oid} - ${JSON.stringify(error)}`,
                 timestamp: Date.now()
               });
-
+              activitiesSubmitted = false;
               this.trackErrorOnTestSubmission(ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED);
             }
           );
         }
-        this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
         LOADING.dismiss();
-        this.submitInProgress = false;
-        this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
-          testerEmailAddress: this.visit.testerEmail
-        });
+        if (activitiesSubmitted) {
+          this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
+          this.submitInProgress = false;
+          this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
+            testerEmailAddress: this.visit.testerEmail
+          });
+        } else {
+          TRY_AGAIN_ALERT.present();
+        }
       },
       (error) => {
         LOADING.dismiss();

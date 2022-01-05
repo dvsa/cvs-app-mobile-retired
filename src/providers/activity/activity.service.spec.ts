@@ -511,9 +511,9 @@ describe('Provider: ActivityService', () => {
     let visit = {} as VisitModel;
     visit.startTime = '2020-03-19T03:07:44.669Z';
     visit.tests = [];
-    expect(activityService.have5MinutesPassedSinceLastActivity(visit)).toBeTruthy();
+    expect(activityService.have5MinutesPassedSinceVisitOrLastTest(visit)).toBeTruthy();
     visit = { ...VisitDataMock.VisitData };
-    expect(activityService.have5MinutesPassedSinceLastActivity(visit)).toBeTruthy();
+    expect(activityService.have5MinutesPassedSinceVisitOrLastTest(visit)).toBeTruthy();
   });
 
   it('should create a wait time activity with correct start time', () => {
