@@ -300,6 +300,9 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Begins the counter for the wait time handling service
+   */
   waitTimeHandler(): void {
     if (this.activityService.canAddOtherWaitingTime(this.timeline)) {
       if (this.activityService.have5MinutesPassedSinceVisitOrLastTest(this.visit)) {
