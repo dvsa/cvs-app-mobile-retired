@@ -126,9 +126,9 @@ describe('Component: TestStationDetailsPage', () => {
     );
   });
 
-  it('should test confirmStartVisit if error', () => {
+  it('should test confirmStartVisit if error', async() => {
     visitServiceMock.isError = true;
-    component.confirmStartVisit();
+    await component.confirmStartVisit();
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
