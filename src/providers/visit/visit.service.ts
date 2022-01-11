@@ -102,9 +102,9 @@ export class VisitService {
     return this.visit.tests;
   }
 
-  updateVisit() {
+ async updateVisit() {
     if (this.appService.caching) {
-      this.storageService.update(STORAGE.VISIT, this.visit);
+      await this.storageService.update(STORAGE.VISIT, this.visit);
     }
   }
 
