@@ -28,6 +28,7 @@ import { AuthenticationService } from '../../../../providers/auth/authentication
 import { AuthenticationServiceMock } from '../../../../../test-config/services-mocks/authentication-service.mock';
 import { AnalyticsService, DurationService } from '../../../../providers/global';
 import { Duration } from '../../../../models/duration.model';
+import { of } from 'rxjs/observable/of';
 
 describe('Component: TestTypesListPage', () => {
   let comp: TestTypesListPage;
@@ -36,6 +37,7 @@ describe('Component: TestTypesListPage', () => {
   let navParams: NavParams;
   let viewCtrl: ViewController;
   let testTypeService: TestTypeService;
+  let testTypeServiceSpy;
   let vehicleService: VehicleService;
   let storageServiceSpy: any;
   let vehicleServiceSpy;
@@ -47,6 +49,14 @@ describe('Component: TestTypesListPage', () => {
 
   const testTypes: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
   const vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
+  const mockTestTypes = () =>
+    [
+      {
+        id: '1',
+        sortId: '1',
+        name: 'annual test'
+      }
+    ] as TestTypesReferenceDataModel[];
 
   beforeEach(async(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
@@ -62,6 +72,10 @@ describe('Component: TestTypesListPage', () => {
       'logEvent',
       'addCustomDimension'
     ]);
+    testTypeServiceSpy = jasmine.createSpyObj('TestTypeService', {
+      orderTestTypesArray: jasmine.createSpy('orderTestTypesArray').and.returnValue(null),
+      getTestTypesFromStorage: of(mockTestTypes)
+    });
 
     TestBed.configureTestingModule({
       declarations: [TestTypesListPage],
@@ -72,6 +86,7 @@ describe('Component: TestTypesListPage', () => {
         DurationService,
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: TestTypeService, useClass: TestTypeServiceMock },
+        { provide: TestTypeService, useValue: testTypeServiceSpy },
         { provide: VehicleService, useValue: vehicleServiceSpy },
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
@@ -118,6 +133,33 @@ describe('Component: TestTypesListPage', () => {
     expect(comp).toBeTruthy();
     expect(testTypeService).toBeTruthy();
     expect(vehicleService).toBeTruthy();
+  });
+
+  it('ngOnInit: should get test ref data via service call', () => {
+    comp.testTypeReferenceData = mockTestTypes();
+    comp.ngOnInit();
+
+    expect(testTypeService.orderTestTypesArray).toHaveBeenCalledWith(
+      mockTestTypes(),
+      'sortId',
+      'asc'
+    );
+    expect(navCtrl.getPrevious).toHaveBeenCalled();
+  });
+
+  it('ngOnInit: should get test ref data via internal storage', () => {
+    comp.testTypeReferenceData = null;
+    comp.ngOnInit();
+
+    testTypeService
+      .getTestTypesFromStorage()
+      .subscribe((subRefData: TestTypesReferenceDataModel[]) => {
+        expect(testTypeService.orderTestTypesArray).toHaveBeenCalledWith(
+          subRefData,
+          'sortId',
+          'asc'
+        );
+      });
   });
 
   it('should test ngOnInit logic', () => {
