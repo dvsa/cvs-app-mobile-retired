@@ -49,7 +49,6 @@ import {
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
 import { TestDataModelMock } from '../../../../assets/data-mocks/data-model/test-data-model.mock';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
-import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
 import { DefectDetailsDataMock } from '../../../../assets/data-mocks/defect-details-data.mock';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category';
