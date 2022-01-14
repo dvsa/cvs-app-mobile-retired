@@ -184,7 +184,7 @@
         class="btn-add-test"
         ion-item
         detail-none
-        (click)="addVehicleTest(vehicle)"
+        (click)="onAddNewTestType(vehicle)"
         [ngClass]="{'bottom-divider': vehicle.testTypes.length == 0}"
       >
         <span *ngIf="vehicle.testTypes.length == 0">Add a test type</span>
