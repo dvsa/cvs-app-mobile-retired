@@ -25,11 +25,18 @@ describe('Component: VehicleHistoryDetailsPage', () => {
   let viewCtrl: ViewController;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
+  let testTypeService: TestTypeService;
+  let testTypeServiceSpy: any;
 
   const defects: DefectDetailsModel[] = [MOCK_UTILS.mockDefectsDetails()];
 
   beforeEach(async(() => {
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', ['setCurrentPage']);
+    testTypeServiceSpy = jasmine.createSpyObj('TestTypeService', [
+      'fixDateFormatting',
+      'isSpecialistWithoutCertificateNumberCapturedIds',
+      'isSpecialistCoifWithAnnualTest'
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [VehicleHistoryDetailsPage],
@@ -39,7 +46,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
         CommonFunctionsService,
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ViewController, useClass: ViewControllerMock },
-        { provide: TestTypeService, useClass: TestTypeServiceMock },
+        { provide: TestTypeService, useValue: testTypeServiceSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: AppService, useClass: AppServiceMock }
       ],
@@ -54,6 +61,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
     viewCtrl = TestBed.get(ViewController);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
     analyticsService = TestBed.get(AnalyticsService);
+    testTypeService = TestBed.get(TestTypeService);
     comp.testIndex = 0;
     comp.testTypeIndex = 0;
     comp.testResultHistory = TestResultsHistoryDataMock.TestResultHistoryData;

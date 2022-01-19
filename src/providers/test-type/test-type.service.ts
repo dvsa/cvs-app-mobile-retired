@@ -270,6 +270,15 @@ export class TestTypeService {
     );
   }
 
+  fixDateFormatting(testType: TestTypeModel) {
+    testType.testTypeStartTimestamp =
+      this.commonFunctions.fixDateFormat(testType.testTypeStartTimestamp);
+    testType.testTypeEndTimestamp =
+      this.commonFunctions.fixDateFormat(testType.testTypeEndTimestamp);
+    testType.testExpiryDate =
+      this.commonFunctions.fixDateFormat(testType.testExpiryDate);
+  }
+
   // Retrieve all nested Test Types and flatten into single array
   flattenTestTypesData(array: TestTypesReferenceDataModel[]): TestTypesReferenceDataModel[] {
     return array.reduce((innerArr, { nextTestTypesOrCategories, ...rest }) => {
