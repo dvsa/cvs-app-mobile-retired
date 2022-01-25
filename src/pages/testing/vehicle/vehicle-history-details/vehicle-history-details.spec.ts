@@ -11,7 +11,6 @@ import { TestResultsHistoryDataMock } from '../../../../assets/data-mocks/test-r
 import { AppService } from '../../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
-import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
 import { ANALYTICS_SCREEN_NAMES, DEFICIENCY_CATEGORY } from '../../../../app/app.enums';
 import { DefectDetailsModel } from '../../../../models/defects/defect-details.model';
 import { MOCK_UTILS } from '../../../../../test-config/mocks/mocks.utils';
