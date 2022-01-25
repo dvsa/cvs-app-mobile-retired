@@ -20,5 +20,8 @@ export interface TestTypesReferenceDataModel {
   forVehicleSubclass: string[] | string;
   forVehicleWheels: number[] | null;
   nextTestTypesOrCategories?: TestTypesReferenceDataModel[];
+  suggestedTestTypeDisplayName?: string;
+  suggestedTestTypeDisplayOrder?: number;
   linkedIds?: string[] | null;
+  suggestedTestTypeIds?: string[] | null;
 }

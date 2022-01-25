@@ -24,7 +24,9 @@ import {
   APP_STRINGS,
   DURATION_TYPE,
   PAGE_NAMES,
+  STORAGE,
   TEST_COMPLETION_STATUS,
+  TEST_REPORT_STATUSES,
   TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
   VEHICLE_TYPE
@@ -32,9 +34,11 @@ import {
 import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-data/test-types-fields.metadata';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import { CallNumber } from '@ionic-native/call-number';
-import { AppService, AnalyticsService, DurationService } from '../../../../providers/global';
+import { AppService, AnalyticsService, DurationService, AppAlertService } from '../../../../providers/global';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category';
+import { StorageService } from '../../../../providers/natives/storage.service';
+import { TestTypesReferenceDataModel } from '../../../../models/reference-data-models/test-types.model';
 
 @IonicPage()
 @Component({
@@ -55,6 +59,7 @@ export class TestCreatePage implements OnInit {
   allVehiclesCompletelyTested: boolean = false;
   TEST_CREATE_ERROR_BANNER: typeof APP_STRINGS.TEST_CREATE_ERROR_BANNER =
     APP_STRINGS.TEST_CREATE_ERROR_BANNER;
+  testTypeReferenceData: TestTypesReferenceDataModel[];
 
   constructor(
     public navCtrl: NavController,
@@ -70,7 +75,9 @@ export class TestCreatePage implements OnInit {
     private modalCtrl: ModalController,
     private analyticsService: AnalyticsService,
     private durationService: DurationService,
-    private testTypeService: TestTypeService
+    private testTypeService: TestTypeService,
+    private storageService: StorageService,
+    private alertService: AppAlertService
   ) {
     this.testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
   }
@@ -82,6 +89,7 @@ export class TestCreatePage implements OnInit {
     this.testData = Object.keys(this.visitService.visit).length
       ? this.visitService.visit.tests[lastTestIndex]
       : this.navParams.get('test');
+    this.getTestTypeReferenceData();
   }
 
   ionViewWillEnter() {
@@ -305,13 +313,136 @@ export class TestCreatePage implements OnInit {
     return isInProgress ? 'In progress' : 'Edit';
   }
 
-  addVehicleTest(vehicle: VehicleModel): void {
+  getTestTypeReferenceData(): void {
+    this.testTypeService
+      .getTestTypesFromStorage()
+      .subscribe((data: TestTypesReferenceDataModel[]) => {
+        this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(
+          data,
+          'id',
+          'asc'
+        );
+      });
+  }
+
+  getSuggestedTestTypes(testType: TestTypeModel) {
+    const flattenedTestTypes = this.testTypeService.flattenTestTypesData(this.testTypeReferenceData);
+    const suggestedTestTypeIds = this.testTypeService.getSuggestedTestTypeIds(testType.testTypeId, flattenedTestTypes);
+    const testTypes = this.testTypeService.determineAssociatedTestTypes(flattenedTestTypes, suggestedTestTypeIds);
+    return this.testTypeService.sortSuggestedTestTypes(testTypes);
+  }
+
+  async onAddNewTestType(vehicle: VehicleModel) {
     this.durationService.setDuration(
       { start: Date.now() },
       DURATION_TYPE[DURATION_TYPE.TEST_TYPE]
     );
 
+    let failedTest: null | TestTypeModel;
+    const testHistory = await this.storageService.read(STORAGE.TEST_HISTORY + vehicle.systemNumber);
+    if (testHistory.length) {
+      let testTypes: TestTypeModel[] = [];
+      let cutOffDate = new Date();
+      const DAYS_WITHIN_TEST_FAIL = 19;
+      cutOffDate.setDate(cutOffDate.getDate() - DAYS_WITHIN_TEST_FAIL);
+      cutOffDate.setHours(0,0,0,0);
+
+      testHistory.forEach(testResult => {
+        let testResultDate = new Date(testResult.testStartTimestamp);
+        testResultDate.setHours(0,0,0,0);
+
+        if (
+          testResult.testTypes.length &&
+          testResult.testStatus === TEST_REPORT_STATUSES.SUBMITTED &&
+          cutOffDate.valueOf() <= testResultDate.valueOf()
+        ) {
+          testResult.testTypes.forEach((testType) => {
+            if (this.getSuggestedTestTypes(testType).length) {
+              testTypes.push(testType);
+            }
+          });
+        }
+      });
+      if (testTypes.length) {
+        this.commonFunctions.orderTestTypeArrayByDate(testTypes);
+        for (let i = 0; i < testTypes.length; i++) {
+          if (testTypes[i].testResult === TEST_TYPE_RESULTS.FAIL) {
+            failedTest = testTypes[i];
+            break;
+          }
+        }
+      }
+    }
+    if (failedTest) {
+      this.handleRecentlyFailedTest(failedTest, vehicle);
+    } else {
+      this.addNewTestType(vehicle);
+    };
+  }
+
+  handleRecentlyFailedTest(failedTest: TestTypeModel, vehicle: VehicleModel) {
+    const suggestedTestTypes: TestTypesReferenceDataModel[] = this.getSuggestedTestTypes(failedTest);
+
+    let buttons = [];
+    for (let i = 0; i < suggestedTestTypes.length; i++) {
+      buttons.push({
+        text: suggestedTestTypes[i].suggestedTestTypeDisplayName,
+        handler: () => {
+          this.addSuggestedTestType(suggestedTestTypes[i], vehicle);
+        }
+      });
+    }
+
+    const failedTestDate = new Date(failedTest.testTypeStartTimestamp);
+    const RECENTLY_FAILED_TEST_MESSAGE = `This vehicle failed its ${failedTest.name.toLocaleLowerCase()} on `
+      + `${failedTestDate.toLocaleDateString('en-GB')}`.bold() + `<br><br> It may be eligible for retest if within `
+      + `14 working days.`.bold() + `<br><br> Check the ` + `date and failure items in test history`.bold()
+      + ` to correctly select one of the following test types.`;
+
+    this.alertService.alertSuggestedTestTypes(RECENTLY_FAILED_TEST_MESSAGE, vehicle, buttons, this);
+  }
+
+  async goToVehicleTestResultsHistory(vehicle: VehicleModel) {
+    const testResultsHistory = await this.storageService.read(
+      STORAGE.TEST_HISTORY + vehicle.systemNumber
+    );
+
+    await this.navCtrl.push(PAGE_NAMES.VEHICLE_HISTORY_PAGE, {
+      vehicleData: vehicle,
+      testResultsHistory: testResultsHistory ? testResultsHistory : []
+    });
+  }
+
+  addNewTestType(vehicle: VehicleModel) {
     this.navCtrl.push(PAGE_NAMES.TEST_TYPES_LIST_PAGE, { vehicleData: vehicle });
+  }
+
+  addSuggestedTestType(testType: TestTypesReferenceDataModel, vehicle: VehicleModel) {
+    const type = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];
+    this.durationService.completeDuration(type, this);
+
+    if (testType.name.includes('retest')) {
+      testType.name = 'Retest';
+    }
+    let test = this.testTypeService.createTestType(
+      testType,
+      vehicle.techRecord.vehicleType
+    );
+    test.testTypeCategoryName = testType.name;
+    this.vehicleService.addTestType(vehicle, test);
+  }
+
+  async trackAddTestTypeDuration(label: string, value: string) {
+    await this.analyticsService.logEvent({
+      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
+      event: ANALYTICS_EVENTS.ADD_TEST_TYPE_TIME_TAKEN,
+      label: ANALYTICS_LABEL[label]
+    });
+
+    await this.analyticsService.addCustomDimension(
+      Object.keys(ANALYTICS_LABEL).indexOf(label) + 1,
+      value
+    );
   }
 
   onVehicleDetails(vehicle: VehicleModel) {
