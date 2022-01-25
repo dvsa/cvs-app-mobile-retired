@@ -273,10 +273,18 @@ export class TestTypeService {
   fixDateFormatting(testType: TestTypeModel) {
     testType.testTypeStartTimestamp =
       this.commonFunctions.fixDateFormat(testType.testTypeStartTimestamp);
-    testType.testTypeEndTimestamp =
-      this.commonFunctions.fixDateFormat(testType.testTypeEndTimestamp);
-    testType.testExpiryDate =
-      this.commonFunctions.fixDateFormat(testType.testExpiryDate);
+    if (testType.testTypeEndTimestamp) {
+      testType.testTypeEndTimestamp =
+        this.commonFunctions.fixDateFormat(testType.testTypeEndTimestamp);
+    }
+    if (testType.testExpiryDate) {
+      testType.testExpiryDate =
+        this.commonFunctions.fixDateFormat(testType.testExpiryDate);
+    }
+    if (testType.lastSeatbeltInstallationCheckDate) {
+      testType.lastSeatbeltInstallationCheckDate =
+        this.commonFunctions.fixDateFormat(testType.lastSeatbeltInstallationCheckDate);
+    }
   }
 
   // Retrieve all nested Test Types and flatten into single array

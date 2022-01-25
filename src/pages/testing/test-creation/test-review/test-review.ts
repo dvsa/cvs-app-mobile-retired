@@ -104,6 +104,9 @@ export class TestReviewPage implements OnInit {
 
     this.vehicleBeingReviewed = this.navParams.get('vehicleBeingReviewed') || 0;
     this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
+    this.vehicle.testTypes.forEach(testType => {
+      this.testTypeService.fixDateFormatting(testType);
+    })
   }
 
   ngOnInit(): void {

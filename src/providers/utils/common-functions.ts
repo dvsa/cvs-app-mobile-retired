@@ -173,7 +173,7 @@ export class CommonFunctionsService {
     return obfuscated;
   }
 
-  fixDateFormat(timestamp: string): string{
+  fixDateFormat(timestamp: string): string {
     if (timestamp && timestamp.includes(' ')) {
       const dateTime = timestamp.split(' ');
       return (dateTime[0] + 'T' + dateTime[1] + 'Z');
