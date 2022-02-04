@@ -81,4 +81,22 @@ export class AppAlertService {
 
     alert.present();
   }
+
+  callSupport() {
+    const confirm = this.alertCtrl.create({
+      title: `${AppConfig.app.KEY_PHONE_NUMBER}`,
+      buttons: [
+        {
+          text: APP_STRINGS.CANCEL
+        },
+        {
+          text: APP_STRINGS.CALL,
+          handler: () => {
+            this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
 }
