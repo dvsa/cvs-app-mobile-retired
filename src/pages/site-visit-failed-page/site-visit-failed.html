@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-grid no-padding>
+    <ion-row class="black-bar"></ion-row>
+    <ion-row class="blue-bar"></ion-row>
+  </ion-grid>
+</ion-header>
+
+<ion-content padding>
+  <div class="cross-icon">
+    <img src="assets/red-cross-icon.svg" />
+  </div>
+  <div class="msg-centered">
+    <h3>{{messageOne}}</h3>
+    <h3>{{messageTwo}}</h3>
+    <h3>{{messageThree}}</h3>
+  </div>
+</ion-content>
+<ion-footer padding-horizontal>
+  <div class="footer-cta-section">
+    <button ion-button block (click)="callSupport()" color="primary">
+      <span>Call IT</span>
+    </button>
+    <button ion-button block (click)="confirm()" color="secondary">
+      <span>Confirm</span>
+    </button>
+  </div>
+</ion-footer>

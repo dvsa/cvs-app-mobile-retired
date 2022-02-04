@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar hideBackButton="true">
     <ion-buttons end>
-      <button ion-button (click)="createNewTestReport()" *ngIf="isCreateTestEnabled">
+      <button ion-button (click)="createNewTestReport()" [disabled]="!isCreateTestEnabled">
         Start test
       </button>
     </ion-buttons>

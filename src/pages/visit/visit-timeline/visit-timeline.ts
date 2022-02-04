@@ -18,7 +18,6 @@ import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_EVENTS,
   ANALYTICS_EVENT_CATEGORIES,
-  ANALYTICS_LABEL,
   ANALYTICS_VALUE,
   APP_STRINGS,
   STORAGE,
@@ -112,6 +111,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
   ionViewDidEnter() {
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VISIT_TIMELINE);
+    this.isCreateTestEnabled = true;
     // this.waitTimeHandler(); FIXME: Needs to be fixed separately.
   }
 
@@ -246,15 +246,15 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     return checkReason;
   }
 
-  showLoading(loadingText: string) {
+  async showLoading(loadingText: string) {
     if (loadingText) {
       this.loading = this.loadingCtrl.create({
         content: loadingText
       });
 
-      this.loading.present();
+      await this.loading.present();
     } else {
-      this.loading.dismiss();
+      await this.loading.dismiss();
     }
   }
 
@@ -318,7 +318,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         {
           text: APP_STRINGS.OK,
           handler: () => {
-            this.onUpdateActivityReasonsSuccess();
+            this.onUpdateActivityReasons(true);
           }
         }
       ]
@@ -386,7 +386,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
             timestamp: Date.now()
           });
 
-          return this.onUpdateActivityReasonsSuccess();
+          return this.onUpdateActivityReasons(true);
         }),
         catchError((error) => {
           this.showLoading('');
@@ -401,7 +401,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         })
       );
     } else {
-      return of(this.onUpdateActivityReasonsSuccess());
+      return of(this.onUpdateActivityReasons(true));
     }
   }
 
@@ -428,13 +428,41 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         });
 
         return of(TRY_AGAIN_ALERT.present());
+      } else if (receivedErr.status === 408) {
+        const REQUEST_TIMEOUT_ALERT = this.alertCtrl.create({
+          title: APP_STRINGS.REQUEST_TIMED_OUT_TITLE,
+          message: APP_STRINGS.REQUEST_TIMED_OUT_MESSAGE,
+          buttons: [
+            {
+              text: APP_STRINGS.CANCEL,
+              handler: () => {
+                this.isCreateTestEnabled = true;
+                REQUEST_TIMEOUT_ALERT.dismiss();
+              }
+            },
+            {
+              text: APP_STRINGS.TRY_AGAIN_BTN,
+              handler: () => {
+                this.confirmVisit$ = this.confirmEndVisit$();
+              }
+            }
+          ]
+        });
+
+        REQUEST_TIMEOUT_ALERT.onDidDismiss(() => {
+          this.isCreateTestEnabled = true
+        });
+
+        return of(REQUEST_TIMEOUT_ALERT.present());
+      } else if (receivedErr.status === 400) {
+        return of (this.onUpdateActivityReasons(false));
       } else {
-        return of(this.onUpdateActivityReasonsSuccess());
+        return of(this.onUpdateActivityReasons(true));
       }
     }
   }
 
-  onUpdateActivityReasonsSuccess(): boolean {
+  onUpdateActivityReasons(success: boolean): boolean {
     this.storageService.delete(STORAGE.VISIT);
     this.storageService.delete(STORAGE.STATE);
     this.storageService.delete(STORAGE.ACTIVITIES);
@@ -443,9 +471,13 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     this.activityService.activities = [];
     this.showLoading('');
 
-    this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
-      testStationName: this.visit.testStationName
-    });
+    if (success) {
+      this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
+        testStationName: this.visit.testStationName
+      });
+    } else {
+      this.navCtrl.push(PAGE_NAMES.SITE_VISIT_FAILED_PAGE);
+    }
 
     return true;
   }

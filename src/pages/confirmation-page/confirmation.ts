@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { APP_STRINGS, PAGE_NAMES } from '../../app/app.enums';
 import { StateReformingService } from '../../providers/global/state-reforming.service';
-import { CallNumber } from '@ionic-native/call-number';
-
-import {default as AppConfig} from '../../../config/application.hybrid';
+import { AppAlertService } from '../../providers/global';
 
 @IonicPage()
 @Component({
@@ -22,8 +20,7 @@ export class ConfirmationPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private stateReformingService: StateReformingService,
-    private alertCtrl: AlertController,
-    private callNumber: CallNumber
+    private alertService: AppAlertService
   ) {
     this.testStationName = navParams.get('testStationName');
     this.testerEmailAddress = navParams.get('testerEmailAddress');
@@ -55,20 +52,6 @@ export class ConfirmationPage {
   }
 
   callSupport() {
-    let confirm = this.alertCtrl.create({
-      title: `${AppConfig.app.KEY_PHONE_NUMBER}`,
-      buttons: [
-        {
-          text: APP_STRINGS.CANCEL
-        },
-        {
-          text: APP_STRINGS.CALL,
-          handler: () => {
-            this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true);
-          }
-        }
-      ]
-    });
-    confirm.present();
+    this.alertService.callSupport();
   }
 }

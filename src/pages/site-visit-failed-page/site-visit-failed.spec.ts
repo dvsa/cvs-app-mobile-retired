@@ -1,4 +1,4 @@
-import { ConfirmationPage } from './confirmation';
+import { SiteVisitFailedPage } from './site-visit-failed';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController, IonicModule, NavController, NavParams } from 'ionic-angular';
 import { NavParamsMock } from '../../../test-config/ionic-mocks/nav-params.mock';
@@ -6,13 +6,13 @@ import { StateReformingService } from '../../providers/global/state-reforming.se
 import { StateReformingServiceMock } from '../../../test-config/services-mocks/state-reforming-service.mock';
 import { AlertControllerMock, NavControllerMock } from 'ionic-mocks';
 import { CallNumber } from '@ionic-native/call-number';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { APP_STRINGS } from '../../app/app.enums';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppAlertService } from '../../providers/global';
 
-describe('Component: ConfirmationPage', () => {
-  let comp: ConfirmationPage;
-  let fixture: ComponentFixture<ConfirmationPage>;
+describe('Component: SiteVisitFailedPage', () => {
+  let comp: SiteVisitFailedPage;
+  let fixture: ComponentFixture<SiteVisitFailedPage>;
   let navCtrl: NavController;
   let alertCtrl: AlertController;
   let alertService: AppAlertService;
@@ -22,8 +22,8 @@ describe('Component: ConfirmationPage', () => {
     alertServiceSpy = jasmine.createSpyObj('AppAlertService', ['callSupport']);
 
     TestBed.configureTestingModule({
-      declarations: [ConfirmationPage],
-      imports: [IonicModule.forRoot(ConfirmationPage)],
+      declarations: [SiteVisitFailedPage],
+      imports: [IonicModule.forRoot(SiteVisitFailedPage)],
       providers: [
         CallNumber,
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
@@ -37,7 +37,7 @@ describe('Component: ConfirmationPage', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfirmationPage);
+    fixture = TestBed.createComponent(SiteVisitFailedPage);
     comp = fixture.componentInstance;
     navCtrl = TestBed.get(NavController);
     alertCtrl = TestBed.get(AlertController);
@@ -58,31 +58,28 @@ describe('Component: ConfirmationPage', () => {
   });
 
   it('should test ionViewWillEnter logic', () => {
-    comp.testStationName = 'qwerty';
+    comp.messageOne = 'qwerty';
+    comp.messageTwo = 'qwerty';
+    comp.messageThree = 'qwerty';
     comp.ionViewWillEnter();
-    expect(comp.message).toEqual(
-      APP_STRINGS.CONFIRMATION_MESSAGE_END_VISIT + comp.testStationName
+    expect(comp.messageOne).toEqual(
+      APP_STRINGS.FAILED_MESSAGE_END_VISIT_ONE
     );
-    comp.testStationName = '';
-    comp.testerEmailAddress = 'qwerty@qqq.com';
-    comp.ionViewWillEnter();
-    expect(comp.message).toEqual(
-      APP_STRINGS.CONFIRMATION_MESSAGE_SUBMIT_TEST + comp.testerEmailAddress
+    expect(comp.messageTwo).toEqual(
+      APP_STRINGS.FAILED_MESSAGE_END_VISIT_TWO
     );
-  });
-
-  it('should test pressing on done logic', () => {
-    comp.testStationName = 'qwerty';
-    comp.pushPage();
-    expect(navCtrl.popToRoot).toHaveBeenCalled();
-    comp.testStationName = '';
-    comp.testerEmailAddress = 'qwerty@qqq.com';
-    comp.pushPage();
-    expect(navCtrl.getViews).toHaveBeenCalled();
+    expect(comp.messageThree).toEqual(
+      APP_STRINGS.FAILED_MESSAGE_END_VISIT_THREE
+    );
   });
 
   it('should create the call support alert', () => {
     comp.callSupport();
     expect(alertService.callSupport).toHaveBeenCalled();
+  });
+
+  it('should test pressing on confirm logic', () => {
+    comp.confirm();
+    expect(navCtrl.popToRoot).toHaveBeenCalled();
   });
 });
