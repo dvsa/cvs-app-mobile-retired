@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { APP_STRINGS } from '../../app/app.enums';
+import {
+  ANALYTICS_EVENT_CATEGORIES,
+  ANALYTICS_EVENTS,
+  ANALYTICS_SCREEN_NAMES,
+  ANALYTICS_VALUE,
+  APP_STRINGS
+} from '../../app/app.enums';
 import { StateReformingService } from '../../providers/global/state-reforming.service';
-import { AppAlertService } from '../../providers/global';
+import { AnalyticsService, AppAlertService } from '../../providers/global';
 
 @IonicPage()
 @Component({
@@ -18,7 +24,8 @@ export class SiteVisitFailedPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private stateReformingService: StateReformingService,
-    private alertService: AppAlertService
+    private alertService: AppAlertService,
+    private analyticsService: AnalyticsService
   ) {}
 
   ionViewWillEnter() {
@@ -27,11 +34,25 @@ export class SiteVisitFailedPage {
     this.messageThree = APP_STRINGS.FAILED_MESSAGE_END_VISIT_THREE;
   }
 
+  ionViewDidEnter() {
+    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.SITE_VISIT_FAILED);
+  }
+
   async confirm() {
+    this.analyticsService.logEvent({
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+      event: ANALYTICS_EVENTS.VISIT_ERROR,
+      label: ANALYTICS_VALUE.CONFIRMED_FAILED_SUBMISSION
+    });
     await this.navCtrl.popToRoot();
   }
 
   callSupport() {
+    this.analyticsService.logEvent({
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+      event: ANALYTICS_EVENTS.VISIT_ERROR,
+      label: ANALYTICS_VALUE.CALL_IT
+    });
     this.alertService.callSupport();
   }
 }

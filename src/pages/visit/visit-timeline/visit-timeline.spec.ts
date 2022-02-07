@@ -338,7 +338,7 @@ describe('Component: VisitTimelinePage', () => {
       });
     });
 
-    it('should display the try again alert if endVisit failed', () => {
+    it('should display the try again alert if internet is lost', () => {
       const receivedError = {
         error: AUTH.INTERNET_REQUIRED
       };
@@ -351,8 +351,8 @@ describe('Component: VisitTimelinePage', () => {
 
       expect(analyticsService.logEvent).toHaveBeenCalledWith({
         category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-        event: ANALYTICS_EVENTS.TEST_ERROR,
-        label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
+        event: ANALYTICS_EVENTS.VISIT_ERROR,
+        label: ANALYTICS_VALUE.INTERNET_REQUIRED
       });
 
       expect(alertCtrl.create).toHaveBeenCalledWith({
@@ -368,6 +368,81 @@ describe('Component: VisitTimelinePage', () => {
             handler: jasmine.any(Function)
           }
         ]
+      });
+    });
+
+    it('should display the try again alert if the request times out', () => {
+      const receivedError = {
+        status: 408
+      };
+      visitServiceSpy.endVisit.and.returnValue(Observable.throw(receivedError));
+
+      component.confirmEndVisit$().subscribe();
+
+      expect(component.showLoading).toHaveBeenCalledWith('');
+      expect(logProvider.dispatchLog).toHaveBeenCalled();
+
+      expect(analyticsService.logEvent).toHaveBeenCalledWith({
+        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+        event: ANALYTICS_EVENTS.VISIT_ERROR,
+        label: ANALYTICS_VALUE.REQUEST_TIMED_OUT
+      });
+
+      expect(alertCtrl.create).toHaveBeenCalledWith({
+        title: APP_STRINGS.REQUEST_TIMED_OUT_TITLE,
+        message: APP_STRINGS.REQUEST_TIMED_OUT_MESSAGE,
+        buttons: [
+          {
+            text: APP_STRINGS.CANCEL,
+            handler: jasmine.any(Function)
+          },
+          {
+            text: APP_STRINGS.TRY_AGAIN_BTN,
+            handler: jasmine.any(Function)
+          }
+        ]
+      });
+    });
+
+    it('should navigate to site visit failed screen if data is missing', () => {
+      const receivedError = {
+        status: 400
+      };
+      visitServiceSpy.endVisit.and.returnValue(Observable.throw(receivedError));
+
+      component.confirmEndVisit$().subscribe();
+
+      expect(component.showLoading).toHaveBeenCalledWith('');
+      expect(logProvider.dispatchLog).toHaveBeenCalled();
+
+      expect(analyticsService.logEvent).toHaveBeenCalledWith({
+        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+        event: ANALYTICS_EVENTS.VISIT_ERROR,
+        label: ANALYTICS_VALUE.FAILED_SUBMISSION
+      });
+
+      expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.SITE_VISIT_FAILED_PAGE);
+    });
+
+    it('should log event if any other errors are found', () => {
+      const receivedError = {
+        status: 404
+      };
+      visitServiceSpy.endVisit.and.returnValue(Observable.throw(receivedError));
+
+      component.confirmEndVisit$().subscribe();
+
+      expect(component.showLoading).toHaveBeenCalledWith('');
+      expect(logProvider.dispatchLog).toHaveBeenCalled();
+
+      expect(analyticsService.logEvent).toHaveBeenCalledWith({
+        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+        event: ANALYTICS_EVENTS.VISIT_ERROR,
+        label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
+      });
+
+      expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.CONFIRMATION_PAGE, {
+        testStationName: TEST_STATION_NAME
       });
     });
 
@@ -424,8 +499,6 @@ describe('Component: VisitTimelinePage', () => {
       });
     });
   });
-
-
 
   it('should check if modal is created', () => {
     component.editWaitTime(waitActivity);

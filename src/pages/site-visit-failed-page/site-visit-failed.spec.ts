@@ -6,9 +6,9 @@ import { StateReformingService } from '../../providers/global/state-reforming.se
 import { StateReformingServiceMock } from '../../../test-config/services-mocks/state-reforming-service.mock';
 import { AlertControllerMock, NavControllerMock } from 'ionic-mocks';
 import { CallNumber } from '@ionic-native/call-number';
-import { APP_STRINGS } from '../../app/app.enums';
+import { ANALYTICS_EVENT_CATEGORIES, ANALYTICS_EVENTS, ANALYTICS_VALUE, APP_STRINGS } from '../../app/app.enums';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AppAlertService } from '../../providers/global';
+import { AnalyticsService, AppAlertService } from '../../providers/global';
 
 describe('Component: SiteVisitFailedPage', () => {
   let comp: SiteVisitFailedPage;
@@ -17,9 +17,15 @@ describe('Component: SiteVisitFailedPage', () => {
   let alertCtrl: AlertController;
   let alertService: AppAlertService;
   let alertServiceSpy: any;
+  let analyticsService: AnalyticsService;
+  let analyticsServiceSpy: any;
 
   beforeEach(async(() => {
     alertServiceSpy = jasmine.createSpyObj('AppAlertService', ['callSupport']);
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
+      'logEvent',
+      'setCurrentPage'
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [SiteVisitFailedPage],
@@ -30,7 +36,8 @@ describe('Component: SiteVisitFailedPage', () => {
         { provide: NavParams, useClass: NavParamsMock },
         { provide: StateReformingService, useClass: StateReformingServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
-        { provide: AppAlertService, useValue: alertServiceSpy }
+        { provide: AppAlertService, useValue: alertServiceSpy },
+        { provide: AnalyticsService, useValue: analyticsServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -42,6 +49,7 @@ describe('Component: SiteVisitFailedPage', () => {
     navCtrl = TestBed.get(NavController);
     alertCtrl = TestBed.get(AlertController);
     alertService = TestBed.get(AppAlertService);
+    analyticsService = TestBed.get(AnalyticsService);
   });
 
   afterEach(() => {
@@ -75,11 +83,21 @@ describe('Component: SiteVisitFailedPage', () => {
 
   it('should create the call support alert', () => {
     comp.callSupport();
+    expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+      event: ANALYTICS_EVENTS.VISIT_ERROR,
+      label: ANALYTICS_VALUE.CALL_IT
+    });
     expect(alertService.callSupport).toHaveBeenCalled();
   });
 
   it('should test pressing on confirm logic', () => {
     comp.confirm();
+    expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+      event: ANALYTICS_EVENTS.VISIT_ERROR,
+      label: ANALYTICS_VALUE.CONFIRMED_FAILED_SUBMISSION
+    });
     expect(navCtrl.popToRoot).toHaveBeenCalled();
   });
 });
