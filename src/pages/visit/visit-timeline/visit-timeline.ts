@@ -299,12 +299,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        this.analyticsService.logEvent({
-          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-          event: ANALYTICS_EVENTS.TEST_ERROR,
-          label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
-        });
-
         return this.endVisitError$(error);
       })
     );
@@ -408,6 +402,12 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   private endVisitError$(receivedErr: any): Observable<any> {
     if (receivedErr) {
       if (receivedErr.error === AUTH.INTERNET_REQUIRED) {
+        this.analyticsService.logEvent({
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+          event: ANALYTICS_EVENTS.VISIT_ERROR,
+          label: ANALYTICS_VALUE.INTERNET_REQUIRED
+        });
+
         const TRY_AGAIN_ALERT = this.alertCtrl.create({
           title: APP_STRINGS.UNABLE_TO_END_VISIT,
           message: APP_STRINGS.NO_INTERNET_CONNECTION,
@@ -427,8 +427,18 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           ]
         });
 
+        TRY_AGAIN_ALERT.onDidDismiss(() => {
+          this.isCreateTestEnabled = true
+        });
+
         return of(TRY_AGAIN_ALERT.present());
       } else if (receivedErr.status === 408) {
+        this.analyticsService.logEvent({
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+          event: ANALYTICS_EVENTS.VISIT_ERROR,
+          label: ANALYTICS_VALUE.REQUEST_TIMED_OUT
+        });
+
         const REQUEST_TIMEOUT_ALERT = this.alertCtrl.create({
           title: APP_STRINGS.REQUEST_TIMED_OUT_TITLE,
           message: APP_STRINGS.REQUEST_TIMED_OUT_MESSAGE,
@@ -455,8 +465,20 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
         return of(REQUEST_TIMEOUT_ALERT.present());
       } else if (receivedErr.status === 400) {
-        return of (this.onUpdateActivityReasons(false));
+        this.analyticsService.logEvent({
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+          event: ANALYTICS_EVENTS.VISIT_ERROR,
+          label: ANALYTICS_VALUE.FAILED_SUBMISSION
+        });
+
+        return of(this.onUpdateActivityReasons(false));
       } else {
+        this.analyticsService.logEvent({
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+          event: ANALYTICS_EVENTS.VISIT_ERROR,
+          label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
+        });
+
         return of(this.onUpdateActivityReasons(true));
       }
     }

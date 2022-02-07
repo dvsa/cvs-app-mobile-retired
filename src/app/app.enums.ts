@@ -482,7 +482,8 @@ export enum ANALYTICS_EVENTS {
   ADD_TEST_TYPE_TIME_TAKEN = 'add_test_type_time_taken',
   SEARCH_VEHICLE_TIME_TAKEN = 'search_vehicle_time_taken',
   CONFIRM_VEHICLE_TIME_TAKEN = 'confirm_vehicle_time_taken',
-  CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken'
+  CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken',
+  VISIT_ERROR = 'visit_error'
 }
 
 export enum ANALYTICS_LABEL {
@@ -529,7 +530,12 @@ export enum ANALYTICS_VALUE {
   TEST_RESULT_HISTORY_FAILED = 'Failed retrieving the testResultsHistory',
   TEST_RECORD_FAILED = 'Failed retrieving the techRecord',
   VEHICLE_NOT_FOUND = 'Vehicle not found',
-  SAVING_SIGNATURE_FAILED = 'Saving signature failed'
+  SAVING_SIGNATURE_FAILED = 'Saving signature failed',
+  INTERNET_REQUIRED = 'Internet required',
+  REQUEST_TIMED_OUT = 'Request timed out',
+  FAILED_SUBMISSION = 'Failed visit submission',
+  CALL_IT = 'Called IT',
+  CONFIRMED_FAILED_SUBMISSION = 'Failed visit submission confirmed'
 }
 
 export enum ANALYTICS_SCREEN_NAMES {
@@ -545,7 +551,8 @@ export enum ANALYTICS_SCREEN_NAMES {
   TEST_OVERVIEW = 'Test Overview Screen',
   TEST_TYPE_DETAILS = 'Test Type Details Screen',
   TEST_REVIEW = 'Test Review Screen',
-  TEST_CANCEL = 'Test Cancel Screen'
+  TEST_CANCEL = 'Test Cancel Screen',
+  SITE_VISIT_FAILED = 'Site Visit Failed'
 }
 
 export enum ACCESSIBILITY_DEFAULT_VALUES {
