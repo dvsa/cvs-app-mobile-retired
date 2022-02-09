@@ -373,7 +373,7 @@ describe('Component: VisitTimelinePage', () => {
 
     it('should display the try again alert if the request times out', () => {
       const receivedError = {
-        status: 408
+        status: 504
       };
       visitServiceSpy.endVisit.and.returnValue(Observable.throw(receivedError));
 

@@ -299,7 +299,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         });
 
         return of(TRY_AGAIN_ALERT.present());
-      } else if (receivedErr.status === 408) {
+      } else if (receivedErr.status === 504) {
         this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.VISIT_ERROR,
