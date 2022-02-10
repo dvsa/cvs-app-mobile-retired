@@ -454,7 +454,8 @@ export enum ANALYTICS_EVENT_CATEGORIES {
   REVIEWS = 'reviews',
   DURATION = 'duration',
   VISIT = 'visit',
-  TEST = 'test'
+  TEST = 'test',
+  TEST_HISTORY = 'test_history'
 }
 
 export enum ANALYTICS_EVENTS {
@@ -476,7 +477,8 @@ export enum ANALYTICS_EVENTS {
   ADD_TEST_TYPE_TIME_TAKEN = 'add_test_type_time_taken',
   SEARCH_VEHICLE_TIME_TAKEN = 'search_vehicle_time_taken',
   CONFIRM_VEHICLE_TIME_TAKEN = 'confirm_vehicle_time_taken',
-  CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken'
+  CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken',
+  SUGGESTED_TEST_TYPES_POPUP = 'suggested_test_types_popup'
 }
 
 export enum ANALYTICS_LABEL {
@@ -523,7 +525,8 @@ export enum ANALYTICS_VALUE {
   TEST_RESULT_HISTORY_FAILED = 'Failed retrieving the testResultsHistory',
   TEST_RECORD_FAILED = 'Failed retrieving the techRecord',
   VEHICLE_NOT_FOUND = 'Vehicle not found',
-  SAVING_SIGNATURE_FAILED = 'Saving signature failed'
+  SAVING_SIGNATURE_FAILED = 'Saving signature failed',
+  VIEW_TEST_HISTORY = 'View test history'
 }
 
 export enum ANALYTICS_SCREEN_NAMES {
