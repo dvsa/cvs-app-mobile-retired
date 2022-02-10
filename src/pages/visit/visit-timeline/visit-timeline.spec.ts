@@ -34,7 +34,6 @@ import { TestServiceMock } from '../../../../test-config/services-mocks/test-ser
 import { VisitService } from '../../../providers/visit/visit.service';
 import { StorageService } from '../../../providers/natives/storage.service';
 import { StorageServiceMock } from '../../../../test-config/services-mocks/storage-service.mock';
-import { VisitDataMock } from '../../../assets/data-mocks/visit-data.mock';
 import { ActivityService } from '../../../providers/activity/activity.service';
 import { ActivityDataMock } from '../../../assets/data-mocks/activity.data.mock';
 import { TestStationDataMock } from '../../../assets/data-mocks/reference-data-mocks/test-station-data.mock';
@@ -42,7 +41,6 @@ import { TestModel } from '../../../models/tests/test.model';
 import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_LABEL,
   ANALYTICS_VALUE,
   APP_STRINGS,
   AUTH,
@@ -60,6 +58,8 @@ import { ActivityModel } from '../../../models/visit/activity.model';
 import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
 import { AuthenticationServiceMock } from './../../../../test-config/services-mocks/authentication-service.mock';
 import { AnalyticsService, DurationService } from '../../../providers/global';
+import { VisitDataMock } from '../../../assets/data-mocks/visit-data.mock';
+import { CommonFunctionsService } from '../../../providers/utils/common-functions';
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -81,7 +81,6 @@ describe('Component: VisitTimelinePage', () => {
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
   let durationService: DurationService;
-
   let waitActivity = ActivityDataMock.WaitActivityData;
   let testStation = TestStationDataMock.TestStationData[0];
 
@@ -125,8 +124,13 @@ describe('Component: VisitTimelinePage', () => {
       'createActivityBodyForCall',
       'createActivitiesForUpdateCall',
       'submitActivity',
-      'updateActiviesArgs',
-      'updateActivityReasons'
+      'updateActivitiesArgs',
+      'updateActivityReasons',
+      'canAddOtherWaitingTime',
+      'have5MinutesPassedSinceLastActivity',
+      'createWaitTime',
+      'createActivityToPost$',
+      'checkWaitTimeReasons'
     ]);
 
     visitServiceSpy = jasmine.createSpyObj('VisitService', ['endVisit', 'getTests']);
@@ -141,6 +145,7 @@ describe('Component: VisitTimelinePage', () => {
       providers: [
         FormatVrmPipe,
         DurationService,
+        CommonFunctionsService,
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: NavParams, useClass: NavParamsMock },
@@ -236,32 +241,6 @@ describe('Component: VisitTimelinePage', () => {
     expect(component.timeline.length > 0).toBeTruthy();
   });
 
-  it('should test if have5MinutesPassedSinceLastActivity', () => {
-    component.visit = {} as VisitModel;
-    component.visit.startTime = '2020-03-19T03:07:44.669Z';
-    component.visit.tests = [];
-    expect(component.have5MinutesPassedSinceLastActivity()).toBeTruthy();
-    component.visit = { ...VisitDataMock.VisitData };
-    expect(component.have5MinutesPassedSinceLastActivity()).toBeTruthy();
-  });
-
-  it('should creat a wait time activity with correct start time', () => {
-    component.timeline = [];
-    component.visit = {
-      ...getMockVisit(),
-      startTime: '2020-03-19T03:07:44.669Z',
-      endTime: '2020-03-19T10:07:44.669Z'
-    } as VisitModel;
-
-    activityServiceSpy.createActivity.and.returnValue(getMockActivity() as ActivityModel);
-
-    component.createWaitTime();
-    expect(component.timeline[0].startTime).toEqual(component.visit.startTime);
-    component.timeline[0].endTime = '2020-03-19T10:07:44.669Z';
-    component.createWaitTime();
-    expect(component.timeline[1].startTime).toEqual(component.timeline[0].endTime);
-  });
-
   it('should create timeline', () => {
     activityServiceSpy.getActivities.and.returnValue([getMockActivity()] as ActivityModel[]);
     visitServiceSpy.getTests.and.returnValue([getMockVisitTest()] as TestModel[]);
@@ -273,8 +252,7 @@ describe('Component: VisitTimelinePage', () => {
 
   it('should display the wait reason alert if an activity has wait time reason', () => {
     const visit = getMockVisit();
-    spyOn(component, 'checkWaitTimeReasons').and.returnValue(true);
-
+    activityServiceSpy.checkWaitTimeReasons.and.returnValue(true);
     component.showConfirm(visit);
 
     expect(alertCtrl.create).toHaveBeenCalledWith({
@@ -286,7 +264,7 @@ describe('Component: VisitTimelinePage', () => {
 
   it('should display the end visit alert if there are no activity with wait time reason', () => {
     const visit = getMockVisit();
-    spyOn(component, 'checkWaitTimeReasons').and.returnValue(false);
+    activityServiceSpy.checkWaitTimeReasons.and.returnValue(false);
 
     component.showConfirm(visit);
 
@@ -393,42 +371,6 @@ describe('Component: VisitTimelinePage', () => {
       });
     });
 
-    describe('createActivityToPost$', () => {
-      beforeEach(() => {
-        activityServiceSpy.createActivityBodyForCall.and.returnValue(getMockActivity());
-      });
-
-      it('should submit activity if visit was not previously closed', () => {
-        activityServiceSpy.submitActivity.and.returnValue(
-          of({
-            body: {
-              id: 'activity_id'
-            }
-          })
-        );
-
-        component.createActivityToPost$().subscribe();
-
-        expect(logProvider.dispatchLog).toHaveBeenCalled();
-        expect(activityService.updateActiviesArgs).toHaveBeenCalled();
-      });
-
-      it('should log error if submit activity fails', () => {
-        activityServiceSpy.submitActivity.and.returnValue(Observable.throw('error'));
-
-        component.createActivityToPost$().subscribe();
-
-        expect(component.showLoading).toHaveBeenCalledWith('');
-        expect(logProvider.dispatchLog).toHaveBeenCalled();
-
-        expect(analyticsService.logEvent).toHaveBeenCalledWith({
-          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-          event: ANALYTICS_EVENTS.TEST_ERROR,
-          label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
-        });
-      });
-    });
-
     describe('createActivityReasonsToPost$', () => {
       const activityReason = {
         id: 'activity_id',
@@ -483,18 +425,7 @@ describe('Component: VisitTimelinePage', () => {
     });
   });
 
-  it('should check if it can be added another waiting time', () => {
-    let customTimeline = [];
-    expect(component.canAddOtherWaitingTime(customTimeline)).toBeTruthy();
 
-    customTimeline.push(waitActivity);
-    expect(component.canAddOtherWaitingTime(customTimeline)).toBeFalsy();
-  });
-
-  it('should check if waitTimeReasons are checked', () => {
-    let customTimeline = ActivityDataMock.Activities;
-    expect(component.checkWaitTimeReasons(customTimeline)).toBeTruthy();
-  });
 
   it('should check if modal is created', () => {
     component.editWaitTime(waitActivity);

@@ -9,12 +9,20 @@ import { VisitModel } from '../../models/visit/visit.model';
 import { TestResultsDataMock } from '../../assets/data-mocks/test-results-data.mock';
 import { TestResultModel } from '../../models/tests/test-result.model';
 import { WaitTimeReasonsData } from '../../assets/app-data/wait-time-data/wait-time-reasons.data';
-import { VISIT } from '../../app/app.enums';
+import { ANALYTICS_EVENT_CATEGORIES, ANALYTICS_EVENTS, ANALYTICS_VALUE, VISIT } from '../../app/app.enums';
 import { AuthenticationService } from '../auth';
 import { AuthenticationServiceMock } from '../../../test-config/services-mocks/authentication-service.mock';
 import Spy = jasmine.Spy;
 import { of } from 'rxjs/observable/of';
 import { HttpResponse } from '@angular/common/http';
+import { CommonFunctionsService } from '../utils/common-functions';
+import { AnalyticsService } from '../global';
+import { LogsProvider } from '../../modules/logs/logs.service';
+import { LoadingController } from 'ionic-angular';
+import { LoadingControllerMock } from 'ionic-mocks';
+import { VisitDataMock } from '../../assets/data-mocks/visit-data.mock';
+import { ActivityModel } from '../../models/visit/activity.model';
+import { Observable } from 'rxjs';
 
 describe('Provider: ActivityService', () => {
   let activityService: ActivityService;
@@ -24,12 +32,36 @@ describe('Provider: ActivityService', () => {
   let httpService: HTTPService;
   let httpServiceSpy: any;
   let authService: AuthenticationService;
+  let analyticsService: AnalyticsService;
+  let analyticsServiceSpy: any;
+  let logProvider: LogsProvider;
+  let logProviderSpy: any;
+  let loadingCtrl: LoadingController;
 
   let waitreasonsData = WaitTimeReasonsData.WaitTimeReasonsData;
   let activity = ActivityDataMock.WaitActivityData;
   const ACTIVITIES = ActivityDataMock.Activities;
   const TEST_RESULT = TestResultsDataMock.TestResultsData;
   let activitiesForUpdate = ActivityDataMock.UpdateActivities;
+
+  const TEST_STATION_NAME = 'Ashby';
+  const getMockVisit = (): VisitModel => {
+    return {
+      id: 'visit_UUID',
+      testStationName: TEST_STATION_NAME,
+      testStationEmail: `${TEST_STATION_NAME}@xyx.com`
+    } as VisitModel;
+  };
+  const getMockActivity = (): ActivityModel => {
+    return {
+      activityType: 'wait',
+      startTime: '2019-05-22T11:11:14.702Z',
+      endTime: '2019-05-22T11:12:31.625Z',
+      id: '8ae539aa-cbfb-49e2-8951-63567003b512',
+      notes: 'qwewe'
+    } as ActivityModel;
+  };
+
   let visit: VisitModel = {
     startTime: '2019-05-23T12:11:11.974Z',
     endTime: null,
@@ -338,14 +370,19 @@ describe('Provider: ActivityService', () => {
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['update']);
     httpServiceSpy = jasmine.createSpyObj('HTTPService', ['postActivity', 'updateActivity', 'getOpenVisitCheck']);
-
+    analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', ['logEvent']);
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', ['dispatchLog']);
     TestBed.configureTestingModule({
       providers: [
         ActivityService,
+        CommonFunctionsService,
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: AppService, useClass: AppServiceMock },
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
-        { provide: HTTPService, useValue: httpServiceSpy }
+        { provide: HTTPService, useValue: httpServiceSpy },
+        { provide: AnalyticsService, useValue: analyticsServiceSpy },
+        { provide: LogsProvider, useValue: logProviderSpy },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
       ]
     });
 
@@ -354,6 +391,10 @@ describe('Provider: ActivityService', () => {
     appService = TestBed.get(AppService);
     httpService = TestBed.get(HTTPService);
     authService = TestBed.get(AuthenticationService);
+    analyticsService = TestBed.get(AnalyticsService);
+    logProvider = TestBed.get(LogsProvider);
+    loadingCtrl = TestBed.get(LoadingController);
+
   });
 
   afterEach(() => {
@@ -452,4 +493,85 @@ describe('Provider: ActivityService', () => {
         })
     });
   })
+
+  it('should check if it can be added another waiting time', () => {
+    let customTimeline = [];
+    expect(activityService.canAddOtherWaitingTime(customTimeline)).toBeTruthy();
+
+    customTimeline.push(waitActivity);
+    expect(activityService.canAddOtherWaitingTime(customTimeline)).toBeFalsy();
+  });
+
+  it('should check if waitTimeReasons are checked', () => {
+    let customTimeline = ActivityDataMock.Activities;
+    expect(activityService.checkWaitTimeReasons(customTimeline)).toBeTruthy();
+  });
+
+  it('should test if have5MinutesPassedSinceLastActivity', () => {
+    let visit = {} as VisitModel;
+    visit.startTime = '2020-03-19T03:07:44.669Z';
+    visit.tests = [];
+    expect(activityService.have5MinutesPassedSinceVisitOrLastTest(visit)).toBeTruthy();
+    visit = { ...VisitDataMock.VisitData };
+    expect(activityService.have5MinutesPassedSinceVisitOrLastTest(visit)).toBeTruthy();
+  });
+
+  it('should create a wait time activity with correct start time', () => {
+    let timeline = [];
+    let visit = {
+      ...getMockVisit(),
+      startTime: '2020-03-19T03:07:44.669Z',
+      endTime: '2020-03-19T10:07:44.669Z'
+    } as VisitModel;
+
+    spyOn(activityService, 'createActivity').and.returnValue(getMockActivity() as ActivityModel);
+
+    activityService.createWaitTime(timeline, visit);
+    expect(timeline[0].startTime).toEqual(visit.startTime);
+    timeline[0].endTime = '2020-03-19T10:07:44.669Z';
+    activityService.createWaitTime(timeline, visit);
+    expect(timeline[1].startTime).toEqual(timeline[0].endTime);
+  });
+
+  describe('createActivityToPost$', () => {
+    const timeline = [];
+    const visit = {} as VisitModel;
+    const oid = '123'
+
+    beforeEach(() => {
+      spyOn(activityService, 'createActivityBodyForCall').and.returnValue(getMockActivity());
+      spyOn(activityService, 'updateActivitiesArgs');
+      spyOn(activityService, 'showLoading');
+    });
+
+    it('should submit activity if visit was not previously closed', () => {
+      spyOn(activityService, 'submitActivity').and.returnValue(
+        of({
+          body: {
+            id: 'activity_id'
+          }
+        })
+      );
+
+      activityService.createActivityToPost$(timeline, visit, oid).subscribe();
+
+      expect(logProvider.dispatchLog).toHaveBeenCalled();
+      expect(activityService.updateActivitiesArgs).toHaveBeenCalled();
+    });
+
+    it('should log error if submit activity fails', () => {
+      spyOn(activityService, 'submitActivity').and.returnValue(Observable.throw('error'));
+
+      activityService.createActivityToPost$(timeline, visit, oid).subscribe();
+
+      expect(activityService.showLoading).toHaveBeenCalledWith('');
+      expect(logProvider.dispatchLog).toHaveBeenCalled();
+
+      expect(analyticsService.logEvent).toHaveBeenCalledWith({
+        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+        event: ANALYTICS_EVENTS.TEST_ERROR,
+        label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
+      });
+    });
+  });
 });
