@@ -17,7 +17,7 @@
     "format": "prettier --write ./src/**/*.{html,scss,ts,json}",
     "vulnerability-count": "scripts/check-vulns.sh",
     "config": "ts-node ./scripts/create-configs.ts",
-    "security-checks": "git-secrets --scan && git log -p | scanrepo",
+    "security-checks": "git-secrets --scan",
     "prepare:ios:remove": "rm -rf platforms/ plugins/ www",
     "prepare:ios:add": "ionic cordova platform add ios@5.0.0",
     "prepare:ios": "ionic cordova prepare ios",
@@ -178,7 +178,8 @@
         "SENTRY_ANDROID_SDK_VERSION": "1+"
       },
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-google-analytics": {}
     },
     "platforms": [
       "ios"

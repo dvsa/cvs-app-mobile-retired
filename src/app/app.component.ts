@@ -19,9 +19,10 @@ import {
   LOG_TYPES,
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  CONNECTION_STATUS
+  CONNECTION_STATUS,
+  TESTER_ROLES
 } from './app.enums';
-import { AppService, AnalyticsService, SyncService } from '../providers/global';
+import { AppService, AnalyticsService, SyncService, AppAlertService } from '../providers/global';
 import { ActivityService } from '../providers/activity/activity.service';
 import { Log } from '../modules/logs/logs.model';
 import { LogsProvider } from './../modules/logs/logs.service';
@@ -57,7 +58,8 @@ export class MyApp {
     private renderer: Renderer2,
     private screenOrientation: ScreenOrientation,
     private analyticsService: AnalyticsService,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    private alertService: AppAlertService,
   ) {
     platform.ready().then(() => {
       Sentry.init({
@@ -78,6 +80,13 @@ export class MyApp {
       });
     });
   }
+  neededRoles: string[] = [
+    TESTER_ROLES.FULL_ACCESS,
+    TESTER_ROLES.PSV,
+    TESTER_ROLES.HGV,
+    TESTER_ROLES.ADR,
+    TESTER_ROLES.TIR
+  ];
 
   async initApp() {
     // await this.authenticationService.auth.logout();
@@ -96,6 +105,10 @@ export class MyApp {
     }
 
     const authStatus = await this.authenticationService.checkUserAuthStatus();
+    if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
+      this.alertService.alertUnAuthorise();
+    }
+
     authStatus && !this.appService.isSignatureRegistered
       ? this.navigateToSignaturePage()
       : this.manageAppState();
