@@ -33,6 +33,7 @@ import { AppService } from '../../../../providers/global/app.service';
 import { VehicleLookupSearchCriteriaData } from '../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
 import { ActivityService } from '../../../../providers/activity/activity.service';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
+import { HttpAlertService } from '../../../../providers/global/http-alert-service/http-alert.service';
 
 @IonicPage()
 @Component({
@@ -62,7 +63,8 @@ export class VehicleLookupPage {
     public appService: AppService,
     private modalCtrl: ModalController,
     private activityService: ActivityService,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    private httpAlertService: HttpAlertService,
   ) {
     this.testData = navParams.get('test');
   }
@@ -111,6 +113,7 @@ export class VehicleLookupPage {
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
+        this.httpAlertService.handleHttpResponse(response, [200]);
         if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
           const { oid } = this.authenticationService.tokenInfo;
@@ -123,10 +126,10 @@ export class VehicleLookupPage {
           this.searchVehicle(searchedValue, LOADING);
         }
       },
-      (isVisitStillOpenError) => {
+      (errorResponse) => {
         this.searchVal = '';
         LOADING.dismiss();
-        this.showAlert();
+        this.httpAlertService.handleHttpResponse(errorResponse);
       }
     );
   }

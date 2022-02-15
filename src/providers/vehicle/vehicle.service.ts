@@ -15,11 +15,13 @@ import { StorageService } from '../natives/storage.service';
 import { AuthenticationService } from '../auth/authentication/authentication.service';
 import { AlertController } from 'ionic-angular';
 import { LogsProvider } from '../../modules/logs/logs.service';
+import { HttpAlertService } from '../global/http-alert-service/http-alert.service';
 
 @Injectable()
 export class VehicleService {
   constructor(
     private httpService: HTTPService,
+    private httpAlertService: HttpAlertService,
     public visitService: VisitService,
     public storageService: StorageService,
     private authenticationService: AuthenticationService,
@@ -72,6 +74,7 @@ export class VehicleService {
     return this.httpService
       .getTechRecords(searchedValue.toUpperCase(), searchCriteriaQueryParam)
       .map((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => {
+        this.httpAlertService.handleHttpResponse(techRecordsResponse, [200]);
         this.logProvider.dispatchLog({
           type: 'info',
           message: `${this.authenticationService.tokenInfo.oid} - ${techRecordsResponse.status} ${techRecordsResponse.statusText} for API call to ${techRecordsResponse.url}`,

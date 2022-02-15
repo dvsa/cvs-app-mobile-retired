@@ -51,6 +51,7 @@ import { ActivityService } from '../../../../providers/activity/activity.service
 import { ActivityServiceMock } from '../../../../../test-config/services-mocks/activity-service.mock';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
 import { AnalyticsService } from '../../../../providers/global';
+import { HttpAlertService } from '../../../../providers/global/http-alert-service/http-alert.service';
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -88,6 +89,7 @@ describe('Component: VehicleLookupPage', () => {
       imports: [IonicModule.forRoot(VehicleLookupPage)],
       providers: [
         CallNumber,
+        HttpAlertService,
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: NavParams, useClass: NavParamsMock },
         { provide: VisitService, useClass: VisitServiceMock },
@@ -102,7 +104,7 @@ describe('Component: VehicleLookupPage', () => {
         { provide: Store, useClass: TestStore },
         { provide: AppService, useClass: AppServiceMock },
         { provide: ActivityService, useClass: ActivityServiceMock },
-        { provide: LogsProvider, useValue: logProviderSpy }
+        { provide: LogsProvider, useValue: logProviderSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

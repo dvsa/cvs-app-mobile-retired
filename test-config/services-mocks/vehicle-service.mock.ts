@@ -12,7 +12,7 @@ import { VehicleService } from "../../src/providers/vehicle/vehicle.service";
 
 export class VehicleServiceMock {
 
-  private vehicleService: VehicleService = new VehicleService(null, null, null, null, null);
+  private vehicleService: VehicleService = new VehicleService(null, null, null, null, null, null);
 
   createVehicle(vehicleTechRecord: VehicleTechRecordModel): VehicleModel {
     let newVehicle: VehicleModel = {} as VehicleModel;

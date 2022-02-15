@@ -21,6 +21,8 @@ import { HttpEventType, HttpHeaders } from '@angular/common/http';
 import { TestResultsHistoryDataMock } from '../../assets/data-mocks/test-results-history-data.mock';
 import { AlertController } from 'ionic-angular';
 import { LogsProvider } from '../../modules/logs/logs.service';
+import { HttpAlertService } from '../global/http-alert-service/http-alert.service';
+import { AlertControllerMock } from 'ionic-mocks';
 
 describe('Provider: VehicleService', () => {
   let vehicleService: VehicleService;
@@ -63,6 +65,8 @@ describe('Provider: VehicleService', () => {
     TestBed.configureTestingModule({
       providers: [
         VehicleService,
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        HttpAlertService,
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: HTTPService, useValue: httpServiceSpy },
         { provide: Store, useClass: TestStore },
