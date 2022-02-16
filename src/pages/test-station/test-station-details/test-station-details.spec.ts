@@ -35,6 +35,7 @@ import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_VALUE
 } from '../../../app/app.enums';
+import { HttpAlertService } from '../../../providers/global/http-alert-service/http-alert.service';
 
 describe('Component: TestStationDetailsPage', () => {
   let component: TestStationDetailsPage;
@@ -76,7 +77,8 @@ describe('Component: TestStationDetailsPage', () => {
         { provide: Store, useClass: TestStore },
         { provide: AppService, useClass: AppServiceMock },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: AnalyticsService, useValue: analyticsServiceSpy }
+        { provide: AnalyticsService, useValue: analyticsServiceSpy },
+        HttpAlertService,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

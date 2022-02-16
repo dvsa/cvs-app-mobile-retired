@@ -54,6 +54,7 @@ import { LogsProvider } from '../../../../modules/logs/logs.service';
 import { AnalyticsService } from '../../../../providers/global';
 import { TestModel } from '../../../../models/tests/test.model';
 import { of } from 'rxjs/observable/of';
+import { HttpAlertService } from '../../../../providers/global/http-alert-service/http-alert.service';
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -93,6 +94,7 @@ describe('Component: TestReviewPage', () => {
         CommonFunctionsService,
         OpenNativeSettings,
         DefectsService,
+        HttpAlertService,
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: ActivityService, useClass: ActivityServiceMock },

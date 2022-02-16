@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Events, LoadingController, ViewController } from 'ionic-angular';
+import { AlertController, Events, LoadingController, ViewController } from 'ionic-angular';
 import { SignaturePopoverComponent } from './signature-popover';
-import { ViewControllerMock } from 'ionic-mocks';
+import { AlertControllerMock, ViewControllerMock } from 'ionic-mocks';
 import { SignatureService } from '../../providers/signature/signature.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { APP_STRINGS } from '../../app/app.enums';
@@ -14,6 +14,7 @@ import { TestStore } from '../../modules/logs/data-store.service.mock';
 import { LogsProvider } from '../../modules/logs/logs.service';
 import { AuthenticationService } from '../../providers/auth';
 import { AuthenticationServiceMock } from '../../../test-config/services-mocks/authentication-service.mock';
+import { HttpAlertService } from '../../providers/global/http-alert-service/http-alert.service';
 
 describe('Component: SignaturePopoverComponent', () => {
   let fixture: ComponentFixture<SignaturePopoverComponent>;
@@ -39,9 +40,11 @@ describe('Component: SignaturePopoverComponent', () => {
       declarations: [SignaturePopoverComponent],
       providers: [
         Events,
+        HttpAlertService,
         { provide: SignatureService, useClass: SignatureServiceMock },
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: AppService, useClass: AppServiceMock },
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: Store, useClass: TestStore },

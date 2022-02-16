@@ -20,7 +20,8 @@ export class HTTPService {
   readonly TIMEOUT: number = 30000;
 
   constructor(private http: HttpClient) {}
-
+  
+  //Not used in app, can be removed?
   getAtfs(): Observable<HttpResponse<TestStationReferenceDataModel[]>> {
     return this.http.get<TestStationReferenceDataModel[]>(
       `${AppConfig.app.BACKEND_URL}/test-stations`,
@@ -30,12 +31,14 @@ export class HTTPService {
     );
   }
 
+  //Not used in app, can be removed?
   getDefects(): Observable<HttpResponse<DefectItemReferenceDataModel[]>> {
     return this.http.get<DefectItemReferenceDataModel[]>(`${AppConfig.app.BACKEND_URL}/defects`, {
       observe: 'response'
     });
   }
 
+  //Not used in app, can be removed?
   getTestTypes(): Observable<HttpResponse<TestTypesReferenceDataModel[]>> {
     return this.http.get<TestTypesReferenceDataModel[]>(
       `${AppConfig.app.BACKEND_URL}/test-types`,
@@ -45,6 +48,7 @@ export class HTTPService {
     );
   }
 
+  //Not used in app, can be removed?
   getPreparers(): Observable<HttpResponse<PreparersReferenceDataModel[]>> {
     return this.http.get<PreparersReferenceDataModel[]>(
       `${AppConfig.app.BACKEND_URL}/preparers`,

@@ -43,6 +43,7 @@ import { Observable, Subscription } from 'rxjs';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 import { of } from 'rxjs/observable/of';
 import { catchError, filter, map, mergeMap } from 'rxjs/operators';
+import { HttpAlertService } from '../../../providers/global/http-alert-service/http-alert.service';
 
 @IonicPage()
 @Component({
@@ -82,7 +83,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     private durationService: DurationService,
     private modalCtrl: ModalController,
     private formatVrmPipe: FormatVrmPipe,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    public httpAlertService: HttpAlertService,
   ) {
     this.timeline = [];
     // FIXME: Needs to be fixed separately.
@@ -267,6 +269,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
     return this.visitService.endVisit(this.visit.id).pipe(
       mergeMap((endVisitResp) => {
+        this.httpAlertService.handleHttpResponse(endVisitResp, [200]);
         const { wasVisitAlreadyClosed } = endVisitResp.body;
 
         this.logProvider.dispatchLog({
@@ -337,6 +340,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
     return this.activityService.submitActivity(activity).pipe(
       map((submitActivityResp) => {
+        this.httpAlertService.handleHttpResponse(submitActivityResp, [200, 201]);
         let activities: ActivityModel[] = [] as ActivityModel[];
 
         this.logProvider.dispatchLog({
@@ -380,6 +384,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     if (activityWithReasons.length > 0) {
       return this.activityService.updateActivityReasons(activityWithReasons).pipe(
         map((activityReasonResp) => {
+          this.httpAlertService.handleHttpResponse(activityReasonResp, [200]);
           this.logProvider.dispatchLog({
             type: LOG_TYPES.INFO,
             message: `${this.oid} - ${activityReasonResp.status} ${activityReasonResp.statusText} for API call to ${activityReasonResp.url}`,
@@ -390,7 +395,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         }),
         catchError((error) => {
           this.showLoading('');
-
+          this.httpAlertService.handleHttpResponse(error);
           this.logProvider.dispatchLog({
             type: `${LOG_TYPES.ERROR}-activityService.updateActivityReasons in visit-timeline.ts`,
             message: `${this.oid} - ${JSON.stringify(error)}`,

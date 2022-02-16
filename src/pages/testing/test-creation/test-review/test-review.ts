@@ -53,6 +53,7 @@ import { AppService, AnalyticsService } from '../../../../providers/global';
 import { TirTestTypesData } from '../../../../assets/app-data/test-types-data/tir-test-types.data';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
+import { HttpAlertService } from '../../../../providers/global/http-alert-service/http-alert.service';
 
 @IonicPage()
 @Component({
@@ -97,7 +98,8 @@ export class TestReviewPage implements OnInit {
     private activityService: ActivityService,
     public appService: AppService,
     private testTypeService: TestTypeService,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    public httpAlertService: HttpAlertService,
   ) {
     this.visit = this.visitService.visit;
     this.latestTest = this.visitService.getLatestTest();
@@ -332,6 +334,7 @@ export class TestReviewPage implements OnInit {
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
+        this.httpAlertService.handleHttpResponse(response, [200]);
         if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
           const { oid } = this.authenticationService.tokenInfo;
@@ -346,6 +349,8 @@ export class TestReviewPage implements OnInit {
       },
       (isVisitStillOpenError) => {
         LOADING.dismiss();
+        this.httpAlertService.handleHttpResponse(isVisitStillOpenError);
+        // TODO: does this need to be amended? 
         TRY_AGAIN_ALERT.present();
       }
     );
@@ -367,6 +372,7 @@ export class TestReviewPage implements OnInit {
       stack.push(
         this.testResultService.submitTestResult(testResult).pipe(
           catchError((error: any) => {
+            this.httpAlertService.handleHttpResponse(error);
             this.logProvider.dispatchLog({
               type: 'error',
               message: `${oid} - ${JSON.stringify(
@@ -402,6 +408,7 @@ export class TestReviewPage implements OnInit {
           );
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
+              this.httpAlertService.handleHttpResponse(resp, [200, 201]);
               this.logProvider.dispatchLog({
                 type: LOG_TYPES.INFO,
                 message: `${oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
@@ -417,6 +424,7 @@ export class TestReviewPage implements OnInit {
               this.visitService.updateVisit();
             },
             (error) => {
+              this.httpAlertService.handleHttpResponse(error);
               this.logProvider.dispatchLog({
                 type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-review.ts`,
                 message: `${oid} - ${JSON.stringify(error)}`,

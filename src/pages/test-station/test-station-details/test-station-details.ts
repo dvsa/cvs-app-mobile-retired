@@ -25,6 +25,7 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
 import { AppService, AnalyticsService } from '../../../providers/global';
 import { LogsProvider } from '../../../modules/logs/logs.service';
+import { HttpAlertService } from '../../../providers/global/http-alert-service/http-alert.service';
 
 @IonicPage()
 @Component({
@@ -50,7 +51,8 @@ export class TestStationDetailsPage {
     private authenticationService: AuthenticationService,
     private analyticsService: AnalyticsService,
     private appService: AppService,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    private httpAlertService: HttpAlertService,
   ) {
     this.testStation = navParams.get('testStation');
   }
@@ -73,6 +75,7 @@ export class TestStationDetailsPage {
     LOADING.present();
     this.startVisitSubscription = this.visitService.startVisit(this.testStation).subscribe(
       (data) => {
+        this.httpAlertService.handleHttpResponse(data, [200, 201]);
         this.logProvider.dispatchLog({
           type: 'info',
           message: `${oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,

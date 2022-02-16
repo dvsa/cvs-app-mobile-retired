@@ -21,7 +21,7 @@ import { HttpAlertService } from '../global/http-alert-service/http-alert.servic
 export class VehicleService {
   constructor(
     private httpService: HTTPService,
-    private httpAlertService: HttpAlertService,
+    public httpAlertService: HttpAlertService,
     public visitService: VisitService,
     public storageService: StorageService,
     private authenticationService: AuthenticationService,
@@ -90,6 +90,7 @@ export class VehicleService {
 
   getTestResultsHistory(systemNumber: string): Observable<TestResultModel[]> {
     return this.httpService.getTestResultsHistory(systemNumber).map((data) => {
+      this.httpAlertService.handleHttpResponse(data, [200]);
       this.logProvider.dispatchLog({
         type: 'info',
         message: `${this.authenticationService.tokenInfo.oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,

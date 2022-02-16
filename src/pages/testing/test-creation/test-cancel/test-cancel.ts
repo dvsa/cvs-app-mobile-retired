@@ -31,6 +31,7 @@ import { ActivityService } from '../../../../providers/activity/activity.service
 import { TestResultModel } from '../../../../models/tests/test-result.model';
 import { LogsProvider } from '../../../../modules/logs/logs.service';
 import { AnalyticsService } from '../../../../providers/global';
+import { HttpAlertService } from '../../../../providers/global/http-alert-service/http-alert.service';
 
 @IonicPage()
 @Component({
@@ -56,7 +57,8 @@ export class TestCancelPage {
     private authenticationService: AuthenticationService,
     private analyticsService: AnalyticsService,
     private activityService: ActivityService,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    public httpAlertService: HttpAlertService,
   ) {
     this.testData = this.navParams.get('test');
   }
@@ -148,6 +150,7 @@ export class TestCancelPage {
       stack.push(
         this.testResultService.submitTestResult(testResult).pipe(
           catchError((error: any) => {
+            this.httpAlertService.handleHttpResponse(error);
             this.logProvider.dispatchLog({
               type: LOG_TYPES.ERROR,
               message: `${oid} - ${JSON.stringify(

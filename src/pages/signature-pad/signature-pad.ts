@@ -27,6 +27,7 @@ import { default as AppConfig } from '../../../config/application.hybrid';
 import { AuthenticationService } from '../../providers/auth/authentication/authentication.service';
 import { LogsProvider } from '../../modules/logs/logs.service';
 import { AnalyticsService } from '../../providers/global';
+import { HttpAlertService } from '../../providers/global/http-alert-service/http-alert.service';
 
 @IonicPage()
 @Component({
@@ -52,13 +53,14 @@ export class SignaturePadPage implements OnInit {
     public events: Events,
     public alertCtrl: AlertController,
     public appService: AppService,
+    public httpAlertService: HttpAlertService,
     private screenOrientation: ScreenOrientation,
     private openNativeSettings: OpenNativeSettings,
     private signatureService: SignatureService,
     private analyticsService: AnalyticsService,
     private authenticationService: AuthenticationService,
     private callNumber: CallNumber,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
   ) {
     this.events.subscribe(SIGNATURE_STATUS.ERROR, () => {
       this.showConfirm();
@@ -115,6 +117,7 @@ export class SignaturePadPage implements OnInit {
             this.oid = this.authenticationService.tokenInfo.oid;
             this.signatureService.saveSignature().subscribe(
               (response) => {
+                this.httpAlertService.handleHttpResponse(response, [200]);
                 this.logProvider.dispatchLog({
                   type: 'info',
                   message: `${this.oid} - ${response.status} ${response.body.message} for API call to ${response.url}`,
@@ -128,6 +131,7 @@ export class SignaturePadPage implements OnInit {
                 this.events.publish(SIGNATURE_STATUS.SAVED_EVENT);
               },
               (error) => {
+                this.httpAlertService.handleHttpResponse(error);
                 this.logProvider.dispatchLog({
                   type: 'error-signatureService.saveSignature-showConfirm in signature-pad.ts',
                   message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url}`,

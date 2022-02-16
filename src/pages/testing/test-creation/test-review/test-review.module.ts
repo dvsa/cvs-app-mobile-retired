@@ -6,10 +6,18 @@ import { DefectsService } from '../../../../providers/defects/defects.service';
 import { TestResultService } from '../../../../providers/test-result/test-result.service';
 import { TestService } from '../../../../providers/test/test.service';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
+import { HttpAlertService } from '../../../../providers/global/http-alert-service/http-alert.service';
 
 @NgModule({
   declarations: [TestReviewPage],
   imports: [IonicPageModule.forChild(TestReviewPage)],
-  providers: [VehicleService, DefectsService, TestResultService, TestService, TestTypeService]
+  providers: [
+    VehicleService,
+    DefectsService,
+    TestResultService,
+    TestService,
+    TestTypeService,
+    HttpAlertService,
+  ],
 })
 export class TestReviewPageModule {}

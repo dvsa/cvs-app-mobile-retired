@@ -27,6 +27,7 @@ import { ActivityServiceMock } from '../../../../../test-config/services-mocks/a
 import { LogsProvider } from '../../../../modules/logs/logs.service';
 import { AnalyticsService } from '../../../../providers/global';
 import { ANALYTICS_SCREEN_NAMES } from '../../../../app/app.enums';
+import { HttpAlertService } from '../../../../providers/global/http-alert-service/http-alert.service';
 
 describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
@@ -92,7 +93,8 @@ describe('Component: TestCancelPage', () => {
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: Store, useClass: TestStore },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: AnalyticsService, useValue: analyticsServiceSpy }
+        { provide: AnalyticsService, useValue: analyticsServiceSpy },
+        HttpAlertService,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

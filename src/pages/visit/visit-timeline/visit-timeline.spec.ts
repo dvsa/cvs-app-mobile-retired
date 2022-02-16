@@ -60,6 +60,7 @@ import { ActivityModel } from '../../../models/visit/activity.model';
 import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
 import { AuthenticationServiceMock } from './../../../../test-config/services-mocks/authentication-service.mock';
 import { AnalyticsService, DurationService } from '../../../providers/global';
+import { HttpAlertService } from '../../../providers/global/http-alert-service/http-alert.service';
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -141,6 +142,7 @@ describe('Component: VisitTimelinePage', () => {
       providers: [
         FormatVrmPipe,
         DurationService,
+        HttpAlertService,
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: NavParams, useClass: NavParamsMock },
@@ -157,7 +159,7 @@ describe('Component: VisitTimelinePage', () => {
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: AnalyticsService, useValue: analyticsServiceSpy }
+        { provide: AnalyticsService, useValue: analyticsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });

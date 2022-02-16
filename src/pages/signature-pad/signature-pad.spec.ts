@@ -27,6 +27,7 @@ import { AuthenticationService } from '../../providers/auth';
 import { AuthenticationServiceMock } from '../../../test-config/services-mocks/authentication-service.mock';
 import { TestStore } from '../../modules/logs/data-store.service.mock';
 import { AnalyticsService } from '../../providers/global';
+import { HttpAlertService } from '../../providers/global/http-alert-service/http-alert.service';
 
 describe('Component: SignaturePadPage', () => {
   let fixture: ComponentFixture<SignaturePadPage>;
@@ -76,6 +77,7 @@ describe('Component: SignaturePadPage', () => {
       declarations: [SignaturePadPage],
       imports: [IonicModule.forRoot(SignaturePadPage)],
       providers: [
+        HttpAlertService,
         { provide: AppService, useClass: AppServiceMock },
         { provide: SignatureService, useValue: signatureServiceSpy },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
