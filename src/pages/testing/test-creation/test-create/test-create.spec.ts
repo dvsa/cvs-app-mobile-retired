@@ -685,8 +685,8 @@ describe('Component: TestCreatePage', () => {
   it('should open the vehicle test history', async() => {
     await component.goToVehicleTestResultsHistory(VEHICLE);
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: ANALYTICS_EVENT_CATEGORIES.TEST_HISTORY,
-      event: ANALYTICS_EVENTS.SUGGESTED_TEST_TYPES_POPUP,
+      category: ANALYTICS_EVENT_CATEGORIES.SUGGESTED_TEST_TYPES_POPUP,
+      event: ANALYTICS_EVENTS.VIEW_TEST_HISTORY,
       label: ANALYTICS_VALUE.VIEW_TEST_HISTORY
     });
     expect(navCtrl.push).toHaveBeenCalled()
@@ -698,8 +698,8 @@ describe('Component: TestCreatePage', () => {
     const testTypes = TEST_TYPES;
     component.addSuggestedTestType(testTypes[0], VEHICLE);
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
-      event: ANALYTICS_EVENTS.SUGGESTED_TEST_TYPES_POPUP,
+      category: ANALYTICS_EVENT_CATEGORIES.SUGGESTED_TEST_TYPES_POPUP,
+      event: ANALYTICS_EVENTS.ADD_SUGGESTED_TEST_TYPE,
       label: testTypes[0].name
     });
     const type = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];

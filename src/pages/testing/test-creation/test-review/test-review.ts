@@ -403,6 +403,13 @@ export class TestReviewPage implements OnInit {
             testResult,
             false
           );
+          for (const testType of testResult.testTypes) {
+            this.analyticsService.logEvent({
+              category: ANALYTICS_EVENT_CATEGORIES.TEST,
+              event: ANALYTICS_EVENTS.SUBMITTED_TESTS,
+              label: testType.name
+            });
+          }
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
               this.logProvider.dispatchLog({

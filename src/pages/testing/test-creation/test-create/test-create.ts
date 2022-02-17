@@ -404,8 +404,8 @@ export class TestCreatePage implements OnInit {
 
   async goToVehicleTestResultsHistory(vehicle: VehicleModel) {
     await this.analyticsService.logEvent({
-      category: ANALYTICS_EVENT_CATEGORIES.TEST_HISTORY,
-      event: ANALYTICS_EVENTS.SUGGESTED_TEST_TYPES_POPUP,
+      category: ANALYTICS_EVENT_CATEGORIES.SUGGESTED_TEST_TYPES_POPUP,
+      event: ANALYTICS_EVENTS.VIEW_TEST_HISTORY,
       label: ANALYTICS_VALUE.VIEW_TEST_HISTORY
     });
     const testResultsHistory = await this.storageService.read(
@@ -424,8 +424,8 @@ export class TestCreatePage implements OnInit {
 
   addSuggestedTestType(testType: TestTypesReferenceDataModel, vehicle: VehicleModel) {
     this.analyticsService.logEvent({
-      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
-      event: ANALYTICS_EVENTS.SUGGESTED_TEST_TYPES_POPUP,
+      category: ANALYTICS_EVENT_CATEGORIES.SUGGESTED_TEST_TYPES_POPUP,
+      event: ANALYTICS_EVENTS.ADD_SUGGESTED_TEST_TYPE,
       label: testType.name
     });
     const type = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];

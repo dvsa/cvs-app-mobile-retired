@@ -455,7 +455,8 @@ export enum ANALYTICS_EVENT_CATEGORIES {
   DURATION = 'duration',
   VISIT = 'visit',
   TEST = 'test',
-  TEST_HISTORY = 'test_history'
+  TEST_HISTORY = 'test_history',
+  SUGGESTED_TEST_TYPES_POPUP = 'suggested test types popup'
 }
 
 export enum ANALYTICS_EVENTS {
@@ -473,12 +474,15 @@ export enum ANALYTICS_EVENTS {
   ADD_ODOMETER_READING_TIME_TAKEN = 'add_odometer_reading_time_taken',
   CANCEL_TEST = 'cancel_test',
   SUBMIT_TEST = 'submit_test',
+  SUBMITTED_TESTS = 'submitted_tests',
   SUBMIT_VISIT = 'submit_visit',
   ADD_TEST_TYPE_TIME_TAKEN = 'add_test_type_time_taken',
   SEARCH_VEHICLE_TIME_TAKEN = 'search_vehicle_time_taken',
   CONFIRM_VEHICLE_TIME_TAKEN = 'confirm_vehicle_time_taken',
   CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken',
-  SUGGESTED_TEST_TYPES_POPUP = 'suggested_test_types_popup'
+  SUGGESTED_TEST_TYPES_POPUP = 'suggested_test_types_popup',
+  ADD_SUGGESTED_TEST_TYPE = 'add_suggested_test_type',
+  VIEW_TEST_HISTORY = 'view_test_history'
 }
 
 export enum ANALYTICS_LABEL {
