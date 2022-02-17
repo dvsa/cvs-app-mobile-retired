@@ -422,8 +422,8 @@ export class TestCreatePage implements OnInit {
     this.navCtrl.push(PAGE_NAMES.TEST_TYPES_LIST_PAGE, { vehicleData: vehicle });
   }
 
-  addSuggestedTestType(testType: TestTypesReferenceDataModel, vehicle: VehicleModel) {
-    this.analyticsService.logEvent({
+  async addSuggestedTestType(testType: TestTypesReferenceDataModel, vehicle: VehicleModel) {
+    await this.analyticsService.logEvent({
       category: ANALYTICS_EVENT_CATEGORIES.SUGGESTED_TEST_TYPES_POPUP,
       event: ANALYTICS_EVENTS.ADD_SUGGESTED_TEST_TYPE,
       label: testType.name

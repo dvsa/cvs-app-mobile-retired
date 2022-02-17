@@ -692,11 +692,11 @@ describe('Component: TestCreatePage', () => {
     expect(navCtrl.push).toHaveBeenCalled()
   });
 
-  it('should add the suggested test type', () => {
+  it('should add the suggested test type', async() => {
     spyOn(durationService, 'completeDuration');
     spyOn(vehicleService, 'addTestType');
     const testTypes = TEST_TYPES;
-    component.addSuggestedTestType(testTypes[0], VEHICLE);
+    await component.addSuggestedTestType(testTypes[0], VEHICLE);
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
       category: ANALYTICS_EVENT_CATEGORIES.SUGGESTED_TEST_TYPES_POPUP,
       event: ANALYTICS_EVENTS.ADD_SUGGESTED_TEST_TYPE,

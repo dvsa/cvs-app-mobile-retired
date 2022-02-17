@@ -456,7 +456,7 @@ export enum ANALYTICS_EVENT_CATEGORIES {
   VISIT = 'visit',
   TEST = 'test',
   TEST_HISTORY = 'test_history',
-  SUGGESTED_TEST_TYPES_POPUP = 'suggested test types popup'
+  SUGGESTED_TEST_TYPES_POPUP = 'suggested_test_types_popup'
 }
 
 export enum ANALYTICS_EVENTS {
