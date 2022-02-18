@@ -385,14 +385,14 @@ export class TestReviewPage implements OnInit {
     }
 
     Observable.forkJoin(stack).subscribe(
-      (response: any) => {
+      async (response: any) => {
         this.logProvider.dispatchLog({
           type: 'info',
           message: `${oid} - ${response[0].status} ${response[0].body} for API call to ${response[0].url}`,
           timestamp: Date.now()
         });
 
-        this.analyticsService.logEvent({
+        await this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.TEST,
           event: ANALYTICS_EVENTS.SUBMIT_TEST
         });
@@ -404,7 +404,7 @@ export class TestReviewPage implements OnInit {
             false
           );
           for (const testType of testResult.testTypes) {
-            this.analyticsService.logEvent({
+            await this.analyticsService.logEvent({
               category: ANALYTICS_EVENT_CATEGORIES.TEST,
               event: ANALYTICS_EVENTS.SUBMITTED_TESTS,
               label: testType.name
@@ -437,22 +437,22 @@ export class TestReviewPage implements OnInit {
             }
           );
         }
-        LOADING.dismiss();
+        await LOADING.dismiss();
         if (activitiesSubmitted) {
           this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
           this.submitInProgress = false;
-          this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
+          await this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
             testerEmailAddress: this.visit.testerEmail
           });
         } else {
-          TRY_AGAIN_ALERT.present();
+          await TRY_AGAIN_ALERT.present();
         }
       },
-      (error) => {
-        LOADING.dismiss();
-        TRY_AGAIN_ALERT.present();
+      async (error) => {
+        await LOADING.dismiss();
+        await TRY_AGAIN_ALERT.present();
 
-        this.trackErrorOnTestSubmission(ANALYTICS_VALUE.TEST_SUBMISSION_FAILED);
+        await this.trackErrorOnTestSubmission(ANALYTICS_VALUE.TEST_SUBMISSION_FAILED);
       }
     );
   }
