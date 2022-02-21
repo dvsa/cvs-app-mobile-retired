@@ -51,7 +51,7 @@ export class ConfirmationPage {
     }
   }
 
-  callSupport() {
-    this.alertService.callSupport();
+  async callSupport() {
+    await this.alertService.callSupport();
   }
 }

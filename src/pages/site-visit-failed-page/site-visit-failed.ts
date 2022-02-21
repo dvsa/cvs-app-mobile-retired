@@ -34,12 +34,12 @@ export class SiteVisitFailedPage {
     this.messageThree = APP_STRINGS.FAILED_MESSAGE_END_VISIT_THREE;
   }
 
-  ionViewDidEnter() {
-    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.SITE_VISIT_FAILED);
+  async ionViewDidEnter() {
+    await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.SITE_VISIT_FAILED);
   }
 
   async confirm() {
-    this.analyticsService.logEvent({
+    await this.analyticsService.logEvent({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.VISIT_ERROR,
       label: ANALYTICS_VALUE.CONFIRMED_FAILED_SUBMISSION
@@ -47,12 +47,12 @@ export class SiteVisitFailedPage {
     await this.navCtrl.popToRoot();
   }
 
-  callSupport() {
-    this.analyticsService.logEvent({
+  async callSupport() {
+    await this.analyticsService.logEvent({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.VISIT_ERROR,
       label: ANALYTICS_VALUE.CALL_IT
     });
-    this.alertService.callSupport();
+    await this.alertService.callSupport();
   }
 }

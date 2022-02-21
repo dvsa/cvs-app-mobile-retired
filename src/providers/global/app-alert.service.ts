@@ -82,7 +82,7 @@ export class AppAlertService {
     alert.present();
   }
 
-  callSupport() {
+  async callSupport() {
     const alert = this.alertCtrl.create({
       title: `${AppConfig.app.KEY_PHONE_NUMBER}`,
       buttons: [
@@ -99,6 +99,6 @@ export class AppAlertService {
       ]
     });
 
-    alert.present();
+    await alert.present();
   }
 }

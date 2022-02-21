@@ -81,8 +81,8 @@ describe('Component: SiteVisitFailedPage', () => {
     );
   });
 
-  it('should create the call support alert', () => {
-    comp.callSupport();
+  it('should create the call support alert', async () => {
+    await comp.callSupport();
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.VISIT_ERROR,
@@ -91,8 +91,8 @@ describe('Component: SiteVisitFailedPage', () => {
     expect(alertService.callSupport).toHaveBeenCalled();
   });
 
-  it('should test pressing on confirm logic', () => {
-    comp.confirm();
+  it('should test pressing on confirm logic', async () => {
+    await comp.confirm();
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.VISIT_ERROR,

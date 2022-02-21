@@ -43,7 +43,6 @@ import { Observable, Subscription } from 'rxjs';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 import { of } from 'rxjs/observable/of';
 import { catchError, filter, map, mergeMap } from 'rxjs/operators';
-import { CommonFunctionsService } from '../../../providers/utils/common-functions';
 
 @IonicPage()
 @Component({
