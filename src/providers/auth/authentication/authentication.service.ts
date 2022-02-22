@@ -41,7 +41,7 @@ export class AuthenticationService {
     private commonFunc: CommonFunctionsService,
     private logProvider: LogsProvider,
     private networkService: NetworkService,
-    private storage: Storage
+    private storage: Storage,
   ) {
     this.initialiseAuth();
     this.updateTokenInfo();
@@ -103,7 +103,7 @@ export class AuthenticationService {
 
     const { id_token: token } = authResponse;
     // set the stored value for employee id only if the idToken is valid (has one or more props)
-    if (typeof idToken === 'object' && Object.keys(idToken).length) {
+    if(typeof idToken === 'object' && Object.keys(idToken).length) {
       await this.storage.set(STORAGE.EMPLOYEE_ID, idToken.employeeid || null);
     }
 
@@ -176,7 +176,7 @@ export class AuthenticationService {
     await this._auth.isAuthenticated();
     const token: AzureIDToken = await this._auth.getIdToken();
     // token expiry is in seconds so convert to milliseconds
-    const tokenExpiry: Date = (token && token.exp) ? new Date(token.exp * 1000) : new Date(0);
+    const tokenExpiry: Date = (token && token.exp) ? new Date(token.exp *1000) : new Date(0);
     const now = new Date();
     return tokenExpiry < now;
   }

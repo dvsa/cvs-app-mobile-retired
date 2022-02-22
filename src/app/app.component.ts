@@ -20,7 +20,7 @@ import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   CONNECTION_STATUS,
-  TESTER_ROLES
+  TESTER_ROLES, ANALYTICS_VALUE
 } from './app.enums';
 import { AppService, AnalyticsService, SyncService, AppAlertService } from '../providers/global';
 import { ActivityService } from '../providers/activity/activity.service';
@@ -106,7 +106,12 @@ export class MyApp {
 
     const authStatus = await this.authenticationService.checkUserAuthStatus();
     if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
-      this.alertService.alertUnAuthorise();
+      await this.alertService.alertUnAuthorise();
+      await this.analyticsService.logEvent({
+        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+        event: ANALYTICS_EVENTS.USER_NOT_AUTHORISED,
+        label: ANALYTICS_VALUE.USER_NOT_AUTHORISED
+      });
     }
     authStatus && !this.appService.isSignatureRegistered
       ? this.navigateToSignaturePage()

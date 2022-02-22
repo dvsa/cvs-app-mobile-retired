@@ -17,7 +17,7 @@ export class AppAlertService {
       message: APP_STRINGS.UNAUTHORISED_MSG,
       buttons: [
         {
-          text: APP_STRINGS.CALL,
+          text: APP_STRINGS.CALL_IT_SERVICE_DESK,
           handler: () => {
             this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
               (data) => console.log(data),
@@ -29,7 +29,6 @@ export class AppAlertService {
       ],
       enableBackdropDismiss: false
     });
-
     alert.present();
   }
 
@@ -76,7 +75,7 @@ export class AppAlertService {
           }
         }
       ],
-      enableBackdropDismiss: false
+      enableBackdropDismiss: false,
     });
 
     alert.present();

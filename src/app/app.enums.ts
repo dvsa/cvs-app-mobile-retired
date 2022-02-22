@@ -178,6 +178,7 @@ export enum APP_STRINGS {
   SPEAK_TO_TTL = 'Speak to your Technical Team Leader (TTL) if the issue cannot be resolved on site.',
   SEARCH_TEST_STATION = 'Find test facility',
   CALL = 'Call',
+  CALL_IT_SERVICE_DESK ='Call IT service desk',
   TEST_TYPE = 'Test type',
   NO_SEATBELTS_ENTERED = 'No seatbelts entered',
   NO_SEATBELTS_ENTERED_SUBTITLE = 'The number of seatbelts fitted must be greater than zero (0) to carry out an installation check.',
@@ -236,7 +237,7 @@ export enum APP_STRINGS {
   CACHING_ENABLED_STORAGE_CLEARED = 'Storage was cleared and caching was disabled. Ride on',
   CACHING_ENABLED = 'Caching was enabled',
   UNAUTHORISED = 'Unable to authorise',
-  UNAUTHORISED_MSG = "Your account isn't currently authorised to use this app. Close the app or call IT support.",
+  UNAUTHORISED_MSG = "Your account is currently not authorised to use VTA, Contact the IT service desk.",
   UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support.",
   WAIT_REASONS_MSG_ISSUE = "You've selected 'Site issue', give more details in notes section.",
   WAIT_REASONS_MSG_OTHER = "You've selected 'Other', give more details in notes section.",
@@ -263,7 +264,6 @@ export enum APP_STRINGS {
   SITE_VISIT_CLOSED_TITLE = 'Site Visit is closed',
   SITE_VISIT_CLOSED_MESSAGE = 'This Site Visit has been closed. Open a new Site Visit to continue testing.',
   RECENTLY_FAILED_TEST_TITLE = 'Suggested test types',
-  LOG_OUT = 'Log out'
 }
 
 export enum ODOMETER_METRIC {
@@ -477,7 +477,8 @@ export enum ANALYTICS_EVENTS {
   ADD_TEST_TYPE_TIME_TAKEN = 'add_test_type_time_taken',
   SEARCH_VEHICLE_TIME_TAKEN = 'search_vehicle_time_taken',
   CONFIRM_VEHICLE_TIME_TAKEN = 'confirm_vehicle_time_taken',
-  CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken'
+  CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken',
+  USER_NOT_AUTHORISED = 'user_not_authorised'
 }
 
 export enum ANALYTICS_LABEL {
@@ -524,7 +525,8 @@ export enum ANALYTICS_VALUE {
   TEST_RESULT_HISTORY_FAILED = 'Failed retrieving the testResultsHistory',
   TEST_RECORD_FAILED = 'Failed retrieving the techRecord',
   VEHICLE_NOT_FOUND = 'Vehicle not found',
-  SAVING_SIGNATURE_FAILED = 'Saving signature failed'
+  SAVING_SIGNATURE_FAILED = 'Saving signature failed',
+  USER_NOT_AUTHORISED = 'User not authorised'
 }
 
 export enum ANALYTICS_SCREEN_NAMES {
