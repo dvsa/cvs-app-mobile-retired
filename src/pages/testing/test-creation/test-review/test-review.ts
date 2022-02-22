@@ -407,7 +407,7 @@ export class TestReviewPage implements OnInit {
             await this.analyticsService.logEvent({
               category: ANALYTICS_EVENT_CATEGORIES.TEST,
               event: ANALYTICS_EVENTS.SUBMITTED_TESTS,
-              label: testType.name
+              label: testType.testTypeName
             });
           }
           this.activityService.submitActivity(activity).subscribe(
