@@ -108,6 +108,7 @@ export class TestCancelPage {
   submit(test) {
     let stack: Observable<any>[] = [];
     const { oid } = this.authenticationService.tokenInfo;
+    let activitiesSubmitted = true;
 
     const TRY_AGAIN_ALERT = this.alertCtrl.create({
       title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
@@ -211,15 +212,21 @@ export class TestCancelPage {
                 event: ANALYTICS_EVENTS.TEST_ERROR,
                 label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
               });
+              activitiesSubmitted = false;
+
             }
           );
         }
         LOADING.dismiss();
-        let views = this.navCtrl.getViews();
-        for (let i = views.length - 1; i >= 0; i--) {
-          if (views[i].component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-            this.navCtrl.popTo(views[i]);
+        if (activitiesSubmitted) {
+          let views = this.navCtrl.getViews();
+          for (let i = views.length - 1; i >= 0; i--) {
+            if (views[i].component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
+              this.navCtrl.popTo(views[i]);
+            }
           }
+        } else {
+          TRY_AGAIN_ALERT.present();
         }
       },
       (error) => {

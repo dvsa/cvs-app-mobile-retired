@@ -13,7 +13,7 @@ import { EventsMock, SplashScreenMock, StatusBarMock, NetworkMock } from 'ionic-
 import { MyApp } from './app.component';
 import { StorageService } from '../providers/natives/storage.service';
 import { StorageServiceMock } from '../../test-config/services-mocks/storage-service.mock';
-import { AppService, SyncService, AnalyticsService, NetworkService } from '../providers/global';
+import { AppService, SyncService, AnalyticsService, NetworkService, AppAlertService } from '../providers/global';
 import { VisitService } from '../providers/visit/visit.service';
 import { AppServiceMock } from '../../test-config/services-mocks/app-service.mock';
 import { VisitServiceMock } from '../../test-config/services-mocks/visit-service.mock';
@@ -44,6 +44,8 @@ describe('Component: Root', () => {
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
   let networkService: NetworkService;
+  let appAlertSpy: any;
+  let appAlertService: AppAlertService;
 
   beforeEach(async(() => {
     syncServiceSpy = jasmine.createSpyObj('SyncService', {
@@ -56,7 +58,8 @@ describe('Component: Root', () => {
 
     authenticationSpy = jasmine.createSpyObj('AuthenticationService', [
       'expireTokens',
-      'checkUserAuthStatus'
+      'checkUserAuthStatus',
+      'hasUserRights'
     ]);
 
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
@@ -65,6 +68,7 @@ describe('Component: Root', () => {
       'logEvent',
       'addCustomDimension'
     ]);
+    appAlertSpy = jasmine.createSpyObj('AppAlertService', ['alertUnAuthorise']);
 
     TestBed.configureTestingModule({
       declarations: [MyApp],
@@ -85,7 +89,8 @@ describe('Component: Root', () => {
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: SyncService, useValue: syncServiceSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: Store, useClass: TestStore }
+        { provide: Store, useClass: TestStore },
+        { provide: AppAlertService, useValue: appAlertSpy },
       ]
     }).compileComponents();
   }));
@@ -105,6 +110,7 @@ describe('Component: Root', () => {
     analyticsService = TestBed.get(AnalyticsService);
     logProvider = TestBed.get(LogsProvider);
     networkService = TestBed.get(NetworkService);
+    appAlertService = TestBed.get(AppAlertService);
   });
 
   afterEach(() => {

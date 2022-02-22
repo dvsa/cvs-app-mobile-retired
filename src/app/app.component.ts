@@ -108,7 +108,6 @@ export class MyApp {
     if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
       this.alertService.alertUnAuthorise();
     }
-
     authStatus && !this.appService.isSignatureRegistered
       ? this.navigateToSignaturePage()
       : this.manageAppState();

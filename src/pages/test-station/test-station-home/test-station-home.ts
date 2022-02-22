@@ -59,12 +59,6 @@ export class TestStationHomePage implements OnInit {
     }
   }
 
-  async ionViewDidEnter() {
-    if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
-      this.alertService.alertUnAuthorise();
-    }
-  }
-
   async getStarted() {
     let err: Error, IsDataSynced: boolean;
     [err, IsDataSynced] = await this.syncService.startSync();

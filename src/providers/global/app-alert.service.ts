@@ -76,7 +76,7 @@ export class AppAlertService {
           }
         }
       ],
-      enableBackdropDismiss: false,
+      enableBackdropDismiss: false
     });
 
     alert.present();

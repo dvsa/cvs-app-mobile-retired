@@ -123,23 +123,6 @@ describe('Component: TestStationHomePage', () => {
     );
   });
 
-  describe('ionViewDidEnter', () => {
-    it('should alert unauthorise if user has no right', async () => {
-      spyOn(authenticationService, 'hasUserRights').and.returnValue(false);
-
-      await comp.ionViewDidEnter();
-
-      expect(authenticationService.hasUserRights).toHaveBeenCalledWith([
-        TESTER_ROLES.FULL_ACCESS,
-        TESTER_ROLES.PSV,
-        TESTER_ROLES.HGV,
-        TESTER_ROLES.ADR,
-        TESTER_ROLES.TIR
-      ]);
-      expect(appAlertService.alertUnAuthorise).toHaveBeenCalled();
-    });
-  });
-
   it('should test getStarted flow', async () => {
     await comp.getStarted();
 
