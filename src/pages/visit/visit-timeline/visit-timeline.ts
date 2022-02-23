@@ -87,11 +87,11 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     private platform: Platform
   ) {
     this.timeline = [];
-    this.platform.ready().then(() => {
-      this.platformSubscription = this.platform.resume.subscribe(() => {
-        this.waitTimeHandler();
-      })
-    });
+    // this.platform.ready().then(() => {
+    //   this.platformSubscription = this.platform.resume.subscribe(() => {
+    //     this.waitTimeHandler();
+    //   })
+    // });
   }
 
   ngOnInit() {
@@ -102,9 +102,9 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.platformSubscription) {
-      this.platformSubscription.unsubscribe();
-    }
+    // if (this.platformSubscription) {
+    //   this.platformSubscription.unsubscribe();
+    // }
   }
 
   ionViewWillEnter() {
@@ -113,7 +113,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
   ionViewDidEnter() {
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VISIT_TIMELINE);
-    this.waitTimeHandler();
+    // this.waitTimeHandler();
   }
 
   endVisit(): void {
@@ -128,7 +128,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
     let test = this.testReportService.createTest();
     this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, { test: test });
-    clearTimeout(this.activityService.waitTimer);
+    // clearTimeout(this.activityService.waitTimer);
   }
 
   createTimeline(): void {
