@@ -6,17 +6,17 @@ import { AlertController } from "ionic-angular";
 export class HttpAlertService {
 
     private statusCodeData = {
-        200 : { title: 'Ok', subTitle: 'something else' },
-        201 : { title: 'Created', subTitle: 'something else' },
-        204 : { title: 'No Content', subTitle: 'something else' },
-        400 : { title: 'Bad Request', subTitle: 'something else' },
-        401 : { title: 'Not Authorized', subTitle: 'something else' },
-        403 : { title: 'Forbidden', subTitle: 'something else' },
-        404 : { title: 'No Resource found', subTitle: 'something else' },
-        500 : { title: 'Internal Server Error', subTitle: 'something else' },
-        502 : { title: 'Bad Gateway', subTitle: 'something else' },
-        503 : { title: 'Service Unavailable', subTitle: 'something else' },
-        504 : { title: 'Timed Out', subTitle: 'something else' },
+        200 : { title: 'Ok', subTitle: 'something else', showCallITButton: false, showRetryButton: false },
+        201 : { title: 'Created', subTitle: 'something else', showCallITButton: false, showRetryButton: false },
+        204 : { title: 'No Content', subTitle: 'something else', showCallITButton: false, showRetryButton: false },
+        400 : { title: 'Bad Request', subTitle: 'something else', showCallITButton: false, showRetryButton: false },
+        401 : { title: 'Not Authorized', subTitle: 'something else', showCallITButton: false, showRetryButton: false },
+        403 : { title: 'Forbidden', subTitle: 'something else', showCallITButton: true, showRetryButton: false },
+        404 : { title: 'No Resource found', subTitle: 'something else', showCallITButton: true, showRetryButton: false },
+        500 : { title: 'Internal Server Error', subTitle: 'something else', showCallITButton: true, showRetryButton: true },
+        502 : { title: 'Bad Gateway', subTitle: 'something else', showCallITButton: true, showRetryButton: true },
+        503 : { title: 'Service Unavailable', subTitle: 'something else', showCallITButton: true, showRetryButton: true },
+        504 : { title: 'Timed Out', subTitle: 'something else', showCallITButton: true, showRetryButton: true },
     }
 
     constructor(
@@ -37,7 +37,32 @@ export class HttpAlertService {
     getStatusCodeData(statusCode: number) {
         if (this.statusCodeData[statusCode])
           return this.statusCodeData[statusCode]
-        return { title: 'Default', subTitle: 'Default' }
+        return { title: 'Default', subTitle: 'Default', showCallItButton: false, showRetryButton: false }
+    }
+
+    getButtons(statusCode: number): string[] {
+        let newarray = [
+            { 
+                text:'OK',
+                handler: () => {},
+            },
+        ];
+        let array = ['OK'];
+        const statusCodeData = this.getStatusCodeData(statusCode);
+        if (statusCodeData.showCallITButton) {
+            newarray.push({
+                text: 'Call IT',
+                handler: () => this.callIt(),
+            });
+        }
+        if (statusCodeData.showRetryButton) {
+            array.push('Retry');
+        }
+        return array;
+    }
+
+    callIt() {
+
     }
 
     // Used for automatically generating pop-ups based on response status code
@@ -46,12 +71,13 @@ export class HttpAlertService {
         if (override && this.shouldOverridePopup(response, override)) {
             return;
         }
-        const statusCodeData = this.getStatusCodeData(response.status)
+        const statusCodeData = this.getStatusCodeData(response.status);
+        const buttons = this.getButtons(response.status);
         const alert = this.alertController.create({
           title: statusCodeData.title,
           message: statusCodeData.subTitle,
           enableBackdropDismiss: false,
-          buttons: ['OK']
+          buttons: buttons,
         });
         alert.present();
     }

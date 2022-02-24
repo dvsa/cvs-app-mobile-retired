@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 
@@ -88,9 +88,10 @@ export class HTTPService {
   }
 
   startVisit(activities: ActivityModel): Observable<HttpResponse<any>> {
-    return this.http.post(`${AppConfig.app.BACKEND_URL}/activities`, activities, {
-      observe: 'response'
-    });
+    // return this.http.post(`${AppConfig.app.BACKEND_URL}/activities`, activities, {
+    //   observe: 'response'
+    // });
+    return Observable.throw(new HttpErrorResponse({ status: 504 }));
   }
 
   endVisit(visitID: string): Observable<HttpResponse<any>> {

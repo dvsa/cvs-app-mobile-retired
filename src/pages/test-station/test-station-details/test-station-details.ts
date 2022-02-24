@@ -15,7 +15,6 @@ import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_LABEL,
   ANALYTICS_VALUE
 } from '../../../app/app.enums';
 import { VisitService } from '../../../providers/visit/visit.service';
@@ -89,6 +88,7 @@ export class TestStationDetailsPage {
         this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, { testStation: this.testStation });
       },
       (error) => {
+        this.httpAlertService.handleHttpResponse(error);
         this.logProvider.dispatchLog({
           type: 'error-visitService.startVisit-confirmStartVisit in test-station-details.ts',
           message: `${oid} - failed making a call to start a visit - ${JSON.stringify(error)}`,
