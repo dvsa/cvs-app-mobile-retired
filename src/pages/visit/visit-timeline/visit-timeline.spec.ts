@@ -303,6 +303,7 @@ describe('Component: VisitTimelinePage', () => {
     beforeEach(() => {
       component.visit = getMockVisit();
       spyOn(component, 'showLoading');
+      spyOn(component, 'trackVisitEndError');
     });
 
     it('should display the site closed alert if visit was previously closed', () => {
@@ -338,22 +339,17 @@ describe('Component: VisitTimelinePage', () => {
       });
     });
 
-    it('should display the try again alert if internet is lost', () => {
+    it('should display the try again alert if internet is lost', async () => {
       const receivedError = {
         error: AUTH.INTERNET_REQUIRED
       };
       visitServiceSpy.endVisit.and.returnValue(Observable.throw(receivedError));
 
-      component.confirmEndVisit$().subscribe();
+      await component.confirmEndVisit$().subscribe();
 
       expect(component.showLoading).toHaveBeenCalledWith('');
       expect(logProvider.dispatchLog).toHaveBeenCalled();
-
-      expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-        event: ANALYTICS_EVENTS.VISIT_ERROR,
-        label: ANALYTICS_VALUE.INTERNET_REQUIRED
-      });
+      expect(component.trackVisitEndError).toHaveBeenCalledWith(ANALYTICS_VALUE.INTERNET_REQUIRED);
 
       expect(alertCtrl.create).toHaveBeenCalledWith({
         title: APP_STRINGS.UNABLE_TO_END_VISIT,
@@ -371,22 +367,17 @@ describe('Component: VisitTimelinePage', () => {
       });
     });
 
-    it('should display the try again alert if the request times out', () => {
+    it('should display the try again alert if the request times out', async () => {
       const receivedError = {
         status: 504
       };
       visitServiceSpy.endVisit.and.returnValue(Observable.throw(receivedError));
 
-      component.confirmEndVisit$().subscribe();
+      await component.confirmEndVisit$().subscribe();
 
       expect(component.showLoading).toHaveBeenCalledWith('');
       expect(logProvider.dispatchLog).toHaveBeenCalled();
-
-      expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-        event: ANALYTICS_EVENTS.VISIT_ERROR,
-        label: ANALYTICS_VALUE.REQUEST_TIMED_OUT
-      });
+      expect(component.trackVisitEndError).toHaveBeenCalledWith(ANALYTICS_VALUE.REQUEST_TIMED_OUT);
 
       expect(alertCtrl.create).toHaveBeenCalledWith({
         title: APP_STRINGS.REQUEST_TIMED_OUT_TITLE,
@@ -404,42 +395,32 @@ describe('Component: VisitTimelinePage', () => {
       });
     });
 
-    it('should navigate to site visit failed screen if data is missing', () => {
+    it('should navigate to site visit failed screen if data is missing', async () => {
       const receivedError = {
         status: 400
       };
       visitServiceSpy.endVisit.and.returnValue(Observable.throw(receivedError));
 
-      component.confirmEndVisit$().subscribe();
+      await component.confirmEndVisit$().subscribe();
 
       expect(component.showLoading).toHaveBeenCalledWith('');
       expect(logProvider.dispatchLog).toHaveBeenCalled();
-
-      expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-        event: ANALYTICS_EVENTS.VISIT_ERROR,
-        label: ANALYTICS_VALUE.FAILED_SUBMISSION
-      });
+      expect(component.trackVisitEndError).toHaveBeenCalledWith(ANALYTICS_VALUE.FAILED_SUBMISSION);
 
       expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.SITE_VISIT_FAILED_PAGE);
     });
 
-    it('should log event if any other errors are found', () => {
+    it('should log event if any other errors are found', async () => {
       const receivedError = {
         status: 404
       };
       visitServiceSpy.endVisit.and.returnValue(Observable.throw(receivedError));
 
-      component.confirmEndVisit$().subscribe();
+      await component.confirmEndVisit$().subscribe();
 
       expect(component.showLoading).toHaveBeenCalledWith('');
       expect(logProvider.dispatchLog).toHaveBeenCalled();
-
-      expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-        event: ANALYTICS_EVENTS.VISIT_ERROR,
-        label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
-      });
+      expect(component.trackVisitEndError).toHaveBeenCalledWith(ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED);
 
       expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.CONFIRMATION_PAGE, {
         testStationName: TEST_STATION_NAME

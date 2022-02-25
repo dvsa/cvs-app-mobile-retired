@@ -265,14 +265,10 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     return of(status);
   }
 
-  private endVisitError$(receivedErr: any): Observable<any> {
+  private async endVisitError$(receivedErr: any): Promise<any> {
     if (receivedErr) {
       if (receivedErr.error === AUTH.INTERNET_REQUIRED) {
-        this.analyticsService.logEvent({
-          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-          event: ANALYTICS_EVENTS.VISIT_ERROR,
-          label: ANALYTICS_VALUE.INTERNET_REQUIRED
-        });
+        await this.trackVisitEndError(ANALYTICS_VALUE.INTERNET_REQUIRED);
 
         const TRY_AGAIN_ALERT = this.alertCtrl.create({
           title: APP_STRINGS.UNABLE_TO_END_VISIT,
@@ -280,8 +276,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           buttons: [
             {
               text: APP_STRINGS.SETTINGS_BTN,
-              handler: () => {
-                this.openNativeSettings.open('settings');
+              handler: async () => {
+                await this.openNativeSettings.open('settings');
               }
             },
             {
@@ -299,11 +295,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
         return of(TRY_AGAIN_ALERT.present());
       } else if (receivedErr.status === 504) {
-        this.analyticsService.logEvent({
-          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-          event: ANALYTICS_EVENTS.VISIT_ERROR,
-          label: ANALYTICS_VALUE.REQUEST_TIMED_OUT
-        });
+        await this.trackVisitEndError(ANALYTICS_VALUE.REQUEST_TIMED_OUT);
 
         const REQUEST_TIMEOUT_ALERT = this.alertCtrl.create({
           title: APP_STRINGS.REQUEST_TIMED_OUT_TITLE,
@@ -311,9 +303,9 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           buttons: [
             {
               text: APP_STRINGS.CANCEL,
-              handler: () => {
+              handler: async () => {
                 this.isCreateTestEnabled = true;
-                REQUEST_TIMEOUT_ALERT.dismiss();
+                await REQUEST_TIMEOUT_ALERT.dismiss();
               }
             },
             {
@@ -331,19 +323,11 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
         return of(REQUEST_TIMEOUT_ALERT.present());
       } else if (receivedErr.status === 400) {
-        this.analyticsService.logEvent({
-          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-          event: ANALYTICS_EVENTS.VISIT_ERROR,
-          label: ANALYTICS_VALUE.FAILED_SUBMISSION
-        });
+        await this.trackVisitEndError(ANALYTICS_VALUE.FAILED_SUBMISSION);
 
         return of(this.onUpdateActivityReasons(false));
       } else {
-        this.analyticsService.logEvent({
-          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-          event: ANALYTICS_EVENTS.VISIT_ERROR,
-          label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
-        });
+        await this.trackVisitEndError(ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED);
 
         return of(this.onUpdateActivityReasons(true));
       }
@@ -449,5 +433,13 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     } else {
       return of(this.onUpdateActivityReasons(true));
     }
+  }
+
+  async trackVisitEndError(value: string) {
+    await this.analyticsService.logEvent({
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+      event: ANALYTICS_EVENTS.VISIT_ERROR,
+      label: value
+    });
   }
 }
