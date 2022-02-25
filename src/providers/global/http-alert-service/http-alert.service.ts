@@ -1,6 +1,8 @@
 import { HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { CallNumber } from "@ionic-native/call-number";
 import { AlertController } from "ionic-angular";
+import { default as AppConfig } from '../../../../config/application.hybrid';
 
 @Injectable()
 export class HttpAlertService {
@@ -21,6 +23,7 @@ export class HttpAlertService {
 
     constructor(
         private alertController: AlertController,
+        private callNumber: CallNumber,
     ) { }
 
     // Used for dynamically disabling popups for specific responses for any particular page
@@ -62,7 +65,14 @@ export class HttpAlertService {
     }
 
     callIt() {
-
+        // this.callNumber.callNumber('AppConfig.app.KEY_PHONE_NUMBER', true).then(
+        //   (data) => console.log(data),
+        //   (err) => console.log(err)
+        // );
+        this.callNumber.callNumber('07376098273', true).then(
+          (data) => console.log(data),
+          (err) => console.log(err)
+        );
     }
 
     // Used for automatically generating pop-ups based on response status code
