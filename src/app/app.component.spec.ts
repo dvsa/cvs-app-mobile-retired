@@ -13,7 +13,13 @@ import { EventsMock, SplashScreenMock, StatusBarMock, NetworkMock } from 'ionic-
 import { MyApp } from './app.component';
 import { StorageService } from '../providers/natives/storage.service';
 import { StorageServiceMock } from '../../test-config/services-mocks/storage-service.mock';
-import { AppService, SyncService, AnalyticsService, NetworkService, AppAlertService } from '../providers/global';
+import {
+  AppService,
+  SyncService,
+  AnalyticsService,
+  NetworkService,
+  AppAlertService
+} from '../providers/global';
 import { VisitService } from '../providers/visit/visit.service';
 import { AppServiceMock } from '../../test-config/services-mocks/app-service.mock';
 import { VisitServiceMock } from '../../test-config/services-mocks/visit-service.mock';
@@ -90,7 +96,7 @@ describe('Component: Root', () => {
         { provide: SyncService, useValue: syncServiceSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
         { provide: Store, useClass: TestStore },
-        { provide: AppAlertService, useValue: appAlertSpy },
+        { provide: AppAlertService, useValue: appAlertSpy }
       ]
     }).compileComponents();
   }));

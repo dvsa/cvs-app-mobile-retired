@@ -178,7 +178,7 @@ export enum APP_STRINGS {
   SPEAK_TO_TTL = 'Speak to your Technical Team Leader (TTL) if the issue cannot be resolved on site.',
   SEARCH_TEST_STATION = 'Find test facility',
   CALL = 'Call',
-  CALL_IT_SERVICE_DESK ='Call IT service desk',
+  CALL_IT_SERVICE_DESK = 'Call IT service desk',
   TEST_TYPE = 'Test type',
   NO_SEATBELTS_ENTERED = 'No seatbelts entered',
   NO_SEATBELTS_ENTERED_SUBTITLE = 'The number of seatbelts fitted must be greater than zero (0) to carry out an installation check.',
@@ -237,7 +237,7 @@ export enum APP_STRINGS {
   CACHING_ENABLED_STORAGE_CLEARED = 'Storage was cleared and caching was disabled. Ride on',
   CACHING_ENABLED = 'Caching was enabled',
   UNAUTHORISED = 'Unable to authorise',
-  UNAUTHORISED_MSG = "Your account is currently not authorised to use VTA, Contact the IT service desk.",
+  UNAUTHORISED_MSG = 'Your account is currently not authorised to use VTA, Contact the IT service desk.',
   UNAUTHORISED_TEST_MSG = "Your account isn't currently authorised to test this vehicle. Call IT support.",
   WAIT_REASONS_MSG_ISSUE = "You've selected 'Site issue', give more details in notes section.",
   WAIT_REASONS_MSG_OTHER = "You've selected 'Other', give more details in notes section.",
@@ -263,7 +263,7 @@ export enum APP_STRINGS {
 
   SITE_VISIT_CLOSED_TITLE = 'Site Visit is closed',
   SITE_VISIT_CLOSED_MESSAGE = 'This Site Visit has been closed. Open a new Site Visit to continue testing.',
-  RECENTLY_FAILED_TEST_TITLE = 'Suggested test types',
+  RECENTLY_FAILED_TEST_TITLE = 'Suggested test types'
 }
 
 export enum ODOMETER_METRIC {

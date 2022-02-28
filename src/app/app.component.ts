@@ -20,7 +20,8 @@ import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   CONNECTION_STATUS,
-  TESTER_ROLES, ANALYTICS_VALUE
+  TESTER_ROLES,
+  ANALYTICS_VALUE
 } from './app.enums';
 import { AppService, AnalyticsService, SyncService, AppAlertService } from '../providers/global';
 import { ActivityService } from '../providers/activity/activity.service';
@@ -59,7 +60,7 @@ export class MyApp {
     private screenOrientation: ScreenOrientation,
     private analyticsService: AnalyticsService,
     private logProvider: LogsProvider,
-    private alertService: AppAlertService,
+    private alertService: AppAlertService
   ) {
     platform.ready().then(() => {
       Sentry.init({
