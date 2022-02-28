@@ -53,6 +53,7 @@ import {
   RetryInterceptor
 } from '../providers/auth';
 import { default as AppConfig } from '../../config/application.hybrid';
+import { HttpAlertService } from '../providers/global/http-alert-service/http-alert.service';
 
 const IONIC_NATIVE_PROVIDERS = [
   StatusBar,
@@ -124,7 +125,8 @@ const enableDevTools: boolean = AppConfig.IS_PRODUCTION === 'false';
     ...CUSTOM_PROVIDERS,
     ...IONIC_NATIVE_PROVIDERS,
     // { provide: ErrorHandler, useClass: IonicErrorHandler }
-    { provide: ErrorHandler, useClass: SentryIonicErrorHandler }
+    { provide: ErrorHandler, useClass: SentryIonicErrorHandler },
+    HttpAlertService,
   ]
 })
 export class AppModule {}

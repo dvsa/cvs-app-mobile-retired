@@ -77,7 +77,7 @@ export class HttpAlertService {
 
     // Used for automatically generating pop-ups based on response status code
     // Override parameter used for disabling popup for any particular status code
-    handleHttpResponse(response: HttpResponse<any>, override?: number[] ) {
+    handleHttpResponse(response: HttpResponse<any>, override?: number[] ): boolean {
         if (override && this.shouldOverridePopup(response, override)) {
             return;
         }
