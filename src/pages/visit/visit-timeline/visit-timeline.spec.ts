@@ -61,6 +61,7 @@ import { AuthenticationService } from '../../../providers/auth/authentication/au
 import { AuthenticationServiceMock } from './../../../../test-config/services-mocks/authentication-service.mock';
 import { AnalyticsService, DurationService } from '../../../providers/global';
 import { HttpAlertService } from '../../../providers/global/http-alert-service/http-alert.service';
+import { CallNumber } from '@ionic-native/call-number';
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -160,6 +161,7 @@ describe('Component: VisitTimelinePage', () => {
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
+        CallNumber,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });

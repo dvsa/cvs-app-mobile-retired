@@ -28,6 +28,7 @@ import { LogsProvider } from '../../../../modules/logs/logs.service';
 import { AnalyticsService } from '../../../../providers/global';
 import { ANALYTICS_SCREEN_NAMES } from '../../../../app/app.enums';
 import { HttpAlertService } from '../../../../providers/global/http-alert-service/http-alert.service';
+import { CallNumber } from '@ionic-native/call-number';
 
 describe('Component: TestCancelPage', () => {
   let component: TestCancelPage;
@@ -95,6 +96,7 @@ describe('Component: TestCancelPage', () => {
         { provide: LogsProvider, useValue: logProviderSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         HttpAlertService,
+        CallNumber,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

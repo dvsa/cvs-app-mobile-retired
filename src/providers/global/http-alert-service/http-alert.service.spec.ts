@@ -1,5 +1,6 @@
 import { HttpResponse } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
+import { CallNumber } from "@ionic-native/call-number";
 import { AlertController } from "ionic-angular";
 import { AlertControllerMock } from "ionic-mocks";
 import { HttpAlertService } from "./http-alert.service";
@@ -14,6 +15,7 @@ describe('HttpAlertService', () => {
             providers: [
                 { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
                 HttpAlertService,
+                CallNumber,
             ],
         });
         httpAlertService = TestBed.get(HttpAlertService);

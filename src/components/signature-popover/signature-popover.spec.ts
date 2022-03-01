@@ -15,6 +15,7 @@ import { LogsProvider } from '../../modules/logs/logs.service';
 import { AuthenticationService } from '../../providers/auth';
 import { AuthenticationServiceMock } from '../../../test-config/services-mocks/authentication-service.mock';
 import { HttpAlertService } from '../../providers/global/http-alert-service/http-alert.service';
+import { CallNumber } from '@ionic-native/call-number';
 
 describe('Component: SignaturePopoverComponent', () => {
   let fixture: ComponentFixture<SignaturePopoverComponent>;
@@ -41,6 +42,7 @@ describe('Component: SignaturePopoverComponent', () => {
       providers: [
         Events,
         HttpAlertService,
+        CallNumber,
         { provide: SignatureService, useClass: SignatureServiceMock },
         { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },

@@ -23,6 +23,7 @@ import { AlertController } from 'ionic-angular';
 import { LogsProvider } from '../../modules/logs/logs.service';
 import { HttpAlertService } from '../global/http-alert-service/http-alert.service';
 import { AlertControllerMock } from 'ionic-mocks';
+import { CallNumber } from '@ionic-native/call-number';
 
 describe('Provider: VehicleService', () => {
   let vehicleService: VehicleService;
@@ -72,7 +73,8 @@ describe('Provider: VehicleService', () => {
         { provide: Store, useClass: TestStore },
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
-        { provide: LogsProvider, useValue: logProviderSpy }
+        { provide: LogsProvider, useValue: logProviderSpy },
+        CallNumber,
       ]
     });
     vehicleService = TestBed.get(VehicleService);

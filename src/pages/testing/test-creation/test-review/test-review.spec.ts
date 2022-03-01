@@ -55,6 +55,7 @@ import { AnalyticsService } from '../../../../providers/global';
 import { TestModel } from '../../../../models/tests/test.model';
 import { of } from 'rxjs/observable/of';
 import { HttpAlertService } from '../../../../providers/global/http-alert-service/http-alert.service';
+import { CallNumber } from '@ionic-native/call-number';
 
 describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
@@ -95,6 +96,7 @@ describe('Component: TestReviewPage', () => {
         OpenNativeSettings,
         DefectsService,
         HttpAlertService,
+        CallNumber,
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: ActivityService, useClass: ActivityServiceMock },
