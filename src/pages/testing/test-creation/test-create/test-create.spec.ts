@@ -671,12 +671,12 @@ describe('Component: TestCreatePage', () => {
       jasmine.clock().uninstall();
     })
     it('should inform the user if a test was failed within the last 20 days', async() => {
-      jasmine.clock().mockDate(new Date('2021-09-20T13:00:00.000Z'));
+      jasmine.clock().mockDate(new Date('2021-09-21T13:00:00.000Z'));
       await component.onAddNewTestType({systemNumber: '123456'} as VehicleModel);
       expect(alertService.alertSuggestedTestTypes).toHaveBeenCalled();
     });
     it('should NOT inform the user if a test was failed over 20 days', async() => {
-      jasmine.clock().mockDate(new Date('2021-09-21T13:00:00.000Z'));
+      jasmine.clock().mockDate(new Date('2021-09-22T13:00:00.000Z'));
       await component.onAddNewTestType({systemNumber: '123456'} as VehicleModel);
       expect(alertService.alertSuggestedTestTypes).not.toHaveBeenCalled();
     });
