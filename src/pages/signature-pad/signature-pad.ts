@@ -117,7 +117,6 @@ export class SignaturePadPage implements OnInit {
             this.oid = this.authenticationService.tokenInfo.oid;
             this.signatureService.saveSignature().subscribe(
               (response) => {
-                this.httpAlertService.handleHttpResponse(response, [200]);
                 this.logProvider.dispatchLog({
                   type: 'info',
                   message: `${this.oid} - ${response.status} ${response.body.message} for API call to ${response.url}`,
@@ -131,7 +130,6 @@ export class SignaturePadPage implements OnInit {
                 this.events.publish(SIGNATURE_STATUS.SAVED_EVENT);
               },
               (error) => {
-                this.httpAlertService.handleHttpResponse(error);
                 this.logProvider.dispatchLog({
                   type: 'error-signatureService.saveSignature-showConfirm in signature-pad.ts',
                   message: `${this.oid} - ${error.status} ${error.message} for API call to ${error.url}`,

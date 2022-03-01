@@ -65,16 +65,15 @@ export class TestStationDetailsPage {
   }
 
   confirmStartVisit() {
-    const LOADING = this.loadingCtrl.create({
+    const loadingSpinner = this.loadingCtrl.create({
       content: 'Loading...'
     });
     this.isNextPageLoading = true;
 
     const { oid } = this.authenticationService.tokenInfo;
-    LOADING.present();
+    loadingSpinner.present();
     this.startVisitSubscription = this.visitService.startVisit(this.testStation).subscribe(
       (data) => {
-        this.httpAlertService.handleHttpResponse(data, [200, 201]);
         this.logProvider.dispatchLog({
           type: 'info',
           message: `${oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,
@@ -82,13 +81,13 @@ export class TestStationDetailsPage {
         });
 
         this.isNextPageLoading = false;
-        LOADING.dismiss();
+        loadingSpinner.dismiss();
         this.startVisitSubscription.unsubscribe();
         this.visitService.createVisit(this.testStation, data.body.id);
         this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, { testStation: this.testStation });
       },
       (error) => {
-        this.httpAlertService.handleHttpResponse(error);
+        this.httpAlertService.handleHttpResponse(error, [], () => this.confirmStartVisit());
         this.logProvider.dispatchLog({
           type: 'error-visitService.startVisit-confirmStartVisit in test-station-details.ts',
           message: `${oid} - failed making a call to start a visit - ${JSON.stringify(error)}`,
@@ -96,35 +95,13 @@ export class TestStationDetailsPage {
         });
 
         this.isNextPageLoading = false;
-        LOADING.dismiss();
+        loadingSpinner.dismiss();
 
         this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
           label: ANALYTICS_VALUE.START_ACTIVITY_FAILED
         });
-
-        if (error && error.error === AUTH.INTERNET_REQUIRED) {
-          const TRY_AGAIN_ALERT = this.alertCtrl.create({
-            title: APP_STRINGS.UNABLE_TO_START_VISIT,
-            message: APP_STRINGS.NO_INTERNET_CONNECTION,
-            buttons: [
-              {
-                text: APP_STRINGS.SETTINGS_BTN,
-                handler: () => {
-                  this.openNativeSettings.open('settings');
-                }
-              },
-              {
-                text: APP_STRINGS.TRY_AGAIN_BTN,
-                handler: () => {
-                  this.confirmStartVisit();
-                }
-              }
-            ]
-          });
-          TRY_AGAIN_ALERT.present();
-        }
       }
     );
   }

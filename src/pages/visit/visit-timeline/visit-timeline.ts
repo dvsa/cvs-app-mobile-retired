@@ -340,7 +340,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
     return this.activityService.submitActivity(activity).pipe(
       map((submitActivityResp) => {
-        this.httpAlertService.handleHttpResponse(submitActivityResp, [200, 201]);
         let activities: ActivityModel[] = [] as ActivityModel[];
 
         this.logProvider.dispatchLog({
@@ -361,7 +360,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       }),
       catchError((error) => {
         this.showLoading('');
-
+        this.httpAlertService.handleHttpResponse(error, [], () => this.createActivityToPost$());
         this.logProvider.dispatchLog({
           type: `${LOG_TYPES.ERROR}-activityService.submitActivity in visit-timeline.ts`,
           message: `${this.oid} -${JSON.stringify(error)}`,
@@ -384,7 +383,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     if (activityWithReasons.length > 0) {
       return this.activityService.updateActivityReasons(activityWithReasons).pipe(
         map((activityReasonResp) => {
-          this.httpAlertService.handleHttpResponse(activityReasonResp, [200]);
           this.logProvider.dispatchLog({
             type: LOG_TYPES.INFO,
             message: `${this.oid} - ${activityReasonResp.status} ${activityReasonResp.statusText} for API call to ${activityReasonResp.url}`,
@@ -395,7 +393,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         }),
         catchError((error) => {
           this.showLoading('');
-          this.httpAlertService.handleHttpResponse(error);
+          this.httpAlertService.handleHttpResponse(error, [], () => this.createActivityReasonsToPost$(activities));
           this.logProvider.dispatchLog({
             type: `${LOG_TYPES.ERROR}-activityService.updateActivityReasons in visit-timeline.ts`,
             message: `${this.oid} - ${JSON.stringify(error)}`,

@@ -90,7 +90,6 @@ export class VehicleService {
 
   getTestResultsHistory(systemNumber: string): Observable<TestResultModel[]> {
     return this.httpService.getTestResultsHistory(systemNumber).map((data) => {
-      this.httpAlertService.handleHttpResponse(data, [200]);
       this.logProvider.dispatchLog({
         type: 'info',
         message: `${this.authenticationService.tokenInfo.oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,
@@ -99,6 +98,9 @@ export class VehicleService {
 
       this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
       return data.body;
+    },
+    (error) => {
+      this.httpAlertService.handleHttpResponse(error, [], () => this.getTestResultsHistory(systemNumber));
     });
   }
 

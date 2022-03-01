@@ -165,7 +165,6 @@ describe('Component: TestReviewPage', () => {
   it('should test submitting a test', () => {
     visitService.visit = VisitDataMock.VisitData;
     component.onSubmit(VisitDataMock.VisitTestData);
-    expect(alertCtrl.create).toHaveBeenCalled();
   });
 
   it('should test submitting a test - error case on submitActivity', () => {
@@ -330,25 +329,6 @@ describe('Component: TestReviewPage', () => {
       activityServiceMock.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: true }));
       component.submitTests = jasmine.createSpy().and.callFake(() => {});
 
-      const TRY_AGAIN_ALERT = alertCtrl.create({
-        title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
-        message: APP_STRINGS.NO_INTERNET_CONNECTION,
-        buttons: [
-          {
-            text: APP_STRINGS.SETTINGS_BTN,
-            handler: () => {
-              openNativeSettings.open('settings');
-            }
-          },
-          {
-            text: APP_STRINGS.TRY_AGAIN_BTN,
-            handler: () => {
-              component.onSubmit(testModelParam);
-            }
-          }
-        ]
-      });
-
       const LOADING = loadingCtrl.create({
         content: 'Loading...'
       });
@@ -356,7 +336,7 @@ describe('Component: TestReviewPage', () => {
       component.onSubmit(testModelParam);
 
       expect(component.submitTests).toHaveBeenCalledTimes(1);
-      expect(component.submitTests).toHaveBeenCalledWith(testModelParam, LOADING, TRY_AGAIN_ALERT);
+      expect(component.submitTests).toHaveBeenCalledWith(testModelParam, LOADING);
     });
 
     it('should call visitService.createDataClearingAlert if a valid response is returned with a body of false', () => {

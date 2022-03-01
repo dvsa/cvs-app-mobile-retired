@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  Alert,
   AlertController,
   IonicPage,
   Loading,
@@ -309,31 +308,8 @@ export class TestReviewPage implements OnInit {
     });
     LOADING.present();
 
-    const TRY_AGAIN_ALERT = this.alertCtrl.create({
-      title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
-      message: APP_STRINGS.NO_INTERNET_CONNECTION,
-      buttons: [
-        {
-          text: APP_STRINGS.SETTINGS_BTN,
-          handler: () => {
-            this.openNativeSettings.open('settings');
-          }
-        },
-        {
-          text: APP_STRINGS.TRY_AGAIN_BTN,
-          handler: () => {
-            this.onSubmit(test);
-          }
-        }
-      ]
-    });
-    TRY_AGAIN_ALERT.onDidDismiss(() => {
-      this.submitInProgress = false;
-    });
-
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
-        this.httpAlertService.handleHttpResponse(response, [200]);
         if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
           const { oid } = this.authenticationService.tokenInfo;
@@ -343,14 +319,12 @@ export class TestReviewPage implements OnInit {
             timestamp: Date.now()
           });
         } else {
-          this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
+          this.submitTests(test, LOADING);
         }
       },
       (isVisitStillOpenError) => {
         LOADING.dismiss();
-        this.httpAlertService.handleHttpResponse(isVisitStillOpenError);
-        // TODO: does this need to be amended? 
-        TRY_AGAIN_ALERT.present();
+        this.httpAlertService.handleHttpResponse(isVisitStillOpenError, [], () => this.onSubmit(test));
       }
     );
   }
@@ -360,7 +334,7 @@ export class TestReviewPage implements OnInit {
    * For each vehicle, this creates a separate call to test-results
    *
    */
-  submitTests(test: TestModel, LOADING: Loading, TRY_AGAIN_ALERT: Alert): void {
+  submitTests(test: TestModel, loadingSpinner: Loading): void {
     const { oid } = this.authenticationService.tokenInfo;
     let stack: Observable<any>[] = [];
     let testResultsArr: TestResultModel[] = [];
@@ -371,7 +345,7 @@ export class TestReviewPage implements OnInit {
       stack.push(
         this.testResultService.submitTestResult(testResult).pipe(
           catchError((error: any) => {
-            this.httpAlertService.handleHttpResponse(error);
+            this.httpAlertService.handleHttpResponse(error, [], () => this.submitTests(test, loadingSpinner));
             this.logProvider.dispatchLog({
               type: 'error',
               message: `${oid} - ${JSON.stringify(
@@ -385,7 +359,11 @@ export class TestReviewPage implements OnInit {
         )
       );
     }
+    this.submitActivity(stack, testResultsArr, loadingSpinner);
+  }
 
+  submitActivity(stack: Observable<any>[], testResultsArr: TestResultModel[], loadingSpinner: Loading) {
+    const { oid } = this.authenticationService.tokenInfo;
     Observable.forkJoin(stack).subscribe(
       (response: any) => {
         this.logProvider.dispatchLog({
@@ -407,7 +385,6 @@ export class TestReviewPage implements OnInit {
           );
           this.activityService.submitActivity(activity).subscribe(
             (resp) => {
-              this.httpAlertService.handleHttpResponse(resp, [200, 201]);
               this.logProvider.dispatchLog({
                 type: LOG_TYPES.INFO,
                 message: `${oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
@@ -423,7 +400,7 @@ export class TestReviewPage implements OnInit {
               this.visitService.updateVisit();
             },
             (error) => {
-              this.httpAlertService.handleHttpResponse(error);
+              this.httpAlertService.handleHttpResponse(error, [], () => this.submitActivity(stack, testResultsArr, loadingSpinner));
               this.logProvider.dispatchLog({
                 type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-review.ts`,
                 message: `${oid} - ${JSON.stringify(error)}`,
@@ -435,15 +412,14 @@ export class TestReviewPage implements OnInit {
           );
         }
         this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
-        LOADING.dismiss();
+        loadingSpinner.dismiss();
         this.submitInProgress = false;
         this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
           testerEmailAddress: this.visit.testerEmail
         });
       },
       (error) => {
-        LOADING.dismiss();
-        TRY_AGAIN_ALERT.present();
+        loadingSpinner.dismiss();
 
         this.trackErrorOnTestSubmission(ANALYTICS_VALUE.TEST_SUBMISSION_FAILED);
       }

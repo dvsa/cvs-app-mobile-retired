@@ -113,7 +113,6 @@ export class VehicleLookupPage {
 
     this.activityService.isVisitStillOpen().subscribe(
       (response) => {
-        this.httpAlertService.handleHttpResponse(response, [200]);
         if (response && response.body === false) {
           this.visitService.createDataClearingAlert(LOADING).present();
           const { oid } = this.authenticationService.tokenInfo;
@@ -129,7 +128,7 @@ export class VehicleLookupPage {
       (errorResponse) => {
         this.searchVal = '';
         LOADING.dismiss();
-        this.httpAlertService.handleHttpResponse(errorResponse);
+        this.httpAlertService.handleHttpResponse(errorResponse, [], () => this.onSearchVehicle(searchedValue));
       }
     );
   }
@@ -183,6 +182,7 @@ export class VehicleLookupPage {
           }
         },
         (error) => {
+          this.httpAlertService.handleHttpResponse(error, [], () => this.searchVehicle(searchedValue, LOADING));
           this.logProvider.dispatchLog({
             type: 'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
             message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
@@ -191,7 +191,6 @@ export class VehicleLookupPage {
 
           this.searchVal = '';
           LOADING.dismiss();
-          this.showAlert();
           this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RECORD_FAILED);
         }
       );
@@ -212,17 +211,6 @@ export class VehicleLookupPage {
     this.navCtrl.pop();
   }
 
-  showAlert() {
-    const alert = this.alertCtrl.create({
-      title: APP_STRINGS.VEHICLE_NOT_FOUND,
-      message: APP_STRINGS.VEHICLE_NOT_FOUND_MESSAGE,
-      enableBackdropDismiss: false,
-      buttons: ['OK']
-    });
-    alert.present();
-    this.trackErrorOnSearchRecord(ANALYTICS_VALUE.VEHICLE_NOT_FOUND);
-  }
-
   goToVehicleDetails(vehicleData: VehicleModel) {
     this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
       test: this.testData,
@@ -235,41 +223,6 @@ export class VehicleLookupPage {
       test: this.testData,
       vehicles: multipleVehicleData
     });
-  }
-
-  private handleError(vehicleData: VehicleModel): Observable<any> {
-    let alert = this.alertCtrl.create({
-      title: 'Unable to load data',
-      enableBackdropDismiss: false,
-      message: 'Make sure you are connected to the internet and try again',
-      buttons: [
-        {
-          text: APP_STRINGS.SETTINGS_BTN,
-          handler: () => {
-            this.openNativeSettings.open('settings');
-            this.handleError(vehicleData);
-          }
-        },
-        {
-          text: 'Call Technical Support',
-          handler: () => {
-            this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
-              (data) => console.log(data),
-              (err) => console.log(err)
-            );
-            return false;
-          }
-        },
-        {
-          text: 'Try again',
-          handler: () => {
-            this.vehicleService.getTestResultsHistory(vehicleData.vin);
-          }
-        }
-      ]
-    });
-    alert.present();
-    return _throw('Something bad happened; please try again later.');
   }
 
   getSearchFieldPlaceholder() {

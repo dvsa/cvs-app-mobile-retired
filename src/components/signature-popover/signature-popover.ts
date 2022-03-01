@@ -6,7 +6,6 @@ import { AppService } from '../../providers/global/app.service';
 import { LogsProvider } from '../../modules/logs/logs.service';
 import { AuthenticationService } from '../../providers/auth/authentication/authentication.service';
 import { APP_STRINGS, LOCAL_STORAGE, SIGNATURE_STATUS } from '../../app/app.enums';
-import { HttpAlertService } from '../../providers/global/http-alert-service/http-alert.service';
 
 @Component({
   selector: 'signature-popover',
@@ -25,7 +24,6 @@ export class SignaturePopoverComponent implements OnInit {
     public signatureService: SignatureService,
     private authenticationService: AuthenticationService,
     private logProvider: LogsProvider,
-    private httpAlertService: HttpAlertService,
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +44,6 @@ export class SignaturePopoverComponent implements OnInit {
       this.viewCtrl.dismiss().then(() => {
         this.signatureService.saveSignature().subscribe(
           (response) => {
-            this.httpAlertService.handleHttpResponse(response, [200]);
             this.logProvider.dispatchLog({
               type: 'info',
               message: `${oid} - ${response.status} ${response.body.message} for API call to ${response.url}`,

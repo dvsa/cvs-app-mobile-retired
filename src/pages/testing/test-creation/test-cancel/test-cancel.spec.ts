@@ -165,14 +165,13 @@ describe('Component: TestCancelPage', () => {
 
   it('should test submitting a test - success case', () => {
     visitServiceMock.visit = VisitDataMock.VisitData;
-    component.submit(VisitDataMock.VisitTestData);
-    expect(alertCtrl.create).toHaveBeenCalled();
+    component.submitTest(VisitDataMock.VisitTestData);
   });
 
   it('should test submitting a test - error case on submitActivity', () => {
     visitServiceMock.visit = VisitDataMock.VisitData;
     activityServiceMock.isSubmitError = true;
-    component.submit(VisitDataMock.VisitTestData);
+    component.submitTest(VisitDataMock.VisitTestData);
     expect(logProvider.dispatchLog).toHaveBeenCalled();
   });
 
@@ -184,10 +183,10 @@ describe('Component: TestCancelPage', () => {
   });
 
   it('should test the submit.s handler', () => {
-    spyOn(component, 'submit');
+    spyOn(component, 'submitTest');
     component.testData = testReport;
     component.submitHandler();
     expect(testReportService.endTestReport).toHaveBeenCalled();
-    expect(component.submit).toHaveBeenCalled();
+    expect(component.submitTest).toHaveBeenCalled();
   });
 });

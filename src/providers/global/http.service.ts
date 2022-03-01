@@ -21,7 +21,6 @@ export class HTTPService {
 
   constructor(private http: HttpClient) {}
   
-  //Not used in app, can be removed?
   getAtfs(): Observable<HttpResponse<TestStationReferenceDataModel[]>> {
     return this.http.get<TestStationReferenceDataModel[]>(
       `${AppConfig.app.BACKEND_URL}/test-stations`,
@@ -31,14 +30,12 @@ export class HTTPService {
     );
   }
 
-  //Not used in app, can be removed?
   getDefects(): Observable<HttpResponse<DefectItemReferenceDataModel[]>> {
     return this.http.get<DefectItemReferenceDataModel[]>(`${AppConfig.app.BACKEND_URL}/defects`, {
       observe: 'response'
     });
   }
 
-  //Not used in app, can be removed?
   getTestTypes(): Observable<HttpResponse<TestTypesReferenceDataModel[]>> {
     return this.http.get<TestTypesReferenceDataModel[]>(
       `${AppConfig.app.BACKEND_URL}/test-types`,
@@ -48,7 +45,6 @@ export class HTTPService {
     );
   }
 
-  //Not used in app, can be removed?
   getPreparers(): Observable<HttpResponse<PreparersReferenceDataModel[]>> {
     return this.http.get<PreparersReferenceDataModel[]>(
       `${AppConfig.app.BACKEND_URL}/preparers`,
@@ -75,41 +71,45 @@ export class HTTPService {
   }
 
   getTestResultsHistory(systemNumber: string): Observable<HttpResponse<TestResultModel[]>> {
-    return this.http.get<TestResultModel[]>(
-      `${AppConfig.app.BACKEND_URL}/test-results/${systemNumber}`,
-      { observe: 'response' }
-    );
+    // return this.http.get<TestResultModel[]>(
+    //   `${AppConfig.app.BACKEND_URL}/test-results/${systemNumber}`,
+    //   { observe: 'response' }
+    // );
+    return Observable.throw(new HttpErrorResponse({ status: 504 }));
   }
 
   postTestResult(body): Observable<HttpResponse<any>> {
-    return this.http.post<TestResultModel>(`${AppConfig.app.BACKEND_URL}/test-results`, body, {
+    // return this.http.post<TestResultModel>(`${AppConfig.app.BACKEND_URL}/test-results`, body, {
+    //   observe: 'response'
+    // });
+    return Observable.throw(new HttpErrorResponse({ status: 504 }));
+  }
+
+  startVisit(activities: ActivityModel): Observable<HttpResponse<any>> {
+    return this.http.post(`${AppConfig.app.BACKEND_URL}/activities`, activities, {
       observe: 'response'
     });
   }
 
-  startVisit(activities: ActivityModel): Observable<HttpResponse<any>> {
+  endVisit(visitID: string): Observable<HttpResponse<any>> {
+    // return this.http.put(`${AppConfig.app.BACKEND_URL}/activities/${visitID}/end`, null, {
+    //   observe: 'response'
+    // });
+    return Observable.throw(new HttpErrorResponse({ status: 504 }));
+  }
+
+  postActivity(activities: ActivityModel): Observable<HttpResponse<any>> {
     // return this.http.post(`${AppConfig.app.BACKEND_URL}/activities`, activities, {
     //   observe: 'response'
     // });
     return Observable.throw(new HttpErrorResponse({ status: 504 }));
   }
 
-  endVisit(visitID: string): Observable<HttpResponse<any>> {
-    return this.http.put(`${AppConfig.app.BACKEND_URL}/activities/${visitID}/end`, null, {
-      observe: 'response'
-    });
-  }
-
-  postActivity(activities: ActivityModel): Observable<HttpResponse<any>> {
-    return this.http.post(`${AppConfig.app.BACKEND_URL}/activities`, activities, {
-      observe: 'response'
-    });
-  }
-
   updateActivity(activities): Observable<HttpResponse<any>> {
-    return this.http.put(`${AppConfig.app.BACKEND_URL}/activities/update`, activities, {
-      observe: 'response'
-    });
+    // return this.http.put(`${AppConfig.app.BACKEND_URL}/activities/update`, activities, {
+    //   observe: 'response'
+    // });
+    return Observable.throw(new HttpErrorResponse({ status: 504 }));
   }
 
   /**

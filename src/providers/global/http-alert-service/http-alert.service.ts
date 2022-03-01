@@ -18,7 +18,7 @@ export class HttpAlertService {
         500 : { title: 'Internal Server Error', subTitle: 'something else', showCallITButton: true, showRetryButton: true },
         502 : { title: 'Bad Gateway', subTitle: 'something else', showCallITButton: true, showRetryButton: true },
         503 : { title: 'Service Unavailable', subTitle: 'something else', showCallITButton: true, showRetryButton: true },
-        504 : { title: 'Timed Out', subTitle: 'something else', showCallITButton: true, showRetryButton: true },
+        504 : { title: 'Timed Out', subTitle: 'Please check your internet connection and try again.', showCallITButton: true, showRetryButton: true },
     }
 
     constructor(
@@ -43,14 +43,13 @@ export class HttpAlertService {
         return { title: 'Default', subTitle: 'Default', showCallItButton: false, showRetryButton: false }
     }
 
-    getButtons(statusCode: number): string[] {
+    getButtons(statusCode: number, callbackFunction?: Function): object[] {
         let newarray = [
             { 
                 text:'OK',
                 handler: () => {},
             },
         ];
-        let array = ['OK'];
         const statusCodeData = this.getStatusCodeData(statusCode);
         if (statusCodeData.showCallITButton) {
             newarray.push({
@@ -58,18 +57,19 @@ export class HttpAlertService {
                 handler: () => this.callIt(),
             });
         }
-        if (statusCodeData.showRetryButton) {
-            array.push('Retry');
+        console.log(callbackFunction);
+        console.log(statusCodeData);
+        if (callbackFunction && statusCodeData.showRetryButton) {
+            newarray.push({
+                text: 'Retry',
+                handler: () => callbackFunction(),
+            });
         }
-        return array;
+        return newarray;
     }
 
     callIt() {
-        // this.callNumber.callNumber('AppConfig.app.KEY_PHONE_NUMBER', true).then(
-        //   (data) => console.log(data),
-        //   (err) => console.log(err)
-        // );
-        this.callNumber.callNumber('07376098273', true).then(
+        this.callNumber.callNumber('AppConfig.app.KEY_PHONE_NUMBER', true).then(
           (data) => console.log(data),
           (err) => console.log(err)
         );
@@ -77,19 +77,19 @@ export class HttpAlertService {
 
     // Used for automatically generating pop-ups based on response status code
     // Override parameter used for disabling popup for any particular status code
-    handleHttpResponse(response: HttpResponse<any>, override?: number[] ): boolean {
+    async handleHttpResponse(response: HttpResponse<any>, override?: number[], callbackFunction?: Function) {
         if (override && this.shouldOverridePopup(response, override)) {
             return;
         }
         const statusCodeData = this.getStatusCodeData(response.status);
-        const buttons = this.getButtons(response.status);
+        const buttons = this.getButtons(response.status, callbackFunction);
         const alert = this.alertController.create({
           title: statusCodeData.title,
           message: statusCodeData.subTitle,
           enableBackdropDismiss: false,
           buttons: buttons,
         });
-        alert.present();
+        await alert.present();
     }
 
 }

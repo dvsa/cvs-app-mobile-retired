@@ -1,13 +1,13 @@
 import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_LABEL,
   ANALYTICS_VALUE
 } from './../../../../app/app.enums';
 import { Component } from '@angular/core';
 import {
   AlertController,
   IonicPage,
+  Loading,
   LoadingController,
   NavController,
   NavParams
@@ -16,7 +16,6 @@ import { TestModel } from '../../../../models/tests/test.model';
 import { TestService } from '../../../../providers/test/test.service';
 import {
   ANALYTICS_SCREEN_NAMES,
-  APP_STRINGS,
   LOG_TYPES,
   PAGE_NAMES,
   TEST_REPORT_STATUSES
@@ -72,7 +71,7 @@ export class TestCancelPage {
     this.testData.reasonForCancellation = this.cancellationReason;
     this.testReportService.endTestReport(this.testData);
     this.nextAlert = true;
-    this.submit(this.testData);
+    this.submitTest(this.testData);
   }
 
   onSubmit() {
@@ -107,29 +106,9 @@ export class TestCancelPage {
     alert.onDidDismiss(() => (this.changeOpacity = this.nextAlert));
   }
 
-  submit(test) {
+  submitTest(test) {
     let stack: Observable<any>[] = [];
     const { oid } = this.authenticationService.tokenInfo;
-
-    const TRY_AGAIN_ALERT = this.alertCtrl.create({
-      title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
-      message: APP_STRINGS.NO_INTERNET_CONNECTION,
-      buttons: [
-        {
-          text: APP_STRINGS.SETTINGS_BTN,
-          handler: () => {
-            this.openNativeSettings.open('settings');
-          }
-        },
-        {
-          text: APP_STRINGS.TRY_AGAIN_BTN,
-          handler: () => {
-            this.tryAgain = true;
-            this.submit(this.testData);
-          }
-        }
-      ]
-    });
 
     const LOADING = this.loadingCtrl.create({
       content: 'Loading...'
@@ -150,7 +129,7 @@ export class TestCancelPage {
       stack.push(
         this.testResultService.submitTestResult(testResult).pipe(
           catchError((error: any) => {
-            this.httpAlertService.handleHttpResponse(error);
+            this.httpAlertService.handleHttpResponse(error, [], () => this.submitTest(test));
             this.logProvider.dispatchLog({
               type: LOG_TYPES.ERROR,
               message: `${oid} - ${JSON.stringify(
@@ -164,7 +143,11 @@ export class TestCancelPage {
         )
       );
     }
+    this.submitActivity(stack, testResultsArr, LOADING);
+  }
 
+  submitActivity(stack: Observable<any>[], testResultsArr: TestResultModel[], loadingSpinner: Loading) {
+    const { oid } = this.authenticationService.tokenInfo;
     Observable.forkJoin(stack).subscribe(
       (response: any) => {
         this.logProvider.dispatchLog({
@@ -203,6 +186,7 @@ export class TestCancelPage {
               this.visitService.updateVisit();
             },
             (error) => {
+              this.httpAlertService.handleHttpResponse(error, [], () => this.submitActivity(stack, testResultsArr, loadingSpinner));
               this.logProvider.dispatchLog({
                 type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-cancel.ts`,
                 message: `${oid} - ${JSON.stringify(error)}`,
@@ -217,7 +201,7 @@ export class TestCancelPage {
             }
           );
         }
-        LOADING.dismiss();
+        loadingSpinner.dismiss();
         let views = this.navCtrl.getViews();
         for (let i = views.length - 1; i >= 0; i--) {
           if (views[i].component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
@@ -226,25 +210,18 @@ export class TestCancelPage {
         }
       },
       (error) => {
-        LOADING.dismiss();
-        TRY_AGAIN_ALERT.present();
+        loadingSpinner.dismiss();
 
         this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
           label: ANALYTICS_VALUE.TEST_SUBMISSION_FAILED
         });
-
-        TRY_AGAIN_ALERT.onDidDismiss(() => {
-          if (!this.tryAgain) {
-            this.nextAlert = this.changeOpacity = false;
-          } else {
-            this.tryAgain = false;
-          }
-        });
       }
     );
   }
+
+
 
   isValidReason() {
     return this.cancellationReason.trim().length > 0;
