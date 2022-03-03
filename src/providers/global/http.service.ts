@@ -71,18 +71,16 @@ export class HTTPService {
   }
 
   getTestResultsHistory(systemNumber: string): Observable<HttpResponse<TestResultModel[]>> {
-    // return this.http.get<TestResultModel[]>(
-    //   `${AppConfig.app.BACKEND_URL}/test-results/${systemNumber}`,
-    //   { observe: 'response' }
-    // );
-    return Observable.throw(new HttpErrorResponse({ status: 504 }));
+    return this.http.get<TestResultModel[]>(
+      `${AppConfig.app.BACKEND_URL}/test-results/${systemNumber}`,
+      { observe: 'response' }
+    );
   }
 
   postTestResult(body): Observable<HttpResponse<any>> {
-    // return this.http.post<TestResultModel>(`${AppConfig.app.BACKEND_URL}/test-results`, body, {
-    //   observe: 'response'
-    // });
-    return Observable.throw(new HttpErrorResponse({ status: 504 }));
+    return this.http.post<TestResultModel>(`${AppConfig.app.BACKEND_URL}/test-results`, body, {
+      observe: 'response'
+    });
   }
 
   startVisit(activities: ActivityModel): Observable<HttpResponse<any>> {
@@ -99,10 +97,9 @@ export class HTTPService {
   }
 
   postActivity(activities: ActivityModel): Observable<HttpResponse<any>> {
-    // return this.http.post(`${AppConfig.app.BACKEND_URL}/activities`, activities, {
-    //   observe: 'response'
-    // });
-    return Observable.throw(new HttpErrorResponse({ status: 504 }));
+    return this.http.post(`${AppConfig.app.BACKEND_URL}/activities`, activities, {
+      observe: 'response'
+    });
   }
 
   updateActivity(activities): Observable<HttpResponse<any>> {

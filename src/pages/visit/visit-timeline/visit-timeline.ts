@@ -269,7 +269,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
     return this.visitService.endVisit(this.visit.id).pipe(
       mergeMap((endVisitResp) => {
-        this.httpAlertService.handleHttpResponse(endVisitResp, [200]);
         const { wasVisitAlreadyClosed } = endVisitResp.body;
 
         this.logProvider.dispatchLog({
@@ -301,6 +300,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           message: `${this.oid} - ${JSON.stringify(error)}`,
           timestamp: Date.now()
         });
+        this.httpAlertService.handleHttpResponse(error, [], () => this.confirmEndVisit$());
 
         this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,

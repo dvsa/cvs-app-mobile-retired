@@ -57,8 +57,6 @@ export class HttpAlertService {
                 handler: () => this.callIt(),
             });
         }
-        console.log(callbackFunction);
-        console.log(statusCodeData);
         if (callbackFunction && statusCodeData.showRetryButton) {
             newarray.push({
                 text: 'Retry',
