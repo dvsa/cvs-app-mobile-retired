@@ -90,10 +90,9 @@ export class HTTPService {
   }
 
   endVisit(visitID: string): Observable<HttpResponse<any>> {
-    // return this.http.put(`${AppConfig.app.BACKEND_URL}/activities/${visitID}/end`, null, {
-    //   observe: 'response'
-    // });
-    return Observable.throw(new HttpErrorResponse({ status: 504 }));
+    return this.http.put(`${AppConfig.app.BACKEND_URL}/activities/${visitID}/end`, null, {
+      observe: 'response'
+    });
   }
 
   postActivity(activities: ActivityModel): Observable<HttpResponse<any>> {
@@ -103,10 +102,9 @@ export class HTTPService {
   }
 
   updateActivity(activities): Observable<HttpResponse<any>> {
-    // return this.http.put(`${AppConfig.app.BACKEND_URL}/activities/update`, activities, {
-    //   observe: 'response'
-    // });
-    return Observable.throw(new HttpErrorResponse({ status: 504 }));
+    return this.http.put(`${AppConfig.app.BACKEND_URL}/activities/update`, activities, {
+      observe: 'response'
+    });
   }
 
   /**
