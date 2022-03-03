@@ -148,6 +148,7 @@ export class TestCancelPage {
 
   submitActivity(stack: Observable<any>[], testResultsArr: TestResultModel[], loadingSpinner: Loading) {
     const { oid } = this.authenticationService.tokenInfo;
+    let activitiesSubmitted = true;
     Observable.forkJoin(stack).subscribe(
       (response: any) => {
         this.logProvider.dispatchLog({
@@ -198,14 +199,18 @@ export class TestCancelPage {
                 event: ANALYTICS_EVENTS.TEST_ERROR,
                 label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED
               });
+              activitiesSubmitted = false;
+
             }
           );
         }
         loadingSpinner.dismiss();
-        let views = this.navCtrl.getViews();
-        for (let i = views.length - 1; i >= 0; i--) {
-          if (views[i].component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-            this.navCtrl.popTo(views[i]);
+        if (activitiesSubmitted) {
+          let views = this.navCtrl.getViews();
+          for (let i = views.length - 1; i >= 0; i--) {
+            if (views[i].component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
+              this.navCtrl.popTo(views[i]);
+            }
           }
         }
       },

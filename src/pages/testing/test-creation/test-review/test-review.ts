@@ -364,6 +364,7 @@ export class TestReviewPage implements OnInit {
 
   submitActivity(stack: Observable<any>[], testResultsArr: TestResultModel[], loadingSpinner: Loading) {
     const { oid } = this.authenticationService.tokenInfo;
+    let activitiesSubmitted = true;
     Observable.forkJoin(stack).subscribe(
       (response: any) => {
         this.logProvider.dispatchLog({
@@ -406,17 +407,19 @@ export class TestReviewPage implements OnInit {
                 message: `${oid} - ${JSON.stringify(error)}`,
                 timestamp: Date.now()
               });
-
+              activitiesSubmitted = false;
               this.trackErrorOnTestSubmission(ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED);
             }
           );
         }
-        this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
         loadingSpinner.dismiss();
-        this.submitInProgress = false;
-        this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
-          testerEmailAddress: this.visit.testerEmail
-        });
+        if (activitiesSubmitted) {
+          this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
+          this.submitInProgress = false;
+          this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
+            testerEmailAddress: this.visit.testerEmail
+          });
+        }
       },
       (error) => {
         loadingSpinner.dismiss();
