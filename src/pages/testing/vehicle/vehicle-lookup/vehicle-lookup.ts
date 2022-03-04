@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
 import {
   AlertController,
   IonicPage,
+  Loading,
   LoadingController,
   ModalController,
   NavController,
@@ -133,7 +134,7 @@ export class VehicleLookupPage {
     );
   }
 
-  searchVehicle(searchedValue: string, LOADING) {
+  searchVehicle(searchedValue: string, loadingSpinner: Loading) {
     const { oid } = this.authenticationService.tokenInfo;
 
     this.vehicleService
@@ -148,6 +149,7 @@ export class VehicleLookupPage {
               this.goToVehicleDetails(vehicleData[0]);
             },
             error: (error) => {
+              this.httpAlertService.handleHttpResponse(error, [], () => this.searchVehicle(searchedValue, loadingSpinner));
               this.logProvider.dispatchLog({
                 type:
                   'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
@@ -164,25 +166,25 @@ export class VehicleLookupPage {
           };
           if (vehicleData.length > 1) {
             this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
-              LOADING.dismiss();
+              loadingSpinner.dismiss();
             });
           } else if (
             vehicleData.length === 1 &&
             this.vehicleService.isVehicleSkeleton(vehicleData[0])
           ) {
             this.vehicleService.createSkeletonAlert(this.alertCtrl);
-            LOADING.dismiss();
+            loadingSpinner.dismiss();
           } else {
             this.vehicleService
               .getTestResultsHistory(vehicleData[0].systemNumber)
               .subscribe(testHistoryResponseObserver)
               .add(() => {
-                LOADING.dismiss();
+                loadingSpinner.dismiss();
               });
           }
         },
         (error) => {
-          this.httpAlertService.handleHttpResponse(error, [], () => this.searchVehicle(searchedValue, LOADING));
+          this.httpAlertService.handleHttpResponse(error, [], () => this.searchVehicle(searchedValue, loadingSpinner));
           this.logProvider.dispatchLog({
             type: 'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
             message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
@@ -190,7 +192,7 @@ export class VehicleLookupPage {
           });
 
           this.searchVal = '';
-          LOADING.dismiss();
+          loadingSpinner.dismiss();
           this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RECORD_FAILED);
         }
       );

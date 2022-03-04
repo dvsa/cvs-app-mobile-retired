@@ -74,7 +74,6 @@ export class VehicleService {
     return this.httpService
       .getTechRecords(searchedValue.toUpperCase(), searchCriteriaQueryParam)
       .map((techRecordsResponse: HttpResponse<VehicleTechRecordModel[]>) => {
-        this.httpAlertService.handleHttpResponse(techRecordsResponse, [200]);
         this.logProvider.dispatchLog({
           type: 'info',
           message: `${this.authenticationService.tokenInfo.oid} - ${techRecordsResponse.status} ${techRecordsResponse.statusText} for API call to ${techRecordsResponse.url}`,
@@ -98,10 +97,7 @@ export class VehicleService {
 
       this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
       return data.body;
-    },
-    (error) => {
-      this.httpAlertService.handleHttpResponse(error, [], () => this.getTestResultsHistory(systemNumber));
-    });
+    })
   }
 
   setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string): VehicleModel {
