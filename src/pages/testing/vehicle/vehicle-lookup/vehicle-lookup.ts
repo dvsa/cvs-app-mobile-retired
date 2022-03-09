@@ -41,11 +41,12 @@ import { LogsProvider } from '../../../../modules/logs/logs.service';
 })
 export class VehicleLookupPage {
   testData: TestModel;
-  searchVal: string = '';
+  mosearchVal: string = '';
   title: string = '';
   searchPlaceholder = '';
   isCombinationTest: boolean = false;
   selectedSearchCriteria: string;
+  searchVal: string;
 
   constructor(
     public navCtrl: NavController,
@@ -104,6 +105,7 @@ export class VehicleLookupPage {
    * When clicking the search button, check if the visit is open
    */
   onSearchVehicle(searchedValue: string): void {
+    let trimmedSearchedValue = searchedValue.replace(/\s/g, "");
     const LOADING = this.loadingCtrl.create({
       content: 'Loading...'
     });
@@ -120,7 +122,7 @@ export class VehicleLookupPage {
             timestamp: Date.now()
           });
         } else {
-          this.searchVehicle(searchedValue, LOADING);
+          this.searchVehicle(trimmedSearchedValue, LOADING);
         }
       },
       (isVisitStillOpenError) => {
@@ -158,7 +160,8 @@ export class VehicleLookupPage {
               this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
               this.goToVehicleDetails(vehicleData[0]);
             },
-            complete: function() {}
+            complete: function() {
+            }
           };
           if (vehicleData.length > 1) {
             this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
