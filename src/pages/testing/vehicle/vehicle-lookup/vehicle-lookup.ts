@@ -41,13 +41,12 @@ import { LogsProvider } from '../../../../modules/logs/logs.service';
 })
 export class VehicleLookupPage {
   testData: TestModel;
-  mosearchVal: string = '';
+  searchVal: string = '';
   title: string = '';
   searchPlaceholder = '';
   isCombinationTest: boolean = false;
   selectedSearchCriteria: string;
-  searchVal: string;
-
+  
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

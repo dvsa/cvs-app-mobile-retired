@@ -259,7 +259,7 @@ describe('Component: VehicleLookupPage', () => {
       expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(0);
     });
 
-    fit('should remove the blank spaces from search param', () => {
+    it('should remove the blank spaces from search param', () => {
       activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: true }));
       component.searchVehicle = jasmine.createSpy().and.callFake(() => {
       });
