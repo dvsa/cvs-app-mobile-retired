@@ -436,15 +436,6 @@ export enum WAIT_TIME_REASONS {
   OTHER = 'Other'
 }
 
-export enum DURATION_TYPE {
-  SEARCH_VEHICLE,
-  CONFIRM_VEHICLE,
-  CONFIRM_PREPARER,
-  ODOMETER_READING,
-  DEFECT_TIME,
-  TEST_TYPE
-}
-
 export enum ANALYTICS_EVENT_CATEGORIES {
   MOBILE_ACCESSIBILITY = 'accessibility',
   APP_UPDATE = 'app_update',
@@ -490,30 +481,6 @@ export enum ANALYTICS_LABEL {
   TEST_TYPE_NAME = 'test_type_name',
   ERROR = 'error',
   MISSING_MADATORY_FIELD = 'missing_mandatory_field',
-
-  ADD_DEFECT_START_TIME = 'add_defect_start_time',
-  ADD_DEFECT_END_TIME = 'add_defect_end_time',
-  ADD_DEFECT_TIME_TAKEN = 'add_defect_time_taken',
-
-  ADD_ODOMETER_READING_START_TIME = 'add_odometer_reading_start_time',
-  ADD_ODOMETER_READING_END_TIME = 'add_odometer_reading_end_time',
-  ADD_ODOMETER_READING_TIME_TAKEN = 'add_odometer_reading_time_taken',
-
-  ADD_TEST_TYPE_START_TIME = 'add_test_type_start_time',
-  ADD_TEST_TYPE_END_TIME = 'add_test_type_end_time',
-  ADD_TEST_TYPE_TIME_TAKEN = 'add_test_type_time_taken',
-
-  SEARCH_VEHICLE_START_TIME = 'search_vehicle_start_time',
-  SEARCH_VEHICLE_END_TIME = 'search_vehicle_end_time',
-  SEARCH_VEHICLE_TIME_TAKEN = 'search_vehicle_time_taken',
-
-  CONFIRM_VEHICLE_START_TIME = 'confirm_vehicle_start_time',
-  CONFIRM_VEHICLE_END_TIME = 'confirm_vehicle_end_time',
-  CONFIRM_VEHICLE_TIME_TAKEN = 'confirm_vehicle_time_taken',
-
-  CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken',
-  CONFIRM_PREPARER_START_TIME = 'confirm_preparer_start_time',
-  CONFIRM_PREPARER_END_TIME = 'confirm_preparer_end_time'
 }
 
 export enum ANALYTICS_VALUE {

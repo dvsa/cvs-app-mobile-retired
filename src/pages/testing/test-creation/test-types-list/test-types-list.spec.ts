@@ -16,18 +16,13 @@ import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.m
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
 import {
-  ANALYTICS_EVENT_CATEGORIES,
-  ANALYTICS_EVENTS,
-  ANALYTICS_LABEL,
   APP_STRINGS,
-  DURATION_TYPE,
   TEST_TYPE_RESULTS
 } from '../../../../app/app.enums';
 import { NavControllerMock, ViewControllerMock } from 'ionic-mocks';
 import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
 import { AuthenticationServiceMock } from '../../../../../test-config/services-mocks/authentication-service.mock';
-import { AnalyticsService, DurationService } from '../../../../providers/global';
-import { Duration } from '../../../../models/duration.model';
+import { AnalyticsService } from '../../../../providers/global';
 import { of } from 'rxjs/observable/of';
 
 describe('Component: TestTypesListPage', () => {
@@ -45,7 +40,6 @@ describe('Component: TestTypesListPage', () => {
   let vehicleData: VehicleModel = VehicleDataMock.VehicleData;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
-  let durationService: DurationService;
 
   const testTypes: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
   const vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
@@ -83,7 +77,6 @@ describe('Component: TestTypesListPage', () => {
       providers: [
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         CommonFunctionsService,
-        DurationService,
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: TestTypeService, useClass: TestTypeServiceMock },
         { provide: TestTypeService, useValue: testTypeServiceSpy },
@@ -106,7 +99,6 @@ describe('Component: TestTypesListPage', () => {
     vehicleService = TestBed.get(VehicleService);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
     analyticsService = TestBed.get(AnalyticsService);
-    durationService = TestBed.get(DurationService);
   });
 
   beforeEach(() => {
@@ -236,49 +228,5 @@ describe('Component: TestTypesListPage', () => {
   it('should check if navCtrl.pop was called', () => {
     comp.cancelTypes();
     expect(navCtrl.pop).toHaveBeenCalled();
-  });
-
-  describe('selectedItem: testType', () => {
-    let getDurationSpy: jasmine.Spy, getTakenDurationSpy: jasmine.Spy;
-    let timeStart: number;
-    let timeEnd: number;
-
-    beforeEach(() => {
-      timeStart = 1620242516913;
-      timeEnd = 1620243020205;
-      spyOn(Date, 'now').and.returnValue(timeEnd);
-
-      spyOn(durationService, 'setDuration');
-      getDurationSpy = spyOn(durationService, 'getDuration');
-      getTakenDurationSpy = spyOn(durationService, 'getTakenDuration');
-    });
-
-    it('should track duration when testType are added', () => {
-      const strType: string = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];
-      const duration: Duration = { start: timeStart, end: timeEnd };
-      getDurationSpy.and.returnValue(duration);
-      getTakenDurationSpy.and.returnValue(timeEnd);
-
-      comp.selectedItem(testTypes[0], vehicleData);
-
-      expect(durationService.setDuration).toHaveBeenCalledWith({ end: timeEnd }, strType);
-      expect(durationService.getDuration).toHaveBeenCalledWith(strType);
-      expect(durationService.getTakenDuration).toHaveBeenCalledWith(duration);
-    });
-
-    it('should log event and duratinon', async () => {
-      const label = 'ADD_TEST_TYPE_START_TIME',
-        value = timeEnd.toString();
-      await comp.trackAddTestTypeDuration(label, value);
-
-      expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
-        event: ANALYTICS_EVENTS.ADD_TEST_TYPE_TIME_TAKEN,
-        label: ANALYTICS_LABEL[label]
-      });
-
-      const key = Object.keys(ANALYTICS_LABEL).indexOf(label) + 1;
-      expect(analyticsService.addCustomDimension).toHaveBeenCalledWith(key, value);
-    });
   });
 });

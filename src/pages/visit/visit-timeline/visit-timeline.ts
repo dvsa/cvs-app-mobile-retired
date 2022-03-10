@@ -8,7 +8,7 @@ import {
   NavController,
   NavParams,
   ModalController,
-  Alert, Platform
+  Alert
 } from 'ionic-angular';
 import { TestService } from '../../../providers/test/test.service';
 import { VisitService } from '../../../providers/visit/visit.service';
@@ -18,7 +18,6 @@ import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_EVENTS,
   ANALYTICS_EVENT_CATEGORIES,
-  ANALYTICS_LABEL,
   ANALYTICS_VALUE,
   APP_STRINGS,
   STORAGE,
@@ -29,10 +28,9 @@ import {
   VISIT,
   LOG_TYPES,
   VEHICLE_TYPE,
-  DURATION_TYPE
 } from '../../../app/app.enums';
 import { StorageService } from '../../../providers/natives/storage.service';
-import { AppService, AnalyticsService, DurationService } from '../../../providers/global';
+import { AppService, AnalyticsService } from '../../../providers/global';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
 import { ActivityModel } from '../../../models/visit/activity.model';
@@ -43,7 +41,6 @@ import { Observable, Subscription } from 'rxjs';
 import { LogsProvider } from '../../../modules/logs/logs.service';
 import { of } from 'rxjs/observable/of';
 import { catchError, filter, map, mergeMap } from 'rxjs/operators';
-import { CommonFunctionsService } from '../../../providers/utils/common-functions';
 
 @IonicPage()
 @Component({
@@ -80,11 +77,9 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     private storageService: StorageService,
     private openNativeSettings: OpenNativeSettings,
     private analyticsService: AnalyticsService,
-    private durationService: DurationService,
     private modalCtrl: ModalController,
     private formatVrmPipe: FormatVrmPipe,
     private logProvider: LogsProvider,
-    private platform: Platform
   ) {
     this.timeline = [];
     // this.platform.ready().then(() => {
@@ -121,11 +116,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   createNewTestReport(): void {
-    this.durationService.setDuration(
-      { start: Date.now() },
-      DURATION_TYPE[DURATION_TYPE.SEARCH_VEHICLE]
-    );
-
     let test = this.testReportService.createTest();
     this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, { test: test });
     // clearTimeout(this.activityService.waitTimer);

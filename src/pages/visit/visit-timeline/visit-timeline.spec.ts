@@ -44,7 +44,6 @@ import {
   ANALYTICS_VALUE,
   APP_STRINGS,
   AUTH,
-  DURATION_TYPE,
   PAGE_NAMES,
   STORAGE,
   VEHICLE_TYPE
@@ -57,8 +56,7 @@ import { LogsProvider } from '../../../modules/logs/logs.service';
 import { ActivityModel } from '../../../models/visit/activity.model';
 import { AuthenticationService } from '../../../providers/auth/authentication/authentication.service';
 import { AuthenticationServiceMock } from './../../../../test-config/services-mocks/authentication-service.mock';
-import { AnalyticsService, DurationService } from '../../../providers/global';
-import { VisitDataMock } from '../../../assets/data-mocks/visit-data.mock';
+import { AnalyticsService } from '../../../providers/global';
 import { CommonFunctionsService } from '../../../providers/utils/common-functions';
 
 describe('Component: VisitTimelinePage', () => {
@@ -80,7 +78,6 @@ describe('Component: VisitTimelinePage', () => {
   let authenticationService: AuthenticationService;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
-  let durationService: DurationService;
   let waitActivity = ActivityDataMock.WaitActivityData;
   let testStation = TestStationDataMock.TestStationData[0];
 
@@ -144,7 +141,6 @@ describe('Component: VisitTimelinePage', () => {
       imports: [IonicModule.forRoot(VisitTimelinePage), PipesModule],
       providers: [
         FormatVrmPipe,
-        DurationService,
         CommonFunctionsService,
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
@@ -181,7 +177,6 @@ describe('Component: VisitTimelinePage', () => {
     authenticationService = TestBed.get(AuthenticationService);
     logProvider = TestBed.get(LogsProvider);
     analyticsService = TestBed.get(AnalyticsService);
-    durationService = TestBed.get(DurationService);
   });
 
   afterEach(() => {
@@ -203,19 +198,6 @@ describe('Component: VisitTimelinePage', () => {
   //   component.ngOnDestroy();
   //   expect(component.platformSubscription.closed).toBeTruthy();
   // });
-
-  it('should set starting duration for new test report', () => {
-    const startTime: number = 1620396073594;
-    spyOn(Date, 'now').and.returnValue(startTime);
-    spyOn(durationService, 'setDuration');
-
-    component.createNewTestReport();
-
-    expect(durationService.setDuration).toHaveBeenCalledWith(
-      { start: startTime },
-      DURATION_TYPE[DURATION_TYPE.SEARCH_VEHICLE]
-    );
-  });
 
   // it('should check ionViewDidEnter logic', () => {
   //   component.visit = {...VisitDataMock.VisitData};

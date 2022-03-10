@@ -29,7 +29,7 @@ import { ANALYTICS_SCREEN_NAMES, APP_STRINGS, VEHICLE_TYPE } from '../../../../a
 import { VehicleDataMock } from '../../../../assets/data-mocks/vehicle-data.mock';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
-import { AppService, AnalyticsService, DurationService } from '../../../../providers/global';
+import { AppService, AnalyticsService } from '../../../../providers/global';
 import { TestServiceMock } from '../../../../../test-config/services-mocks/test-service.mock';
 
 describe('Component: AddPreparerPage', () => {
@@ -43,7 +43,6 @@ describe('Component: AddPreparerPage', () => {
   let preparerServiceSpy: any;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
-  let durationService: DurationService;
 
   const TECH_RECORD: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
@@ -59,8 +58,6 @@ describe('Component: AddPreparerPage', () => {
         NavController,
         { provide: TestService, useClass: TestServiceMock },
         CommonFunctionsService,
-        DurationService,
-        // { provide: FirebaseLogsService, useClass: FirebaseLogsServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: NavParams, useClass: NavParamsMock },
@@ -84,7 +81,6 @@ describe('Component: AddPreparerPage', () => {
     vehicleService = TestBed.get(VehicleService);
     visitService = TestBed.get(VisitService);
     analyticsService = TestBed.get(AnalyticsService);
-    durationService = TestBed.get(DurationService);
   });
 
   beforeEach(() => {

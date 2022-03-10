@@ -22,7 +22,6 @@ import {
   ANALYTICS_VALUE,
   APP,
   APP_STRINGS,
-  DURATION_TYPE,
   PAGE_NAMES,
   STORAGE,
   TEST_COMPLETION_STATUS,
@@ -34,7 +33,7 @@ import {
 import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-data/test-types-fields.metadata';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import { CallNumber } from '@ionic-native/call-number';
-import { AppService, AnalyticsService, DurationService, AppAlertService } from '../../../../providers/global';
+import { AppService, AnalyticsService, AppAlertService } from '../../../../providers/global';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category';
 import { StorageService } from '../../../../providers/natives/storage.service';
@@ -74,7 +73,6 @@ export class TestCreatePage implements OnInit {
     private commonFunctions: CommonFunctionsService,
     private modalCtrl: ModalController,
     private analyticsService: AnalyticsService,
-    private durationService: DurationService,
     private testTypeService: TestTypeService,
     private storageService: StorageService,
     private alertService: AppAlertService
@@ -333,11 +331,6 @@ export class TestCreatePage implements OnInit {
   }
 
   async onAddNewTestType(vehicle: VehicleModel) {
-    this.durationService.setDuration(
-      { start: Date.now() },
-      DURATION_TYPE[DURATION_TYPE.TEST_TYPE]
-    );
-
     let failedTest: null | TestTypeModel;
     const testHistory = await this.storageService.read(STORAGE.TEST_HISTORY + vehicle.systemNumber);
     if (testHistory.length) {
@@ -428,8 +421,6 @@ export class TestCreatePage implements OnInit {
       event: ANALYTICS_EVENTS.ADD_SUGGESTED_TEST_TYPE,
       label: testType.name
     });
-    const type = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];
-    this.durationService.completeDuration(type, this);
 
     if (testType.name.includes('retest')) {
       testType.name = 'Retest';
@@ -440,19 +431,6 @@ export class TestCreatePage implements OnInit {
     );
     test.testTypeCategoryName = testType.name;
     this.vehicleService.addTestType(vehicle, test);
-  }
-
-  async trackAddTestTypeDuration(label: string, value: string) {
-    await this.analyticsService.logEvent({
-      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
-      event: ANALYTICS_EVENTS.ADD_TEST_TYPE_TIME_TAKEN,
-      label: ANALYTICS_LABEL[label]
-    });
-
-    await this.analyticsService.addCustomDimension(
-      Object.keys(ANALYTICS_LABEL).indexOf(label) + 1,
-      value
-    );
   }
 
   onVehicleDetails(vehicle: VehicleModel) {
@@ -477,11 +455,6 @@ export class TestCreatePage implements OnInit {
   }
 
   onOdometer(index: number) {
-    this.durationService.setDuration(
-      { start: Date.now() },
-      DURATION_TYPE[DURATION_TYPE.ODOMETER_READING]
-    );
-
     const MODAL = this.modalCtrl.create(PAGE_NAMES.ODOMETER_READING_PAGE, {
       vehicle: this.testData.vehicles[index],
       errorIncomplete: this.errorIncomplete

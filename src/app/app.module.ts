@@ -39,7 +39,6 @@ import {
   SyncService,
   HTTPService,
   AnalyticsService,
-  DurationService,
   NetworkService
 } from '../providers/global';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -90,7 +89,6 @@ const CUSTOM_PROVIDERS = [
   LogsProvider,
   SignatureService,
   AnalyticsService,
-  DurationService,
   NetworkService
 ];
 
