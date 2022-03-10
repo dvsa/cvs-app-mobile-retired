@@ -35,6 +35,8 @@ import { LogsProvider } from '../../../../../modules/logs/logs.service';
 import { AuthenticationService } from '../../../../../providers/auth/authentication/authentication.service';
 import { AuthenticationServiceMock } from '../../../../../../test-config/services-mocks/authentication-service.mock';
 import { AnalyticsService } from '../../../../../providers/global';
+import { HttpAlertService } from '../../../../../providers/global/http-alert-service/http-alert.service';
+import { CallNumber } from '@ionic-native/call-number';
 
 describe('Component: ', () => {
   let component: MultipleTechRecordsSelectionPage;
@@ -70,7 +72,9 @@ describe('Component: ', () => {
         { provide: Store, useClass: TestStore },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
-        { provide: LogsProvider, useValue: logProviderSpy }
+        { provide: LogsProvider, useValue: logProviderSpy },
+        HttpAlertService,
+        CallNumber,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

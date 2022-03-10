@@ -25,6 +25,7 @@ import { StorageService } from '../../../../../providers/natives/storage.service
 import { TestModel } from '../../../../../models/tests/test.model';
 import { LogsProvider } from '../../../../../modules/logs/logs.service';
 import { AnalyticsService } from '../../../../../providers/global';
+import { HttpAlertService } from '../../../../../providers/global/http-alert-service/http-alert.service';
 
 @IonicPage()
 @Component({
@@ -47,7 +48,8 @@ export class MultipleTechRecordsSelectionPage {
     public storageService: StorageService,
     private analyticsService: AnalyticsService,
     private alertCtrl: AlertController,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    private httpAlertService: HttpAlertService,
   ) {
     this.vehicles = this.navParams.get('vehicles');
     this.combinationTestData = navParams.get('test');
@@ -73,6 +75,7 @@ export class MultipleTechRecordsSelectionPage {
         this.goToVehicleDetails(selectedVehicle);
       },
       error: (error) => {
+        this.httpAlertService.handleHttpResponse(error, [], () => this.openVehicleDetails(selectedVehicle));
         this.logProvider.dispatchLog({
           type:
             'error-vehicleService.getTestResultsHistory-openVehicleDetails in multiple-tech-records-selection.ts',
