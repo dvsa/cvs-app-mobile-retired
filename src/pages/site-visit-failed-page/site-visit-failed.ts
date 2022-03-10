@@ -38,15 +38,6 @@ export class SiteVisitFailedPage {
     await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.SITE_VISIT_FAILED);
   }
 
-  async confirm() {
-    await this.analyticsService.logEvent({
-      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-      event: ANALYTICS_EVENTS.VISIT_ERROR,
-      label: ANALYTICS_VALUE.CONFIRMED_FAILED_SUBMISSION
-    });
-    await this.navCtrl.popToRoot();
-  }
-
   async callSupport() {
     await this.analyticsService.logEvent({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
@@ -54,5 +45,9 @@ export class SiteVisitFailedPage {
       label: ANALYTICS_VALUE.CALL_IT
     });
     await this.alertService.callSupport();
+  }
+
+  async confirm() {
+    await this.navCtrl.popToRoot();
   }
 }

@@ -93,11 +93,6 @@ describe('Component: SiteVisitFailedPage', () => {
 
   it('should test pressing on confirm logic', async () => {
     await comp.confirm();
-    expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-      event: ANALYTICS_EVENTS.VISIT_ERROR,
-      label: ANALYTICS_VALUE.CONFIRMED_FAILED_SUBMISSION
-    });
     expect(navCtrl.popToRoot).toHaveBeenCalled();
   });
 });
