@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {
   AlertController,
   IonicPage,
+  LoadingController,
   NavController,
   NavParams,
   ViewController
@@ -22,12 +23,18 @@ import {
   TECH_RECORD_STATUS,
   VEHICLE_TYPE,
   ANALYTICS_EVENTS,
-  ANALYTICS_LABEL
+  ANALYTICS_LABEL,
+  ANALYTICS_VALUE
 } from '../../../../app/app.enums';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { default as AppConfig } from '../../../../../config/application.hybrid';
 import { AppService } from '../../../../providers/global/app.service';
 import { AnalyticsService, DurationService } from '../../../../providers/global';
+import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
+import { Observer } from 'rxjs';
+import { TestResultModel } from '../../../../models/tests/test-result.model';
+import { LogsProvider } from '../../../../modules/logs/logs.service';
+import { AuthenticationService } from '../../../../providers/auth';
 
 @IonicPage()
 @Component({
@@ -59,7 +66,11 @@ export class VehicleDetailsPage {
     private callNumber: CallNumber,
     private analyticsService: AnalyticsService,
     private durationService: DurationService,
-    public appService: AppService
+    public appService: AppService,
+    private vehicleService: VehicleService,
+    private logProvider: LogsProvider,
+    private loadingCtrl: LoadingController,
+    private authenticationService: AuthenticationService,
   ) {
     this.vehicleData = navParams.get('vehicle');
     this.testData = navParams.get('test');
@@ -205,15 +216,55 @@ export class VehicleDetailsPage {
     });
   }
 
-  goToVehicleTestResultsHistory() {
-    this.storageService
-      .read(STORAGE.TEST_HISTORY + this.vehicleData.systemNumber)
-      .then((data) => {
-        this.navCtrl.push(PAGE_NAMES.VEHICLE_HISTORY_PAGE, {
-          vehicleData: this.vehicleData,
-          testResultsHistory: data ? data : []
+  goToVehicleTestResultsHistory(vehicleData: VehicleModel) {
+    const { oid } = this.authenticationService.tokenInfo;
+    const loadingSpinner = this.loadingCtrl.create({
+      content: 'Loading...'
+    });
+    loadingSpinner.present();
+    const testHistoryResponseObserver: Observer<TestResultModel[]> = {
+      next: (data) => {
+        this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
+          testHistoryData: data,
+          vehicleData: vehicleData
         });
+      },
+      error: (error) => {
+        this.logProvider.dispatchLog({
+          type:
+            'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
+          message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
+          timestamp: Date.now()
+        });
+
+        this.analyticsService.logEvent({
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+          event: ANALYTICS_EVENTS.TEST_ERROR,
+          label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED,
+        });
+
+        this.storageService.update(STORAGE.TEST_HISTORY + this.vehicleData.systemNumber, []);
+        this.navCtrl.push(PAGE_NAMES.VEHICLE_HISTORY_PAGE, {
+          testHistoryData: [],
+          vehicleData: vehicleData
+        });
+      },
+      complete: function() {}
+    };
+    this.vehicleService
+      .getTestResultsHistory(this.vehicleData.systemNumber)
+      .subscribe(testHistoryResponseObserver)
+      .add(() => {
+        loadingSpinner.dismiss();
       });
+  }
+  
+  private async trackErrorOnSearchRecord(value: string) {
+    await this.analyticsService.logEvent({
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+      event: ANALYTICS_EVENTS.TEST_ERROR,
+      label: value
+    });
   }
 
   private getBackButtonText(): string {

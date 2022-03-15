@@ -141,25 +141,6 @@ export class VehicleLookupPage {
       )
       .subscribe(
         (vehicleData) => {
-          const testHistoryResponseObserver: Observer<TestResultModel[]> = {
-            next: () => {
-              this.goToVehicleDetails(vehicleData[0]);
-            },
-            error: (error) => {
-              this.logProvider.dispatchLog({
-                type:
-                  'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
-                message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-                timestamp: Date.now()
-              });
-
-              this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED);
-
-              this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
-              this.goToVehicleDetails(vehicleData[0]);
-            },
-            complete: function() {}
-          };
           if (vehicleData.length > 1) {
             this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
               LOADING.dismiss();
@@ -171,12 +152,7 @@ export class VehicleLookupPage {
             this.vehicleService.createSkeletonAlert(this.alertCtrl);
             LOADING.dismiss();
           } else {
-            this.vehicleService
-              .getTestResultsHistory(vehicleData[0].systemNumber)
-              .subscribe(testHistoryResponseObserver)
-              .add(() => {
-                LOADING.dismiss();
-              });
+            this.goToVehicleDetails(vehicleData[0]);
           }
         },
         (error) => {
