@@ -681,4 +681,29 @@ describe('Component: TestCreatePage', () => {
       expect(alertService.alertSuggestedTestTypes).not.toHaveBeenCalled();
     });
   })
+
+  it('should open the vehicle test history', async() => {
+    await component.goToVehicleTestResultsHistory(VEHICLE);
+    expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      category: ANALYTICS_EVENT_CATEGORIES.SUGGESTED_TEST_TYPES_POPUP,
+      event: ANALYTICS_EVENTS.VIEW_TEST_HISTORY,
+      label: ANALYTICS_VALUE.VIEW_TEST_HISTORY
+    });
+    expect(navCtrl.push).toHaveBeenCalled()
+  });
+
+  it('should add the suggested test type', async() => {
+    spyOn(durationService, 'completeDuration');
+    spyOn(vehicleService, 'addTestType');
+    const testTypes = TEST_TYPES;
+    await component.addSuggestedTestType(testTypes[0], VEHICLE);
+    expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      category: ANALYTICS_EVENT_CATEGORIES.SUGGESTED_TEST_TYPES_POPUP,
+      event: ANALYTICS_EVENTS.ADD_SUGGESTED_TEST_TYPE,
+      label: testTypes[0].name
+    });
+    const type = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];
+    expect(durationService.completeDuration).toHaveBeenCalledWith(type, component);
+    expect(vehicleService.addTestType).toHaveBeenCalled();
+  })
 });
