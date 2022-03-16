@@ -669,7 +669,6 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should add the suggested test type', async() => {
-    spyOn(durationService, 'completeDuration');
     spyOn(vehicleService, 'addTestType');
     const testTypes = TEST_TYPES;
     await component.addSuggestedTestType(testTypes[0], VEHICLE);
@@ -678,8 +677,6 @@ describe('Component: TestCreatePage', () => {
       event: ANALYTICS_EVENTS.ADD_SUGGESTED_TEST_TYPE,
       label: testTypes[0].name
     });
-    const type = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];
-    expect(durationService.completeDuration).toHaveBeenCalledWith(type, component);
     expect(vehicleService.addTestType).toHaveBeenCalled();
   })
 });
