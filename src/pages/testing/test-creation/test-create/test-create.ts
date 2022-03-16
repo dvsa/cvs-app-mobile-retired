@@ -343,7 +343,7 @@ export class TestCreatePage implements OnInit {
     if (testHistory.length) {
       let testTypes: TestTypeModel[] = [];
       let cutOffDate = new Date();
-      const DAYS_WITHIN_TEST_FAIL = 19;
+      const DAYS_WITHIN_TEST_FAIL = 20;
       cutOffDate.setDate(cutOffDate.getDate() - DAYS_WITHIN_TEST_FAIL);
       cutOffDate.setHours(0,0,0,0);
 
