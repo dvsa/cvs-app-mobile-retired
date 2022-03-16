@@ -270,6 +270,23 @@ export class TestTypeService {
     );
   }
 
+  fixDateFormatting(testType: TestTypeModel) {
+    testType.testTypeStartTimestamp =
+      this.commonFunctions.fixDateFormat(testType.testTypeStartTimestamp);
+    if (testType.testTypeEndTimestamp) {
+      testType.testTypeEndTimestamp =
+        this.commonFunctions.fixDateFormat(testType.testTypeEndTimestamp);
+    }
+    if (testType.testExpiryDate) {
+      testType.testExpiryDate =
+        this.commonFunctions.fixDateFormat(testType.testExpiryDate);
+    }
+    if (testType.lastSeatbeltInstallationCheckDate) {
+      testType.lastSeatbeltInstallationCheckDate =
+        this.commonFunctions.fixDateFormat(testType.lastSeatbeltInstallationCheckDate);
+    }
+  }
+
   // Retrieve all nested Test Types and flatten into single array
   flattenTestTypesData(array: TestTypesReferenceDataModel[]): TestTypesReferenceDataModel[] {
     return array.reduce((innerArr, { nextTestTypesOrCategories, ...rest }) => {

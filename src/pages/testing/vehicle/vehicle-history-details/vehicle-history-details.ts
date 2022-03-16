@@ -70,6 +70,7 @@ export class VehicleHistoryDetailsPage {
     this.defaultValues = DEFAULT_VALUES;
     this.doDefectsExist = this.checkForDefects(this.selectedTestType.defects);
 
+    this.testTypeService.fixDateFormatting(this.selectedTestType);
     this.setTestMetadata();
     this.compareTestWithMetadata();
 

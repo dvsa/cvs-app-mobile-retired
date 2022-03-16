@@ -11,6 +11,7 @@ import {
 } from '../../../../app/app.enums';
 import { TestResultModel } from '../../../../models/tests/test-result.model';
 import { AnalyticsService } from '../../../../providers/global';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 
 @IonicPage()
 @Component({
@@ -31,7 +32,8 @@ export class VehicleHistoryPage {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public commonFunc: CommonFunctionsService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    public testTypeService: TestTypeService
   ) {
     this.vehicleData = navParams.get('vehicleData');
     this.testResultHistory = navParams.get('testResultsHistory');
@@ -71,6 +73,7 @@ export class VehicleHistoryPage {
           testResult.testTypes.forEach((testType, typeTypeIndex) => {
             testType.testIndex = testIndex;
             testType.testTypeIndex = typeTypeIndex;
+            this.testTypeService.fixDateFormatting(testType);
             this.testTypeArray.push(testType);
           });
         }

@@ -11,7 +11,6 @@ import { TestResultsHistoryDataMock } from '../../../../assets/data-mocks/test-r
 import { AppService } from '../../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
 import { TestTypeService } from '../../../../providers/test-type/test-type.service';
-import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
 import { ANALYTICS_SCREEN_NAMES, DEFICIENCY_CATEGORY } from '../../../../app/app.enums';
 import { DefectDetailsModel } from '../../../../models/defects/defect-details.model';
 import { MOCK_UTILS } from '../../../../../test-config/mocks/mocks.utils';
@@ -25,11 +24,18 @@ describe('Component: VehicleHistoryDetailsPage', () => {
   let viewCtrl: ViewController;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
+  let testTypeService: TestTypeService;
+  let testTypeServiceSpy: any;
 
   const defects: DefectDetailsModel[] = [MOCK_UTILS.mockDefectsDetails()];
 
   beforeEach(async(() => {
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', ['setCurrentPage']);
+    testTypeServiceSpy = jasmine.createSpyObj('TestTypeService', [
+      'fixDateFormatting',
+      'isSpecialistWithoutCertificateNumberCapturedIds',
+      'isSpecialistCoifWithAnnualTest'
+    ]);
 
     TestBed.configureTestingModule({
       declarations: [VehicleHistoryDetailsPage],
@@ -39,7 +45,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
         CommonFunctionsService,
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ViewController, useClass: ViewControllerMock },
-        { provide: TestTypeService, useClass: TestTypeServiceMock },
+        { provide: TestTypeService, useValue: testTypeServiceSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: AppService, useClass: AppServiceMock }
       ],
@@ -54,6 +60,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
     viewCtrl = TestBed.get(ViewController);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
     analyticsService = TestBed.get(AnalyticsService);
+    testTypeService = TestBed.get(TestTypeService);
     comp.testIndex = 0;
     comp.testTypeIndex = 0;
     comp.testResultHistory = TestResultsHistoryDataMock.TestResultHistoryData;

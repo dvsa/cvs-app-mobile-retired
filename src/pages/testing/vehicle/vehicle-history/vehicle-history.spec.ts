@@ -17,6 +17,7 @@ import {
 import { VehicleHistoryPage } from './vehicle-history';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { AnalyticsService } from '../../../../providers/global';
+import { TestTypeService } from '../../../../providers/test-type/test-type.service';
 
 describe('Component: VehicleHistoryPage', () => {
   let comp: VehicleHistoryPage;
@@ -26,6 +27,8 @@ describe('Component: VehicleHistoryPage', () => {
   let commonFunctionsService: any;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
+  let testTypeService: TestTypeService;
+  let testTypeServiceSpy: any;
 
   let testResultsHistory: any = TestResultsHistoryDataMock.TestResultHistoryData;
   let vehicleData: VehicleModel = VehicleDataMock.VehicleData;
@@ -33,6 +36,7 @@ describe('Component: VehicleHistoryPage', () => {
 
   beforeEach(async(() => {
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', ['setCurrentPage']);
+    testTypeServiceSpy = jasmine.createSpyObj('TestTypeService', ['fixDateFormatting']);
 
     TestBed.configureTestingModule({
       declarations: [VehicleHistoryPage],
@@ -42,7 +46,8 @@ describe('Component: VehicleHistoryPage', () => {
         CommonFunctionsService,
         { provide: NavParams, useClass: NavParamsMock },
         { provide: ViewController, useClass: ViewControllerMock },
-        { provide: AnalyticsService, useValue: analyticsServiceSpy }
+        { provide: AnalyticsService, useValue: analyticsServiceSpy },
+        { provide: TestTypeService, useValue: testTypeServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -52,6 +57,7 @@ describe('Component: VehicleHistoryPage', () => {
     navCtrl = TestBed.get(NavController);
     navParams = TestBed.get(NavParams);
     analyticsService = TestBed.get(AnalyticsService);
+    testTypeService = TestBed.get(TestTypeService);
     commonFunctionsService = TestBed.get(CommonFunctionsService);
 
     navParams.get = jasmine.createSpy('get').and.callFake((param) => {
