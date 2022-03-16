@@ -224,12 +224,14 @@ export class VehicleDetailsPage {
     loadingSpinner.present();
     const testHistoryResponseObserver: Observer<TestResultModel[]> = {
       next: (data) => {
-        this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
-          testHistoryData: data,
-          vehicleData: vehicleData
+        console.log('success')
+        this.navCtrl.push(PAGE_NAMES.VEHICLE_HISTORY_PAGE, {
+          testResultsHistory: data,
+          vehicleData: this.vehicleData
         });
       },
       error: (error) => {
+        console.log('error')
         this.logProvider.dispatchLog({
           type:
             'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
@@ -245,8 +247,8 @@ export class VehicleDetailsPage {
 
         this.storageService.update(STORAGE.TEST_HISTORY + this.vehicleData.systemNumber, []);
         this.navCtrl.push(PAGE_NAMES.VEHICLE_HISTORY_PAGE, {
-          testHistoryData: [],
-          vehicleData: vehicleData
+          testResultsHistory: [],
+          vehicleData: this.vehicleData
         });
       },
       complete: function() {}

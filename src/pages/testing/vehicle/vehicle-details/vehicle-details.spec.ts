@@ -34,6 +34,12 @@ import { AppService } from '../../../../providers/global/app.service';
 import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
 import { AnalyticsService, DurationService } from '../../../../providers/global';
 import { Duration } from '../../../../models/duration.model';
+import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
+import { VehicleServiceMock } from '../../../../../test-config/services-mocks/vehicle-service.mock';
+import { LogsProvider } from '../../../../modules/logs/logs.service';
+import { LogsProviderMock } from '../../../../modules/logs/logs.service.mock';
+import { AuthenticationService } from '../../../../providers/auth';
+import { AuthenticationServiceMock } from '../../../../../test-config/services-mocks/authentication-service.mock';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -72,7 +78,10 @@ describe('Component: VehicleDetailsPage', () => {
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: CallNumber, useValue: callNumberSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
-        { provide: AppService, useClass: AppServiceMock }
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: VehicleService, useClass: VehicleServiceMock },
+        { provide: LogsProvider, useClass: LogsProviderMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();

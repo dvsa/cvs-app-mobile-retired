@@ -153,6 +153,7 @@ export class VehicleLookupPage {
             LOADING.dismiss();
           } else {
             this.goToVehicleDetails(vehicleData[0]);
+            LOADING.dismiss();
           }
         },
         (error) => {
