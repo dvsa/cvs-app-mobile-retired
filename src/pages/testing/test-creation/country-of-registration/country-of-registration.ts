@@ -12,6 +12,7 @@ import { APP } from '../../../../app/app.enums';
   templateUrl: 'country-of-registration.html'
 })
 export class RegionReadingPage implements OnInit {
+  @ViewChild('searchBar') searchBar;
   searchVal: string = '';
   topElem = [];
   botElem = [];
@@ -20,6 +21,7 @@ export class RegionReadingPage implements OnInit {
   filteredCountries = [];
   groupedCountries = [];
   vehicle: VehicleModel;
+  focusOut: boolean = false;
 
   constructor(
     private commonFunctionsService: CommonFunctionsService,
@@ -63,8 +65,8 @@ export class RegionReadingPage implements OnInit {
   }
 
   setVehicleRegCountry(regCountryItem) {
+    this.focusOut = false;
     this.vehicle.countryOfRegistration = regCountryItem.key;
-    this.resetFilteredCountries();
     this.events.publish(APP.NAV_OUT);
     this.cdRef.detectChanges();
   }
@@ -72,5 +74,9 @@ export class RegionReadingPage implements OnInit {
   onSave() {
     this.visitService.updateVisit();
     this.viewCtrl.dismiss();
+  }
+
+  keepCancelOn(ev, hideCancel?: boolean) {
+    this.focusOut = !hideCancel;
   }
 }

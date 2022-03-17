@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header transforming-searchBar [searchBarElemRef]="searchBar">
   <ion-navbar>
     <ion-title margin-left>
       Country of registration
@@ -12,6 +12,9 @@
   <ion-toolbar>
     <ion-searchbar
       (ionInput)="searchList($event)"
+      (ionFocus)="keepCancelOn($event)"
+      (ionCancel)="keepCancelOn($event, true)"
+      [ngClass]="{'keep-cancel-on': focusOut}"
       [(ngModel)]="searchVal"
       [showCancelButton]="true"
       [cancelButtonText]="'Cancel'"
