@@ -69,7 +69,7 @@ export class VehicleDetailsPage {
     public appService: AppService,
     private vehicleService: VehicleService,
     private logProvider: LogsProvider,
-    private loadingCtrl: LoadingController,
+    public loadingCtrl: LoadingController,
     private authenticationService: AuthenticationService,
   ) {
     this.vehicleData = navParams.get('vehicle');

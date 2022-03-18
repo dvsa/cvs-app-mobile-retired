@@ -177,6 +177,12 @@ describe('Component: VehicleDetailsPage', () => {
 
   it('should empty ionic storage if the test history cannot be retrieved', () => {
     spyOn(storageService, 'update');
+    spyOn(component.loadingCtrl, 'create').and.callFake(() => { 
+      return { 
+        present: () => {}, 
+        dismiss: () => {}
+      }
+    });
     vehicleService.getTestResultsHistory = jasmine
       .createSpy()
       .and.callFake(() => { return Observable.throw(new HttpErrorResponse({ status: 404})); });
