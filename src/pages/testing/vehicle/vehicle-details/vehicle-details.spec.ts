@@ -20,11 +20,14 @@ import { TechRecordDataMock } from '../../../../assets/data-mocks/tech-record-da
 import { TestTypeArrayDataMock } from '../../../../assets/data-mocks/test-type-array-data.mock';
 import { PipesModule } from '../../../../pipes/pipes.module';
 import {
+  ANALYTICS_EVENTS,
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_SCREEN_NAMES,
+  ANALYTICS_VALUE,
   APP_STRINGS,
   DURATION_TYPE,
   PAGE_NAMES,
+  STORAGE,
   TECH_RECORD_STATUS
 } from '../../../../app/app.enums';
 import { By } from '@angular/platform-browser';
@@ -40,6 +43,9 @@ import { LogsProvider } from '../../../../modules/logs/logs.service';
 import { LogsProviderMock } from '../../../../modules/logs/logs.service.mock';
 import { AuthenticationService } from '../../../../providers/auth';
 import { AuthenticationServiceMock } from '../../../../../test-config/services-mocks/authentication-service.mock';
+import { _throw } from 'rxjs/observable/throw';
+import { Observable } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -52,6 +58,8 @@ describe('Component: VehicleDetailsPage', () => {
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
   let durationService: DurationService;
+  let storageService: StorageService;
+  let vehicleService: VehicleService;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   let test = TestTypeArrayDataMock.TestTypeArrayData[0];
@@ -101,6 +109,8 @@ describe('Component: VehicleDetailsPage', () => {
     viewController = TestBed.get(ViewController);
     analyticsService = TestBed.get(AnalyticsService);
     durationService = TestBed.get(DurationService);
+    storageService = TestBed.get(StorageService);
+    vehicleService = TestBed.get(VehicleService);
 
     fixture = TestBed.createComponent(VehicleDetailsPage);
     component = fixture.componentInstance;
@@ -163,6 +173,26 @@ describe('Component: VehicleDetailsPage', () => {
   it('should check if alertCtrl was called', () => {
     component.goToPreparerPage();
     expect(alertCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should empty ionic storage if the test history cannot be retrieved', () => {
+    spyOn(storageService, 'update');
+    vehicleService.getTestResultsHistory = jasmine
+      .createSpy()
+      .and.callFake(() => { return Observable.throw(new HttpErrorResponse({ status: 404})); });
+
+    component.goToVehicleTestResultsHistory(VEHICLE);
+
+    expect(storageService.update).toHaveBeenCalledTimes(1);
+    expect(storageService.update).toHaveBeenCalledWith(
+      STORAGE.TEST_HISTORY + VEHICLE.systemNumber,
+      []
+    );
+    expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+      event: ANALYTICS_EVENTS.TEST_ERROR,
+      label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
+    });
   });
 
   it('should track vehicle duration when goToPreparerPage is confirmed ', async () => {

@@ -224,14 +224,12 @@ export class VehicleDetailsPage {
     loadingSpinner.present();
     const testHistoryResponseObserver: Observer<TestResultModel[]> = {
       next: (data) => {
-        console.log('success')
         this.navCtrl.push(PAGE_NAMES.VEHICLE_HISTORY_PAGE, {
           testResultsHistory: data,
           vehicleData: this.vehicleData
         });
       },
       error: (error) => {
-        console.log('error')
         this.logProvider.dispatchLog({
           type:
             'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
