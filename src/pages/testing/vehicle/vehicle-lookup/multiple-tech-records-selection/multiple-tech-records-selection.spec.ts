@@ -116,17 +116,10 @@ describe('Component: ', () => {
     });
   });
 
-  it('should open the vehicle details page if the call to test-results is failing', async () => {
-    spyOn(vehicleService, 'getTestResultsHistory').and.returnValue(Observable.throw('error'));
+  it('should open the vehicle details page if the call to test-results is failing', () => {
     spyOn(vehicleService, 'isVehicleSkeleton').and.returnValue(false);
 
-    await component.openVehicleDetails(VehicleDataMock.VehicleData);
-
-    expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-      event: ANALYTICS_EVENTS.TEST_ERROR,
-      label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
-    });
+    component.openVehicleDetails(VehicleDataMock.VehicleData);
 
     expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
       test: undefined,

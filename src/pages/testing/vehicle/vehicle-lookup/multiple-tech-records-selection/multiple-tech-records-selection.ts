@@ -61,43 +61,10 @@ export class MultipleTechRecordsSelectionPage {
   }
 
   openVehicleDetails(selectedVehicle: VehicleModel): void {
-    const LOADING = this.loadingCtrl.create({
-      content: 'Loading...'
-    });
-    LOADING.present();
-
-    const { oid } = this.authenticationService.tokenInfo;
-
-    const testHistoryResponseObserver: Observer<TestResultModel[]> = {
-      next: () => {
-        this.goToVehicleDetails(selectedVehicle);
-      },
-      error: (error) => {
-        this.logProvider.dispatchLog({
-          type:
-            'error-vehicleService.getTestResultsHistory-openVehicleDetails in multiple-tech-records-selection.ts',
-          message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-          timestamp: Date.now()
-        });
-
-        this.trackErrorOnRetrieval(ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED);
-
-        this.storageService.update(STORAGE.TEST_HISTORY + selectedVehicle.systemNumber, []);
-        this.goToVehicleDetails(selectedVehicle);
-      },
-      complete: function() {}
-    };
-
     if (this.vehicleService.isVehicleSkeleton(selectedVehicle)) {
-      LOADING.dismiss();
       this.vehicleService.createSkeletonAlert(this.alertCtrl);
     } else {
-      this.vehicleService
-        .getTestResultsHistory(selectedVehicle.systemNumber)
-        .subscribe(testHistoryResponseObserver)
-        .add(() => {
-          LOADING.dismiss();
-        });
+      this.goToVehicleDetails(selectedVehicle);
     }
   }
 
