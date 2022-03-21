@@ -175,31 +175,39 @@ describe('Component: VehicleDetailsPage', () => {
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
-  it('should empty ionic storage if the test history cannot be retrieved', () => {
-    spyOn(storageService, 'update');
-    spyOn(component.loadingCtrl, 'create').and.callFake(() => { 
-      return { 
-        present: () => {}, 
-        dismiss: () => {}
-      }
-    });
-    vehicleService.getTestResultsHistory = jasmine
-      .createSpy()
-      .and.callFake(() => { return Observable.throw(new HttpErrorResponse({ status: 404})); });
+  describe('goToTestHistoryResults', () => {
 
-    component.goToVehicleTestResultsHistory(VEHICLE);
+    it('should empty ionic storage if the test history cannot be retrieved', () => {
+      spyOn(storageService, 'update');
+      spyOn(component.loadingCtrl, 'create').and.callFake(() => { 
+        return { 
+          present: () => {}, 
+          dismiss: () => {}
+        }
+      });
+      vehicleService.getTestResultsHistory = jasmine
+        .createSpy()
+        .and.callFake(() => { return Observable.throw(new HttpErrorResponse({ status: 404})); });
 
-    expect(storageService.update).toHaveBeenCalledTimes(1);
-    expect(storageService.update).toHaveBeenCalledWith(
-      STORAGE.TEST_HISTORY + VEHICLE.systemNumber,
-      []
-    );
-    expect(analyticsService.logEvent).toHaveBeenCalledWith({
-      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-      event: ANALYTICS_EVENTS.TEST_ERROR,
-      label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
+      component.goToVehicleTestResultsHistory(VEHICLE);
+
+      expect(storageService.update).toHaveBeenCalledTimes(1);
+      expect(storageService.update).toHaveBeenCalledWith(
+        STORAGE.TEST_HISTORY + VEHICLE.systemNumber,
+        []
+      );
+      expect(analyticsService.logEvent).toHaveBeenCalledWith({
+        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+        event: ANALYTICS_EVENTS.TEST_ERROR,
+        label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
+      });
     });
-  });
+
+    it('should redirect to vehicle history page', () => {
+      
+    })
+  })
+  
 
   it('should track vehicle duration when goToPreparerPage is confirmed ', async () => {
     const timeStart = 1620242516913;
