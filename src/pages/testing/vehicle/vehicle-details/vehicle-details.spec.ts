@@ -45,7 +45,7 @@ import { AuthenticationService } from '../../../../providers/auth';
 import { AuthenticationServiceMock } from '../../../../../test-config/services-mocks/authentication-service.mock';
 import { _throw } from 'rxjs/observable/throw';
 import { Observable } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -203,8 +203,33 @@ describe('Component: VehicleDetailsPage', () => {
       });
     });
 
-    it('should redirect to vehicle history page', () => {
+    it('should redirect to vehicle history page if a successful response was returned', () => {
+      spyOn(component.loadingCtrl, 'create').and.callFake(() => { 
+        return { 
+          present: () => {}, 
+          dismiss: () => {}
+        }
+      });
+      vehicleService.getTestResultsHistory = jasmine
+        .createSpy()
+        .and.callFake(() => { return Observable.throw(new HttpResponse({ status: 200 })); });
+
+      component.goToVehicleTestResultsHistory(VEHICLE);
       
+    })
+    it('should redirect to vehicle history page if an unsuccessful response was returned', () => {
+      spyOn(component.loadingCtrl, 'create').and.callFake(() => { 
+        return { 
+          present: () => {}, 
+          dismiss: () => {}
+        }
+      });
+      vehicleService.getTestResultsHistory = jasmine
+        .createSpy()
+        .and.callFake(() => { return Observable.throw(new HttpErrorResponse({ status: 404})); });
+
+      component.goToVehicleTestResultsHistory(VEHICLE);
+
     })
   })
   
