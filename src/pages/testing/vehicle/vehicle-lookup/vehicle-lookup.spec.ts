@@ -210,8 +210,9 @@ describe('Component: VehicleLookupPage', () => {
 
   describe('onSearchVehicle', () => {
     it('should call searchVehicle if a valid response is returned which contains a body of true', () => {
-      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({body: true}));
-      component.searchVehicle = jasmine.createSpy().and.callFake(() => {});
+      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: true }));
+      component.searchVehicle = jasmine.createSpy().and.callFake(() => {
+      });
 
       const searchValue = 'P012301230123';
       const LOADING = component.loadingCtrl.create({
@@ -229,10 +230,11 @@ describe('Component: VehicleLookupPage', () => {
       const LOADING = component.loadingCtrl.create({
         content: 'Loading...'
       });
-      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({body: false}));
-      logProvider.dispatchLog = jasmine.createSpy().and.callFake(() => {});
+      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: false }));
+      logProvider.dispatchLog = jasmine.createSpy().and.callFake(() => {
+      });
       component.visitService.createDataClearingAlert = jasmine.createSpy().and.returnValue({
-        present: presentSpy,
+        present: presentSpy
       });
 
       component.onSearchVehicle(searchValue);
@@ -244,8 +246,10 @@ describe('Component: VehicleLookupPage', () => {
     });
     it('should not call either searchVehicle or createDataClearingAlert if there is no response', () => {
       activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of());
-      component.visitService.createDataClearingAlert = jasmine.createSpy().and.callFake(() => {});
-      component.searchVehicle = jasmine.createSpy().and.callFake(() => {});
+      component.visitService.createDataClearingAlert = jasmine.createSpy().and.callFake(() => {
+      });
+      component.searchVehicle = jasmine.createSpy().and.callFake(() => {
+      });
 
       const searchValue = 'P012301230123';
 
@@ -253,6 +257,20 @@ describe('Component: VehicleLookupPage', () => {
 
       expect(component.searchVehicle).toHaveBeenCalledTimes(0);
       expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(0);
+    });
+
+    it('should remove the blank spaces from search param', () => {
+      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: true }));
+      component.searchVehicle = jasmine.createSpy().and.callFake(() => {
+      });
+
+      const searchValue = 'P0 12301 2 30123';
+      const LOADING = component.loadingCtrl.create({
+        content: 'Loading...'
+      });
+
+      component.onSearchVehicle(searchValue);
+      expect(component.searchVehicle).toHaveBeenCalledWith('P012301230123', LOADING);
     });
   });
 });

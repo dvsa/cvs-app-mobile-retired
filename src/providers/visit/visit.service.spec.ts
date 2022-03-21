@@ -120,6 +120,11 @@ describe('Provider: VisitService', () => {
     expect(storageService.update).toHaveBeenCalled();
   });
 
+  it('Should populate test station email with an empty string when one is not provided', () => {
+    visitService.createVisit({ testStationEmails: []});
+    expect(visitService.visit.testStationEmail).toEqual('')
+  });
+
   it('should start a new visit, with id given', () => {
     expect(Object.keys(visitService.visit).length).toBe(0);
     expect(visitService.visit.startTime).toBeFalsy();
