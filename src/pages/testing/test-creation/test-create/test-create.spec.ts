@@ -21,7 +21,6 @@ import {
   MOD_TYPES,
   DEFICIENCY_CATEGORY,
   ANALYTICS_SCREEN_NAMES,
-  DURATION_TYPE,
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_VALUE,
@@ -53,7 +52,7 @@ import { DefectDetailsDataMock } from '../../../../assets/data-mocks/defect-deta
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category';
 import { SpecialistCustomDefectModel } from '../../../../models/defects/defect-details.model';
-import { AnalyticsService, AppAlertService, DurationService } from '../../../../providers/global';
+import { AnalyticsService, AppAlertService } from '../../../../providers/global';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { TestTypesReferenceDataMock } from '../../../../assets/data-mocks/reference-data-mocks/test-types.mock';
 import { StorageServiceMock } from '../../../../../test-config/services-mocks/storage-service.mock';
@@ -73,7 +72,6 @@ describe('Component: TestCreatePage', () => {
   let commonFuncService: CommonFunctionsService;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
-  let durationService: DurationService;
   let storageService: StorageService;
   let testTypeService: TestTypeService;
   let alertService: AppAlertService;
@@ -98,7 +96,6 @@ describe('Component: TestCreatePage', () => {
       imports: [IonicModule.forRoot(TestCreatePage)],
       providers: [
         CommonFunctionsService,
-        DurationService,
         { provide: Events, useFactory: () => EventsMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
@@ -130,7 +127,6 @@ describe('Component: TestCreatePage', () => {
     modalctrl = TestBed.get(ModalController);
     commonFuncService = TestBed.get(CommonFunctionsService);
     analyticsService = TestBed.get(AnalyticsService);
-    durationService = TestBed.get(DurationService);
     storageService = TestBed.get(StorageService);
     testTypeService = TestBed.get(TestTypeService);
     alertService = TestBed.get(AppAlertService);
@@ -450,18 +446,6 @@ describe('Component: TestCreatePage', () => {
     expect(navCtrl.push).not.toHaveBeenCalled();
   });
 
-  it('should set duration for adding a test type', () => {
-    const dateNow: number = 1620242516913;
-    spyOn(durationService, 'setDuration');
-    spyOn(Date, 'now').and.returnValue(dateNow);
-
-    component.onAddNewTestType(vehicleService.createVehicle(vehicle));
-    expect(durationService.setDuration).toHaveBeenCalledWith(
-      { start: dateNow },
-      DURATION_TYPE[DURATION_TYPE.TEST_TYPE]
-    );
-  });
-
   it('should track log event when removing a test type', async () => {
     component.completedFields = {};
     await component.removeVehicleTest(vehicleService.createVehicle(vehicle), ADDED_VEHICLE_TEST);
@@ -474,10 +458,6 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should test onOdometer logic', () => {
-    const dateNow: number = 1620242516913;
-    spyOn(durationService, 'setDuration');
-    spyOn(Date, 'now').and.returnValue(dateNow);
-
     let newTest = testService.createTest();
     let newVehicle = vehicleService.createVehicle(vehicle);
     newTest.vehicles.push(newVehicle);
@@ -485,10 +465,6 @@ describe('Component: TestCreatePage', () => {
 
     component.onOdometer(0);
 
-    expect(durationService.setDuration).toHaveBeenCalledWith(
-      { start: dateNow },
-      DURATION_TYPE[DURATION_TYPE.ODOMETER_READING]
-    );
     expect(modalctrl.create).toHaveBeenCalled();
   });
 
@@ -693,7 +669,6 @@ describe('Component: TestCreatePage', () => {
   });
 
   it('should add the suggested test type', async() => {
-    spyOn(durationService, 'completeDuration');
     spyOn(vehicleService, 'addTestType');
     const testTypes = TEST_TYPES;
     await component.addSuggestedTestType(testTypes[0], VEHICLE);
@@ -702,8 +677,6 @@ describe('Component: TestCreatePage', () => {
       event: ANALYTICS_EVENTS.ADD_SUGGESTED_TEST_TYPE,
       label: testTypes[0].name
     });
-    const type = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];
-    expect(durationService.completeDuration).toHaveBeenCalledWith(type, component);
     expect(vehicleService.addTestType).toHaveBeenCalled();
   })
 });

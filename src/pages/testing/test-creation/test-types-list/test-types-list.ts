@@ -5,15 +5,10 @@ import { TestTypesReferenceDataModel } from '../../../../models/reference-data-m
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import {
-  ANALYTICS_EVENT_CATEGORIES,
-  ANALYTICS_EVENTS,
-  ANALYTICS_LABEL,
   APP_STRINGS,
-  DURATION_TYPE,
   PAGE_NAMES
 } from '../../../../app/app.enums';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
-import { AnalyticsService, DurationService } from '../../../../providers/global';
 
 @IonicPage()
 @Component({
@@ -35,9 +30,7 @@ export class TestTypesListPage implements OnInit {
     private testTypeService: TestTypeService,
     private vehicleService: VehicleService,
     private viewCtrl: ViewController,
-    public commonFunctions: CommonFunctionsService,
-    private analyticsService: AnalyticsService,
-    private durationService: DurationService
+    public commonFunctions: CommonFunctionsService
   ) {
     this.vehicleData = navParams.get('vehicleData');
     this.testTypeReferenceData = navParams.get('testTypeData');
@@ -94,9 +87,6 @@ export class TestTypesListPage implements OnInit {
         backBtn: this.previousPage || APP_STRINGS.TEST_TYPE
       });
     } else {
-      const type: string = DURATION_TYPE[DURATION_TYPE.TEST_TYPE];
-      this.durationService.completeDuration(type, this);
-
       let views = this.navCtrl.getViews();
       for (let i = views.length - 1; i >= 0; i--) {
         if (views[i].component.name == PAGE_NAMES.TEST_CREATE_PAGE) {
@@ -112,19 +102,6 @@ export class TestTypesListPage implements OnInit {
         }
       }
     }
-  }
-
-  async trackAddTestTypeDuration(label: string, value: string) {
-    await this.analyticsService.logEvent({
-      category: ANALYTICS_EVENT_CATEGORIES.TEST_TYPES,
-      event: ANALYTICS_EVENTS.ADD_TEST_TYPE_TIME_TAKEN,
-      label: ANALYTICS_LABEL[label]
-    });
-
-    await this.analyticsService.addCustomDimension(
-      Object.keys(ANALYTICS_LABEL).indexOf(label) + 1,
-      value
-    );
   }
 
   cancelTypes() {

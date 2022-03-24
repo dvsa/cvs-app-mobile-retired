@@ -22,7 +22,6 @@ import {
   ANALYTICS_SCREEN_NAMES,
   APP,
   DEFICIENCY_CATEGORY,
-  DURATION_TYPE,
   MOD_TYPES,
   PAGE_NAMES,
   REG_EX_PATTERNS,
@@ -41,7 +40,7 @@ import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-
 import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
 import { DefectCategoryReferenceDataModel } from '../../../../models/reference-data-models/defects.reference-model';
 import { NotifiableAlterationTestTypesData } from '../../../../assets/app-data/test-types-data/notifiable-alteration-test-types.data';
-import { AnalyticsService, DurationService } from '../../../../providers/global';
+import { AnalyticsService } from '../../../../providers/global';
 
 @IonicPage()
 @Component({
@@ -85,7 +84,6 @@ export class CompleteTestPage implements OnInit {
     private cdRef: ChangeDetectorRef,
     private vehicleService: VehicleService,
     private viewCtrl: ViewController,
-    private durationService: DurationService,
     private analyticsService: AnalyticsService
   ) {
     this.vehicle = navParams.get('vehicle');
@@ -454,11 +452,6 @@ export class CompleteTestPage implements OnInit {
       defects: this.defectsCategories,
       fromTestReview: this.fromTestReview
     });
-
-    this.durationService.setDuration(
-      { start: Date.now() },
-      DURATION_TYPE[DURATION_TYPE.DEFECT_TIME]
-    );
   }
 
   openDefect(defect: DefectDetailsModel): void {

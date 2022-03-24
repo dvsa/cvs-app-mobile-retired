@@ -20,7 +20,6 @@ import {
   REG_EX_PATTERNS,
   SPEC_VALUES,
   TEST_TYPE_FIELDS,
-  TEST_TYPE_INPUTS,
   TEST_TYPE_RESULTS,
   TEST_TYPE_SECTIONS,
   TEST_TYPES_IDS
@@ -38,9 +37,8 @@ import { of } from 'rxjs/observable/of';
 import { TestTypeServiceMock } from '../../../../../test-config/services-mocks/test-type-service.mock';
 import { DefectCategoryReferenceDataModel } from '../../../../models/reference-data-models/defects.reference-model';
 import { VehicleTechRecordModel } from '../../../../models/vehicle/tech-record.model';
-import { DefectDetailsDataMock } from '../../../../assets/data-mocks/defect-details-data.mock';
 import { ActionSheetControllerMock, ModalControllerMock, ViewControllerMock } from 'ionic-mocks';
-import { AnalyticsService, DurationService } from '../../../../providers/global';
+import { AnalyticsService } from '../../../../providers/global';
 
 describe('Component: CompleteTestPage', () => {
   let comp: CompleteTestPage;
@@ -58,7 +56,6 @@ describe('Component: CompleteTestPage', () => {
   let modalCtrl: ModalController;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
-  let durationService: DurationService;
 
   const DEFECTS: DefectCategoryReferenceDataModel[] = DefectsReferenceDataMock.DefectsData;
   const ADDED_DEFECT: DefectDetailsModel = {
@@ -112,7 +109,6 @@ describe('Component: CompleteTestPage', () => {
       providers: [
         NavController,
         ChangeDetectorRef,
-        DurationService,
         { provide: NavParams, useClass: NavParamsMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestTypeService, useClass: TestTypeServiceMock },
@@ -144,7 +140,6 @@ describe('Component: CompleteTestPage', () => {
     modalCtrl = TestBed.get(ModalController);
     actionSheetCtrl = TestBed.get(ActionSheetController);
     analyticsService = TestBed.get(AnalyticsService);
-    durationService = TestBed.get(DurationService);
   });
 
   beforeEach(() => {

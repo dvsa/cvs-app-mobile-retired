@@ -12,22 +12,18 @@ import { TestModel } from '../../../../models/tests/test.model';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
 import {
-  ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_SCREEN_NAMES,
-  DURATION_TYPE,
   APP_STRINGS,
   DATE_FORMAT,
   PAGE_NAMES,
   STORAGE,
   TECH_RECORD_STATUS,
   VEHICLE_TYPE,
-  ANALYTICS_EVENTS,
-  ANALYTICS_LABEL
 } from '../../../../app/app.enums';
 import { StorageService } from '../../../../providers/natives/storage.service';
 import { default as AppConfig } from '../../../../../config/application.hybrid';
 import { AppService } from '../../../../providers/global/app.service';
-import { AnalyticsService, DurationService } from '../../../../providers/global';
+import { AnalyticsService } from '../../../../providers/global';
 
 @IonicPage()
 @Component({
@@ -58,7 +54,6 @@ export class VehicleDetailsPage {
     public commonFunc: CommonFunctionsService,
     private callNumber: CallNumber,
     private analyticsService: AnalyticsService,
-    private durationService: DurationService,
     public appService: AppService
   ) {
     this.vehicleData = navParams.get('vehicle');
@@ -70,49 +65,6 @@ export class VehicleDetailsPage {
     this.viewCtrl.setBackButtonText(this.getBackButtonText());
 
     this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_DETAILS);
-  }
-
-  async ionViewDidEnter() {
-    const type: string = DURATION_TYPE[DURATION_TYPE.SEARCH_VEHICLE];
-    this.durationService.setDuration({ end: Date.now() }, type);
-    const duration = this.durationService.getDuration(type);
-    const takenDuration = this.durationService.getTakenDuration(duration);
-
-    if (duration.start && duration.end && takenDuration){
-      await this.trackDuration(
-        ANALYTICS_EVENTS.SEARCH_VEHICLE_TIME_TAKEN,
-        'SEARCH_VEHICLE_START_TIME',
-        duration.start.toString()
-      );
-      await this.trackDuration(
-        ANALYTICS_EVENTS.SEARCH_VEHICLE_TIME_TAKEN,
-        'SEARCH_VEHICLE_END_TIME',
-        duration.end.toString()
-      );
-      await this.trackDuration(
-        ANALYTICS_EVENTS.SEARCH_VEHICLE_TIME_TAKEN,
-        'SEARCH_VEHICLE_TIME_TAKEN',
-        takenDuration.toString()
-      );
-    }
-
-    this.durationService.setDuration(
-      { start: Date.now() },
-      DURATION_TYPE[DURATION_TYPE.CONFIRM_VEHICLE]
-    );
-  }
-
-  private async trackDuration(event: string, label: string, value: string) {
-    await this.analyticsService.logEvent({
-      category: ANALYTICS_EVENT_CATEGORIES.DURATION,
-      event: event,
-      label: ANALYTICS_LABEL[label]
-    });
-
-    await this.analyticsService.addCustomDimension(
-      Object.keys(ANALYTICS_LABEL).indexOf(label) + 1,
-      value
-    );
   }
 
   goToPreparerPage(): void {
@@ -128,8 +80,6 @@ export class VehicleDetailsPage {
           text: APP_STRINGS.CONFIRM,
           handler: () => {
             // this.loggingInAlertHandler();
-
-            this.trackConfirmVehicleDuration();
 
             this.navCtrl
               .push(PAGE_NAMES.ADD_PREPARER_PAGE, {
@@ -167,36 +117,6 @@ export class VehicleDetailsPage {
     });
     confirm.present();
     confirm.onDidDismiss(() => (this.changeOpacity = false));
-  }
-
-  async trackConfirmVehicleDuration() {
-    const type: string = DURATION_TYPE[DURATION_TYPE.CONFIRM_VEHICLE];
-    this.durationService.setDuration({ end: Date.now() }, type);
-    const duration = this.durationService.getDuration(type);
-    const takenDuration = this.durationService.getTakenDuration(duration);
-
-    await this.trackDuration(
-      ANALYTICS_EVENTS.CONFIRM_VEHICLE_TIME_TAKEN,
-      'CONFIRM_VEHICLE_START_TIME',
-      duration.start.toString()
-    );
-
-    await this.trackDuration(
-      ANALYTICS_EVENTS.CONFIRM_VEHICLE_TIME_TAKEN,
-      'CONFIRM_VEHICLE_END_TIME',
-      duration.end.toString()
-    );
-
-    await this.trackDuration(
-      ANALYTICS_EVENTS.CONFIRM_VEHICLE_TIME_TAKEN,
-      'CONFIRM_VEHICLE_TIME_TAKEN',
-      takenDuration.toString()
-    );
-
-    this.durationService.setDuration(
-      { start: Date.now() },
-      DURATION_TYPE[DURATION_TYPE.CONFIRM_PREPARER]
-    );
   }
 
   showMoreDetails(pageName: string): void {
