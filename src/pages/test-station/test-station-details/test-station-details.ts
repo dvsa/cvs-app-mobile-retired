@@ -63,14 +63,14 @@ export class TestStationDetailsPage {
     this.viewCtrl.setBackButtonText(APP_STRINGS.SEARCH_TEST_STATION);
   }
 
-  confirmStartVisit() {
+  async confirmStartVisit() {
     const LOADING = this.loadingCtrl.create({
       content: 'Loading...'
     });
     this.isNextPageLoading = true;
 
     const { oid } = this.authenticationService.tokenInfo;
-    LOADING.present();
+    await LOADING.present();
     this.startVisitSubscription = this.visitService.startVisit(this.testStation).subscribe(
       (data) => {
         this.logProvider.dispatchLog({
@@ -81,7 +81,6 @@ export class TestStationDetailsPage {
 
         this.isNextPageLoading = false;
         LOADING.dismiss();
-        this.startVisitSubscription.unsubscribe();
         this.visitService.createVisit(this.testStation, data.body.id);
         this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, { testStation: this.testStation });
       },
