@@ -465,11 +465,11 @@ export class TestCreatePage implements OnInit {
     });
   }
 
-  onCountryOfRegistration(vehicle: VehicleModel) {
+  async onCountryOfRegistration(vehicle: VehicleModel) {
     const MODAL = this.modalCtrl.create(PAGE_NAMES.REGION_READING_PAGE, {
       vehicle: vehicle
     });
-    MODAL.present();
+    await MODAL.present();
     MODAL.onDidDismiss(() => {
       this.computeErrorIncomplete();
     });

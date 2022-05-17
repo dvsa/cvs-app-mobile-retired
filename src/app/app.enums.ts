@@ -480,7 +480,7 @@ export enum ANALYTICS_LABEL {
   DEFICIENCY_REFERENCE = 'deficiency_reference',
   TEST_TYPE_NAME = 'test_type_name',
   ERROR = 'error',
-  MISSING_MADATORY_FIELD = 'missing_mandatory_field',
+  MISSING_MADATORY_FIELD = 'missing_mandatory_field'
 }
 
 export enum ANALYTICS_VALUE {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { EuVehicleCategoryData } from '../../../../assets/app-data/eu-vehicle-category/eu-vehicle-category';
 import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
@@ -22,7 +22,8 @@ export class CategoryReadingPage implements OnInit {
     private navParams: NavParams,
     private visitService: VisitService,
     private viewCtrl: ViewController,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private cdRef: ChangeDetectorRef,
   ) {
     this.vehicle = this.navParams.get('vehicle');
     this.errorIncomplete = this.navParams.get('errorIncomplete');
@@ -71,6 +72,7 @@ export class CategoryReadingPage implements OnInit {
     this.vehicle.euVehicleCategory = category;
     this.visitService.updateVisit();
     this.errorIncomplete = false;
+    this.cdRef.detectChanges();
   }
 
   onSave() {

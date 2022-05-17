@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Events, IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { CountryOfRegistrationData } from '../../../../assets/app-data/country-of-registration/country-of-registration.data';
 import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
@@ -28,7 +28,8 @@ export class RegionReadingPage implements OnInit {
     private viewCtrl: ViewController,
     private navParams: NavParams,
     private visitService: VisitService,
-    private events: Events
+    private events: Events,
+    private cdRef: ChangeDetectorRef,
   ) {
     this.vehicle = this.navParams.get('vehicle');
   }
@@ -60,12 +61,14 @@ export class RegionReadingPage implements OnInit {
   searchList(e): void {
     this.searchVal = e.target.value;
     this.resetFilteredCountries();
+    this.cdRef.detectChanges();
   }
 
   setVehicleRegCountry(regCountryItem) {
     this.focusOut = false;
     this.vehicle.countryOfRegistration = regCountryItem.key;
     this.events.publish(APP.NAV_OUT);
+    this.cdRef.detectChanges();
   }
 
   onSave() {
