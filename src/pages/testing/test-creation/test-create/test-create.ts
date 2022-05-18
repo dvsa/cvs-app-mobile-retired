@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import {
   AlertController,
   Events,
@@ -75,7 +75,8 @@ export class TestCreatePage implements OnInit {
     private analyticsService: AnalyticsService,
     private testTypeService: TestTypeService,
     private storageService: StorageService,
-    private alertService: AppAlertService
+    private alertService: AppAlertService,
+    private cdRef: ChangeDetectorRef
   ) {
     this.testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
   }
@@ -647,6 +648,7 @@ export class TestCreatePage implements OnInit {
         this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE, { visit: this.visitService.visit });
       }
     }
+    this.cdRef.detectChanges();
   }
 
   async logMissingFields(vehicle: VehicleModel) {

@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content padding>
-  <div class="error-banner" *ngIf="errorIncomplete && !allVehiclesCompletelyTested">
+  <div class="error-banner" [hidden]='!errorIncomplete && allVehiclesCompletelyTested' >
     {{TEST_CREATE_ERROR_BANNER}}
   </div>
   <ion-list
