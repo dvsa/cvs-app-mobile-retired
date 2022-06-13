@@ -1,11 +1,11 @@
 <ion-header>
   <ion-navbar hideBackButton="true">
     <ion-buttons end>
-      <button ion-button (click)="createNewTestReport()" *ngIf="isCreateTestEnabled">
+      <button id="start-test-btn" ion-button (click)="createNewTestReport()" *ngIf="isCreateTestEnabled">
         Start test
       </button>
     </ion-buttons>
-    <ion-title margin-left>
+    <ion-title id="site-visit-title" margin-left>
       Site visit
     </ion-title>
   </ion-navbar>
@@ -136,6 +136,7 @@
   <ion-toolbar class="gray-toolbar">
     <ion-buttons class="button-centered">
       <button
+        id="end-visit-btn"
         ion-button
         (click)="endVisit()"
         color="primary"

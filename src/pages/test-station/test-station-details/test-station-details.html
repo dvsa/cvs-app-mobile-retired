@@ -1,10 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <ion-title margin-left>
+    <ion-title id="test-facility-details-title" margin-left>
       Test facility details
     </ion-title>
     <ion-buttons end>
       <button
+        id="start-visit-btn"
         ion-button
         [ngClass]="{buttonOpacity: changeOpacity}"
         (click)="startVisit()"

@@ -163,10 +163,12 @@ export class AddPreparerPage implements OnInit {
         {
           text: !showSearchAgain ? APP_STRINGS.CANCEL : APP_STRINGS.SEARCH_AGAIN,
           role: 'cancel',
+          cssClass: 'cancel-preparer-btn',
           handler: () => {}
         },
         {
           text: !showSearchAgain ? APP_STRINGS.CONFIRM : APP_STRINGS.CONTINUE,
+          cssClass: 'confirm-preparer-btn',
           handler: () => {
             if (
               !this.visitService.visit.tests.length ||

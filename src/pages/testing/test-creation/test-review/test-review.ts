@@ -280,12 +280,14 @@ export class TestReviewPage implements OnInit {
         buttons: [
           {
             text: APP_STRINGS.CANCEL,
+            cssClass: 'cancel-test-submission-btn',
             handler: () => {
               this.submitInProgress = false;
             }
           },
           {
             text: APP_STRINGS.SUBMIT,
+            cssClass: 'confirm-test-submission-btn',
             handler: () => {
               this.storageService.setItem(LOCAL_STORAGE.IS_TEST_SUBMITTED, 'true');
               this.submitInProgress = true;

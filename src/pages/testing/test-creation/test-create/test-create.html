@@ -1,10 +1,11 @@
 <ion-header>
   <ion-navbar hideBackButton="true">
-    <ion-title margin-left>
+    <ion-title id="test-page-title" margin-left>
       Test
     </ion-title>
     <ion-buttons end>
-      <button ion-button [ngClass]="{buttonOpacity: changeOpacity}" (click)="reviewTest()">
+      <button id="test-page-review-and-submit-btn" ion-button [ngClass]="{buttonOpacity: changeOpacity}"
+              (click)="reviewTest()">
         Review and submit
       </button>
     </ion-buttons>
@@ -20,7 +21,8 @@
     [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}"
   >
     <ion-card class="card" *ngFor="let vehicle of testData.vehicles; let i = index">
-      <button ion-item detail-none class="ion-item-title" (click)="onVehicleDetails(vehicle)">
+      <button id="test-page-vehicle-details" ion-item detail-none class="ion-item-title"
+              (click)="onVehicleDetails(vehicle)">
         <img
           item-start
           class="vehicle-type-icon"
@@ -49,6 +51,7 @@
         <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
       </button>
       <button
+        id="country-of-registration"
         ion-item
         detail-none
         class="bottom-divider"
@@ -69,6 +72,7 @@
         <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
       </button>
       <button
+        id="eu-vehicle-category"
         ion-item
         detail-none
         class="bottom-divider"
@@ -97,6 +101,7 @@
         ></ion-icon>
       </button>
       <button
+        id="odometer-reading"
         ion-item
         detail-none
         class="bottom-divider"
@@ -181,6 +186,7 @@
       </ion-list>
 
       <button
+        id="add-test-type-btn"
         class="btn-add-test"
         ion-item
         detail-none
@@ -195,6 +201,7 @@
 
     <ion-card class="card" *ngIf="displayAddVehicleButton">
       <button
+        id="add-trailer-or-vehicle-btn"
         class="btn-add-test"
         ion-item
         detail-none
@@ -211,7 +218,7 @@
   <ion-toolbar class="gray-toolbar">
     <ion-buttons start> </ion-buttons>
     <ion-buttons end>
-      <button ion-button color="danger" (click)="onCancel()">Cancel test</button>
+      <button id="test-page-cancel-test-btn" ion-button color="danger" (click)="onCancel()">Cancel test</button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

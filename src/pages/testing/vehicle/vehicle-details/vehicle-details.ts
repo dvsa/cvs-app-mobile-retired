@@ -74,10 +74,12 @@ export class VehicleDetailsPage {
       message: APP_STRINGS.CONFIRM_VEHICLE_MSG,
       buttons: [
         {
-          text: APP_STRINGS.CANCEL
+          text: APP_STRINGS.CANCEL,
+          cssClass: 'cancel-vehicle-selection-btn'
         },
         {
           text: APP_STRINGS.CONFIRM,
+          cssClass: 'confirm-vehicle-selection-btn',
           handler: () => {
             // this.loggingInAlertHandler();
 

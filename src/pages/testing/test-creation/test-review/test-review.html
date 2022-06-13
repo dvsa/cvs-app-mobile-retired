@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title margin-left>
+    <ion-title id="test-review-title" margin-left>
       {{title}}
     </ion-title>
   </ion-navbar>
@@ -53,6 +53,7 @@
         </div>
       </ion-item>
       <button
+        id="change-vehicle-details"
         ion-item
         text-wrap
         class="bottom-divider change-details-button"
@@ -399,6 +400,7 @@
           <h4 text-wrap class="parent-info-color">{{testType.additionalCommentsForAbandon}}</h4>
         </ion-item>
         <button
+          id="change-test-details"
           ion-item
           text-wrap
           class="bottom-divider change-details-button"
@@ -411,7 +413,7 @@
     </div>
 
     <div margin-top class="footer-cta-section">
-      <button ion-button block color="secondary" (click)="goToNextPage()">
+      <button id="test-review-submit-test-btn" ion-button block color="secondary" (click)="goToNextPage()">
         {{nextButtonText}}
       </button>
     </div>

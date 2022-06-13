@@ -2,13 +2,13 @@
   <ion-grid no-padding>
     <ion-row justify-content-between align-items-center class="header-color">
       <ion-col col-3 text-left>
-        <button ion-button clear class="cancel" (click)="clearSignature()">Clear</button>
+        <button id="signature-clear-btn" ion-button clear class="cancel" (click)="clearSignature()">Clear</button>
       </ion-col>
       <ion-col col-3 text-center>
-        <h4 color="light">Signature</h4>
+        <h4 color="light" id="signature-title">Signature</h4>
       </ion-col>
       <ion-col col-3 text-end>
-        <button ion-button clear (click)="presentPopover($event)" color="light">Save</button>
+        <button id="signature-save-btn" ion-button clear (click)="presentPopover($event)" color="light">Save</button>
       </ion-col>
     </ion-row>
   </ion-grid>
