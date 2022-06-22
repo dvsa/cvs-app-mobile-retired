@@ -380,6 +380,7 @@ export class TestCreatePage implements OnInit {
     for (let i = 0; i < suggestedTestTypes.length; i++) {
       buttons.push({
         text: suggestedTestTypes[i].suggestedTestTypeDisplayName,
+        cssClass: `suggested-popup-option-${i + 1}`,
         handler: () => {
           this.addSuggestedTestType(suggestedTestTypes[i], vehicle);
         }

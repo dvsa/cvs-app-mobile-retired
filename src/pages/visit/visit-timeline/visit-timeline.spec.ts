@@ -256,10 +256,12 @@ describe('Component: VisitTimelinePage', () => {
       buttons: [
         {
           text: APP_STRINGS.CANCEL,
+          cssClass: 'cancel-end-visit-btn',
           role: APP_STRINGS.CANCEL.toLowerCase()
         },
         {
           text: APP_STRINGS.END_VISIT_TITLE,
+          cssClass: 'confirm-end-visit-btn',
           handler: jasmine.any(Function)
         }
       ]

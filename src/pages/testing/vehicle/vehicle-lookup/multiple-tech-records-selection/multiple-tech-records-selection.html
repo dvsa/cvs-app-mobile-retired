@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title margin-left>
+    <ion-title id="select-vehicle-title" margin-left>
       Select Vehicle
     </ion-title>
   </ion-navbar>
@@ -10,16 +10,17 @@
   <div class="skeleton-banner" *ngIf="isAtLeastOneSkeleton">
     {{ APP_STRINGS.SKELETON_BANNER }}
   </div>
-  <ion-list text-wrap>
+  <ion-list id="select-vehicle-list" text-wrap>
     <ion-item-divider padding-left>
       <h3>Multiple vehicles found matching this search</h3>
     </ion-item-divider>
     <button
+      [id]="'select-vehicle-option-' + (i + 1)"
       ion-item
       no-lines
       class="full-border"
       [ngClass]="{'skeleton-button': this.vehicleService.isVehicleSkeleton(vehicle)}"
-      *ngFor="let vehicle of vehicles"
+      *ngFor="let vehicle of vehicles; let i = index"
       (click)="openVehicleDetails(vehicle)"
     >
       <img

@@ -1,11 +1,11 @@
 <ion-header>
   <ion-navbar>
     <ion-buttons end>
-      <button ion-button (click)="formatDataForConfirm()">
+      <button id="preparer-start-test-btn" ion-button (click)="formatDataForConfirm()">
         <span>Start Test</span>
       </button>
     </ion-buttons>
-    <ion-title margin-left>Enter preparer ID</ion-title>
+    <ion-title id="preparer-id-title" margin-left>Enter preparer ID</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -20,6 +20,7 @@
     <ion-row no-border>
       <ion-item padding-left class="srch-preparer-input">
         <ion-input
+          id="preparer-input"
           *ngIf="!appService.isAccessibilityTextZoomEnabled(); else accessibilityTextArea"
           placeholder="Enter preparer ID if known"
           [(ngModel)]="searchValue"

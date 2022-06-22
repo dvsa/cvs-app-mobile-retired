@@ -65,12 +65,14 @@ export class AppAlertService {
       buttons: [...buttons,
         {
           text: 'Test History',
+          cssClass: 'suggested-popup-test-history',
           handler: () => {
             testCreatePage.goToVehicleTestResultsHistory(vehicle);
           }
         },
         {
           text: 'Select a different test type',
+          cssClass: 'suggested-popup-select-different-type',
           handler: () => {
             testCreatePage.addNewTestType(vehicle);
           }

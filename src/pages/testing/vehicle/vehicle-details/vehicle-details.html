@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title margin-left>
+    <ion-title id="vehicle-details-title" margin-left>
       <ng-container>
         <span
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, VEHICLE_TYPE.TRL);
@@ -14,7 +14,8 @@
       </ng-container>
     </ion-title>
     <ion-buttons end *ngIf="testData">
-      <button ion-button (click)="goToPreparerPage()" [ngClass]="{buttonOpacity: changeOpacity}">
+      <button id="vehicle-details-confirm-btn" ion-button (click)="goToPreparerPage()" [ngClass]="{buttonOpacity:
+      changeOpacity}">
         Confirm
       </button>
     </ion-buttons>
@@ -227,7 +228,7 @@
 
   <ion-list class="vehicle-list">
     <ion-list-header padding-left padding-right>VIEW MORE INFORMATION</ion-list-header>
-    <button ion-item padding-left (click)="goToVehicleTestResultsHistory()">
+    <button id="vehicle-details-test-history" ion-item padding-left (click)="goToVehicleTestResultsHistory()">
       <ng-container>
         <h3>
           <span
@@ -244,6 +245,7 @@
       </ng-container>
     </button>
     <button
+      id="vehicle-details-brakes"
       ion-item
       padding-left
       *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL]) && vehicleData.techRecord.brakes"
@@ -252,6 +254,7 @@
       <h3>Brakes</h3>
     </button>
     <button
+      id="vehicle-details-weights"
       ion-item
       padding-left
       *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
@@ -260,6 +263,7 @@
       <h3>Weights</h3>
     </button>
     <button
+      id="vehicle-details-tyres"
       ion-item
       padding-left
       *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
@@ -267,7 +271,8 @@
     >
       <h3>Tyres</h3>
     </button>
-    <button ion-item padding-left (click)="showMoreDetails('VehicleAdditionalPage')">
+    <button id="vehicle-details-additional-vehicle-details" ion-item padding-left
+            (click)="showMoreDetails('VehicleAdditionalPage')">
       <h3>Additional vehicle details</h3>
     </button>
     <button

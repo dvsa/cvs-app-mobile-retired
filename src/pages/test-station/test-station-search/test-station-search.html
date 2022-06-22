@@ -1,6 +1,6 @@
 <ion-header transforming-searchBar [searchBarElemRef]="searchBar">
   <ion-navbar>
-    <ion-title margin-left>
+    <ion-title id="test-facility-title" margin-left>
       Find test facility
     </ion-title>
   </ion-navbar>
@@ -14,7 +14,7 @@
       [cancelButtonText]="'Cancel'"
       placeholder="Search by test facility number, name or address"
       #searchBar
-      id="stay-cancel"
+      id="test-facility-searchbar"
     >
     </ion-searchbar>
   </ion-toolbar>
@@ -28,6 +28,7 @@
           <b>{{ testStation.testStationName | slice:0:1 }}</b>
         </ion-item-divider>
         <button
+          id="test-facility-select-site"
           ion-item
           (click)="openTestStation(testStation)"
           padding-left
