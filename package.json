@@ -4,10 +4,6 @@
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
   "private": true,
-  "engines": {
-    "node": "10.18.1",
-    "npm": "6.13.4"
-  },
   "scripts": {
     "postinstall": "npm run vulnerability-count && echo 'install finished... Running create config' && npm run config && echo 'config created!'",
     "install-ci": "echo 'running install-ci' && npm ci && echo 'ci install-ci finished'",
@@ -188,7 +184,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "npm run lint && npm run format && ./node_modules/.bin/commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run security-checks",
+      "pre-commit": "snyk test --org=bebd7d60-f6d1-4741-a6f7-c2b880455e3a --severity-level=medium && npm run security-checks",
       "pre-push": "npm run build && npm run test:unit:coverage"
     }
   }
