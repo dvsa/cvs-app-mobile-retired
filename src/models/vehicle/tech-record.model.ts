@@ -64,8 +64,8 @@ export interface TechRecordModel {
   euroStandard?: number;
   frontAxleTo5thWheelMin?: number;
   frontAxleTo5thWheelMax?: number;
-  frontAxleTo5thWheelCouplingMin?: number;
-  frontAxleTo5thWheelCouplingMax?: number;
+  frontVehicleTo5thWheelCouplingMin?: number;
+  frontVehicleTo5thWheelCouplingMax?: number;
   /* -------- ONLY FOR TRL -------- */
   firstUseDate?: string;
   maxLoadOnCoupling?: number;
