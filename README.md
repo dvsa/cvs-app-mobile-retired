@@ -1,5 +1,7 @@
 # cvs-app-mobile
 
+## Note: this repository has been archived as a result of re-platforming the application. Please see [this](https://github.com/dvsa/cvs-app-mobile-ionic-5) repository for future development 
+
 The app, added to DVSA mobile devices, allows assessors to check and record all aspects of a vehicle’s safety digitally
 ​
 
